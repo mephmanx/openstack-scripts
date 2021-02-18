@@ -1,0 +1,123 @@
+version: '2'
+
+services:
+  portus:
+    restart: always
+    build: .
+    image: opensuse/portus:development
+    command: bundle exec rails runner /srv/Portus/examples/development/compose/init.rb
+    environment:
+      - PORTUS_MACHINE_FQDN_VALUE=${MACHINE_FQDN}
+      - PORTUS_PUMA_HOST=0.0.0.0:3000
+      - PORTUS_CHECK_SSL_USAGE_ENABLED=true
+      - PORTUS_SECURITY_CLAIR_SERVER=http://clair:6060
+
+      - CCONFIG_PREFIX=PORTUS
+
+      - PORTUS_DB_HOST=db
+      - PORTUS_DB_PASSWORD=${DATABASE_PASSWORD}
+      - PORTUS_DB_POOL=5
+      - PORTUS_PUMA_TLS_KEY=/certificates/privkey.pem
+      - PORTUS_PUMA_TLS_CERT=/certificates/fullchain.pem
+      - RAILS_SERVE_STATIC_FILES=true
+    ports:
+      - ${MACHINE_PORT}:3000
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+      - .:/srv/Portus
+      - /etc/letsencrypt/live/lyonsgroup.family:/certificates:ro
+
+  background:
+    restart: always
+    image: opensuse/portus:development
+    entrypoint: bundle exec rails runner /srv/Portus/bin/background.rb
+    depends_on:
+      - portus
+      - db
+    environment:
+      - PORTUS_MACHINE_FQDN_VALUE=${MACHINE_FQDN}
+      - PORTUS_SECURITY_CLAIR_SERVER=http://clair:6060
+      # Sync config
+      - PORTUS_BACKGROUND_REGISTRY_ENABLED=true
+      - PORTUS_BACKGROUND_SYNC_ENABLED=true
+      - PORTUS_BACKGROUND_SYNC_STRATEGY=update
+
+      # Theoretically not needed, but cconfig's been buggy on this...
+      - CCONFIG_PREFIX=PORTUS
+      - PORTUS_KEY_PATH=/certificates/privkey.pem
+      - PORTUS_DB_HOST=db
+      - PORTUS_DB_PASSWORD=${DATABASE_PASSWORD}
+      - PORTUS_DB_POOL=5
+    volumes:
+      - .:/srv/Portus
+      - /etc/letsencrypt/live/lyonsgroup.family:/certificates:ro
+    links:
+      - db
+
+  webpack:
+    restart: always
+    image: kkarczmarczyk/node-yarn:latest
+    command: bash /srv/Portus/examples/development/compose/bootstrap-webpack
+    working_dir: /srv/Portus
+    volumes:
+      - .:/srv/Portus
+
+  clair:
+    restart: always
+    image: quay.io/coreos/clair:v2.0.2
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    ports:
+      - "6060-6061:6060-6061"
+    volumes:
+      - /tmp:/tmp
+      - ./examples/compose/clair/clair.yml:/clair.yml
+      - /etc/letsencrypt/live/lyonsgroup.family:/certificates:ro
+    command: [-config, /clair.yml]
+
+  db:
+    restart: always
+    image: library/mariadb:10.0.23
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+
+  postgres:
+    restart: always
+    image: library/postgres:10-alpine
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+
+  registry:
+    restart: always
+    image: library/registry
+    environment:
+      REGISTRY_HTTP_ADDR: 0.0.0.0:5000
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/cert.pem
+      REGISTRY_HTTP_TLS_KEY: /certs/privkey.pem
+      REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE: /etc/docker/registry/portus.crt
+      REGISTRY_AUTH_TOKEN_REALM: https://${MACHINE_FQDN}:${MACHINE_PORT}/v2/token
+      REGISTRY_AUTH_TOKEN_SERVICE: ${MACHINE_FQDN}:${REGISTRY_PORT}
+      REGISTRY_AUTH_TOKEN_ISSUER: ${MACHINE_FQDN}
+      REGISTRY_PROXY_REMOTEURL: https://registry-1.docker.io
+      REGISTRY_PROXY_USERNAME: mephmanx
+      REGISTRY_PROXY_PASSWORD: ${dockerPass}
+      REGISTRY_NOTIFICATIONS_ENDPOINTS: >
+        - name: portus
+          url: https://${MACHINE_FQDN}:${MACHINE_PORT}/v2/webhooks/events
+          timeout: 2000ms
+          threshold: 5
+          backoff: 1s
+    volumes:
+      - /registry_data
+      - ./examples/development/compose/portus.crt:/etc/docker/registry/portus.crt:ro
+      - /etc/letsencrypt/live/lyonsgroup.family/:/certs
+    ports:
+      - ${REGISTRY_PORT}:5000
+    links:
+      - portus
