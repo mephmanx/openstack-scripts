@@ -4,14 +4,11 @@ source ./vm-functions.sh
 
 #### ESXi hostname #1 VM Name arg #2
 setupENV $1
-
 ########  ESXi password arg #2
 installESXiTools
 
 IFS=
-
 ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
-
 ##################### Prep
 rm -rf /tmp/additional_hosts
 touch /tmp/additional_hosts
@@ -100,7 +97,6 @@ for d in "${vms[@]}"; do
   printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
   echo "creating vm of type -> $vm_type"
-
   create_vm $vm_type $d
   sleep 30
   ((index++))
@@ -111,7 +107,6 @@ done
 printf -v host_trust_string '%s ' "${host_trust_script[@]}"
 printf -v control_hack_string '%s ' "${control_hack_script[@]}"
 echo "creating openstack setup vm"
-echo "$host_trust_string"
 buildAndPushOpenstackSetupISO "$host_trust_string" "$control_hack_string" "$(($(getVMCount "control") + $(getVMCount "network") + $(getVMCount "compute") + $(getVMCount "monitoring") + $(getVMCount "storage")))"
 create_vm "kolla" "kolla"
 ########################
