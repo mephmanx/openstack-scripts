@@ -202,6 +202,6 @@ function prep_next_script() {
 
   ## Prep OpenStack install
   rm -rf /etc/rc.d/rc.local
-  curl -o /etc/rc.d/rc.local https://raw.githubusercontent.com/mephmanx/tools/master/$1.sh
+  curl -o /etc/rc.d/rc.local https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/$1.sh
   chmod +x /etc/rc.d/rc.local
 }
