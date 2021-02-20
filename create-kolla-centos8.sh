@@ -1,6 +1,6 @@
 source ./functions.sh
 source ./iso-functions.sh
-source ./vm-functions.sh
+source ./vm-configurations.sh
 
 #### ESXi hostname #1 VM Name arg #2
 setupENV $1

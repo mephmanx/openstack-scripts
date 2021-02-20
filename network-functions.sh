@@ -1,4 +1,4 @@
-source ./vm-functions.sh
+source ./vm-configurations.sh
 
 ADDRESS=1
 
