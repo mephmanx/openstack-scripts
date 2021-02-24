@@ -53,7 +53,7 @@ mkdir -p /var/lib/kolla/config_files
 mkdir /etc/kolla/certificates
 cp /tmp/*.pem /etc/kolla/certificates
 
-curl -o /etc/kolla/globals.yml https://raw.githubusercontent.com/mephmanx/tools/master/globals.yml
+curl -o /etc/kolla/globals.yml https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/globals.yml
 
 kolla-genpwd
 

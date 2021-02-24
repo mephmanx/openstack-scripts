@@ -28,7 +28,7 @@ chmod +x /usr/local/bin/docker-compose
 cd /root
 git clone https://github.com/mephmanx/Portus.git
 
-curl -o /root/Portus/docker-compose.yml https://raw.githubusercontent.com/mephmanx/tools/master/portus-compose.yml
+curl -o /root/Portus/docker-compose.yml https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/portus-compose.yml
 
 chmod 777 /tmp/portus-env.sh
 cd /tmp
