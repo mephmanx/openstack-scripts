@@ -159,7 +159,7 @@ chmod 600 /etc/kolla/config/octavia/*.*
 
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
-kolla-ansible -i /etc/kolla/multinode deploy -vvvv
+kolla-ansible -i /etc/kolla/multinode deploy
 
 pip3 install python-openstackclient --ignore-installed
 kolla-ansible post-deploy
