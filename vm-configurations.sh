@@ -35,7 +35,7 @@ function vm_definitions {
             "cpu":"8",
             "memory":"32",
             "drive_string":"HP-Disk:200,HP-Disk:300",
-            "network_string":"Openstack-Internal,Net-External"
+            "network_string":"Net-External,Net-External"
           }'
     ;;
     "network")
@@ -44,7 +44,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:100",
-            "network_string":"Net-External,Net-External,Net-External,Openstack-Internal"
+            "network_string":"Net-External,Net-External,Net-External,Net-External"
           }'
     ;;
     "compute")
@@ -53,7 +53,7 @@ function vm_definitions {
             "cpu":"24",
             "memory":176",
             "drive_string":"HP-SSD:800,HP-Disk:400",
-            "network_string":"Net-External,Net-External,Net-External,Openstack-Internal"
+            "network_string":"Net-External,Net-External,Net-External,Net-External"
           }'
     ;;
     "monitoring")
@@ -62,7 +62,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:200",
-            "network_string":"Openstack-Internal,Net-External"
+            "network_string":"Net-External,Net-External"
           }'
     ;;
     "storage")
@@ -71,7 +71,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"32",
             "drive_string":"HP-Disk:250,HP-Disk:250,HP-SSD:250,HP-SSD:250,HP-SSD:250",
-            "network_string":"Openstack-Internal,Net-External"
+            "network_string":"Net-External,Net-External"
           }'
     ;;
     "kolla")
@@ -80,7 +80,7 @@ function vm_definitions {
             "cpu":"8",
             "memory":"24",
             "drive_string":"HP-SSD:100",
-            "network_string":"Openstack-Internal,Net-External"
+            "network_string":"Net-External,Net-External"
           }'
     ;;
   esac
