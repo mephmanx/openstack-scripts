@@ -14,16 +14,18 @@ function networkInformation {
   IFS=',' read -r -a net_array <<< "$network_string"
   network_lines=()
   ct=0
-  net_names=("161" "192" "224" "256")
+  net_names=("192" "224" "256" "161")
   addresses=()
   for element in "${net_array[@]}"
   do
     if [[ "${element}" =~ .*"Internal".* ]]; then
       ip_addr="11.0.0.${ADDRESS}"
       addresses+=($ip_addr)
-      network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --ipv6=auto --activate --ip=$ip_addr\n")
+      #network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --ipv6=auto --activate --ip=$ip_addr\n")
+      network_lines+=("network  --bootproto=static --onboot=yes --ipv6=auto --activate --ip=$ip_addr\n")
     else
-      network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --onboot=yes --ipv6=auto --activate\n")
+      #network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --onboot=yes --ipv6=auto --activate\n")
+      network_lines+=("network  --bootproto=dhcp --onboot=yes --ipv6=auto --activate\n")
     fi
     ((ADDRESS++))
     ((ct++))
