@@ -186,7 +186,7 @@ fi
 
     runuser -l root -c  "cat /tmp/eth$ct > /etc/sysconfig/network-scripts/ifcfg-eth$ct"
 
-    runuser -l root -c  "rm -rf /etc/sysconfig/network-scripts/$entry"
+    runuser -l root -c  "rm -rf $entry"
     ((ct++))
     fi
 
