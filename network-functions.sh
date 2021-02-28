@@ -23,11 +23,11 @@ function networkInformation {
       addresses+=($ip_addr)
       network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --ipv6=auto --activate --ip=$ip_addr\n")
       #network_lines+=("network  --bootproto=static --onboot=yes --ipv6=auto --activate --ip=$ip_addr\n")
+      ((ADDRESS++))
     else
       network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --onboot=yes --ipv6=auto --activate\n")
       #network_lines+=("network  --bootproto=dhcp --onboot=yes --ipv6=auto --activate\n")
     fi
-    ((ADDRESS++))
     ((ct++))
   done
 

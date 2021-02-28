@@ -142,11 +142,17 @@ EOF
   runuser -l root -c  'grub2-mkconfig  -o /boot/grub2/grub.cfg'
 
   ct=0
-  for entry in '/etc/sysconfig/network-scripts'/*;
-  do
-    IP=(`awk -F'=' '$1 == "IPADDR" {print $2}' $entry`)
+  #for entry in '/etc/sysconfig/network-scripts'/*;
 
-    runuser -l root -c  "touch /etc/sysconfig/network-scripts/ifcfg-eth$ct"
+  net_names=("192" "224" "256" "161")
+  for element in "${net_names[@]}"
+  do
+    entry="/etc/sysconfig/network-scripts/ifcfg-ens$element"
+    if test -f "$entry"; then
+
+        IP=(`awk -F'=' '$1 == "IPADDR" {print $2}' $entry`)
+
+        runuser -l root -c  "touch /etc/sysconfig/network-scripts/ifcfg-eth$ct"
 
 if [[ ! -z "$IP" ]]
 then
@@ -182,6 +188,8 @@ fi
 
     runuser -l root -c  "rm -rf /etc/sysconfig/network-scripts/$entry"
     ((ct++))
+    fi
+
   done
 
 }
