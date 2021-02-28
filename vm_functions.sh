@@ -178,7 +178,7 @@ BOOTPROTO="dhcp"
 EOF
 fi
 
-    runuser -l root -c  "cat /tmp/eth$start > /etc/sysconfig/network-scripts/ifcfg-eth$start"
+    runuser -l root -c  "cat /tmp/eth$ct > /etc/sysconfig/network-scripts/ifcfg-eth$ct"
 
     runuser -l root -c  "rm -rf /etc/sysconfig/network-scripts/$entry"
     ((ct++))
