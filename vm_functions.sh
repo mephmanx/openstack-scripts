@@ -142,8 +142,6 @@ EOF
   runuser -l root -c  'grub2-mkconfig  -o /boot/grub2/grub.cfg'
 
   ct=0
-  #for entry in '/etc/sysconfig/network-scripts'/*;
-
   net_names=("192" "224" "256" "161")
   for element in "${net_names[@]}"
   do
