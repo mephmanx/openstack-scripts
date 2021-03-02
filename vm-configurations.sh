@@ -44,7 +44,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:100",
-            "network_string":"Openstack-Internal,Net-External,OS-Network-Internal"
+            "network_string":"Openstack-Internal,OS-Network-Internal,Net-External"
           }'
     ;;
     "compute")
