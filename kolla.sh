@@ -41,8 +41,8 @@ pip3 install pip==8.1.1
 pip3 uninstall pyyaml -y
 pip3 install --upgrade pip
 
-pip install 'ansible==2.9.10'
-pip install kolla-ansible
+pip3 install 'ansible==2.9.10'
+pip3 install kolla-ansible
 
 systemctl stop firewalld
 systemctl mask firewalld
