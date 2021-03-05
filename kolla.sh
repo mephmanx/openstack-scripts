@@ -37,10 +37,7 @@ cd /tmp
 systemctl restart docker
 docker login -u $PORTUS_USERNAME -p $PORTUS_PASSWORD $MACHINE_FQDN:$REGISTRY_PORT
 
-#pip3 install pip==8.1.1
-#pip3 uninstall pyyaml -y
 pip3 install --upgrade pip
-
 pip3 install 'ansible==2.9.10' --ignore-installed
 pip3 install kolla-ansible --ignore-installed
 
