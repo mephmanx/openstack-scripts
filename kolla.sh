@@ -41,8 +41,8 @@ docker login -u $PORTUS_USERNAME -p $PORTUS_PASSWORD $MACHINE_FQDN:$REGISTRY_POR
 #pip3 uninstall pyyaml -y
 pip3 install --upgrade pip
 
-pip3 install 'ansible==2.9.10'
-pip3 install kolla-ansible
+pip3 install 'ansible==2.9.10' --ignore-installed
+pip3 install kolla-ansible --ignore-installed
 
 systemctl stop firewalld
 systemctl mask firewalld
