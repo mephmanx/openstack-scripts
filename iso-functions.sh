@@ -186,6 +186,12 @@ function buildAndPushOpenstackSetupISO {
   echo 'EOF' >> ${kickstart_file}
   #########################
 
+  ############## storage internal host ip
+  echo 'cat > /tmp/storage_hosts <<EOF' >> ${kickstart_file}
+  cat /tmp/storage_hosts >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+  #########################
+
   #########portus env##############
 
   echo 'cat > /tmp/portus-env.sh <<EOF' >> ${kickstart_file}

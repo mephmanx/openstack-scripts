@@ -59,65 +59,71 @@ kolla-genpwd
 
 sed -i "s/docker_registry_password: null/docker_registry_password: ${PORTUS_PASSWORD}/g" /etc/kolla/passwords.yml
 
-export KOLLA_INTERNAL_ADDRESS=`getent hosts storage01 | awk '{ print $1}'`
+######  prepare storage rings
+#export KOLLA_INTERNAL_ADDRESS=`getent hosts storage01 | awk '{ print $1}'`
 export KOLLA_SWIFT_BASE_IMAGE="kolla/centos-source-swift-base:4.0.0"
 mkdir -p /etc/kolla/config/swift
 # 0 based (ie 0=1, so 2=3)
 drive_count=0
-# Object ring
-docker run \
-  --rm \
-  -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-  $KOLLA_SWIFT_BASE_IMAGE \
-  swift-ring-builder \
-    /etc/kolla/config/swift/object.builder create 10 1 1
-for i in $(seq 0 $drive_count); do
-  docker run \
-    --rm \
-    -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-    $KOLLA_SWIFT_BASE_IMAGE \
-    swift-ring-builder \
-      /etc/kolla/config/swift/object.builder add r1z1-${KOLLA_INTERNAL_ADDRESS}:6000/d${i} 1;
-done
-# Account ring
-docker run \
-  --rm \
-  -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-  $KOLLA_SWIFT_BASE_IMAGE \
-  swift-ring-builder \
-    /etc/kolla/config/swift/account.builder create 10 1 1
-for i in $(seq 0 $drive_count); do
-  docker run \
-    --rm \
-    -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-    $KOLLA_SWIFT_BASE_IMAGE \
-    swift-ring-builder \
-      /etc/kolla/config/swift/account.builder add r1z1-${KOLLA_INTERNAL_ADDRESS}:6001/d${i} 1;
-done
-# Container ring
-docker run \
-  --rm \
-  -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-  $KOLLA_SWIFT_BASE_IMAGE \
-  swift-ring-builder \
-    /etc/kolla/config/swift/container.builder create 10 1 1
-for i in $(seq 0 $drive_count); do
-  docker run \
-    --rm \
-    -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-    $KOLLA_SWIFT_BASE_IMAGE \
-    swift-ring-builder \
-      etc/kolla/config/swift/container.builder add r1z1-${KOLLA_INTERNAL_ADDRESS}:6002/d${i} 1;
-done
-for ring in object account container; do
-  docker run \
-    --rm \
-    -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-    $KOLLA_SWIFT_BASE_IMAGE \
-    swift-ring-builder \
-      /etc/kolla/config/swift/${ring}.builder rebalance;
-done
 
+while IFS="" read -r p || [ -n "$p" ]
+do
+  printf 'storage host -> %s\n' "$p"
+  export KOLLA_INTERNAL_ADDRESS=$p
+  # Object ring
+  docker run \
+    --rm \
+    -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
+    $KOLLA_SWIFT_BASE_IMAGE \
+    swift-ring-builder \
+      /etc/kolla/config/swift/object.builder create 10 1 1
+  for i in $(seq 0 $drive_count); do
+    docker run \
+      --rm \
+      -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
+      $KOLLA_SWIFT_BASE_IMAGE \
+      swift-ring-builder \
+        /etc/kolla/config/swift/object.builder add r1z1-${KOLLA_INTERNAL_ADDRESS}:6000/d${i} 1;
+  done
+  # Account ring
+  docker run \
+    --rm \
+    -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
+    $KOLLA_SWIFT_BASE_IMAGE \
+    swift-ring-builder \
+      /etc/kolla/config/swift/account.builder create 10 1 1
+  for i in $(seq 0 $drive_count); do
+    docker run \
+      --rm \
+      -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
+      $KOLLA_SWIFT_BASE_IMAGE \
+      swift-ring-builder \
+        /etc/kolla/config/swift/account.builder add r1z1-${KOLLA_INTERNAL_ADDRESS}:6001/d${i} 1;
+  done
+  # Container ring
+  docker run \
+    --rm \
+    -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
+    $KOLLA_SWIFT_BASE_IMAGE \
+    swift-ring-builder \
+      /etc/kolla/config/swift/container.builder create 10 1 1
+  for i in $(seq 0 $drive_count); do
+    docker run \
+      --rm \
+      -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
+      $KOLLA_SWIFT_BASE_IMAGE \
+      swift-ring-builder \
+        etc/kolla/config/swift/container.builder add r1z1-${KOLLA_INTERNAL_ADDRESS}:6002/d${i} 1;
+  done
+  for ring in object account container; do
+    docker run \
+      --rm \
+      -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
+      $KOLLA_SWIFT_BASE_IMAGE \
+      swift-ring-builder \
+        /etc/kolla/config/swift/${ring}.builder rebalance;
+  done
+done < /tmp/storage_hosts
 #################
 
 #####################################  make sure all hosts are up

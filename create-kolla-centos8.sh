@@ -13,6 +13,10 @@ ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key
 rm -rf /tmp/additional_hosts
 touch /tmp/additional_hosts
 chmod 777 /tmp/additional_hosts
+
+rm -rf /tmp/storage_hosts
+touch /tmp/storage_hosts
+chmod 777 /tmp/storage_hosts
 ####################
 
 ######### Openstack VM types

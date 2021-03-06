@@ -22,6 +22,8 @@ function networkInformation {
       ip_addr="11.0.0.${ADDRESS}"
       addresses+=($ip_addr)
       network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --ipv6=auto --activate --ip=$ip_addr\n")
+      if [[ "$vm_type" == "storage" ]]
+        echo $ip_addr >> /tmp/storage_hosts
       ((ADDRESS++))
     else
       network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --onboot=yes --ipv6=auto --activate\n")
