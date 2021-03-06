@@ -51,11 +51,6 @@ dnf install -y epel-release snapd
 systemctl enable --now snapd.socket
 firewall-cmd --permanent --add-service=snapd
 
-## Prep OpenStack install
-rm -rf /etc/rc.d/rc.local
-curl -o /etc/rc.d/rc.local https://raw.githubusercontent.com/mephmanx/cloud-scripts/master/cloudsupport.sh
-chmod +x /etc/rc.d/rc.local
-
 runuser -l root -c  'rm -rf /etc/default/grub'
 runuser -l root -c  'touch /etc/default/grub'
 runuser -l root -c  'chmod 777 /etc/default/grub'
@@ -90,6 +85,11 @@ IPV6_AUTOCONF="no"
 EOF
 
 runuser -l root -c  'cat /tmp/eth0 > /etc/sysconfig/network-scripts/ifcfg-eth0'
+
+## Prep OpenStack install
+rm -rf /etc/rc.d/rc.local
+curl -o /etc/rc.d/rc.local https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/cloudsupport.sh
+chmod +x /etc/rc.d/rc.local
 
 ########################
 #remove this script so it only runs once on machine start
