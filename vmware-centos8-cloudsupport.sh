@@ -53,7 +53,7 @@ firewall-cmd --permanent --add-service=snapd
 
 ## Prep OpenStack install
 rm -rf /etc/rc.d/rc.local
-curl -o /etc/rc.d/rc.local https://raw.githubusercontent.com/mephmanx/cloud-libs/master/cloudsupport.sh
+curl -o /etc/rc.d/rc.local https://raw.githubusercontent.com/mephmanx/cloud-scripts/master/cloudsupport.sh
 chmod +x /etc/rc.d/rc.local
 
 runuser -l root -c  'rm -rf /etc/default/grub'
