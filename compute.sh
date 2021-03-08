@@ -31,7 +31,7 @@ pip3 install --upgrade pip
 cd /etc/init.d
 ./vmware-tools restart
 
-#update ip of network card 3 so that it is static in the 192.168.0.XXX range
+#update ip of network card 2 so that it is static in the 192.168.0.XXX range
 IP=(`awk -F'=' '$1 == "IPADDR" {print $2}' /etc/sysconfig/network-scripts/ifcfg-eth1`)
 octet=`echo "$IP" | cut -d . -f 4 | tr -d '"'`
 cn=`echo $octet + 15 | bc`
