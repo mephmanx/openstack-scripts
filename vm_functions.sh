@@ -142,7 +142,13 @@ EOF
   runuser -l root -c  'grub2-mkconfig  -o /boot/grub2/grub.cfg'
 
   ct=0
-  net_names=("192" "224" "256" "161")
+  # Use no more than 3 NIC cards per VM until ordering is figured out!
+  # The next NIC name in the list is 161 and it throws off all NIC cards
+
+  net_names=("192" "224" "256")
+
+  ###################
+
   for element in "${net_names[@]}"
   do
     entry="/etc/sysconfig/network-scripts/ifcfg-ens$element"
