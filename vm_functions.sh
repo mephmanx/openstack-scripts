@@ -171,7 +171,6 @@ IPV6INIT="yes"
 IPV6_AUTOCONF="yes"
 IPADDR=$IP
 BOOTPROTO="static"
-NM_CONTROLLED="no"
 EOF
 else
 #dynamic ip addr (use DHCP)
@@ -185,7 +184,6 @@ ONBOOT="yes"
 IPV6INIT="yes"
 IPV6_AUTOCONF="yes"
 BOOTPROTO="dhcp"
-NM_CONTROLLED="no"
 EOF
 fi
 
