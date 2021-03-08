@@ -32,6 +32,7 @@ add_stack_user
 
 # set up net script to be called after reboot
 prep_next_script "${TYPE}"
+
 ########################
 #remove this script so it only runs once on machine start
 rm -rf /etc/init.d/vmware-centos8.sh
