@@ -82,7 +82,6 @@ ONBOOT="yes"
 BOOTPROTO="dhcp"
 IPV6INIT="no"
 IPV6_AUTOCONF="no"
-NM_CONTROLLED="no"
 EOF
 
 runuser -l root -c  'cat /tmp/eth0 > /etc/sysconfig/network-scripts/ifcfg-eth0'
