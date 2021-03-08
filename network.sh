@@ -33,7 +33,7 @@ cd /etc/init.d
 #update ip of network card 2 so that it is static in the 192.168.0.XXX range
 IP=(`awk -F'=' '$1 == "IPADDR" {print $2}' /etc/sysconfig/network-scripts/ifcfg-eth1`)
 octet=`echo "$IP" | cut -d . -f 4 | tr -d '"'`
-cn=`echo $octet + 10 | bc`
+cn=`echo $octet + 5 | bc`
 sed -i "s/IPADDR=$IP/IPADDR=192.168.0.$cn/g" /etc/sysconfig/network-scripts/ifcfg-eth1
 ifdown eth1 && ifup eth1
 
