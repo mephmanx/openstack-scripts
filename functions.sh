@@ -42,7 +42,7 @@ function installESXiTools {
 
   cd /root
   rm -rf /root/scp.py
-  git clone https://github.com/mephmanx/scp.py.git
+  git clone https://github.com/jbardin/scp.py.git
   cd /root/scp.py
   python setup.py install
 
