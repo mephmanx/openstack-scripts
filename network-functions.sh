@@ -21,7 +21,7 @@ function networkInformation {
     if [[ "${element}" =~ .*"Static".* ]]; then
       ip_addr="11.0.0.${ADDRESS}"
       addresses+=($ip_addr)
-      network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --ipv6=auto --activate --ip=$ip_addr\n")
+      network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --ipv6=auto --activate --ip=$ip_addr --gateway=11.0.0.1 --netmask=255.255.255.0\n")
       if [[ "$vm_type" == "storage" ]]; then
         echo "$ip_addr" >> /tmp/storage_hosts
       fi
