@@ -1,6 +1,6 @@
 source ./vm-configurations.sh
 
-ADDRESS=1
+ADDRESS=51
 
 function networkInformation {
   kickstart_file=$1
