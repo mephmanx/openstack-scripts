@@ -18,7 +18,7 @@ function networkInformation {
   addresses=()
   for element in "${net_array[@]}"
   do
-    if [[ "${element}" =~ .*"Internal".* ]]; then
+    if [[ "${element}" =~ .*"Static".* ]]; then
       ip_addr="11.0.0.${ADDRESS}"
       addresses+=($ip_addr)
       network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --ipv6=auto --activate --ip=$ip_addr\n")
