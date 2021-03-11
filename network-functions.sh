@@ -28,12 +28,12 @@ function networkInformation {
       if [[ "${element}" =~ .*"Internal".* ]]; then
         ip_addr="${INTERNAL_ADDRESS_PREFIX}${INTERNAL_ADDRESS_INC}"
         addresses+=($ip_addr)
-        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --activate --ip=$ip_addr --gateway=11.0.0.1 --netmask=255.255.255.0 --nameserver=11.0.0.1\n")
+        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=11.0.0.1 --netmask=255.255.255.0 --nameserver=11.0.0.1\n")
         ((INTERNAL_ADDRESS_INC++))
       else
         ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
         addresses+=($ip_addr)
-        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --activate --ip=$ip_addr --gateway=192.168.0.1 --netmask=255.255.255.0 --nameserver=192.168.0.1\n")
+        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=192.168.0.1 --netmask=255.255.255.0 --nameserver=192.168.0.1\n")
         ((EXTERNAL_ADDRESS_INC++))
       fi
       # If storage address, add to array to build rings later
@@ -42,7 +42,7 @@ function networkInformation {
       fi
     #not static, do DHCP
     else
-      network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --onboot=yes --activate\n")
+      network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --noipv6 --onboot=yes --activate\n")
     fi
     ((ct++))
   done
