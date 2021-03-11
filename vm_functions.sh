@@ -155,6 +155,8 @@ EOF
     if test -f "$entry"; then
 
         IP=(`awk -F'=' '$1 == "IPADDR" {print $2}' $entry`)
+        GATEWAY=(`awk -F'=' '$1 == "GATEWAY" {print $2}' $entry`)
+        DNS1=(`awk -F'=' '$1 == "DNS1" {print $2}' $entry`)
         runuser -l root -c  "touch /etc/sysconfig/network-scripts/ifcfg-eth$ct"
 
 if [[ ! -z "$IP" ]]
@@ -171,6 +173,8 @@ IPV6INIT="yes"
 IPV6_AUTOCONF="yes"
 IPADDR=$IP
 BOOTPROTO="static"
+GATEWAY=$GATEWAY
+DNS1=$DNS1
 EOF
 else
 #dynamic ip addr (use DHCP)
