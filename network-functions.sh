@@ -1,6 +1,10 @@
 source ./vm-configurations.sh
 
-ADDRESS=1
+INTERNAL_ADDRESS_INC=20
+EXTERNAL_ADDRESS_INC=20
+
+INTERNAL_ADDRESS_PREFIX="11.0.0."
+EXTERNAL_ADDRESS_PREFIX="192.168.0."
 
 function networkInformation {
   kickstart_file=$1
@@ -18,16 +22,26 @@ function networkInformation {
   addresses=()
   for element in "${net_array[@]}"
   do
-    if [[ "${element}" =~ .*"Internal".* ]]; then
-      ip_addr="11.0.0.${ADDRESS}"
-      addresses+=($ip_addr)
-      network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --ipv6=auto --activate --ip=$ip_addr\n")
+    if [[ "${element}" =~ .*"Static".* ]]; then
+      ##check if internal or external network and set ip/gateway accordingly
+      if [[ "${element}" =~ .*"Internal".* ]]; then
+        ip_addr="${INTERNAL_ADDRESS_PREFIX}${INTERNAL_ADDRESS_INC}"
+        addresses+=($ip_addr)
+        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=11.0.0.1 --netmask=255.255.255.0 --nameserver=11.0.0.1\n")
+        ((INTERNAL_ADDRESS_INC++))
+      else
+        ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
+        addresses+=($ip_addr)
+        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=192.168.0.1 --netmask=255.255.255.0 --nameserver=192.168.0.1\n")
+        ((EXTERNAL_ADDRESS_INC++))
+      fi
+      # If storage address, add to array to build rings later
       if [[ "$vm_type" == "storage" ]]; then
         echo "$ip_addr" >> /tmp/storage_hosts
       fi
-      ((ADDRESS++))
+
     else
-      network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --onboot=yes --ipv6=auto --activate\n")
+      network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --onboot=yes --noipv6 --activate\n")
     fi
     ((ct++))
   done
