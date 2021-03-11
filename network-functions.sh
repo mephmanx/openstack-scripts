@@ -18,7 +18,7 @@ function networkInformation {
   IFS=',' read -r -a net_array <<< "$network_string"
   network_lines=()
   ct=0
-  net_names=("192" "224" "256" "161")
+  net_names=("192" "224" "256")
   addresses=()
   for element in "${net_array[@]}"
   do
