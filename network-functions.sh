@@ -9,6 +9,7 @@ EXTERNAL_ADDRESS_PREFIX="192.168.0."
 function networkInformation {
   kickstart_file=$1
   vm_type=$2
+  host=$3
 
   vmstr=$(vm_definitions "$vm_type")
   vm_str=${vmstr//[$'\t\r\n ']}
@@ -39,7 +40,7 @@ function networkInformation {
       if [[ "$vm_type" == "storage" ]]; then
         echo "$ip_addr" >> /tmp/storage_hosts
       fi
-
+    #not static, do DHCP
     else
       network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --onboot=yes --activate\n")
     fi
@@ -49,7 +50,7 @@ function networkInformation {
   for ip in "${addresses[@]}"
   do
     echo "runuser -l root -c  'ssh-keyscan -H $ip >> ~/.ssh/known_hosts';" >> /tmp/additional_hosts
-    echo "cat '$vm_type $ip > /etc/hosts';" >> /tmp/additional_hosts
+    echo "cat '$host $ip' > /etc/hosts;" >> /tmp/additional_hosts
   done
 
   printf -v net_line_string '%s ' "${network_lines[@]}"
