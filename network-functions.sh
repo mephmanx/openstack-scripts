@@ -40,6 +40,7 @@ function networkInformation {
       if [[ "$vm_type" == "storage" ]]; then
         echo "$ip_addr" >> /tmp/storage_hosts
       fi
+      echo "echo '$host $ip' >> /etc/hosts;" >> /tmp/dns_hosts
     #not static, do DHCP
     else
       network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --noipv6 --onboot=yes --activate\n")
@@ -50,7 +51,6 @@ function networkInformation {
   for ip in "${addresses[@]}"
   do
     echo "runuser -l root -c  'ssh-keyscan -H $ip >> ~/.ssh/known_hosts';" >> /tmp/additional_hosts
-    echo "echo '$host $ip' >> /etc/hosts;" >> /tmp/dns_hosts
   done
 
   printf -v net_line_string '%s ' "${network_lines[@]}"
