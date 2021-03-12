@@ -33,7 +33,7 @@ function networkInformation {
       else
         ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
         addresses+=($ip_addr)
-        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=192.168.0.1 --netmask=255.255.255.0 --nameserver=192.168.0.1\n")
+        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=192.168.0.1 --netmask=255.255.255.0 --nameserver=192.168.0.1 --nodefroute\n")
         ((EXTERNAL_ADDRESS_INC++))
       fi
       # If storage address, add to array to build rings later
