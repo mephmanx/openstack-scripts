@@ -30,6 +30,9 @@ use_old_net_names
 # add stack user with passwordless sudo privs
 add_stack_user
 
+# add localhost entries
+add_local_dns_entries
+
 # set up net script to be called after reboot
 prep_next_script "${TYPE}"
 
