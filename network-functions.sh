@@ -40,7 +40,7 @@ function networkInformation {
       if [[ "$vm_type" == "storage" ]]; then
         echo "$ip_addr" >> /tmp/storage_hosts
       fi
-      echo "echo '$host $ip' >> /etc/hosts;" >> /tmp/dns_hosts
+      echo "echo '$host $ip_addr' >> /etc/hosts;" >> /tmp/dns_hosts
     #not static, do DHCP
     else
       network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --noipv6 --onboot=yes --activate\n")
