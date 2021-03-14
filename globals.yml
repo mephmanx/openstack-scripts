@@ -138,7 +138,7 @@ docker_registry_username: openstack
 # configurations. It is recommended this interface not be configured with any IP
 # addresses for that reason.
 neutron_external_interface: "eth1"
-neutron_bridge_name: "br-ex",
+neutron_bridge_name: "br-ex"
 
 # Valid options are [ openvswitch, ovn, linuxbridge, vmware_nsxv, vmware_nsxv3, vmware_dvs ]
 # if vmware_nsxv3 is selected, enable_openvswitch MUST be set to "no" (default is yes)
