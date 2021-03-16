@@ -32,10 +32,10 @@ function vm_definitions {
     "control")
         echo '{
             "count":"3",
-            "cpu":"8",
-            "memory":"32",
+            "cpu":"4",
+            "memory":"24",
             "drive_string":"HP-Disk:200,HP-Disk:300",
-            "network_string":"Openstack-Internal-Static,Openstack-External-Static"
+            "network_string":"Openstack-Internal-Static"
           }'
     ;;
     "network")
@@ -62,7 +62,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:200",
-            "network_string":"Openstack-Internal-Static,Openstack-External-Static"
+            "network_string":"Openstack-Internal-Static"
           }'
     ;;
     "storage")
@@ -80,7 +80,7 @@ function vm_definitions {
             "cpu":"8",
             "memory":"24",
             "drive_string":"HP-SSD:100",
-            "network_string":"Openstack-Internal-Static,Openstack-External-Static"
+            "network_string":"Openstack-Internal-Static"
           }'
     ;;
   esac
