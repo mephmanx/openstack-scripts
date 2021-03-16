@@ -143,6 +143,14 @@ while [ "$ct" != $host_count ]; do
   # shellcheck disable=SC2006
   ct=`grep -o -i SUCCESS /tmp/ping.txt | wc -l`
   echo "hosts to check -> $host_count current hosts up -> $ct"
+
+  ############ add keys
+  working_dir=`pwd`
+  chmod 777 /tmp/host-trust.sh
+  runuser -l root -c  'cd /tmp; ./host-trust.sh'
+  cd $working_dir
+
+  sleep 10
 done
 #####################################
 
