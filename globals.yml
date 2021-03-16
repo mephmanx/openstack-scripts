@@ -722,7 +722,7 @@ designate_ns_record: "openstack.lyonsgroup.family"
 # NOTE: if you upgrade from Ussuri, you must set `octavia_auto_configure` to `no`
 # and keep your other Octavia config like before.
 octavia_auto_configure: yes
-#octavia_network_interface: eth1
+
 # Octavia amphora flavor.
 # See os_nova_flavor for details. Supported parameters:
 # - flavorid (optional)
