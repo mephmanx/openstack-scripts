@@ -29,18 +29,22 @@ function networkInformation {
         ip_addr="${INTERNAL_ADDRESS_PREFIX}${INTERNAL_ADDRESS_INC}"
         addresses+=($ip_addr)
 
-        #add localhost entry
-        echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
+        if ! grep -q $vm_type "$/tmp/dns_hosts"; then
+          #add localhost entry
+          echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
+        fi
 
         network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=10.0.0.1 --netmask=255.255.255.0 --nameserver=10.0.0.1\n")
         ((INTERNAL_ADDRESS_INC++))
       else
         ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
         addresses+=($ip_addr)
-        if [[ "$vm_type" != "control" ]]; then
+
+        if ! grep -q $vm_type "$/tmp/dns_hosts"; then
           #add localhost entry
           echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
         fi
+
         network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=192.168.0.1 --netmask=255.255.255.0 --nameserver=192.168.0.1 --nodefroute\n")
         ((EXTERNAL_ADDRESS_INC++))
       fi
