@@ -107,11 +107,11 @@ docker_registry_username: openstack
 # Yet another way to workaround the naming problem is to create a bond for the
 # interface on all hosts and give the bond name here. Similar strategy can be
 # followed for other types of interfaces.
-network_interface: "eth0"
+#network_interface: "eth0"
 
 # These can be adjusted for even more customization. The default is the same as
 # the 'network_interface'. These interfaces must contain an IP address.
-kolla_external_vip_interface: "eth1"
+kolla_external_vip_interface: "eth2"
 #api_interface: "{{ network_interface }}"
 #storage_interface: "{{ network_interface }}"
 #swift_storage_interface: "{{ storage_interface }}"
@@ -137,7 +137,7 @@ kolla_external_vip_interface: "eth1"
 # though an IP address can exist on this interface, it will be unusable in most
 # configurations. It is recommended this interface not be configured with any IP
 # addresses for that reason.
-neutron_external_interface: "eth2"
+#neutron_external_interface: "eth1"
 
 # Valid options are [ openvswitch, ovn, linuxbridge, vmware_nsxv, vmware_nsxv3, vmware_dvs ]
 # if vmware_nsxv3 is selected, enable_openvswitch MUST be set to "no" (default is yes)
