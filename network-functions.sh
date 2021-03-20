@@ -21,6 +21,7 @@ function networkInformation {
   ct=0
   net_names=("192" "224" "256")
   addresses=()
+  default_set="--nodefroute"
   for element in "${net_array[@]}"
   do
     if [[ "${element}" =~ .*"Static".* ]]; then
@@ -34,7 +35,7 @@ function networkInformation {
           echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
         fi
 
-        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=10.0.0.1 --netmask=255.255.255.0 --nameserver=10.0.0.1\n")
+        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=10.0.0.1 --netmask=255.255.255.0 --nameserver=10.0.0.1 ${default_set}\n")
         ((INTERNAL_ADDRESS_INC++))
       else
         ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
@@ -45,13 +46,15 @@ function networkInformation {
           echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
         fi
 
-        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=192.168.0.1 --netmask=255.255.255.0 --nameserver=192.168.0.1 --nodefroute\n")
+        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=192.168.0.1 --netmask=255.255.255.0 --nameserver=192.168.0.1 ${default_set}\n")
         ((EXTERNAL_ADDRESS_INC++))
       fi
       # If storage address, add to array to build rings later
       if [[ "$vm_type" == "storage" ]]; then
         echo "$ip_addr" >> /tmp/storage_hosts
       fi
+
+      default_set=""
     #not static, do DHCP
     else
       network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --noipv6 --onboot=yes --activate\n")
