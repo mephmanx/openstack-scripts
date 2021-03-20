@@ -29,7 +29,7 @@ function networkInformation {
         ip_addr="${INTERNAL_ADDRESS_PREFIX}${INTERNAL_ADDRESS_INC}"
         addresses+=($ip_addr)
 
-        if ! grep -q $vm_type "$/tmp/dns_hosts"; then
+        if ! grep -q $vm_type "/tmp/dns_hosts"; then
           #add localhost entry
           echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
         fi
@@ -40,7 +40,7 @@ function networkInformation {
         ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
         addresses+=($ip_addr)
 
-        if ! grep -q $vm_type "$/tmp/dns_hosts"; then
+        if ! grep -q $vm_type "/tmp/dns_hosts"; then
           #add localhost entry
           echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
         fi
