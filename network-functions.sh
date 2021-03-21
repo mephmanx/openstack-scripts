@@ -21,7 +21,7 @@ function networkInformation {
   ct=0
   net_names=("192" "224" "256")
   addresses=()
-  default_set="--nodefroute"
+  default_set=""
   for element in "${net_array[@]}"
   do
     if [[ "${element}" =~ .*"Static".* ]]; then
@@ -54,7 +54,7 @@ function networkInformation {
         echo "$ip_addr" >> /tmp/storage_hosts
       fi
 
-      default_set=""
+      default_set="--nodefroute"
     #not static, do DHCP
     else
       network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --noipv6 --onboot=yes --activate\n")
