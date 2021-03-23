@@ -123,3 +123,7 @@ echo "creating openstack setup vm"
 buildAndPushOpenstackSetupISO "$host_trust_string" "$control_hack_string" "$(($(getVMCount "control") + $(getVMCount "network") + $(getVMCount "compute") + $(getVMCount "monitoring") + $(getVMCount "storage")))"
 create_vm "kolla" "kolla"
 ########################
+
+###wait until jobs complete
+
+wait
