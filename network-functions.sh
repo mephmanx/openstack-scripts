@@ -3,7 +3,7 @@ source ./vm-configurations.sh
 INTERNAL_ADDRESS_INC=20
 EXTERNAL_ADDRESS_INC=20
 
-INTERNAL_ADDRESS_PREFIX="10.0.0."
+INTERNAL_ADDRESS_PREFIX="192.168.1."
 EXTERNAL_ADDRESS_PREFIX="192.168.0."
 
 function networkInformation {
@@ -35,7 +35,7 @@ function networkInformation {
           echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
         fi
 
-        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=10.0.0.1 --netmask=255.255.255.0 --nameserver=10.0.0.1 ${default_set}\n")
+        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=192.168.1.1 --netmask=255.255.255.0 --nameserver=192.168.1.1 ${default_set}\n")
         ((INTERNAL_ADDRESS_INC++))
       else
         ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
