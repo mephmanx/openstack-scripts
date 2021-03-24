@@ -22,7 +22,7 @@ function grow_fs() {
 function load_libs() {
 
   option="${1}"
-  case $option in
+  case "${option}" in
     "control")
             yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
             #One time machine setup
