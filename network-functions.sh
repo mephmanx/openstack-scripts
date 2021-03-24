@@ -4,7 +4,7 @@ INTERNAL_ADDRESS_INC=20
 EXTERNAL_ADDRESS_INC=20
 
 INTERNAL_ADDRESS_PREFIX="192.168.1."
-EXTERNAL_ADDRESS_PREFIX="192.168.0."
+EXTERNAL_ADDRESS_PREFIX="172.16.0."
 
 function networkInformation {
   kickstart_file=$1
@@ -35,7 +35,7 @@ function networkInformation {
           echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
         fi
 
-        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=192.168.1.1 --netmask=255.255.255.0 --nameserver=192.168.1.1 ${default_set}\n")
+        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=172.16.0.1 --netmask=255.255.255.0 --nameserver=172.16.0.1 ${default_set}\n")
         ((INTERNAL_ADDRESS_INC++))
       else
         ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
