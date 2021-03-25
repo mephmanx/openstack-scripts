@@ -25,8 +25,8 @@ chmod 777 /tmp/storage_hosts
 
 #### setup static network local DNS entries
 echo "echo '192.168.0.252 app-external.lyonsgroup.family' >> /etc/hosts;" >> /tmp/dns_hosts
-echo "echo '172.16.0.253 app-internal.lyonsgroup.family' >> /etc/hosts;" >> /tmp/dns_hosts
-echo "echo '172.16.0.102 cloudsupport.lyonsgroup.family' >> /etc/hosts;" >> /tmp/dns_hosts
+echo "echo '10.0.0.253 app-internal.lyonsgroup.family' >> /etc/hosts;" >> /tmp/dns_hosts
+echo "echo '10.0.0.33 cloudsupport.lyonsgroup.family' >> /etc/hosts;" >> /tmp/dns_hosts
 ####
 ######### Openstack VM types
 
