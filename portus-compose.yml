@@ -98,7 +98,7 @@ services:
     image: library/registry
     environment:
       REGISTRY_HTTP_ADDR: 0.0.0.0:5000
-      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/cert.pem
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/fullchain.pem
       REGISTRY_HTTP_TLS_KEY: /certs/privkey.pem
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /registry_data
       REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE: /etc/docker/registry/portus.crt
