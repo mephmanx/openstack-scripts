@@ -28,22 +28,22 @@ function networkInformation {
       ##check if internal or external network and set ip/gateway accordingly
       if [[ "${element}" =~ .*"Internal".* ]]; then
         ip_addr="${INTERNAL_ADDRESS_PREFIX}${INTERNAL_ADDRESS_INC}"
-        addresses+=($ip_addr)
 
         if ! grep -q $host "/tmp/dns_hosts"; then
           #add localhost entry
           echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
+          addresses+=($ip_addr)
         fi
 
         network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=10.0.0.2 --netmask=255.255.255.0 --nameserver=10.0.0.2 ${default_set}\n")
         ((INTERNAL_ADDRESS_INC++))
       else
         ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
-        addresses+=($ip_addr)
 
         if ! grep -q $host "/tmp/dns_hosts"; then
           #add localhost entry
           echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
+          addresses+=($ip_addr)
         fi
 
         network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=192.168.0.1 --netmask=255.255.255.0 --nameserver=192.168.0.1 ${default_set}\n")
