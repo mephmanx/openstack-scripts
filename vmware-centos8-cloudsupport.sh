@@ -13,35 +13,6 @@ start() {
 exec 1>/tmp/start-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
-#One time machine setup
-#install yum libs here
-#yum install -y yum-utils \
-#                wget \
-#                ruby \
-#                unzip \
-#                libvirt \
-#                virt-install \
-#                qemu-kvm \
-#                epel-release \
-#                libffi-devel \
-#                gcc \
-#                openssl-devel \
-#                git \
-#                python3-devel \
-#                python38 \
-#                chrony \
-#                libvirt-devel \
-#                libvirt-daemon-kvm \
-#                libvirt-client \
-#                make \
-#                ruby \
-#                ruby-devel \
-#                gcc-c++ \
-#                mysql-devel \
-#                postgresql-devel \
-#                nodejs \
-#                mysql-server
-
 #################use old net names
 use_old_net_names
 
