@@ -5,6 +5,9 @@ EXTERNAL_ADDRESS_INC=20
 
 INTERNAL_ADDRESS_PREFIX="10.0.0."
 EXTERNAL_ADDRESS_PREFIX="192.168.0."
+INTERNAL_GATEWAY="10.0.0.1"
+EXTERNAL_GATEWAY="192.168.0.1"
+NETMASK="255.255.255.0"
 
 function networkInformation {
   kickstart_file=$1
@@ -35,7 +38,7 @@ function networkInformation {
           addresses+=($ip_addr)
         fi
 
-        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=10.0.0.1 --netmask=255.255.255.0 --nameserver=10.0.0.1 ${default_set}\n")
+        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
         ((INTERNAL_ADDRESS_INC++))
       else
         ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
@@ -46,7 +49,7 @@ function networkInformation {
           addresses+=($ip_addr)
         fi
 
-        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=192.168.0.1 --netmask=255.255.255.0 --nameserver=192.168.0.1 ${default_set}\n")
+        network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n")
         ((EXTERNAL_ADDRESS_INC++))
       fi
       # If storage address, add to array to build rings later
