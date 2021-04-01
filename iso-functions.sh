@@ -70,8 +70,6 @@ function buildAndPushVMTypeISO {
   ########## add host trust script
   echo 'cat > /tmp/host-trust.sh <<EOF' >> ${kickstart_file}
   cat /tmp/dns_hosts >> ${kickstart_file}
-#  echo  $1 >> ${kickstart_file}
-#  cat /tmp/additional_hosts >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #####################
 
