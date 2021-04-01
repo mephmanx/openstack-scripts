@@ -17,14 +17,6 @@ letsEncryptAndCockpitCerts ${kickstart_file}
 
 ###############################
 
-#######godaddy settings###############
-echo 'cat > /tmp/api-settings.sh <<EOF' >> ${kickstart_file}
-cat ./api-settings.sh >> ${kickstart_file}
-echo 'EOF' >> ${kickstart_file}
-
-###############################
-
-
 #########concourse compose##############
 
 echo 'cat > /tmp/docker-compose.yml <<EOF' >> ${kickstart_file}
