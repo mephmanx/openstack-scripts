@@ -1,6 +1,7 @@
 source ./functions.sh
 source ./iso-functions.sh
 source ./vm-configurations.sh
+source ./openstack-env.sh
 
 #### ESXi hostname #1 VM Name arg #2
 setupENV $1

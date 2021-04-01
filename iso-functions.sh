@@ -36,6 +36,8 @@ function initialKickstartSetup {
   kickstart_file=centos-8-kickstart-${1}.cfg
   sed -i 's/{HOST}/'$1'/g' ${kickstart_file}
   sed -i 's/{TYPE}/'$vm_type'/g' ${kickstart_file}
+  sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
+  sed -i 's/{ROOT_PWD}/'$ROOT_PWD'/g' ${kickstart_file}
   networkInformation ${kickstart_file} ${vm_type} ${1}
   echo ${kickstart_file}
 }

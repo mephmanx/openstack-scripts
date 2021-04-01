@@ -1,6 +1,7 @@
 source ./functions.sh
 source ./iso-functions.sh
 source ./portus-env.sh
+source ./openstack-env.sh
 
 export VM_NAME=cloudsupport
 #### ESXi hostname #1 VM Name arg #2
