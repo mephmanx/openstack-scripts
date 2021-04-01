@@ -71,8 +71,12 @@ function networkInformation {
         echo "$ip_addr" >> /tmp/storage_hosts
       fi
 
-      default_set="--nodefroute"
-      default_flag=1
+      if [[ "$default_set" =~ "--nodefroute" ]]; then
+        default_set=""
+        default_flag=0
+      else
+        default_flag=1
+      fi
     #not static, do DHCP
     else
       network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --noipv6 --onboot=yes --activate\n")
