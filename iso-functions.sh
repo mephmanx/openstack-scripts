@@ -26,6 +26,38 @@ function letsEncryptAndCockpitCerts {
   ###############################
 }
 
+function commonItems {
+  kickstart_file=$1
+
+  ############# Docker account
+  echo 'cat > /tmp/docker.pass <<EOF' >> ${kickstart_file}
+  echo ${PORTUS_PASSWORD} >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+  ############################
+
+  ############## passwordless ssh
+  echo 'cat > /tmp/openstack-setup.key.pub <<EOF' >> ${kickstart_file}
+  cat /tmp/openstack-setup.key.pub >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+
+  echo 'cat > /tmp/openstack-setup.key <<EOF' >> ${kickstart_file}
+  cat /tmp/openstack-setup.key >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+  ###############################
+
+  #########portus env##############
+  echo 'cat > /tmp/portus-env.sh <<EOF' >> ${kickstart_file}
+  cat ./portus-env.sh >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+  #######################
+
+  ############### Github Token ################
+  echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
+  cat ./openstack-env.sh >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+  ###############################
+}
+
 function initialKickstartSetup {
   printf -v vm_type_n '%s\n' "${1//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
@@ -51,35 +83,15 @@ function buildAndPushVMTypeISO {
   letsEncryptAndCockpitCerts ${kickstart_file}
   ##########################
 
-  ############# Docker account
-  echo 'cat > /tmp/docker.pass <<EOF' >> ${kickstart_file}
-  echo ${PORTUS_PASSWORD} >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-
-  ############## passwordless ssh
-  echo 'cat > /tmp/openstack-setup.key.pub <<EOF' >> ${kickstart_file}
-  cat /tmp/openstack-setup.key.pub >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-
-  echo 'cat > /tmp/openstack-setup.key <<EOF' >> ${kickstart_file}
-  cat /tmp/openstack-setup.key >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-
-  ###############################
+  ############## common misc items
+  commonItems ${kickstart_file}
+  ##########################
 
   ########## add host trust script
   echo 'cat > /tmp/host-trust.sh <<EOF' >> ${kickstart_file}
   cat /tmp/dns_hosts >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #####################
-
-  #########portus env##############
-
-  echo 'cat > /tmp/portus-env.sh <<EOF' >> ${kickstart_file}
-  cat ./portus-env.sh >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-
-  #######################
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} ${1}
@@ -149,21 +161,9 @@ function buildAndPushOpenstackSetupISO {
 
   #################################
 
-  ############# Docker account
-  echo 'cat > /tmp/docker.pass <<EOF' >> ${kickstart_file}
-  echo ${PORTUS_PASSWORD} >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-
-  ############## passwordless ssh
-  echo 'cat > /tmp/openstack-setup.key.pub <<EOF' >> ${kickstart_file}
-  cat /tmp/openstack-setup.key.pub >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-
-  echo 'cat > /tmp/openstack-setup.key <<EOF' >> ${kickstart_file}
-  cat /tmp/openstack-setup.key >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-
-  ###############################
+  ############## common misc items
+  commonItems ${kickstart_file}
+  ##########################
 
   ########## add host trust script
   echo 'cat > /tmp/host-trust.sh <<EOF' >> ${kickstart_file}
@@ -190,14 +190,6 @@ function buildAndPushOpenstackSetupISO {
   cat /tmp/storage_hosts >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #########################
-
-  #########portus env##############
-
-  echo 'cat > /tmp/portus-env.sh <<EOF' >> ${kickstart_file}
-  cat ./portus-env.sh >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-
-  #######################
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla"
