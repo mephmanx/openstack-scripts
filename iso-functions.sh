@@ -49,11 +49,6 @@ function buildAndPushVMTypeISO {
   letsEncryptAndCockpitCerts ${kickstart_file}
   ##########################
 
-  #######godaddy settings###############
-  echo 'cat > /tmp/api-settings.sh <<EOF' >> ${kickstart_file}
-  cat ./api-settings.sh >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-
   ############# Docker account
   echo 'cat > /tmp/docker.pass <<EOF' >> ${kickstart_file}
   echo ${PORTUS_PASSWORD} >> ${kickstart_file}
@@ -153,11 +148,6 @@ function buildAndPushOpenstackSetupISO {
   echo 'EOF' >> ${kickstart_file}
 
   #################################
-
-  #######godaddy settings###############
-  echo 'cat > /tmp/api-settings.sh <<EOF' >> ${kickstart_file}
-  cat ./api-settings.sh >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
 
   ############# Docker account
   echo 'cat > /tmp/docker.pass <<EOF' >> ${kickstart_file}
