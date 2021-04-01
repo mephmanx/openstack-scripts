@@ -8,6 +8,7 @@ EXTERNAL_ADDRESS_PREFIX="192.168.0."
 INTERNAL_GATEWAY="10.0.0.1"
 EXTERNAL_GATEWAY="192.168.0.1"
 NETMASK="255.255.255.0"
+DEFAULT_ROUTE="External"
 
 function networkInformation {
   kickstart_file=$1
@@ -25,6 +26,7 @@ function networkInformation {
   net_names=("192" "224" "256")
   addresses=()
   default_set=""
+  default_flag=0
   for element in "${net_array[@]}"
   do
     if [[ "${element}" =~ .*"Static".* ]]; then
@@ -38,6 +40,12 @@ function networkInformation {
           addresses+=($ip_addr)
         fi
 
+        if [[ "${DEFAULT_ROUTE}" =~ .*"Internal".* ]]; then
+          if [[ $default_flag == 1 ]]; then
+            default_set="--nodefroute"
+          fi
+        fi
+
         network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
         ((INTERNAL_ADDRESS_INC++))
       else
@@ -49,6 +57,12 @@ function networkInformation {
           addresses+=($ip_addr)
         fi
 
+        if [[ "${DEFAULT_ROUTE}" =~ .*"External".* ]]; then
+          if [[ $default_flag == 1 ]]; then
+            default_set="--nodefroute"
+          fi
+        fi
+
         network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n")
         ((EXTERNAL_ADDRESS_INC++))
       fi
@@ -58,6 +72,7 @@ function networkInformation {
       fi
 
       default_set="--nodefroute"
+      default_flag=1
     #not static, do DHCP
     else
       network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --noipv6 --onboot=yes --activate\n")
