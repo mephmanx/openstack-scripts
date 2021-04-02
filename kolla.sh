@@ -22,6 +22,11 @@ chmod 777 /tmp/host-trust.sh
 runuser -l root -c  'cd /tmp; ./host-trust.sh'
 cd $working_dir
 
+#### run host trust on all nodes
+
+
+#####################
+
 unset HOME
 
 mkdir /home/stack

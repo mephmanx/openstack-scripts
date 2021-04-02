@@ -87,12 +87,6 @@ function buildAndPushVMTypeISO {
   commonItems ${kickstart_file}
   ##########################
 
-  ########## add host trust script
-  echo 'cat > /tmp/host-trust.sh <<EOF' >> ${kickstart_file}
-  cat /tmp/dns_hosts >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  #####################
-
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} ${1}
   esxi-scp -H $HOSTNAME -n /var/tmp/${1}-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
@@ -158,6 +152,12 @@ function buildAndPushOpenstackSetupISO {
   ############## storage internal host ip
   echo 'cat > /tmp/storage_hosts <<EOF' >> ${kickstart_file}
   cat /tmp/storage_hosts >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+  #########################
+
+  ############## host list
+  echo 'cat > /tmp/host_list <<EOF' >> ${kickstart_file}
+  cat /tmp/host_list >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #########################
 

@@ -22,6 +22,10 @@ chmod 777 /tmp/dns_hosts
 rm -rf /tmp/storage_hosts
 touch /tmp/storage_hosts
 chmod 777 /tmp/storage_hosts
+
+rm -rf /tmp/host_list
+touch /tmp/host_list
+chmod 777 /tmp/host_list
 ####################
 
 #### setup static network local DNS entries
@@ -116,7 +120,7 @@ for d in "${vms[@]}"; do
   ((index++))
 done
 ######################
-
+echo "" >> /tmp/host_list
 #############  create setup vm
 printf -v host_trust_string '%s ' "${host_trust_script[@]}"
 printf -v control_hack_string '%s ' "${control_hack_script[@]}"
