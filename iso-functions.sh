@@ -108,36 +108,6 @@ function buildAndPushOpenstackSetupISO {
   letsEncryptAndCockpitCerts ${kickstart_file}
   ##########################
 
-  echo 'cat > /tmp/backend-cert.pem <<EOF' >> ${kickstart_file}
-  cat ./certs/lyonsgroup-wildcard.fullchain >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  echo 'cat > /tmp/backend-key.pem <<EOF' >> ${kickstart_file}
-  cat ./certs/lyonsgroup-wildcard.key >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-
-  echo 'cat > /tmp/haproxy.pem <<EOF' >> ${kickstart_file}
-  cat ./certs/lyonsgroup-wildcard.fullchain >> ${kickstart_file}
-  cat ./certs/lyonsgroup-wildcard.key >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  echo 'cat > /tmp/haproxy-internal.pem <<EOF' >> ${kickstart_file}
-  cat ./certs/lyonsgroup-wildcard.fullchain >> ${kickstart_file}
-  cat ./certs/lyonsgroup-wildcard.key >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-
-  #########################################################
-  SERVICE_LIST=('Barbican' 'Glance' 'Heat' 'Horizon' 'Keystone' 'Nova' 'Placement' 'Cinder')
-  for service in "${SERVICE_LIST[@]}"
-  do
-    lower_service=${service,,}
-    echo "cat > /tmp/${lower_service}-cert.pem <<EOF" >> ${kickstart_file}
-    cat ./certs/lyonsgroup-wildcard.fullchain >> ${kickstart_file}
-    echo 'EOF' >> ${kickstart_file}
-    echo "cat > /tmp/${lower_service}-key.pem <<EOF" >> ${kickstart_file}
-    cat ./certs/lyonsgroup-wildcard.key >> ${kickstart_file}
-    echo 'EOF' >> ${kickstart_file}
-  done
-  ############################################
-
   #############  Octavia Keys
 
   echo 'cat > /tmp/client.cert-and-key.pem <<EOF' >> ${kickstart_file}
