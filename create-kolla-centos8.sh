@@ -119,8 +119,7 @@ for d in "${vms[@]}"; do
   sleep 30
   ((index++))
 done
-######################
-echo "" >> /tmp/host_list
+
 #############  create setup vm
 printf -v host_trust_string '%s ' "${host_trust_script[@]}"
 printf -v control_hack_string '%s ' "${control_hack_script[@]}"

@@ -15,7 +15,12 @@ function networkInformation {
   vm_type=$2
   host=$3
 
-  echo "$host" >> /tmp/host_list
+  if [[ "kolla" != "$vm_type" ]]; then
+    echo "$host" >> /tmp/host_list
+  else
+    echo "" >> /tmp/host_list
+  fi
+
   vmstr=$(vm_definitions "$vm_type")
   vm_str=${vmstr//[$'\t\r\n ']}
 
