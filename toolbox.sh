@@ -1,5 +1,5 @@
 #can ONLY be run as root!  sudo to root
-source ./openstack-env.sh
+source ../openstack-setup/openstack-env.sh
 CMD=$(cat <<END
 
 rm -rf /root/openstack-setup;
