@@ -218,11 +218,3 @@ function prep_next_script() {
   curl -o /etc/rc.d/rc.local -H "Authorization: Bearer $GITHUB_TOKEN" https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/$1.sh
   chmod +x /etc/rc.d/rc.local
 }
-
-function add_local_dns_entries() {
-  ############ add keys
-  working_dir=`pwd`
-  chmod 777 /tmp/host-trust.sh
-  runuser -l root -c  'cd /tmp; ./host-trust.sh'
-  cd $working_dir
-}
