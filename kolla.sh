@@ -22,14 +22,6 @@ chmod 777 /tmp/host-trust.sh
 runuser -l root -c  'cd /tmp; ./host-trust.sh'
 cd $working_dir
 
-#### run host trust on all nodes
-while IFS="" read -r p || [ -n "$p" ]
-do
-  scp /tmp/host-trust.sh root@$p:/tmp
-  ssh root@$p '/tmp/host-trust.sh'
-done < /tmp/host_list
-#####################
-
 unset HOME
 
 mkdir /home/stack
@@ -161,6 +153,14 @@ while [ "$ct" != $host_count ]; do
   sleep 10
 done
 #####################################
+
+#### run host trust on all nodes
+while IFS="" read -r p || [ -n "$p" ]
+do
+  scp /tmp/host-trust.sh root@$p:/tmp
+  ssh root@$p '/tmp/host-trust.sh'
+done < /tmp/host_list
+#####################
 
 ##### get ca password to encrypt key
 
