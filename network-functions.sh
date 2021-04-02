@@ -46,7 +46,7 @@ function networkInformation {
           addresses+=($ip_addr)
         fi
 
-        if [ $DEFAULT_ROUTE == "Internal" ]]; then
+        if [[ $DEFAULT_ROUTE == "Internal" ]]; then
           if [[ $default_flag == 0 ]]; then
             default_set=""
             default_flag=1
