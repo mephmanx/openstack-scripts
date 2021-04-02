@@ -31,7 +31,7 @@ function networkInformation {
   ct=0
   net_names=("192" "224" "256")
   addresses=()
-  default_flag=0
+  default_flag="0"
   for element in "${net_array[@]}"
   do
     default_set="--nodefroute"
@@ -47,9 +47,9 @@ function networkInformation {
         fi
 
         if [[ $DEFAULT_ROUTE == "Internal" ]]; then
-          if [[ $default_flag == 0 ]]; then
+          if [[ $default_flag == "0" ]]; then
             default_set=""
-            default_flag=1
+            default_flag="1"
           fi
         fi
 
@@ -65,9 +65,9 @@ function networkInformation {
         fi
 
         if [[ $DEFAULT_ROUTE == "External" ]]; then
-          if [[ $default_flag == 0 ]]; then
+          if [[ $default_flag == "0" ]]; then
             default_set=""
-            default_flag=1
+            default_flag="1"
           fi
         fi
 
