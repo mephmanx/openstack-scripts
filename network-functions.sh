@@ -25,10 +25,10 @@ function networkInformation {
   ct=0
   net_names=("192" "224" "256")
   addresses=()
-  default_set=""
   default_flag=0
   for element in "${net_array[@]}"
   do
+    default_set="--nodefroute"
     if [[ "${element}" =~ .*"Static".* ]]; then
       ##check if internal or external network and set ip/gateway accordingly
       if [[ "${element}" =~ .*"Internal".* ]]; then
@@ -41,8 +41,9 @@ function networkInformation {
         fi
 
         if [[ "${DEFAULT_ROUTE}" =~ .*"Internal".* ]]; then
-          if [[ $default_flag == 1 ]]; then
-            default_set="--nodefroute"
+          if [[ $default_flag == 0 ]]; then
+            default_set=""
+            default_flag=1
           fi
         fi
 
@@ -58,8 +59,9 @@ function networkInformation {
         fi
 
         if [[ "${DEFAULT_ROUTE}" =~ .*"External".* ]]; then
-          if [[ $default_flag == 1 ]]; then
-            default_set="--nodefroute"
+          if [[ $default_flag == 0 ]]; then
+            default_set=""
+            default_flag=1
           fi
         fi
 
@@ -71,12 +73,6 @@ function networkInformation {
         echo "$ip_addr" >> /tmp/storage_hosts
       fi
 
-      if [[ "$default_set" =~ "--nodefroute" ]]; then
-        default_set=""
-        default_flag=0
-      else
-        default_flag=1
-      fi
     #not static, do DHCP
     else
       network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --noipv6 --onboot=yes --activate\n")
