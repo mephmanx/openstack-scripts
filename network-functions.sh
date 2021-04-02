@@ -42,7 +42,7 @@ function networkInformation {
         fi
 
         if [ "$DEFAULT_ROUTE" == "Internal" ]]; then
-          if [[ $default_flag = 0 ]]; then
+          if [[ $default_flag == 0 ]]; then
             default_set=""
             default_flag=1
           fi
@@ -60,7 +60,7 @@ function networkInformation {
         fi
 
         if [[ "$DEFAULT_ROUTE" == "External" ]]; then
-          if [[ $default_flag = 0 ]]; then
+          if [[ $default_flag == 0 ]]; then
             default_set=""
             default_flag=1
           fi
