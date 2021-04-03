@@ -4,9 +4,13 @@ exec 1>/tmp/kolla-install.log 2>&1 # send stdout and stderr from rc.local to a l
 set -x                             # tell sh to display commands before execution
 
 yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
-runuser -l root -c  'yum install -y https://{GITHUB_TOKEN}@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-cli-18.09.9-3.el7.x86_64.rpm'
+chmod 777 /tmp/openstack-env.sh
+cd /tmp
+. ./openstack-env.sh
+
+runuser -l root -c  "yum install -y https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-cli-18.09.9-3.el7.x86_64.rpm"
 sleep 5
-runuser -l root -c  'yum install -y https://{GITHUB_TOKEN}@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-18.09.9-3.el7.x86_64.rpm'
+runuser -l root -c  "yum install -y https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-18.09.9-3.el7.x86_64.rpm"
 sleep 5
 
 mkdir /root/.ssh
@@ -53,7 +57,7 @@ mkdir -p /var/lib/kolla/config_files
 mkdir /etc/kolla/certificates
 cp /tmp/*.pem /etc/kolla/certificates
 
-curl -o /etc/kolla/globals.yml https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/globals.yml
+curl -o /etc/kolla/globals.yml -H "Authorization: Bearer $GITHUB_TOKEN" https://@raw.githubusercontent.com/mephmanx/openstack-scripts/master/globals.yml
 
 kolla-genpwd
 
@@ -243,7 +247,7 @@ mv -f bosh.pem.pub bosh.pub
 openstack keypair create --public-key /tmp/bosh.pub bosh
 
 #download and configure homebrew to run bbl install
-curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh -o homebrew.sh
+curl -fsSL -H "Authorization: Bearer $GITHUB_TOKEN" https://raw.githubusercontent.com/Homebrew/install/master/install.sh -o homebrew.sh
 chmod 777 homebrew.sh
 
 PUBLIC_NETWORK_ID="$(openstack network list --name public1 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')"

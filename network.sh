@@ -4,9 +4,14 @@ exec 1>/tmp/openstack-install.log 2>&1 # send stdout and stderr from rc.local to
 set -x                             # tell sh to display commands before execution
 
 yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
-runuser -l root -c  'yum install -y https://{GITHUB_TOKEN}@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-cli-18.09.9-3.el7.x86_64.rpm'
+
+chmod 777 /tmp/openstack-env.sh
+cd /tmp
+. ./openstack-env.sh
+
+runuser -l root -c  "yum install -y https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-cli-18.09.9-3.el7.x86_64.rpm"
 sleep 5
-runuser -l root -c  'yum install -y https://{GITHUB_TOKEN}@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-18.09.9-3.el7.x86_64.rpm'
+runuser -l root -c  "yum install -y https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-18.09.9-3.el7.x86_64.rpm"
 sleep 5
 
 chmod 777 /tmp/portus-env.sh
