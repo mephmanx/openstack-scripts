@@ -14,8 +14,12 @@ IFS=
 kickstart_file=centos-8-kickstart-$VM_NAME.cfg
 ####initial certs###############
 letsEncryptAndCockpitCerts ${kickstart_file}
-
 ###############################
+
+########### add passwords in
+sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
+sed -i 's/{ROOT_PWD}/'$ROOT_PWD'/g' ${kickstart_file}
+###########################
 
 #########concourse compose##############
 
