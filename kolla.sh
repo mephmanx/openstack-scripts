@@ -162,7 +162,7 @@ done
 while IFS="" read -r p || [ -n "$p" ]
 do
   scp /tmp/host-trust.sh root@$p:/tmp
-  ssh root@$p '/tmp/host-trust.sh'
+  ssh root@$p "/tmp/host-trust.sh"
 done < /tmp/host_list
 #####################
 
