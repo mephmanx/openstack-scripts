@@ -30,7 +30,6 @@ chmod 600 /root/.ssh/authorized_keys
 systemctl stop firewalld
 systemctl mask firewalld
 
-pip3 install --upgrade pip
 cd /etc/init.d
 ./vmware-tools restart
 

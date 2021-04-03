@@ -47,7 +47,6 @@ for d in sdc sdd sde; do
   ((index++))
 done
 
-pip3 install --upgrade pip
 cd /etc/init.d
 ./vmware-tools restart
 

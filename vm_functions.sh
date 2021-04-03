@@ -38,8 +38,7 @@ function load_libs() {
             gcc \
             openssl-devel \
             git \
-            make \
-            python2
+            make
     ;;
     "network")
             yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
@@ -51,8 +50,7 @@ function load_libs() {
             gcc \
             openssl-devel \
             git \
-            make \
-            python2
+            make
     ;;
     "compute")
             yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
@@ -64,8 +62,7 @@ function load_libs() {
             gcc \
             openssl-devel \
             git \
-            make \
-            python2
+            make
     ;;
     "monitoring")
             yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
@@ -77,8 +74,7 @@ function load_libs() {
             gcc \
             openssl-devel \
             git \
-            make \
-            python2
+            make
     ;;
     "storage")
             yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
@@ -90,8 +86,7 @@ function load_libs() {
             gcc \
             openssl-devel \
             git \
-            make \
-            python2
+            make
     ;;
     "kolla")
           yum install -y wget \
