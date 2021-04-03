@@ -1,4 +1,3 @@
-IFS=
 
 function setupENV {
   export HOSTNAME=$1
@@ -17,16 +16,6 @@ function setupENV {
 
   sudo rm -rf /centos
   sudo mkdir -p /centos
-}
-
-function cockpitCerts {
-  ###  Prepare certs
-  echo 'cat > /etc/cockpit/ws-certs.d/certificate.cert <<EOF' >> ./$1
-  cat ./certs/lyonsgroup-wildcard.fullchain >> ./$1
-  echo 'EOF' >> ./$1
-  echo 'cat > /etc/cockpit/ws-certs.d/certificate.key <<EOF' >> ./$1
-  cat ./certs/lyonsgroup-wildcard.key >> ./$1
-  echo 'EOF' >> ./$1
 }
 
 function installESXiTools {
@@ -56,44 +45,4 @@ function removeVM {
   sleep 15
   esxi-scp-remove -H $HOSTNAME -n $2-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
   esxi-scp-remove -H $HOSTNAME -n $2 -l /vmfs/volumes/$DISK_NAME
-}
-
-function closeOutAndBuildKickstartAndISO {
-  working_dir=`pwd`
-  #### to allow certs to print right
-  IFS=
-  ########
-
-  ###Close out cfg file
-  echo '%end' >> ./$1
-  echo 'eula --agreed' >> ./$1
-  echo 'reboot --eject' >> ./$1
-  #########
-
-  sudo rm -rf /var/tmp/$2
-  sudo mount -t iso9660 -o loop /tmp/centos8.iso /centos
-  sudo mkdir -p /var/tmp/$2
-  sudo rsync -a /centos/ /var/tmp/$2
-  sudo umount /centos
-
-  cp ./$1 /var/tmp/$2/ks.cfg
-  cp ./isolinux-centos8.cfg /var/tmp/$2/isolinux/isolinux.cfg
-
-  sudo ksvalidator /var/tmp/$2/ks.cfg
-
-  cd /var/tmp/$2
-  sudo genisoimage -o ../$2-iso.iso \
-    -b isolinux/isolinux.bin \
-    -c isolinux/boot.cat \
-    -no-emul-boot \
-    -boot-load-size 4 \
-    -boot-info-table \
-    -eltorito-alt-boot \
-    -e images/efiboot.img \
-    -no-emul-boot -J -R -v -T -V 'CentOS 8 x86_64' .
-
-  cd /var/tmp/
-  sudo implantisomd5 $2-iso.iso
-  sudo rm -rf /var/tmp/$2
-  cd $working_dir
 }
