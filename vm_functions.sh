@@ -215,6 +215,6 @@ function prep_next_script() {
   cd $working_dir
   ## Prep OpenStack install
   rm -rf /etc/rc.d/rc.local
-  curl -o /etc/rc.d/rc.local -H "Authorization: Bearer $GITHUB_TOKEN" https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/$1.sh
+  curl -o /etc/rc.d/rc.local https://{GITHUB_TOKEN}@raw.githubusercontent.com/mephmanx/openstack-scripts/master/$1.sh
   chmod +x /etc/rc.d/rc.local
 }

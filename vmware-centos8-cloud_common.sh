@@ -21,7 +21,7 @@ grow_fs
 # load libraries for this VM "type"
 load_libs "${TYPE}"
 
-runuser -l root -c  'yum install -y https://raw.githubusercontent.com/mephmanx/cloud-libs/master/containerd.io-1.2.6-3.3.el7.x86_64.rpm'
+runuser -l root -c  'yum install -y https://{GITHUB_TOKEN}@raw.githubusercontent.com/mephmanx/cloud-libs/master/containerd.io-1.2.6-3.3.el7.x86_64.rpm'
 sleep 5
 
 #################use old net names
