@@ -28,7 +28,12 @@ chmod +x /usr/local/bin/docker-compose
 cd /root
 git clone https://github.com/mephmanx/Portus.git
 
-curl -o /root/Portus/docker-compose.yml https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/portus-compose.yml
+working_dir=`pwd`
+chmod 777 /tmp/openstack-env.sh
+source ./tmp/openstack-env.sh
+cd $working_dir
+
+wget -O /root/Portus/docker-compose.yml -d --header="Authorization: Bearer {GITHUB_TOKEN}" https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/portus-compose.yml
 
 chmod 777 /tmp/portus-env.sh
 cd /tmp

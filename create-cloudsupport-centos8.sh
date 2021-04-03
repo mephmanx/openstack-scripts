@@ -29,13 +29,18 @@ echo 'EOF' >> ${kickstart_file}
 echo 'cat > /tmp/docker.pass <<EOF' >> ${kickstart_file}
 echo ${DOCKER_HUB_PWD} >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
+###############################
+
+############### Github Token ################
+echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
+cat ./openstack-env.sh >> ${kickstart_file}
+echo 'EOF' >> ${kickstart_file}
+###############################
 
 #########portus env##############
-
 echo 'cat > /tmp/portus-env.sh <<EOF' >> ${kickstart_file}
 cat ./portus-env.sh >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
-
 #######################
 
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "${VM_NAME}"
