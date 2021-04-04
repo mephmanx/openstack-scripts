@@ -15,14 +15,23 @@ set -x                             # tell sh to display commands before executio
 # set VM type for future use
 TYPE=`cat /tmp/type`
 
+#########load secrets into env
+working_dir=`pwd`
+chmod 777 /tmp/openstack-env.sh
+source ./tmp/openstack-env.sh
+cd $working_dir
+############################
+
 # adjust main volumes to allocate most size to root volume
 grow_fs
 
 # load libraries for this VM "type"
 load_libs "${TYPE}"
 
+#####  Docker prep #########
 runuser -l root -c  "yum install -y https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/containerd.io-1.2.6-3.3.el7.x86_64.rpm"
 sleep 5
+#####################
 
 #################use old net names
 use_old_net_names

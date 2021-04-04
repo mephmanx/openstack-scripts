@@ -106,5 +106,4 @@ function create_vm {
               virtualHW.version = "17",
               tools.upgrade.policy = "upgradeAtPowerCycle",
               tools.syncTime = "TRUE"' &
-
 }

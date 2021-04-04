@@ -13,6 +13,13 @@ start() {
 exec 1>/tmp/start-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
+#########load secrets into env
+working_dir=`pwd`
+chmod 777 /tmp/openstack-env.sh
+source ./tmp/openstack-env.sh
+cd $working_dir
+############################
+
 #################use old net names
 use_old_net_names
 

@@ -20,12 +20,6 @@ function grow_fs() {
 }
 
 function load_libs() {
-  #########load secrets into env
-  working_dir=`pwd`
-  chmod 777 /tmp/openstack-env.sh
-  source ./tmp/openstack-env.sh
-  cd $working_dir
-  ############################
   option="${1}"
   case "${option}" in
     "control")
