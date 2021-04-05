@@ -46,6 +46,11 @@ function networkInformation {
           addresses+=($ip_addr)
         fi
 
+        # If storage address, add to array to build rings later
+        if [[ "$vm_type" == "storage" ]]; then
+          echo "$ip_addr" >> /tmp/storage_hosts
+        fi
+
         if [[ $DEFAULT_ROUTE == "Internal" ]]; then
           if [[ $default_flag == "0" ]]; then
             default_set=""
@@ -81,10 +86,6 @@ function networkInformation {
         fi
 
         ((EXTERNAL_ADDRESS_INC++))
-      fi
-      # If storage address, add to array to build rings later
-      if [[ "$vm_type" == "storage" ]]; then
-        echo "$ip_addr" >> /tmp/storage_hosts
       fi
 
     #not static, do DHCP
