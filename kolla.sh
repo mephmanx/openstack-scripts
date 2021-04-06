@@ -61,7 +61,11 @@ curl -o /etc/kolla/globals.yml -H "Authorization: Bearer $GITHUB_TOKEN" https://
 
 kolla-genpwd
 
+#### Replace passwords
 sed -i "s/docker_registry_password: null/docker_registry_password: ${PORTUS_PASSWORD}/g" /etc/kolla/passwords.yml
+sed -i "s/keystone_admin_password: .*/keystone_admin_password: ${OPENSTACK_ADMIN_PWD}/g" /etc/kolla/passwords.yml
+sed -i "s/kibana_password: .*/kibana_password: ${KIBANA_ADMIN_PWD}/g" /etc/kolla/passwords.yml
+#####
 
 ######  prepare storage rings
 #export KOLLA_INTERNAL_ADDRESS=`getent hosts storage01 | awk '{ print $1}'`
