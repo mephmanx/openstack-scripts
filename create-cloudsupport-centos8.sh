@@ -21,12 +21,10 @@ sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
 sed -i 's/{ROOT_PWD}/'$ROOT_PWD'/g' ${kickstart_file}
 ###########################
 
-#########concourse compose##############
-
+#########portus docker compose##############
 echo 'cat > /tmp/docker-compose.yml <<EOF' >> ${kickstart_file}
 cat ./concourse-compose.yml >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
-
 #######################
 
 ############# Docker account
