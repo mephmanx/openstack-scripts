@@ -17,7 +17,7 @@ systemctl enable docker
 chkconfig docker on
 
 systemctl restart docker
-docker login -u mephmanx -p $DOCKER_HUB_PWD
+docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD
 
 pip3 install docker-compose
 curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
