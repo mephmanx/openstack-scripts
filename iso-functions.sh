@@ -40,12 +40,6 @@ function letsEncryptAndCockpitCerts {
 function commonItems {
   kickstart_file=$1
 
-  ############# Docker account
-  echo 'cat > /tmp/docker.pass <<EOF' >> ${kickstart_file}
-  echo ${PORTUS_PASSWORD} >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  ############################
-
   ############## passwordless ssh
   echo 'cat > /tmp/openstack-setup.key.pub <<EOF' >> ${kickstart_file}
   cat /tmp/openstack-setup.key.pub >> ${kickstart_file}

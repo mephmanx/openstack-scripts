@@ -27,12 +27,6 @@ cat ./concourse-compose.yml >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 #######################
 
-############# Docker account
-echo 'cat > /tmp/docker.pass <<EOF' >> ${kickstart_file}
-echo ${DOCKER_HUB_PWD} >> ${kickstart_file}
-echo 'EOF' >> ${kickstart_file}
-###############################
-
 ############### Github Token ################
 echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
 cat ./openstack-env.sh >> ${kickstart_file}

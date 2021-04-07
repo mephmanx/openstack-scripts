@@ -17,9 +17,7 @@ systemctl enable docker
 chkconfig docker on
 
 systemctl restart docker
-
-export dockerPass=$(cat /tmp/docker.pass)
-docker login -u mephmanx -p $dockerPass
+docker login -u mephmanx -p $DOCKER_HUB_PWD
 
 pip3 install docker-compose
 curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
