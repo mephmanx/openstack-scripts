@@ -132,27 +132,22 @@ GRUB_ENABLE_BLSCFG=true
 EOF
 
   runuser -l root -c  'cat /tmp/grub > /etc/default/grub'
-
   runuser -l root -c  'grub2-mkconfig  -o /boot/grub2/grub.cfg'
-
   ct=0
   # Use no more than 3 NIC cards per VM until ordering is figured out!
   # The next NIC name in the list is 161 and it throws off all NIC cards
-
   net_names=("192" "224" "256")
 
   ###################
-
   for element in "${net_names[@]}"
   do
     entry="/etc/sysconfig/network-scripts/ifcfg-ens$element"
     if test -f "$entry"; then
-
-        IP=(`awk -F'=' '$1 == "IPADDR" {print $2}' $entry`)
-        GATEWAY=(`awk -F'=' '$1 == "GATEWAY" {print $2}' $entry`)
-        DNS1=(`awk -F'=' '$1 == "DNS1" {print $2}' $entry`)
-        NETMASK=(`awk -F'=' '$1 == "NETMASK" {print $2}' $entry`)
-        runuser -l root -c  "touch /etc/sysconfig/network-scripts/ifcfg-eth$ct"
+      IP=(`awk -F'=' '$1 == "IPADDR" {print $2}' $entry`)
+      GATEWAY=(`awk -F'=' '$1 == "GATEWAY" {print $2}' $entry`)
+      DNS1=(`awk -F'=' '$1 == "DNS1" {print $2}' $entry`)
+      NETMASK=(`awk -F'=' '$1 == "NETMASK" {print $2}' $entry`)
+      runuser -l root -c  "touch /etc/sysconfig/network-scripts/ifcfg-eth$ct"
 
 if [[ ! -z "$IP" ]]
 then
@@ -183,14 +178,11 @@ BOOTPROTO="dhcp"
 EOF
 fi
 
-    runuser -l root -c  "cat /tmp/eth$ct > /etc/sysconfig/network-scripts/ifcfg-eth$ct"
-
-    runuser -l root -c  "rm -rf $entry"
-    ((ct++))
+      runuser -l root -c  "cat /tmp/eth$ct > /etc/sysconfig/network-scripts/ifcfg-eth$ct"
+      runuser -l root -c  "rm -rf $entry"
+      ((ct++))
     fi
-
   done
-
 }
 
 function add_stack_user() {
