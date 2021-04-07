@@ -240,7 +240,7 @@ cd /tmp
 
 #prepare openstack env for CF
 openstack project create cloudfoundry
-openstack user create lguser --project cloudfoundry --password $OS_PASSWORD
+openstack user create lguser --project cloudfoundry --password $OPENSTACK_LGUSER_PWD
 openstack role add --project cloudfoundry --project-domain default --user lguser --user-domain default Member
 
 openstack floating ip create --description cloudfoundry --project cloudfoundry --project-domain default public1 > /tmp/fip.out
