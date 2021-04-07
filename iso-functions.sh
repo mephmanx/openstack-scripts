@@ -148,7 +148,6 @@ function buildAndPushOpenstackSetupISO {
   ##########################
 
   #############  Octavia Keys
-
   echo 'cat > /tmp/client.cert-and-key.pem <<EOF' >> ${kickstart_file}
   cat ./certs/lyonsgroup-wildcard.fullchain >> ${kickstart_file}
   cat ./certs/lyonsgroup-wildcard.key >> ${kickstart_file}
@@ -167,7 +166,6 @@ function buildAndPushOpenstackSetupISO {
   echo 'cat > /tmp/server_ca.key.pem <<EOF' >> ${kickstart_file}
   cat ./certs/lyonsgroup-wildcard.key >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
-
   #################################
 
   ############## common misc items
