@@ -88,5 +88,6 @@ export PAYLOAD="{\"registry\": {\"name\": \"$PORTUS_REGISTRY_NAME\", \"hostname\
 
 curl --header 'Content-type: application/json' --header 'Accept: application/json' --header "Portus-Auth: $FIRST_SUPER_ADMIN_USERNAME:$PORTUS_API_BOOT_TOKEN" -X POST --data "$PAYLOAD" https://${PORTUS_HOST}/api/v1/registries | jq '.'
 
+
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
