@@ -324,7 +324,7 @@ cat > terraform.tfvars <<EOF
 auth_url = "$OS_AUTH_URL"
 domain_name = "default"
 user_name = "lguser"
-password = "$OS_PASSWORD"
+password = "$OPENSTACK_LGUSER_PWD"
 project_name = "cloudfoundry"
 region_name = "us-east"
 availability_zones = ["nova","nova","nova"]
