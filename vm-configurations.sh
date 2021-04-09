@@ -105,5 +105,6 @@ function create_vm {
               guestOS="centos8-64",
               virtualHW.version = "17",
               tools.upgrade.policy = "upgradeAtPowerCycle",
+              autostart = "TRUE",
               tools.syncTime = "TRUE"' &
 }

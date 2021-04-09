@@ -37,4 +37,5 @@ esxi-vm-create -n $VM_NAME --summary --iso /vmfs/volumes/$ISO_DISK_NAME/isos/$VM
               guestOS="centos8-64",
               virtualHW.version = "17",
               tools.upgrade.policy = "upgradeAtPowerCycle",
+              autostart = "TRUE",
               tools.syncTime = "TRUE"'
