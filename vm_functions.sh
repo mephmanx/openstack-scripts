@@ -200,3 +200,29 @@ function prep_next_script() {
   curl -o /etc/rc.d/rc.local -H "Authorization: Bearer $GITHUB_TOKEN" https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/$1.sh
   chmod +x /etc/rc.d/rc.local
 }
+
+function common_second_boot_setup() {
+
+  exec 1>/tmp/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+  set -x                             # tell sh to display commands before execution
+
+  yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
+
+  runuser -l root -c  "yum install -y https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-cli-18.09.9-3.el7.x86_64.rpm"
+  sleep 5
+  runuser -l root -c  "yum install -y https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-18.09.9-3.el7.x86_64.rpm"
+  sleep 5
+
+  systemctl restart docker
+  docker login -u $PORTUS_USERNAME -p $PORTUS_PASSWORD $MACHINE_FQDN:$REGISTRY_PORT
+
+  mkdir /root/.ssh
+  cp /tmp/openstack-setup.key.pub /root/.ssh/authorized_keys
+  mv /tmp/openstack-setup.key.pub /root/.ssh/id_rsa.pub
+  mv /tmp/openstack-setup.key /root/.ssh/id_rsa
+  chmod 600 /root/.ssh/id_rsa
+  chmod 600 /root/.ssh/authorized_keys
+
+  systemctl stop firewalld
+  systemctl mask firewalld
+}
