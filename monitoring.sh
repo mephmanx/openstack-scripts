@@ -8,6 +8,10 @@ cd /tmp
 
 common_second_boot_setup
 
+######## Put type specific code <<EOF
+
+############################
+
 cd /etc/init.d
 ./vmware-tools restart
 

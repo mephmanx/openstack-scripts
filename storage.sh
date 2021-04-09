@@ -8,6 +8,8 @@ cd /tmp
 
 common_second_boot_setup
 
+######## Put type specific code <<EOF
+
 wipefs -a /dev/sdb
 sleep 3
 pvcreate /dev/sdb
@@ -24,6 +26,8 @@ for d in sdc sdd sde; do
   mkfs.xfs -f -L d${index} /dev/${d}1
   ((index++))
 done
+
+############################
 
 cd /etc/init.d
 ./vmware-tools restart
