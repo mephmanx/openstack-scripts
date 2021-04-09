@@ -1,5 +1,5 @@
 source ./network-functions.sh
-source ./portus-env.sh
+source ./openstack-env.sh
 
 IFS=
 
