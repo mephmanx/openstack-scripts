@@ -4,7 +4,7 @@ chmod 777 /tmp/openstack-env.sh
 cd /tmp
 . ./openstack-env.sh
 
-source /tmp/vm_functions.sh
+. /tmp/vm_functions.sh
 
 common_second_boot_setup
 
