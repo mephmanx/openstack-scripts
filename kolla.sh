@@ -283,7 +283,7 @@ runuser -l stack -c  "echo 'export OS_IDENTITY_API_VERSION=$OS_IDENTITY_API_VERS
 runuser -l stack -c  "echo 'export OS_REGION_NAME=$OS_REGION_NAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_AUTH_PLUGIN=$OS_AUTH_PLUGIN' >> /opt/stack/.bash_profile"
 
-runuser -l stack -c  'bbl up'
+runuser -l stack -c  'bbl up --debug'
 
 ############# build octavia image
 
