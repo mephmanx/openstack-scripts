@@ -159,11 +159,11 @@ done
 #####################################
 
 #### run host trust on all nodes
-while IFS="" read -r p || [ -n "$p" ]
+while read p;
 do
   scp /tmp/host-trust.sh root@$p:/tmp
   runuser -l root -c "ssh root@$p '/tmp/host-trust.sh'"
-done < /tmp/host_list
+done </tmp/host_list
 #####################
 
 ##### get ca password to encrypt key
@@ -286,7 +286,11 @@ runuser -l stack -c  "echo 'export OS_AUTH_PLUGIN=$OS_AUTH_PLUGIN' >> /opt/stack
 runuser -l stack -c  'bbl up --debug'
 
 ############# build octavia image
-
+curl -L https://install.perlbrew.pl | bash
+source ~/perl5/perlbrew/etc/bashrc
+perlbrew init
+perlbrew install --force perl-5.16.3
+perlbrew switch perl-5.16.3
 runuser -l root -c  'yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils'
 git clone https://opendev.org/openstack/octavia -b master
 pip3 install diskimage-builder
