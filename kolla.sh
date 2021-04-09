@@ -34,10 +34,6 @@ chmod 777 /home/stack
 runuser -l root -c  'su - stack'
 ########################
 
-chmod 777 /tmp/portus-env.sh
-cd /tmp
-. ./portus-env.sh
-
 systemctl restart docker
 docker login -u $PORTUS_USERNAME -p $PORTUS_PASSWORD $MACHINE_FQDN:$REGISTRY_PORT
 

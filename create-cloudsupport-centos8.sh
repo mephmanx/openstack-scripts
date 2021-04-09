@@ -1,6 +1,5 @@
 source ./functions.sh
 source ./iso-functions.sh
-source ./portus-env.sh
 source ./openstack-env.sh
 
 export VM_NAME=cloudsupport
@@ -32,12 +31,6 @@ echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
 cat ./openstack-env.sh >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 ###############################
-
-#########portus env##############
-echo 'cat > /tmp/portus-env.sh <<EOF' >> ${kickstart_file}
-cat ./portus-env.sh >> ${kickstart_file}
-echo 'EOF' >> ${kickstart_file}
-#######################
 
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "${VM_NAME}"
 esxi-scp -H $HOSTNAME -n /var/tmp/$VM_NAME-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos

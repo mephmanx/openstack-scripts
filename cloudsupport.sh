@@ -33,10 +33,6 @@ cd $working_dir
 
 wget -O /root/Portus/docker-compose.yml -d --header="Authorization: Bearer $GITHUB_TOKEN" https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/portus-compose.yml
 
-chmod 777 /tmp/portus-env.sh
-cd /tmp
-. ./portus-env.sh
-
 cd /root/Portus
 sed -i "s/password=portus/password=${PORTUS_PASSWORD}/g" /root/Portus/examples/compose/clair/clair.yml
 

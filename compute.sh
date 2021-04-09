@@ -13,10 +13,6 @@ sleep 5
 runuser -l root -c  "yum install -y https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-18.09.9-3.el7.x86_64.rpm"
 sleep 5
 
-chmod 777 /tmp/portus-env.sh
-cd /tmp
-. ./portus-env.sh
-
 systemctl restart docker
 docker login -u $PORTUS_USERNAME -p $PORTUS_PASSWORD $MACHINE_FQDN:$REGISTRY_PORT
 

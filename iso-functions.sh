@@ -50,12 +50,6 @@ function commonItems {
   echo 'EOF' >> ${kickstart_file}
   ###############################
 
-  #########portus env##############
-  echo 'cat > /tmp/portus-env.sh <<EOF' >> ${kickstart_file}
-  cat ./portus-env.sh >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  #######################
-
   ############### Github Token ################
   echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
   cat ./openstack-env.sh >> ${kickstart_file}
