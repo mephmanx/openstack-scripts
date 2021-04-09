@@ -26,7 +26,7 @@ cat ./concourse-compose.yml >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 #######################
 
-############### Github Token ################
+############### Secrets file ################
 echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
 cat ./openstack-env.sh >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}

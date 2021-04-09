@@ -50,7 +50,7 @@ function commonItems {
   echo 'EOF' >> ${kickstart_file}
   ###############################
 
-  ############### Github Token ################
+  ############### Secrets File ################
   echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
   cat ./openstack-env.sh >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
