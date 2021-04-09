@@ -17,7 +17,7 @@ letsEncryptAndCockpitCerts ${kickstart_file}
 
 ########### add passwords in
 sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
-sed -i 's/{ROOT_PWD}/'$ROOT_PWD'/g' ${kickstart_file}
+sed -i 's/{CENTOS_ROOT_PWD}/'$ROOT_PWD'/g' ${kickstart_file}
 ###########################
 
 #########portus docker compose##############
