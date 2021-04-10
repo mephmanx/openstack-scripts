@@ -1,24 +1,14 @@
 #!/bin/bash
 
-exec 1>/tmp/kolla-install.log 2>&1 # send stdout and stderr from rc.local to a log file
-set -x                             # tell sh to display commands before execution
-
-yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
 chmod 777 /tmp/openstack-env.sh
 cd /tmp
 . ./openstack-env.sh
 
-runuser -l root -c  "yum install -y https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-cli-18.09.9-3.el7.x86_64.rpm"
-sleep 5
-runuser -l root -c  "yum install -y https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-18.09.9-3.el7.x86_64.rpm"
-sleep 5
+. /tmp/vm_functions.sh
 
-mkdir /root/.ssh
-cp /tmp/openstack-setup.key.pub /root/.ssh/authorized_keys
-mv /tmp/openstack-setup.key.pub /root/.ssh/id_rsa.pub
-mv /tmp/openstack-setup.key /root/.ssh/id_rsa
-chmod 600 /root/.ssh/id_rsa
-chmod 600 /root/.ssh/authorized_keys
+#### Common setup
+common_second_boot_setup
+#################
 
 ############ add keys
 working_dir=`pwd`
@@ -34,15 +24,10 @@ chmod 777 /home/stack
 runuser -l root -c  'su - stack'
 ########################
 
-systemctl restart docker
-docker login -u $PORTUS_USERNAME -p $PORTUS_PASSWORD $MACHINE_FQDN:$REGISTRY_PORT
 
 pip3 install --upgrade pip
 pip3 install 'ansible==2.9.10' --ignore-installed
 pip3 install kolla-ansible --ignore-installed
-
-systemctl stop firewalld
-systemctl mask firewalld
 
 mkdir -p /etc/kolla
 
@@ -169,7 +154,6 @@ done
 #####################
 
 ##### get ca password to encrypt key
-
 mkdir -p /etc/kolla/config/octavia
 cp /tmp/client.cert-and-key.pem /etc/kolla/config/octavia
 cp /tmp/client_ca.cert.pem /etc/kolla/config/octavia
@@ -182,7 +166,6 @@ openssl rsa -aes192 -in /etc/kolla/config/octavia/server_ca.key.pem -out /etc/ko
 rm -rf server_ca.key.pem
 mv /etc/kolla/config/octavia/server_ca2.key.pem /etc/kolla/config/octavia/server_ca.key.pem
 chmod 600 /etc/kolla/config/octavia/*.*
-
 #########################
 
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
