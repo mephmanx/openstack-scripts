@@ -159,11 +159,13 @@ done
 #####################################
 
 #### run host trust on all nodes
-while IFS="" read -r p || [ -n "$p" ]
+file=/tmp/host_list
+for i in `cat $file`
 do
-  scp /tmp/host-trust.sh root@$p:/tmp
-  runuser -l root -c "ssh root@$p '/tmp/host-trust.sh'"
-done < /tmp/host_list
+  echo "$i"
+  scp /tmp/host-trust.sh root@$i:/tmp
+  runuser -l root -c "ssh root@$i '/tmp/host-trust.sh'"
+done
 #####################
 
 ##### get ca password to encrypt key
