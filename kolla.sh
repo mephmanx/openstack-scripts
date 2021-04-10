@@ -49,7 +49,6 @@ sed -i "s/kibana_password: .*/kibana_password: ${KIBANA_ADMIN_PWD}/g" /etc/kolla
 #####
 
 ######  prepare storage rings
-#export KOLLA_INTERNAL_ADDRESS=`getent hosts storage01 | awk '{ print $1}'`
 export KOLLA_SWIFT_BASE_IMAGE="kolla/centos-source-swift-base:4.0.0"
 mkdir -p /etc/kolla/config/swift
 # 0 based (ie 0=1, so 2=3)
