@@ -166,6 +166,13 @@ function buildAndPushOpenstackSetupISO {
   commonItems ${kickstart_file}
   ##########################
 
+  ############ certs to enable SSL on VNC
+  echo 'cat > /tmp/haproxy.pem <<EOF' >> ${kickstart_file}
+  cat ./certs/lyonsgroup-wildcard.fullchain >> ${kickstart_file}
+  cat ./certs/lyonsgroup-wildcard.key >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+  #################################
+
   ########## add host trust script
   echo 'cat > /tmp/host-trust.sh <<EOF' >> ${kickstart_file}
   cat /tmp/dns_hosts >> ${kickstart_file}
