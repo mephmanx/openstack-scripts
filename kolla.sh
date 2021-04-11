@@ -24,7 +24,6 @@ chmod 777 /home/stack
 runuser -l root -c  'su - stack'
 ########################
 
-
 pip3 install --upgrade pip
 pip3 install 'ansible==2.9.10' --ignore-installed
 pip3 install kolla-ansible --ignore-installed
@@ -211,13 +210,11 @@ do
   sleep 10
 done
 
-
 cd /usr/local/share/kolla-ansible
 ./init-runonce
 
 export HOME=/home/stack
 cd /tmp
-
 
 #prepare openstack env for CF
 openstack project create cloudfoundry
@@ -283,11 +280,26 @@ cd octavia/diskimage-create
 chmod 777 diskimage-create.sh
 runuser -l root -c  '/tmp/octavia/diskimage-create/diskimage-create.sh'
 
-openstack image create amphora-x64-haproxy --container-format bare --disk-format qcow2 --private --tag amphora --file /root/amphora-x64-haproxy.qcow2 --property hw_architecture='x86_64' --property hw_rng_model=virtio
+openstack image create amphora-x64-haproxy \
+  --container-format bare \
+  --disk-format qcow2 \
+  --private \
+  --tag amphora \
+  --file /root/amphora-x64-haproxy.qcow2 \
+  --property hw_architecture='x86_64' \
+  --property hw_rng_model=virtio
+
 test=`openstack image show 'amphora-x64-haproxy'`
 while [[ "No Image found" == *"$test"* ]]
 do
-  openstack image create amphora-x64-haproxy --container-format bare --disk-format qcow2 --private --tag amphora --file /root/amphora-x64-haproxy.qcow2 --property hw_architecture='x86_64' --property hw_rng_model=virtio
+  openstack image create amphora-x64-haproxy \
+    --container-format bare \
+    --disk-format qcow2 \
+    --private \
+    --tag amphora \
+    --file /root/amphora-x64-haproxy.qcow2 \
+    --property hw_architecture='x86_64' \
+    --property hw_rng_model=virtio
   test=`openstack image show 'amphora-x64-haproxy'`
   sleep 10
 done
@@ -370,7 +382,9 @@ bosh update-cloud-config \
      -v network_id2="$CF_NET_ID" \
      -v network_id3="$CF_NET_ID" \
      /tmp/cf-deployment/iaas-support/openstack/cloud-config.yml -n
-bosh -d cf deploy /tmp/cf-deployment/cf-deployment.yml -o /tmp/cf-deployment/operations/openstack.yml --vars-store /tmp/vars/deployment-vars.yml -v system_domain=app.lyonsgroup.family -n
+bosh -d cf deploy /tmp/cf-deployment/cf-deployment.yml -o /tmp/cf-deployment/operations/openstack.yml \
+  --vars-store /tmp/vars/deployment-vars.yml \
+  -v system_domain=app.lyonsgroup.family -n
 
 #prepare jumpbox access
 #bosh int /opt/stack/vars/jumpbox-vars-store.yml --path /jumpbox_ssh/private_key > jumpbox.key
