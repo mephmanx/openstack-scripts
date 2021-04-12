@@ -272,7 +272,7 @@ openstack_logging_debug: "True"
 #enable_aodh: "no"
 enable_barbican: "yes"
 #enable_blazar: "no"
-#enable_ceilometer: "no"
+enable_ceilometer: "yes"
 #enable_ceilometer_ipmi: "no"
 #enable_cells: "no"
 enable_central_logging: "yes"
@@ -782,7 +782,7 @@ octavia_amp_network:
     enable_dhcp: yes
 
 # Octavia management network subnet CIDR.
-octavia_amp_network_cidr: 172.16.0.0/24
+octavia_amp_network_cidr: 10.10.0/24
 
 octavia_amp_image_tag: "amphora"
 
