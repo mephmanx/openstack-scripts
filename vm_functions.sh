@@ -164,7 +164,6 @@ BOOTPROTO="static"
 GATEWAY=$GATEWAY
 DNS1=$DNS1
 NETMASK=$NETMASK
-NM_CONTROLLED="no"
 EOF
 else
 #dynamic ip addr (use DHCP)
@@ -176,7 +175,6 @@ DEVICE="eth$ct"
 UUID="5844195f-b0d7-4d15-9442-87d1340cca2$ct"
 ONBOOT="yes"
 BOOTPROTO="dhcp"
-NM_CONTROLLED="no"
 EOF
 fi
 
