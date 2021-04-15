@@ -1,14 +1,19 @@
 source ./vm-configurations.sh
 
+LOCAL_ADDRESS_INC=20
+LOCAL_ADDRESS_PREFIX="172.16.0."
+LOCAL_GATEWAY="172.16.0.1"
+
+INTERNAL_ADDRESS_PREFIX="192.168.0."
+INTERNAL_GATEWAY="192.168.0.1"
 INTERNAL_ADDRESS_INC=20
+
+EXTERNAL_ADDRESS_PREFIX="10.0.0."
+EXTERNAL_GATEWAY="10.0.0.1"
 EXTERNAL_ADDRESS_INC=20
 
-INTERNAL_ADDRESS_PREFIX="10.0.0."
-EXTERNAL_ADDRESS_PREFIX="192.168.0."
-INTERNAL_GATEWAY="10.0.0.1"
-EXTERNAL_GATEWAY="192.168.0.1"
 NETMASK="255.255.255.0"
-DEFAULT_ROUTE="External"
+DEFAULT_ROUTE="Internal"
 
 function networkInformation {
   kickstart_file=$1
@@ -37,7 +42,36 @@ function networkInformation {
     default_set="--nodefroute"
     if [[ "${element}" =~ .*"Static".* ]]; then
       ##check if internal or external network and set ip/gateway accordingly
-      if [[ "${element}" =~ .*"Internal".* ]]; then
+      if [[ "${element}" =~ .*"Local".* ]]; then
+
+        ip_addr="${LOCAL_ADDRESS_PREFIX}${LOCAL_ADDRESS_INC}"
+
+        if ! grep -q $host "/tmp/dns_hosts"; then
+          #add localhost entry
+          echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
+          addresses+=($ip_addr)
+        fi
+
+        # If storage address, add to array to build rings later
+        if [[ "$vm_type" == "storage" ]]; then
+          echo "$ip_addr" >> /tmp/storage_hosts
+        fi
+
+        if [[ $DEFAULT_ROUTE == "Local" ]]; then
+          if [[ $default_flag == "0" ]]; then
+            default_set=""
+            network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n")
+            default_flag="1"
+          else
+            network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n")
+          fi
+        else
+          network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n")
+        fi
+
+        ((LOCAL_ADDRESS_INC++))
+
+      else if [[ "${element}" =~ .*"Internal".* ]]; then
         ip_addr="${INTERNAL_ADDRESS_PREFIX}${INTERNAL_ADDRESS_INC}"
 
         if ! grep -q $host "/tmp/dns_hosts"; then
