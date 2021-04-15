@@ -1,8 +1,8 @@
 source ./vm-configurations.sh
 
-LOCAL_ADDRESS_INC=20
 LOCAL_ADDRESS_PREFIX="172.16.0."
 LOCAL_GATEWAY="172.16.0.1"
+LOCAL_ADDRESS_INC=20
 
 INTERNAL_ADDRESS_PREFIX="192.168.0."
 INTERNAL_GATEWAY="192.168.0.1"
@@ -71,7 +71,7 @@ function networkInformation {
 
         ((LOCAL_ADDRESS_INC++))
 
-      else if [[ "${element}" =~ .*"Internal".* ]]; then
+      elif [[ "${element}" =~ .*"Internal".* ]]; then
         ip_addr="${INTERNAL_ADDRESS_PREFIX}${INTERNAL_ADDRESS_INC}"
 
         if ! grep -q $host "/tmp/dns_hosts"; then
