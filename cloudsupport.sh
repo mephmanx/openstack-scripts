@@ -16,6 +16,11 @@ systemctl start docker
 systemctl enable docker
 chkconfig docker on
 
+working_dir=`pwd`
+chmod 777 /tmp/openstack-env.sh
+source ./tmp/openstack-env.sh
+cd $working_dir
+
 systemctl restart docker
 docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD
 
@@ -25,11 +30,6 @@ chmod +x /usr/local/bin/docker-compose
 
 cd /root
 git clone https://github.com/mephmanx/Portus.git
-
-working_dir=`pwd`
-chmod 777 /tmp/openstack-env.sh
-source ./tmp/openstack-env.sh
-cd $working_dir
 
 wget -O /root/Portus/docker-compose.yml -d --header="Authorization: Bearer $GITHUB_TOKEN" https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/portus-compose.yml
 
