@@ -8,7 +8,7 @@ cd /tmp
 
 common_second_boot_setup
 
-######## Put type specific code <<EOF
+######## Put type specific code
 
 wipefs -a /dev/sdb
 sleep 3

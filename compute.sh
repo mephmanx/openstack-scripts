@@ -8,8 +8,9 @@ cd /tmp
 
 common_second_boot_setup
 
-######## Put type specific code <<EOF
+######## Put type specific code
 
+echo 'PROMISC="yes"' >> /etc/sysconfig/network-scripts/ifcfg-eth2
 ############################
 
 cd /etc/init.d
