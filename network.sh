@@ -10,7 +10,7 @@ common_second_boot_setup
 
 ######## Put type specific code
 
-echo 'PROMISC="yes"' >> /etc/sysconfig/network-scripts/ifcfg-eth2
+runuser -l root -c  'echo "PROMISC=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth2'
 ############################
 
 cd /etc/init.d
