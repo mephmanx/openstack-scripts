@@ -10,21 +10,11 @@ common_second_boot_setup
 
 ######## Put type specific code
 
-cat > /usr/lib/systemd/system/netcfg@.service <<EOF
-[Unit]
-Description=Control promiscuous mode for interface %i
-After=network.target
-
-[Service]
-Type=oneshot
-ExecStart=/sbin/ip link set %i promisc on
-ExecStop=/sbin/ip link set %i promisc off
-RemainAfterExit=yes
-
-[Install]
-WantedBy=multi-user.target
+cat > /etc/init.d/rc.local <<EOF
+/sbin/ip link set eth2 promisc on
 EOF
-runuser -l root -c  'systemctl enable netcfg@eth2'
+chmod 777 /etc/init.d/rc.local
+runuser -l root -c  '/sbin/ip link set eth2 promisc on'
 ############################
 
 cd /etc/init.d
