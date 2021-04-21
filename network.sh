@@ -10,7 +10,21 @@ common_second_boot_setup
 
 ######## Put type specific code
 
-runuser -l root -c  'echo "PROMISC=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth2'
+cat > /usr/lib/systemd/system/netcfg@.service <<EOF
+[Unit]
+Description=Control promiscuous mode for interface %i
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/ip link set %i promisc on
+ExecStop=/sbin/ip link set %i promisc off
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+runuser -l root -c  'systemctl enable netcfg@eth2'
 ############################
 
 cd /etc/init.d
