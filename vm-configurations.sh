@@ -80,7 +80,7 @@ function vm_definitions {
             "cpu":"8",
             "memory":"24",
             "drive_string":"HP-SSD:100",
-            "network_string":"Openstack-Local-Static,Openstack-Internal-Static"
+            "network_string":"Openstack-Local-Static,Openstack-Internal-Static,Openstack-External-Static"
           }'
     ;;
   esac
