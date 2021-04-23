@@ -217,6 +217,7 @@ kolla_enable_tls_external: "yes"
 # Backend options
 ##################
 #kolla_httpd_keep_alive: "60"
+#kolla_httpd_timeout: "60"
 
 #####################
 # Backend TLS options
@@ -249,7 +250,7 @@ openstack_region_name: "us-east"
 ###################
 # Use these options to set the various log levels across all OpenStack projects
 # Valid options are [ True, False ]
-openstack_logging_debug: "True"
+#openstack_logging_debug: "False"
 
 # Enable core OpenStack services. This includes:
 # glance, keystone, neutron, nova, heat, and horizon.
@@ -258,6 +259,7 @@ openstack_logging_debug: "True"
 # These roles are required for Kolla to be operation, however a savvy deployer
 # could disable some of these required roles and run their own services.
 #enable_glance: "{{ enable_openstack_core | bool }}"
+#enable_hacluster: "no"
 #enable_haproxy: "yes"
 #enable_keepalived: "{{ enable_haproxy | bool }}"
 #enable_keystone: "{{ enable_openstack_core | bool }}"
@@ -346,12 +348,11 @@ enable_monasca: "yes"
 #enable_murano: "no"
 enable_neutron_vpnaas: "yes"
 #enable_neutron_sriov: "no"
-enable_neutron_dvr: "yes"
+#enable_neutron_dvr: "no"
 #enable_neutron_qos: "no"
-enable_neutron_agent_ha: "yes"
+#enable_neutron_agent_ha: "no"
 #enable_neutron_bgp_dragent: "no"
-# dont enable provider networks unless vlans are configured!  will cause connectivity issues
-enable_neutron_provider_networks: "no"
+#enable_neutron_provider_networks: "no"
 #enable_neutron_segments: "no"
 #enable_neutron_sfc: "no"
 #enable_neutron_trunk: "no"
@@ -361,6 +362,7 @@ enable_neutron_provider_networks: "no"
 #enable_nova_serialconsole_proxy: "no"
 enable_nova_ssh: "yes"
 enable_octavia: "yes"
+#enable_octavia_driver_agent: "{{ enable_octavia | bool and neutron_plugin_agent == 'ovn' }}"
 #enable_openvswitch: "{{ enable_neutron | bool and neutron_plugin_agent != 'linuxbridge' }}"
 #enable_ovn: "{{ enable_neutron | bool and neutron_plugin_agent == 'ovn' }}"
 #enable_ovs_dpdk: "no"
@@ -560,6 +562,9 @@ designate_ns_record: "openstack.lyonsgroup.family"
 # Enable distributed floating ip for OVN deployments
 #neutron_ovn_distributed_fip: "no"
 
+# Enable DHCP agent(s) to use with OVN
+#neutron_ovn_dhcp_agent: "no"
+
 #############################
 # Horizon - Dashboard Options
 #############################
@@ -700,6 +705,9 @@ designate_ns_record: "openstack.lyonsgroup.family"
 #  - host1:port1
 #  - host2:port2
 
+# Whether to keep using Prometheus server v1 (due to no data-preserving migration path to v2)
+#prometheus_use_v1: no
+
 #########
 # Freezer
 #########
@@ -719,7 +727,7 @@ designate_ns_record: "openstack.lyonsgroup.family"
 ##########################################
 # Octavia - openstack loadbalancer Options
 ##########################################
-# Whether to run Kolla-Ansible's automatic configuration for Octavia.
+# Whether to run Kolla Ansible's automatic configuration for Octavia.
 # NOTE: if you upgrade from Ussuri, you must set `octavia_auto_configure` to `no`
 # and keep your other Octavia config like before.
 octavia_auto_configure: yes
@@ -773,6 +781,9 @@ octavia_amp_security_groups:
 # - gateway_ip (optional)
 # - name
 # - no_gateway_ip (optional)
+# - ip_version (optional)
+# - ipv6_address_mode (optional)
+# - ipv6_ra_mode (optional)
 octavia_amp_network:
   name: lb-mgmt-net
   shared: false
@@ -795,3 +806,10 @@ octavia_loadbalancer_topology: "SINGLE"
 #octavia_amp_boot_network_list:
 #octavia_amp_secgroup_list:
 #octavia_amp_flavor_id:
+
+####################
+# Corosync options
+####################
+
+# this is UDP port
+#hacluster_corosync_port: 5405
