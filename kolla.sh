@@ -186,9 +186,9 @@ cd /etc/kolla
 
 export KOLLA_DEBUG=1
 export ENABLE_EXT_NET=1
-#export EXT_NET_CIDR=192.168.1.0/24
-#export EXT_NET_RANGE='start=192.168.1.149,end=192.168.1.220'
-#export EXT_NET_GATEWAY=192.168.1.1
+export EXT_NET_CIDR=192.168.1.0/24
+export EXT_NET_RANGE='start=192.168.1.149,end=192.168.1.220'
+export EXT_NET_GATEWAY=192.168.1.1
 
 #use for loading time as opposed to needing the image
 wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
