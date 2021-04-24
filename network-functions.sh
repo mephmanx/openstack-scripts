@@ -17,6 +17,8 @@ EXTERNAL_ADDRESS_INC=20
 STORAGE_NETWORK="Internal"
 
 NETMASK="255.255.255.0"
+
+#Default route for system internet connection needs to be one of Internal, External, or Local
 DEFAULT_ROUTE="Internal"
 
 function networkInformation {
