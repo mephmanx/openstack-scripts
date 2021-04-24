@@ -35,7 +35,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"24",
             "drive_string":"HP-Disk:200,HP-Disk:300",
-            "network_string":"Openstack-Local-Static,Openstack-Internal-Static"
+            "network_string":"Openstack-Internal-Static"
           }'
     ;;
     "network")
@@ -44,7 +44,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:100",
-            "network_string":"Openstack-Local-Static,Openstack-Internal-Static,Openstack-External-Static"
+            "network_string":"Openstack-Internal-Static,Openstack-External-Static"
           }'
     ;;
     "compute")
@@ -53,7 +53,7 @@ function vm_definitions {
             "cpu":"24",
             "memory":176",
             "drive_string":"HP-SSD:800,HP-Disk:400",
-            "network_string":"Openstack-Local-Static,Openstack-Internal-Static,Openstack-External-Static"
+            "network_string":"Openstack-Internal-Static,Openstack-External-Static"
           }'
     ;;
     "monitoring")
@@ -62,7 +62,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:200",
-            "network_string":"Openstack-Local-Static,Openstack-Internal-Static"
+            "network_string":"Openstack-Internal-Static"
           }'
     ;;
     "storage")
@@ -71,7 +71,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"32",
             "drive_string":"HP-Disk:250,HP-Disk:250,HP-SSD:250,HP-SSD:250,HP-SSD:250",
-            "network_string":"Openstack-Local-Static,Openstack-Internal-Static"
+            "network_string":"Openstack-Internal-Static"
           }'
     ;;
     "kolla")
@@ -80,7 +80,7 @@ function vm_definitions {
             "cpu":"8",
             "memory":"24",
             "drive_string":"HP-SSD:100",
-            "network_string":"Openstack-Local-Static,Openstack-Internal-Static,Openstack-External-Static"
+            "network_string":"Openstack-Internal-Static,Openstack-External-Static"
           }'
     ;;
   esac
