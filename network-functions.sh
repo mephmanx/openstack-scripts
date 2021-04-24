@@ -13,6 +13,8 @@ EXTERNAL_ADDRESS_PREFIX="192.168.1."
 EXTERNAL_GATEWAY="192.168.1.1"
 EXTERNAL_ADDRESS_INC=20
 
+STORAGE_NETWORK="Internal"
+
 NETMASK="255.255.255.0"
 DEFAULT_ROUTE="Internal"
 
@@ -54,8 +56,10 @@ function networkInformation {
         fi
 
         # If storage address, add to array to build rings later
-        if [[ "$vm_type" == "storage" ]]; then
-          echo "$ip_addr" >> /tmp/storage_hosts
+        if [[ "${element}" =~ .*"${STORAGE_NETWORK}".* ]]; then
+          if [[ "$vm_type" == "storage" ]]; then
+            echo "$ip_addr" >> /tmp/storage_hosts
+          fi
         fi
 
         if [[ $DEFAULT_ROUTE == "Local" ]]; then
@@ -81,6 +85,13 @@ function networkInformation {
           addresses+=($ip_addr)
         fi
 
+        # If storage address, add to array to build rings later
+        if [[ "${element}" =~ .*"${STORAGE_NETWORK}".* ]]; then
+          if [[ "$vm_type" == "storage" ]]; then
+            echo "$ip_addr" >> /tmp/storage_hosts
+          fi
+        fi
+
         if [[ $DEFAULT_ROUTE == "Internal" ]]; then
           if [[ $default_flag == "0" ]]; then
             default_set=""
@@ -101,6 +112,13 @@ function networkInformation {
           #add localhost entry
           echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
           addresses+=($ip_addr)
+        fi
+
+        # If storage address, add to array to build rings later
+        if [[ "${element}" =~ .*"${STORAGE_NETWORK}".* ]]; then
+          if [[ "$vm_type" == "storage" ]]; then
+            echo "$ip_addr" >> /tmp/storage_hosts
+          fi
         fi
 
         if [[ $DEFAULT_ROUTE == "External" ]]; then
