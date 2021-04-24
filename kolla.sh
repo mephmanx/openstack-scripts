@@ -184,7 +184,7 @@ cd $working_dir
 cd /etc/kolla
 . ./admin-openrc.sh
 
-export KOLLA_DEBUG=1
+export KOLLA_DEBUG=0
 export ENABLE_EXT_NET=1
 export EXT_NET_CIDR=192.168.0.0/24
 export EXT_NET_RANGE='start=192.168.0.149,end=192.168.0.220'
