@@ -49,7 +49,6 @@ function networkInformation {
     if [[ "${element}" =~ .*"Static".* ]]; then
       ##check if internal or external network and set ip/gateway accordingly
       if [[ "${element}" =~ .*"Local".* ]]; then
-
         ip_addr="${LOCAL_ADDRESS_PREFIX}${LOCAL_ADDRESS_INC}"
 
         if ! grep -q $host "/tmp/dns_hosts"; then
