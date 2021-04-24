@@ -58,7 +58,7 @@ function networkInformation {
         fi
 
         # If storage address, add to array to build rings later
-        if [[ "${element}" =~ .*"${STORAGE_NETWORK}".* ]]; then
+        if [[ "${element}" =~ .*"$STORAGE_NETWORK".* ]]; then
           if [[ "$vm_type" == "storage" ]]; then
             echo "$ip_addr" >> /tmp/storage_hosts
           fi
@@ -88,7 +88,7 @@ function networkInformation {
         fi
 
         # If storage address, add to array to build rings later
-        if [[ "${element}" =~ .*"${STORAGE_NETWORK}".* ]]; then
+        if [[ "${element}" =~ .*"$STORAGE_NETWORK".* ]]; then
           if [[ "$vm_type" == "storage" ]]; then
             echo "$ip_addr" >> /tmp/storage_hosts
           fi
@@ -117,7 +117,7 @@ function networkInformation {
         fi
 
         # If storage address, add to array to build rings later
-        if [[ "${element}" =~ .*"${STORAGE_NETWORK}".* ]]; then
+        if [[ "${element}" =~ .*"$STORAGE_NETWORK".* ]]; then
           if [[ "$vm_type" == "storage" ]]; then
             echo "$ip_addr" >> /tmp/storage_hosts
           fi
