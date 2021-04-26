@@ -1,3 +1,5 @@
+CENTOS_STREAM_SOURCE=http://centos.host-engine.com/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-20210421-boot.iso
+CENTOS_8_FALLBACK=http://mirrors.oit.uci.edu/centos/8.2.2004/isos/x86_64/CentOS-8.2.2004-x86_64-minimal.iso
 
 function setupENV {
   export HOSTNAME=$1
@@ -5,14 +7,28 @@ function setupENV {
   export DISK_NAME=HP-Disk
   rm -rf /var/tmp/*.*
 
+  if [ -f "/tmp/centos8-stream-base.iso" ]; then
+    wget -O /tmp/centos8-stream-base.iso $CENTOS_STREAM_SOURCE
+  fi
+
+  cd /root
+  rm -rf /root/centos-8-minimal
+  git clone https://github.com/mephmanx/centos-8-minimal.git
+  cd /root/centos-8-minimal
+
+  CMISO='/tmp/centos8-stream-base.iso'
+  ./bootstrap.sh run
+
   sudo yum install epel-release -y
   sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
 
-  if [ -f "/tmp/centos8.iso" ]; then
+  if [ -f "/tmp/CentOS-Stream-Minimal.iso" ]; then
       echo "$FILE exists."
   else
-    curl -o /tmp/centos8.iso http://mirrors.oit.uci.edu/centos/8.2.2004/isos/x86_64/CentOS-8.2.2004-x86_64-minimal.iso
+    curl -o /tmp/CentOS-Stream-Minimal.iso $CENTOS_8_FALLBACK
   fi
+
+  mv /tmp/CentOS-Stream-Minimal.iso /tmp/centos8.iso
 
   sudo rm -rf /centos
   sudo mkdir -p /centos
