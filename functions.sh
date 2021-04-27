@@ -7,6 +7,10 @@ function setupENV {
   export DISK_NAME=HP-Disk
   rm -rf /var/tmp/*.*
 
+  if [ -f "/tmp/centos8.iso" ]; then
+    return;
+  fi
+
   if [ -f "/tmp/centos8-stream-base.iso" ]; then
     wget -O /tmp/centos8-stream-base.iso $CENTOS_STREAM_SOURCE
   fi
