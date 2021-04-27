@@ -62,7 +62,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:200",
-            "network_string":"Openstack-Local-Static"
+            "network_string":"Openstack-Local-Static,Openstack-Internal-Static"
           }'
     ;;
     "storage")
@@ -71,7 +71,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"32",
             "drive_string":"HP-Disk:250,HP-Disk:250,HP-SSD:250,HP-SSD:250,HP-SSD:250",
-            "network_string":"Openstack-Local-Static"
+            "network_string":"Openstack-Local-Static,Openstack-Internal-Static"
           }'
     ;;
     "kolla")
@@ -80,7 +80,7 @@ function vm_definitions {
             "cpu":"8",
             "memory":"24",
             "drive_string":"HP-SSD:100",
-            "network_string":"Openstack-Local-Static"
+            "network_string":"Openstack-Local-Static,Openstack-Internal-Static"
           }'
     ;;
   esac
