@@ -1,5 +1,9 @@
 CENTOS_STREAM_SOURCE=http://centos.host-engine.com/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-20210421-boot.iso
-CENTOS_8_FALLBACK=http://mirrors.oit.uci.edu/centos/8.2.2004/isos/x86_64/CentOS-8.2.2004-x86_64-minimal.iso
+CENTOS_8=http://mirrors.oit.uci.edu/centos/8.2.2004/isos/x86_64/CentOS-8.2.2004-x86_64-minimal.iso
+ALMA_LINUX=http://mirror.vtti.vt.edu/almalinux/8.3/isos/x86_64/AlmaLinux-8.3-x86_64-minimal.iso
+
+# versions supported 1 - CentOS 8, 2 - CentOS 8 Stream, 3 - Alma Linux 8
+LINUX_VERSION=3
 
 function setupENV {
   export HOSTNAME=$1
@@ -7,32 +11,36 @@ function setupENV {
   export DISK_NAME=HP-Disk
   rm -rf /var/tmp/*.*
 
+  sudo yum install epel-release -y
+  sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
+
   if [ -f "/tmp/centos8.iso" ]; then
     return;
   fi
 
-  if [ -f "/tmp/centos8-stream-base.iso" ]; then
-    wget -O /tmp/centos8-stream-base.iso $CENTOS_STREAM_SOURCE
-  fi
+  case ${LINUX_VERSION} in
+    1)
+      curl -o /tmp/centos8.iso $CENTOS_8
+    ;;
+    2)
+      cd /root
+      rm -rf /root/centos-8-minimal
+      git clone https://github.com/mephmanx/centos-8-minimal.git
+      cd /root/centos-8-minimal
 
-  cd /root
-  rm -rf /root/centos-8-minimal
-  git clone https://github.com/mephmanx/centos-8-minimal.git
-  cd /root/centos-8-minimal
+      if [ -f "/tmp/centos8-stream-base.iso" ]; then
+        wget -O /tmp/centos8-stream-base.iso $CENTOS_STREAM_SOURCE
+      fi
 
-  CMISO='/tmp/centos8-stream-base.iso'
-  ./bootstrap.sh run
+      CMISO='/tmp/centos8-stream-base.iso'
+      ./bootstrap.sh run
 
-  sudo yum install epel-release -y
-  sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
-
-  if [ -f "/tmp/CentOS-Stream-Minimal.iso" ]; then
-      echo "$FILE exists."
-  else
-    curl -o /tmp/CentOS-Stream-Minimal.iso $CENTOS_8_FALLBACK
-  fi
-
-  mv /tmp/CentOS-Stream-Minimal.iso /tmp/centos8.iso
+      mv /tmp/CentOS-Stream-Minimal.iso /tmp/centos8.iso
+    ;;
+    3)
+      curl -o /tmp/centos8.iso $ALMA_LINUX
+    ;;
+  esac
 
   sudo rm -rf /centos
   sudo mkdir -p /centos
