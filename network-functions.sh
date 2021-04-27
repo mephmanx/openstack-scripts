@@ -13,10 +13,10 @@ EXTERNAL_ADDRESS_PREFIX="192.168.1."
 EXTERNAL_GATEWAY="192.168.1.1"
 EXTERNAL_ADDRESS_INC=20
 
+NETMASK="255.255.255.0"
+
 #Storage network needs to be one of Internal, External, or Local
 STORAGE_NETWORK="Local"
-
-NETMASK="255.255.255.0"
 
 #Default route for system internet connection needs to be one of Internal, External, or Local
 DEFAULT_ROUTE="Internal"
