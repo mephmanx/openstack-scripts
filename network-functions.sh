@@ -14,7 +14,7 @@ EXTERNAL_GATEWAY="192.168.1.1"
 EXTERNAL_ADDRESS_INC=20
 
 #Storage network needs to be one of Internal, External, or Local
-STORAGE_NETWORK="Internal"
+STORAGE_NETWORK="Local"
 
 NETMASK="255.255.255.0"
 
