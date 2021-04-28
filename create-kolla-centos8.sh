@@ -34,10 +34,10 @@ chmod 777 /tmp/global_addresses.sh
 
 #################### Global address setup
 INTERNAL_VIP="10.0.20.254"
-INTERNAL_VIP_DNS="app-internal.lyonsgroup.family"
+INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$DOMAIN_NAME"
 
 EXTERNAL_VIP="192.168.0.252"
-EXTERNAL_VIP_DNS="app-external.lyonsgroup.family"
+EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME"
 
 CLOUDSUPPORT_VIP="10.0.20.200"
 
