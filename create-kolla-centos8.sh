@@ -28,10 +28,32 @@ touch /tmp/host_list
 chmod 777 /tmp/host_list
 ####################
 
+#################### Global address setup
+INTERNAL_VIP="10.0.20.254"
+INTERNAL_VIP_DNS="app-internal.lyonsgroup.family"
+
+EXTERNAL_VIP="192.168.0.252"
+EXTERNAL_VIP_DNS="app-external.lyonsgroup.family"
+
+CLOUDSUPPORT_VIP="10.0.20.200"
+CLOUDSUPPORT_VIP_DNS="cloudsupport.lyonsgroup.family"
+
+rm -rf /tmp/global_addresses.sh
+touch /tmp/global_addresses.sh
+chmod 777 /tmp/global_addresses.sh
+
+echo "INTERNAL_VIP=$INTERNAL_VIP"
+echo "INTERNAL_VIP_DNS=$INTERNAL_VIP_DNS"
+echo "EXTERNAL_VIP=$EXTERNAL_VIP"
+echo "EXTERNAL_VIP_DNS=$EXTERNAL_VIP_DNS"
+echo "CLOUDSUPPORT_VIP=$CLOUDSUPPORT_VIP"
+echo "CLOUDSUPPORT_VIP_DNS=$CLOUDSUPPORT_VIP_DNS"
+##############################################
+
 #### setup static network local DNS entries
-echo "echo '192.168.0.252 app-external.lyonsgroup.family' >> /etc/hosts;" >> /tmp/dns_hosts
-echo "echo '10.0.20.254 app-internal.lyonsgroup.family' >> /etc/hosts;" >> /tmp/dns_hosts
-echo "echo '10.0.20.200 cloudsupport.lyonsgroup.family' >> /etc/hosts;" >> /tmp/dns_hosts
+echo "echo '$EXTERNAL_VIP $EXTERNAL_VIP_DNS' >> /etc/hosts;" >> /tmp/dns_hosts
+echo "echo '$INTERNAL_VIP $INTERNAL_VIP_DNS' >> /etc/hosts;" >> /tmp/dns_hosts
+echo "echo '$CLOUDSUPPORT_VIP $CLOUDSUPPORT_VIP_DNS' >> /etc/hosts;" >> /tmp/dns_hosts
 #########################
 
 ######### Openstack VM types
