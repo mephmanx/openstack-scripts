@@ -20,9 +20,11 @@ function setupENV {
 
   case ${LINUX_VERSION} in
     1)
+      echo "Using CentOS 8"
       curl -o /tmp/centos8.iso $CENTOS_8
     ;;
     2)
+      echo "Using CentOS 8 Stream"
       cd /root
       rm -rf /root/centos-8-minimal
       git clone https://github.com/mephmanx/centos-8-minimal.git
@@ -38,6 +40,7 @@ function setupENV {
       mv /tmp/CentOS-Stream-Minimal.iso /tmp/centos8.iso
     ;;
     3)
+      echo "Using Alma Linux 8"
       curl -o /tmp/centos8.iso $ALMA_LINUX
     ;;
   esac
