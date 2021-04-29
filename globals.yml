@@ -63,9 +63,9 @@ monasca_install_type: "source"
 ################
 
 # Custom docker registry settings:
-docker_registry: cloudsupport.lyonsgroup.family:4000
+docker_registry: cloudsupport.lyonsgroup.family
 docker_registry_insecure: "no"
-docker_registry_username: openstack
+docker_registry_username: admin
 #docker_registry_password is set in the passwords.yml file.
 
 # Namespace of images:
