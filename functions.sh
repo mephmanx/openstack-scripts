@@ -31,6 +31,8 @@ function setupENV {
       cd /root/centos-8-minimal
 
       if [ -f "/tmp/centos8-stream-base.iso" ]; then
+        echo "CentOS 8 Stream Base exists"
+      else
         wget -O /tmp/centos8-stream-base.iso $CENTOS_STREAM
       fi
 
