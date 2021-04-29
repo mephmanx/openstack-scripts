@@ -3,7 +3,7 @@ CENTOS_8=http://mirrors.oit.uci.edu/centos/8.2.2004/isos/x86_64/CentOS-8.2.2004-
 ALMA_LINUX=http://mirror.vtti.vt.edu/almalinux/8.3/isos/x86_64/AlmaLinux-8.3-x86_64-minimal.iso
 
 # versions supported 1 - CentOS 8, 2 - CentOS 8 Stream, 3 - Alma Linux 8
-LINUX_VERSION=2
+LINUX_VERSION=1
 
 function setupENV {
   export HOSTNAME=$1
