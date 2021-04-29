@@ -39,6 +39,7 @@ wget -O /root/harbor/harbor.yml -d --header="Authorization: Bearer $GITHUB_TOKEN
 sed -i "s/{MACHINE_FQDN}/${MACHINE_FQDN}/g" /root/harbor/harbor.yml
 sed -i "s/{PORTUS_PASSWORD}/${PORTUS_PASSWORD}/g" /root/harbor/harbor.yml
 sed -i "s/{DATABASE_PASSWORD}/${DATABASE_PASSWORD}/g" /root/harbor/harbor.yml
+cd /root/harbor
 
 ./install.sh --with-notary --with-trivy --with-chartmuseum
 
