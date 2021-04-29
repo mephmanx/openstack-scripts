@@ -49,9 +49,9 @@ echo "CLOUDSUPPORT_VIP=$CLOUDSUPPORT_VIP"
 ##############################################
 
 #### setup static network local DNS entries
-echo "echo '$EXTERNAL_VIP $EXTERNAL_VIP_DNS' >> /etc/hosts;" >> /tmp/dns_hosts
-echo "echo '$INTERNAL_VIP $INTERNAL_VIP_DNS' >> /etc/hosts;" >> /tmp/dns_hosts
-echo "echo '$CLOUDSUPPORT_VIP $MACHINE_FQDN' >> /etc/hosts;" >> /tmp/dns_hosts
+echo "echo 'export $EXTERNAL_VIP=$EXTERNAL_VIP_DNS' >> /tmp/global_addresses.sh;" >> /tmp/dns_hosts
+echo "echo 'export $INTERNAL_VIP=$INTERNAL_VIP_DNS' >> /tmp/global_addresses.sh;" >> /tmp/dns_hosts
+echo "echo 'export $CLOUDSUPPORT_VIP=$MACHINE_FQDN' >> /tmp/global_addresses.sh;" >> /tmp/dns_hosts
 #########################
 
 ######### Openstack VM types
