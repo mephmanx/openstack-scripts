@@ -223,6 +223,11 @@ function common_second_boot_setup() {
   chmod 600 /root/.ssh/id_rsa
   chmod 600 /root/.ssh/authorized_keys
 
+  working_dir=`pwd`
+  chmod 777 /tmp/global_addresses.sh
+  source ./tmp/global_addresses.sh
+  cd $working_dir
+
   systemctl stop firewalld
   systemctl mask firewalld
 }
