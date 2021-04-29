@@ -36,7 +36,7 @@ function setupENV {
         wget -O /tmp/centos8-stream-base.iso $CENTOS_STREAM
       fi
 
-      CMISO='/tmp/centos8-stream-base.iso'
+      export CMISO='/tmp/centos8-stream-base.iso'
       ./bootstrap.sh run
 
       mv /tmp/CentOS-Stream-Minimal.iso /tmp/centos8.iso
