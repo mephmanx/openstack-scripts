@@ -37,9 +37,10 @@ function setupENV {
       fi
 
       export CMISO='/tmp/centos8-stream-base.iso'
+      export CMOUT='CentOS-Stream-Minimal.iso'
       ./bootstrap.sh run
 
-      mv /tmp/CentOS-Stream-Minimal.iso /tmp/centos8.iso
+      mv /root/centos-8-minimal/CentOS-Stream-Minimal.iso /tmp/centos8.iso
     ;;
     3)
       echo "Using Alma Linux 8"
