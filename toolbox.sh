@@ -12,7 +12,7 @@ cp -r /root/openstack-scripts/*.sh /root/openstack-setup;
 cp /root/openstack-scripts/*.cfg /root/openstack-setup;
 
 cd /root/openstack-setup
-/root/openstack-setup/$2/create-$2-centos8.sh 192.168.3.100 $3;
+/root/openstack-setup/$1/create-$2.sh 192.168.3.100 $3;
 
 END)
 
