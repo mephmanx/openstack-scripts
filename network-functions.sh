@@ -9,6 +9,7 @@ INTERNAL_ADDRESS_PREFIX="192.168.1."
 INTERNAL_GATEWAY="192.168.1.1"
 INTERNAL_ADDRESS_INC=20
 
+#do not use external address unless it is a DIRECT connection to the public internet, not through router
 EXTERNAL_ADDRESS_PREFIX="192.168.1."
 EXTERNAL_GATEWAY="192.168.1.1"
 EXTERNAL_ADDRESS_INC=20
