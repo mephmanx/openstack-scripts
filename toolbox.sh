@@ -8,7 +8,9 @@ rm -rf /root/openstack-scripts;
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git /root/openstack-setup;
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git /root/openstack-scripts;
 
-cp -R /root/openstack-scripts/*.sh /root/openstack-setup;
+cp -r /root/openstack-scripts/*.sh /root/openstack-setup;
+cp -r /root/openstack-scripts/esxi/*.sh /root/openstack-setup;
+cp -r /root/openstack-scripts/kvm/*.sh /root/openstack-setup;
 cp /root/openstack-scripts/*.cfg /root/openstack-setup;
 
 cd /root/openstack-setup
