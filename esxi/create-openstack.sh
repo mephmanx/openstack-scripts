@@ -114,12 +114,12 @@ for d in "${vms[@]}"; do
   echo "removing vm -> $d"
   printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-  removeVMESXi $2 ${d}
+  removeVM $2 ${d}
   sleep 15
 done
 
 ########## remove kolla
-removeVMESXi $2 "kolla"
+removeVM $2 "kolla"
 ####################
 
 ############  Build and push custom iso's for VM types
