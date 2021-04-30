@@ -137,7 +137,7 @@ function buildVMTypeISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} ${1}
-  pushISO -H $HOSTNAME -n /var/tmp/{$1}-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
+  pushISO $HOSTNAME
 }
 
 function buildOpenstackSetupISO {
@@ -216,5 +216,5 @@ function buildOpenstackSetupISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla"
-  pushISO -H $HOSTNAME -n /var/tmp/kolla-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
+  pushISO $HOSTNAME
 }

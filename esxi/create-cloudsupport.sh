@@ -7,7 +7,7 @@ export VM_NAME=cloudsupport
 setupENV
 
 ########  ESXi password arg #2
-removeVMESXi $2 $VM_NAME
+removeVM $2 $VM_NAME
 installESXiTools
 
 IFS=
