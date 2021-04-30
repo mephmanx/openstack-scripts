@@ -1,6 +1,6 @@
 source ./esxi/esxi-functions.sh
-source ../iso-functions.sh
-source ../openstack-env.sh
+source ./iso-functions.sh
+source ./openstack-env.sh
 
 export VM_NAME=cloudsupport
 

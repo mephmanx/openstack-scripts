@@ -1,7 +1,7 @@
 source ./kvm/kvm-functions.sh
-source ../iso-functions.sh
-source ../vm-configurations.sh
-source ../openstack-env.sh
+source ./iso-functions.sh
+source ./vm-configurations.sh
+source ./openstack-env.sh
 
 setupENV
 
