@@ -225,8 +225,7 @@ function common_second_boot_setup() {
 
   working_dir=`pwd`
   chmod 777 /tmp/global_addresses.sh
-  cd /tmp
-  source ./global_addresses.sh
+  source /tmp/global_addresses.sh
   cd $working_dir
 
   systemctl stop firewalld
