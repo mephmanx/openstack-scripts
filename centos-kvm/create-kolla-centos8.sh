@@ -1,12 +1,9 @@
-source ./functions.sh
-source ./iso-functions.sh
-source ./vm-configurations.sh
-source ./openstack-env.sh
+source ./centos-functions.sh
+source ../iso-functions.sh
+source ../vm-configurations.sh
+source ../openstack-env.sh
 
-#### ESXi hostname #1 VM Name arg #2
-setupENV $1
-########  ESXi password arg #2
-installESXiTools
+setupENV
 
 IFS=
 ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
@@ -112,7 +109,8 @@ for d in "${vms[@]}"; do
   echo "removing vm -> $d"
   printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-  removeVM $2 ${d}
+#  removeVM $2 ${d}
+  #implement remove VM from virt manager
   sleep 15
 done
 

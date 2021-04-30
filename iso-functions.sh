@@ -80,6 +80,9 @@ function initialKickstartSetup {
 }
 
 function closeOutAndBuildKickstartAndISO {
+  sudo yum install epel-release -y
+  sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
+
   working_dir=`pwd`
   #### to allow certs to print right
   IFS=
@@ -119,7 +122,7 @@ function closeOutAndBuildKickstartAndISO {
   cd $working_dir
 }
 
-function buildAndPushVMTypeISO {
+function buildVMTypeISO {
   ############### kickstart init
   initialKickstartSetup $1
   ###########################
@@ -134,10 +137,10 @@ function buildAndPushVMTypeISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} ${1}
-  esxi-scp -H $HOSTNAME -n /var/tmp/${1}-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
+  pushISO -H $HOSTNAME -n /var/tmp/{$1}-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
 }
 
-function buildAndPushOpenstackSetupISO {
+function buildOpenstackSetupISO {
 
   ############### kickstart init
   initialKickstartSetup "kolla"
@@ -213,5 +216,5 @@ function buildAndPushOpenstackSetupISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla"
-  esxi-scp -H $HOSTNAME -n /var/tmp/kolla-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
+  pushISO -H $HOSTNAME -n /var/tmp/kolla-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
 }

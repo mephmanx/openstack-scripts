@@ -1,12 +1,13 @@
-source ./functions.sh
-source ./iso-functions.sh
-source ./openstack-env.sh
+source ./centos-functions.sh
+source ../iso-functions.sh
+source ../openstack-env.sh
 
 export VM_NAME=cloudsupport
-#### ESXi hostname #1 VM Name arg #2
-setupENV $1
+
+setupENV
+
 ########  ESXi password arg #2
-removeVM $2 $VM_NAME
+removeVMESXi $2 $VM_NAME
 installESXiTools
 
 IFS=
