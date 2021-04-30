@@ -44,11 +44,11 @@ CLOUDSUPPORT_VIP="10.0.20.200"
 ##############################################
 
 #### setup static network local DNS entries
-echo "echo 'export EXTERNAL_VIP=$EXTERNAL_VIP' >> /tmp/global_addresses.sh;" >> /tmp/global_addresses.sh
-echo "echo 'export INTERNAL_VIP=$INTERNAL_VIP' >> /tmp/global_addresses.sh;" >> /tmp/global_addresses.sh
-echo "echo 'export EXTERNAL_VIP_DNS=$EXTERNAL_VIP_DNS' >> /tmp/global_addresses.sh;" >> /tmp/global_addresses.sh
-echo "echo 'export INTERNAL_VIP_DNS=$INTERNAL_VIP_DNS' >> /tmp/global_addresses.sh;" >> /tmp/global_addresses.sh
-echo "echo 'export CLOUDSUPPORT_VIP=$MACHINE_FQDN' >> /tmp/global_addresses.sh;" >> /tmp/global_addresses.sh
+echo "echo 'export EXTERNAL_VIP=$EXTERNAL_VIP'" >> /tmp/global_addresses.sh
+echo "echo 'export INTERNAL_VIP=$INTERNAL_VIP'" >> /tmp/global_addresses.sh
+echo "echo 'export EXTERNAL_VIP_DNS=$EXTERNAL_VIP_DNS'" >> /tmp/global_addresses.sh
+echo "echo 'export INTERNAL_VIP_DNS=$INTERNAL_VIP_DNS'" >> /tmp/global_addresses.sh
+echo "echo 'export CLOUDSUPPORT_VIP=$MACHINE_FQDN'" >> /tmp/global_addresses.sh
 #########################
 
 ######### Openstack VM types
