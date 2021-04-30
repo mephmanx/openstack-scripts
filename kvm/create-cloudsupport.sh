@@ -1,4 +1,4 @@
-source ./centos-functions.sh
+source ./kvm-functions.sh
 source ../iso-functions.sh
 source ../openstack-env.sh
 
