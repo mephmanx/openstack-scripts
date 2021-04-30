@@ -1,4 +1,4 @@
-source ./esxi-functions.sh
+source ./esxi/esxi-functions.sh
 source ../iso-functions.sh
 source ../openstack-env.sh
 

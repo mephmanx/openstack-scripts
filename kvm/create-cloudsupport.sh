@@ -1,4 +1,4 @@
-source ./kvm-functions.sh
+source ./kvm/kvm-functions.sh
 source ../iso-functions.sh
 source ../openstack-env.sh
 
