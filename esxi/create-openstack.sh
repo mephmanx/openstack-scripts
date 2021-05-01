@@ -33,12 +33,6 @@ touch /tmp/global_addresses.sh
 chmod 777 /tmp/global_addresses.sh
 ####################
 
-#################### Global address setup
-INTERNAL_VIP="10.0.20.254"
-EXTERNAL_VIP="192.168.1.252"
-
-##############################################
-
 #### setup static network local DNS entries
 echo "export EXTERNAL_VIP=$EXTERNAL_VIP" >> /tmp/global_addresses.sh
 echo "export INTERNAL_VIP=$INTERNAL_VIP" >> /tmp/global_addresses.sh
