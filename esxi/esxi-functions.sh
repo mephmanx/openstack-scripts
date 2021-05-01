@@ -99,7 +99,7 @@ function pushISO {
 
   printf -v vm_type_n '%s\n' "${1//[[:digit:]]/}"
   VM_TYPE=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-
+  echo "Pushing ISO to ESXi host -> " $HOSTNAME
   esxi-scp -H $HOSTNAME -n /var/tmp/$HOSTNAME-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
 }
 
