@@ -27,19 +27,7 @@ chmod 777 /tmp/storage_hosts
 rm -rf /tmp/host_list
 touch /tmp/host_list
 chmod 777 /tmp/host_list
-
-rm -rf /tmp/global_addresses.sh
-touch /tmp/global_addresses.sh
-chmod 777 /tmp/global_addresses.sh
-####################
-
-#### setup static network local DNS entries
-echo "export EXTERNAL_VIP=$EXTERNAL_VIP" >> /tmp/global_addresses.sh
-echo "export INTERNAL_VIP=$INTERNAL_VIP" >> /tmp/global_addresses.sh
-echo "export EXTERNAL_VIP_DNS=$APP_INTERNAL_HOSTNAME.$DOMAIN_NAME" >> /tmp/global_addresses.sh
-echo "export INTERNAL_VIP_DNS=$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME" >> /tmp/global_addresses.sh
-echo "export CLOUDSUPPORT_VIP=$SUPPORT_HOST" >> /tmp/global_addresses.sh
-#########################
+##################################
 
 ######### Openstack VM types
 

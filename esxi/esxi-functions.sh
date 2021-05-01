@@ -7,6 +7,9 @@ ALMA_LINUX=https://repo.almalinux.org/almalinux/8.3/isos/x86_64/AlmaLinux-8.3-x8
 # versions supported 1 - CentOS 8, 2 - CentOS 8 Stream, 3 - Alma Linux 8
 LINUX_VERSION=1
 
+# What disk to store ISO's on
+ISO_DISK_NAME=HP-Disk
+
 function setupENV {
   rm -rf /var/tmp/*.*
 
@@ -83,7 +86,7 @@ function removeVM {
 
 function pushISO {
   HOSTNAME=$1
-  ISO_DISK_NAME=HP-Disk
+
 
   printf -v vm_type_n '%s\n' "${1//[[:digit:]]/}"
   VM_TYPE=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
