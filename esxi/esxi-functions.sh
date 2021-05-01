@@ -72,21 +72,26 @@ function installESXiTools {
 }
 
 function removeVM {
+  ESXI_HOSTNAME=$1
+  VM_NAME=$2
+  ESXI_PASSWORD=$3
+  DRIVE_LOCATION=$4
+
   rm -rf ~/.esxi-vm.yml
   #update ESXi defaults for ESXi library
-  esxi-vm-create -H $HOSTNAME -P $1 -u
+  esxi-vm-create -H $ESXI_HOSTNAME -P $ESXI_PASSWORD -u
   #remove VM from esxi
-  esxi-vm-destroy -n $2
+  esxi-vm-destroy -n $VM_NAME
   sleep 15
   #remove iso from ESXI datastore
-  esxi-scp-remove -H $HOSTNAME -n $2-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
+  esxi-scp-remove -H $ESXI_HOSTNAME -n $VM_NAME-iso.iso -l /vmfs/volumes/$DRIVE_LOCATION/isos
   #remove VM directory
-  esxi-scp-remove -H $HOSTNAME -n $2 -l /vmfs/volumes/$DISK_NAME
+  esxi-scp-remove -H $ESXI_HOSTNAME -n $VM_NAME -l /vmfs/volumes/$DRIVE_LOCATION
 }
 
 function pushISO {
   HOSTNAME=$1
-
+  ISO_DISK_NAME=$2
 
   printf -v vm_type_n '%s\n' "${1//[[:digit:]]/}"
   VM_TYPE=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
@@ -95,6 +100,14 @@ function pushISO {
 }
 
 function create_vm_esxi {
+  ESXI_HOSTNAME=$1
+  VM_NAME=$2
+  ESXI_PASSWORD=$3
+  DRIVE_LOCATION=$4
+  VM_TYPE=$5
+  VM_DISK_NAME=$6
+  ISO_DISK_NAME=$7
+
   option="${1}"
 
   vmstr=$(vm_definitions "$option")
@@ -104,9 +117,9 @@ function create_vm_esxi {
   drive_string=$(parse_json "$vm_str" "drive_string")
   network_string=$(parse_json "$vm_str" "network_string")
 
-  echo "creating VM name -> $2 type -> $1"
-  esxi-vm-create -n ${2} --summary --iso /vmfs/volumes/$ISO_DISK_NAME/isos/$2-iso.iso \
-          -c $cpu_ct -m $memory_ct -S $DISK_NAME -v $drive_string -V \
+  echo "creating VM name -> $VM_NAME type -> $VM_TYPE"
+  esxi-vm-create -n ${2} --summary --iso /vmfs/volumes/$ISO_DISK_NAME/isos/$VM_NAME-iso.iso \
+          -c $cpu_ct -m $memory_ct -S $VM_DISK_NAME -v $drive_string -V \
           -N $network_string -o 'cpuid.coresPerSocket = "2",
               vhv.enable = "TRUE",
               vvtd.enable = "TRUE",

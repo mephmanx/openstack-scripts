@@ -4,9 +4,17 @@ source ./vm-configurations.sh
 source ./openstack-env.sh
 
 #### ESXi hostname #1 VM Name arg #2
+ESXI_HOSTNAME=$1
+VM_NAME=$2
+ESXI_PASSWORD=$3
+ESXI_DRIVE_LOCATION=$4
+
+echo "Hostname -> " $ESXI_HOSTNAME
+echo "VM_NAME -> " $VM_NAME
+echo "ESXI_PWD -> " $ESXI_PASSWORD
+echo "DRIVE_LOCATION -> " $ESXI_DRIVE_LOCATION
 
 setupENV
-########  ESXi password arg #2
 installESXiTools
 
 IFS=
@@ -90,12 +98,12 @@ for d in "${vms[@]}"; do
   echo "removing vm -> $d"
   printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-  removeVM $2 ${d}
+  removeVM $ESXI_HOSTNAME ${d} $ESXI_PASSWORD "/vmfs/volumes/$ESXI_DRIVE_LOCATION"
   sleep 15
 done
 
 ########## remove kolla
-removeVM $2 "kolla"
+removeVM $ESXI_HOSTNAME "kolla" $ESXI_PASSWORD "/vmfs/volumes/$ESXI_DRIVE_LOCATION"
 ####################
 
 ############  Build and push custom iso's for VM types
@@ -111,7 +119,7 @@ for d in "${vms[@]}"; do
   printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
   echo "creating vm of type -> $vm_type"
-  create_vm_esxi $vm_type $d
+  create_vm_esxi $ESXI_HOSTNAME ${vms[@]} $ESXI_PASSWORD $ESXI_DRIVE_LOATION $vm_type "HP-Disk" "HP-Disk"
   sleep 30
   ((index++))
 done
@@ -121,7 +129,7 @@ printf -v host_trust_string '%s ' "${host_trust_script[@]}"
 printf -v control_hack_string '%s ' "${control_hack_script[@]}"
 echo "creating openstack setup vm"
 buildAndPushOpenstackSetupISO "$host_trust_string" "$control_hack_string" "$(($(getVMCount "control") + $(getVMCount "network") + $(getVMCount "compute") + $(getVMCount "monitoring") + $(getVMCount "storage")))"
-create_vm_esxi "kolla" "kolla"
+create_vm_esxi $ESXI_HOSTNAME "kolla" $ESXI_PASSWORD $ESXI_DRIVE_LOATION "kolla" "HP-Disk" "HP-Disk"
 ########################
 
 ###wait until jobs complete
