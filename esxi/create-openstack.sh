@@ -4,7 +4,6 @@ source ./vm-configurations.sh
 source ./openstack-env.sh
 
 #### ESXi hostname #1 VM Name arg #2
-export ISO_DISK_NAME=HP-Disk
 
 setupENV
 ########  ESXi password arg #2

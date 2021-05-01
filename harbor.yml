@@ -2,7 +2,7 @@
 
 # The IP address or hostname to access admin UI and registry service.
 # DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
-hostname: {MACHINE_FQDN}
+hostname: {SUPPORT_HOST}
 
 # http related config
 http:
@@ -24,7 +24,7 @@ https:
 # The initial password of Harbor admin
 # It only works in first time to install harbor
 # Remember Change the admin password from UI after launching Harbor.
-harbor_admin_password: {PORTUS_PASSWORD}
+harbor_admin_password: {SUPPORT_PASSWORD}
 
 # Harbor DB configuration
 database:
