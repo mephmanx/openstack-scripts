@@ -73,6 +73,7 @@ function create_vm_esxi {
 
   vmstr=$(vm_definitions "$option")
   vm_str=${vmstr//[$'\t\r\n ']}
+  echo "$vm_str"
   cpu_ct=$(parse_json "$vm_str" "cpu")
   memory_ct=$(parse_json "$vm_str" "memory")
   drive_string=$(parse_json "$vm_str" "drive_string")
