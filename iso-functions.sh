@@ -137,7 +137,7 @@ function buildVMTypeISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} ${1}
-  pushISO $1
+  pushISO $2
 }
 
 function buildOpenstackSetupISO {
@@ -216,5 +216,5 @@ function buildOpenstackSetupISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla"
-  pushISO $1
+  pushISO $4
 }

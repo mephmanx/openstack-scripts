@@ -108,7 +108,7 @@ removeVM $ESXI_HOSTNAME "kolla" $ESXI_PASSWORD "/vmfs/volumes/$ESXI_DRIVE_LOCATI
 ############  Build and push custom iso's for VM types
 for d in "${vms[@]}"; do
   echo "building and pushing ISO for $d"
-  buildVMTypeISO $d
+  buildVMTypeISO $d $ESXI_HOSTNAME
 done
 #############################
 
@@ -127,7 +127,7 @@ done
 printf -v host_trust_string '%s ' "${host_trust_script[@]}"
 printf -v control_hack_string '%s ' "${control_hack_script[@]}"
 echo "creating openstack setup vm"
-buildAndPushOpenstackSetupISO "$host_trust_string" "$control_hack_string" "$(($(getVMCount "control") + $(getVMCount "network") + $(getVMCount "compute") + $(getVMCount "monitoring") + $(getVMCount "storage")))"
+buildAndPushOpenstackSetupISO "$host_trust_string" "$control_hack_string" "$(($(getVMCount "control") + $(getVMCount "network") + $(getVMCount "compute") + $(getVMCount "monitoring") + $(getVMCount "storage")))" $ESXI_HOSTNAME
 create_vm_esxi $ESXI_HOSTNAME "kolla" $ESXI_PASSWORD $ESXI_DRIVE_LOATION "kolla" "HP-Disk" "HP-Disk"
 ########################
 

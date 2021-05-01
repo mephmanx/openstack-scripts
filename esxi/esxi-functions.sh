@@ -96,11 +96,11 @@ function removeVM {
 
 function pushISO {
   HOSTNAME=$1
-
+  ESXI_HOST=$2
   printf -v vm_type_n '%s\n' "${1//[[:digit:]]/}"
   VM_TYPE=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-  echo "Pushing ISO to ESXi host -> " $HOSTNAME
-  esxi-scp -H $HOSTNAME -n /var/tmp/$HOSTNAME-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
+  echo "Pushing ISO to ESXi host -> " $ESXI_HOST
+  esxi-scp -H $ESXI_HOST -n /var/tmp/$HOSTNAME-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
 }
 
 function create_vm_esxi {
