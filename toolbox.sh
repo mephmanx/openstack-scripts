@@ -16,7 +16,7 @@ cp -r /root/openstack-scripts/kvm/* /root/openstack-setup/kvm;
 cp /root/openstack-scripts/*.cfg /root/openstack-setup;
 
 cd /root/openstack-setup
-/root/openstack-setup/$1/create-$2.sh 192.168.3.100 $3;
+/root/openstack-setup/$1/create-$2.sh 192.168.3.100 $3 $2 HP-Disk;
 
 END)
 

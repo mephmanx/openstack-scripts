@@ -5,8 +5,8 @@ source ./openstack-env.sh
 
 #### ESXi hostname #1 VM Name arg #2
 ESXI_HOSTNAME=$1
-VM_NAME=$2
-ESXI_PASSWORD=$3
+ESXI_PASSWORD=$2
+VM_NAME=$3
 ESXI_DRIVE_LOCATION=$4
 
 echo "Hostname -> " $ESXI_HOSTNAME
