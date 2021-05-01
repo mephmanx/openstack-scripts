@@ -79,7 +79,7 @@ function create_vm_esxi {
   network_string=$(parse_json "$vm_str" "network_string")
 
   echo "creating VM name -> $VM_NAME type -> $VM_TYPE"
-  esxi-vm-create -n $VM_NAME --summary --iso /vmfs/volumes/$ISO_DISK_NAME/isos/$VM_NAME-iso.iso \
+  esxi-vm-create -n $VM_NAME --summary --iso $DRIVE_LOCATION/$VM_NAME-iso.iso \
           -c $cpu_ct -m $memory_ct -S $VM_DISK_NAME -v $drive_string -V \
           -N $network_string -o 'cpuid.coresPerSocket = "2",
               vhv.enable = "TRUE",
