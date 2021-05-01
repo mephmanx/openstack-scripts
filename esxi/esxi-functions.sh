@@ -84,14 +84,13 @@ function removeVM {
   esxi-vm-destroy -n $VM_NAME
   sleep 15
   #remove iso from ESXI datastore
-  esxi-scp-remove -H $ESXI_HOSTNAME -n $VM_NAME-iso.iso -l /vmfs/volumes/$DRIVE_LOCATION/isos
+  esxi-scp-remove -H $ESXI_HOSTNAME -n $VM_NAME-iso.iso -l "$DRIVE_LOCATION/isos"
   #remove VM directory
-  esxi-scp-remove -H $ESXI_HOSTNAME -n $VM_NAME -l /vmfs/volumes/$DRIVE_LOCATION
+  esxi-scp-remove -H $ESXI_HOSTNAME -n $VM_NAME -l "$DRIVE_LOCATION"
 }
 
 function pushISO {
   HOSTNAME=$1
-  ISO_DISK_NAME=$2
 
   printf -v vm_type_n '%s\n' "${1//[[:digit:]]/}"
   VM_TYPE=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
