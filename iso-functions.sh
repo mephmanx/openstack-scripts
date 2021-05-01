@@ -137,7 +137,7 @@ function buildVMTypeISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} ${1}
-  pushISO $HOSTNAME
+  pushISO $1
 }
 
 function buildOpenstackSetupISO {
