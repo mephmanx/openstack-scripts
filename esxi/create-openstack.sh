@@ -3,7 +3,6 @@ source ./iso-functions.sh
 source ./vm-configurations.sh
 source ./openstack-env.sh
 
-#### ESXi hostname #1 VM Name arg #2
 ESXI_HOSTNAME=$1
 ESXI_PASSWORD=$2
 VM_NAME=$3
