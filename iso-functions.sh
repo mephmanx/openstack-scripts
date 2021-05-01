@@ -216,5 +216,5 @@ function buildOpenstackSetupISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla"
-  pushISO $HOSTNAME
+  pushISO $1
 }
