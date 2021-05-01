@@ -35,21 +35,16 @@ chmod 777 /tmp/global_addresses.sh
 
 #################### Global address setup
 INTERNAL_VIP="10.0.20.254"
-INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$DOMAIN_NAME"
-
 EXTERNAL_VIP="192.168.1.252"
-EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME"
-
-CLOUDSUPPORT_VIP="10.0.20.200"
 
 ##############################################
 
 #### setup static network local DNS entries
 echo "export EXTERNAL_VIP=$EXTERNAL_VIP" >> /tmp/global_addresses.sh
 echo "export INTERNAL_VIP=$INTERNAL_VIP" >> /tmp/global_addresses.sh
-echo "export EXTERNAL_VIP_DNS=$EXTERNAL_VIP_DNS" >> /tmp/global_addresses.sh
-echo "export INTERNAL_VIP_DNS=$INTERNAL_VIP_DNS" >> /tmp/global_addresses.sh
-echo "export CLOUDSUPPORT_VIP=$MACHINE_FQDN" >> /tmp/global_addresses.sh
+echo "export EXTERNAL_VIP_DNS=$APP_INTERNAL_HOSTNAME.$DOMAIN_NAME" >> /tmp/global_addresses.sh
+echo "export INTERNAL_VIP_DNS=$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME" >> /tmp/global_addresses.sh
+echo "export CLOUDSUPPORT_VIP=$SUPPORT_HOST" >> /tmp/global_addresses.sh
 #########################
 
 ######### Openstack VM types
