@@ -43,7 +43,7 @@ sed -i "s/{INTERNAL_VIP}/${INTERNAL_VIP}/g" /etc/kolla/globals.yml
 sed -i "s/{INTERNAL_VIP_DNS}/${APP_INTERNAL_HOSTNAME}.${DOMAIN_NAME}/g" /etc/kolla/globals.yml
 sed -i "s/{EXTERNAL_VIP}/${EXTERNAL_VIP}/g" /etc/kolla/globals.yml
 sed -i "s/{EXTERNAL_VIP_DNS}/${APP_EXTERNAL_HOSTNAME}.${DOMAIN_NAME}/g" /etc/kolla/globals.yml
-sed -i "s/{CLOUDSUPPORT_VIP}/${SUPPORT_HOST}/g" /etc/kolla/globals.yml
+sed -i "s/{SUPPORT_HOST}/${SUPPORT_HOST}/g" /etc/kolla/globals.yml
 
 kolla-genpwd
 
