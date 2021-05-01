@@ -1,5 +1,4 @@
 source ./vm-configurations.sh
-source ./linux-version.sh
 
 function removeVM {
   rm -rf ~/.esxi-vm.yml

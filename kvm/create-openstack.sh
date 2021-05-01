@@ -2,6 +2,7 @@ source ./kvm/kvm-functions.sh
 source ./iso-functions.sh
 source ./vm-configurations.sh
 source ./openstack-env.sh
+source ./linux-version.sh
 
 setupENV
 

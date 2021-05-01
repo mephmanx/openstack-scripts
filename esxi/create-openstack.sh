@@ -2,6 +2,7 @@ source ./esxi/esxi-functions.sh
 source ./iso-functions.sh
 source ./vm-configurations.sh
 source ./openstack-env.sh
+source ./linux-version.sh
 
 ESXI_HOSTNAME=$1
 ESXI_PASSWORD=$2
