@@ -118,7 +118,7 @@ for d in "${vms[@]}"; do
   printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
   echo "creating vm of type -> $vm_type"
-  create_vm_esxi $ESXI_HOSTNAME ${vms[@]} $ESXI_PASSWORD $ESXI_DRIVE_LOATION $vm_type "HP-Disk" "HP-Disk"
+  create_vm_esxi "$ESXI_HOSTNAME" "${vms[@]}" "$ESXI_PASSWORD" "$ESXI_DRIVE_LOATION" "$vm_type" "HP-Disk" "HP-Disk"
   sleep 30
   ((index++))
 done
@@ -127,7 +127,7 @@ done
 printf -v host_trust_string '%s ' "${host_trust_script[@]}"
 printf -v control_hack_string '%s ' "${control_hack_script[@]}"
 echo "creating openstack setup vm"
-buildAndPushOpenstackSetupISO "$host_trust_string" "$control_hack_string" "$(($(getVMCount "control") + $(getVMCount "network") + $(getVMCount "compute") + $(getVMCount "monitoring") + $(getVMCount "storage")))" $ESXI_HOSTNAME
+buildAndPushOpenstackSetupISO "$host_trust_string" "$control_hack_string" "$(($(getVMCount "control") + $(getVMCount "network") + $(getVMCount "compute") + $(getVMCount "monitoring") + $(getVMCount "storage")))" "$ESXI_HOSTNAME"
 create_vm_esxi $ESXI_HOSTNAME "kolla" $ESXI_PASSWORD $ESXI_DRIVE_LOATION "kolla" "HP-Disk" "HP-Disk"
 ########################
 
