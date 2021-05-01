@@ -77,6 +77,11 @@ function removeVM {
   ESXI_PASSWORD=$3
   DRIVE_LOCATION=$4
 
+  echo "Hostname -> " $ESXI_HOSTNAME
+  echo "VM_NAME -> " $VM_NAME
+  echo "ESXI_PWD -> " $ESXI_PASSWORD
+  echo "DRIVE_LOCATION -> " $DRIVE_LOCATION
+
   rm -rf ~/.esxi-vm.yml
   #update ESXi defaults for ESXi library
   esxi-vm-create -H $ESXI_HOSTNAME -P $ESXI_PASSWORD -u
@@ -106,6 +111,14 @@ function create_vm_esxi {
   VM_TYPE=$5
   VM_DISK_NAME=$6
   ISO_DISK_NAME=$7
+
+  echo "Hostname -> " $ESXI_HOSTNAME
+  echo "VM_NAME -> " $VM_NAME
+  echo "ESXI_PWD -> " $ESXI_PASSWORD
+  echo "DRIVE_LOCATION -> " $DRIVE_LOCATION
+  echo "VM_TYPE -> " $VM_TYPE
+  echo "VM_DISK_NAME -> " $VM_DISK_NAME
+  echo "ISO_DISK_NAME -> " $ISO_DISK_NAME
 
   option="${1}"
 
