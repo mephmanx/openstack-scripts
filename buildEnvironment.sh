@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 source ./lib/destroyEnv.sh
+source ./lib/buildEnv.sh
 # ##################################################
 # My Generic BASH script template
 #
@@ -126,7 +127,7 @@ echo -n
 
 case $build in
   "false") destroy;;
-  "true") ;;
+  "true") build;;
   *) die "Invalid option, only true and false are supported for build argument";;
 esac
 
