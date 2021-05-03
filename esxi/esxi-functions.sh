@@ -1,4 +1,4 @@
-source ./vm-configurations.sh
+. ./vm-configurations.sh
 
 function installESXiTools {
   alternatives --set python /usr/bin/python2
