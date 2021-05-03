@@ -69,7 +69,7 @@ function create_vm_esxi {
   echo "VM_DISK_NAME -> " $VM_DISK_NAME
   echo "ISO_DISK_NAME -> " $ISO_DISK_NAME
 
-  option="${1}"
+  option="${VM_NAME}"
 
   vmstr=$(vm_definitions "$option")
   vm_str=${vmstr//[$'\t\r\n ']}
