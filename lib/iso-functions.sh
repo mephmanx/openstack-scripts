@@ -73,7 +73,7 @@ function initialKickstartSetup {
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
 
   rm -rf centos-8-kickstart-$1.cfg
-  cp ./config/centos-8-kickstart-cloud_common.cfg centos-8-kickstart-$1.cfg
+  cp ../config/centos-8-kickstart-cloud_common.cfg centos-8-kickstart-$1.cfg
   echo "copied kickstart -> centos-8-kickstart-$vm_type.cfg to -> centos-8-kickstart-$1.cfg"
   kickstart_file=centos-8-kickstart-${1}.cfg
   sed -i 's/{HOST}/'$1'/g' ${kickstart_file}
