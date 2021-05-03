@@ -144,8 +144,6 @@ usage() {
 This script is used to build or teardown Openstack environments
 
  ${bold}Options:${reset}
-  -u, --username    Username for script
-  -p, --password    User password
   --force           Skip all user interaction.  Implied 'Yes' to all actions.
   -q, --quiet       Quiet (no output)
   -l, --log         Print log to file
@@ -203,8 +201,6 @@ while [[ $1 = -?* ]]; do
   case $1 in
     -h|--help) usage >&2; safeExit ;;
     --version) echo "$(basename $0) ${version}"; safeExit ;;
-    -u|--username) shift; username=${1} ;;
-    -p|--password) $ESXI_PASSWORD ;;
     -v|--verbose) verbose=true ;;
     -l|--log) printLog=true ;;
     -q|--quiet) quiet=true ;;

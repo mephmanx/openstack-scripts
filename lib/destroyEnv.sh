@@ -62,12 +62,12 @@ function destroyESXi {
     echo "removing vm -> $d"
     printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
     vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-    removeVM $hypervisor_host ${d} $PASS "/vmfs/volumes/$ESXI_DRIVE_LOCATION"
+    removeVM $hypervisor_host ${d} $ESXI_PASSWORD "/vmfs/volumes/$ESXI_DRIVE_LOCATION"
     sleep 15
   done
 
   ########## remove kolla
-  removeVM $hypervisor_host "kolla" $PASS "/vmfs/volumes/$ESXI_DRIVE_LOCATION"
+  removeVM $hypervisor_host "kolla" $ESXI_PASSWORD "/vmfs/volumes/$ESXI_DRIVE_LOCATION"
   ####################
 }
 
