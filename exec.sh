@@ -15,7 +15,7 @@ mkdir /root/openstack-scripts/certs
 cp -r /root/openstack-setup/certs/*.* /root/openstack-scripts/certs;
 cd /root/openstack-scripts
 
-echo "$1" | ./buildEnvironment.sh --"$2" --"$3" --"$4" -o 192.168.3.100 -p
+./buildEnvironment.sh --$2 --$3 --$4 -o 192.168.3.100 -p
 END)
-echo "$CMD"
+
 ssh -l root 192.168.3.101 "$CMD"

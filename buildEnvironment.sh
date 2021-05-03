@@ -204,8 +204,7 @@ while [[ $1 = -?* ]]; do
     -h|--help) usage >&2; safeExit ;;
     --version) echo "$(basename $0) ${version}"; safeExit ;;
     -u|--username) shift; username=${1} ;;
-    -p|--password) shift; echo "Enter Pass: ";  read PASS;
-      echo ;;
+    -p|--password) $ESXI_PASSWORD ;;
     -v|--verbose) verbose=true ;;
     -l|--log) printLog=true ;;
     -q|--quiet) quiet=true ;;
