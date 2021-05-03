@@ -8,15 +8,10 @@ rm -rf /root/openstack-scripts;
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git /root/openstack-setup;
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git /root/openstack-scripts;
 
-cp -r /root/openstack-scripts/*.sh /root/openstack-setup;
-mkdir /root/openstack-setup/esxi
-mkdir /root/openstack-setup/kvm
-cp -r /root/openstack-scripts/esxi/*.sh /root/openstack-setup/esxi;
-cp -r /root/openstack-scripts/kvm/*.sh /root/openstack-setup/kvm;
-cp /root/openstack-scripts/*.cfg /root/openstack-setup;
+cp -r /root/openstack-setup/openstack-env.sh /root/openstack-scripts;
+mkdir /root/openstack-scripts/certs
 
-cd /root/openstack-setup
-/root/openstack-setup/$1/create-$2.sh "192.168.3.100" "$3" "$2" "HP-Disk"
+cp -r /root/openstack-setup/certs/*.* /root/openstack-scripts/certs;
 
 END)
 

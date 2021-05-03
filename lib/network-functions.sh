@@ -1,4 +1,4 @@
-source ./vm-configurations.sh
+source ./config/vm-configurations.sh
 
 #MariaDB seems to have a problem with 172 addresses.  Dont use!
 LOCAL_ADDRESS_PREFIX="10.0.20."

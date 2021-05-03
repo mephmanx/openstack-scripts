@@ -1,4 +1,4 @@
-source ./network-functions.sh
+source ./lib/network-functions.sh
 source ./openstack-env.sh
 
 IFS=
@@ -139,7 +139,6 @@ function buildVMTypeISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} ${1}
-  pushISO $1 $2
 }
 
 function buildOpenstackSetupISO {
@@ -218,5 +217,4 @@ function buildOpenstackSetupISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla"
-  pushISO "kolla" $4
 }
