@@ -4,8 +4,8 @@ source ./openstack-env.sh
 
 export VM_NAME=cloudsupport
 
-setupENV
-
+prepareSystem
+loadLinuxISO
 ########  ESXi password arg #2
 removeVMESXi $2 $VM_NAME
 installESXiTools

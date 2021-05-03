@@ -3,6 +3,11 @@ source ./openstack-env.sh
 
 IFS=
 
+function prepareSystem {
+  sudo yum install epel-release -y
+  sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
+}
+
 function cockpitCerts {
   ###  Prepare certs
   echo 'cat > /etc/cockpit/ws-certs.d/certificate.cert <<EOF' >> ./$1
@@ -80,9 +85,6 @@ function initialKickstartSetup {
 }
 
 function closeOutAndBuildKickstartAndISO {
-  sudo yum install epel-release -y
-  sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
-
   working_dir=`pwd`
   #### to allow certs to print right
   IFS=

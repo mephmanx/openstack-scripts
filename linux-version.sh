@@ -9,7 +9,7 @@ LINUX_VERSION=1
 # What disk to store ISO's on
 ISO_DISK_NAME=HP-Disk
 
-function setupENV {
+function loadLinuxISO {
   rm -rf /var/tmp/*.*
 
   if [ -f "/tmp/centos8.iso" ]; then

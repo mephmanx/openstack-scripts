@@ -4,7 +4,8 @@ source ./iso-functions.sh
 source ./openstack-env.sh
 source ./linux-version.sh
 
-setupENV
+prepareSystem
+loadLinuxISO
 
 IFS=
 ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null

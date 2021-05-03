@@ -14,7 +14,8 @@ echo "VM_NAME -> " $VM_NAME
 echo "ESXI_PWD -> " $ESXI_PASSWORD
 echo "DRIVE_LOCATION -> " $ESXI_DRIVE_LOCATION
 
-setupENV
+prepareSystem
+loadLinuxISO
 installESXiTools
 
 IFS=
