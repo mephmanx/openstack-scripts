@@ -40,15 +40,14 @@ cp /tmp/*.pem /etc/kolla/certificates
 curl -o /etc/kolla/globals.yml -H "Authorization: Bearer $GITHUB_TOKEN" https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/globals.yml
 
 sed -i "s/{INTERNAL_VIP}/${INTERNAL_VIP}/g" /etc/kolla/globals.yml
-sed -i "s/{INTERNAL_VIP_DNS}/${APP_INTERNAL_HOSTNAME}.${DOMAIN_NAME}/g" /etc/kolla/globals.yml
+sed -i "s/{INTERNAL_VIP_DNS}/${INTERNAL_VIP_DNS}/g" /etc/kolla/globals.yml
 sed -i "s/{EXTERNAL_VIP}/${EXTERNAL_VIP}/g" /etc/kolla/globals.yml
-sed -i "s/{EXTERNAL_VIP_DNS}/${APP_EXTERNAL_HOSTNAME}.${DOMAIN_NAME}/g" /etc/kolla/globals.yml
-sed -i "s/{SUPPORT_HOST}/${SUPPORT_HOST}/g" /etc/kolla/globals.yml
+sed -i "s/{EXTERNAL_VIP_DNS}/${EXTERNAL_VIP_DNS}/g" /etc/kolla/globals.yml
 
 kolla-genpwd
 
 #### Replace passwords
-sed -i "s/docker_registry_password: null/docker_registry_password: ${SUPPORT_PASSWORD}/g" /etc/kolla/passwords.yml
+sed -i "s/docker_registry_password: null/docker_registry_password: ${PORTUS_PASSWORD}/g" /etc/kolla/passwords.yml
 sed -i "s/keystone_admin_password: .*/keystone_admin_password: ${OPENSTACK_ADMIN_PWD}/g" /etc/kolla/passwords.yml
 sed -i "s/kibana_password: .*/kibana_password: ${KIBANA_ADMIN_PWD}/g" /etc/kolla/passwords.yml
 #####

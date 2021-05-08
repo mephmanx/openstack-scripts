@@ -20,6 +20,13 @@ source ./tmp/openstack-env.sh
 cd $working_dir
 ############################
 
+#########load global addresses into env
+working_dir=`pwd`
+chmod 777 /tmp/global_addresses.sh
+source ./tmp/global_addresses.sh
+cd $working_dir
+############################
+
 #################use old net names
 use_old_net_names
 
