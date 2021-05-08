@@ -1,13 +1,12 @@
-source ./kvm/kvm-functions.sh
+source ./functions.sh
 source ./iso-functions.sh
 source ./openstack-env.sh
 
 export VM_NAME=cloudsupport
-
-prepareSystem
-loadLinuxISO
+#### ESXi hostname #1 VM Name arg #2
+setupENV $1
 ########  ESXi password arg #2
-removeVMESXi $2 $VM_NAME
+removeVM $2 $VM_NAME
 installESXiTools
 
 IFS=

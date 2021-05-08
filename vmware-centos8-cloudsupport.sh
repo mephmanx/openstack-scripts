@@ -23,7 +23,7 @@ cd $working_dir
 #########load global addresses into env
 working_dir=`pwd`
 chmod 777 /tmp/global_addresses.sh
-source ./tmp/global_addresses.sh
+source /tmp/global_addresses.sh
 cd $working_dir
 ############################
 

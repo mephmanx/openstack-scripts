@@ -126,7 +126,7 @@ GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
 GRUB_DEFAULT=saved
 GRUB_DISABLE_SUBMENU=true
 GRUB_TERMINAL_OUTPUT="console"
-GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cl_$DRIVE_NAME-swap rd.lvm.lv=cl_$DRIVE_NAME/root rd.lvm.lv=cl_$DRIVE_NAME/swap net.ifnames=0 intel_iommu=on"
+GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cl_$DRIVE_NAME-swap rd.lvm.lv=cl_$DRIVE_NAME/root rd.lvm.lv=cl_$DRIVE_NAME/swap net.ifnames=0"
 GRUB_DISABLE_RECOVERY="true"
 GRUB_ENABLE_BLSCFG=true
 EOF
@@ -222,6 +222,11 @@ function common_second_boot_setup() {
   mv /tmp/openstack-setup.key /root/.ssh/id_rsa
   chmod 600 /root/.ssh/id_rsa
   chmod 600 /root/.ssh/authorized_keys
+
+  working_dir=`pwd`
+  chmod 777 /tmp/global_addresses.sh
+  source /tmp/global_addresses.sh
+  cd $working_dir
 
   systemctl stop firewalld
   systemctl mask firewalld

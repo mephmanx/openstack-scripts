@@ -1,12 +1,7 @@
-source ./lib/network-functions.sh
+source ./network-functions.sh
 source ./openstack-env.sh
 
 IFS=
-
-function prepareSystem {
-  sudo yum install epel-release -y
-  sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
-}
 
 function cockpitCerts {
   ###  Prepare certs
@@ -73,7 +68,7 @@ function initialKickstartSetup {
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
 
   rm -rf centos-8-kickstart-$1.cfg
-  cp ../config/centos-8-kickstart-cloud_common.cfg centos-8-kickstart-$1.cfg
+  cp centos-8-kickstart-cloud_common.cfg centos-8-kickstart-$1.cfg
   echo "copied kickstart -> centos-8-kickstart-$vm_type.cfg to -> centos-8-kickstart-$1.cfg"
   kickstart_file=centos-8-kickstart-${1}.cfg
   sed -i 's/{HOST}/'$1'/g' ${kickstart_file}
@@ -124,7 +119,7 @@ function closeOutAndBuildKickstartAndISO {
   cd $working_dir
 }
 
-function buildVMTypeISO {
+function buildAndPushVMTypeISO {
   ############### kickstart init
   initialKickstartSetup $1
   ###########################
@@ -139,9 +134,10 @@ function buildVMTypeISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} ${1}
+  esxi-scp -H $HOSTNAME -n /var/tmp/${1}-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
 }
 
-function buildOpenstackSetupISO {
+function buildAndPushOpenstackSetupISO {
 
   ############### kickstart init
   initialKickstartSetup "kolla"
@@ -217,4 +213,5 @@ function buildOpenstackSetupISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla"
+  esxi-scp -H $HOSTNAME -n /var/tmp/kolla-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
 }

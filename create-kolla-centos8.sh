@@ -1,11 +1,12 @@
-source ./vm-configurations.sh
-source ./kvm/kvm-functions.sh
+source ./functions.sh
 source ./iso-functions.sh
+source ./vm-configurations.sh
 source ./openstack-env.sh
-source ./linux-version.sh
 
-prepareSystem
-loadLinuxISO
+#### ESXi hostname #1 VM Name arg #2
+setupENV $1
+########  ESXi password arg #2
+installESXiTools
 
 IFS=
 ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
@@ -25,7 +26,30 @@ chmod 777 /tmp/storage_hosts
 rm -rf /tmp/host_list
 touch /tmp/host_list
 chmod 777 /tmp/host_list
+
+rm -rf /tmp/global_addresses.sh
+touch /tmp/global_addresses.sh
+chmod 777 /tmp/global_addresses.sh
 ####################
+
+#################### Global address setup
+INTERNAL_VIP="10.0.20.254"
+INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$DOMAIN_NAME"
+
+EXTERNAL_VIP="192.168.1.252"
+EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME"
+
+CLOUDSUPPORT_VIP="10.0.20.200"
+
+##############################################
+
+#### setup static network local DNS entries
+echo "export EXTERNAL_VIP=$EXTERNAL_VIP" >> /tmp/global_addresses.sh
+echo "export INTERNAL_VIP=$INTERNAL_VIP" >> /tmp/global_addresses.sh
+echo "export EXTERNAL_VIP_DNS=$EXTERNAL_VIP_DNS" >> /tmp/global_addresses.sh
+echo "export INTERNAL_VIP_DNS=$INTERNAL_VIP_DNS" >> /tmp/global_addresses.sh
+echo "export CLOUDSUPPORT_VIP=$MACHINE_FQDN" >> /tmp/global_addresses.sh
+#########################
 
 ######### Openstack VM types
 
@@ -88,8 +112,7 @@ for d in "${vms[@]}"; do
   echo "removing vm -> $d"
   printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-#  removeVM $2 ${d}
-  #implement remove VM from virt manager
+  removeVM $2 ${d}
   sleep 15
 done
 
@@ -100,7 +123,7 @@ removeVM $2 "kolla"
 ############  Build and push custom iso's for VM types
 for d in "${vms[@]}"; do
   echo "building and pushing ISO for $d"
-  buildVMTypeISO $d $ESXI_HOSTNAME
+  buildAndPushVMTypeISO $d
 done
 #############################
 
@@ -119,7 +142,7 @@ done
 printf -v host_trust_string '%s ' "${host_trust_script[@]}"
 printf -v control_hack_string '%s ' "${control_hack_script[@]}"
 echo "creating openstack setup vm"
-buildOpenstackSetupISO "$host_trust_string" "$control_hack_string" "$(($(getVMCount "control") + $(getVMCount "network") + $(getVMCount "compute") + $(getVMCount "monitoring") + $(getVMCount "storage")))"
+buildAndPushOpenstackSetupISO "$host_trust_string" "$control_hack_string" "$(($(getVMCount "control") + $(getVMCount "network") + $(getVMCount "compute") + $(getVMCount "monitoring") + $(getVMCount "storage")))"
 create_vm "kolla" "kolla"
 ########################
 
