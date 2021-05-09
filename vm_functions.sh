@@ -213,8 +213,13 @@ function common_second_boot_setup() {
   runuser -l root -c  "yum install -y https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-18.09.9-3.el7.x86_64.rpm"
   sleep 5
 
+  working_dir=`pwd`
+  chmod 777 /tmp/global_addresses.sh
+  source /tmp/global_addresses.sh
+  cd $working_dir
+
   systemctl restart docker
-  docker login -u $PORTUS_USERNAME -p $PORTUS_PASSWORD $MACHINE_FQDN:$REGISTRY_PORT
+  docker login -u $PORTUS_USERNAME -p $PORTUS_PASSWORD $SUPPORT_HOST
 
   mkdir /root/.ssh
   cp /tmp/openstack-setup.key.pub /root/.ssh/authorized_keys
@@ -222,11 +227,6 @@ function common_second_boot_setup() {
   mv /tmp/openstack-setup.key /root/.ssh/id_rsa
   chmod 600 /root/.ssh/id_rsa
   chmod 600 /root/.ssh/authorized_keys
-
-  working_dir=`pwd`
-  chmod 777 /tmp/global_addresses.sh
-  source /tmp/global_addresses.sh
-  cd $working_dir
 
   systemctl stop firewalld
   systemctl mask firewalld
