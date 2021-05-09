@@ -37,7 +37,7 @@ mkdir -p /var/lib/kolla/config_files
 mkdir /etc/kolla/certificates
 cp /tmp/*.pem /etc/kolla/certificates
 
-curl -o /etc/kolla/globals.yml -H "Authorization: Bearer mephmanx:$GITHUB_TOKEN" https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/globals.yml
+curl -o /etc/kolla/globals.yml https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/globals.yml
 
 sed -i "s/{INTERNAL_VIP}/${INTERNAL_VIP}/g" /etc/kolla/globals.yml
 sed -i "s/{INTERNAL_VIP_DNS}/${INTERNAL_VIP_DNS}/g" /etc/kolla/globals.yml
