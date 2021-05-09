@@ -197,7 +197,7 @@ function prep_next_script() {
 
   ## Prep OpenStack install
   rm -rf /etc/rc.d/rc.local
-  curl -o /etc/rc.d/rc.local -H "Authorization: Bearer $GITHUB_TOKEN" https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/$1.sh
+  curl -o /etc/rc.d/rc.local -H "Authorization: Bearer mephmanx:$GITHUB_TOKEN" https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/$1.sh
   chmod +x /etc/rc.d/rc.local
 }
 
@@ -208,9 +208,9 @@ function common_second_boot_setup() {
 
   yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
 
-  runuser -l root -c  "yum install -y https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-cli-18.09.9-3.el7.x86_64.rpm"
+  runuser -l root -c  "yum install -y https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-cli-18.09.9-3.el7.x86_64.rpm"
   sleep 5
-  runuser -l root -c  "yum install -y https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-18.09.9-3.el7.x86_64.rpm"
+  runuser -l root -c  "yum install -y https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-18.09.9-3.el7.x86_64.rpm"
   sleep 5
 
   systemctl restart docker

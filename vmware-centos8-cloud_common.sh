@@ -36,7 +36,7 @@ grow_fs
 load_libs "${TYPE}"
 
 #####  Docker prep #########
-runuser -l root -c  "yum install -y https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/containerd.io-1.2.6-3.3.el7.x86_64.rpm"
+runuser -l root -c  "yum install -y https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/containerd.io-1.2.6-3.3.el7.x86_64.rpm"
 sleep 5
 #####################
 

@@ -37,7 +37,7 @@ mkdir -p /var/lib/kolla/config_files
 mkdir /etc/kolla/certificates
 cp /tmp/*.pem /etc/kolla/certificates
 
-curl -o /etc/kolla/globals.yml -H "Authorization: Bearer $GITHUB_TOKEN" https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/globals.yml
+curl -o /etc/kolla/globals.yml -H "Authorization: Bearer mephmanx:$GITHUB_TOKEN" https://$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/globals.yml
 
 sed -i "s/{INTERNAL_VIP}/${INTERNAL_VIP}/g" /etc/kolla/globals.yml
 sed -i "s/{INTERNAL_VIP_DNS}/${INTERNAL_VIP_DNS}/g" /etc/kolla/globals.yml
@@ -235,7 +235,7 @@ mv -f bosh.pem.pub bosh.pub
 openstack keypair create --public-key /tmp/bosh.pub bosh
 
 #download and configure homebrew to run bbl install
-curl -fsSL -H "Authorization: Bearer $GITHUB_TOKEN" https://raw.githubusercontent.com/Homebrew/install/master/install.sh -o homebrew.sh
+curl -fsSL -H "Authorization: Bearer mephmanx:$GITHUB_TOKEN" https://raw.githubusercontent.com/Homebrew/install/master/install.sh -o homebrew.sh
 chmod 777 homebrew.sh
 
 PUBLIC_NETWORK_ID="$(openstack network list --name public1 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')"
