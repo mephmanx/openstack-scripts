@@ -35,9 +35,9 @@ yum install -y tar
 wget -O /tmp/harbor.tgz https://github.com/goharbor/harbor/releases/download/v2.1.5/harbor-offline-installer-v2.1.5.tgz
 tar xzvf /tmp/harbor.tgz
 
-wget -O /root/harbor/harbor.yml -d --header="Authorization: Bearer mephmanx:$GITHUB_TOKEN" https://raw.githubusercontent.com/mephmanx/openstack-scripts/master/harbor.yml
+wget -O /root/harbor/harbor.yml -d https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/harbor.yml
 sed -i "s/{MACHINE_FQDN}/${MACHINE_FQDN}/g" /root/harbor/harbor.yml
-sed -i "s/{PORTUS_PASSWORD}/${PORTUS_PASSWORD}/g" /root/harbor/harbor.yml
+sed -i "s/{SUPPORT_PASSWORD}/${SUPPORT_PASSWORD}/g" /root/harbor/harbor.yml
 sed -i "s/{DATABASE_PASSWORD}/${DATABASE_PASSWORD}/g" /root/harbor/harbor.yml
 cd /root/harbor
 

@@ -48,7 +48,7 @@ sed -i "s/{CLOUDSUPPORT_VIP}/${CLOUDSUPPORT_VIP}/g" /etc/kolla/globals.yml
 kolla-genpwd
 
 #### Replace passwords
-sed -i "s/docker_registry_password: null/docker_registry_password: ${PORTUS_PASSWORD}/g" /etc/kolla/passwords.yml
+sed -i "s/docker_registry_password: null/docker_registry_password: ${SUPPORT_PASSWORD}/g" /etc/kolla/passwords.yml
 sed -i "s/keystone_admin_password: .*/keystone_admin_password: ${OPENSTACK_ADMIN_PWD}/g" /etc/kolla/passwords.yml
 sed -i "s/kibana_password: .*/kibana_password: ${KIBANA_ADMIN_PWD}/g" /etc/kolla/passwords.yml
 #####
