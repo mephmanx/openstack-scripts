@@ -192,9 +192,9 @@ cd /etc/kolla
 
 export KOLLA_DEBUG=0
 export ENABLE_EXT_NET=1
-export EXT_NET_CIDR=192.168.0.0/24
+export EXT_NET_CIDR=192.168.1.0/24
 export EXT_NET_RANGE='start=192.168.0.149,end=192.168.0.220'
-export EXT_NET_GATEWAY=192.168.0.1
+export EXT_NET_GATEWAY=192.168.1.1
 
 #use for loading time as opposed to needing the image
 wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
@@ -224,8 +224,8 @@ cd /tmp
 
 #prepare openstack env for CF
 openstack project create cloudfoundry
-openstack user create lguser --project cloudfoundry --password $OPENSTACK_LGUSER_PWD
-openstack role add --project cloudfoundry --project-domain default --user lguser --user-domain default Member
+openstack user create $OPENSTACK_CLOUDFOUNDRY_USERNAME --project cloudfoundry --password $OPENSTACK_CLOUDFOUNDRY_PWD
+openstack role add --project cloudfoundry --project-domain default --user $OPENSTACK_CLOUDFOUNDRY_USERNAME --user-domain default Member
 
 openstack floating ip create --description cloudfoundry --project cloudfoundry --project-domain default public1 > /tmp/fip.out
 FIP=$(awk '/floating_ip_address/{print $4}' /tmp/fip.out)
@@ -253,7 +253,7 @@ runuser -l stack -c  "echo 'export BBL_OPENSTACK_AZ=nova' >> /opt/stack/.bash_pr
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_NETWORK_ID=$PUBLIC_NETWORK_ID' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_NETWORK_NAME=public1' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_PASSWORD=$OPENSTACK_LGUSER_PWD' >> /opt/stack/.bash_profile"
-runuser -l stack -c  "echo 'export BBL_OPENSTACK_USERNAME=lguser' >> /opt/stack/.bash_profile"
+runuser -l stack -c  "echo 'export BBL_OPENSTACK_USERNAME=$OPENSTACK_CLOUDFOUNDRY_USERNAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_PROJECT=cloudfoundry' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_DOMAIN=default' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_REGION=us-east' >> /opt/stack/.bash_profile"
