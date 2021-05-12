@@ -48,6 +48,7 @@ echo "export INTERNAL_VIP_DNS=$INTERNAL_VIP_DNS" >> /tmp/global_addresses.sh
 
 echo "echo '$EXTERNAL_VIP $EXTERNAL_VIP_DNS' >> /etc/hosts;" >> /tmp/dns_hosts
 echo "echo '$INTERNAL_VIP $INTERNAL_VIP_DNS' >> /etc/hosts;" >> /tmp/dns_hosts
+echo "echo 'cloudsupport.lyonsgroup.family 10.0.20.200' >> /etc/hosts;" >> /tmp/dns_hosts
 #########################
 
 ######### Openstack VM types
