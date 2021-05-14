@@ -24,7 +24,7 @@ https:
 # The initial password of Harbor admin
 # It only works in first time to install harbor
 # Remember Change the admin password from UI after launching Harbor.
-harbor_admin_password: {PORTUS_PASSWORD}
+harbor_admin_password: {SUPPORT_PASSWORD}
 
 # Harbor DB configuration
 database:
