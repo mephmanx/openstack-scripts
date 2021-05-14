@@ -208,10 +208,14 @@ function common_second_boot_setup() {
 
   yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
 
+  #####  Docker prep #########
+  runuser -l root -c  "yum install -y https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/containerd.io-1.2.6-3.3.el7.x86_64.rpm"
+  sleep 5
   runuser -l root -c  "yum install -y https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-cli-18.09.9-3.el7.x86_64.rpm"
   sleep 5
   runuser -l root -c  "yum install -y https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-18.09.9-3.el7.x86_64.rpm"
   sleep 5
+  #####################
 
   working_dir=`pwd`
   chmod 777 /tmp/global_addresses.sh
