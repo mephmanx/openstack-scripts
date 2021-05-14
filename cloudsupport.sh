@@ -36,7 +36,7 @@ wget -O /tmp/harbor.tgz https://github.com/goharbor/harbor/releases/download/v2.
 tar xzvf /tmp/harbor.tgz
 
 wget -O /root/harbor/harbor.yml -d https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/harbor.yml
-sed -i "s/{MACHINE_FQDN}/${MACHINE_FQDN}/g" /root/harbor/harbor.yml
+sed -i "s/{SUPPORT_HOST}/${SUPPORT_HOST}/g" /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_PASSWORD}/${SUPPORT_PASSWORD}/g" /root/harbor/harbor.yml
 sed -i "s/{DATABASE_PASSWORD}/${DATABASE_PASSWORD}/g" /root/harbor/harbor.yml
 cd /root/harbor
