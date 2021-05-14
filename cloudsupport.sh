@@ -40,7 +40,7 @@ sed -i "s/{MACHINE_FQDN}/${MACHINE_FQDN}/g" /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_PASSWORD}/${SUPPORT_PASSWORD}/g" /root/harbor/harbor.yml
 sed -i "s/{DATABASE_PASSWORD}/${DATABASE_PASSWORD}/g" /root/harbor/harbor.yml
 cd /root/harbor
-
+chmod 777 *.sh
 ./install.sh --with-notary --with-trivy --with-chartmuseum
 
 #remove so as to not run again
