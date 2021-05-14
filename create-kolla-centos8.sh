@@ -49,7 +49,7 @@ echo "export INTERNAL_VIP_DNS=$INTERNAL_VIP_DNS" >> /tmp/global_addresses.sh
 echo "echo '$EXTERNAL_VIP $EXTERNAL_VIP_DNS' >> /etc/hosts;" >> /tmp/dns_hosts
 echo "echo '$INTERNAL_VIP $INTERNAL_VIP_DNS' >> /etc/hosts;" >> /tmp/dns_hosts
 ####  make sure to use an in-memory network for docker pull through cache otherwise 500's occur
-#echo "echo '10.0.20.200 cloudsupport.lyonsgroup.family' >> /etc/hosts;" >> /tmp/dns_hosts
+echo "echo '10.0.20.200 cloudsupport.lyonsgroup.family' >> /etc/hosts;" >> /tmp/dns_hosts
 #########################
 
 ######### Openstack VM types
