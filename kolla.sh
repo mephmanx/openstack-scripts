@@ -209,7 +209,7 @@ do
   "bionic x86_64"
 
   test=`openstack image show 'bionic x86_64'`
-  if [[ "No Image found" != *"$test"* ]]
+  if [[ "No Image found" == *"$test"* ]]
     kolla-ansible -i /etc/kolla/multinode destroy
   else
     DEPLOY="true"
