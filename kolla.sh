@@ -175,8 +175,8 @@ chmod 600 /etc/kolla/config/octavia/*.*
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
 
-DEPLOY="false"
-while [[ DEPLOY == "false" ]]
+DEPLOY=false
+while [[ DEPLOY = false ]]
 do
   kolla-ansible -i /etc/kolla/multinode deploy
 
@@ -212,7 +212,7 @@ do
   if [[ "No Image found" == *"$test"* ]]; then
     kolla-ansible -i /etc/kolla/multinode destroy
   else
-    DEPLOY="true"
+    DEPLOY=true
   fi
 done
 
