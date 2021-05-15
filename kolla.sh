@@ -175,9 +175,9 @@ chmod 600 /etc/kolla/config/octavia/*.*
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
 
-DEPLOY=false
-while [[ DEPLOY = false ]]
-do
+DEPLOY=1
+while [[ $DEPLOY > 0 ]]; do
+
   kolla-ansible -i /etc/kolla/multinode deploy
 
   pip3 install python-openstackclient --ignore-installed
@@ -212,7 +212,7 @@ do
   if [[ "No Image found" == *"$test"* ]]; then
     kolla-ansible -i /etc/kolla/multinode destroy
   else
-    DEPLOY=true
+    DEPLOY=0
   fi
 done
 
