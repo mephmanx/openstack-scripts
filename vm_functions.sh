@@ -215,7 +215,8 @@ function common_second_boot_setup() {
 #  sleep 5
 #  runuser -l root -c  "yum install -y https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/cloud-libs/master/docker-ce-18.09.9-3.el7.x86_64.rpm"
 #  sleep 5
-  yum install -y docker
+  yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  yum install -y docker-ce docker-ce-cli containerd.io
   #####################
 
   working_dir=`pwd`
