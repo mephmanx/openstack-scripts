@@ -275,11 +275,11 @@ runuser -l stack -c  "echo 'export OS_AUTH_PLUGIN=$OS_AUTH_PLUGIN' >> /opt/stack
 runuser -l stack -c  'bbl up --debug'
 
 ############# build octavia image
-curl -L https://install.perlbrew.pl | bash
-source ~/perl5/perlbrew/etc/bashrc
-perlbrew init
-perlbrew install --force perl-5.16.3
-perlbrew switch perl-5.16.3
+#curl -L https://install.perlbrew.pl | bash
+#source ~/perl5/perlbrew/etc/bashrc
+#perlbrew init
+#perlbrew install --force perl-5.16.3
+#perlbrew switch perl-5.16.3
 runuser -l root -c  'yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils'
 git clone https://opendev.org/openstack/octavia -b master
 pip3 install diskimage-builder
