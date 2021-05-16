@@ -187,6 +187,7 @@ fi
 
 function add_stack_user() {
   runuser -l root -c  'mkdir /opt/stack'
+  runuser -l root -c  'chown -R stack /opt/stack'
   runuser -l root -c  'useradd -s /bin/bash -d /opt/stack -m stack'
   runuser -l root -c  'echo "stack ALL=(ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/stack'
   runuser -l root -c  'su - stack'
