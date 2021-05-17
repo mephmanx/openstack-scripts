@@ -25,8 +25,6 @@ sed '/^NETMASK/d' -i /tmp/eth2
 
 runuser -l root -c  "rm -rf /etc/sysconfig/network-scripts/ifcfg-eth2"
 runuser -l root -c  "cat /tmp/eth2 > /etc/sysconfig/network-scripts/ifcfg-eth2"
-
-runuser -l root -c  "systemctl restart NetworkManager.service"
 ############################
 
 cd /etc/init.d
@@ -34,3 +32,5 @@ cd /etc/init.d
 
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
+
+reboot
