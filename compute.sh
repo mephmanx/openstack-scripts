@@ -25,6 +25,9 @@ sed '/^NETMASK/d' -i /tmp/eth2
 
 runuser -l root -c  "rm -rf /etc/sysconfig/network-scripts/ifcfg-eth2"
 runuser -l root -c  "cat /tmp/eth2 > /etc/sysconfig/network-scripts/ifcfg-eth2"
+
+runuser -l root -c  "nmcli networking off"
+runuser -l root -c  "nmcli networking on"
 ############################
 
 cd /etc/init.d
