@@ -179,6 +179,19 @@ kolla-ansible -i /etc/kolla/multinode prechecks
 #use for loading time as opposed to needing the image
 wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
 
+#stupid hack
+working_dir=`pwd`
+chmod 777 /tmp/control-trust.sh
+runuser -l root -c  'cd /tmp; ./control-trust.sh'
+cd $working_dir
+#sleep 5
+
+export KOLLA_DEBUG=0
+export ENABLE_EXT_NET=1
+export EXT_NET_CIDR=10.0.20.0/24
+export EXT_NET_RANGE='start=10.0.20.50,end=10.0.20.100'
+export EXT_NET_GATEWAY=10.0.20.1
+
 DEPLOY=1
 while [[ $DEPLOY > 0 ]]; do
 
@@ -187,27 +200,14 @@ while [[ $DEPLOY > 0 ]]; do
   pip3 install python-openstackclient --ignore-installed
   kolla-ansible post-deploy
 
-  #stupid hack
-  working_dir=`pwd`
-  chmod 777 /tmp/control-trust.sh
-  runuser -l root -c  'cd /tmp; ./control-trust.sh'
-  cd $working_dir
-  #sleep 5
-
   #load setup for validator
   cd /etc/kolla
   . ./admin-openrc.sh
 
-  export KOLLA_DEBUG=0
-  export ENABLE_EXT_NET=1
-  export EXT_NET_CIDR=10.0.20.0/24
-  export EXT_NET_RANGE='start=10.0.20.50,end=10.0.20.100'
-  export EXT_NET_GATEWAY=10.0.20.1
-
   openstack image create --public --min-disk 3 --container-format bare \
   --disk-format qcow2 --property architecture=x86_64 \
   --property hw_disk_bus=virtio --property hw_vif_model=virtio \
-  --file bionic-server-cloudimg-amd64.img \
+  --file /tmp/bionic-server-cloudimg-amd64.img \
   "bionic x86_64"
 
   test=`openstack image show 'bionic x86_64'`
@@ -217,7 +217,6 @@ while [[ $DEPLOY > 0 ]]; do
     DEPLOY=0
   fi
 done
-
 
 cd /usr/local/share/kolla-ansible
 ./init-runonce
