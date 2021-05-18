@@ -188,6 +188,7 @@ export EXT_NET_GATEWAY=10.0.20.1
 DEPLOY=1
 while [[ $DEPLOY > 0 ]]; do
 
+  cp /etc/kolla/multinode /tmp
   kolla-ansible -i /etc/kolla/multinode deploy
 
   pip3 install python-openstackclient --ignore-installed
@@ -206,6 +207,7 @@ while [[ $DEPLOY > 0 ]]; do
 
   test=`openstack image show 'bionic x86_64'`
   if [[ "No Image found" == *"$test"* ]]; then
+    cp /tmp/multinode /etc/kolla
     kolla-ansible -i /etc/kolla/multinode destroy --yes-i-really-really-mean-it
   else
     DEPLOY=0
