@@ -200,9 +200,9 @@ while [[ $DEPLOY > 0 ]]; do
 
   export KOLLA_DEBUG=0
   export ENABLE_EXT_NET=1
-  export EXT_NET_CIDR=192.168.1.0/24
-  export EXT_NET_RANGE='start=192.168.1.149,end=192.168.1.220'
-  export EXT_NET_GATEWAY=192.168.1.1
+  export EXT_NET_CIDR=10.0.20.0/24
+  export EXT_NET_RANGE='start=10.0.20.50,end=10.0.20.100'
+  export EXT_NET_GATEWAY=10.0.20.1
 
   openstack image create --public --min-disk 3 --container-format bare \
   --disk-format qcow2 --property architecture=x86_64 \
