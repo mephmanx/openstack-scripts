@@ -196,6 +196,7 @@ while [[ $DEPLOY > 0 ]]; do
   #load setup for validator
   cd /etc/kolla
   . ./admin-openrc.sh
+  sleep 300
 
   openstack image create --public --min-disk 3 --container-format bare \
   --disk-format qcow2 --property architecture=x86_64 \
