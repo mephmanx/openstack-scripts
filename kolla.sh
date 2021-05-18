@@ -176,6 +176,9 @@ chmod 600 /etc/kolla/config/octavia/*.*
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
 
+#use for loading time as opposed to needing the image
+wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
+
 DEPLOY=1
 while [[ $DEPLOY > 0 ]]; do
 
@@ -201,8 +204,6 @@ while [[ $DEPLOY > 0 ]]; do
   export EXT_NET_RANGE='start=192.168.1.149,end=192.168.1.220'
   export EXT_NET_GATEWAY=192.168.1.1
 
-  #use for loading time as opposed to needing the image
-  wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
   openstack image create --public --min-disk 3 --container-format bare \
   --disk-format qcow2 --property architecture=x86_64 \
   --property hw_disk_bus=virtio --property hw_vif_model=virtio \
