@@ -22,15 +22,12 @@ runuser -l root -c  "rm -rf /etc/sysconfig/network-scripts/ifcfg-eth2"
 runuser -l root -c  "cat /tmp/eth2 > /etc/sysconfig/network-scripts/ifcfg-eth2"
 ############################
 
-cd /etc/init.d
-./vmware-tools restart
-
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 
-cat > /etc/init.d/rc.local <<EOF
+cat > /etc/rc.d/rc.local <<EOF
 /sbin/ip link set eth2 promisc on
 EOF
-chmod 777 /etc/init.d/rc.local
+chmod 777 /etc/rc.d/rc.local
 
 reboot

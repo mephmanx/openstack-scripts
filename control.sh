@@ -19,8 +19,5 @@ runuser -l root -c  '/sbin/ip link set eth1 promisc on'
 runuser -l root -c  '/sbin/ip link set eth0 promisc on'
 ############################
 
-cd /etc/init.d
-./vmware-tools restart
-
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
