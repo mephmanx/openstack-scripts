@@ -179,13 +179,6 @@ kolla-ansible -i /etc/kolla/multinode prechecks
 #use for loading time as opposed to needing the image
 wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
 
-#stupid hack
-working_dir=`pwd`
-chmod 777 /tmp/control-trust.sh
-runuser -l root -c  'cd /tmp; ./control-trust.sh'
-cd $working_dir
-#sleep 5
-
 export KOLLA_DEBUG=0
 export ENABLE_EXT_NET=1
 export EXT_NET_CIDR=10.0.20.0/24
@@ -217,6 +210,13 @@ while [[ $DEPLOY > 0 ]]; do
     DEPLOY=0
   fi
 done
+
+#stupid hack
+working_dir=`pwd`
+chmod 777 /tmp/control-trust.sh
+runuser -l root -c  'cd /tmp; ./control-trust.sh'
+cd $working_dir
+#sleep 5
 
 cd /usr/local/share/kolla-ansible
 ./init-runonce
