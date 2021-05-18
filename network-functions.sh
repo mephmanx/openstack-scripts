@@ -20,7 +20,7 @@ NETMASK="255.255.255.0"
 STORAGE_NETWORK="Local"
 
 #Default route for system internet connection needs to be one of Internal, External, or Local
-DEFAULT_ROUTE="Local"
+DEFAULT_ROUTE="Internal"
 
 function networkInformation {
   kickstart_file=$1
