@@ -211,7 +211,7 @@ while [[ $DEPLOY > 0 ]]; do
 
   test=`openstack image show 'bionic x86_64'`
   if [[ "No Image found" == *"$test"* ]]; then
-    kolla-ansible -i /etc/kolla/multinode destroy
+    kolla-ansible -i /etc/kolla/multinode destroy --yes-i-really-really-mean-it
   else
     DEPLOY=0
   fi
