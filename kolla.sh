@@ -184,11 +184,11 @@ export ENABLE_EXT_NET=1
 export EXT_NET_CIDR=10.0.20.0/24
 export EXT_NET_RANGE='start=10.0.20.50,end=10.0.20.100'
 export EXT_NET_GATEWAY=10.0.20.1
+cp /etc/kolla/multinode /tmp
 
 DEPLOY=1
 while [[ $DEPLOY > 0 ]]; do
 
-  cp /etc/kolla/multinode /tmp
   kolla-ansible -i /etc/kolla/multinode deploy
 
   pip3 install python-openstackclient --ignore-installed
