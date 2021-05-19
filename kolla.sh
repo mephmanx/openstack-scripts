@@ -194,10 +194,16 @@ while [[ $DEPLOY > 0 ]]; do
   pip3 install python-openstackclient --ignore-installed
   kolla-ansible post-deploy
 
+  #stupid hack
+  working_dir=`pwd`
+  chmod 777 /tmp/control-trust.sh
+  runuser -l root -c  'cd /tmp; ./control-trust.sh'
+  cd $working_dir
+
   #load setup for validator
   cd /etc/kolla
   . ./admin-openrc.sh
-  sleep 300
+  sleep 150
 
   openstack image create --public --min-disk 3 --container-format bare \
   --disk-format qcow2 --property architecture=x86_64 \
