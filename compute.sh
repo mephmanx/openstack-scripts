@@ -26,9 +26,11 @@ runuser -l root -c  "cat /tmp/eth2 > /etc/sysconfig/network-scripts/ifcfg-eth2"
 rm -rf /etc/rc.d/rc.local
 
 cat > /etc/rc.d/rc.local <<EOF
+#!/bin/bash
+
 /sbin/ip link set eth2 promisc on
 EOF
 
-chmod +x /etc/rc.d/rc.local
+chmod a+x /etc/rc.d/rc.local
 
 reboot
