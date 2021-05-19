@@ -220,13 +220,6 @@ while [[ $DEPLOY > 0 ]]; do
   fi
 done
 
-#stupid hack
-working_dir=`pwd`
-chmod 777 /tmp/control-trust.sh
-runuser -l root -c  'cd /tmp; ./control-trust.sh'
-cd $working_dir
-#sleep 5
-
 cd /usr/local/share/kolla-ansible
 ./init-runonce
 
