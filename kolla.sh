@@ -188,7 +188,7 @@ cp /etc/kolla/multinode /tmp
 
 DEPLOY=1
 while [[ $DEPLOY > 0 ]]; do
-
+  cp /tmp/multinode /etc/kolla
   kolla-ansible -i /etc/kolla/multinode deploy
 
   pip3 install python-openstackclient --ignore-installed
