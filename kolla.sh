@@ -159,12 +159,15 @@ done
 #####################
 
 ##### get ca password to encrypt key
+rm -rf /etc/kolla/config/octavia
 mkdir -p /etc/kolla/config/octavia
+
 cp /tmp/client.cert-and-key.pem /etc/kolla/config/octavia
 cp /tmp/client_ca.cert.pem /etc/kolla/config/octavia
 cp /tmp/server_ca.cert.pem /etc/kolla/config/octavia
 cp /tmp/server_ca.key.pem /etc/kolla/config/octavia
 chmod 777 /etc/kolla/config/octavia/*.*
+
 ca_pwd=`awk '/^octavia_ca_password/{print $NF}' /etc/kolla/passwords.yml`
 ### pull generated password from password.yml file in /etc/kolla/passwords.yml
 openssl rsa -aes192 -in /etc/kolla/config/octavia/server_ca.key.pem -out /etc/kolla/config/octavia/server_ca2.key.pem -passout pass:$ca_pwd
@@ -201,7 +204,7 @@ cd $working_dir
 #load setup for validator
 cd /etc/kolla
 . ./admin-openrc.sh
-sleep 150
+sleep 120
 
 openstack image create --public --min-disk 3 --container-format bare \
   --disk-format qcow2 --property architecture=x86_64 \
