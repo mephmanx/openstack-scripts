@@ -28,6 +28,7 @@ rm -rf /etc/rc.d/rc.local
 cat > /etc/rc.d/rc.local <<EOF
 /sbin/ip link set eth2 promisc on
 EOF
-chmod 777 /etc/rc.d/rc.local
+
+chmod +x /etc/rc.d/rc.local
 
 reboot
