@@ -186,39 +186,35 @@ export EXT_NET_RANGE='start=10.0.20.50,end=10.0.20.100'
 export EXT_NET_GATEWAY=10.0.20.1
 cp /etc/kolla/multinode /tmp
 
-DEPLOY=1
-while [[ $DEPLOY > 0 ]]; do
-  cp /tmp/multinode /etc/kolla
-  kolla-ansible -i /etc/kolla/multinode deploy
+cp /tmp/multinode /etc/kolla
+kolla-ansible -i /etc/kolla/multinode deploy
 
-  pip3 install python-openstackclient --ignore-installed
-  kolla-ansible post-deploy
+pip3 install python-openstackclient --ignore-installed
+kolla-ansible post-deploy
 
-  #stupid hack
-  working_dir=`pwd`
-  chmod 777 /tmp/control-trust.sh
-  runuser -l root -c  'cd /tmp; ./control-trust.sh'
-  cd $working_dir
+#stupid hack
+working_dir=`pwd`
+chmod 777 /tmp/control-trust.sh
+runuser -l root -c  'cd /tmp; ./control-trust.sh'
+cd $working_dir
 
-  #load setup for validator
-  cd /etc/kolla
-  . ./admin-openrc.sh
-  sleep 150
+#load setup for validator
+cd /etc/kolla
+. ./admin-openrc.sh
+sleep 150
 
-  openstack image create --public --min-disk 3 --container-format bare \
+openstack image create --public --min-disk 3 --container-format bare \
   --disk-format qcow2 --property architecture=x86_64 \
   --property hw_disk_bus=virtio --property hw_vif_model=virtio \
   --file /tmp/bionic-server-cloudimg-amd64.img \
   "bionic x86_64"
 
-  test=`openstack image show 'bionic x86_64'`
-  if [[ "No Image found" == *"$test"* ]]; then
-    cp /tmp/multinode /etc/kolla
-    kolla-ansible -i /etc/kolla/multinode destroy --yes-i-really-really-mean-it
-  else
-    DEPLOY=0
-  fi
-done
+test=`openstack image show 'bionic x86_64'`
+if [[ "No Image found" == *"$test"* ]]; then
+  cp /tmp/multinode /etc/kolla
+  kolla-ansible -i /etc/kolla/multinode destroy --yes-i-really-really-mean-it
+  reboot
+fi
 
 cd /usr/local/share/kolla-ansible
 ./init-runonce
