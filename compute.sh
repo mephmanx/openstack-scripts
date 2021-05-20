@@ -23,8 +23,8 @@ runuser -l root -c  "cat /tmp/eth2 > /etc/sysconfig/network-scripts/ifcfg-eth2"
 ############################
 
 #remove so as to not run again
-#rm -rf /etc/rc.d/rc.local
-#
+rm -rf /etc/rc.d/rc.local
+
 #cat > /etc/rc.d/rc.local <<EOF
 ##!/bin/bash
 #
