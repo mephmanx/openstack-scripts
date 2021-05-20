@@ -10,12 +10,6 @@ cd /tmp
 common_second_boot_setup
 #################
 
-############ add keys
-working_dir=`pwd`
-chmod 777 /tmp/host-trust.sh
-runuser -l root -c  'cd /tmp; ./host-trust.sh'
-cd $working_dir
-
 unset HOME
 
 mkdir /home/stack
@@ -124,6 +118,13 @@ done < /tmp/storage_hosts
 # shellcheck disable=SC2006
 #host_count_str=`grep -o -i ssh-keyscan /tmp/host-trust.sh | wc -l`
 host_count_str=`cat /tmp/host_count`
+
+############ add keys
+working_dir=`pwd`
+chmod 777 /tmp/host-trust.sh
+runuser -l root -c  'cd /tmp; ./host-trust.sh'
+cd $working_dir
+
 printf -v host_count '%d' $host_count_str 2>/dev/null
 ansible -m ping all -i /etc/kolla/multinode > /tmp/ping.txt
 # shellcheck disable=SC2006
