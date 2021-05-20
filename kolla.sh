@@ -216,7 +216,7 @@ test=`openstack image show 'bionic x86_64'`
 if [[ "No Image found" == *"$test"* ]]; then
   cp /tmp/multinode /etc/kolla
   kolla-ansible -i /etc/kolla/multinode destroy --yes-i-really-really-mean-it
-  reboot
+  exit -1
 fi
 
 cd /usr/local/share/kolla-ansible
