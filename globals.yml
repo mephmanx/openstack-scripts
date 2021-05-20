@@ -350,9 +350,9 @@ enable_neutron_vpnaas: "yes"
 #enable_neutron_sriov: "no"
 #enable_neutron_dvr: "no"
 #enable_neutron_qos: "no"
-#enable_neutron_agent_ha: "no"
+enable_neutron_agent_ha: "yes"
 #enable_neutron_bgp_dragent: "no"
-#enable_neutron_provider_networks: "no"
+enable_neutron_provider_networks: "yes"
 #enable_neutron_segments: "no"
 #enable_neutron_sfc: "no"
 #enable_neutron_trunk: "no"
@@ -794,7 +794,7 @@ octavia_amp_network:
     enable_dhcp: yes
 
 # Octavia management network subnet CIDR.
-octavia_amp_network_cidr: 10.10.0/24
+octavia_amp_network_cidr: 10.0.30.0/24
 
 octavia_amp_image_tag: "amphora"
 
