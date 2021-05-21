@@ -141,7 +141,7 @@ neutron_external_interface: "eth2"
 
 # Valid options are [ openvswitch, ovn, linuxbridge, vmware_nsxv, vmware_nsxv3, vmware_dvs ]
 # if vmware_nsxv3 is selected, enable_openvswitch MUST be set to "no" (default is yes)
-#neutron_plugin_agent: "openvswitch"
+neutron_plugin_agent: "linuxbridge"
 
 # Valid options are [ internal, infoblox ]
 #neutron_ipam_driver: "internal"
