@@ -6,10 +6,8 @@ set -x                             # tell sh to display commands before executio
 yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
 pip3 install --upgrade pip
 
-working_dir=`pwd`
 chmod 777 /tmp/openstack-env.sh
 source ./tmp/openstack-env.sh
-cd $working_dir
 
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 yum install -y docker-ce docker-ce-cli containerd.io

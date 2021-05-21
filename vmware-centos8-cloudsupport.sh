@@ -14,17 +14,13 @@ exec 1>/tmp/start-install.log 2>&1 # send stdout and stderr from rc.local to a l
 set -x                             # tell sh to display commands before execution
 
 #########load secrets into env
-working_dir=`pwd`
 chmod 777 /tmp/openstack-env.sh
 source ./tmp/openstack-env.sh
-cd $working_dir
 ############################
 
 #########load global addresses into env
-working_dir=`pwd`
 chmod 777 /tmp/global_addresses.sh
 source /tmp/global_addresses.sh
-cd $working_dir
 ############################
 
 #################use old net names

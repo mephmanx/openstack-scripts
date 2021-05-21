@@ -215,10 +215,8 @@ function common_second_boot_setup() {
   yum install -y docker-ce docker-ce-cli containerd.io
   #####################
 
-  working_dir=`pwd`
   chmod 777 /tmp/global_addresses.sh
   source /tmp/global_addresses.sh
-  cd $working_dir
 
   systemctl restart docker
   docker login -u $SUPPORT_USERNAME -p $SUPPORT_PASSWORD $SUPPORT_HOST
