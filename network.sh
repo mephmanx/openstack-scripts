@@ -13,13 +13,13 @@ common_second_boot_setup
 #runuser -l root -c  '/sbin/ip link set eth2 promisc on'
 #runuser -l root -c  '/sbin/ip link set eth0 promisc on'
 
-sed '/^IPADDR/d' -i /tmp/eth2
-sed '/^GATEWAY/d' -i /tmp/eth2
-sed '/^DNS1/d' -i /tmp/eth2
-sed '/^NETMASK/d' -i /tmp/eth2
-
-runuser -l root -c  "rm -rf /etc/sysconfig/network-scripts/ifcfg-eth2"
-runuser -l root -c  "cat /tmp/eth2 > /etc/sysconfig/network-scripts/ifcfg-eth2"
+#sed '/^IPADDR/d' -i /tmp/eth2
+#sed '/^GATEWAY/d' -i /tmp/eth2
+#sed '/^DNS1/d' -i /tmp/eth2
+#sed '/^NETMASK/d' -i /tmp/eth2
+#
+#runuser -l root -c  "rm -rf /etc/sysconfig/network-scripts/ifcfg-eth2"
+#runuser -l root -c  "cat /tmp/eth2 > /etc/sysconfig/network-scripts/ifcfg-eth2"
 ############################
 
 #remove so as to not run again
