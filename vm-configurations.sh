@@ -86,7 +86,7 @@ function vm_definitions {
   esac
 }
 
-function create_vm {
+function create_vm_esxi {
   option="${1}"
 
   vmstr=$(vm_definitions "$option")
