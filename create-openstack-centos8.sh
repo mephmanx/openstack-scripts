@@ -34,6 +34,14 @@ echo 'EOF' >> ${kickstart_file}
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack"
 esxi-scp -H $HOSTNAME -n /var/tmp/openstack-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
 
-####################### create openstack vm
-create_vm_esxi "openstack" "openstack"
-##################################
+esxi-vm-create -n openstack --summary --iso /vmfs/volumes/$ISO_DISK_NAME/isos/openstack-iso.iso \
+  -c 24 -m 332 -S HP-Disk -v HP-SSD:1300,HP-Disk:3000 -N Openstack-Internal,Openstack-Local -V --summary \
+  -o 'cpuid.coresPerSocket = "4",
+              vhv.enable = "TRUE",
+              vvtd.enable = "TRUE",
+              guestOS="centos8-64",
+              virtualHW.version = "17",
+              tools.upgrade.policy = "upgradeAtPowerCycle",
+              autostart = "TRUE",
+              tools.syncTime = "TRUE"'
+
