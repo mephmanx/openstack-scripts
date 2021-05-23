@@ -6,9 +6,18 @@ cd /tmp
 
 . /tmp/vm_functions.sh
 
-common_second_boot_setup
+######## Openstack main server install
 
-######## Put type specific code
+exec 1>/tmp/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+set -x                             # tell sh to display commands before execution
+
+yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
+
+systemctl stop firewalld
+systemctl mask firewalld
+
+################# setup KVM and kick off openstack cloud create
+
 
 ############################
 
