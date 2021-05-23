@@ -143,6 +143,7 @@ EOF
   do
     entry="/etc/sysconfig/network-scripts/ifcfg-ens$element"
     if test -f "$entry"; then
+      cat $entry
       IP=(`awk -F'=' '$1 == "IPADDR" {print $2}' $entry`)
       GATEWAY=(`awk -F'=' '$1 == "GATEWAY" {print $2}' $entry`)
       DNS1=(`awk -F'=' '$1 == "DNS1" {print $2}' $entry`)
