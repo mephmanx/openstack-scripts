@@ -18,6 +18,8 @@ systemctl mask firewalld
 
 ################# setup KVM and kick off openstack cloud create
 
+dnf install -y cockpit-machines virt virt-install
+
 
 ############################
 
