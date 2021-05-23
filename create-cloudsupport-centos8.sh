@@ -3,11 +3,13 @@ source ./iso-functions.sh
 source ./openstack-env.sh
 
 export VM_NAME=cloudsupport
+ESXI_HOST=$1
+ESXI_PASSWORD=$2
 #### ESXi hostname #1 VM Name arg #2
-setupENV $1
-installESXiTools
+setupENV ${ESXI_HOST}
 ########  ESXi password arg #2
-removeVM $2 $VM_NAME
+installESXiTools
+removeVM ${ESXI_PASSWORD} $VM_NAME
 
 IFS=
 kickstart_file=centos-8-kickstart-$VM_NAME.cfg
