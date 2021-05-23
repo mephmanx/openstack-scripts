@@ -22,7 +22,7 @@ dnf install -y cockpit-machines virt virt-install
 
 ################### Load cloud create
 cd /tmp
-git clone https://github.com/mephmanx/openstack-scripts.git
+git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git
 ####################
 cd /tmp
 ./create-cloud.sh
