@@ -83,6 +83,15 @@ function vm_definitions_esxi {
             "network_string":"Openstack-Local-Static,Openstack-Internal-Static"
           }'
     ;;
+      "openstack")
+        echo '{
+            "count":"1",
+            "cpu":"24",
+            "memory":"332",
+            "drive_string":"HP-SSD:1500,HP-Disk:2500",
+            "network_string":"Openstack-Internal,Openstack-External"
+          }'
+    ;;
   esac
 }
 
