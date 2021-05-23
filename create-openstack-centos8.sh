@@ -17,6 +17,6 @@ IFS=
 removeVM ${ESXI_PASSWORD} "openstack"
 ####################
 
-
-
-wait
+####################### create openstack vm
+create_vm_esxi "openstack" "openstack"
+##################################
