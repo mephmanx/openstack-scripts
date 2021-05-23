@@ -80,30 +80,32 @@ function initialKickstartSetup {
 }
 
 function closeOutAndBuildKickstartAndISO {
+  kickstart_file=$1
+  vm_name=$2
   working_dir=`pwd`
   #### to allow certs to print right
   IFS=
   ########
 
   ###Close out cfg file
-  echo '%end' >> ./$1
-  echo 'eula --agreed' >> ./$1
-  echo 'reboot --eject' >> ./$1
+  echo '%end' >> ./${kickstart_file}
+  echo 'eula --agreed' >> ./${kickstart_file}
+  echo 'reboot --eject' >> ./${kickstart_file}
   #########
 
-  sudo rm -rf /var/tmp/$2
+  sudo rm -rf /var/tmp/${vm_name}
   sudo mount -t iso9660 -o loop /tmp/centos8.iso /centos
-  sudo mkdir -p /var/tmp/$2
-  sudo rsync -a /centos/ /var/tmp/$2
+  sudo mkdir -p /var/tmp/${vm_name}
+  sudo rsync -a /centos/ /var/tmp/${vm_name}
   sudo umount /centos
 
-  cp ./$1 /var/tmp/$2/ks.cfg
-  cp ./isolinux-centos8.cfg /var/tmp/$2/isolinux/isolinux.cfg
+  cp ./${kickstart_file} /var/tmp/${vm_name}/ks.cfg
+  cp ./isolinux-centos8.cfg /var/tmp/${vm_name}/isolinux/isolinux.cfg
 
-  sudo ksvalidator /var/tmp/$2/ks.cfg
+  sudo ksvalidator /var/tmp/${vm_name}/ks.cfg
 
-  cd /var/tmp/$2
-  sudo genisoimage -o ../$2-iso.iso \
+  cd /var/tmp/${vm_name}
+  sudo genisoimage -o ../${vm_name}-iso.iso \
     -b isolinux/isolinux.bin \
     -c isolinux/boot.cat \
     -no-emul-boot \
@@ -114,14 +116,15 @@ function closeOutAndBuildKickstartAndISO {
     -no-emul-boot -J -R -v -T -V 'CentOS 8 x86_64' .
 
   cd /var/tmp/
-  sudo implantisomd5 $2-iso.iso
-  sudo rm -rf /var/tmp/$2
+  sudo implantisomd5 ${vm_name}-iso.iso
+  sudo rm -rf /var/tmp/${vm_name}
   cd $working_dir
 }
 
 function buildAndPushVMTypeISO {
+  vm_name=$1
   ############### kickstart init
-  initialKickstartSetup $1
+  initialKickstartSetup ${vm_name}
   ###########################
 
   ########### common certs
@@ -133,8 +136,8 @@ function buildAndPushVMTypeISO {
   ##########################
 
   #####################################
-  closeOutAndBuildKickstartAndISO ${kickstart_file} ${1}
-  esxi-scp -H $HOSTNAME -n /var/tmp/${1}-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
+  closeOutAndBuildKickstartAndISO ${kickstart_file} ${vm_name}
+  esxi_transfer ${vm_name}
 }
 
 function buildAndPushOpenstackSetupISO {
@@ -213,5 +216,10 @@ function buildAndPushOpenstackSetupISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla"
-  esxi-scp -H $HOSTNAME -n /var/tmp/kolla-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
+  esxi_transfer "kolla"
+}
+
+function esxi_transfer {
+  vm_name=$1
+  esxi-scp -H $HOSTNAME -n /var/tmp/${vm_name}-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
 }

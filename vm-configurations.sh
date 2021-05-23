@@ -108,3 +108,13 @@ function create_vm_esxi {
               autostart = "TRUE",
               tools.syncTime = "TRUE"' &
 }
+
+
+function removeVM {
+  rm -rf ~/.esxi-vm.yml
+  esxi-vm-create -H $HOSTNAME -P $1 -u
+  esxi-vm-destroy -n $2
+  sleep 15
+  esxi-scp-remove -H $HOSTNAME -n $2-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
+  esxi-scp-remove -H $HOSTNAME -n $2 -l /vmfs/volumes/$DISK_NAME
+}
