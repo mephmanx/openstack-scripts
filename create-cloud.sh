@@ -97,3 +97,48 @@ while [ $storage_count -gt 0 ]; do
   host_trust_script+=("runuser -l root -c  'ssh-keyscan -H storage$storage_count_format >> ~/.ssh/known_hosts';")
   storage_count=$[$storage_count - 1]
 done
+
+echo "VM's to be created"
+echo "${vms[@]}"
+############## remove vm's
+for d in "${vms[@]}"; do
+  echo "removing vm -> $d"
+  printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
+  vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
+  virsh destroy ${d}
+  sleep 15
+done
+
+########## remove kolla
+virsh destroy "kolla"
+####################
+
+############  Build and push custom iso's for VM types
+for d in "${vms[@]}"; do
+  echo "building and pushing ISO for $d"
+  buildAndPushVMTypeISO $d
+done
+#############################
+
+########### create vm's
+index=0
+for d in "${vms[@]}"; do
+  printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
+  vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
+  echo "creating vm of type -> $vm_type"
+  create_vm_esxi $vm_type $d
+  sleep 30
+  ((index++))
+done
+
+#############  create setup vm
+printf -v host_trust_string '%s ' "${host_trust_script[@]}"
+printf -v control_hack_string '%s ' "${control_hack_script[@]}"
+echo "creating openstack setup vm"
+buildAndPushOpenstackSetupISO "$host_trust_string" "$control_hack_string" "$(($(getVMCount "control") + $(getVMCount "network") + $(getVMCount "compute") + $(getVMCount "monitoring") + $(getVMCount "storage")))"
+create_vm_esxi "kolla" "kolla"
+########################
+
+###wait until jobs complete
+
+wait
