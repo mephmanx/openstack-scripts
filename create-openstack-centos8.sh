@@ -10,12 +10,29 @@ setupENV ${ESXI_HOST}
 ########  ESXi password arg #2
 installESXiTools
 
-IFS=
-
-
 ########## remove openstack
 removeVM ${ESXI_PASSWORD} "openstack"
 ####################
+
+IFS=
+kickstart_file=centos-8-kickstart-openstack.cfg
+####initial certs###############
+letsEncryptAndCockpitCerts ${kickstart_file}
+###############################
+
+########### add passwords in
+sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
+sed -i 's/{CENTOS_ROOT_PWD}/'$CENTOS_ROOT_PWD'/g' ${kickstart_file}
+###########################
+
+############### Secrets file ################
+echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
+cat ./openstack-env.sh >> ${kickstart_file}
+echo 'EOF' >> ${kickstart_file}
+###############################
+
+closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack"
+esxi-scp -H $HOSTNAME -n /var/tmp/openstack-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
 
 ####################### create openstack vm
 create_vm_esxi "openstack" "openstack"
