@@ -120,19 +120,19 @@ function create_vm_kvm {
   network_string=$(parse_json "$vm_str" "network_string")
 
   #### build disk info for centos.  iterate over drive string and get centos storage path.
-  virt_disk_string=""
+  virt_disk_list=()
   IFS=',' read -r -a net_array <<< "$drive_string"
   for element in "${net_array[@]}"
     do
       IFS=':' read -ra drive_info <<< "$element"
-      virt_disk_string+=" --disk pool=${drive_info[0]},size=${drive_info[1]},bus=scsi"
+      virt_disk_list+=(" --disk pool=${drive_info[0]},size=${drive_info[1]},bus=scsi")
   done
   #####################
 
   ##########  build network info for kvm
 
   #########################
-
+  printf -v $virt_disk_string '%s ' "${$virt_disk_list[@]}"
   echo "virt-install --virt-type kvm --name $2 --memory ${memory_ct}00 --vcpus $cpu_ct $virt_disk_string --cdrom /var/tmp/$2-iso.iso --os-variant centos8 --graphics vnc"
   virt-install --virt-type kvm --name $2 \
     --memory ${memory_ct}00 \
@@ -140,7 +140,7 @@ function create_vm_kvm {
     $virt_disk_string \
     --cdrom /var/tmp/$2-iso.iso \
     --os-variant centos8 \
-    --graphics vnc
+    --graphics vnc &
 }
 
 function setupENV {
