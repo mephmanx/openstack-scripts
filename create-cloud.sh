@@ -1,5 +1,9 @@
 #!/bin/bash
 
+source ./iso-functions.sh
+source ./vm-configurations.sh
+source ./openstack-env.sh
+
 cd /tmp/openstack-scripts;
 git pull;
 cd /tmp/openstack-setup;
@@ -9,11 +13,6 @@ rm -rf /var/tmp/*.*;
 
 cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
 cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
-
-source ./functions.sh
-source ./iso-functions.sh
-source ./vm-configurations.sh
-source ./openstack-env.sh
 
 export TRANSFER=0
 
