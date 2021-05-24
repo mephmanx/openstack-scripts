@@ -1,5 +1,13 @@
 #!/bin/bash
 
+cd /tmp/openstack-setup;
+git pull;
+cd /tmp/openstack-setup;
+git pull;
+
+cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
+cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
+
 source ./functions.sh
 source ./iso-functions.sh
 source ./vm-configurations.sh
