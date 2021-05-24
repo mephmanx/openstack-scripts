@@ -13,6 +13,8 @@ source ./iso-functions.sh
 source ./vm-configurations.sh
 source ./openstack-env.sh
 
+export TRANSFER=0
+
 IFS=
 ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
 ##################### Prep

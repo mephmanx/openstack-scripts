@@ -10,6 +10,8 @@ setupENV ${ESXI_HOST}
 ########  ESXi password arg #2
 installESXiTools
 
+export TRANSFER=1
+
 IFS=
 ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
 ##################### Prep

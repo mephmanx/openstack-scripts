@@ -221,5 +221,7 @@ function buildAndPushOpenstackSetupISO {
 
 function esxi_transfer {
   vm_name=$1
-  esxi-scp -H $HOSTNAME -n /var/tmp/${vm_name}-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
+  if [[ $TRANSFER > 0 ]]; then
+    esxi-scp -H $HOSTNAME -n /var/tmp/${vm_name}-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
+  fi
 }
