@@ -109,6 +109,24 @@ function create_vm_esxi {
               tools.syncTime = "TRUE"' &
 }
 
+function create_vm_kvm {
+  option="${1}"
+
+  vmstr=$(vm_definitions_esxi "$option")
+  vm_str=${vmstr//[$'\t\r\n ']}
+  cpu_ct=$(parse_json "$vm_str" "cpu")
+  memory_ct=$(parse_json "$vm_str" "memory")
+  drive_string=$(parse_json "$vm_str" "drive_string")
+  network_string=$(parse_json "$vm_str" "network_string")
+
+  virt-install --virt-type kvm --name $2 \
+    --cdrom /var/tmp/$2-iso.iso \
+    --os-variant centos8 \
+    --vcpus $cpu_ct \
+    --disk size=10 \
+    --memory $memory_ct
+}
+
 
 function removeVM {
   rm -rf ~/.esxi-vm.yml
