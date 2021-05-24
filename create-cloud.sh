@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /tmp/openstack-setup;
+cd /tmp/openstack-scripts;
 git pull;
 cd /tmp/openstack-setup;
 git pull;
