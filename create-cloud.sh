@@ -123,11 +123,13 @@ for d in "${vms[@]}"; do
   printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
   virsh destroy ${d}
+  virsh undefine ${d}
   sleep 15
 done
 
 ########## remove kolla
 virsh destroy "kolla"
+virsh undefine "kolla"
 ####################
 
 ############  Build and push custom iso's for VM types
