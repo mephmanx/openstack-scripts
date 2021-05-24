@@ -17,14 +17,15 @@ systemctl stop firewalld
 systemctl mask firewalld
 
 ################# setup KVM and kick off openstack cloud create
-dnf install -y cockpit-machines virt virt-install
+dnf module install -y virt
+dnf install -y cockpit-machines virt-install
 ############################
 
 ################### Load cloud create
 cd /tmp
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git
 ####################
-cd /tmp
+cd /tmp/openstack-scripts
 ./create-cloud.sh
 ################
 
