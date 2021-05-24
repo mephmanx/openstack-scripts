@@ -41,8 +41,10 @@ virsh pool-build HP-SSD
 virsh pool-autostart HP-SSD
 virsh pool-start HP-SSD
 ############################
+cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
+cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
 
-runuser -l root -c 'cd /tmp/openstack-scripts; ./create-cloud.sh;'
+runuser -l root -c 'cd /tmp/openstack-setup; ./toolbox-kvm.sh;'
 ################
 
 #remove so as to not run again
