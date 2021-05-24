@@ -11,5 +11,5 @@ cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
 cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
 
 cd /tmp/openstack-setup
-/tmp/openstack-setup/create-openstack-centos8.sh 192.168.3.100 $2;
+/tmp/openstack-setup/create-cloud.sh
 
