@@ -119,11 +119,12 @@ function create_vm_kvm {
   drive_string=$(parse_json "$vm_str" "drive_string")
   network_string=$(parse_json "$vm_str" "network_string")
 
+  echo "virt-install --virt-type kvm --name $2 --cdrom /var/tmp/$2-iso.iso --os-vairant centos* --vcpus $cpu_ct --disk size=100 --memory $memory_ct"
   virt-install --virt-type kvm --name $2 \
     --cdrom /var/tmp/$2-iso.iso \
     --os-variant centos8 \
     --vcpus $cpu_ct \
-    --disk size=10 \
+    --disk size=100 \
     --memory $memory_ct
 }
 
