@@ -133,15 +133,15 @@ function create_vm_kvm {
 
   #########################
   printf -v virt_disk_string '%s ' "${virt_disk_list[@]}"
-  tr -dc '[[:print:]]' <<< "$virt_disk_string"
   echo "virt-install --virt-type kvm --name $2 --memory ${memory_ct}00 --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso --os-variant centos8 --graphics vnc"
-  virt-install --virt-type kvm --name $2 \
-    --memory ${memory_ct}00 \
-    --vcpus $cpu_ct \
-    $virt_disk_string \
-    --cdrom /var/tmp/$2-iso.iso \
-    --os-variant centos8 \
-    --graphics vnc &
+  eval "virt-install --virt-type kvm --name $2 --memory ${memory_ct}00 --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso --os-variant centos8 --graphics vnc" &
+#  virt-install --virt-type kvm --name $2 \
+#    --memory ${memory_ct}00 \
+#    --vcpus $cpu_ct \
+#    $virt_disk_string \
+#    --cdrom /var/tmp/$2-iso.iso \
+#    --os-variant centos8 \
+#    --graphics vnc &
 }
 
 function setupENV {
