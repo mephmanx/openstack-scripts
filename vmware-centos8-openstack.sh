@@ -23,6 +23,9 @@ chmod 777 /tmp/global_addresses.sh
 source /tmp/global_addresses.sh
 ############################
 
+# adjust main volumes to allocate most size to root volume
+grow_fs
+
 #################use old net names
 use_old_net_names
 

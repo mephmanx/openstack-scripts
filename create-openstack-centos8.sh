@@ -34,7 +34,7 @@ closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack"
 esxi-scp -H $HOSTNAME -n /var/tmp/openstack-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
 
 esxi-vm-create -n openstack --summary --iso /vmfs/volumes/$ISO_DISK_NAME/isos/openstack-iso.iso \
-  -c 24 -m 332 -S HP-Disk -v HP-Disk:3000,HP-SSD:1500 -N Openstack-Internal-Static -V --summary \
+  -c 24 -m 332 -S HP-Disk -v HP-Disk:100,HP-Disk:3000,HP-SSD:1500 -N Openstack-Internal-Static -V --summary \
   -o 'cpuid.coresPerSocket = "4",
               vhv.enable = "TRUE",
               vvtd.enable = "TRUE",

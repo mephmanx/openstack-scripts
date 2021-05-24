@@ -28,17 +28,18 @@ git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
 ####################
 
 ############ Create and init storage pools
-mkdir /root/vms
+
+## HP-Disk pool
+virsh pool-define-as HP-Disk logical - - /dev/sdb libvirt_lvm  /dev/libvirt_lvm
+virsh pool-build HP-Disk
+virsh pool-start HP-Disk
+virsh pool-autostart HP-Disk
+
 ## HP-SSD pool
-virsh pool-define-as HP-SSD logical - - /dev/sdb libvirt_lvm  /dev/libvirt_lvm
+virsh pool-define-as HP-SSD logical - - /dev/sdc libvirt_lvm  /dev/libvirt_lvm
 virsh pool-build HP-SSD
 virsh pool-start HP-SSD
 virsh pool-autostart HP-SSD
-
-## HP-Disk pool
-virsh pool-define-as HP-Disk dir - - - - "/root/vms"
-virsh pool-start HP-Disk
-virsh pool-autostart HP-Disk
 ############################
 
 runuser -l root -c 'cd /tmp/openstack-scripts; ./create-cloud.sh;'
