@@ -86,6 +86,19 @@ function vm_definitions_esxi {
   esac
 }
 
+function esxi_drive_to_kvm_drive {
+  ##### Return drive path location on centos for esxi disk name.
+  option="${1}"
+  case $option in
+    "HP-Disk")
+      echo ''
+    ;;
+    "HP-SSD")
+      echo ''
+    ;;
+  esac
+}
+
 function create_vm_esxi {
   option="${1}"
 
@@ -119,13 +132,17 @@ function create_vm_kvm {
   drive_string=$(parse_json "$vm_str" "drive_string")
   network_string=$(parse_json "$vm_str" "network_string")
 
-  echo "virt-install --virt-type kvm --name $2 --cdrom /var/tmp/$2-iso.iso --os-vairant centos* --vcpus $cpu_ct --disk size=100 --memory $memory_ct"
+  #### build disk info for centos.  iterate over drive string and get centos storage path.
+
+  #####################
+
+  echo "virt-install --virt-type kvm --name $2 --cdrom /var/tmp/$2-iso.iso --os-variant centos8 --vcpus $cpu_ct --disk size=100 --memory ${memory_ct}00"
   virt-install --virt-type kvm --name $2 \
     --cdrom /var/tmp/$2-iso.iso \
     --os-variant centos8 \
     --vcpus $cpu_ct \
     --disk size=100 \
-    --memory $memory_ct
+    --memory ${memory_ct}00
 }
 
 
