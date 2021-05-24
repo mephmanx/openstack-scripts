@@ -26,8 +26,7 @@ cd /tmp
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
 ####################
-cd /tmp/openstack-scripts
-runuser -l root -c './create-cloud.sh'
+runuser -l root -c 'cd /tmp/openstack-scripts; ./create-cloud.sh;'
 ################
 
 #remove so as to not run again
