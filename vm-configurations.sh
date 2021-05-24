@@ -133,7 +133,7 @@ function create_vm_kvm {
 
   #########################
 
-  echo "virt-install --virt-type kvm --name $2 --cdrom /var/tmp/$2-iso.iso --os-variant centos8 --vcpus $cpu_ct --disk size=100 --memory ${memory_ct}00"
+  echo "virt-install --virt-type kvm --name $2 --cdrom /var/tmp/$2-iso.iso --os-variant centos8 --vcpus $cpu_ct --disk $virt_disk_string --memory ${memory_ct}00"
   virt-install --virt-type kvm --name $2 \
     --cdrom /var/tmp/$2-iso.iso \
     --os-variant centos8 \

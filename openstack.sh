@@ -28,7 +28,7 @@ git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
 ####################
 
 ############ Create and init storage pools
-
+mkdir /root/vms
 ## HP-SSD pool
 virsh pool-define-as HP-SSD logical - - /dev/sdb libvirt_lvm  /dev/libvirt_lvm
 virsh pool-build HP-SSD
