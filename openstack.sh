@@ -20,7 +20,7 @@ systemctl mask firewalld
 dnf module install -y virt
 dnf install -y cockpit-machines virt-install
 ############################
-
+systemctl restart libvirtd
 ################### Load cloud create
 cd /tmp
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git
