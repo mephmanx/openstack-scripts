@@ -149,6 +149,32 @@ function create_vm_kvm {
     --memory ${memory_ct}00
 }
 
+function setupENV {
+  export HOSTNAME=$1
+  export ISO_DISK_NAME=HP-Disk
+  export DISK_NAME=HP-Disk
+  rm -rf /var/tmp/*.*
+}
+
+function installESXiTools {
+  alternatives --set python /usr/bin/python2
+  python -m ensurepip --default-pip
+  pip2 install six enum34 bcrypt PyAML
+
+  cd /root
+  rm -rf /root/esxi-vm-create
+  git clone https://github.com/mephmanx/esxi-vm-create.git
+  cd /root/esxi-vm-create
+  make install
+
+  cd /root
+  rm -rf /root/scp.py
+  git clone https://github.com/jbardin/scp.py.git
+  cd /root/scp.py
+  python setup.py install
+
+  cd /root/openstack-setup
+}
 
 function removeVM {
   rm -rf ~/.esxi-vm.yml

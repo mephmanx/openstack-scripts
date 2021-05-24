@@ -1,4 +1,3 @@
-source ./functions.sh
 source ./iso-functions.sh
 source ./vm-configurations.sh
 source ./openstack-env.sh
