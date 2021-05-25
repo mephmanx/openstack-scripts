@@ -131,6 +131,10 @@ virsh destroy "kolla"
 virsh undefine "kolla"
 ####################
 
+########### delete all volumes
+
+#######################
+
 ############  Build and push custom iso's for VM types
 for d in "${vms[@]}"; do
   echo "building and pushing ISO for $d"
@@ -145,6 +149,7 @@ for d in "${vms[@]}"; do
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
   echo "creating vm of type -> $vm_type"
   create_vm_kvm $vm_type $d
+  virsh autostart $d
   sleep 30
   ((index++))
 done
