@@ -52,7 +52,7 @@ virsh pool-start SSD-EXT
 virsh net-destroy default
 virsh net-undefine default
 
-cat /tmp/openstack-local.xml <<EOF
+cat > /tmp/openstack-local.xml <<EOF
 <network>
   <name>Openstack-Local-Static</name>
   <bridge name='virbr0' stp='on' delay='0'/>
@@ -62,7 +62,7 @@ cat /tmp/openstack-local.xml <<EOF
 </network>
 EOF
 
-cat /tmp/openstack-internal.xml <<EOF
+cat > /tmp/openstack-internal.xml <<EOF
 <network>
   <name>Openstack-Internal-Static</name>
   <bridge name='virbr1' stp='on' delay='0'/>
@@ -75,7 +75,7 @@ cat /tmp/openstack-internal.xml <<EOF
 </network>
 EOF
 
-cat /tmp/openstack-external.xml <<EOF
+cat > /tmp/openstack-external.xml <<EOF
 <network>
   <name>Openstack-External-Static</name>
   <bridge name='virbr2' stp='on' delay='0'/>
