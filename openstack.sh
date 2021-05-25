@@ -49,7 +49,44 @@ virsh pool-start SSD-EXT
 ############################
 
 ############### configure networks
+virsh net-destroy default
+virsh net-undefine default
 
+cat /tmp/openstack-local.xml <<EOF
+<network>
+  <name>Openstack-Local</name>
+  <bridge name='virbr0' stp='on' delay='0'/>
+  <ip address='10.0.20.1' netmask='255.255.255.0'>
+
+  </ip>
+</network>
+EOF
+
+cat /tmp/openstack-internal.xml <<EOF
+<network>
+  <name>Openstack-Internal</name>
+  <bridge name='virbr1' stp='on' delay='0'/>
+  <forward mode='passthrough'>
+    <pf dev='eth0'/>
+  </forward>
+  <ip address='192.168.1.1' netmask='255.255.255.0'>
+
+  </ip>
+</network>
+EOF
+
+cat /tmp/openstack-external.xml <<EOF
+<network>
+  <name>Openstack-External</name>
+  <bridge name='virbr2' stp='on' delay='0'/>
+  <forward mode='passthrough'>
+    <pf dev='eth0'/>
+  </forward>
+  <ip address='10.0.10.1' netmask='255.255.255.0'>
+
+  </ip>
+</network>
+EOF
 ################################
 
 ################ Prep and run cloud script
