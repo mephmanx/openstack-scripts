@@ -131,9 +131,19 @@ virsh destroy "kolla"
 virsh undefine "kolla"
 ####################
 
-########### delete all volumes
+########### Delete volumes in storage pools
+virsh vol-list HP-Disk | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
+  if [ -z "$line"]
+    virsh vol-delete --pool HP-Disk $line
+  fi
+done
 
-#######################
+virsh vol-list HP-SSD | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
+  if [ -z "$line"]
+    virsh vol-delete --pool HP-SSD $line
+  fi
+done
+##########################
 
 ############  Build and push custom iso's for VM types
 for d in "${vms[@]}"; do
