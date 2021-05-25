@@ -35,7 +35,7 @@ function vm_definitions_esxi {
             "cpu":"4",
             "memory":"24",
             "drive_string":"HP-Disk:200,HP-Disk:300",
-            "network_string":"Openstack-Local,Openstack-Internal-Static"
+            "network_string":"Openstack-Local-Static,Openstack-Internal-Static"
           }'
     ;;
     "network")
@@ -44,7 +44,7 @@ function vm_definitions_esxi {
             "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:100",
-            "network_string":"Openstack-Local,Openstack-Internal-Static,Openstack-External-Static"
+            "network_string":"Openstack-Local-Static,Openstack-Internal-Static,Openstack-External-Static"
           }'
     ;;
     "compute")
@@ -53,7 +53,7 @@ function vm_definitions_esxi {
             "cpu":"24",
             "memory":176",
             "drive_string":"HP-SSD:800,HP-Disk:400",
-            "network_string":"Openstack-Local,Openstack-Internal-Static,Openstack-External-Static"
+            "network_string":"Openstack-Local-Static,Openstack-Internal-Static,Openstack-External-Static"
           }'
     ;;
     "monitoring")
@@ -62,7 +62,7 @@ function vm_definitions_esxi {
             "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:200",
-            "network_string":"Openstack-Local,Openstack-Internal-Static"
+            "network_string":"Openstack-Local-Static,Openstack-Internal-Static"
           }'
     ;;
     "storage")
@@ -71,7 +71,7 @@ function vm_definitions_esxi {
             "cpu":"4",
             "memory":"32",
             "drive_string":"HP-Disk:250,HP-Disk:250,HP-SSD:250,HP-SSD:250,HP-SSD:250",
-            "network_string":"Openstack-Local,Openstack-Internal-Static"
+            "network_string":"Openstack-Local-Static,Openstack-Internal-Static"
           }'
     ;;
     "kolla")
@@ -80,7 +80,7 @@ function vm_definitions_esxi {
             "cpu":"8",
             "memory":"24",
             "drive_string":"HP-SSD:100",
-            "network_string":"Openstack-Local,Openstack-Internal-Static"
+            "network_string":"Openstack-Local-Static,Openstack-Internal-Static"
           }'
     ;;
   esac
@@ -121,8 +121,8 @@ function create_vm_kvm {
 
   #### build disk info for centos.  iterate over drive string and get centos storage path.
   virt_disk_list=()
-  IFS=',' read -r -a net_array <<< "$drive_string"
-  for element in "${net_array[@]}"
+  IFS=',' read -r -a disk_array <<< "$drive_string"
+  for element in "${disk_array[@]}"
     do
       IFS=':' read -ra drive_info <<< "$element"
       virt_disk_list+=("--disk pool=${drive_info[0]},size=${drive_info[1]},bus=scsi ")
@@ -130,12 +130,19 @@ function create_vm_kvm {
   #####################
 
   ##########  build network info for kvm
-
+  virt_network_list=()
+  IFS=',' read -r -a net_array <<< "$network_string"
+  for element in "${net_array[@]}"
+    do
+      virt_network_list+=("--network bridge=$element,model=rtl8139 ")
+  done
   #########################
-  printf -v virt_disk_string '%s ' "${virt_disk_list[@]}"
-  echo "virt-install --virt-type kvm --name $2 --memory ${memory_ct}00 --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso --os-variant centos8 --graphics vnc"
-  eval "virt-install --virt-type kvm --name $2 --memory ${memory_ct}00 --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso --os-variant centos8 --graphics vnc" &
 
+  printf -v virt_disk_string '%s ' "${virt_disk_list[@]}"
+  printf -v virt_network_string '%s ' "${virt_network_list[@]}"
+  echo "virt-install --virt-type kvm --name $2 --memory ${memory_ct}00 --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso --os-variant centos8 --graphics vnc"
+
+  eval "virt-install --virt-type kvm --name $2 --memory ${memory_ct}00 --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--os-variant centos8 --graphics vnc" &
 }
 
 function setupENV {
