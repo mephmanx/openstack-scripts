@@ -41,6 +41,12 @@ virsh pool-build HP-SSD
 virsh pool-autostart HP-SSD
 virsh pool-start HP-SSD
 ############################
+
+############### configure networks
+
+################################
+
+################ Prep and run cloud script
 cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
 cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
 
