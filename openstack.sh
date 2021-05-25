@@ -42,7 +42,7 @@ virsh pool-autostart HP-SSD
 virsh pool-start HP-SSD
 
 ## SSD Pool for non openstack VM's
-virsh pool-define-as HP-EXT logical - - /dev/sdd libvirt_lvm_ssdext  /dev/libvirt_lvm_ssdext
+virsh pool-define-as SSD-EXT logical - - /dev/sdd libvirt_lvm_ssdext  /dev/libvirt_lvm_ssdext
 virsh pool-build SSD-EXT
 virsh pool-autostart SSD-EXT
 virsh pool-start SSD-EXT
