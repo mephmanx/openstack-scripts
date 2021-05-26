@@ -54,7 +54,7 @@ virsh net-undefine default
 
 cat > /tmp/openstack-local.xml <<EOF
 <network>
-  <name>Openstack-Local-Static</name>
+  <name>os-loc-static</name>
   <bridge name='virbr0' stp='on' delay='0'/>
   <ip address='10.0.20.1' netmask='255.255.255.0'>
 
@@ -64,7 +64,7 @@ EOF
 
 cat > /tmp/openstack-internal.xml <<EOF
 <network>
-  <name>Openstack-Internal-Static</name>
+  <name>os-int-static</name>
   <bridge name='virbr1' stp='on' delay='0'/>
   <forward mode='passthrough'>
     <pf dev='eth0'/>
@@ -77,7 +77,7 @@ EOF
 
 cat > /tmp/openstack-external.xml <<EOF
 <network>
-  <name>Openstack-External-Static</name>
+  <name>os-ext-static</name>
   <bridge name='virbr2' stp='on' delay='0'/>
   <forward mode='passthrough'>
     <pf dev='eth0'/>
