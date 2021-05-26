@@ -16,6 +16,32 @@ yum clean all && yum update -y  #this is only to make the next call work, DONT r
 systemctl stop firewalld
 systemctl mask firewalld
 
+################# Bond all NIC's together
+IP=(`hostname -I | awk '{print $1}'`)
+IP+="/24"
+eth1UUID=`nmcli connection show | awk '$1 == "eth0" { print $2 }'`
+eth2UUID=`nmcli connection show | awk '$1 == "eth1" { print $2 }'`
+eth3UUID=`nmcli connection show | awk '$1 == "eth2" { print $2 }'`
+
+nmcli connection delete $eth0UUID
+nmcli connection delete $eth1UUID
+nmcli connection delete $eth2UUID
+
+nmcli connection add type team con-name bond0 ifname bond0 config '{"runner": {"name": "activebackup"}}'
+
+nmcli con mod bond0  ipv4.addresses '$IP'
+nmcli con mod bond0  ipv4.gateway 192.168.1.1
+nmcli con mod bond0  ipv4.dns 192.168.1.1
+nmcli con mod bond0  ipv4.method manual
+nmcli con mod bond0  connection.autoconnect yes
+
+nmcli con add type team-slave con-name bond0-slave0 ifname eth0 master bond0
+nmcli con add type team-slave con-name bond0-slave1 ifname eth1 master bond0
+nmcli con add type team-slave con-name bond0-slave2 ifname eth2 master bond0
+
+nmcli connection down bond0 && nmcli connection up bond0
+##########################################
+
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
 dnf install -y cockpit-machines virt-install
@@ -67,7 +93,7 @@ cat > /tmp/openstack-internal.xml <<EOF
   <name>os-int</name>
   <bridge name='os-int' stp='on' delay='0'/>
   <forward mode='passthrough'>
-    <pf dev='eth0'/>
+    <pf dev='bond0'/>
   </forward>
   <ip address='192.168.1.1' netmask='255.255.255.0'>
 
@@ -80,7 +106,7 @@ cat > /tmp/openstack-external.xml <<EOF
   <name>os-ext</name>
   <bridge name='os-ext' stp='on' delay='0'/>
   <forward mode='passthrough'>
-    <pf dev='eth0'/>
+    <pf dev='bond0'/>
   </forward>
   <ip address='10.0.10.1' netmask='255.255.255.0'>
 
