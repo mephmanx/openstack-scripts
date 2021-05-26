@@ -87,6 +87,14 @@ cat > /tmp/openstack-external.xml <<EOF
   </ip>
 </network>
 EOF
+
+virsh net-define /tmp/openstack-local.xml
+virsh net-define /tmp/openstack-internal.xml
+virsh net-define /tmp/openstack-external.xml
+
+virsh net-autostart Openstack-Local-Static
+virsh net-autostart Openstack-Internal-Static
+virsh net-autostart Openstack-External-Static
 ################################
 
 ################ Prep and run cloud script
