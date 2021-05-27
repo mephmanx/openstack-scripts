@@ -56,7 +56,7 @@ git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
 ############ Create and init storage pools
 mkdir /HP-Disk
 mkdir /HP-SSD
-mkdir /SSD-EXT
+
 ## HP-Disk pool
 virsh pool-define-as HP-Disk dir - - - - "/HP-Disk"
 virsh pool-build HP-Disk
@@ -68,12 +68,6 @@ virsh pool-define-as HP-SSD logical - - /dev/sdb libvirt_lvm_hpssd  /dev/libvirt
 virsh pool-build HP-SSD
 virsh pool-autostart HP-SSD
 virsh pool-start HP-SSD
-
-## SSD Pool for non openstack VM's
-virsh pool-define-as SSD-EXT dir - - - - "/SSD-EXT"
-virsh pool-build SSD-EXT
-virsh pool-autostart SSD-EXT
-virsh pool-start SSD-EXT
 ############################
 
 ############### configure networks
