@@ -23,6 +23,22 @@ chmod 777 /tmp/global_addresses.sh
 source /tmp/global_addresses.sh
 ############################
 
+############# Adjust drive size
+get_drive_name
+
+#One time machine setup
+xfsdump -f /tmp/home.dump /home
+
+umount /home
+lvreduce -L 20G -f /dev/mapper/cl_$DRIVE_NAME-home
+mkfs.xfs -f /dev/mapper/cl_$DRIVE_NAME-home
+#lvextend -l +100%FREE /dev/mapper/cl_$DRIVE_NAME-root
+#xfs_growfs /dev/mapper/cl_$DRIVE_NAME-root
+mount /dev/mapper/cl_$DRIVE_NAME-home /home
+xfsrestore -f /tmp/home.dump /home
+
+#########################
+
 #################use old net names
 use_old_net_names
 
