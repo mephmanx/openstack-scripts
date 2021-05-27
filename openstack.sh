@@ -64,7 +64,7 @@ virsh pool-autostart HP-Disk
 virsh pool-start HP-Disk
 
 ## HP-SSD pool
-virsh pool-define-as HP-SSD dir - - - - "/HP-SSD"
+virsh pool-define-as HP-SSD logical - - /dev/sdb libvirt_lvm_hpssd  /dev/libvirt_lvm_hpssd
 virsh pool-build HP-SSD
 virsh pool-autostart HP-SSD
 virsh pool-start HP-SSD
