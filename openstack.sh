@@ -54,8 +54,6 @@ git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
 ####################
 
 ############ Create and init storage pools
-mkdir /HP-Disk
-mkdir /HP-SSD
 
 ## HP-Disk pool
 virsh pool-define-as HP-Disk dir - - - - "/HP-Disk"
