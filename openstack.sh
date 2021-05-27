@@ -97,19 +97,6 @@ cat > /tmp/openstack-internal.xml <<EOF
 </network>
 EOF
 
-cat > /tmp/openstack-external.xml <<EOF
-<network>
-  <name>os-ext</name>
-  <bridge name='os-ext' stp='on' delay='0'/>
-  <forward mode='passthrough'>
-    <pf dev='bond0'/>
-  </forward>
-  <ip address='10.0.10.1' netmask='255.255.255.0'>
-
-  </ip>
-</network>
-EOF
-
 virsh net-define /tmp/openstack-local.xml
 virsh net-define /tmp/openstack-internal.xml
 virsh net-define /tmp/openstack-external.xml
