@@ -99,15 +99,12 @@ EOF
 
 virsh net-define /tmp/openstack-local.xml
 virsh net-define /tmp/openstack-internal.xml
-virsh net-define /tmp/openstack-external.xml
 
 virsh net-autostart os-loc
 virsh net-autostart os-int
-virsh net-autostart os-ext
 
 virsh net-start os-loc
 virsh net-start os-int
-virsh net-start os-ext
 ################################
 
 ################ Prep and run cloud script
