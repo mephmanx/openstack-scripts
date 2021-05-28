@@ -42,6 +42,26 @@ nmcli con add type team-slave con-name bond0-slave2 ifname eth2 master bond0
 nmcli connection down bond0 && nmcli connection up bond0
 ##########################################
 
+################# Add bridge
+ip link add br0 type bridge
+ip address add dev br0 192.168.1.200/24
+ip link set bond0 master br0
+
+cat > /etc/sysctl.d/99-netfilter-bridge.conf <<EOF
+net.bridge.bridge-nf-call-ip6tables = 0
+net.bridge.bridge-nf-call-iptables = 0
+net.bridge.bridge-nf-call-arptables = 0
+EOF
+
+modprobe br_netfilter
+
+cat > /etc/modules-load.d/br_netfilter.conf <<EOF
+br_netfilter
+EOF
+
+sysctl -p /etc/sysctl.d/99-netfilter-bridge.conf
+###########################
+
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
 dnf install -y cockpit-machines virt-install
@@ -85,13 +105,9 @@ EOF
 cat > /tmp/openstack-internal.xml <<EOF
 <network>
   <name>os-int</name>
-  <bridge name='os-int' stp='on' delay='0'/>
-  <forward mode='passthrough'>
-    <pf dev='bond0'/>
+  <bridge name='br0'/>
+  <forward mode='bridge'>
   </forward>
-  <ip address='192.168.1.1' netmask='255.255.255.0'>
-
-  </ip>
 </network>
 EOF
 
