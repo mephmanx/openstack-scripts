@@ -134,15 +134,10 @@ EOF
   runuser -l root -c  'cat /tmp/grub > /etc/default/grub'
   runuser -l root -c  'grub2-mkconfig  -o /boot/grub2/grub.cfg'
   ct=0
-  # Use no more than 3 NIC cards per VM until ordering is figured out!
-  # The next NIC name in the list is 161 and it throws off all NIC cards
-  net_names=("192" "224" "256")
 
-  ###################
-  for element in "${net_names[@]}"
+  for FILE in /etc/sysconfig/network-scripts/*; do
   do
-    entry="/etc/sysconfig/network-scripts/ifcfg-ens$element"
-    if test -f "$entry"; then
+    entry=`sed "s:/etc/sysconfig/network-scripts/ifcfg-::g" $FILE`
       cat $entry
       IP=(`awk -F'=' '$1 == "IPADDR" {print $2}' $entry`)
       GATEWAY=(`awk -F'=' '$1 == "GATEWAY" {print $2}' $entry`)
@@ -182,7 +177,6 @@ fi
       runuser -l root -c  "cat /tmp/eth$ct > /etc/sysconfig/network-scripts/ifcfg-eth$ct"
       runuser -l root -c  "rm -rf $entry"
       ((ct++))
-    fi
   done
 }
 
