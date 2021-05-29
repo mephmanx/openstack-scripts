@@ -67,11 +67,7 @@ dnf module install -y virt
 dnf install -y cockpit-machines virt-install
 ############################
 systemctl restart libvirtd
-################### Load cloud create
-cd /tmp
-git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git
-git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
-####################
+
 
 ############ Create and init storage pools
 
@@ -122,8 +118,14 @@ virsh net-start os-int
 ################################
 
 ################ Prep and run cloud script
+################### Load cloud create
+cd /tmp
+git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git
+git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
+
 cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
 cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
+####################
 
 runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloud.sh;'
 ################
