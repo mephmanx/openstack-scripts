@@ -174,6 +174,9 @@ function installESXiTools {
 }
 
 function removeVM {
+  print "arg1 $1"
+  print "hostname $HOSTNAME"
+  print "arg2 $2"
   rm -rf ~/.esxi-vm.yml
   esxi-vm-create -H $HOSTNAME -P $1 -u
   esxi-vm-destroy -n $2
