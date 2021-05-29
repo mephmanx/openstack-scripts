@@ -156,7 +156,7 @@ function setupENV {
 function installESXiTools {
   alternatives --set python /usr/bin/python2
   python -m ensurepip --default-pip
-  pip2 install six enum34 bcrypt PyAML
+  pip2 install six enum34 bcrypt PyAML setuptools-rust setuptools
 
   cd /root
   rm -rf /root/esxi-vm-create
