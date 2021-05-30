@@ -23,9 +23,6 @@ chmod 777 /tmp/global_addresses.sh
 source /tmp/global_addresses.sh
 ############################
 
-#################use old net names
-use_old_net_names
-
 # set up net script to be called after reboot
 prep_next_script "cloudsupport"
 
