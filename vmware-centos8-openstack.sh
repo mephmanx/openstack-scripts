@@ -23,7 +23,7 @@ systemctl enable --now cockpit.socket
 
   ## Prep OpenStack install
 rm -rf /etc/rc.d/rc.local
-curl -o /etc/rc.d/rc.local https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/$1.sh
+curl -o /etc/rc.d/rc.local https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/openstack.sh
 chmod +x /etc/rc.d/rc.local
 
 ########################
