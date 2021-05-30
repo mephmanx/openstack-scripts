@@ -31,9 +31,6 @@ grow_fs
 # load libraries for this VM "type"
 load_libs "${TYPE}"
 
-#################use old net names
-use_old_net_names
-
 # add stack user with passwordless sudo privs
 add_stack_user
 
