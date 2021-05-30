@@ -137,13 +137,10 @@ EOF
 
   for FILE in /etc/sysconfig/network-scripts/*;
   do
-
-    entry=`sed "s:/etc/sysconfig/network-scripts/ifcfg-::g" $FILE`
-      cat $entry
-      IP=(`awk -F'=' '$1 == "IPADDR" {print $2}' $entry`)
-      GATEWAY=(`awk -F'=' '$1 == "GATEWAY" {print $2}' $entry`)
-      DNS1=(`awk -F'=' '$1 == "DNS1" {print $2}' $entry`)
-      NETMASK=(`awk -F'=' '$1 == "NETMASK" {print $2}' $entry`)
+      IP=(`awk -F'=' '$1 == "IPADDR" {print $2}' $FILE`)
+      GATEWAY=(`awk -F'=' '$1 == "GATEWAY" {print $2}' $FILE`)
+      DNS1=(`awk -F'=' '$1 == "DNS1" {print $2}' $FILE`)
+      NETMASK=(`awk -F'=' '$1 == "NETMASK" {print $2}' $FILE`)
       runuser -l root -c  "touch /etc/sysconfig/network-scripts/ifcfg-eth$ct"
 
 if [[ ! -z "$IP" ]]
@@ -176,7 +173,7 @@ EOF
 fi
 
       runuser -l root -c  "cat /tmp/eth$ct > /etc/sysconfig/network-scripts/ifcfg-eth$ct"
-      runuser -l root -c  "rm -rf $entry"
+      runuser -l root -c  "rm -rf $FILE"
       ((ct++))
   done
 }
