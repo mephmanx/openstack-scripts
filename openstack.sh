@@ -93,7 +93,7 @@ virsh net-undefine default
 
 cat > /tmp/openstack-local.xml <<EOF
 <network>
-  <name>os-loc</name>
+  <name>os-loc-static</name>
   <bridge name='os-loc' stp='on' delay='0'/>
   <ip address='10.0.20.1' netmask='255.255.255.0'>
 
@@ -103,7 +103,7 @@ EOF
 
 cat > /tmp/openstack-internal.xml <<EOF
 <network>
-  <name>os-int</name>
+  <name>os-int-static</name>
   <bridge name='br0'/>
   <forward mode='bridge'>
   </forward>
@@ -113,11 +113,11 @@ EOF
 virsh net-define /tmp/openstack-local.xml
 virsh net-define /tmp/openstack-internal.xml
 
-virsh net-autostart os-loc
-virsh net-autostart os-int
+virsh net-autostart os-loc-static
+virsh net-autostart os-int-static
 
-virsh net-start os-loc
-virsh net-start os-int
+virsh net-start os-loc-static
+virsh net-start os-int-static
 ################################
 
 ################ Prep and run cloud script

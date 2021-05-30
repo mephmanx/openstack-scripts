@@ -35,7 +35,7 @@ function vm_definitions_esxi {
             "cpu":"4",
             "memory":"24",
             "drive_string":"HP-Disk:200,HP-Disk:300",
-            "network_string":"os-loc,os-int"
+            "network_string":"os-loc-static,os-int-static"
           }'
     ;;
     "network")
@@ -44,7 +44,7 @@ function vm_definitions_esxi {
             "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:100",
-            "network_string":"os-loc,os-int,os-int"
+            "network_string":"os-loc-static,os-int-static,os-int-static"
           }'
     ;;
     "compute")
@@ -53,7 +53,7 @@ function vm_definitions_esxi {
             "cpu":"24",
             "memory":176",
             "drive_string":"HP-SSD:800,HP-Disk:400",
-            "network_string":"os-loc,os-int,os-int"
+            "network_string":"os-loc-static,os-int-static,os-int-static"
           }'
     ;;
     "monitoring")
@@ -62,7 +62,7 @@ function vm_definitions_esxi {
             "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:200",
-            "network_string":"os-loc,os-int"
+            "network_string":"os-loc-static,os-int-static"
           }'
     ;;
     "storage")
@@ -71,7 +71,7 @@ function vm_definitions_esxi {
             "cpu":"4",
             "memory":"32",
             "drive_string":"HP-Disk:250,HP-Disk:250,HP-SSD:250,HP-SSD:250,HP-SSD:250",
-            "network_string":"os-loc,os-int"
+            "network_string":"os-loc-static,os-int-static"
           }'
     ;;
     "kolla")
@@ -80,7 +80,7 @@ function vm_definitions_esxi {
             "cpu":"8",
             "memory":"24",
             "drive_string":"HP-Disk:100",
-            "network_string":"os-loc,os-int"
+            "network_string":"os-loc-static,os-int-static"
           }'
     ;;
   esac
