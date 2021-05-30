@@ -103,7 +103,7 @@ EOF
 cat > /tmp/openstack-internal.xml <<EOF
 <network>
   <name>os-int-static</name>
-  <bridge name='br0'/>
+  <bridge name='os-int-static'/>
   <forward mode='bridge'>
   </forward>
 </network>
