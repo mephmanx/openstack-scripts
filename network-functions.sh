@@ -41,7 +41,6 @@ function networkInformation {
   IFS=',' read -r -a net_array <<< "$network_string"
   network_lines=()
   ct=0
-  net_names=("192" "224" "256")
   addresses=()
   default_flag="0"
   for element in "${net_array[@]}"
@@ -68,13 +67,13 @@ function networkInformation {
         if [[ $DEFAULT_ROUTE == "loc" ]]; then
           if [[ $default_flag == "0" ]]; then
             default_set=""
-            network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n")
+            network_lines+=("network  --device=ens${ct} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n")
             default_flag="1"
           else
-            network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n")
+            network_lines+=("network  --device=ens${ct} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n")
           fi
         else
-          network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n")
+          network_lines+=("network  --device=ens${ct} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n")
         fi
 
         ((LOCAL_ADDRESS_INC++))
@@ -98,13 +97,13 @@ function networkInformation {
         if [[ $DEFAULT_ROUTE == "int" ]]; then
           if [[ $default_flag == "0" ]]; then
             default_set=""
-            network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
+            network_lines+=("network  --device=ens${ct} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
             default_flag="1"
           else
-            network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
+            network_lines+=("network  --device=ens${ct} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
           fi
         else
-          network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n")
+          network_lines+=("network  --device=ens${ct} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n")
         fi
 
         ((INTERNAL_ADDRESS_INC++))
@@ -127,13 +126,13 @@ function networkInformation {
         if [[ $DEFAULT_ROUTE == "ext" ]]; then
           if [[ $default_flag == "0" ]]; then
             default_set=""
-            network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n")
+            network_lines+=("network  --device=ens${ct} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n")
             default_flag="1"
           else
-            network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n")
+            network_lines+=("network  --device=ens${ct} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n")
           fi
         else
-          network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n")
+          network_lines+=("network  --device=ens${ct} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n")
         fi
 
         ((EXTERNAL_ADDRESS_INC++))
@@ -141,7 +140,7 @@ function networkInformation {
 
     #not static, do DHCP
     else
-      network_lines+=("network  --device=ens${net_names[ct]} --bootproto=dhcp --noipv6 --onboot=yes --activate\n")
+      network_lines+=("network  --device=ens${ct} --bootproto=dhcp --noipv6 --onboot=yes --activate\n")
     fi
     ((ct++))
   done
