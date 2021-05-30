@@ -17,10 +17,10 @@ EXTERNAL_ADDRESS_INC=20
 NETMASK="255.255.255.0"
 
 #Storage network needs to be one of Internal, External, or Local
-STORAGE_NETWORK="Local"
+STORAGE_NETWORK="loc"
 
 #Default route for system internet connection needs to be one of Internal, External, or Local
-DEFAULT_ROUTE="Internal"
+DEFAULT_ROUTE="int"
 
 function networkInformation {
   kickstart_file=$1
@@ -47,9 +47,9 @@ function networkInformation {
   for element in "${net_array[@]}"
   do
     default_set="--nodefroute"
-    if [[ "${element}" =~ .*"Static".* ]]; then
+    if [[ "${element}" =~ .*"static".* ]]; then
       ##check if internal or external network and set ip/gateway accordingly
-      if [[ "${element}" =~ .*"Local".* ]]; then
+      if [[ "${element}" =~ .*"loc".* ]]; then
         ip_addr="${LOCAL_ADDRESS_PREFIX}${LOCAL_ADDRESS_INC}"
 
         if ! grep -q $host "/tmp/dns_hosts"; then
@@ -65,7 +65,7 @@ function networkInformation {
           fi
         fi
 
-        if [[ $DEFAULT_ROUTE == "Local" ]]; then
+        if [[ $DEFAULT_ROUTE == "loc" ]]; then
           if [[ $default_flag == "0" ]]; then
             default_set=""
             network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n")
@@ -79,7 +79,7 @@ function networkInformation {
 
         ((LOCAL_ADDRESS_INC++))
 
-      elif [[ "${element}" =~ .*"Internal".* ]]; then
+      elif [[ "${element}" =~ .*"int".* ]]; then
         ip_addr="${INTERNAL_ADDRESS_PREFIX}${INTERNAL_ADDRESS_INC}"
 
         if ! grep -q $host "/tmp/dns_hosts"; then
@@ -95,7 +95,7 @@ function networkInformation {
           fi
         fi
 
-        if [[ $DEFAULT_ROUTE == "Internal" ]]; then
+        if [[ $DEFAULT_ROUTE == "int" ]]; then
           if [[ $default_flag == "0" ]]; then
             default_set=""
             network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
@@ -124,7 +124,7 @@ function networkInformation {
           fi
         fi
 
-        if [[ $DEFAULT_ROUTE == "External" ]]; then
+        if [[ $DEFAULT_ROUTE == "ext" ]]; then
           if [[ $default_flag == "0" ]]; then
             default_set=""
             network_lines+=("network  --device=ens${net_names[ct]} --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n")
