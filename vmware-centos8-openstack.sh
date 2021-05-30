@@ -18,16 +18,13 @@ chmod 777 /tmp/openstack-env.sh
 source ./tmp/openstack-env.sh
 ############################
 
-#########load global addresses into env
-chmod 777 /tmp/global_addresses.sh
-source /tmp/global_addresses.sh
-############################
+systemctl start cockpit.socket
+systemctl enable --now cockpit.socket
 
-#################use old net names
-use_old_net_names
-
-# set up net script to be called after reboot
-prep_next_script "openstack"
+  ## Prep OpenStack install
+rm -rf /etc/rc.d/rc.local
+curl -o /etc/rc.d/rc.local https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/$1.sh
+chmod +x /etc/rc.d/rc.local
 
 ########################
 #remove this script so it only runs once on machine start
