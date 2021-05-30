@@ -135,7 +135,8 @@ EOF
   runuser -l root -c  'grub2-mkconfig  -o /boot/grub2/grub.cfg'
   ct=0
 
-  for FILE in /etc/sysconfig/network-scripts/*; do
+  for FILE in /etc/sysconfig/network-scripts/*;
+  do
 
     entry=`sed "s:/etc/sysconfig/network-scripts/ifcfg-::g" $FILE`
       cat $entry
