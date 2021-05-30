@@ -94,9 +94,7 @@ virsh net-undefine default
 cat > /tmp/openstack-local.xml <<EOF
 <network>
   <name>os-loc-static</name>
-  <ip address='10.0.20.1' netmask='255.255.255.0'>
-
-  </ip>
+  <ip address='10.0.20.1' netmask='255.255.255.0' />
 </network>
 EOF
 
@@ -104,8 +102,7 @@ cat > /tmp/openstack-internal.xml <<EOF
 <network>
   <name>os-int-static</name>
   <bridge name='os-int-static'/>
-  <forward mode='bridge'>
-  </forward>
+  <forward mode='bridge' />
 </network>
 EOF
 
