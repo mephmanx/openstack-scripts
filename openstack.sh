@@ -1,8 +1,7 @@
 #!/bin/bash
 
 chmod 777 /tmp/openstack-env.sh
-cd /tmp
-. ./openstack-env.sh
+. /tmp/openstack-env.sh
 
 . /tmp/vm_functions.sh
 
