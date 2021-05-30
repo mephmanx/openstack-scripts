@@ -94,7 +94,6 @@ virsh net-undefine default
 cat > /tmp/openstack-local.xml <<EOF
 <network>
   <name>os-loc-static</name>
-  <bridge name='os-loc' stp='on' delay='0'/>
   <ip address='10.0.20.1' netmask='255.255.255.0'>
 
   </ip>
