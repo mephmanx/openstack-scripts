@@ -11,6 +11,10 @@ cd /tmp
 exec 1>/tmp/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
+for FILE in /etc/sysconfig/network-scripts/*; do
+    echo $FILE | sed "s:/etc/sysconfig/network-scripts/ifcfg-::g" | xargs ifup;
+done
+
 yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
 
 systemctl stop firewalld
