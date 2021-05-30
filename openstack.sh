@@ -91,6 +91,9 @@ virsh pool-start HP-SSD
 virsh net-destroy default
 virsh net-undefine default
 
+rm -rf /tmp/openstack-local.xml
+rm -rf /tmp/openstack-internal.xml
+
 cat > /tmp/openstack-local.xml <<EOF
 <network>
   <name>os-loc-static</name>
