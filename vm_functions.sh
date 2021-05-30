@@ -136,7 +136,7 @@ EOF
   ct=0
 
   for FILE in /etc/sysconfig/network-scripts/*; do
-  do
+
     entry=`sed "s:/etc/sysconfig/network-scripts/ifcfg-::g" $FILE`
       cat $entry
       IP=(`awk -F'=' '$1 == "IPADDR" {print $2}' $entry`)
