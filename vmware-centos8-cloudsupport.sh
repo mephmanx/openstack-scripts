@@ -29,9 +29,7 @@ use_old_net_names
 # set up net script to be called after reboot
 prep_next_script "cloudsupport"
 
-########################
-#remove this script so it only runs once on machine start
-rm -rf /etc/init.d/vmware-centos8.sh
+
 reboot
 
 }
