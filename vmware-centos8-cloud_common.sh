@@ -15,6 +15,10 @@ set -x                             # tell sh to display commands before executio
 # set VM type for future use
 TYPE=`cat /tmp/type`
 
+for FILE in /etc/sysconfig/network-scripts/*; do
+    echo $FILE | sed "s:/etc/sysconfig/network-scripts/ifcfg-::g" | xargs ifup;
+done
+
 #########load secrets into env
 chmod 777 /tmp/openstack-env.sh
 source ./tmp/openstack-env.sh
