@@ -30,24 +30,24 @@ nmcli connection delete $eth0UUID
 nmcli connection delete $eth1UUID
 nmcli connection delete $eth2UUID
 
-nmcli connection add type team con-name bond0 ifname bond0 config '{"runner": {"name": "activebackup"}}'
+nmcli connection add type team con-name os-int-static ifname os-int-static config '{"runner": {"name": "activebackup"}}'
 
-nmcli con mod bond0  ipv4.addresses $IP
-nmcli con mod bond0  ipv4.gateway 192.168.1.1
-nmcli con mod bond0  ipv4.dns 192.168.1.1
-nmcli con mod bond0  ipv4.method manual
-nmcli con mod bond0  connection.autoconnect yes
+nmcli con mod os-int-static  ipv4.addresses $IP
+nmcli con mod os-int-static  ipv4.gateway 192.168.1.1
+nmcli con mod os-int-static  ipv4.dns 192.168.1.1
+nmcli con mod os-int-static  ipv4.method manual
+nmcli con mod os-int-static  connection.autoconnect yes
 
-nmcli con add type team-slave con-name bond0-slave0 ifname eth0 master bond0
-nmcli con add type team-slave con-name bond0-slave1 ifname eth1 master bond0
-nmcli con add type team-slave con-name bond0-slave2 ifname eth2 master bond0
+nmcli con add type team-slave con-name os-int-static-slave0 ifname eth0 master os-int-static
+nmcli con add type team-slave con-name os-int-static-slave1 ifname eth1 master os-int-static
+nmcli con add type team-slave con-name os-int-static-slave2 ifname eth2 master os-int-static
 
-nmcli connection down bond0 && nmcli connection up bond0
+nmcli connection down os-int-static && nmcli connection up os-int-static
 ##########################################
 
 ################# Add bridge
 ip link add os-int-static type bridge
-ip address add dev bond0 $IP
+ip address add dev os-int-static $IP
 #ip link set bond0 master os-int-static
 #
 cat > /etc/sysctl.d/99-netfilter-bridge.conf <<EOF
