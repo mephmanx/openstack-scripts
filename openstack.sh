@@ -128,7 +128,7 @@ git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
 cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
 cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
 ####################
-
+runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloudsupport-centos8-kvm.sh;'
 runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloud.sh;'
 ################
 
