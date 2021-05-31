@@ -50,19 +50,19 @@ ip link add os-int-static type bridge
 ip address add dev bond0 $IP
 #ip link set bond0 master os-int-static
 #
-#cat > /etc/sysctl.d/99-netfilter-bridge.conf <<EOF
-#net.bridge.bridge-nf-call-ip6tables = 0
-#net.bridge.bridge-nf-call-iptables = 0
-#net.bridge.bridge-nf-call-arptables = 0
-#EOF
-#
-#modprobe br_netfilter
-#
-#cat > /etc/modules-load.d/br_netfilter.conf <<EOF
-#br_netfilter
-#EOF
-#
-#sysctl -p /etc/sysctl.d/99-netfilter-bridge.conf
+cat > /etc/sysctl.d/99-netfilter-bridge.conf <<EOF
+net.bridge.bridge-nf-call-ip6tables = 0
+net.bridge.bridge-nf-call-iptables = 0
+net.bridge.bridge-nf-call-arptables = 0
+EOF
+
+modprobe br_netfilter
+
+cat > /etc/modules-load.d/br_netfilter.conf <<EOF
+br_netfilter
+EOF
+
+sysctl -p /etc/sysctl.d/99-netfilter-bridge.conf
 ###########################
 
 ################# setup KVM and kick off openstack cloud create
