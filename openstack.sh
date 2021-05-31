@@ -20,11 +20,11 @@ systemctl stop firewalld
 systemctl mask firewalld
 
 ################# Bond all NIC's together
-IP=`hostname -I | awk '{print $1}'`
-IP+="/24"
-eth0UUID=`nmcli connection show | awk '$1 == "eth0" { print $2 }'`
-eth1UUID=`nmcli connection show | awk '$1 == "eth1" { print $2 }'`
-eth2UUID=`nmcli connection show | awk '$1 == "eth2" { print $2 }'`
+export IP=`hostname -I | awk '{print $1}'`
+export export IP+="/24"
+export eth0UUID=`nmcli connection show | awk '$1 == "eth0" { print $2 }'`
+export eth1UUID=`nmcli connection show | awk '$1 == "eth1" { print $2 }'`
+exporteth2UUID=`nmcli connection show | awk '$1 == "eth2" { print $2 }'`
 
 nmcli connection delete $eth0UUID
 nmcli connection delete $eth1UUID
