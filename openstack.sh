@@ -32,7 +32,7 @@ nmcli connection delete $eth2UUID
 
 nmcli connection add type team con-name bond0 ifname bond0 config '{"runner": {"name": "activebackup"}}'
 
-nmcli con mod bond0  ipv4.addresses '$IP'
+nmcli con mod bond0  ipv4.addresses $IP
 nmcli con mod bond0  ipv4.gateway 192.168.1.1
 nmcli con mod bond0  ipv4.dns 192.168.1.1
 nmcli con mod bond0  ipv4.method manual
