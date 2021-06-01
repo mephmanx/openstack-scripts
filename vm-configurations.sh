@@ -52,7 +52,7 @@ function vm_definitions_esxi {
             "count":"1",
             "cpu":"24",
             "memory":176",
-            "drive_string":"HP-SSD:800,HP-Disk:300",
+            "drive_string":"HP-SSD:800,HP-Disk:200",
             "network_string":"os-loc-static,os-int-static,os-int-static"
           }'
     ;;
@@ -70,7 +70,7 @@ function vm_definitions_esxi {
             "count":"1",
             "cpu":"4",
             "memory":"32",
-            "drive_string":"HP-SSD:150,HP-SSD:150,HP-SSD:250,HP-SSD:250,HP-SSD:250",
+            "drive_string":"HP-Disk:150,HP-Disk:150,HP-SSD:250,HP-SSD:250,HP-SSD:250",
             "network_string":"os-loc-static,os-int-static"
           }'
     ;;
