@@ -46,8 +46,8 @@ nmcli connection down os-int-static && nmcli connection up os-int-static
 ##########################################
 
 ################# Add bridge
-ip link add os-int-static type bridge
-ip address add dev os-int-static $IP
+#ip link add os-int-static type bridge
+#ip address add dev os-int-static $IP
 #ip link set bond0 master os-int-static
 #
 cat > /etc/sysctl.d/99-netfilter-bridge.conf <<EOF
@@ -133,6 +133,11 @@ git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
 
 cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
 cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
+
+######remove existing isos
+rm -rf /var/tmp/*.*;
+#############
+
 ####################
 runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloudsupport-centos8-kvm.sh;'
 runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloud.sh;'
