@@ -98,32 +98,34 @@ virsh pool-start HP-EXT
 
 ############### configure networks
 
-rm -rf /tmp/openstack-local.xml
-rm -rf /tmp/openstack-internal.xml
-
-cat > /tmp/openstack-local.xml <<EOF
-<network>
-  <name>os-loc-static</name>
-  <ip address='10.0.20.1' netmask='255.255.255.0' />
-</network>
-EOF
-
-cat > /tmp/openstack-internal.xml <<EOF
-<network>
-  <name>os-int-static</name>
-  <bridge name='os-int-static'/>
-  <forward mode='bridge' />
-</network>
-EOF
-
-virsh net-define /tmp/openstack-local.xml
-virsh net-define /tmp/openstack-internal.xml
-
-virsh net-autostart os-loc-static
-virsh net-autostart os-int-static
-
-virsh net-start os-loc-static
-virsh net-start os-int-static
+#rm -rf /tmp/openstack-local.xml
+#rm -rf /tmp/openstack-internal.xml
+#
+#cat > /tmp/openstack-local.xml <<EOF
+#<network>
+#  <name>os-loc-static</name>
+#  <ip address='10.0.20.1' netmask='255.255.255.0' />
+#</network>
+#EOF
+#
+#cat > /tmp/openstack-internal.xml <<EOF
+#<network>
+#  <name>os-int-static</name>
+#  <bridge name='os-int-static' stp='on' delay='0'/>
+#  <forward mode='passthrough'>
+#    <pf dev='os-int-static'/>
+#  </forward>
+#</network>
+#EOF
+#
+#virsh net-define /tmp/openstack-local.xml
+#virsh net-define /tmp/openstack-internal.xml
+#
+#virsh net-autostart os-loc-static
+#virsh net-autostart os-int-static
+#
+#virsh net-start os-loc-static
+#virsh net-start os-int-static
 ################################
 
 ################ Prep and run cloud script
