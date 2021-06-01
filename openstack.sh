@@ -25,10 +25,12 @@ export IP+="/24"
 export eth0UUID=`nmcli connection show | awk '$1 == "eth0" { print $2 }'`
 export eth1UUID=`nmcli connection show | awk '$1 == "eth1" { print $2 }'`
 export eth2UUID=`nmcli connection show | awk '$1 == "eth2" { print $2 }'`
+export eth3UUID=`nmcli connection show | awk '$1 == "eth3" { print $2 }'`
 
 nmcli connection delete $eth0UUID
 nmcli connection delete $eth1UUID
 nmcli connection delete $eth2UUID
+nmcli connection delete $eth3UUID
 
 nmcli connection add type team con-name os-int-static ifname os-int-static config '{"runner": {"name": "activebackup"}}'
 
@@ -41,6 +43,7 @@ nmcli con mod os-int-static  connection.autoconnect yes
 nmcli con add type team-slave con-name os-int-static-slave0 ifname eth0 master os-int-static
 nmcli con add type team-slave con-name os-int-static-slave1 ifname eth1 master os-int-static
 nmcli con add type team-slave con-name os-int-static-slave2 ifname eth2 master os-int-static
+nmcli con add type team-slave con-name os-int-static-slave3 ifname eth3 master os-int-static
 
 nmcli connection down os-int-static && nmcli connection up os-int-static
 ##########################################
