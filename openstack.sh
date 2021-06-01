@@ -103,7 +103,7 @@ rm -rf /tmp/openstack-local.xml
 cat > /tmp/openstack-local.xml <<EOF
 <network>
   <name>os-loc-static</name>
-  <bridge name="privatebr0" />
+  <bridge name="os-loc-static" />
 </network>
 EOF
 
