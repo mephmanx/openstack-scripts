@@ -103,7 +103,7 @@ rm -rf /tmp/openstack-local.xml
 cat > /tmp/openstack-local.xml <<EOF
 <network>
   <name>os-loc-static</name>
-  <ip address='10.0.20.1' netmask='255.255.255.0' />
+  <bridge name="privatebr0" />
 </network>
 EOF
 
