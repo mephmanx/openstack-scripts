@@ -70,7 +70,7 @@ sysctl -p /etc/sysctl.d/99-netfilter-bridge.conf
 
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
-dnf install -y cockpit-machines virt-install
+dnf install -y cockpit-machines virt-install virt-viewer
 ############################
 systemctl restart libvirtd
 
