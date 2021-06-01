@@ -34,7 +34,7 @@ echo 'EOF' >> ${kickstart_file}
 
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack"
 
-echo "virt-install --virt-type kvm --name openstack --memory 160000 --vcpus 2 --disk pool=HP-Disk,size=400,bus=scsi --cdrom /var/tmp/openstack-iso.iso --network type=direct,source=os-int-static,model=rtl8139  --network type=direct,source=os-loc-static,model=rtl8139 --os-variant centos8 --graphics vnc"
+echo "virt-install --virt-type kvm --name openstack --memory 160000 --vcpus 2 --disk pool=HP-Disk,size=400,bus=scsi,sparse=no --cdrom /var/tmp/openstack-iso.iso --network type=direct,source=os-int-static,model=rtl8139  --network type=direct,source=os-loc-static,model=rtl8139 --os-variant centos8 --graphics vnc"
 
-eval "virt-install --virt-type kvm --name openstack --memory 160000 --vcpus 2 --disk pool=HP-Disk,size=400,bus=scsi --cdrom /var/tmp/openstack-iso.iso --network type=direct,source=os-int-static,model=rtl8139  --network type=direct,source=os-loc-static,model=rtl8139 --os-variant centos8 --graphics vnc" &
+eval "virt-install --virt-type kvm --name openstack --memory 160000 --vcpus 2 --disk pool=HP-Disk,size=400,bus=scsi,sparse=no --cdrom /var/tmp/openstack-iso.iso --network type=direct,source=os-int-static,model=rtl8139  --network type=direct,source=os-loc-static,model=rtl8139 --os-variant centos8 --graphics vnc" &
 
