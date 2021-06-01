@@ -97,8 +97,6 @@ virsh pool-start HP-EXT
 ############################
 
 ############### configure networks
-virsh net-destroy default
-virsh net-undefine default
 
 rm -rf /tmp/openstack-local.xml
 rm -rf /tmp/openstack-internal.xml
