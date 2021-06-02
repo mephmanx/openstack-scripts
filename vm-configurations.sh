@@ -79,7 +79,7 @@ function vm_definitions_esxi {
             "count":"1",
             "cpu":"8",
             "memory":"24",
-            "drive_string":"HP-SSD:100",
+            "drive_string":"HP-Disk:100",
             "network_string":"os-loc-static,os-int-static"
           }'
     ;;
