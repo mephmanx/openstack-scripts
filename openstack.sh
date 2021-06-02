@@ -35,6 +35,9 @@ nmcli connection delete $eth3UUID
 nmcli connection add type team con-name os-int-static ifname os-int-static config '{"runner": {"name": "activebackup"}}'
 
 nmcli con mod os-int-static ipv4.method auto
+nmcli con mod os-int-static ipv6.method dhcp
+nmcli con mod os-int-static ipv4.never-default no
+nmcli con mod os-int-static ipv4.gateway 192.168.1.1
 nmcli con mod os-int-static ipv4.dhcp-fqdn `hostname`
 nmcli con mod os-int-static connection.autoconnect yes
 
