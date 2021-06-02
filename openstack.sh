@@ -41,10 +41,10 @@ nmcli con mod os-int-static ipv4.never-default no
 nmcli con mod os-int-static ipv4.dhcp-fqdn `hostname`.$DOMAIN_NAME
 nmcli con mod os-int-static connection.autoconnect yes
 
-nmcli con add type team-slave con-name os-int-static-slave0 ifname eth0 master os-int-static
-nmcli con add type team-slave con-name os-int-static-slave1 ifname eth1 master os-int-static
-nmcli con add type team-slave con-name os-int-static-slave2 ifname eth2 master os-int-static
-nmcli con add type team-slave con-name os-int-static-slave3 ifname eth3 master os-int-static
+nmcli con add type bond-slave con-name os-int-static-slave0 ifname eth0 master os-int-static
+nmcli con add type bond-slave con-name os-int-static-slave1 ifname eth1 master os-int-static
+nmcli con add type bond-slave con-name os-int-static-slave2 ifname eth2 master os-int-static
+nmcli con add type bond-slave con-name os-int-static-slave3 ifname eth3 master os-int-static
 
 nmcli connection down os-int-static && nmcli connection up os-int-static
 ##########################################
