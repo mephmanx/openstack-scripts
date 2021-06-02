@@ -32,7 +32,8 @@ nmcli connection delete $eth1UUID
 nmcli connection delete $eth2UUID
 nmcli connection delete $eth3UUID
 
-nmcli connection add type bond con-name os-int-static ifname os-int-static config '{"runner": {"name": "lcap"}}'
+nmcli connection add type bond con-name os-int-static ifname os-int-static mode 802.3ad
+nmcli con mod id os-int-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
 
 nmcli con mod os-int-static ipv4.method auto
 nmcli con mod os-int-static ipv6.method dhcp
