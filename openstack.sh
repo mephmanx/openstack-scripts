@@ -19,55 +19,7 @@ yum clean all && yum update -y  #this is only to make the next call work, DONT r
 systemctl stop firewalld
 systemctl mask firewalld
 
-################# Bond all NIC's together
-export IP=`hostname -I | awk '{print $1}'`
-export IP+="/24"
-export eth0UUID=`nmcli connection show | awk '$1 == "eth0" { print $2 }'`
-export eth1UUID=`nmcli connection show | awk '$1 == "eth1" { print $2 }'`
-export eth2UUID=`nmcli connection show | awk '$1 == "eth2" { print $2 }'`
-export eth3UUID=`nmcli connection show | awk '$1 == "eth3" { print $2 }'`
 
-nmcli connection delete $eth0UUID
-nmcli connection delete $eth1UUID
-nmcli connection delete $eth2UUID
-nmcli connection delete $eth3UUID
-
-nmcli connection add type bond con-name os-int-static ifname os-int-static mode 802.3ad
-nmcli con mod id os-int-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
-
-nmcli con mod os-int-static ipv4.method auto
-nmcli con mod os-int-static ipv6.method dhcp
-nmcli con mod os-int-static ipv4.never-default no
-nmcli con mod os-int-static ipv4.dhcp-fqdn `hostname`.$DOMAIN_NAME
-nmcli con mod os-int-static connection.autoconnect yes
-
-nmcli con add type bond-slave con-name os-int-static-slave0 ifname eth0 master os-int-static
-nmcli con add type bond-slave con-name os-int-static-slave1 ifname eth1 master os-int-static
-nmcli con add type bond-slave con-name os-int-static-slave2 ifname eth2 master os-int-static
-nmcli con add type bond-slave con-name os-int-static-slave3 ifname eth3 master os-int-static
-
-nmcli connection down os-int-static && nmcli connection up os-int-static
-##########################################
-
-################# Add bridge
-#ip link add os-int-static type bridge
-#ip address add dev os-int-static $IP
-#ip link set bond0 master os-int-static
-#
-cat > /etc/sysctl.d/99-netfilter-bridge.conf <<EOF
-net.bridge.bridge-nf-call-ip6tables = 0
-net.bridge.bridge-nf-call-iptables = 0
-net.bridge.bridge-nf-call-arptables = 0
-EOF
-
-modprobe br_netfilter
-
-cat > /etc/modules-load.d/br_netfilter.conf <<EOF
-br_netfilter
-EOF
-
-sysctl -p /etc/sysctl.d/99-netfilter-bridge.conf
-###########################
 
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
