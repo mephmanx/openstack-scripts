@@ -34,11 +34,7 @@ nmcli connection delete $eth3UUID
 
 nmcli connection add type team con-name os-int-static ifname os-int-static config '{"runner": {"name": "activebackup"}}'
 
-nmcli con mod os-int-static  ipv4.addresses $IP
-nmcli con mod os-int-static  ipv4.gateway 192.168.1.1
-nmcli con mod os-int-static  ipv4.dns 192.168.1.1
-nmcli con mod os-int-static  ipv4.method manual
-nmcli con mod os-int-static  ipv4.dhcp-fqdn openstack.lyonsgroup.family
+nmcli con mod os-int-static  ipv4.method auto
 nmcli con mod os-int-static  connection.autoconnect yes
 
 nmcli con add type team-slave con-name os-int-static-slave0 ifname eth0 master os-int-static
