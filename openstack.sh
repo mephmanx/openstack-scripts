@@ -17,6 +17,7 @@ done
 yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
 
 systemctl stop firewalld
+systemctl disable firewalld
 systemctl mask firewalld
 
 ################# Bond all NIC's together
@@ -47,19 +48,19 @@ nmcli connection down os-int-static && nmcli connection up os-int-static
 #ip address add dev os-int-static $IP
 #ip link set bond0 master os-int-static
 #
-cat > /etc/sysctl.d/99-netfilter-bridge.conf <<EOF
-net.bridge.bridge-nf-call-ip6tables = 0
-net.bridge.bridge-nf-call-iptables = 0
-net.bridge.bridge-nf-call-arptables = 0
-EOF
-
-modprobe br_netfilter
-
-cat > /etc/modules-load.d/br_netfilter.conf <<EOF
-br_netfilter
-EOF
-
-sysctl -p /etc/sysctl.d/99-netfilter-bridge.conf
+#cat > /etc/sysctl.d/99-netfilter-bridge.conf <<EOF
+#net.bridge.bridge-nf-call-ip6tables = 0
+#net.bridge.bridge-nf-call-iptables = 0
+#net.bridge.bridge-nf-call-arptables = 0
+#EOF
+#
+#modprobe br_netfilter
+#
+#cat > /etc/modules-load.d/br_netfilter.conf <<EOF
+#br_netfilter
+#EOF
+#
+#sysctl -p /etc/sysctl.d/99-netfilter-bridge.conf
 
 ip link set virbr0 down
 ip link set virbr0 name br0-loc-static
