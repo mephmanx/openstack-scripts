@@ -62,6 +62,9 @@ nmcli connection down os-int-static && nmcli connection up os-int-static
 #
 #sysctl -p /etc/sysctl.d/99-netfilter-bridge.conf
 
+virsh net-autostart default
+virsh net-start default
+
 ip link set virbr0 down
 ip link set virbr0 name br0-loc-static
 ip link set br0-loc-static up
