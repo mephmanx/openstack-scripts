@@ -62,8 +62,8 @@ EOF
 sysctl -p /etc/sysctl.d/99-netfilter-bridge.conf
 
 ip link set virbr0 down
-ip link set virbr0 name virbr0-static
-ip link set virbr0-static up
+ip link set virbr0 name virbr0-loc-static
+ip link set virbr0-loc-static up
 ###########################
 
 ################# setup KVM and kick off openstack cloud create
