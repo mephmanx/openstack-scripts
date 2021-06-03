@@ -60,6 +60,12 @@ br_netfilter
 EOF
 
 sysctl -p /etc/sysctl.d/99-netfilter-bridge.conf
+
+#ip link add os-loc-static type bridge ; ifconfig os-loc-static up
+#ip tuntap add lo mode tap user `whoami`
+#ip link set lo up
+#sleep 0.5s
+#ip link set lo master os-loc-static
 ###########################
 
 ################# setup KVM and kick off openstack cloud create
@@ -91,21 +97,21 @@ virsh pool-start HP-EXT
 ############################
 
 ############### configure networks
-
-rm -rf /tmp/openstack-local.xml
-
-cat > /tmp/openstack-local.xml <<EOF
-<network>
-  <name>os-loc-static</name>
-  <bridge name="os-loc-static" />
-</network>
-EOF
-
-virsh net-define /tmp/openstack-local.xml
-
-virsh net-autostart os-loc-static
-
-virsh net-start os-loc-static
+#
+#rm -rf /tmp/openstack-local.xml
+#
+#cat > /tmp/openstack-local.xml <<EOF
+#<network>
+#  <name>os-loc-static</name>
+#  <bridge name="os-loc-static" />
+#</network>
+#EOF
+#
+#virsh net-define /tmp/openstack-local.xml
+#
+#virsh net-autostart os-loc-static
+#
+#virsh net-start os-loc-static
 
 ################################
 
