@@ -134,7 +134,7 @@ function create_vm_kvm {
   IFS=',' read -r -a net_array <<< "$network_string"
   for net_element in "${net_array[@]}"
     do
-      virt_network_list+=("--network type=direct,source=$net_element,model=rtl8139 ")
+      virt_network_list+=("--network type=direct,source=$net_element,model=virtio ")
   done
   #########################
 
