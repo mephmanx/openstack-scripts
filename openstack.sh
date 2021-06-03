@@ -94,25 +94,6 @@ virsh pool-autostart HP-EXT
 virsh pool-start HP-EXT
 ############################
 
-############### configure networks
-#
-#rm -rf /tmp/openstack-local.xml
-#
-#cat > /tmp/openstack-local.xml <<EOF
-#<network>
-#  <name>os-loc-static</name>
-#  <bridge name="os-loc-static" />
-#</network>
-#EOF
-#
-#virsh net-define /tmp/openstack-local.xml
-#
-#virsh net-autostart os-loc-static
-#
-#virsh net-start os-loc-static
-
-################################
-
 ################ Prep and run cloud script
 ################### Load cloud create
 cd /tmp
