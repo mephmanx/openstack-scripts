@@ -61,11 +61,9 @@ EOF
 
 sysctl -p /etc/sysctl.d/99-netfilter-bridge.conf
 
-#ip link add os-loc-static type bridge ; ifconfig os-loc-static up
-#ip tuntap add lo mode tap user `whoami`
-#ip link set lo up
-#sleep 0.5s
-#ip link set lo master os-loc-static
+ip link set virbr0 down
+ip link set virbr0 name virbr0-static
+ip link set virbr0-static up
 ###########################
 
 ################# setup KVM and kick off openstack cloud create
