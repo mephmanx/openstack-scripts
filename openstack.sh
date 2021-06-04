@@ -27,7 +27,7 @@ nmcli connection add type bond con-name os-int-static ifname os-int-static mode 
 nmcli con mod id os-int-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
 
 nmcli con mod os-int-static ipv4.method auto
-nmcli con mod os-int-static ipv6.method dhcp
+nmcli con mod os-int-static ipv6.method auto
 nmcli con mod os-int-static ipv4.never-default no
 nmcli con mod os-int-static ipv4.dhcp-fqdn `hostname`.$DOMAIN_NAME
 nmcli con mod os-int-static connection.autoconnect yes
