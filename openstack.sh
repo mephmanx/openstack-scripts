@@ -62,12 +62,22 @@ nmcli connection down os-int-static && nmcli connection up os-int-static
 #
 #sysctl -p /etc/sysctl.d/99-netfilter-bridge.conf
 
-virsh net-autostart default
-virsh net-start default
+virsh net-destroy default
+virsh net-undefine default
 
-ip link set virbr0 down
-ip link set virbr0 name br0-loc-static
-ip link set br0-loc-static up
+cat > /tmp/openstack-local.xml <<EOF
+<network>
+  <name>br0-loc-static</name>
+  <bridge name='br0-loc-static' stp='on' delay='0'/>
+  <ip address='10.0.20.1' netmask='255.255.255.0'>
+
+  </ip>
+</network>
+EOF
+
+virsh net-define /tmp/openstack-local.xml
+
+virsh net-autostart br0-loc-static
 ###########################
 
 ################# setup KVM and kick off openstack cloud create
