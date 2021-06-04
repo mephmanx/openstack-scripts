@@ -131,13 +131,13 @@ virsh undefine "kolla"
 
 ########### Delete volumes in storage pools
 virsh vol-list HP-Disk | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
-  if [[ -z "$line" ]]; then
+  if [[ ! -z $line ]]; then
     virsh vol-delete --pool HP-Disk $line
   fi
 done
 
 virsh vol-list HP-SSD | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
-  if [[ -z "$line" ]]; then
+  if [[ ! -z $line ]]; then
     virsh vol-delete --pool HP-SSD $line
   fi
 done
