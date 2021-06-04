@@ -67,8 +67,8 @@ virsh net-undefine default
 
 cat > /tmp/openstack-local.xml <<EOF
 <network>
-  <name>br0-loc-static</name>
-  <bridge name='br0-loc-static' stp='on' delay='0'/>
+  <name>loc-static</name>
+  <bridge name='loc-static' stp='on' delay='0'/>
   <ip address='10.0.20.1' netmask='255.255.255.0'>
 
   </ip>
@@ -77,9 +77,9 @@ EOF
 
 virsh net-define /tmp/openstack-local.xml
 
-virsh net-autostart br0-loc-static
+virsh net-autostart loc-static
 
-virsh net-start br0-loc-static
+virsh net-start loc-static
 ###########################
 
 ################# setup KVM and kick off openstack cloud create
