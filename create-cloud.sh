@@ -157,7 +157,6 @@ for d in "${vms[@]}"; do
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
   echo "creating vm of type -> $vm_type"
   create_vm_kvm $vm_type $d
-  virsh autostart $d
   sleep 30
   ((index++))
 done
