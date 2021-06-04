@@ -78,6 +78,8 @@ EOF
 virsh net-define /tmp/openstack-local.xml
 
 virsh net-autostart br0-loc-static
+
+virsh net-start br0-loc-static
 ###########################
 
 ################# setup KVM and kick off openstack cloud create
