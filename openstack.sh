@@ -41,6 +41,12 @@ done
 nmcli connection down os-int-static && nmcli connection up os-int-static
 ##########################################
 
+################# setup KVM and kick off openstack cloud create
+dnf module install -y virt
+dnf install -y cockpit-machines virt-install virt-viewer
+############################
+systemctl restart libvirtd
+
 ################# Add bridge
 #ip link add os-int-static type bridge
 #ip address add dev os-int-static $IP
@@ -79,13 +85,6 @@ virsh net-autostart loc-static
 
 virsh net-start loc-static
 ###########################
-
-################# setup KVM and kick off openstack cloud create
-dnf module install -y virt
-dnf install -y cockpit-machines virt-install virt-viewer
-############################
-systemctl restart libvirtd
-
 
 ############ Create and init storage pools
 
