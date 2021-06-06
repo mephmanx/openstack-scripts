@@ -28,8 +28,6 @@ nmcli con mod id os-int-static bond.options mode=802.3ad,miimon=100,lacp_rate=fa
 
 nmcli con mod os-int-static ipv4.method auto
 nmcli con mod os-int-static ipv6.method auto
-nmcli con mod os-int-static ipv4.never-default no
-nmcli con mod os-int-static ipv4.dhcp-fqdn `hostname`.$DOMAIN_NAME
 nmcli con mod os-int-static connection.autoconnect yes
 
 ct=0
