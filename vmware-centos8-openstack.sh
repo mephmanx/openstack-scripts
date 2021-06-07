@@ -7,10 +7,6 @@
 exec 1>/tmp/start-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
-for FILE in /etc/sysconfig/network-scripts/*; do
-    echo $FILE | sed "s:/etc/sysconfig/network-scripts/ifcfg-::g" | xargs ifup;
-done
-
 #########load secrets into env
 chmod 777 /tmp/openstack-env.sh
 source ./tmp/openstack-env.sh
