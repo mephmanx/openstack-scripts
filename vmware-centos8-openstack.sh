@@ -27,8 +27,6 @@ chmod +x /etc/rc.d/rc.local
 ########################
 
 ################# Bond all NIC's together
-#export IP=`hostname -I | awk '{print $1}'`
-#export IP+="/24"
 nmcli connection add type bond con-name int-static ifname int-static mode 802.3ad
 nmcli con mod id int-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
 
