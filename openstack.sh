@@ -23,8 +23,8 @@ systemctl restart libvirtd
 ############################
 
 ### enable nested virtualization
-sed -i "s/#options kvm_intel nested=1/options kvm_intel nested=1/g" /etc/modprobe.d/kvm.conf
-modprobe kvm_intel nested=1
+#sed -i "s/#options kvm_intel nested=1/options kvm_intel nested=1/g" /etc/modprobe.d/kvm.conf
+#modprobe kvm_intel nested=1
 ##############
 
 ################# Add bridge
@@ -103,4 +103,4 @@ runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloud.sh;'
 ################
 
 #remove so as to not run again
-rm -rf /tmp/openstack.sh
+rm -rf /etc/rc.d/rc.local

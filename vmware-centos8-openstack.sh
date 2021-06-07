@@ -16,21 +16,9 @@ systemctl start cockpit.socket
 systemctl enable --now cockpit.socket
 
 ############## Prep OpenStack install
-curl -o /tmp/openstack.sh https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/openstack.sh
-chmod +x /tmp/openstack.sh
-
-cat > /etc/systemd/system/openstack-install.service <<EOF
-[Unit]
-Description=Openstack Install Service
-After=network-online.target
-Wants=network-online.target
-
-[Service]
-ExecStart=/tmp/openstack.sh
-
-[Install]
-WantedBy=multi-user.target
-EOF
+rm -rf /etc/rc.d/rc.local
+curl -o /etc/rc.d/rc.local https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/openstack.sh
+chmod +x /etc/rc.d/rc.local
 
 ########################
 
