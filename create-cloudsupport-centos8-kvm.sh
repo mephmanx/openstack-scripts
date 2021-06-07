@@ -11,7 +11,7 @@ cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
 
 virsh destroy "cloudsupport"
 virsh undefine "cloudsupport"
-virsh vol-delete --pool HP-Disk cloudsupport
+virsh vol-delete --pool HP-EXT cloudsupport
 
 IFS=
 kickstart_file=centos-8-kickstart-cloudsupport.cfg
