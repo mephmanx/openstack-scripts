@@ -103,4 +103,4 @@ runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloud.sh;'
 ################
 
 #remove so as to not run again
-rm -rf /etc/rc.d/rc.local
+rm -rf /tmp/openstack.sh
