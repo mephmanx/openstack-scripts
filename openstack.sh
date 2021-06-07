@@ -10,10 +10,6 @@ chmod 777 /tmp/openstack-env.sh
 exec 1>/tmp/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
-for FILE in /etc/sysconfig/network-scripts/*; do
-    echo $FILE | sed "s:/etc/sysconfig/network-scripts/ifcfg-::g" | xargs ifup;
-done
-
 yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
 
 systemctl stop firewalld
@@ -25,6 +21,11 @@ dnf module install -y virt
 dnf install -y cockpit-machines virt-install virt-viewer
 ############################
 systemctl restart libvirtd
+
+### enable nested virtualization
+sed -i "s/#options kvm_intel nested=1/options kvm_intel nested=1/g" /etc/modprobe.d/kvm.conf
+modprobe kvm_intel nested=1
+##############
 
 ################# Add bridge
 #ip link add os-int-static type bridge
