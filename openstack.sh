@@ -19,8 +19,8 @@ systemctl mask firewalld
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
 dnf install -y cockpit-machines virt-install virt-viewer
-############################
 systemctl restart libvirtd
+############################
 
 ### enable nested virtualization
 sed -i "s/#options kvm_intel nested=1/options kvm_intel nested=1/g" /etc/modprobe.d/kvm.conf
