@@ -19,18 +19,18 @@ systemctl enable --now cockpit.socket
 curl -o /tmp/openstack.sh https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/openstack.sh
 chmod +x /tmp/openstack.sh
 
-#cat > /etc/systemd/system/openstack-install.service <<EOF
-#[Unit]
-#Description=Openstack Install Service
-#After=network-online.target
-#Wants=network-online.target
-#
-#[Service]
-#ExecStart=/tmp/openstack.sh
-#
-#[Install]
-#WantedBy=multi-user.target
-#EOF
+cat > /etc/systemd/system/openstack-install.service <<EOF
+[Unit]
+Description=Openstack Install Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/tmp/openstack.sh
+
+[Install]
+WantedBy=multi-user.target
+EOF
 
 ########################
 
