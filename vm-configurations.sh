@@ -35,7 +35,7 @@ function vm_definitions_esxi {
             "cpu":"4",
             "memory":"24",
             "drive_string":"HP-Disk:100,HP-Disk:200",
-            "network_string":"loc-static,os-int-static"
+            "network_string":"loc-static,int-static"
           }'
     ;;
     "network")
@@ -44,7 +44,7 @@ function vm_definitions_esxi {
             "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:100",
-            "network_string":"loc-static,os-int-static,os-int-static"
+            "network_string":"loc-static,int-static,int-static"
           }'
     ;;
     "compute")
@@ -53,7 +53,7 @@ function vm_definitions_esxi {
             "cpu":"24",
             "memory":176",
             "drive_string":"HP-SSD:800,HP-Disk:200",
-            "network_string":"loc-static,os-int-static,os-int-static"
+            "network_string":"loc-static,int-static,int-static"
           }'
     ;;
     "monitoring")
@@ -62,7 +62,7 @@ function vm_definitions_esxi {
             "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:200",
-            "network_string":"loc-static,os-int-static"
+            "network_string":"loc-static,int-static"
           }'
     ;;
     "storage")
@@ -71,7 +71,7 @@ function vm_definitions_esxi {
             "cpu":"4",
             "memory":"32",
             "drive_string":"HP-Disk:150,HP-Disk:150,HP-SSD:250,HP-SSD:250,HP-SSD:250",
-            "network_string":"loc-static,os-int-static"
+            "network_string":"loc-static,int-static"
           }'
     ;;
     "kolla")
@@ -80,7 +80,7 @@ function vm_definitions_esxi {
             "cpu":"8",
             "memory":"24",
             "drive_string":"HP-Disk:100",
-            "network_string":"loc-static,os-int-static"
+            "network_string":"loc-static,int-static"
           }'
     ;;
   esac
@@ -146,9 +146,9 @@ function create_vm_kvm {
     autostart=" --autostart"
   fi
 
-  echo "virt-install --virt-type kvm --name $2 --memory ${memory_ct}000 --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--os-variant centos8 --graphics vnc $autostart"
+  echo "virt-install --virt-type kvm --name $2 --memory ${memory_ct}000 --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--variant centos8 --graphics vnc $autostart"
 
-  eval "virt-install --virt-type kvm --name $2 --memory ${memory_ct}000 --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--os-variant centos8 --graphics vnc $autostart" &
+  eval "virt-install --virt-type kvm --name $2 --memory ${memory_ct}000 --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--variant centos8 --graphics vnc $autostart" &
 }
 
 function setupENV {

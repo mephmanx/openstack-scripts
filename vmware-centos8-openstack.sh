@@ -29,22 +29,22 @@ chmod +x /etc/rc.d/rc.local
 ################# Bond all NIC's together
 #export IP=`hostname -I | awk '{print $1}'`
 #export IP+="/24"
-nmcli connection add type bond con-name os-int-static ifname os-int-static mode 802.3ad
-nmcli con mod id os-int-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
+nmcli connection add type bond con-name int-static ifname int-static mode 802.3ad
+nmcli con mod id int-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
 
-nmcli con mod os-int-static ipv4.method auto
-nmcli con mod os-int-static ipv6.method auto
-nmcli con mod os-int-static connection.autoconnect yes
+nmcli con mod int-static ipv4.method auto
+nmcli con mod int-static ipv6.method auto
+nmcli con mod int-static connection.autoconnect yes
 
 ct=0
 for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'`; do
     echo "$DEVICE"
     nmcli connection delete $DEVICE
-    nmcli con add type bond-slave con-name os-int-static-slave$ct ifname $DEVICE master os-int-static
+    nmcli con add type bond-slave con-name int-static-slave$ct ifname $DEVICE master int-static
     ((ct++))
 done
 
-nmcli connection down os-int-static && nmcli connection up os-int-static
+nmcli connection down int-static && nmcli connection up int-static
 ##########################################
 
 reboot

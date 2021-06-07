@@ -45,9 +45,6 @@ systemctl restart libvirtd
 #
 #sysctl -p /etc/sysctl.d/99-netfilter-bridge.conf
 
-virsh net-destroy default
-virsh net-undefine default
-
 cat > /tmp/openstack-local.xml <<EOF
 <network>
   <name>loc-static</name>
