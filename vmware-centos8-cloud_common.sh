@@ -12,6 +12,8 @@ start() {
 # example: daemon program_name &
 exec 1>/tmp/start-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
+
+sleep 30
 # set VM type for future use
 TYPE=`cat /tmp/type`
 

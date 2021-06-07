@@ -19,7 +19,7 @@ systemctl mask firewalld
 
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
-dnf install -y cockpit-machines virt-install virt-viewer
+dnf install -y cockpit-machines virt-install virt-viewer bridge-utils
 systemctl restart libvirtd
 ############################
 
