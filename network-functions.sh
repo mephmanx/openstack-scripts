@@ -151,6 +151,7 @@ function networkInformation {
   done
 
   printf -v net_line_string '%s ' "${network_lines[@]}"
+  echo $net_line_string >> "/tmp/$vm_type"
   sed -i 's/{NETWORK}/'$net_line_string'/g' ${kickstart_file}
 }
 
