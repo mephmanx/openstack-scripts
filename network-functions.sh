@@ -40,7 +40,7 @@ function networkInformation {
 
   IFS=',' read -r -a net_array <<< "$network_string"
   network_lines=()
-  ct=0
+  ct=1
   addresses=()
   default_flag="0"
   for element in "${net_array[@]}"
