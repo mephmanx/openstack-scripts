@@ -32,7 +32,7 @@ echo 'EOF' >> ${kickstart_file}
 
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport"
 
-echo "virt-install --virt-type kvm --name cloudsupport --memory 16000 --hvm --cpu host-passthrough,cache.mode=passthrough --vcpus 2 --disk pool=HP-EXT,size=400,bus=scsi,sparse=no --cdrom /var/tmp/cloudsupport-iso.iso --network type=direct,source=int-static,model=rtl8139  --network type=direct,source=loc-static,model=rtl8139 --os-variant centos8 --graphics vnc --autostart"
+echo "virt-install --virt-type kvm --name cloudsupport --memory 16000 --hvm --cpu host-passthrough,cache.mode=passthrough --vcpus 2 --disk pool=HP-EXT,size=400,bus=scsi,sparse=no --cdrom /var/tmp/cloudsupport-iso.iso --network type=direct,source=int-static,model=rtl8139  --network type=network,source=loc-static,model=rtl8139 --os-variant centos8 --graphics vnc --autostart"
 
-eval "virt-install --virt-type kvm --name cloudsupport --memory 16000 --hvm --cpu host-passthrough,cache.mode=passthrough --vcpus 2 --disk pool=HP-EXT,size=400,bus=scsi,sparse=no --cdrom /var/tmp/cloudsupport-iso.iso --network type=direct,source=int-static,model=rtl8139  --network type=direct,source=loc-static,model=rtl8139 --os-variant centos8 --graphics vnc --autostart" &
+eval "virt-install --virt-type kvm --name cloudsupport --memory 16000 --hvm --cpu host-passthrough,cache.mode=passthrough --vcpus 2 --disk pool=HP-EXT,size=400,bus=scsi,sparse=no --cdrom /var/tmp/cloudsupport-iso.iso --network type=direct,source=int-static,model=rtl8139  --network type=network,source=loc-static,model=rtl8139 --os-variant centos8 --graphics vnc --autostart" &
 
