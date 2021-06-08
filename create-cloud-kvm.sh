@@ -4,14 +4,6 @@ source ./iso-functions.sh
 source ./vm-configurations.sh
 source ./openstack-env.sh
 
-cd /tmp/openstack-scripts;
-git pull;
-cd /tmp/openstack-setup;
-git pull;
-
-cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
-cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
-
 export TRANSFER=0
 
 IFS=

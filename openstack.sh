@@ -99,8 +99,8 @@ rm -rf /var/tmp/*.*;
 #############
 
 ####################
-runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloudsupport-centos8-kvm.sh;'
-runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloud.sh;'
+runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloudsupport-kvm.sh;'
+runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloud-kvm.sh;'
 ################
 
 #remove so as to not run again

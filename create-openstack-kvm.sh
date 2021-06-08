@@ -1,16 +1,6 @@
 source ./iso-functions.sh
 source ./openstack-env.sh
 
-cd /tmp/openstack-scripts;
-git pull;
-cd /tmp/openstack-setup;
-git pull;
-
-rm -rf /var/tmp/*.*;
-
-cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
-cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
-
 removeVM_kvm "openstack"
 
 IFS=
