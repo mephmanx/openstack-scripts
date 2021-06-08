@@ -59,6 +59,7 @@ function commonItems {
   ############### Global Addresses ################
   echo 'cat > /tmp/global_addresses.sh <<EOF' >> ${kickstart_file}
   cat /tmp/global_addresses.sh >> ${kickstart_file}
+  cat /tmp/dns_hosts >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   ###############################
 
