@@ -116,12 +116,12 @@ for d in "${vms[@]}"; do
   echo "removing vm -> $d"
   printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-  removeVM ${ESXI_PASSWORD} ${d}
+  removeVM_esxi ${ESXI_PASSWORD} ${d}
   sleep 15
 done
 
 ########## remove kolla
-removeVM ${ESXI_PASSWORD} "kolla"
+removeVM_esxi ${ESXI_PASSWORD} "kolla"
 ####################
 
 ############  Build and push custom iso's for VM types

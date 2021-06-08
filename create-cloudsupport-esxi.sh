@@ -7,7 +7,7 @@ ESXI_PASSWORD=$2
 setupENV ${ESXI_HOST}
 ########  ESXi password arg #2
 installESXiTools
-removeVM ${ESXI_PASSWORD} "cloudsupport"
+removeVM_esxi ${ESXI_PASSWORD} "cloudsupport"
 
 IFS=
 kickstart_file=centos-8-kickstart-cloudsupport.cfg

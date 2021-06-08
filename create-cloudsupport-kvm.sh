@@ -9,9 +9,7 @@ git pull;
 cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
 cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
 
-virsh destroy "cloudsupport"
-virsh undefine "cloudsupport"
-virsh vol-delete --pool HP-EXT cloudsupport.qcow2
+removeVM_kvm "cloudsupport"
 
 IFS=
 kickstart_file=centos-8-kickstart-cloudsupport.cfg

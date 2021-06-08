@@ -11,9 +11,7 @@ rm -rf /var/tmp/*.*;
 cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
 cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
 
-virsh destroy "openstack"
-virsh undefine "openstack"
-virsh vol-delete --pool HP-Disk openstack
+removeVM_kvm "openstack"
 
 IFS=
 kickstart_file=centos-8-kickstart-openstack.cfg

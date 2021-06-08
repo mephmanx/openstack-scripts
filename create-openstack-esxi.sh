@@ -10,7 +10,7 @@ setupENV ${ESXI_HOST}
 installESXiTools
 
 ########## remove openstack
-removeVM ${ESXI_PASSWORD} "openstack"
+removeVM_esxi ${ESXI_PASSWORD} "openstack"
 ####################
 
 IFS=

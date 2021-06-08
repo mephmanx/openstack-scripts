@@ -182,11 +182,43 @@ function installESXiTools {
   cd /root/openstack-setup
 }
 
-function removeVM {
+function removeVM_esxi {
   rm -rf ~/.esxi-vm.yml
   esxi-vm-create -H $HOSTNAME -P $1 -u
   esxi-vm-destroy -n $2
   sleep 15
   esxi-scp-remove -H $HOSTNAME -n $2-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
   esxi-scp-remove -H $HOSTNAME -n $2 -l /vmfs/volumes/$DISK_NAME
+}
+
+function removeVM_kvm {
+  vm_name=$1
+  virsh destroy "$vm_name"
+  virsh undefine "$vm_name"
+
+  ########### Delete volumes in storage pools
+  virsh vol-list HP-Disk | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
+    if [[ ! -z $line ]]; then
+      if [[ "$line" =~ .*"$vm_name".* ]]; then
+        virsh vol-delete --pool HP-Disk $line
+      fi
+    fi
+  done
+
+  virsh vol-list HP-SSD | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
+    if [[ ! -z $line ]]; then
+      if [[ "$line" =~ .*"$vm_name".* ]]; then
+        virsh vol-delete --pool HP-SSD $line
+      fi
+    fi
+  done
+
+    virsh vol-list HP-EXT | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
+    if [[ ! -z $line ]]; then
+      if [[ "$line" =~ .*"$vm_name".* ]]; then
+        virsh vol-delete --pool HP-EXT $line
+      fi
+    fi
+  done
+  ##########################
 }

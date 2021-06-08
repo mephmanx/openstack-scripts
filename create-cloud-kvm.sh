@@ -117,31 +117,13 @@ echo "${vms[@]}"
 ############## remove vm's
 for d in "${vms[@]}"; do
   echo "removing vm -> $d"
-  printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
-  vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-  virsh destroy ${d}
-  virsh undefine ${d}
+  removeVM_kvm "$d"
   sleep 15
 done
 
 ########## remove kolla
-virsh destroy "kolla"
-virsh undefine "kolla"
+removeVM_kvm "kolla"
 ####################
-
-########### Delete volumes in storage pools
-virsh vol-list HP-Disk | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
-  if [[ ! -z $line ]]; then
-    virsh vol-delete --pool HP-Disk $line
-  fi
-done
-
-virsh vol-list HP-SSD | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
-  if [[ ! -z $line ]]; then
-    virsh vol-delete --pool HP-SSD $line
-  fi
-done
-##########################
 
 ############  Build and push custom iso's for VM types
 for d in "${vms[@]}"; do
