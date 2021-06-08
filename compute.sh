@@ -9,7 +9,8 @@ cd /tmp
 common_second_boot_setup
 
 ######## Put type specific code
-
+systemctl stop libvirtd
+systemctl disable libvirtd
 runuser -l root -c  '/sbin/ip link set eth2 promisc on'
 runuser -l root -c  '/sbin/ip link set eth0 promisc on'
 
