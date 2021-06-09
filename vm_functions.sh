@@ -201,7 +201,10 @@ function common_second_boot_setup() {
   exec 1>/tmp/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
   set -x                             # tell sh to display commands before execution
 
+  ########## Add call to the beginning of all rc.local scripts as this wait guarantees network availability
   sleep 30
+  ###########################
+
   yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
 
   #####  Docker prep #########
