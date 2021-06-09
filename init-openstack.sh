@@ -21,6 +21,7 @@ source ./tmp/openstack-env.sh
 # set up net script to be called after reboot
 prep_next_script "openstack"
 
+#####  Make this call last as this takes down the network connection for a period of time and download in previous call fails
 ################# Bond all NIC's together
 nmcli connection add type bond con-name int-static ifname int-static mode 802.3ad
 nmcli con mod id int-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
