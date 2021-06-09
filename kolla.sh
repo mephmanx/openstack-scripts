@@ -177,8 +177,8 @@ mv /etc/kolla/config/octavia/server_ca2.key.pem /etc/kolla/config/octavia/server
 chmod 600 /etc/kolla/config/octavia/*.*
 #########################
 
-kolla-ansible -i /etc/kolla/multinode bootstrap-servers
-kolla-ansible -i /etc/kolla/multinode prechecks
+kolla-ansible -i /etc/kolla/multinode bootstrap-servers -vvv
+kolla-ansible -i /etc/kolla/multinode prechecks -vvv
 
 #use for loading time as opposed to needing the image
 wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
@@ -191,7 +191,7 @@ export EXT_NET_GATEWAY=10.0.10.1
 cp /etc/kolla/multinode /tmp
 
 cp /tmp/multinode /etc/kolla
-kolla-ansible -i /etc/kolla/multinode deploy
+kolla-ansible -i /etc/kolla/multinode deploy -vvv
 
 pip3 install python-openstackclient --ignore-installed
 kolla-ansible post-deploy
