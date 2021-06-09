@@ -17,11 +17,6 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
-######## add proxy cert for SSL proxy
-cp /tmp/proxy.crt /etc/pki/ca-trust/source/anchors
-update-ca-trust extract
-##################
-
 # set VM type for future use
 TYPE=`cat /tmp/type`
 

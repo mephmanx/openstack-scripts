@@ -39,12 +39,6 @@ function letsEncryptAndCockpitCerts {
   echo 'cat > /etc/letsencrypt/live/lyonsgroup.family/privkey.pem <<EOF' >> ${kickstart_file}
   cat ./certs/lyonsgroup-wildcard.key >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
-
-  ############ add SSL proxy cert
-  echo 'cat > /tmp/proxy.crt <<EOF' >> ${kickstart_file}
-  cat ./certs/Lyonsgroup+VPN.crt >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  ########################
   ###############################
 }
 
@@ -142,6 +136,7 @@ function closeOutAndBuildKickstartAndISO {
   IFS=
   ########
   prepareEnv
+
   ###Close out cfg file
   echo '%end' >> ./${kickstart_file}
   echo 'eula --agreed' >> ./${kickstart_file}
