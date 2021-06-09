@@ -53,7 +53,7 @@ function networkInformation {
 
         if ! grep -q $host "/tmp/dns_hosts"; then
           #add localhost entry
-          echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
+          echo "runuser -l root -c  'echo '$ip_addr $host' >> /etc/hosts;'" >> /tmp/dns_hosts
           addresses+=($ip_addr)
         fi
 
@@ -83,7 +83,7 @@ function networkInformation {
 
         if ! grep -q $host "/tmp/dns_hosts"; then
           #add localhost entry
-          echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
+          echo "runuser -l root -c  'echo '$ip_addr $host' >> /etc/hosts;'" >> /tmp/dns_hosts
           addresses+=($ip_addr)
         fi
 
@@ -112,7 +112,7 @@ function networkInformation {
 
         if ! grep -q $host "/tmp/dns_hosts"; then
           #add localhost entry
-          echo "echo '$ip_addr $host' >> /etc/hosts;" >> /tmp/dns_hosts
+          echo "runuser -l root -c  'echo '$ip_addr $host' >> /etc/hosts;'" >> /tmp/dns_hosts
           addresses+=($ip_addr)
         fi
 
