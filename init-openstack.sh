@@ -16,6 +16,11 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
+######## add proxy cert for SSL proxy
+cp /tmp/proxy.crt /etc/pki/ca-trust/source/anchors
+update-ca-trust extract
+##################
+
 #########load secrets into env
 chmod 777 /tmp/openstack-env.sh
 source ./tmp/openstack-env.sh
