@@ -68,6 +68,12 @@ function commonItems {
   cat ./openstack-env.sh >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   ###############################
+
+  ############ add SSL proxy cert
+  echo 'cat > /tmp/proxy.crt <<EOF' >> ${kickstart_file}
+  cat ./certs/Lyonsgroup+VPN.crt >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+  ########################
 }
 
 function initialKickstartSetup {
