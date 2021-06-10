@@ -51,7 +51,7 @@ function vm_definitions_esxi {
         echo '{
             "count":"1",
             "cpu":"24",
-            "memory":176",
+            "memory":208",
             "drive_string":"HP-SSD:800,HP-Disk:200",
             "network_string":"loc-static,int-static,int-static"
           }'
