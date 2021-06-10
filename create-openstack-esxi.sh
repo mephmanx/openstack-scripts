@@ -5,7 +5,9 @@ source ./openstack-env.sh
 ESXI_HOST=$1
 ESXI_PASSWORD=$2
 #### ESXi hostname #1 VM Name arg #2
-setupENV ${ESXI_HOST}
+export HOSTNAME=$1
+export ISO_DISK_NAME=HP-Disk
+export DISK_NAME=HP-Disk
 ########  ESXi password arg #2
 installESXiTools
 

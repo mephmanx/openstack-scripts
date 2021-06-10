@@ -155,13 +155,6 @@ function create_vm_kvm {
   eval "virt-install --virt-type kvm --name $2 --memory ${memory_ct}000 --cpu host-passthrough,cache.mode=passthrough --hvm --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--os-variant centos8 --graphics vnc $autostart" &
 }
 
-function setupENV {
-  export HOSTNAME=$1
-  export ISO_DISK_NAME=HP-Disk
-  export DISK_NAME=HP-Disk
-  rm -rf /var/tmp/*.*
-}
-
 function installESXiTools {
   alternatives --set python /usr/bin/python3
   pip3 install --upgrade pip
