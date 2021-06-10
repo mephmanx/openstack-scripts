@@ -65,6 +65,9 @@ virsh net-define /tmp/openstack-local.xml
 virsh net-autostart loc-static
 
 virsh net-start loc-static
+
+virsh net-destroy default
+virsh net-undefine default
 ###########################
 
 ############ Create and init storage pools
