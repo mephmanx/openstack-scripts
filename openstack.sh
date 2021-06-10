@@ -96,11 +96,6 @@ git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
 
 cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
 cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
-
-######remove existing isos
-rm -rf /var/tmp/*.*;
-#############
-
 ####################
 runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloudsupport-kvm.sh;'
 runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloud-kvm.sh;'
