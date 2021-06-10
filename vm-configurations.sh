@@ -125,7 +125,7 @@ function create_vm_kvm {
   for element in "${disk_array[@]}"
     do
       IFS=':' read -ra drive_info <<< "$element"
-      virt_disk_list+=("--disk pool=${drive_info[0]},size=${drive_info[1]},bus=scsi,sparse=no,cache=writeback ")
+      virt_disk_list+=("--disk pool=${drive_info[0]},size=${drive_info[1]},bus=scsi,sparse=no ")
   done
   #####################
 
