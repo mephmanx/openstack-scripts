@@ -10,15 +10,15 @@ common_second_boot_setup
 
 ######## Put type specific code
 
-wipefs -a /dev/vdb
+wipefs -a /dev/sdb
 sleep 3
-pvcreate /dev/vdb
+pvcreate /dev/sdb
 sleep 3
-vgcreate -v cinder-volumes /dev/vdb
+vgcreate -v cinder-volumes /dev/sdb
 sleep 3
 
 index=0
-for d in vdc vdd vde; do
+for d in sdc sdd sde; do
   wipefs -a /dev/${d}
   pvcreate /dev/${d}
   parted /dev/${d} -s -- mklabel gpt mkpart KOLLA_SWIFT_DATA 1 -1
