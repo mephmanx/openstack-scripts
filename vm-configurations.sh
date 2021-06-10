@@ -150,9 +150,9 @@ function create_vm_kvm {
     autostart=" --autostart"
   fi
 
-  echo "virt-install --virt-type qemu --name $2 --memory ${memory_ct}000 --cpu host-passthrough,cache.mode=passthrough --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--os-variant centos8 --graphics vnc $autostart"
+  echo "virt-install --virt-type qemu --name $2 --memory ${memory_ct}000 --cpu qemu64 --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--os-variant centos8 --graphics vnc $autostart"
 
-  eval "virt-install --virt-type qemu --name $2 --memory ${memory_ct}000 --cpu host-passthrough,cache.mode=passthrough --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--os-variant centos8 --graphics vnc $autostart" &
+  eval "virt-install --virt-type qemu --name $2 --memory ${memory_ct}000 --cpu qemu64 --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--os-variant centos8 --graphics vnc $autostart" &
 }
 
 function installESXiTools {
