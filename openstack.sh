@@ -14,6 +14,10 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
+#### possible fix
+chmod 666 /dev/kvm
+###############
+
 yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
 
 systemctl stop firewalld
