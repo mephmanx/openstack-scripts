@@ -20,13 +20,13 @@ function parse_json()
 function getVMCount {
   option="${1}"
 
-  vmstr=$(vm_definitions_esxi "$option")
+  vmstr=$(vm_definitions "$option")
   vm_str=${vmstr//[$'\t\r\n ']}
   vm_ct=$(parse_json "$vm_str" "count")
   echo $vm_ct
 }
 
-function vm_definitions_esxi {
+function vm_definitions {
   option="${1}"
   case $option in
     "control")
@@ -89,7 +89,7 @@ function vm_definitions_esxi {
 function create_vm_esxi {
   option="${1}"
 
-  vmstr=$(vm_definitions_esxi "$option")
+  vmstr=$(vm_definitions "$option")
   vm_str=${vmstr//[$'\t\r\n ']}
   cpu_ct=$(parse_json "$vm_str" "cpu")
   memory_ct=$(parse_json "$vm_str" "memory")
@@ -112,7 +112,7 @@ function create_vm_esxi {
 function create_vm_kvm {
   option="${1}"
 
-  vmstr=$(vm_definitions_esxi "$option")
+  vmstr=$(vm_definitions "$option")
   vm_str=${vmstr//[$'\t\r\n ']}
   cpu_ct=$(parse_json "$vm_str" "cpu")
   memory_ct=$(parse_json "$vm_str" "memory")

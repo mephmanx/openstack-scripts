@@ -33,7 +33,7 @@ function networkInformation {
     echo "" >> /tmp/host_list
   fi
 
-  vmstr=$(vm_definitions_esxi "$vm_type")
+  vmstr=$(vm_definitions "$vm_type")
   vm_str=${vmstr//[$'\t\r\n ']}
 
   network_string=$(parse_json "$vm_str" "network_string")
