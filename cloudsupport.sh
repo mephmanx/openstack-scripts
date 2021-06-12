@@ -40,5 +40,12 @@ cd /root/harbor
 chmod 777 *.sh
 runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --with-chartmuseum"
 
+########### set up registry connection to docker hub
+
+###########################
+
+###########  remove default "library" project that is set up for a proxy cache project
+
+##########################
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
