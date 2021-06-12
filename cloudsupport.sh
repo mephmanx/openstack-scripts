@@ -29,7 +29,7 @@ chmod +x /usr/local/bin/docker-compose
 cd /root
 yum install -y tar
 
-wget -O /tmp/harbor.tgz https://github.com/goharbor/harbor/releases/download/v2.1.5/harbor-offline-installer-v2.1.5.tgz
+wget -O /tmp/harbor.tgz https://github.com/goharbor/harbor/releases/download/v2.2.2/harbor-offline-installer-v2.2.2.tgz
 tar xzvf /tmp/harbor.tgz
 
 wget -O /root/harbor/harbor.yml -d https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/harbor.yml
