@@ -44,7 +44,7 @@ runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --
 
 ###########################
 
-###########  remove default "library" project that is set up for a proxy cache project
+###########  remove default "library" project and create new proxy-cache library project
 
 ##########################
 #remove so as to not run again
