@@ -45,13 +45,15 @@ export etext=`echo -n "$SUPPORT_USERNAME:$SUPPORT_PASSWORD" | base64`
 curl --location --request POST "https://${SUPPORT_HOST}/api/v2.0/registries" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
-  --data-raw '{
-    "name": "docker-hub",
-    "url": "https://hub.docker.com",
-    "insecure": false,
-    "type": "docker-hub",
-    "description": "docker hub"
-  }'
+  --data-raw "{
+    'name': 'docker-hub',
+    'url': 'https://hub.docker.com',
+    'insecure': false,
+    'type": 'docker-hub',
+    'description': 'docker hub',
+    'access_key':'$DOCKER_HUB_PWD',
+    'access_secret':'$DOCKER_HUB_USER'
+  }"
 ###########################
 
 ###########  remove default "library" project and create new proxy-cache library project
