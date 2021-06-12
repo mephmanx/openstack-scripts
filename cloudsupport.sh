@@ -52,7 +52,7 @@ curl --location --request POST "https://${SUPPORT_HOST}/api/v2.0/registries" \
     'type': 'docker-hub', \
     'description': 'docker hub', \
     'access_key':'$DOCKER_HUB_PWD', \
-    'access_secret':'$DOCKER_HUB_USER'
+    'access_secret':'$DOCKER_HUB_USER' \
   }"
 ###########################
 
