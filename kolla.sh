@@ -116,7 +116,6 @@ done < /tmp/storage_hosts
 
 #####################################  make sure all hosts are up
 # shellcheck disable=SC2006
-#host_count_str=`grep -o -i ssh-keyscan /tmp/host-trust.sh | wc -l`
 host_count_str=`cat /tmp/host_count`
 
 ############ add keys
