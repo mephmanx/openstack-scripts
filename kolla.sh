@@ -215,8 +215,8 @@ openstack image create --public --min-disk 3 --container-format bare \
 
 test=`openstack image show 'bionic x86_64'`
 if [[ "No Image found" == *"$test"* ]]; then
-#  cp /tmp/multinode /etc/kolla
-#  kolla-ansible -i /etc/kolla/multinode destroy --yes-i-really-really-mean-it
+  cp /tmp/multinode /etc/kolla
+  kolla-ansible -i /etc/kolla/multinode destroy --yes-i-really-really-mean-it
   exit -1
 fi
 
@@ -278,11 +278,6 @@ runuser -l stack -c  "echo 'export OS_AUTH_PLUGIN=$OS_AUTH_PLUGIN' >> /opt/stack
 runuser -l stack -c  'bbl up --debug'
 
 ############# build octavia image
-#curl -L https://install.perlbrew.pl | bash
-#source ~/perl5/perlbrew/etc/bashrc
-#perlbrew init
-#perlbrew install --force perl-5.16.3
-#perlbrew switch perl-5.16.3
 runuser -l root -c  'yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils'
 git clone https://opendev.org/openstack/octavia -b master
 pip3 install diskimage-builder
@@ -300,19 +295,9 @@ openstack image create amphora-x64-haproxy \
   --property hw_rng_model=virtio
 
 test=`openstack image show 'amphora-x64-haproxy'`
-while [[ "No Image found" == *"$test"* ]]
-do
-  openstack image create amphora-x64-haproxy \
-    --container-format bare \
-    --disk-format qcow2 \
-    --private \
-    --tag amphora \
-    --file /root/amphora-x64-haproxy.qcow2 \
-    --property hw_architecture='x86_64' \
-    --property hw_rng_model=virtio
-  test=`openstack image show 'amphora-x64-haproxy'`
-  sleep 10
-done
+if [[ "No Image found" == *"$test"* ]]; then
+  exit -1
+fi
 #########################
 
 git clone https://github.com/cloudfoundry-attic/bosh-openstack-environment-templates.git
@@ -356,23 +341,6 @@ num_tcp_ports = 100 #default is 100, needs to be > 0
 EOF
 ./terraform init
 ./terraform apply -auto-approve > /tmp/terraf.out
-
-#openstack security group create --project cloudfoundry cf  --description "CloudFoundry Security Group"
-#openstack security group rule create cf --protocol any --remote-ip 0.0.0.0/0 --egress
-#openstack security group rule create cf --protocol any --remote-ip ::/0 --egress
-#openstack security group rule create cf --protocol udp --remote-ip 0.0.0.0/0 --ingress --dst-port 68
-#openstack security group rule create cf --protocol icmp --remote-ip 0.0.0.0/0 --ingress
-#openstack security group rule create cf --protocol tcp --remote-ip 0.0.0.0/0 --ingress --dst-port 22
-#openstack security group rule create cf --protocol tcp --remote-ip 0.0.0.0/0 --ingress --dst-port 80
-#openstack security group rule create cf --protocol tcp --remote-ip 0.0.0.0/0 --ingress --dst-port 443
-#openstack security group rule create cf --protocol tcp --remote-ip 0.0.0.0/0 --ingress --dst-port 4443
-#openstack security group rule create cf --protocol tcp --remote-ip 0.0.0.0/0 --ingress
-#
-#openstack flavor create minimal --id 6 --ram 3840 --ephemeral 10 --vcpus 1
-#openstack flavor create small --id 7 --ram 7680 --ephemeral 14 --vcpus 2
-#openstack flavor create small-highmem --id 8 --ram 31232 --ephemeral 10 --vcpus 4
-#openstack flavor create small-50GB-ephemeral-disk --id 9 --ram 7680 --ephemeral 50 --vcpus 2
-#openstack flavor create small-highmem-100GB-ephemeral-disk --id 10 --ram 31232 --ephemeral 100 --vcpus 4
 
 cd /tmp
 git clone https://github.com/cloudfoundry/cf-deployment
