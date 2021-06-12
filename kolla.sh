@@ -247,7 +247,6 @@ runuser -l stack -c  '/tmp/homebrew.sh </dev/null'
 runuser -l stack -c  'echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> /opt/stack/.bash_profile'
 runuser -l stack -c  'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)'
 runuser -l stack -c  'brew tap cloudfoundry/tap'
-runuser -l stack -c  'brew install terraform@0.13'
 runuser -l stack -c  'brew install bosh-cli'
 runuser -l stack -c  'brew install bbl'
 
