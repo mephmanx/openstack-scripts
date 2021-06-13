@@ -43,56 +43,56 @@ runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --
 
 ########### set up registry connection to docker hub
 export etext=`echo -n "$SUPPORT_USERNAME:$SUPPORT_PASSWORD" | base64`
-curl --location --request POST "https://${SUPPORT_HOST}/api/v2.0/registries" \
+curl -k --location --request POST "https://10.0.20.200/api/v2.0/registries" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
-  --data-raw "{" \
-    "'name': 'docker-hub'," \
-    "'url': 'https://hub.docker.com'," \
-    "'insecure': false," \
-    "'type': 'docker-hub'," \
-    "'description': 'docker hub'," \
-    "'access_key':'$DOCKER_HUB_PWD'," \
-    "'access_secret':'$DOCKER_HUB_USER'" \
-  "}"
+  --data-raw "{ \
+    'name': 'docker-hub', \
+    'url': 'https://hub.docker.com', \
+    'insecure': false, \
+    'type': 'docker-hub', \
+    'description': 'docker hub', \
+    'access_key':'$DOCKER_HUB_PWD', \
+    'access_secret':'$DOCKER_HUB_USER' \
+  }"
 ###########################
 
 ###########  remove default "library" project and create new proxy-cache library project
-curl --location --request DELETE "https://${SUPPORT_HOST}/api/v2.0/projects/1" \
+curl -k --location --request DELETE "https://10.0.20.200/api/v2.0/projects/1" \
   --header "authorization: Basic $etext"
 
-curl --location --request POST "https://${SUPPORT_HOST}/api/v2.0/projects" \
+curl -k --location --request POST "https://10.0.20.200/api/v2.0/projects" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
-  --data-raw "{" \
-      "'project_name': 'library'," \
-      "'cve_allowlist': {" \
-          "'items': [" \
-              "{" \
-                  "'cve_id': 'string'" \
-              "}" \
-          "]," \
-          "'project_id': 0," \
-          "'id': 0," \
-          "'expires_at': 0," \
-          "'update_time': '2021-06-12T15:44:26.510Z'," \
-          "'creation_time': '2021-06-12T15:44:26.510Z'" \
-      "}," \
-      "'count_limit': 0," \
-      "'registry_id': 1," \
-      "'storage_limit': 0," \
-      "'metadata': {" \
-          "'enable_content_trust': 'string'," \
-          "'auto_scan': 'string'," \
-          "'severity': 'string'," \
-          "'public': 'string'," \
-          "'reuse_sys_cve_allowlist': 'string'," \
-          "'prevent_vul': 'string'," \
-          "'retention_id': 'string'" \
-      "}," \
-      "'public': true, \
-      "'proxy_cache': "true" \
-  "}"
+  --data-raw '{ \
+      "project_name": "library", \
+      "cve_allowlist": { \
+          "items": [ \
+              { \
+                  "cve_id": "string" \
+              } \
+          ], \
+          "project_id": 0, \
+          "id": 0, \
+          "expires_at": 0, \
+          "update_time": "2021-06-12T15:44:26.510Z", \
+          "creation_time": "2021-06-12T15:44:26.510Z" \
+      }, \
+      "count_limit": 0, \
+      "registry_id": 1, \
+      "storage_limit": 0, \
+      "metadata": { \
+          "enable_content_trust": "string", \
+          "auto_scan": "string", \
+          "severity": "string", \
+          "public": "string", \
+          "reuse_sys_cve_allowlist": "string", \
+          "prevent_vul": "string", \
+          "retention_id": "string" \
+      }, \
+      "public": true, \
+      "proxy_cache": true \
+  }'
 ##########################
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
