@@ -27,6 +27,8 @@ chmod 777 /tmp/global_addresses.sh
 source /tmp/global_addresses.sh
 ############################
 
+runuser -l root -c  'echo "10.0.20.200 cloudsupport.lyonsgroup.family" >> /etc/hosts;'
+
 # set up net script to be called after reboot
 prep_next_script "cloudsupport"
 

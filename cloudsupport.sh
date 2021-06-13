@@ -40,7 +40,6 @@ cd /root/harbor
 chmod 777 *.sh
 
 runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --with-chartmuseum"
-runuser -l root -c  'echo "10.0.20.200 cloudsupport.lyonsgroup.family" >> /etc/hosts;'
 
 ########### set up registry connection to docker hub
 export etext=`echo -n "$SUPPORT_USERNAME:$SUPPORT_PASSWORD" | base64`
