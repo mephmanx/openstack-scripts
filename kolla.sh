@@ -17,13 +17,20 @@ curl -k --location --request POST "https://$SUPPORT_HOST/api/v2.0/registries" \
   --header 'content-type: application/json' \
   -d @- <<'EOF'
 {
-  'name': 'docker-hub',
-  'url': 'https://hub.docker.com',
-  'insecure': false,
-  'type': 'docker-hub',
-  'description': 'docker hub',
-  'access_key':'$DOCKER_HUB_PWD',
-  'access_secret':'$DOCKER_HUB_USER'
+    "status": "healthy",
+    "credential": {
+        "access_key": "$DOCKER_HUB_PWD",
+        "access_secret": "$DOCKER_HUB_USER",
+        "type": "basic"
+    },
+    "update_time": "2021-06-14T01:52:35.36006Z",
+    "name": "docker-hub",
+    "url": "https://hub.docker.com",
+    "insecure": false,
+    "creation_time": "2021-06-14T01:52:35.360055Z",
+    "type": "docker-hub",
+    "id": 0,
+    "description": "docker hub"
 }
 EOF
 ###########################
