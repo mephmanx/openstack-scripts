@@ -46,6 +46,7 @@ export etext=`echo -n "$SUPPORT_USERNAME:$SUPPORT_PASSWORD" | base64`
 curl -k --location --request POST "https://$SUPPORT_HOST/api/v2.0/registries" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
+  --header 'host: cloudsupport.lyonsgroup.family' \
   -d @- <<'EOF'
 {
     "status": "healthy",
@@ -73,6 +74,7 @@ curl -k --location --request DELETE "https://$SUPPORT_HOST/api/v2.0/projects/1" 
 curl -k --location --request POST "https://$SUPPORT_HOST/api/v2.0/projects" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
+  --header 'host: cloudsupport.lyonsgroup.family' \
   -d @- <<'EOF'
 {
   "project_name": "library",
