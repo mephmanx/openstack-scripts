@@ -30,7 +30,7 @@ curl -k --location --request POST "https://10.0.20.200/api/v2.0/projects" \
   --header 'content-type: application/json' \
   --header 'host: cloudsupport.lyonsgroup.family' \
   -d @- <<'EOF'
-{"project_name":"library","registry_id":7,"metadata":{"public":"true"},"storage_limit":-1}
+{"project_name":"library","registry_id":0,"metadata":{"public":"true"},"storage_limit":-1}
 EOF
 
 
