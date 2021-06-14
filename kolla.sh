@@ -16,9 +16,13 @@ curl -k --location --request POST "https://10.0.20.200/api/v2.0/registries" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
   --header 'host: cloudsupport.lyonsgroup.family' \
-  -d @- <<'EOF'
-{"credential":{"access_key":"$DOCKER_HUB_USER","access_secret":"$DOCKER_HUB_PWD","type":"basic"},"description":"","insecure":false,"name":"docker-hub","type":"docker-hub","url":"https://hub.docker.com"}
-EOF
+  -H 'Accept-Language: en-us' \
+  -H 'Accept-Encoding: gzip, deflate, br' \
+  -H 'Referer: https://cloudsupport.lyonsgroup.family/harbor/registries' \
+  -H 'Origin: https://cloudsupport.lyonsgroup.family' \
+  -H 'Connection: keep-alive' \
+  --data-binary "{'credential':{'access_key':'$DOCKER_HUB_USER','access_secret':'$DOCKER_HUB_PWD','type':'basic'},'description':'','insecure':false,'name':'docker-hub','type':'docker-hub','url':'https://hub.docker.com'}"
+
 ###########################
 
 ###########  remove default "library" project and create new proxy-cache library project
@@ -29,10 +33,7 @@ curl -k --location --request POST "https://10.0.20.200/api/v2.0/projects" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
   --header 'host: cloudsupport.lyonsgroup.family' \
-  -d @- <<'EOF'
-{"project_name":"library","registry_id":0,"metadata":{"public":"true"},"storage_limit":-1}
-EOF
-
+  --data-binary "{'project_name':'library','registry_id':0,'metadata':{'public':'true'},'storage_limit':-1}"
 
 unset HOME
 
