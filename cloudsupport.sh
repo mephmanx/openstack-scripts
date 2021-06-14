@@ -106,6 +106,7 @@ curl -k --location --request POST "https://$SUPPORT_HOST/api/v2.0/projects" \
   "proxy_cache": true
 }
 EOF
+
 ##########################
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
