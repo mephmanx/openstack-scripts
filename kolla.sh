@@ -17,22 +17,7 @@ curl -k --location --request POST "https://10.0.20.200/api/v2.0/registries" \
   --header 'content-type: application/json' \
   --header 'host: cloudsupport.lyonsgroup.family' \
   -d @- <<'EOF'
-{
-    "status": "healthy",
-    "credential": {
-        "access_key": "$DOCKER_HUB_PWD",
-        "access_secret": "$DOCKER_HUB_USER",
-        "type": "basic"
-    },
-    "update_time": "2021-06-14T01:52:35.36006Z",
-    "name": "docker-hub",
-    "url": "https://hub.docker.com",
-    "insecure": false,
-    "creation_time": "2021-06-14T01:52:35.360055Z",
-    "type": "docker-hub",
-    "id": 0,
-    "description": "docker hub"
-}
+{"credential":{"access_key":"$DOCKER_HUB_USER","access_secret":"$DOCKER_HUB_PWD","type":"basic"},"description":"","insecure":false,"name":"docker-hub","type":"docker-hub","url":"https://hub.docker.com"}
 EOF
 ###########################
 
@@ -45,35 +30,7 @@ curl -k --location --request POST "https://10.0.20.200/api/v2.0/projects" \
   --header 'content-type: application/json' \
   --header 'host: cloudsupport.lyonsgroup.family' \
   -d @- <<'EOF'
-{
-  "project_name": "library",
-  "cve_allowlist": {
-      "items": [
-          {
-              "cve_id": "string"
-          }
-      ],
-      "project_id": 0,
-      "id": 0,
-      "expires_at": 0,
-      "update_time": "2021-06-12T15:44:26.510Z",
-      "creation_time": "2021-06-12T15:44:26.510Z"
-  },
-  "count_limit": 0,
-  "registry_id": 1,
-  "storage_limit": 0,
-  "metadata": {
-      "enable_content_trust": "string",
-      "auto_scan": "string",
-      "severity": "string",
-      "public": "string",
-      "reuse_sys_cve_allowlist": "string",
-      "prevent_vul": "string",
-      "retention_id": "string"
-  },
-  "public": true,
-  "proxy_cache": true
-}
+{"project_name":"library","registry_id":7,"metadata":{"public":"true"},"storage_limit":-1}
 EOF
 
 
