@@ -33,7 +33,7 @@ curl -k --location --request POST "https://10.0.20.200/api/v2.0/projects" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
   --header 'host: cloudsupport.lyonsgroup.family' \
-  --data-binary "{\"project_name\":\"library\",\"registry_id\":0,\"metadata\":{\"public\":\"true\"},\"storage_limit\":-1}"
+  --data-binary "{\"project_name\":\"library\",\"registry_id\":1,\"metadata\":{\"public\":\"true\"},\"storage_limit\":-1}"
 
 unset HOME
 
