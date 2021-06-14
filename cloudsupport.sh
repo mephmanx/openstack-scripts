@@ -43,7 +43,7 @@ runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --
 
 ########### set up registry connection to docker hub
 export etext=`echo -n "$SUPPORT_USERNAME:$SUPPORT_PASSWORD" | base64`
-curl -k --location --request POST "https://10.0.20.200/api/v2.0/registries" \
+curl -k --location --request POST "https://localhost/api/v2.0/registries" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
   -d @- <<'EOF'
@@ -56,13 +56,14 @@ curl -k --location --request POST "https://10.0.20.200/api/v2.0/registries" \
   'access_key':'$DOCKER_HUB_PWD',
   'access_secret':'$DOCKER_HUB_USER'
 }
+EOF
 ###########################
 
 ###########  remove default "library" project and create new proxy-cache library project
-curl -k --location --request DELETE "https://10.0.20.200/api/v2.0/projects/1" \
+curl -k --location --request DELETE "https://localhost/api/v2.0/projects/1" \
   --header "authorization: Basic $etext"
 
-curl -k --location --request POST "https://10.0.20.200/api/v2.0/projects" \
+curl -k --location --request POST "https://localhost/api/v2.0/projects" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
   -d @- <<'EOF'
@@ -95,6 +96,7 @@ curl -k --location --request POST "https://10.0.20.200/api/v2.0/projects" \
   "public": true,
   "proxy_cache": true
 }
+EOF
 ##########################
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
