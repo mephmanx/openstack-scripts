@@ -69,7 +69,7 @@ function vm_definitions {
         echo '{
             "count":"1",
             "cpu":"4",
-            "memory":"32",
+            "memory":"24",
             "drive_string":"HP-Disk:300,HP-Disk:300,HP-SSD:250,HP-SSD:250,HP-SSD:250",
             "network_string":"loc-static,int-static"
           }'
