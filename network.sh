@@ -10,8 +10,8 @@ common_second_boot_setup
 
 ######## Put type specific code
 
-runuser -l root -c  '/sbin/ip link set eth2 promisc on'
-runuser -l root -c  '/sbin/ip link set eth0 promisc on'
+#runuser -l root -c  '/sbin/ip link set eth2 promisc on'
+#runuser -l root -c  '/sbin/ip link set eth0 promisc on'
 
 #sed '/^IPADDR/d' -i /tmp/eth2
 #sed '/^GATEWAY/d' -i /tmp/eth2
@@ -26,10 +26,7 @@ runuser -l root -c  '/sbin/ip link set eth0 promisc on'
 rm -rf /etc/rc.d/rc.local
 
 cat > /etc/rc.d/rc.local <<EOF
-#!/bin/bash
 
-/sbin/ip link set eth2 promisc on
-/sbin/ip link set eth0 promisc on
 EOF
 
 chmod a+x /etc/rc.d/rc.local
