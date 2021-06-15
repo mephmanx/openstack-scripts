@@ -38,10 +38,6 @@ modprobe kvm_intel ept=1
 ##############
 
 ################# Add bridge
-#ip link add os-int-static type bridge
-#ip address add dev os-int-static $IP
-#ip link set bond0 master os-int-static
-#
 #cat > /etc/sysctl.d/99-netfilter-bridge.conf <<EOF
 #net.bridge.bridge-nf-call-ip6tables = 0
 #net.bridge.bridge-nf-call-iptables = 0
