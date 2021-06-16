@@ -151,6 +151,7 @@ function create_vm_kvm {
   fi
 
   #### kvm cpu topology
+  threads=4
   if [[ $cpu_ct > 4 ]]; then
     sockets=$(cpu_ct / 4)
     cores=4
@@ -163,7 +164,7 @@ function create_vm_kvm {
       cores=2
     fi
   fi
-  cpu_topology="sockets=$sockets,cores=$cores,threads=4"
+  cpu_topology="maxvcpus=$(sockets * cores * threads),sockets=$sockets,cores=$cores,threads=$threads"
   ###############
 
   echo "virt-install --virt-type kvm --name $2 --memory ${memory_ct}000 --cpu host-passthrough,cache.mode=passthrough --hvm --vcpus $cpu_ct,$cpu_topology $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--os-variant centos8 --graphics vnc $autostart"
