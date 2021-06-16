@@ -26,6 +26,7 @@ systemctl disable libvirtd
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 
+#########  Spot for anything that needs to be run on every reboot from here on out
 cat > /etc/rc.d/rc.local <<EOF
 
 EOF
