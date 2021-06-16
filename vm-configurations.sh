@@ -32,7 +32,7 @@ function vm_definitions {
     "control")
         echo '{
             "count":"3",
-            "cpu":"4",
+            "cpu":"2",
             "memory":"40",
             "drive_string":"HP-Disk:100",
             "network_string":"loc-static,int-static"
@@ -41,7 +41,7 @@ function vm_definitions {
     "network")
         echo '{
             "count":"2",
-            "cpu":"4",
+            "cpu":"2",
             "memory":"16",
             "drive_string":"HP-Disk:100",
             "network_string":"loc-static,int-static,int-static"
@@ -59,7 +59,7 @@ function vm_definitions {
     "monitoring")
         echo '{
             "count":"1",
-            "cpu":"4",
+            "cpu":"2",
             "memory":"24",
             "drive_string":"HP-Disk:300",
             "network_string":"loc-static,int-static"
@@ -68,7 +68,7 @@ function vm_definitions {
     "storage")
         echo '{
             "count":"1",
-            "cpu":"4",
+            "cpu":"2",
             "memory":"24",
             "drive_string":"HP-Disk:300,HP-Disk:300,HP-SSD:250,HP-SSD:250,HP-SSD:250",
             "network_string":"loc-static,int-static"
@@ -77,7 +77,7 @@ function vm_definitions {
     "kolla")
         echo '{
             "count":"1",
-            "cpu":"8",
+            "cpu":"4",
             "memory":"16",
             "drive_string":"HP-Disk:100",
             "network_string":"loc-static,int-static"
