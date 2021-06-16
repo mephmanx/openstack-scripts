@@ -386,7 +386,7 @@ bosh update-cloud-config \
      /tmp/cf-deployment/iaas-support/openstack/cloud-config.yml -n
 bosh -d cf deploy /tmp/cf-deployment/cf-deployment.yml -o /tmp/cf-deployment/operations/openstack.yml \
   --vars-store /tmp/vars/deployment-vars.yml \
-  -v system_domain=app.lyonsgroup.family -n
+  -v system_domain=lyonsgroup.family -n
 
 #prepare jumpbox access
 #bosh int /opt/stack/vars/jumpbox-vars-store.yml --path /jumpbox_ssh/private_key > jumpbox.key
