@@ -137,7 +137,7 @@ function create_vm_kvm {
       if [[ "${net_element}" =~ .*"loc".* ]]; then
         virt_network_list+=("--network type=network,source=$net_element,model=virtio ")
       else
-        virt_network_list+=("--network type=direct,source=$net_element,model=virtio ")
+        virt_network_list+=("--network type=direct,source=$net_element,model=virtio,source_mode=bridge ")
       fi
   done
   #########################
