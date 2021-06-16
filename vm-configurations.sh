@@ -150,9 +150,25 @@ function create_vm_kvm {
     autostart=" --autostart"
   fi
 
-  echo "virt-install --virt-type kvm --name $2 --memory ${memory_ct}000 --cpu host-passthrough,cache.mode=passthrough --hvm --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--os-variant centos8 --graphics vnc $autostart"
+  #### kvm cpu topology
+  if [[ $cpu_ct > 4 ]]; then
+    sockets=$(cpu_ct / 4)
+    cores=4
+  else
+    if [[ $cpu_ct % 2 == 0 ]]; then
+      sockets=$(cpu_ct) / 2
+      cores=2
+    else
+      sockets=1
+      cores=2
+    fi
+  fi
+  cpu_topology="sockets=$sockets,cores=$cores,threads=4"
+  ###############
 
-  eval "virt-install --virt-type kvm --name $2 --memory ${memory_ct}000 --cpu host-passthrough,cache.mode=passthrough --hvm --vcpus $cpu_ct $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--os-variant centos8 --graphics vnc $autostart" &
+  echo "virt-install --virt-type kvm --name $2 --memory ${memory_ct}000 --cpu host-passthrough,cache.mode=passthrough --hvm --vcpus $cpu_ct,$cpu_topology $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--os-variant centos8 --graphics vnc $autostart"
+
+  eval "virt-install --virt-type kvm --name $2 --memory ${memory_ct}000 --cpu host-passthrough,cache.mode=passthrough --hvm --vcpus=$cpu_ct,$cpu_topology $virt_disk_string--cdrom /var/tmp/$2-iso.iso $virt_network_string--os-variant centos8 --graphics vnc $autostart" &
 }
 
 function installESXiTools {
