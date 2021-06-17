@@ -169,18 +169,19 @@ function create_vm_kvm {
 
   create_line="virt-install "
   create_line+="--hvm "
-  create_line+="--virt-type kvm "
-  create_line+="--name $2 "
-  create_line+="--memory ${memory_ct}000 "
-  create_line+="--cpu host-passthrough,cache.mode=passthrough "
+  create_line+="--virt-type=kvm "
+  create_line+="--name=$2 "
+  create_line+="--memory=${memory_ct}000 "
+  create_line+="--cpu=host-passthrough,cache.mode=passthrough "
   create_line+="--cpuset=auto "
   create_line+="--vcpus=$cpu_topology "
   create_line+="--cpuset=auto "
   create_line+="$virt_disk_string"
-  create_line+="--cdrom /var/tmp/$2-iso.iso "
+  create_line+="--cdrom=/var/tmp/$2-iso.iso "
   create_line+="$virt_network_string"
-  create_line+="--os-variant centos8 "
-  create_line+="--graphics vnc $autostart"
+  create_line+="--os-variant=centos8 "
+  create_line+="--graphics=vnc "
+  create_line+="$autostart"
 
   echo $create_line
   eval $create_line &
