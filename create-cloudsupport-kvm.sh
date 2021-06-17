@@ -22,19 +22,19 @@ echo 'EOF' >> ${kickstart_file}
 
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport"
 
-create_line="virt-install "\
-                  "--hvm "\
-                  "--virt-type kvm "\
-                  "--name cloudsupport "\
-                  "--memory ${memory_ct}000 "\
-                  "--cpu host-passthrough,cache.mode=passthrough "\
-                  "--cpuset=auto "\
-                  "--vcpus 4,maxvcpus=8,sockets=2,cores=1,threads=4 "\
-                  "--disk pool=HP-Disk,size=400,bus=scsi,sparse=no "\
-                  "--cdrom /var/tmp/cloudsupport-iso.iso "\
-                  "--network type=direct,source=int-static,model=virtio  --network type=network,source=loc-static,model=virtio "\
-                  "--os-variant centos8 "\
-                  "--graphics vnc --autostart"
+create_line="virt-install "
+create_line+="--hvm "
+create_line+="--virt-type kvm "
+create_line+="--name cloudsupport "
+create_line+="--memory ${memory_ct}000 "
+create_line+="--cpu host-passthrough,cache.mode=passthrough "
+create_line+="--cpuset=auto "
+create_line+="--vcpus 4,maxvcpus=8,sockets=2,cores=1,threads=4 "
+create_line+="--disk pool=HP-Disk,size=400,bus=scsi,sparse=no "
+create_line+="--cdrom /var/tmp/cloudsupport-iso.iso "
+create_line+="--network type=direct,source=int-static,model=virtio  --network type=network,source=loc-static,model=virtio "
+create_line+="--os-variant centos8 "
+create_line+="--graphics vnc --autostart"
 
 echo $create_line
 eval $create_line &
