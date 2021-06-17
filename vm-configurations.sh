@@ -164,7 +164,7 @@ function create_vm_kvm {
       cores=2
     fi
   fi
-  cpu_topology="vcpus=$((sockets * cores * threads)),maxvcpus=$((sockets * cores * threads * 2)),sockets=$sockets,cores=$cores,threads=$threads"
+  cpu_topology="vcpus=$((sockets * cores * threads)),maxvcpus=$((sockets * cores * threads)),sockets=$sockets,cores=$cores,threads=$threads"
   ###############
 
   create_line="virt-install "
