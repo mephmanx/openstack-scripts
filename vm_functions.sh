@@ -186,6 +186,22 @@ function add_stack_user() {
   runuser -l root -c  'su - stack'
 }
 
+function write_global_addresses() {
+
+cat > /tmp/global_addresses.sh <<EOF
+#################### Global address setup
+export DOMAIN_NAME=lyonsgroup.family
+export APP_INTERNAL_HOSTNAME=openstack-local
+export APP_EXTERNAL_HOSTNAME=openstack
+export SUPPORT_HOST=cloudsupport
+export INTERNAL_VIP="10.0.20.254"
+export EXTERNAL_VIP="192.168.1.252"
+export SUPPORT_VIP="10.0.20.200"
+##############################################
+EOF
+
+}
+
 function prep_next_script() {
   systemctl start cockpit.socket
   systemctl enable --now cockpit.socket

@@ -22,10 +22,8 @@ chmod 777 /tmp/openstack-env.sh
 source ./tmp/openstack-env.sh
 ############################
 
-#########load global addresses into env
-chmod 777 /tmp/global_addresses.sh
-source /tmp/global_addresses.sh
-############################
+##### write global address file
+write_global_addresses
 
 # set up net script to be called after reboot
 prep_next_script "cloudsupport"
