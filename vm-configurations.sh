@@ -151,35 +151,35 @@ function create_vm_kvm {
   fi
 
   #### kvm cpu topology
-  threads=4
+  threads=2
   if [[ $cpu_ct > 4 ]]; then
     sockets=$((cpu_ct / 4))
-    cores=4
+    cores=2
   else
     if [[ $((cpu_ct % 2)) == 0 ]]; then
       sockets=$((cpu_ct / 2))
       cores=2
     else
-      sockets=1
+      sockets=2
       cores=2
     fi
   fi
-  cpu_topology="maxvcpus=$((sockets * cores * threads)),sockets=$sockets,cores=$cores,threads=$threads"
+  cpu_topology="vcpus=$((sockets * cores * threads)),maxvcpus=$((sockets * cores * threads * 2)),sockets=$sockets,cores=$cores,threads=$threads"
   ###############
 
-  create_line="virt-install " \
-                  "--hvm " \
-                  "--virt-type kvm " \
-                  "--name $2 " \
-                  "--memory ${memory_ct}000 " \
-                  "--cpu host-passthrough,cache.mode=passthrough " \
-                  "--cpuset=auto " \
-                  "--vcpus $cpu_ct,$cpu_topology " \
-                  "--cpuset=auto " \
-                  "$virt_disk_string" \
-                  "--cdrom /var/tmp/$2-iso.iso " \
-                  "$virt_network_string" \
-                  "--os-variant centos8 " \
+  create_line="virt-install "\
+                  "--hvm "\
+                  "--virt-type kvm "\
+                  "--name $2 "\
+                  "--memory ${memory_ct}000 "\
+                  "--cpu host-passthrough,cache.mode=passthrough "\
+                  "--cpuset=auto "\
+                  "--vcpus=$cpu_topology "\
+                  "--cpuset=auto "\
+                  "$virt_disk_string"\
+                  "--cdrom /var/tmp/$2-iso.iso "\
+                  "$virt_network_string"\
+                  "--os-variant centos8 "\
                   "--graphics vnc $autostart"
 
   echo $create_line

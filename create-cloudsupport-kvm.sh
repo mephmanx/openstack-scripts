@@ -22,18 +22,18 @@ echo 'EOF' >> ${kickstart_file}
 
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport"
 
-create_line="virt-install " \
-                  "--hvm " \
-                  "--virt-type kvm " \
-                  "--name cloudsupport " \
-                  "--memory ${memory_ct}000 " \
-                  "--cpu host-passthrough,cache.mode=passthrough " \
-                  "--cpuset=auto " \
-                  "--vcpus 4,maxvcpus=8,sockets=2,cores=1,threads=4 " \
-                  "--disk pool=HP-Disk,size=400,bus=scsi,sparse=no " \
-                  "--cdrom /var/tmp/cloudsupport-iso.iso " \
-                  "--network type=direct,source=int-static,model=virtio  --network type=network,source=loc-static,model=virtio " \
-                  "--os-variant centos8 " \
+create_line="virt-install "\
+                  "--hvm "\
+                  "--virt-type kvm "\
+                  "--name cloudsupport "\
+                  "--memory ${memory_ct}000 "\
+                  "--cpu host-passthrough,cache.mode=passthrough "\
+                  "--cpuset=auto "\
+                  "--vcpus 4,maxvcpus=8,sockets=2,cores=1,threads=4 "\
+                  "--disk pool=HP-Disk,size=400,bus=scsi,sparse=no "\
+                  "--cdrom /var/tmp/cloudsupport-iso.iso "\
+                  "--network type=direct,source=int-static,model=virtio  --network type=network,source=loc-static,model=virtio "\
+                  "--os-variant centos8 "\
                   "--graphics vnc --autostart"
 
 echo $create_line
