@@ -50,7 +50,7 @@ function vm_definitions {
     "compute")
         echo '{
             "count":"1",
-            "cpu":"40",
+            "cpu":"24",
             "memory":200",
             "drive_string":"HP-SSD:800",
             "network_string":"loc-static,int-static,int-static"
