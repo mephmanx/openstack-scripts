@@ -28,9 +28,9 @@ systemctl restart libvirtd
 
 ### enable nested virtualization
 sed -i "s/#options kvm_intel nested=1/options kvm_intel nested=1/g" /etc/modprobe.d/kvm.conf
-echo "options kvm-intel enable_shadow_vmcs=1" >> /etc/modprobe.d/kvm.conf
-echo "options kvm-intel enable_apicv=1" >> /etc/modprobe.d/kvm.conf
-echo "options kvm-intel ept=1" >> /etc/modprobe.d/kvm.conf
+runuser -l root -c  'echo "options kvm-intel enable_shadow_vmcs=1" >> /etc/modprobe.d/kvm.conf;'
+runuser -l root -c  'echo "options kvm-intel enable_apicv=1" >> /etc/modprobe.d/kvm.conf;'
+runuser -l root -c  'echo "options kvm-intel ept=1" >> /etc/modprobe.d/kvm.conf;'
 modprobe kvm_intel nested=1
 modprobe kvm_intel enable_shadow_vmcs=1
 modprobe kvm_intel enable_apicv=1
