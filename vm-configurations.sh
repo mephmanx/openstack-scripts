@@ -152,11 +152,11 @@ function create_vm_kvm {
 
   #### kvm cpu topology
   threads=4
-  if [[ $cpu_ct > 4 ]]; then
+  if [[ "$cpu_ct" > 4 ]]; then
     sockets=$(cpu_ct / 4)
     cores=4
   else
-    if [[ $cpu_ct % 2 == 0 ]]; then
+    if [[ "$cpu_ct" % 2 == 0 ]]; then
       sockets=$(cpu_ct) / 2
       cores=2
     else
