@@ -28,3 +28,5 @@ cat > /etc/rc.d/rc.local <<EOF
 EOF
 
 chmod a+x /etc/rc.d/rc.local
+
+reboot
