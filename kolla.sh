@@ -11,15 +11,16 @@ common_second_boot_setup
 #################
 
 ########### set up registry connection to docker hub
+SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
 export etext=`echo -n "$SUPPORT_USERNAME:$SUPPORT_PASSWORD" | base64`
 curl -k --location --request POST "https://10.0.20.200/api/v2.0/registries" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
-  --header 'host: cloudsupport.lyonsgroup.family' \
+  --header "host: $SUPPORT_VIP_DNS" \
   -H 'Accept-Language: en-us' \
   -H 'Accept-Encoding: gzip, deflate, br' \
-  -H 'Referer: https://cloudsupport.lyonsgroup.family/harbor/registries' \
-  -H 'Origin: https://cloudsupport.lyonsgroup.family' \
+  -H "Referer: https://$SUPPORT_VIP_DNS/harbor/registries" \
+  -H "Origin: https://$SUPPORT_VIP_DNS" \
   -H 'Connection: keep-alive' \
   --data-binary "{\"credential\":{\"access_key\":\"$DOCKER_HUB_USER\",\"access_secret\":\"$DOCKER_HUB_PWD\",\"type\":\"basic\"},\"description\":\"\",\"insecure\":false,\"name\":\"docker-hub\",\"type\":\"docker-hub\",\"url\":\"https://hub.docker.com\"}"
 
@@ -32,7 +33,7 @@ curl -k --location --request DELETE "https://10.0.20.200/api/v2.0/projects/1" \
 curl -k --location --request POST "https://10.0.20.200/api/v2.0/projects" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
-  --header 'host: cloudsupport.lyonsgroup.family' \
+  --header "host: $SUPPORT_VIP_DNS" \
   --data-binary "{\"project_name\":\"library\",\"registry_id\":1,\"metadata\":{\"public\":\"true\"},\"storage_limit\":-1}"
 
 unset HOME
@@ -62,7 +63,7 @@ sed -i "s/{INTERNAL_VIP}/${INTERNAL_VIP}/g" /etc/kolla/globals.yml
 sed -i "s/{INTERNAL_VIP_DNS}/${INTERNAL_VIP_DNS}/g" /etc/kolla/globals.yml
 sed -i "s/{EXTERNAL_VIP}/${EXTERNAL_VIP}/g" /etc/kolla/globals.yml
 sed -i "s/{EXTERNAL_VIP_DNS}/${EXTERNAL_VIP_DNS}/g" /etc/kolla/globals.yml
-sed -i "s/{SUPPORT_HOST}/${SUPPORT_HOST}/g" /etc/kolla/globals.yml
+sed -i "s/{SUPPORT_HOST}/${SUPPORT_VIP_DNS}/g" /etc/kolla/globals.yml
 sed -i "s/{SUPPORT_USERNAME}/${SUPPORT_USERNAME}/g" /etc/kolla/globals.yml
 
 kolla-genpwd

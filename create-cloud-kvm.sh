@@ -36,6 +36,9 @@ INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$DOMAIN_NAME"
 
 EXTERNAL_VIP="192.168.1.252"
 EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME"
+
+SUPPORT_VIP="10.0.20.200"
+SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
 ##############################################
 
 #### setup static network local DNS entries
@@ -47,7 +50,7 @@ echo "export INTERNAL_VIP_DNS=$INTERNAL_VIP_DNS" >> /tmp/global_addresses.sh
 #echo "runuser -l root -c  'echo "$EXTERNAL_VIP $EXTERNAL_VIP_DNS" >> /etc/hosts;'" >> /tmp/dns_hosts
 echo "runuser -l root -c  'echo "$INTERNAL_VIP $INTERNAL_VIP_DNS" >> /etc/hosts;'" >> /tmp/dns_hosts
 ####  make sure to use an in-memory network for docker pull through cache otherwise 500's occur
-echo "runuser -l root -c  'echo "10.0.20.200 cloudsupport.lyonsgroup.family" >> /etc/hosts;'" >> /tmp/dns_hosts
+echo "runuser -l root -c  'echo "$SUPPORT_VIP $SUPPORT_VIP_DNS" >> /etc/hosts;'" >> /tmp/dns_hosts
 #########################
 
 ######### Openstack VM types
