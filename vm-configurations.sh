@@ -222,13 +222,5 @@ function removeVM_kvm {
       fi
     fi
   done
-
-    virsh vol-list HP-EXT | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
-    if [[ ! -z $line ]]; then
-      if [[ "$line" =~ .*"$vm_name".* ]]; then
-        virsh vol-delete --pool HP-EXT $line
-      fi
-    fi
-  done
   ##########################
 }
