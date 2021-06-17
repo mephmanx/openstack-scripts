@@ -26,6 +26,10 @@ dnf install -y cockpit-machines virt-install virt-viewer bridge-utils
 systemctl restart libvirtd
 ############################
 
+### system profile
+tuned-adm profile virtual-host
+#############
+
 ### enable nested virtualization
 sed -i "s/#options kvm_intel nested=1/options kvm_intel nested=1/g" /etc/modprobe.d/kvm.conf
 runuser -l root -c  'echo "options kvm-intel enable_shadow_vmcs=1" >> /etc/modprobe.d/kvm.conf;'
