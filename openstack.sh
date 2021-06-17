@@ -87,10 +87,10 @@ virsh pool-autostart HP-SSD
 virsh pool-start HP-SSD
 
 ## HP-SSD pool
-virsh pool-define-as HP-EXT dir - - - - "/HP-EXT"
-virsh pool-build HP-EXT
-virsh pool-autostart HP-EXT
-virsh pool-start HP-EXT
+#virsh pool-define-as HP-EXT dir - - - - "/HP-EXT"
+#virsh pool-build HP-EXT
+#virsh pool-autostart HP-EXT
+#virsh pool-start HP-EXT
 ############################
 
 ################ Prep and run cloud script
