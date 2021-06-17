@@ -39,8 +39,3 @@ create_line+="--autostart"
 
 echo $create_line
 eval $create_line &
-
-#echo "virt-install --virt-type kvm --name cloudsupport --memory 16000 --hvm --cpu host-passthrough,cache.mode=passthrough --vcpus 2, --disk pool=HP-Disk,size=400,bus=scsi,sparse=no --cdrom /var/tmp/cloudsupport-iso.iso --network type=direct,source=int-static,model=virtio  --network type=network,source=loc-static,model=virtio --os-variant centos8 --graphics vnc --autostart"
-#
-#eval "virt-install --virt-type kvm --name cloudsupport --memory 16000 --hvm --cpu host-passthrough,cache.mode=passthrough --vcpus 2,maxvcpus=8,sockets=2,cores=1,threads=4 --disk pool=HP-Disk,size=400,bus=scsi,sparse=no --cdrom /var/tmp/cloudsupport-iso.iso --network type=direct,source=int-static,model=virtio  --network type=network,source=loc-static,model=virtio --os-variant centos8 --graphics vnc --autostart" &
-

@@ -22,7 +22,21 @@ echo 'EOF' >> ${kickstart_file}
 
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack"
 
-echo "virt-install --virt-type kvm --name openstack --memory 160000 --vcpus 2 --disk pool=HP-Disk,size=400,bus=scsi,sparse=no --cdrom /var/tmp/openstack-iso.iso --network type=direct,source=os-int-static,model=rtl8139  --network type=direct,source=br0-loc-static,model=rtl8139 --os-variant centos8 --graphics vnc"
+create_line="virt-install "
+create_line+="--hvm "
+create_line+="--virt-type=kvm "
+create_line+="--name=openstack "
+create_line+="--memory=16000 "
+create_line+="--cpu=host-passthrough,cache.mode=passthrough "
+create_line+="--cpuset=auto "
+create_line+="--vcpus=4,maxvcpus=4,sockets=2,cores=1,threads=2 "
+create_line+="--disk=pool=HP-Disk,size=400,bus=scsi,sparse=no "
+create_line+="--cdrom=/var/tmp/openstack-iso.iso "
+create_line+="--network type=direct,source=int-static,model=virtio  --network type=network,source=loc-static,model=virtio "
+create_line+="--os-variant=centos8 "
+create_line+="--graphics=vnc "
+create_line+="--autostart"
 
-eval "virt-install --virt-type kvm --name openstack --memory 160000 --vcpus 2 --disk pool=HP-Disk,size=400,bus=scsi,sparse=no --cdrom /var/tmp/openstack-iso.iso --network type=direct,source=os-int-static,model=rtl8139  --network type=direct,source=br0-loc-static,model=rtl8139 --os-variant centos8 --graphics vnc" &
+echo $create_line
+eval $create_line &
 
