@@ -13,6 +13,9 @@ pip3 install --upgrade pip
 chmod 777 /tmp/openstack-env.sh
 source ./tmp/openstack-env.sh
 
+chmod 777 /tmp/global_addresses.sh
+source ./tmp/global_addresses.sh
+
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 yum install -y docker-ce docker-ce-cli containerd.io
 
