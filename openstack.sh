@@ -1,9 +1,12 @@
 #!/bin/bash
 
+. /tmp/vm_functions.sh
+
 chmod 777 /tmp/openstack-env.sh
 . /tmp/openstack-env.sh
 
-. /tmp/vm_functions.sh
+chmod 777 /tmp/global_addresses.sh
+. /tmp/global_addresses.sh
 
 ######## Openstack main server install
 

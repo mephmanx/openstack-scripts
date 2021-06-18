@@ -25,9 +25,6 @@ chmod 777 /tmp/openstack-env.sh
 source ./tmp/openstack-env.sh
 ############################
 
-##### write global address file
-write_global_addresses
-
 # adjust main volumes to allocate most size to root volume
 grow_fs
 

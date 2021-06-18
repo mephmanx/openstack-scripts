@@ -14,6 +14,19 @@ sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
 sed -i 's/{CENTOS_ROOT_PWD}/'$CENTOS_ROOT_PWD'/g' ${kickstart_file}
 ###########################
 
+############### Global Addresses ################
+echo 'cat > /tmp/global_addresses.sh <<EOF' >> ${kickstart_file}
+echo 'export DOMAIN_NAME=lyonsgroup.family' >> ${kickstart_file}
+echo 'export APP_INTERNAL_HOSTNAME=openstack-local' >> ${kickstart_file}
+echo 'export APP_EXTERNAL_HOSTNAME=openstack' >> ${kickstart_file}
+echo 'export SUPPORT_HOST=cloudsupport' >> ${kickstart_file}
+echo 'export INTERNAL_VIP="10.0.20.254"' >> ${kickstart_file}
+echo 'export EXTERNAL_VIP="192.168.1.252"' >> ${kickstart_file}
+echo 'export SUPPORT_VIP="10.0.20.200"' >> ${kickstart_file}
+cat /tmp/dns_hosts >> ${kickstart_file}
+echo 'EOF' >> ${kickstart_file}
+###############################
+
 ############### Secrets file ################
 echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
 cat ./openstack-env.sh >> ${kickstart_file}
