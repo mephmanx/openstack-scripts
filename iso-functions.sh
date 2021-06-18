@@ -56,14 +56,9 @@ function commonItems {
   ###############################
 
   ############### Global Addresses ################
+  content=$(wget https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/global_addresses.sh -q -O -)
   echo 'cat > /tmp/global_addresses.sh <<EOF' >> ${kickstart_file}
-  echo 'export DOMAIN_NAME=lyonsgroup.family' >> ${kickstart_file}
-  echo 'export APP_INTERNAL_HOSTNAME=openstack-local' >> ${kickstart_file}
-  echo 'export APP_EXTERNAL_HOSTNAME=openstack' >> ${kickstart_file}
-  echo 'export SUPPORT_HOST=cloudsupport' >> ${kickstart_file}
-  echo 'export INTERNAL_VIP="10.0.20.254"' >> ${kickstart_file}
-  echo 'export EXTERNAL_VIP="192.168.1.252"' >> ${kickstart_file}
-  echo 'export SUPPORT_VIP="10.0.20.200"' >> ${kickstart_file}
+  echo "$content" >> ${kickstart_file}
   cat /tmp/dns_hosts >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   ###############################
