@@ -15,7 +15,7 @@ sed -i 's/{CENTOS_ROOT_PWD}/'$CENTOS_ROOT_PWD'/g' ${kickstart_file}
 ###########################
 
 ############### Global Addresses ################
-content=$(wget https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/global_addresses.sh -q -O -)
+content=$(curl -L https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/global_addresses.sh)
 echo 'cat > /tmp/global_addresses.sh <<EOF' >> ${kickstart_file}
 echo "$content" >> ${kickstart_file}
 cat /tmp/dns_hosts >> ${kickstart_file}
