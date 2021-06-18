@@ -164,8 +164,6 @@ function create_vm_kvm {
   eval $create_line &
 }
 
-
-
 function removeVM_kvm {
   vm_name=$1
   virsh destroy "$vm_name"
