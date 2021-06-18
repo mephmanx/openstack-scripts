@@ -3,6 +3,7 @@
 source ./iso-functions.sh
 source ./vm-configurations.sh
 source ./openstack-env.sh
+source ./tmp/global_addresses.sh
 
 export TRANSFER=0
 
@@ -24,10 +25,6 @@ chmod 777 /tmp/storage_hosts
 rm -rf /tmp/host_list
 touch /tmp/host_list
 chmod 777 /tmp/host_list
-
-rm -rf /tmp/global_addresses.sh
-touch /tmp/global_addresses.sh
-chmod 777 /tmp/global_addresses.sh
 ####################
 
 #################### Global address setup
@@ -42,11 +39,6 @@ SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
 ##############################################
 
 #### setup static network local DNS entries
-echo "export EXTERNAL_VIP=$EXTERNAL_VIP" >> /tmp/global_addresses.sh
-echo "export INTERNAL_VIP=$INTERNAL_VIP" >> /tmp/global_addresses.sh
-echo "export EXTERNAL_VIP_DNS=$EXTERNAL_VIP_DNS" >> /tmp/global_addresses.sh
-echo "export INTERNAL_VIP_DNS=$INTERNAL_VIP_DNS" >> /tmp/global_addresses.sh
-
 #echo "runuser -l root -c  'echo "$EXTERNAL_VIP $EXTERNAL_VIP_DNS" >> /etc/hosts;'" >> /tmp/dns_hosts
 echo "runuser -l root -c  'echo "$INTERNAL_VIP $INTERNAL_VIP_DNS" >> /etc/hosts;'" >> /tmp/dns_hosts
 ####  make sure to use an in-memory network for docker pull through cache otherwise 500's occur
