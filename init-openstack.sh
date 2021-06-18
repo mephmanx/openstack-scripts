@@ -21,6 +21,12 @@ chmod 777 /tmp/openstack-env.sh
 source ./tmp/openstack-env.sh
 ############################
 
+###### fetch and load global addresses
+curl -o /tmp/openstack-env.sh https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/global_addresses.sh
+chmod 777 /tmp/openstack-env.sh
+source ./tmp/openstack-env.sh
+###########################
+
 # set up net script to be called after reboot
 prep_next_script "openstack"
 
