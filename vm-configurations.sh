@@ -102,7 +102,7 @@ function create_vm_kvm {
   for element in "${disk_array[@]}"
     do
       IFS=':' read -ra drive_info <<< "$element"
-      virt_disk_list+=("--disk pool=${drive_info[0]},size=${drive_info[1]},bus=scsi,model=virtio-scsi,sparse=no ")
+      virt_disk_list+=("--disk pool=${drive_info[0]},size=${drive_info[1]},bus=scsi,sparse=no ")
   done
   #####################
 
@@ -153,6 +153,7 @@ function create_vm_kvm {
   create_line+="--cpuset=auto "
   create_line+="--vcpus=$cpu_topology "
   create_line+="--cpuset=auto "
+  create_line+="--controller type=scsi,model=virtio-scsi "
   create_line+="$virt_disk_string"
   create_line+="--cdrom=/var/tmp/$2-iso.iso "
   create_line+="$virt_network_string"
