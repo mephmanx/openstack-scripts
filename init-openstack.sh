@@ -16,6 +16,11 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
+####enable hugepages###
+echo "vm.nr_hugepages = 2048" >> /etc/sysctl.conf
+sysctl -p
+##################
+
 #########load secrets into env
 chmod 777 /tmp/openstack-env.sh
 source ./tmp/openstack-env.sh
