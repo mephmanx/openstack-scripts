@@ -37,9 +37,6 @@ modprobe kvm_intel nested=1
 modprobe kvm_intel enable_shadow_vmcs=1
 modprobe kvm_intel enable_apicv=1
 modprobe kvm_intel ept=1
-
-modprobe -r kvm_intel
-modprobe kvm_intel
 ##############
 
 #####  Make this call last as this takes down the network connection for a period of time and download in previous call fails
