@@ -47,97 +47,29 @@ function networkInformation {
   do
     default_set="--nodefroute"
     if [[ "${element}" =~ .*"static".* ]]; then
-      ##check if internal or external network and set ip/gateway accordingly
-      if [[ "${element}" =~ .*"loc".* ]]; then
-        ip_addr="${LOCAL_ADDRESS_PREFIX}${LOCAL_ADDRESS_INC}"
-
-        if ! grep -q $host "/tmp/dns_hosts"; then
-          #add localhost entry
-          echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /tmp/dns_hosts
-          addresses+=($ip_addr)
-        fi
-
-        # If storage address, add to array to build rings later
-        if [[ "${element}" =~ .*"$STORAGE_NETWORK".* ]]; then
-          if [[ "$vm_type" == "storage" ]]; then
-            echo "$ip_addr" >> /tmp/storage_hosts
-          fi
-        fi
-
-        if [[ $DEFAULT_ROUTE == "loc" ]]; then
-          if [[ $default_flag == "0" ]]; then
-            default_set=""
-            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n")
-            default_flag="1"
-          else
-            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n")
-          fi
-        else
-          network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n")
-        fi
-
-        ((LOCAL_ADDRESS_INC++))
-
-      elif [[ "${element}" =~ .*"int".* ]]; then
-        ip_addr="${INTERNAL_ADDRESS_PREFIX}${INTERNAL_ADDRESS_INC}"
-
-        if ! grep -q $host "/tmp/dns_hosts"; then
-          #add localhost entry
-          echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /tmp/dns_hosts
-          addresses+=($ip_addr)
-        fi
-
-        # If storage address, add to array to build rings later
-        if [[ "${element}" =~ .*"$STORAGE_NETWORK".* ]]; then
-          if [[ "$vm_type" == "storage" ]]; then
-            echo "$ip_addr" >> /tmp/storage_hosts
-          fi
-        fi
-
-        if [[ $DEFAULT_ROUTE == "int" ]]; then
-          if [[ $default_flag == "0" ]]; then
-            default_set=""
-            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
-            default_flag="1"
-          else
-            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
-          fi
-        else
-          network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n")
-        fi
-
-        ((INTERNAL_ADDRESS_INC++))
-      else
-        ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
-
-        if ! grep -q $host "/tmp/dns_hosts"; then
-          #add localhost entry
-          echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /tmp/dns_hosts
-          addresses+=($ip_addr)
-        fi
-
-        # If storage address, add to array to build rings later
-        if [[ "${element}" =~ .*"$STORAGE_NETWORK".* ]]; then
-          if [[ "$vm_type" == "storage" ]]; then
-            echo "$ip_addr" >> /tmp/storage_hosts
-          fi
-        fi
-
-        if [[ $DEFAULT_ROUTE == "ext" ]]; then
-          if [[ $default_flag == "0" ]]; then
-            default_set=""
-            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n")
-            default_flag="1"
-          else
-            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n")
-          fi
-        else
-          network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n")
-        fi
-
-        ((EXTERNAL_ADDRESS_INC++))
+      if ! grep -q $host "/tmp/dns_hosts"; then
+        #add localhost entry
+        echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /tmp/dns_hosts
+        addresses+=($ip_addr)
       fi
 
+      # If storage address, add to array to build rings later
+      if [[ "${element}" =~ .*"$STORAGE_NETWORK".* ]]; then
+        if [[ "$vm_type" == "storage" ]]; then
+          echo "$ip_addr" >> /tmp/storage_hosts
+        fi
+      fi
+
+      ##check if internal or external network and set ip/gateway accordingly
+      if [[ "${element}" =~ .*"loc".* ]]; then
+        network_name="loc"
+      elif [[ "${element}" =~ .*"int".* ]]; then
+        network_name="int"
+      else
+        network_name="ext"
+      fi
+
+      network_lines+=$(build_network_line $network_name)
     #not static, do DHCP
     else
       network_lines+=("network  --device=enp${ct}s0 --bootproto=dhcp --noipv6 --onboot=yes --activate\n")
@@ -155,3 +87,54 @@ function networkInformation {
   sed -i 's/{NETWORK}/'$net_line_string'/g' ${kickstart_file}
 }
 
+function build_network_line() {
+  network_name=$1
+
+  case "${network_name}" in
+    "loc")
+      ip_addr="${LOCAL_ADDRESS_PREFIX}${LOCAL_ADDRESS_INC}"
+      if [[ $DEFAULT_ROUTE == "loc" ]]; then
+        if [[ $default_flag == "0" ]]; then
+          default_set=""
+          echo "network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n"
+          default_flag="1"
+        else
+          echo "network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n"
+        fi
+      else
+        echo "network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n"
+      fi
+      ((LOCAL_ADDRESS_INC++))
+    ;;
+    "int")
+      ip_addr="${INTERNAL_ADDRESS_PREFIX}${INTERNAL_ADDRESS_INC}"
+      if [[ $DEFAULT_ROUTE == "int" ]]; then
+        if [[ $default_flag == "0" ]]; then
+          default_set=""
+          echo "network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n"
+          default_flag="1"
+        else
+          echo "network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n"
+        fi
+      else
+        echo "network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n"
+      fi
+      ((INTERNAL_ADDRESS_INC++))
+    ;;
+    "ext")
+      ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
+      if [[ $DEFAULT_ROUTE == "ext" ]]; then
+        if [[ $default_flag == "0" ]]; then
+          default_set=""
+          echo "network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n"
+          default_flag="1"
+        else
+          echo "network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n"
+        fi
+      else
+        echo "network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n"
+      fi
+      ((EXTERNAL_ADDRESS_INC++))
+    ;;
+  esac
+}
