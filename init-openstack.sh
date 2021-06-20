@@ -28,6 +28,20 @@ source ./tmp/global_addresses.sh
 # set up net script to be called after reboot
 prep_next_script "openstack"
 
+### enable nested virtualization
+sed -i "s/#options kvm_intel nested=1/options kvm_intel nested=1/g" /etc/modprobe.d/kvm.conf
+runuser -l root -c  'echo "options kvm-intel enable_shadow_vmcs=1" >> /etc/modprobe.d/kvm.conf;'
+runuser -l root -c  'echo "options kvm-intel enable_apicv=1" >> /etc/modprobe.d/kvm.conf;'
+runuser -l root -c  'echo "options kvm-intel ept=1" >> /etc/modprobe.d/kvm.conf;'
+modprobe kvm_intel nested=1
+modprobe kvm_intel enable_shadow_vmcs=1
+modprobe kvm_intel enable_apicv=1
+modprobe kvm_intel ept=1
+
+modprobe -r kvm_intel
+modprobe kvm_intel
+##############
+
 #####  Make this call last as this takes down the network connection for a period of time and download in previous call fails
 ################# Bond all NIC's together
 nmcli connection add type bond con-name int-static ifname int-static mode 802.3ad
