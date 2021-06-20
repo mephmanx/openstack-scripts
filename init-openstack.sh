@@ -16,9 +16,27 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
-####enable hugepages##
-echo 175782 > /proc/sys/vm/nr_hugepages
-##################
+###############  Add hugepages
+get_drive_name
+
+runuser -l root -c  'rm -rf /etc/default/grub'
+runuser -l root -c  'touch /etc/default/grub'
+runuser -l root -c  'chmod 777 /etc/default/grub'
+
+cat > /tmp/grub <<EOF
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
+GRUB_DEFAULT=saved
+GRUB_DISABLE_SUBMENU=true
+GRUB_TERMINAL_OUTPUT="console"
+GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cl_$DRIVE_NAME-swap rd.lvm.lv=cl_$DRIVE_NAME/root rd.lvm.lv=cl_$DRIVE_NAME/swap net.ifnames=0 intel_iommu=on igb.max_vfs=7 default_hugepagesz=1G hugepagesz=1G hugepages=370"
+GRUB_DISABLE_RECOVERY="true"
+GRUB_ENABLE_BLSCFG=true
+EOF
+
+runuser -l root -c  'cat /tmp/grub > /etc/default/grub'
+runuser -l root -c  'grub2-mkconfig  -o /boot/grub2/grub.cfg'
+###############################
 
 #########load secrets into env
 chmod 777 /tmp/openstack-env.sh

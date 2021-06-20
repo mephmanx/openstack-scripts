@@ -33,7 +33,7 @@ function vm_definitions {
         echo '{
             "count":"3",
             "cpu":"2",
-            "memory":"40",
+            "memory":"34",
             "drive_string":"HP-Disk:100",
             "network_string":"loc-static,int-static"
           }'
@@ -42,7 +42,7 @@ function vm_definitions {
         echo '{
             "count":"2",
             "cpu":"2",
-            "memory":"16",
+            "memory":"12",
             "drive_string":"HP-Disk:100",
             "network_string":"loc-static,int-static,int-static"
           }'
@@ -51,7 +51,7 @@ function vm_definitions {
         echo '{
             "count":"1",
             "cpu":"24",
-            "memory":200",
+            "memory":192",
             "drive_string":"HP-SSD:800",
             "network_string":"loc-static,int-static,int-static"
           }'
@@ -60,7 +60,7 @@ function vm_definitions {
         echo '{
             "count":"1",
             "cpu":"2",
-            "memory":"24",
+            "memory":"20",
             "drive_string":"HP-Disk:300",
             "network_string":"loc-static,int-static"
           }'
@@ -69,7 +69,7 @@ function vm_definitions {
         echo '{
             "count":"1",
             "cpu":"2",
-            "memory":"24",
+            "memory":"22",
             "drive_string":"HP-Disk:300,HP-Disk:300,HP-SSD:250,HP-SSD:250,HP-SSD:250",
             "network_string":"loc-static,int-static"
           }'
@@ -78,7 +78,7 @@ function vm_definitions {
         echo '{
             "count":"1",
             "cpu":"4",
-            "memory":"16",
+            "memory":"8",
             "drive_string":"HP-Disk:100",
             "network_string":"loc-static,int-static"
           }'
