@@ -18,8 +18,7 @@ sleep 30
 
 ####enable hugepages###
 yum -y install libhugetlbfs libhugetlbfs-utils
-hugeadm --pool-pages-min 2MB:128
-hugeadm --pool-pages-max 2MB:184320
+echo 175782 > /proc/sys/vm/nr_hugepages
 ##################
 
 #########load secrets into env
