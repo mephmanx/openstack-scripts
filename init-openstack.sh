@@ -16,8 +16,7 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
-####enable hugepages###
-yum -y install libhugetlbfs libhugetlbfs-utils
+####enable hugepages##
 echo 175782 > /proc/sys/vm/nr_hugepages
 ##################
 
