@@ -154,7 +154,7 @@ function create_vm_kvm {
   create_line+="--vcpus=$cpu_topology "
   create_line+="--cpuset=auto "
 #  create_line+="--tpm /dev/tpm "
-  create_line+="--memorybacking hugepages=yes "
+#  create_line+="--memorybacking hugepages=yes "
   create_line+="--controller type=scsi,model=virtio-scsi "
   create_line+="$virt_disk_string"
   create_line+="--cdrom=/var/tmp/$2-iso.iso "
