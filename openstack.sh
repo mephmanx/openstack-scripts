@@ -42,6 +42,9 @@ modprobe kvm_intel nested=1
 modprobe kvm_intel enable_shadow_vmcs=1
 modprobe kvm_intel enable_apicv=1
 modprobe kvm_intel ept=1
+
+modprobe -r kvm_intel
+modprobe kvm_intel
 ##############
 
 ################# Add bridge
