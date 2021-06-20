@@ -22,6 +22,22 @@ function grow_fs() {
 function load_libs() {
   option="${1}"
   case "${option}" in
+      "cloudsupport")
+            yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+            yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
+            #One time machine setup
+            #install yum libs here
+            yum install -y wget \
+            unzip \
+            epel-release \
+            gcc \
+            openssl-devel \
+            git \
+            docker-ce \
+            docker-ce-cli \
+            containerd.io \
+            tar
+    ;;
     "control")
             yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
             #One time machine setup
@@ -194,6 +210,13 @@ function prep_next_script() {
   rm -rf /etc/rc.d/rc.local
   curl -o /etc/rc.d/rc.local https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/$1.sh
   chmod +x /etc/rc.d/rc.local
+}
+
+function load_secrets() {
+  #########load secrets into env
+  chmod 777 /tmp/openstack-env.sh
+  source ./tmp/openstack-env.sh
+  ############################
 }
 
 function common_second_boot_setup() {

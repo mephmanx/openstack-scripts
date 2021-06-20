@@ -20,10 +20,8 @@ sleep 30
 # set VM type for future use
 TYPE=`cat /tmp/type`
 
-#########load secrets into env
-chmod 777 /tmp/openstack-env.sh
-source ./tmp/openstack-env.sh
-############################
+##### load secrets
+load_secrets
 
 # adjust main volumes to allocate most size to root volume
 grow_fs

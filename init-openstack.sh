@@ -16,10 +16,8 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
-#########load secrets into env
-chmod 777 /tmp/openstack-env.sh
-source ./tmp/openstack-env.sh
-############################
+##### load secrets
+load_secrets
 
 ###### fetch and load global addresses
 curl -o /tmp/global_addresses.sh https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/global_addresses.sh
