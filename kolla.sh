@@ -18,7 +18,7 @@ common_second_boot_setup
 ########### set up registry connection to docker hub
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
 export etext=`echo -n "$SUPPORT_USERNAME:$SUPPORT_PASSWORD" | base64`
-curl -k --location --request POST "https://10.0.20.200/api/v2.0/registries" \
+curl -k --location --request POST "https://$SUPPORT_VIP/api/v2.0/registries" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
   --header "host: $SUPPORT_VIP_DNS" \
@@ -32,10 +32,10 @@ curl -k --location --request POST "https://10.0.20.200/api/v2.0/registries" \
 ###########################
 
 ###########  remove default "library" project and create new proxy-cache library project
-curl -k --location --request DELETE "https://10.0.20.200/api/v2.0/projects/1" \
+curl -k --location --request DELETE "https://$SUPPORT_VIP/api/v2.0/projects/1" \
   --header "authorization: Basic $etext"
 
-curl -k --location --request POST "https://10.0.20.200/api/v2.0/projects" \
+curl -k --location --request POST "https://$SUPPORT_VIP/api/v2.0/projects" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
   --header "host: $SUPPORT_VIP_DNS" \
