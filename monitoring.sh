@@ -7,6 +7,7 @@
 . /etc/init.d/functions
 . /tmp/vm_functions.sh
 . /tmp/openstack-env.sh
+. /tmp/global_addresses.sh
 
 start() {
 
