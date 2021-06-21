@@ -259,9 +259,6 @@ function common_second_boot_setup() {
   sleep 30
   ###########################
 
-  chmod 777 /tmp/global_addresses.sh
-  source /tmp/global_addresses.sh
-
   systemctl restart docker
   docker login -u $SUPPORT_USERNAME -p $SUPPORT_PASSWORD $SUPPORT_HOST
 

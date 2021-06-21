@@ -17,6 +17,8 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
+chmod 777 /tmp/global_addresses.sh
+
 # set VM type for future use
 TYPE=`cat /tmp/type`
 

@@ -6,6 +6,7 @@
 # Source function library.
 . /etc/init.d/functions
 . /tmp/vm_functions.sh
+. /tmp/global_addresses.sh
 
 start() {
 
@@ -18,12 +19,6 @@ sleep 30
 
 ##### load secrets
 load_secrets
-
-###### fetch and load global addresses
-curl -o /tmp/global_addresses.sh https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/global_addresses.sh
-chmod 777 /tmp/global_addresses.sh
-source ./tmp/global_addresses.sh
-###########################
 
 # set up net script to be called after reboot
 prep_next_script "openstack"
