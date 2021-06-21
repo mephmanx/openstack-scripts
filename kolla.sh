@@ -1,10 +1,14 @@
 #!/bin/bash
+# chkconfig: 2345 20 80
+# description: Description comes here....
+# ALWAYS have content in functions otherwise you get syntax errors!
 
-chmod 777 /tmp/openstack-env.sh
-cd /tmp
-. ./openstack-env.sh
-
+# Source function library.
+. /etc/init.d/functions
 . /tmp/vm_functions.sh
+. /tmp/openstack-env.sh
+
+start() {
 
 #### Common setup
 common_second_boot_setup
@@ -431,3 +435,34 @@ bosh -d cf deploy /tmp/cf-deployment/cf-deployment.yml -o /tmp/cf-deployment/ope
 alternatives --set python /usr/bin/python3
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
+
+}
+
+stop() {
+    # code to stop app comes here
+    # example: killproc program_name
+    /bin/true
+}
+
+case "$1" in
+    start)
+       start
+       ;;
+    stop)
+        /bin/true
+       stop
+       ;;
+    restart)
+       stop
+       start
+       ;;
+    status)
+        /bin/true
+       # code to check status of app comes here
+       # example: status program_name
+       ;;
+    *)
+       echo "Usage: $0 {start|stop|status|restart}"
+esac
+
+exit 0
