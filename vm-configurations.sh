@@ -1,3 +1,4 @@
+#!/bin/bash
 ####  Functions in this file should be used AFTER ISO's are created and pushed to esxi
 
 function parse_json()

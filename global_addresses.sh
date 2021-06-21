@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export DOMAIN_NAME=lyonsgroup.family;
 export APP_INTERNAL_HOSTNAME=openstack-local;
 export APP_EXTERNAL_HOSTNAME=openstack;

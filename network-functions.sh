@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source ./vm-configurations.sh
 
 #MariaDB seems to have a problem with 172 addresses.  Dont use!

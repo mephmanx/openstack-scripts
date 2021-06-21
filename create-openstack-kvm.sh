@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source ./iso-functions.sh
 source ./openstack-env.sh
 

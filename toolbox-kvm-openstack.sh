@@ -1,3 +1,4 @@
+#!/bin/bash
 #can ONLY be run as root!  sudo to root
 source ./openstack-setup/openstack-env.sh
 

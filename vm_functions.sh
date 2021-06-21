@@ -1,3 +1,4 @@
+#!/bin/bash
 
 function get_drive_name() {
   dir_name=`find /dev/mapper -maxdepth 1 -type l -name '*cl*' -print -quit`

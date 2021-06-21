@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source ./network-functions.sh
 source ./openstack-env.sh
 source ./global_addresses.sh
