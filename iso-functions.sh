@@ -1,5 +1,6 @@
 source ./network-functions.sh
 source ./openstack-env.sh
+source ./global_addresses.sh
 
 CENTOS_STREAM=http://centos.host-engine.com/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-20210421-boot.iso
 CENTOS_8=https://pfsense.lyonsgroup.family/isos/CentOS-8.3.2011-x86_64-minimal.iso
@@ -86,6 +87,7 @@ function initialKickstartSetup {
   sed -i 's/{TYPE}/'$vm_type'/g' ${kickstart_file}
   sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
   sed -i 's/{CENTOS_ROOT_PWD}/'$CENTOS_ROOT_PWD'/g' ${kickstart_file}
+  sed -i 's/{NTP_SERVER}/'$NTP_SERVER'/g' ${kickstart_file}
   networkInformation ${kickstart_file} ${vm_type} ${1}
   echo ${kickstart_file}
 }

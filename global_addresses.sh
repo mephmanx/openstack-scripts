@@ -5,3 +5,4 @@ export SUPPORT_HOST=cloudsupport;
 export INTERNAL_VIP="10.0.20.254";
 export EXTERNAL_VIP="192.168.1.252";
 export SUPPORT_VIP="10.0.20.200";
+export NTP_SERVER="192.168.1.1"
