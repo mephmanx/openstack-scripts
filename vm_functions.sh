@@ -39,6 +39,7 @@ function load_libs() {
             tar
     ;;
     "control")
+            yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
             yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
             #One time machine setup
             #install yum libs here
@@ -48,9 +49,14 @@ function load_libs() {
             gcc \
             openssl-devel \
             git \
-            make
+            make \
+            docker-ce \
+            docker-ce-cli \
+            containerd.io \
+            tar
     ;;
     "network")
+            yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
             yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
             #One time machine setup
             #install yum libs here
@@ -60,9 +66,14 @@ function load_libs() {
             gcc \
             openssl-devel \
             git \
-            make
+            make \
+            docker-ce \
+            docker-ce-cli \
+            containerd.io \
+            tar
     ;;
     "compute")
+            yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
             yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
             #One time machine setup
             #install yum libs here
@@ -72,9 +83,14 @@ function load_libs() {
             gcc \
             openssl-devel \
             git \
-            make
+            make \
+            docker-ce \
+            docker-ce-cli \
+            containerd.io \
+            tar
     ;;
     "monitoring")
+            yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
             yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
             #One time machine setup
             #install yum libs here
@@ -84,9 +100,14 @@ function load_libs() {
             gcc \
             openssl-devel \
             git \
-            make
+            make \
+            docker-ce \
+            docker-ce-cli \
+            containerd.io \
+            tar
     ;;
     "storage")
+            yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
             yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
             #One time machine setup
             #install yum libs here
@@ -96,9 +117,15 @@ function load_libs() {
             gcc \
             openssl-devel \
             git \
-            make
+            make \
+            docker-ce \
+            docker-ce-cli \
+            containerd.io \
+            tar
     ;;
     "kolla")
+          yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+          yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
           yum install -y wget \
           ruby \
           unzip \
@@ -124,7 +151,11 @@ function load_libs() {
           libxslt-devel \
           libxml2-devel \
           patch \
-          openssl
+          openssl \
+          docker-ce \
+          docker-ce-cli \
+          containerd.io \
+          tar
     ;;
   esac
 }
@@ -227,13 +258,6 @@ function common_second_boot_setup() {
   ########## Add call to the beginning of all rc.local scripts as this wait guarantees network availability
   sleep 30
   ###########################
-
-  yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
-
-  #####  Docker prep #########
-  yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  yum install -y docker-ce docker-ce-cli containerd.io
-  #####################
 
   chmod 777 /tmp/global_addresses.sh
   source /tmp/global_addresses.sh
