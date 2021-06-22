@@ -42,4 +42,3 @@ create_line+="--autostart"
 
 echo $create_line
 eval $create_line &
-
