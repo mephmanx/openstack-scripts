@@ -276,7 +276,7 @@ mv -f bosh.pem.pub bosh.pub
 openstack keypair create --public-key /tmp/bosh.pub bosh
 
 #download and configure homebrew to run bbl install
-curl -fsSL https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/Homebrew/install/master/install.sh -o homebrew.sh
+curl -fsSL https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/Homebrew/install/master/install.sh -o /tmp/homebrew.sh
 chmod 777 homebrew.sh
 
 PUBLIC_NETWORK_ID="$(openstack network list --name public1 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')"
