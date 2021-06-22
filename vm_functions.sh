@@ -196,7 +196,7 @@ function common_second_boot_setup() {
   ###########################
 
   systemctl restart docker
-  docker login -u $SUPPORT_USERNAME -p $SUPPORT_PASSWORD $SUPPORT_HOST
+  docker login -u $SUPPORT_USERNAME -p $SUPPORT_PASSWORD $SUPPORT_HOST.$DOMAIN_NAME
 
   mkdir /root/.ssh
   cp /tmp/openstack-setup.key.pub /root/.ssh/authorized_keys
