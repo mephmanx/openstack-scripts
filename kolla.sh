@@ -53,6 +53,8 @@ pip3 install --upgrade pip
 pip3 install 'ansible==2.9.10' --ignore-installed
 pip3 install kolla-ansible --ignore-installed
 
+export PATH="/usr/local/bin:$PATH"
+
 mkdir -p /etc/kolla
 
 cp -r /usr/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
