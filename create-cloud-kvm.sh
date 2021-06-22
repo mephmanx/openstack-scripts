@@ -29,9 +29,7 @@ chmod 777 /tmp/host_list
 
 #################### Global address setup
 INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$DOMAIN_NAME"
-
 EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME"
-
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
 ##############################################
 
