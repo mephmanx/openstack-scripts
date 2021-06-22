@@ -36,6 +36,7 @@ systemctl restart libvirtd
 tuned-adm profile virtual-host
 #############
 
+########## configure and start networks
 cat > /tmp/openstack-local.xml <<EOF
 <network>
   <name>loc-static</name>
