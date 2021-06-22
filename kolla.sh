@@ -218,7 +218,7 @@ kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
 
 #use for loading time as opposed to needing the image
-wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
+wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img -O /tmp/bionic-server-cloudimg-amd64.img
 
 export KOLLA_DEBUG=0
 export ENABLE_EXT_NET=1
