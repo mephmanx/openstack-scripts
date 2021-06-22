@@ -15,8 +15,13 @@ start() {
 common_second_boot_setup
 #################
 
-########### set up registry connection to docker hub
+#####  setup global VIPs
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
+INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$DOMAIN_NAME"
+EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME"
+###################
+
+########### set up registry connection to docker hub
 export etext=`echo -n "$SUPPORT_USERNAME:$SUPPORT_PASSWORD" | base64`
 curl -k --location --request POST "https://$SUPPORT_VIP/api/v2.0/registries" \
   --header "authorization: Basic $etext" \
@@ -65,9 +70,6 @@ mkdir /etc/kolla/certificates
 cp /tmp/*.pem /etc/kolla/certificates
 
 curl -o /etc/kolla/globals.yml https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/globals.yml
-
-INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$DOMAIN_NAME"
-EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME"
 
 sed -i "s/{INTERNAL_VIP}/${INTERNAL_VIP}/g" /etc/kolla/globals.yml
 sed -i "s/{INTERNAL_VIP_DNS}/${INTERNAL_VIP_DNS}/g" /etc/kolla/globals.yml
