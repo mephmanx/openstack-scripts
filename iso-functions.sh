@@ -195,7 +195,7 @@ function buildAndPushVMTypeISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} ${vm_name}
-  esxi_transfer ${vm_name}
+#  esxi_transfer ${vm_name}
 }
 
 function buildAndPushOpenstackSetupISO {
@@ -274,12 +274,5 @@ function buildAndPushOpenstackSetupISO {
 
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla"
-  esxi_transfer "kolla"
-}
-
-function esxi_transfer {
-  vm_name=$1
-  if [[ $TRANSFER > 0 ]]; then
-    esxi-scp -H $HOSTNAME -n /var/tmp/${vm_name}-iso.iso -l /vmfs/volumes/$ISO_DISK_NAME/isos
-  fi
+#  esxi_transfer "kolla"
 }
