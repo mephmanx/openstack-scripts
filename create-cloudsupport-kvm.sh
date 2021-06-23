@@ -22,7 +22,6 @@ sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' ${kickstart_file}
 ############### Global Addresses ################
 echo 'cat > /tmp/global_addresses.sh <<EOF' >> ${kickstart_file}
 cat ./global_addresses.sh >> ${kickstart_file}
-cat /tmp/dns_hosts >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 ###############################
 

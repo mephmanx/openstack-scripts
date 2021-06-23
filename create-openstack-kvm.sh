@@ -23,6 +23,12 @@ cat ./openstack-env.sh >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 ###############################
 
+############### Global Addresses ################
+echo 'cat > /tmp/global_addresses.sh <<EOF' >> ${kickstart_file}
+cat ./global_addresses.sh >> ${kickstart_file}
+echo 'EOF' >> ${kickstart_file}
+###############################
+
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack"
 
 create_line="virt-install "
