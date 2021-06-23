@@ -16,7 +16,7 @@ common_second_boot_setup
 ######## Put type specific code
 systemctl stop libvirtd
 systemctl disable libvirtd
-ip addr del $(ip -f inet addr show eth2 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p') dev eth2
+sudo ip addr del $(ip -f inet addr show eth2 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p') dev eth2
 ############################
 
 #remove so as to not run again
