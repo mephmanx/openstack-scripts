@@ -22,7 +22,7 @@ rm -rf /etc/rc.d/rc.local
 
 #########  Spot for anything that needs to be run on every reboot from here on out
 cat > /etc/rc.d/rc.local <<EOF
-
+sudo ip addr del $(ip -f inet addr show eth2 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p') dev eth2
 EOF
 
 chmod a+x /etc/rc.d/rc.local
