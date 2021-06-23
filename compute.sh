@@ -16,19 +16,15 @@ common_second_boot_setup
 ######## Put type specific code
 systemctl stop libvirtd
 systemctl disable libvirtd
-ip_addr2=$(ip -f inet addr show eth2 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
-runuser -l root -c "ip addr del $ip_addr2 dev eth2"
+
+sed -i '/^IPADDR/d' /etc/sysconfig/network-scripts/ifcfg-eth2
+sed -i '/^DNS1/d' /etc/sysconfig/network-scripts/ifcfg-eth2
+sed -i '/^NETMASK/d' /etc/sysconfig/network-scripts/ifcfg-eth2
+sed -i '/^GATEWAY/d' /etc/sysconfig/network-scripts/ifcfg-eth2
 ############################
 
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
-
-#########  Spot for anything that needs to be run on every reboot from here on out
-cat > /etc/rc.d/rc.local <<EOF
-runuser -l root -c "ip addr del $ip_addr2 dev eth2"
-EOF
-
-chmod a+x /etc/rc.d/rc.local
 
 reboot
 
