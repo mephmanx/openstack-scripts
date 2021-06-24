@@ -40,9 +40,16 @@ tuned-adm profile virtual-host
 cat > /tmp/openstack-local.xml <<EOF
 <network>
   <name>loc-static</name>
+  <forward mode='nat'>
+    <nat>
+        <port start='1024' end='65535'/>
+    </nat>
+  </forward>
   <bridge name='loc-static' stp='on' delay='0'/>
   <ip address='10.0.20.1' netmask='255.255.255.0'>
-
+    <dhcp>
+      <range start='10.0.20.100' end='10.0.20.150'/>
+    </dhcp>
   </ip>
 </network>
 EOF
