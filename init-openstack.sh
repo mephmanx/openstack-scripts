@@ -47,12 +47,12 @@ nmcli con mod int-static connection.autoconnect yes
 nmcli connection add type bond con-name loc-static ifname loc-static mode 802.3ad
 nmcli con mod id loc-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
 
-nmcli con mod loc-static ipv4.method manual
-nmcli con mod loc-static ipv4.addresses 192.168.1.40/32
-nmcli con mod loc-static ipv4.gateway 192.168.1.1
-nmcli con mod loc-static ipv4.dns 192.168.1.1
-nmcli con mod loc-static ipv6.method auto
-nmcli con mod loc-static connection.autoconnect yes
+nmcli con mod loc-net ipv4.method manual
+nmcli con mod loc-net ipv4.addresses 192.168.1.40/32
+nmcli con mod loc-net ipv4.gateway 192.168.1.1
+nmcli con mod loc-net ipv4.dns 192.168.1.1
+nmcli con mod loc-net ipv6.method auto
+nmcli con mod loc-net connection.autoconnect yes
 
 ##### create 2 bonds, eth 0 & 1
 ct=0
@@ -73,12 +73,12 @@ for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == 
     echo "$DEVICE"
     if [[ $DEVICE == "eth2" || $DEVICE == "eth3" ]]; then
       nmcli connection delete $DEVICE
-      nmcli con add type bond-slave con-name loc-static-slave$ct ifname $DEVICE master loc-static
+      nmcli con add type bond-slave con-name loc-static-slave$ct ifname $DEVICE master loc-net
       ((ct++))
     fi
 done
 
-nmcli connection down loc-static && nmcli connection up loc-static
+nmcli connection down loc-net && nmcli connection up loc-net
 ##########################################
 
 reboot
