@@ -11,5 +11,6 @@ git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.g
 cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
 cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
 
+rm -rf /var/tmp/openstack-iso.iso
 cd /tmp/openstack-setup
 /tmp/openstack-setup/create-openstack-kvm.sh &
