@@ -64,7 +64,7 @@ nmcli connection add type bond con-name loc-static ifname loc-static mode 802.3a
 nmcli con mod id loc-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
 
 nmcli con mod loc-static ipv4.method manual
-nmcli con mod loc-static ipv4.addresses 10.0.20.90/24
+nmcli con mod loc-static ipv4.addresses 10.0.20.2/24
 nmcli con mod loc-static ipv4.gateway 10.0.20.1
 nmcli con mod loc-static ipv4.dns 10.0.20.1
 nmcli con mod loc-static ipv6.method auto
