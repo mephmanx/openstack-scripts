@@ -37,6 +37,8 @@ modprobe kvm_intel ept=1
 
 #####  Make this call last as this takes down the network connection for a period of time and download in previous call fails
 ################# Bond NIC's
+
+##### create bond int-static
 nmcli connection add type bond con-name int-static ifname int-static mode 802.3ad
 nmcli con mod id int-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
 
@@ -44,7 +46,6 @@ nmcli con mod int-static ipv4.method auto
 nmcli con mod int-static ipv6.method auto
 nmcli con mod int-static connection.autoconnect yes
 
-##### create bond int-static
 ct=0
 for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'`; do
     echo "$DEVICE"
@@ -56,20 +57,19 @@ for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == 
 done
 
 nmcli connection down int-static && nmcli connection up int-static
+#########################
 
 ##### bond loc-static
-
 nmcli connection add type bond con-name loc-static ifname loc-static mode 802.3ad
 nmcli con mod id loc-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
 
 nmcli con mod loc-static ipv4.method manual
-nmcli con mod loc-static ipv4.addresses 10.0.20.90/32
+nmcli con mod loc-static ipv4.addresses 10.0.20.90/24
 nmcli con mod loc-static ipv4.gateway 10.0.20.1
 nmcli con mod loc-static ipv4.dns 10.0.20.1
 nmcli con mod loc-static ipv6.method auto
 nmcli con mod loc-static connection.autoconnect yes
 
-##### create bond
 ct=0
 for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'`; do
     echo "$DEVICE"
