@@ -61,7 +61,7 @@ nmcli connection down int-static && nmcli connection up int-static
 
 ##### bond loc-static
 nmcli connection add type bond con-name loc-static ifname loc-static mode 802.3ad
-nmcli con mod id loc-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
+nmcli con mod id loc-static bond.options mode=balance-rr,miimon=100
 
 nmcli con mod loc-static ipv4.method manual
 nmcli con mod loc-static ipv4.addresses 10.0.20.2/24
