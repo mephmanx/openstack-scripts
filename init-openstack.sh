@@ -36,7 +36,7 @@ modprobe kvm_intel ept=1
 ##############
 
 #####  Make this call last as this takes down the network connection for a period of time and download in previous call fails
-################# Bond all NIC's together
+################# Bond NIC's
 nmcli connection add type bond con-name int-static ifname int-static mode 802.3ad
 nmcli con mod id int-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
 
@@ -56,6 +56,28 @@ for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == 
 done
 
 nmcli connection down int-static && nmcli connection up int-static
+
+##### bond 2
+
+nmcli connection add type bond con-name loc-static ifname loc-static mode 802.3ad
+nmcli con mod id loc-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
+
+nmcli con mod loc-static ipv4.method auto
+nmcli con mod loc-static ipv6.method auto
+nmcli con mod loc-static connection.autoconnect yes
+
+##### create bond
+ct=0
+for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'`; do
+    echo "$DEVICE"
+    if [[ $DEVICE == "eth3" ]]; then
+      nmcli connection delete $DEVICE
+      nmcli con add type bond-slave con-name loc-static-slave$ct ifname $DEVICE master loc-static
+      ((ct++))
+    fi
+done
+
+nmcli connection down loc-static && nmcli connection up loc-static
 ##########################################
 
 reboot
