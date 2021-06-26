@@ -63,12 +63,9 @@ nmcli connection down int-static && nmcli connection up int-static
 nmcli connection add type bond con-name loc-static ifname loc-static mode balance-rr
 nmcli con mod id loc-static bond.options mode=balance-rr,miimon=100
 
-nmcli con mod loc-static ipv4.addresses 10.0.20.2/24
-nmcli con mod loc-static ipv4.method manual
-nmcli con mod loc-static ipv4.gateway 10.0.20.1
-nmcli con mod loc-static ipv4.dns 10.0.20.1
-nmcli con mod loc-static ipv6.method auto
-nmcli con mod loc-static connection.autoconnect yes
+nmcli con mod int-static ipv4.method auto
+nmcli con mod int-static ipv6.method auto
+nmcli con mod int-static connection.autoconnect yes
 
 ct=0
 for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'`; do
