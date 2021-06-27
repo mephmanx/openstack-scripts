@@ -45,10 +45,12 @@ echo "IPADDR=102.168.1.40/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
 echo "DNS1=102.168.1.1/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
 echo "NETMASK=255.255.255.0/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
 echo "GATEWAY=102.168.1.1/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
+
 ##### bond loc-static
-nmcli connection add type bond con-name loc-static ifname loc-static mode active-backup 10.0.20.2/24
+nmcli connection add type bond con-name loc-static ifname loc-static mode active-backup
 
 nmcli con mod loc-static ipv4.method manual
+nmcli con mod loc-static ipv4.address 10.0.20.2/24
 nmcli con mod loc-static ipv4.gateway 10.0.20.1
 nmcli con mod loc-static ipv4.dns 10.0.20.1
 nmcli con mod loc-static ipv6.method disabled
