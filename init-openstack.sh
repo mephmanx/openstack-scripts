@@ -35,6 +35,27 @@ modprobe kvm_intel enable_apicv=1
 modprobe kvm_intel ept=1
 ##############
 
+##### create bond int-static
+nmcli connection add type bond con-name int-static ifname int-static mode 802.3ad
+nmcli con mod id int-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
+
+nmcli con mod int-static ipv4.method auto
+nmcli con mod int-static ipv6.method auto
+nmcli con mod int-static connection.autoconnect yes
+
+ct=0
+for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'`; do
+    echo "$DEVICE"
+    if [[ $DEVICE == "eth0" || $DEVICE == "eth1" || $DEVICE == "eth2" ]]; then
+      nmcli connection delete $DEVICE
+      nmcli con add type bond-slave con-name int-static-slave$ct ifname $DEVICE master int-static
+      ((ct++))
+    fi
+done
+
+nmcli connection down int-static && nmcli connection up int-static
+#########################
+
 #####  Make this call last as this takes down the network connection for a period of time and download in previous call fails
 ################# Bond NIC's
 sed -i '/^IPADDR/d' /etc/sysconfig/network-scripts/ifcfg-eth3
@@ -67,27 +88,6 @@ done
 
 nmcli connection down loc-static && nmcli connection up loc-static
 ##########################################
-
-##### create bond int-static
-nmcli connection add type bond con-name int-static ifname int-static mode 802.3ad
-nmcli con mod id int-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
-
-nmcli con mod int-static ipv4.method auto
-nmcli con mod int-static ipv6.method auto
-nmcli con mod int-static connection.autoconnect yes
-
-ct=0
-for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'`; do
-    echo "$DEVICE"
-    if [[ $DEVICE == "eth0" || $DEVICE == "eth1" || $DEVICE == "eth2" ]]; then
-      nmcli connection delete $DEVICE
-      nmcli con add type bond-slave con-name int-static-slave$ct ifname $DEVICE master int-static
-      ((ct++))
-    fi
-done
-
-nmcli connection down int-static && nmcli connection up int-static
-#########################
 
 reboot
 
