@@ -62,19 +62,17 @@ sed -i '/^IPADDR/d' /etc/sysconfig/network-scripts/ifcfg-eth3
 sed -i '/^DNS1/d' /etc/sysconfig/network-scripts/ifcfg-eth3
 sed -i '/^NETMASK/d' /etc/sysconfig/network-scripts/ifcfg-eth3
 sed -i '/^GATEWAY/d' /etc/sysconfig/network-scripts/ifcfg-eth3
-echo "IPADDR=102.168.1.40/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
-echo "DNS1=102.168.1.1/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
+echo "IPADDR=192.168.1.40/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
+echo "DNS1=192.168.1.1/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
 echo "NETMASK=255.255.255.0/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
-echo "GATEWAY=102.168.1.1/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
+echo "GATEWAY=192.168.1.1/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
 
 ##### bond loc-static
 nmcli connection add type bond con-name loc-static ifname loc-static mode active-backup
 
 nmcli con mod loc-static ipv4.addresses 10.0.20.2/24
-nmcli con mod loc-static ipv4.gateway 10.0.20.1
-nmcli con mod loc-static ipv4.dns 10.0.20.1
-nmcli con mod loc-static ipv4.method none
-nmcli con mod loc-static ipv6.method disabled
+nmcli con mod loc-static ipv4.method static
+nmcli con mod loc-static ipv6.method none
 
 ct=0
 for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'`; do
