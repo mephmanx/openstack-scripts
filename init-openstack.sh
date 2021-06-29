@@ -46,46 +46,13 @@ nmcli con mod int-static connection.autoconnect yes
 ct=0
 for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'`; do
     echo "$DEVICE"
-    if [[ $DEVICE == "eth0" || $DEVICE == "eth1" || $DEVICE == "eth2" ]]; then
-      nmcli connection delete $DEVICE
-      nmcli con add type bond-slave con-name int-static-slave$ct ifname $DEVICE master int-static
-      ((ct++))
-    fi
+    nmcli connection delete $DEVICE
+    nmcli con add type bond-slave con-name int-static-slave$ct ifname $DEVICE master int-static
+    ((ct++))
 done
 
 nmcli connection down int-static && nmcli connection up int-static
 #########################
-
-#####  Make this call last as this takes down the network connection for a period of time and download in previous call fails
-################# Bond NIC's
-sed -i '/^IPADDR/d' /etc/sysconfig/network-scripts/ifcfg-eth3
-sed -i '/^DNS1/d' /etc/sysconfig/network-scripts/ifcfg-eth3
-sed -i '/^NETMASK/d' /etc/sysconfig/network-scripts/ifcfg-eth3
-sed -i '/^GATEWAY/d' /etc/sysconfig/network-scripts/ifcfg-eth3
-echo "IPADDR=192.168.1.40/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
-echo "DNS1=192.168.1.1/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
-echo "NETMASK=255.255.255.0/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
-echo "GATEWAY=192.168.1.1/24" > /etc/sysconfig/network-scripts/ifcfg-eth3
-
-##### bond loc-static
-nmcli connection add type bond con-name loc-static ifname loc-static mode active-backup
-
-nmcli con mod loc-static ipv4.addresses 10.0.20.2/24
-nmcli con mod loc-static ipv4.gateway 10.0.20.1
-nmcli con mod loc-static ipv4.dns 10.0.20.1
-nmcli con mod loc-static ipv4.method static
-
-ct=0
-for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'`; do
-    echo "$DEVICE"
-    if [[ $DEVICE == "eth3" ]]; then
-      nmcli connection delete $DEVICE
-      nmcli con add type bond-slave con-name loc-static-slave$ct ifname $DEVICE master loc-static
-      ((ct++))
-    fi
-done
-
-nmcli connection down loc-static && nmcli connection up loc-static
 ##########################################
 
 reboot
