@@ -75,6 +75,9 @@ brctl addif loc-static Node5s
 brctl addif loc-static Node6s
 brctl addif loc-static Node7s
 brctl addif loc-static Node8s
+
+virsh net-destroy default
+virsh net-undefine default
 ###########################
 
 ############ Create and init storage pools
