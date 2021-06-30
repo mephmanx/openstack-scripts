@@ -37,32 +37,44 @@ tuned-adm profile virtual-host
 #############
 
 ########## configure and start networks
-cat > /tmp/openstack-local.xml <<EOF
-<network>
-  <name>loc-static</name>
-  <forward mode='nat' dev='int-static'>
-    <nat>
-        <port start='1024' end='65535'/>
-    </nat>
-    <interface dev='int-static'/>
-  </forward>
-  <bridge name='loc-static' stp='on' delay='0'/>
-  <ip address='10.0.20.1' netmask='255.255.255.0'>
-    <dhcp>
-      <range start='10.0.20.100' end='10.0.20.150'/>
-    </dhcp>
-  </ip>
-</network>
-EOF
+ip link add dev Node1s type veth peer name Node1
+ip link add dev Node2s type veth peer name Node2
+ip link add dev Node3s type veth peer name Node3
+ip link add dev Node4s type veth peer name Node4
+ip link add dev Node5s type veth peer name Node5
+ip link add dev Node6s type veth peer name Node6
+ip link add dev Node7s type veth peer name Node7
+ip link add dev Node8s type veth peer name Node8
 
-virsh net-define /tmp/openstack-local.xml
+ip link set Node1 up
+ip link set Node2 up
+ip link set Node3 up
+ip link set Node4 up
+ip link set Node5 up
+ip link set Node6 up
+ip link set Node7 up
+ip link set Node8 up
 
-virsh net-autostart loc-static
+ip link set Node1s up
+ip link set Node2s up
+ip link set Node3s up
+ip link set Node4s up
+ip link set Node5s up
+ip link set Node6s up
+ip link set Node7s up
+ip link set Node8s up
 
-virsh net-start loc-static
+brctl addbr loc-static
+ifconfig loc-static up
 
-virsh net-destroy default
-virsh net-undefine default
+brctl addif loc-static Node1s
+brctl addif loc-static Node2s
+brctl addif loc-static Node3s
+brctl addif loc-static Node4s
+brctl addif loc-static Node5s
+brctl addif loc-static Node6s
+brctl addif loc-static Node7s
+brctl addif loc-static Node8s
 ###########################
 
 ############ Create and init storage pools
