@@ -27,7 +27,7 @@ systemctl disable firewalld
 systemctl mask firewalld
 
 ################# setup KVM and kick off openstack cloud create
-dnf module install -y virt
+dnf module install -y virt dhcp-server
 dnf install -y cockpit-machines virt-install virt-viewer bridge-utils
 systemctl restart libvirtd
 ############################
@@ -37,6 +37,30 @@ tuned-adm profile virtual-host
 #############
 
 ########## configure and start networks
+
+cat > /etc/sysctl.conf <<EOF
+net.ipv4.ip_forward = 1
+EOF
+
+sysctl -w net.ipv4.ip_forward=1
+
+cat > /etc/dhcp/dhcpd.conf <<EOF
+default-lease-time 600;
+max-lease-time 7200;
+ddns-update-style none;
+authoritative;
+
+subnet 10.0.20.0 netmask 255.255.255.0 {
+        range 10.0.20.50 10.0.20.100;
+        option routers 10.0.20.1;
+        option subnet-mask 255.255.255.0;
+        option domain-name-servers 8.8.8.8;
+}
+EOF
+
+systemctl start dhcpd
+systemctl enable dhcpd
+
 ip link add dev Node1s type veth peer name Node1
 ip link add dev Node2s type veth peer name Node2
 ip link add dev Node3s type veth peer name Node3
@@ -66,6 +90,12 @@ ip link set Node8s up
 
 brctl addbr loc-static
 ifconfig loc-static up
+
+nmcli connection modify loc-static ipv4.addresses '10.0.20.1/24'
+nmcli connection modify loc-static ipv4.gateway '192.168.0.1'
+nmcli connection modify loc-static ipv4.dns '8.8.8.8'
+nmcli connection modify loc-static ipv4.method manual
+nmcli con up loc-static
 
 brctl addif loc-static Node1s
 brctl addif loc-static Node2s
