@@ -92,7 +92,7 @@ brctl addbr loc-static
 ifconfig loc-static up
 
 nmcli connection modify loc-static ipv4.addresses '10.0.20.1/24'
-nmcli connection modify loc-static ipv4.gateway '192.168.0.1'
+nmcli connection modify loc-static ipv4.gateway `ip  -f inet a show int-static| grep inet| awk '{ print $2}' | cut -d/ -f1`
 nmcli connection modify loc-static ipv4.dns '8.8.8.8'
 nmcli connection modify loc-static ipv4.method manual
 nmcli con up loc-static
@@ -108,6 +108,9 @@ brctl addif loc-static Node8s
 
 virsh net-destroy default
 virsh net-undefine default
+
+iptables --table nat --append POSTROUTING --out-interface int-static -j MASQUERADE
+iptables --append FORWARD --in-interface int-static -j ACCEPT
 ###########################
 
 ############ Create and init storage pools
