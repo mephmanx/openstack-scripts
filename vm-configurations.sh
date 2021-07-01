@@ -113,7 +113,7 @@ function create_vm_kvm {
   for net_element in "${net_array[@]}"
     do
       if [[ "${net_element}" =~ .*"int".* ]]; then
-        virt_network_list+=("--network type=network,source=$net_element,model=virtio ")
+        virt_network_list+=("--network type=direct,source=$net_element,model=virtio,source_mode=bridge ")
       else
         virt_network_list+=("--network type=bridge,source=$net_element,model=virtio ")
       fi
