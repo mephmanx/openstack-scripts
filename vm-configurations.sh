@@ -112,11 +112,11 @@ function create_vm_kvm {
   IFS=',' read -r -a net_array <<< "$network_string"
   for net_element in "${net_array[@]}"
     do
-#      if [[ "${net_element}" =~ .*"loc".* ]]; then
-#        virt_network_list+=("--network type=network,source=$net_element,model=virtio ")
-#      else
+      if [[ "${net_element}" =~ .*"int".* ]]; then
+        virt_network_list+=("--network type=network,source=$net_element,model=virtio ")
+      else
         virt_network_list+=("--network type=bridge,source=$net_element,model=virtio ")
-#      fi
+      fi
   done
   #########################
 

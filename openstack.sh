@@ -69,6 +69,18 @@ ip link add dev Node5s type veth peer name Node5
 ip link add dev Node6s type veth peer name Node6
 ip link add dev Node7s type veth peer name Node7
 ip link add dev Node8s type veth peer name Node8
+ip link add dev Node9s type veth peer name Node9
+ip link add dev Node10s type veth peer name Node10
+ip link add dev Node11s type veth peer name Node11
+ip link add dev Node12s type veth peer name Node12
+ip link add dev Node13s type veth peer name Node13
+ip link add dev Node14s type veth peer name Node14
+ip link add dev Node15s type veth peer name Node15
+ip link add dev Node16s type veth peer name Node16
+ip link add dev Node17s type veth peer name Node17
+ip link add dev Node18s type veth peer name Node18
+ip link add dev Node19s type veth peer name Node19
+ip link add dev Node20s type veth peer name Node20
 
 ip link set Node1 up
 ip link set Node2 up
@@ -78,6 +90,18 @@ ip link set Node5 up
 ip link set Node6 up
 ip link set Node7 up
 ip link set Node8 up
+ip link set Node9 up
+ip link set Node10 up
+ip link set Node11 up
+ip link set Node12 up
+ip link set Node13 up
+ip link set Node14 up
+ip link set Node15 up
+ip link set Node16 up
+ip link set Node17 up
+ip link set Node18 up
+ip link set Node19 up
+ip link set Node20 up
 
 ip link set Node1s up
 ip link set Node2s up
@@ -87,6 +111,18 @@ ip link set Node5s up
 ip link set Node6s up
 ip link set Node7s up
 ip link set Node8s up
+ip link set Node9s up
+ip link set Node10s up
+ip link set Node11s up
+ip link set Node12s up
+ip link set Node13s up
+ip link set Node14s up
+ip link set Node15s up
+ip link set Node16s up
+ip link set Node17s up
+ip link set Node18s up
+ip link set Node19s up
+ip link set Node20s up
 
 brctl addbr loc-static
 ifconfig loc-static up
@@ -105,6 +141,19 @@ brctl addif loc-static Node5s
 brctl addif loc-static Node6s
 brctl addif loc-static Node7s
 brctl addif loc-static Node8s
+brctl addif loc-static Node17s
+brctl addif loc-static Node18s
+
+brctl addif int-static Node9s
+brctl addif int-static Node10s
+brctl addif int-static Node11s
+brctl addif int-static Node12s
+brctl addif int-static Node13s
+brctl addif int-static Node14s
+brctl addif int-static Node15s
+brctl addif int-static Node16s
+brctl addif int-static Node19s
+brctl addif int-static Node20s
 
 virsh net-destroy default
 virsh net-undefine default
