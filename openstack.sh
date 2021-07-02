@@ -42,6 +42,8 @@ runuser -l root -c  'echo "net.ipv4.ip_forward = 1" > /etc/sysctl.conf'
 
 sysctl -w net.ipv4.ip_forward=1
 
+nmcli connection modify loc-static ipv4.addresses '10.0.20.1/24' ipv4.gateway `ip  -f inet a show int-static| grep inet| awk '{ print $2}' | cut -d/ -f1` ipv4.method manual ipv4.dns '8.8.8.8' connection.autoconnect yes
+
 runuser -l root -c 'cat << EOF > /etc/dhcp/dhcpd.conf
 default-lease-time 600;
 max-lease-time 7200;
@@ -121,13 +123,6 @@ ip link set Node17s up
 ip link set Node18s up
 ip link set Node19s up
 ip link set Node20s up
-
-brctl addbr loc-static
-sleep 30
-ifconfig loc-static up
-nmcli con up loc-static
-
-nmcli connection modify loc-static ipv4.addresses '10.0.20.1/24' ipv4.gateway `ip  -f inet a show int-static| grep inet| awk '{ print $2}' | cut -d/ -f1` ipv4.method manual ipv4.dns '8.8.8.8' connection.autoconnect yes
 
 brctl addif loc-static Node1s
 brctl addif loc-static Node2s
