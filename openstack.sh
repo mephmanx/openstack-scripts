@@ -38,11 +38,11 @@ tuned-adm profile virtual-host
 
 ########## configure and start networks
 
-runuser -l root -c  'cat > /etc/sysctl.conf <<EOFnet.ipv4.ip_forward = 1EOF'
+runuser -l root -c  'echo "net.ipv4.ip_forward = 1" > /etc/sysctl.conf'
 
 sysctl -w net.ipv4.ip_forward=1
 
-cat > /etc/dhcp/dhcpd.conf <<EOF
+sudo bash -c 'cat << EOF > /etc/dhcp/dhcpd.conf
 default-lease-time 600;
 max-lease-time 7200;
 ddns-update-style none;
@@ -54,7 +54,7 @@ subnet 10.0.20.0 netmask 255.255.255.0 {
         option subnet-mask 255.255.255.0;
         option domain-name-servers 8.8.8.8;
 }
-EOF
+EOF'
 
 systemctl start dhcpd
 systemctl enable dhcpd
