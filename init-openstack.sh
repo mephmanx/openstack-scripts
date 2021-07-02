@@ -35,12 +35,6 @@ modprobe kvm_intel enable_apicv=1
 modprobe kvm_intel ept=1
 ##############
 
-###add loc-static so that it is ready on reboot
-yum install -y bridge-utils
-nmcli connection add type bridge autoconnect yes con-name loc-static
-nmcli connection down loc-static && nmcli connection up loc-static
-######
-
 ##### create bond int-static
 nmcli connection add type bond con-name int-static ifname int-static mode 802.3ad
 nmcli con mod id int-static bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
