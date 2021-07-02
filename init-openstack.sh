@@ -37,7 +37,7 @@ modprobe kvm_intel ept=1
 
 ###add loc-static so that it is ready on reboot
 yum install -y bridge-utils
-brctl addbr loc-static
+nmcli connection add type bridge autoconnect yes con-name loc-static
 nmcli connection down loc-static && nmcli connection up loc-static
 ######
 
