@@ -36,10 +36,9 @@ modprobe kvm_intel ept=1
 ##############
 
 ###add loc-static so that it is ready on reboot
+yum install -y bridge-utils
 brctl addbr loc-static
-sleep 30
-ifconfig loc-static up
-nmcli con up loc-static
+nmcli connection down loc-static && nmcli connection up loc-static
 ######
 
 ##### create bond int-static
