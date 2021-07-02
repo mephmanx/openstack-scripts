@@ -42,7 +42,7 @@ runuser -l root -c  'echo "net.ipv4.ip_forward = 1" > /etc/sysctl.conf'
 
 sysctl -w net.ipv4.ip_forward=1
 
-sudo bash -c 'cat << EOF > /etc/dhcp/dhcpd.conf
+runuser -l root -c 'cat << EOF > /etc/dhcp/dhcpd.conf
 default-lease-time 600;
 max-lease-time 7200;
 ddns-update-style none;
@@ -123,6 +123,7 @@ ip link set Node19s up
 ip link set Node20s up
 
 brctl addbr loc-static
+sleep 30
 ifconfig loc-static up
 nmcli con up loc-static
 
@@ -139,7 +140,6 @@ brctl addif loc-static Node8s
 brctl addif loc-static Node17s
 brctl addif loc-static Node18s
 
-virsh net-destroy default
 virsh net-undefine default
 
 iptables --table nat --append POSTROUTING --out-interface int-static -j MASQUERADE
