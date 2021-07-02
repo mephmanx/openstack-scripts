@@ -124,9 +124,9 @@ ip link set Node20s up
 
 brctl addbr loc-static
 ifconfig loc-static up
-
-nmcli connection modify loc-static ipv4.addresses '10.0.20.1/24' ipv4.gateway `ip  -f inet a show int-static| grep inet| awk '{ print $2}' | cut -d/ -f1` ipv4.method manual ipv4.dns '8.8.8.8'
 nmcli con up loc-static
+
+nmcli connection modify loc-static ipv4.addresses '10.0.20.1/24' ipv4.gateway `ip  -f inet a show int-static| grep inet| awk '{ print $2}' | cut -d/ -f1` ipv4.method manual ipv4.dns '8.8.8.8' connection.autoconnect yes
 
 brctl addif loc-static Node1s
 brctl addif loc-static Node2s
@@ -138,17 +138,6 @@ brctl addif loc-static Node7s
 brctl addif loc-static Node8s
 brctl addif loc-static Node17s
 brctl addif loc-static Node18s
-
-brctl addif int-static Node9s
-brctl addif int-static Node10s
-brctl addif int-static Node11s
-brctl addif int-static Node12s
-brctl addif int-static Node13s
-brctl addif int-static Node14s
-brctl addif int-static Node15s
-brctl addif int-static Node16s
-brctl addif int-static Node19s
-brctl addif int-static Node20s
 
 virsh net-destroy default
 virsh net-undefine default
