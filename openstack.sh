@@ -138,7 +138,7 @@ brctl addif loc-static Node18s
 virsh net-undefine default
 
 iptables --table nat --append POSTROUTING --out-interface int-static -j MASQUERADE
-iptables --append FORWARD --in-interface int-static -j ACCEPT
+iptables --append FORWARD --in-interface loc-static -j ACCEPT
 ###########################
 
 ############ Create and init storage pools
