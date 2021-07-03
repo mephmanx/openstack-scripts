@@ -222,9 +222,9 @@ wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64
 
 export KOLLA_DEBUG=0
 export ENABLE_EXT_NET=1
-export EXT_NET_CIDR=192.168.1.0/24
-export EXT_NET_RANGE='start=192.168.1.150,end=192.168.1.200'
-export EXT_NET_GATEWAY=192.168.1.1
+export EXT_NET_CIDR=10.0.20.1/24
+export EXT_NET_RANGE='start=10.0.20.100,end=10.0.20.150'
+export EXT_NET_GATEWAY=10.0.20.1
 cp /etc/kolla/multinode /tmp
 
 cp /tmp/multinode /etc/kolla
