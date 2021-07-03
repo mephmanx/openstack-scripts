@@ -28,7 +28,7 @@ systemctl mask firewalld
 
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
-dnf install -y cockpit-machines virt-install virt-viewer dhcp-server
+dnf install -y cockpit-machines virt-install virt-viewer dhcp-server bridge-utils
 systemctl restart libvirtd
 ############################
 
@@ -49,10 +49,10 @@ ip link set vm1 master loc-static
 ip addr add 10.0.20.1/24 dev loc-static
 ip addr add 10.0.20.2/24 dev vm2
 
-nmcli connection modify loc-static ipv4.addresses '10.0.20.1/24' ipv4.gateway `ip  -f inet a show int-static| grep inet| awk '{ print $2}' | cut -d/ -f1` ipv4.method manual ipv4.dns '8.8.8.8' connection.autoconnect yes
-
 ip link set loc-static up
 ip link set vm2 up
+
+nmcli connection modify loc-static ipv4.addresses 10.0.20.1/24 ipv4.gateway 192.168.1.50 ipv4.method manual ipv4.dns 8.8.8.8 connection.autoconnect yes
 
 ip link add dev Node1s type veth peer name Node1
 ip link add dev Node2s type veth peer name Node2
