@@ -75,7 +75,7 @@ function networkInformation {
             network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n")
           fi
         else
-          network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n")
+          network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK ${default_set} --nameserver=$LOCAL_GATEWAY\n")
         fi
 
         ((LOCAL_ADDRESS_INC++))
@@ -105,7 +105,7 @@ function networkInformation {
             network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
           fi
         else
-          network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n")
+          network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK ${default_set} --nameserver=$INTERNAL_GATEWAY\n")
         fi
 
         ((INTERNAL_ADDRESS_INC++))
@@ -134,7 +134,7 @@ function networkInformation {
             network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n")
           fi
         else
-          network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --netmask=$NETMASK ${default_set}\n")
+          network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK ${default_set} --nameserver=$EXTERNAL_GATEWAY\n")
         fi
 
         ((EXTERNAL_ADDRESS_INC++))
