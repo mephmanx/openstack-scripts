@@ -69,13 +69,13 @@ function networkInformation {
         if [[ $DEFAULT_ROUTE == "loc" ]]; then
           if [[ $default_flag == "0" ]]; then
             default_set=""
-            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n")
+            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
             default_flag="1"
           else
-            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$LOCAL_GATEWAY ${default_set}\n")
+            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
           fi
         else
-          network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK ${default_set} --nameserver=$LOCAL_GATEWAY\n")
+          network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$LOCAL_GATEWAY --netmask=$NETMASK ${default_set} --nameserver=$INTERNAL_GATEWAY\n")
         fi
 
         ((LOCAL_ADDRESS_INC++))
