@@ -47,7 +47,8 @@ function networkInformation {
   default_flag="0"
   for element in "${net_array[@]}"
   do
-    default_set="--nodefroute"
+#    default_set="--nodefroute"
+    default_set=""
     if [[ "${element}" =~ .*"static".* ]]; then
       ##check if internal or external network and set ip/gateway accordingly
       if [[ "${element}" =~ .*"loc".* ]]; then
