@@ -111,7 +111,7 @@ network_interface: "eth0"
 
 # These can be adjusted for even more customization. The default is the same as
 # the 'network_interface'. These interfaces must contain an IP address.
-kolla_external_vip_interface: "eth1"
+kolla_external_vip_interface: "eth2"
 #api_interface: "{{ network_interface }}"
 #storage_interface: "{{ network_interface }}"
 #swift_storage_interface: "{{ storage_interface }}"
@@ -137,7 +137,7 @@ kolla_external_vip_interface: "eth1"
 # though an IP address can exist on this interface, it will be unusable in most
 # configurations. It is recommended this interface not be configured with any IP
 # addresses for that reason.
-neutron_external_interface: "eth2"
+neutron_external_interface: "eth1"
 
 # Valid options are [ openvswitch, ovn, linuxbridge, vmware_nsxv, vmware_nsxv3, vmware_dvs ]
 # if vmware_nsxv3 is selected, enable_openvswitch MUST be set to "no" (default is yes)
@@ -153,6 +153,10 @@ neutron_external_interface: "eth2"
 # Neutron rolling upgrade were enable by default
 #neutron_enable_rolling_upgrade: "yes"
 
+# Configure neutron logging framework to log ingress/egress connections to instances
+# for security groups rules. More information can be found here:
+# https://docs.openstack.org/neutron/latest/admin/config-logging.html
+#enable_neutron_packet_logging: "no"
 
 ####################
 # keepalived options
@@ -285,7 +289,6 @@ enable_cinder_backup: "no"
 #enable_cinder_backend_iscsi: "{{ enable_cinder_backend_lvm | bool or enable_cinder_backend_zfssa_iscsi | bool }}"
 enable_cinder_backend_lvm: "yes"
 #enable_cinder_backend_nfs: "no"
-#enable_cinder_backend_zfssa_iscsi: "no"
 #enable_cinder_backend_quobyte: "no"
 #enable_cloudkitty: "no"
 #enable_collectd: "no"
@@ -334,8 +337,8 @@ enable_grafana: "yes"
 #enable_kibana: "{{ 'yes' if enable_central_logging | bool or enable_monasca | bool else 'no' }}"
 #enable_kuryr: "no"
 enable_magnum: "yes"
-#enable_manila: "yes"
-#enable_manila_backend_generic: "yes"
+#enable_manila: "no"
+#enable_manila_backend_generic: "no"
 #enable_manila_backend_hnas: "no"
 #enable_manila_backend_cephfs_native: "no"
 #enable_manila_backend_cephfs_nfs: "no"
@@ -350,7 +353,7 @@ enable_neutron_vpnaas: "yes"
 #enable_neutron_sriov: "no"
 #enable_neutron_dvr: "no"
 #enable_neutron_qos: "no"
-#enable_neutron_agent_ha: "yes"
+#enable_neutron_agent_ha: "no"
 #enable_neutron_bgp_dragent: "no"
 enable_neutron_provider_networks: "yes"
 #enable_neutron_segments: "no"
@@ -367,11 +370,9 @@ enable_octavia: "yes"
 #enable_ovn: "{{ enable_neutron | bool and neutron_plugin_agent == 'ovn' }}"
 #enable_ovs_dpdk: "no"
 #enable_osprofiler: "no"
-#enable_panko: "no"
 #enable_placement: "{{ enable_nova | bool or enable_zun | bool }}"
 enable_prometheus: "yes"
 #enable_qdrouterd: "{{ 'yes' if om_rpc_transport == 'amqp' else 'no' }}"
-#enable_rally: "no"
 enable_redis: "yes"
 #enable_sahara: "no"
 #enable_senlin: "no"
@@ -399,7 +400,12 @@ enable_trove: "yes"
 # See Kolla Ansible docs RabbitMQ section for details.
 # These are appended to args already provided by Kolla Ansible
 # to configure IPv6 in RabbitMQ server.
-#rabbitmq_server_additional_erl_args: ""
+# More details can be found in the RabbitMQ docs:
+# https://www.rabbitmq.com/runtime.html#scheduling
+# https://www.rabbitmq.com/runtime.html#busy-waiting
+# The default tells RabbitMQ to always use two cores (+S 2:2),
+# and not to busy wait (+sbwt none):
+#rabbitmq_server_additional_erl_args: "+S 2:2 +sbwt none"
 # Whether to enable TLS encryption for RabbitMQ client-server communication.
 #rabbitmq_enable_tls: "no"
 # CA certificate bundle in RabbitMQ container.
@@ -794,7 +800,7 @@ octavia_auto_configure: yes
 #    enable_dhcp: yes
 
 # Octavia management network subnet CIDR.
-#octavia_amp_network_cidr: 10.0.30.0/24
+#octavia_amp_network_cidr: 10.1.0.0/24
 
 #octavia_amp_image_tag: "amphora"
 
