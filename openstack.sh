@@ -137,10 +137,10 @@ dnf -y update \
 LIBTPMS_BRANCH=master
 
 cd libtpms \
- && echo ${date} > /.date \
+ && runuser -l root -c  'echo ${date} > /.date' \
  && git pull \
  && git checkout ${LIBTPMS_BRANCH} \
- && ./autogen.sh --prefix=/usr --libdir=/usr/lib64 --with-openssl --with-tpm2 \
+ && runuser -l root -c  './autogen.sh --prefix=/usr --libdir=/usr/lib64 --with-openssl --with-tpm2' \
  && make -j$(nproc) V=1 \
  && make -j$(nproc) V=1 check \
  && make install
@@ -149,15 +149,15 @@ SWTPM_BRANCH=master
 cd ../swtpm \
  && git pull \
  && git checkout ${SWTPM_BRANCH} \
- && ./autogen.sh --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu --with-openssl \
+ && runuser -l root -c  './autogen.sh --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu --with-openssl' \
  && make -j$(nproc) V=1 \
  && make -j$(nproc) V=1 VERBOSE=1 check \
  && make -j$(nproc) install
 
-cd /usr/share/swtpm
-./swtpm-create-user-config-files --overwrite --root
-chown tss:tss /var/lib/swtpm-localca/.lock.swtpm-localca
-chown tss:tss /var/lib/swtpm-localca/*
+
+runuser -l root -c  'cd /usr/share/swtpm; ./swtpm-create-user-config-files --overwrite --root;'
+runuser -l root -c  'chown tss:tss /var/lib/swtpm-localca/.lock.swtpm-localca'
+runuser -l root -c  'chown tss:tss /var/lib/swtpm-localca/*'
 #####################
 
 ############ Create and init storage pools
