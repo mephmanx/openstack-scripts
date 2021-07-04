@@ -141,7 +141,7 @@ cd libtpms \
  && runuser -l root -c  'echo ${date} > /.date' \
  && git pull \
  && git checkout ${LIBTPMS_BRANCH} \
- && runuser -l root -c  './autogen.sh --prefix=/usr --libdir=/usr/lib64 --with-openssl --with-tpm2' \
+ && runuser -l root -c  'cd libtpms; ./autogen.sh --prefix=/usr --libdir=/usr/lib64 --with-openssl --with-tpm2;' \
  && make -j$(nproc) V=1 \
  && make -j$(nproc) V=1 check \
  && make install
@@ -150,7 +150,7 @@ SWTPM_BRANCH=master
 cd ../swtpm \
  && git pull \
  && git checkout ${SWTPM_BRANCH} \
- && runuser -l root -c  './autogen.sh --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu --with-openssl' \
+ && runuser -l root -c  'cd /root/swtpm; ./autogen.sh --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu --with-openssl;' \
  && make -j$(nproc) V=1 \
  && make -j$(nproc) V=1 VERBOSE=1 check \
  && make -j$(nproc) install
