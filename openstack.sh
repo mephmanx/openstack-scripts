@@ -159,7 +159,8 @@ mkdir -p /tmp/myvtpm1.2 && mkdir -p /tmp/myvtpm2
 swtpm_setup --tpmstate /tmp/myvtpm1.2 --create-ek-cert --create-platform-cert \
  && swtpm_setup --tpmstate /tmp/myvtpm2   --create-ek-cert --create-platform-cert --tpm2
 
-
+cd /usr/share/swtpm
+./swtpm-create-user-config-files --overwrite --root
 chown tss:tss /var/lib/swtpm-localca/.lock.swtpm-localca
 chown tss:tss /var/lib/swtpm-localca/*
 #####################
