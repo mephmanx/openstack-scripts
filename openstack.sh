@@ -126,6 +126,7 @@ virsh net-undefine default
 ###########################
 
 ###### vTPM setup #####
+cd /root
 dnf -y update \
  && dnf -y install diffutils make file automake autoconf libtool gcc gcc-c++ openssl-devel gawk git \
  && git clone https://github.com/stefanberger/libtpms.git \
