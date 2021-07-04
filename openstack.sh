@@ -154,11 +154,6 @@ cd ../swtpm \
  && make -j$(nproc) V=1 VERBOSE=1 check \
  && make -j$(nproc) install
 
-mkdir -p /tmp/myvtpm1.2 && mkdir -p /tmp/myvtpm2
-[ "$SWTPM_BRANCH" = "stable-0.3.0" ] && chown tss:root /tmp/myvtpm1.2
-swtpm_setup --tpmstate /tmp/myvtpm1.2 --create-ek-cert --create-platform-cert \
- && swtpm_setup --tpmstate /tmp/myvtpm2   --create-ek-cert --create-platform-cert --tpm2
-
 cd /usr/share/swtpm
 ./swtpm-create-user-config-files --overwrite --root
 chown tss:tss /var/lib/swtpm-localca/.lock.swtpm-localca
