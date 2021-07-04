@@ -154,7 +154,7 @@ function create_vm_kvm {
   create_line+="--cpuset=auto "
   create_line+="--vcpus=$cpu_topology "
   create_line+="--cpuset=auto "
-#  create_line+="--tpm /dev/tpm "
+  create_line+="--tpm emulator,model=tpm-tis,version=2.0 "
   create_line+="--memorybacking hugepages=yes "
   create_line+="--controller type=scsi,model=virtio-scsi "
   create_line+="$virt_disk_string"

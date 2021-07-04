@@ -125,6 +125,45 @@ iptables --append FORWARD --in-interface loc-static -j ACCEPT
 virsh net-undefine default
 ###########################
 
+###### vTPM setup #####
+dnf -y update \
+ && dnf -y install diffutils make file automake autoconf libtool gcc gcc-c++ openssl-devel gawk git \
+ && git clone https://github.com/stefanberger/libtpms.git \
+ && dnf -y install which python3 python3-cryptography python3-pip python3-setuptools expect libtasn1-devel \
+    socat trousers tpm-tools gnutls-devel gnutls-utils net-tools libseccomp-devel json-glib-devel \
+ && pip3 install twisted \
+ && git clone https://github.com/stefanberger/swtpm.git
+
+LIBTPMS_BRANCH=master
+
+cd libtpms \
+ && echo ${date} > /.date \
+ && git pull \
+ && git checkout ${LIBTPMS_BRANCH} \
+ && ./autogen.sh --prefix=/usr --libdir=/usr/lib64 --with-openssl --with-tpm2 \
+ && make -j$(nproc) V=1 \
+ && make -j$(nproc) V=1 check \
+ && make install
+
+SWTPM_BRANCH=master
+cd ../swtpm \
+ && git pull \
+ && git checkout ${SWTPM_BRANCH} \
+ && ./autogen.sh --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu --with-openssl \
+ && make -j$(nproc) V=1 \
+ && make -j$(nproc) V=1 VERBOSE=1 check \
+ && make -j$(nproc) install
+
+mkdir -p /tmp/myvtpm1.2 && mkdir -p /tmp/myvtpm2
+[ "$SWTPM_BRANCH" = "stable-0.3.0" ] && chown tss:root /tmp/myvtpm1.2
+swtpm_setup --tpmstate /tmp/myvtpm1.2 --create-ek-cert --create-platform-cert \
+ && swtpm_setup --tpmstate /tmp/myvtpm2   --create-ek-cert --create-platform-cert --tpm2
+
+
+chown tss:tss /var/lib/swtpm-localca/.lock.swtpm-localca
+chown tss:tss /var/lib/swtpm-localca/*
+#####################
+
 ############ Create and init storage pools
 
 ## HP-Disk pool
