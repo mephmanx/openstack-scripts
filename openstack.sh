@@ -155,9 +155,8 @@ cd ../swtpm \
  && make -j$(nproc) V=1 VERBOSE=1 check \
  && make -j$(nproc) install
 
-
 runuser -l root -c  'cd /usr/share/swtpm; ./swtpm-create-user-config-files --overwrite --root;'
-runuser -l root -c  'chown tss:tss /var/lib/swtpm-localca/.lock.swtpm-localca'
+runuser -l root -c  'chown tss:tss /root/.config/*'
 runuser -l root -c  'chown tss:tss /var/lib/swtpm-localca/*'
 #####################
 
