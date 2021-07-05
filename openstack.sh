@@ -100,7 +100,12 @@ brctl addif loc-static Node10s
 
 runuser -l root -c  'echo "net.ipv4.ip_forward = 1" > /etc/sysctl.conf'
 
+runuser -l root -c  'echo "net.ipv4.conf.default.rp_filter=0" > /etc/sysctl.conf'
+runuser -l root -c  'echo "net.ipv4.conf.all.rp_filter=0" > /etc/sysctl.conf'
+
 sysctl -w net.ipv4.ip_forward=1
+sysctl -w net.ipv4.conf.default.rp_filter=0
+sysctl -w net.ipv4.conf.all.rp_filter=0
 
 runuser -l root -c 'cat << EOF > /etc/dhcp/dhcpd.conf
 default-lease-time 600;
