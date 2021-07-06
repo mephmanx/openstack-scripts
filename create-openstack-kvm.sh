@@ -18,13 +18,13 @@ sed -i 's/{NTP_SERVER}/'$NTP_SERVER'/g' ${kickstart_file}
 ###########################
 
 ############### Secrets file ################
-echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
+echo 'cat > /cloudprep/openstack-env.sh <<EOF' >> ${kickstart_file}
 cat ./openstack-env.sh >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 ###############################
 
 ############### Global Addresses ################
-echo 'cat > /tmp/global_addresses.sh <<EOF' >> ${kickstart_file}
+echo 'cat > /cloudprep/global_addresses.sh <<EOF' >> ${kickstart_file}
 cat ./global_addresses.sh >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 ###############################
@@ -40,7 +40,7 @@ create_line+="--cpu=host-passthrough,cache.mode=passthrough "
 create_line+="--cpuset=auto "
 create_line+="--vcpus=4,maxvcpus=4,sockets=2,cores=1,threads=2 "
 create_line+="--disk=pool=HP-Disk,size=400,bus=scsi,sparse=no "
-create_line+="--cdrom=/var/tmp/openstack-iso.iso "
+create_line+="--cdrom=/var/cloudprep/openstack-iso.iso "
 create_line+="--network type=direct,source=int-static,model=virtio  --network type=network,source=loc-static,model=virtio "
 create_line+="--os-variant=centos8 "
 create_line+="--graphics=vnc "

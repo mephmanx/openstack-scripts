@@ -49,17 +49,17 @@ function commonItems {
   kickstart_file=$1
 
   ############## passwordless ssh
-  echo 'cat > /tmp/openstack-setup.key.pub <<EOF' >> ${kickstart_file}
-  cat /tmp/openstack-setup.key.pub >> ${kickstart_file}
+  echo 'cat > /cloudprep/openstack-setup.key.pub <<EOF' >> ${kickstart_file}
+  cat /cloudprep/openstack-setup.key.pub >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
 
-  echo 'cat > /tmp/openstack-setup.key <<EOF' >> ${kickstart_file}
-  cat /tmp/openstack-setup.key >> ${kickstart_file}
+  echo 'cat > /cloudprep/openstack-setup.key <<EOF' >> ${kickstart_file}
+  cat /cloudprep/openstack-setup.key >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   ###############################
 
   ############### Global Addresses ################
-  echo 'cat > /tmp/global_addresses.sh <<EOF' >> ${kickstart_file}
+  echo 'cat > /cloudprep/global_addresses.sh <<EOF' >> ${kickstart_file}
   cat ./global_addresses.sh >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   ###############################
@@ -69,7 +69,7 @@ function commonItems {
   #########
 
   ############### Secrets File ################
-  echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
+  echo 'cat > /cloudprep/openstack-env.sh <<EOF' >> ${kickstart_file}
   cat ./openstack-env.sh >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   ###############################
@@ -94,7 +94,7 @@ function initialKickstartSetup {
 
 function prepareEnv {
 
-  if [ -f "/tmp/centos8.iso" ]; then
+  if [ -f "/cloudprep/centos8.iso" ]; then
     return;
   fi
 
@@ -104,7 +104,7 @@ function prepareEnv {
   case ${LINUX_VERSION} in
     1)
       echo "Using CentOS 8"
-      curl -o /tmp/centos8.iso $CENTOS_8
+      curl -o /cloudprep/centos8.iso $CENTOS_8
     ;;
     2)
       echo "Using CentOS 8 Stream"
@@ -113,21 +113,21 @@ function prepareEnv {
       git clone https://github.com/mephmanx/centos-8-minimal.git
       cd /root/centos-8-minimal
 
-      if [ -f "/tmp/centos8-stream-base.iso" ]; then
+      if [ -f "/cloudprep/centos8-stream-base.iso" ]; then
         echo "CentOS 8 Stream Base exists"
       else
-        wget -O /tmp/centos8-stream-base.iso $CENTOS_STREAM
+        wget -O /cloudprep/centos8-stream-base.iso $CENTOS_STREAM
       fi
 
-      export CMISO='/tmp/centos8-stream-base.iso'
+      export CMISO='/cloudprep/centos8-stream-base.iso'
       export CMOUT='CentOS-Stream-Minimal.iso'
       ./bootstrap.sh run
 
-      mv /root/centos-8-minimal/CentOS-Stream-Minimal.iso /tmp/centos8.iso
+      mv /root/centos-8-minimal/CentOS-Stream-Minimal.iso /cloudprep/centos8.iso
     ;;
     3)
       echo "Using Alma Linux 8"
-      curl -o /tmp/centos8.iso $ALMA_LINUX
+      curl -o /cloudprep/centos8.iso $ALMA_LINUX
     ;;
   esac
 
@@ -150,18 +150,18 @@ function closeOutAndBuildKickstartAndISO {
   echo 'reboot --eject' >> ./${kickstart_file}
   #########
 
-  sudo rm -rf /var/tmp/${vm_name}
-  sudo mount -t iso9660 -o loop /tmp/centos8.iso /centos
-  sudo mkdir -p /var/tmp/${vm_name}
-  sudo rsync -a /centos/ /var/tmp/${vm_name}
+  sudo rm -rf /var/cloudprep/${vm_name}
+  sudo mount -t iso9660 -o loop /cloudprep/centos8.iso /centos
+  sudo mkdir -p /var/cloudprep/${vm_name}
+  sudo rsync -a /centos/ /var/cloudprep/${vm_name}
   sudo umount /centos
 
-  cp ./${kickstart_file} /var/tmp/${vm_name}/ks.cfg
-  cp ./isolinux-centos8.cfg /var/tmp/${vm_name}/isolinux/isolinux.cfg
+  cp ./${kickstart_file} /var/cloudprep/${vm_name}/ks.cfg
+  cp ./isolinux-centos8.cfg /var/cloudprep/${vm_name}/isolinux/isolinux.cfg
 
-  sudo ksvalidator /var/tmp/${vm_name}/ks.cfg
+  sudo ksvalidator /var/cloudprep/${vm_name}/ks.cfg
 
-  cd /var/tmp/${vm_name}
+  cd /var/cloudprep/${vm_name}
   sudo genisoimage -o ../${vm_name}-iso.iso \
     -b isolinux/isolinux.bin \
     -c isolinux/boot.cat \
@@ -172,9 +172,9 @@ function closeOutAndBuildKickstartAndISO {
     -e images/efiboot.img \
     -no-emul-boot -J -R -v -T -V 'CentOS 8 x86_64' .
 
-  cd /var/tmp/
+  cd /var/cloudprep/
   sudo implantisomd5 ${vm_name}-iso.iso
-  sudo rm -rf /var/tmp/${vm_name}
+  sudo rm -rf /var/cloudprep/${vm_name}
   cd $working_dir
 }
 
@@ -208,22 +208,22 @@ function buildAndPushOpenstackSetupISO {
   ##########################
 
   #############  Octavia Keys
-  echo 'cat > /tmp/client.cert-and-key.pem <<EOF' >> ${kickstart_file}
+  echo 'cat > /cloudprep/client.cert-and-key.pem <<EOF' >> ${kickstart_file}
   cat ./certs/lyonsgroup-wildcard.fullchain >> ${kickstart_file}
   cat ./certs/lyonsgroup-wildcard.key >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
 
-  echo 'cat > /tmp/client_ca.cert.pem <<EOF' >> ${kickstart_file}
+  echo 'cat > /cloudprep/client_ca.cert.pem <<EOF' >> ${kickstart_file}
   cat ./certs/lyonsgroup-wildcard.fullchain >> ${kickstart_file}
   cat ./certs/lyonsgroup-wildcard.key >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
 
-  echo 'cat > /tmp/server_ca.cert.pem <<EOF' >> ${kickstart_file}
+  echo 'cat > /cloudprep/server_ca.cert.pem <<EOF' >> ${kickstart_file}
   cat ./certs/lyonsgroup-wildcard.fullchain >> ${kickstart_file}
   cat ./certs/lyonsgroup-wildcard.key >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
 
-  echo 'cat > /tmp/server_ca.key.pem <<EOF' >> ${kickstart_file}
+  echo 'cat > /cloudprep/server_ca.key.pem <<EOF' >> ${kickstart_file}
   cat ./certs/lyonsgroup-wildcard.key >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #################################
@@ -233,41 +233,41 @@ function buildAndPushOpenstackSetupISO {
   ##########################
 
   ############ certs to enable SSL on VNC
-  echo 'cat > /tmp/haproxy.pem <<EOF' >> ${kickstart_file}
+  echo 'cat > /cloudprep/haproxy.pem <<EOF' >> ${kickstart_file}
   cat ./certs/lyonsgroup-wildcard.fullchain >> ${kickstart_file}
   cat ./certs/lyonsgroup-wildcard.key >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #################################
 
   ########## add host trust script
-  echo 'cat > /tmp/host-trust.sh <<EOF' >> ${kickstart_file}
-  cat /tmp/dns_hosts >> ${kickstart_file}
+  echo 'cat > /cloudprep/host-trust.sh <<EOF' >> ${kickstart_file}
+  cat /cloudprep/dns_hosts >> ${kickstart_file}
   echo  $1 >> ${kickstart_file}
-  cat /tmp/additional_hosts >> ${kickstart_file}
+  cat /cloudprep/additional_hosts >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #####################
 
   ############ control hack script
-  echo 'cat > /tmp/control-trust.sh <<EOF' >> ${kickstart_file}
+  echo 'cat > /cloudprep/control-trust.sh <<EOF' >> ${kickstart_file}
   echo  $2 >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #################################
 
   ############## host count
-  echo 'cat > /tmp/host_count <<EOF' >> ${kickstart_file}
+  echo 'cat > /cloudprep/host_count <<EOF' >> ${kickstart_file}
   echo  $3 >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #########################
 
   ############## storage internal host ip
-  echo 'cat > /tmp/storage_hosts <<EOF' >> ${kickstart_file}
-  cat /tmp/storage_hosts >> ${kickstart_file}
+  echo 'cat > /cloudprep/storage_hosts <<EOF' >> ${kickstart_file}
+  cat /cloudprep/storage_hosts >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #########################
 
   ############## host list
-  echo 'cat > /tmp/host_list <<EOF' >> ${kickstart_file}
-  cat /tmp/host_list >> ${kickstart_file}
+  echo 'cat > /cloudprep/host_list <<EOF' >> ${kickstart_file}
+  cat /cloudprep/host_list >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #########################
 

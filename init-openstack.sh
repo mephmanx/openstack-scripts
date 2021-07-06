@@ -5,11 +5,11 @@
 
 # Source function library.
 . /etc/init.d/functions
-. /tmp/vm_functions.sh
+. /cloudprep/vm_functions.sh
 
 start() {
 
-exec 1>/tmp/start-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+exec 1>/cloudprep/start-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
 ########## Add call to the beginning of all rc.local scripts as this wait guarantees network availability
@@ -19,7 +19,7 @@ sleep 30
 ##### load secrets
 load_secrets
 
-chmod 777 /tmp/global_addresses.sh
+chmod 777 /cloudprep/global_addresses.sh
 
 # set up net script to be called after reboot
 prep_next_script "openstack"

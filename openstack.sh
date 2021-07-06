@@ -5,15 +5,15 @@
 
 # Source function library.
 . /etc/init.d/functions
-. /tmp/vm_functions.sh
-. /tmp/openstack-env.sh
-. /tmp/global_addresses.sh
+. /cloudprep/vm_functions.sh
+. /cloudprep/openstack-env.sh
+. /cloudprep/global_addresses.sh
 
 start() {
 
 ######## Openstack main server install
 
-exec 1>/tmp/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+exec 1>/cloudprep/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
 ########## Add call to the beginning of all rc.local scripts as this wait guarantees network availability
@@ -180,15 +180,15 @@ virsh pool-start HP-SSD
 
 ################ Prep and run cloud script
 ################### Load cloud create
-cd /tmp
+cd /cloudprep
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
 
-cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
-cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
+cp /cloudprep/openstack-scripts/*.sh /cloudprep/openstack-setup;
+cp /cloudprep/openstack-scripts/*.cfg /cloudprep/openstack-setup;
 ####################
-runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloudsupport-kvm.sh;'
-runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloud-kvm.sh;'
+runuser -l root -c 'cd /cloudprep/openstack-setup; ./create-cloudsupport-kvm.sh;'
+runuser -l root -c 'cd /cloudprep/openstack-setup; ./create-cloud-kvm.sh;'
 ################
 
 #remove so as to not run again

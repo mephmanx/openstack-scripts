@@ -3,28 +3,29 @@
 source ./iso-functions.sh
 source ./vm-configurations.sh
 source ./openstack-env.sh
-source /tmp/global_addresses.sh
+source /cloudprep/global_addresses.sh
 
 export TRANSFER=0
 
 IFS=
-ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
+ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /cloudprep/openstack-setup.key <<<y 2>&1 >/dev/null
 ##################### Prep
-rm -rf /tmp/additional_hosts
-touch /tmp/additional_hosts
-chmod 777 /tmp/additional_hosts
+mkdir /cloudprep
+rm -rf /cloudprep/additional_hosts
+touch /cloudprep/additional_hosts
+chmod 777 /cloudprep/additional_hosts
 
-rm -rf /tmp/dns_hosts
-touch /tmp/dns_hosts
-chmod 777 /tmp/dns_hosts
+rm -rf /cloudprep/dns_hosts
+touch /cloudprep/dns_hosts
+chmod 777 /cloudprep/dns_hosts
 
-rm -rf /tmp/storage_hosts
-touch /tmp/storage_hosts
-chmod 777 /tmp/storage_hosts
+rm -rf /cloudprep/storage_hosts
+touch /cloudprep/storage_hosts
+chmod 777 /cloudprep/storage_hosts
 
-rm -rf /tmp/host_list
-touch /tmp/host_list
-chmod 777 /tmp/host_list
+rm -rf /cloudprep/host_list
+touch /cloudprep/host_list
+chmod 777 /cloudprep/host_list
 ####################
 
 #################### Global address setup
@@ -34,10 +35,10 @@ SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
 ##############################################
 
 #### setup static network local DNS entries
-#echo "runuser -l root -c  'echo "$EXTERNAL_VIP $EXTERNAL_VIP_DNS" >> /etc/hosts;'" >> /tmp/dns_hosts
-echo "runuser -l root -c  'echo "$INTERNAL_VIP $INTERNAL_VIP_DNS" >> /etc/hosts;'" >> /tmp/dns_hosts
+#echo "runuser -l root -c  'echo "$EXTERNAL_VIP $EXTERNAL_VIP_DNS" >> /etc/hosts;'" >> /cloudprep/dns_hosts
+echo "runuser -l root -c  'echo "$INTERNAL_VIP $INTERNAL_VIP_DNS" >> /etc/hosts;'" >> /cloudprep/dns_hosts
 ####  make sure to use an in-memory network for docker pull through cache otherwise 500's occur
-echo "runuser -l root -c  'echo "$SUPPORT_VIP $SUPPORT_VIP_DNS" >> /etc/hosts;'" >> /tmp/dns_hosts
+echo "runuser -l root -c  'echo "$SUPPORT_VIP $SUPPORT_VIP_DNS" >> /etc/hosts;'" >> /cloudprep/dns_hosts
 #########################
 
 ######### Openstack VM types

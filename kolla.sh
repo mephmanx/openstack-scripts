@@ -5,9 +5,9 @@
 
 # Source function library.
 . /etc/init.d/functions
-. /tmp/vm_functions.sh
-. /tmp/openstack-env.sh
-. /tmp/global_addresses.sh
+. /cloudprep/vm_functions.sh
+. /cloudprep/openstack-env.sh
+. /cloudprep/global_addresses.sh
 
 start() {
 
@@ -67,7 +67,7 @@ cp /usr/local/share/kolla-ansible/ansible/inventory/* /etc/kolla
 
 mkdir -p /var/lib/kolla/config_files
 mkdir /etc/kolla/certificates
-cp /tmp/*.pem /etc/kolla/certificates
+cp /cloudprep/*.pem /etc/kolla/certificates
 
 curl -o /etc/kolla/globals.yml https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/mephmanx/openstack-scripts/master/globals.yml
 
@@ -149,37 +149,37 @@ do
       swift-ring-builder \
         /etc/kolla/config/swift/${ring}.builder rebalance;
   done
-done < /tmp/storage_hosts
+done < /cloudprep/storage_hosts
 #################
 
 #####################################  make sure all hosts are up
 # shellcheck disable=SC2006
-host_count_str=`cat /tmp/host_count`
+host_count_str=`cat /cloudprep/host_count`
 
 ############ add keys
 working_dir=`pwd`
-chmod 777 /tmp/host-trust.sh
-runuser -l root -c  'cd /tmp; ./host-trust.sh'
+chmod 777 /cloudprep/host-trust.sh
+runuser -l root -c  'cd /cloudprep; ./host-trust.sh'
 cd $working_dir
 
 printf -v host_count '%d' $host_count_str 2>/dev/null
-ansible -m ping all -i /etc/kolla/multinode > /tmp/ping.txt
+ansible -m ping all -i /etc/kolla/multinode > /cloudprep/ping.txt
 # shellcheck disable=SC2006
-ct=`grep -o -i SUCCESS /tmp/ping.txt | wc -l`
+ct=`grep -o -i SUCCESS /cloudprep/ping.txt | wc -l`
 # shellcheck disable=SC2004
 host_count=$(($host_count + 1))
 echo "hosts to check -> $host_count current hosts up -> $ct"
 while [ "$ct" != $host_count ]; do
-  rm -rf /tmp/ping.txt
-  ansible -m ping all -i /etc/kolla/multinode > /tmp/ping.txt
+  rm -rf /cloudprep/ping.txt
+  ansible -m ping all -i /etc/kolla/multinode > /cloudprep/ping.txt
   # shellcheck disable=SC2006
-  ct=`grep -o -i SUCCESS /tmp/ping.txt | wc -l`
+  ct=`grep -o -i SUCCESS /cloudprep/ping.txt | wc -l`
   echo "hosts to check -> $host_count current hosts up -> $ct"
 
   ############ add keys
   working_dir=`pwd`
-  chmod 777 /tmp/host-trust.sh
-  runuser -l root -c  'cd /tmp; ./host-trust.sh'
+  chmod 777 /cloudprep/host-trust.sh
+  runuser -l root -c  'cd /cloudprep; ./host-trust.sh'
   cd $working_dir
 
   sleep 10
@@ -187,12 +187,12 @@ done
 #####################################
 
 #### run host trust on all nodes
-file=/tmp/host_list
+file=/cloudprep/host_list
 for i in `cat $file`
 do
   echo "$i"
-  scp /tmp/host-trust.sh root@$i:/tmp
-  runuser -l root -c "ssh root@$i '/tmp/host-trust.sh'"
+  scp /cloudprep/host-trust.sh root@$i:/cloudprep
+  runuser -l root -c "ssh root@$i '/cloudprep/host-trust.sh'"
 done
 #####################
 
@@ -200,10 +200,10 @@ done
 rm -rf /etc/kolla/config/octavia
 mkdir -p /etc/kolla/config/octavia
 
-cp /tmp/client.cert-and-key.pem /etc/kolla/config/octavia
-cp /tmp/client_ca.cert.pem /etc/kolla/config/octavia
-cp /tmp/server_ca.cert.pem /etc/kolla/config/octavia
-cp /tmp/server_ca.key.pem /etc/kolla/config/octavia
+cp /cloudprep/client.cert-and-key.pem /etc/kolla/config/octavia
+cp /cloudprep/client_ca.cert.pem /etc/kolla/config/octavia
+cp /cloudprep/server_ca.cert.pem /etc/kolla/config/octavia
+cp /cloudprep/server_ca.key.pem /etc/kolla/config/octavia
 chmod 777 /etc/kolla/config/octavia/*.*
 
 ca_pwd=`awk '/^octavia_ca_password/{print $NF}' /etc/kolla/passwords.yml`
@@ -218,16 +218,16 @@ kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
 
 #use for loading time as opposed to needing the image
-wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img -O /tmp/bionic-server-cloudimg-amd64.img
+wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img -O /cloudprep/bionic-server-cloudimg-amd64.img
 
 export KOLLA_DEBUG=0
 export ENABLE_EXT_NET=1
 export EXT_NET_CIDR=10.0.20.0/24
 export EXT_NET_RANGE='start=10.0.20.100,end=10.0.20.200'
 export EXT_NET_GATEWAY=10.0.20.1
-cp /etc/kolla/multinode /tmp
+cp /etc/kolla/multinode /cloudprep
 
-cp /tmp/multinode /etc/kolla
+cp /cloudprep/multinode /etc/kolla
 kolla-ansible -i /etc/kolla/multinode deploy
 
 pip3 install python-openstackclient --ignore-installed
@@ -235,8 +235,8 @@ kolla-ansible post-deploy
 
 #stupid hack
 working_dir=`pwd`
-chmod 777 /tmp/control-trust.sh
-runuser -l root -c  'cd /tmp; ./control-trust.sh'
+chmod 777 /cloudprep/control-trust.sh
+runuser -l root -c  'cd /cloudprep; ./control-trust.sh'
 cd $working_dir
 
 #load setup for validator
@@ -247,12 +247,12 @@ sleep 120
 openstack image create --public --min-disk 3 --container-format bare \
   --disk-format qcow2 --property architecture=x86_64 \
   --property hw_disk_bus=virtio --property hw_vif_model=virtio \
-  --file /tmp/bionic-server-cloudimg-amd64.img \
+  --file /cloudprep/bionic-server-cloudimg-amd64.img \
   "bionic x86_64"
 
 test=`openstack image show 'bionic x86_64'`
 if [[ "No Image found" == *"$test"* ]]; then
-#  cp /tmp/multinode /etc/kolla
+#  cp /cloudprep/multinode /etc/kolla
 #  kolla-ansible -i /etc/kolla/multinode destroy --yes-i-really-really-mean-it
   exit -1
 fi
@@ -261,27 +261,27 @@ cd /usr/local/share/kolla-ansible
 ./init-runonce
 
 export HOME=/home/stack
-cd /tmp
+cd /cloudprep
 
 #prepare openstack env for CF
 openstack project create cloudfoundry
 openstack user create $OPENSTACK_CLOUDFOUNDRY_USERNAME --project cloudfoundry --password $OPENSTACK_CLOUDFOUNDRY_PWD
 openstack role add --project cloudfoundry --project-domain default --user $OPENSTACK_CLOUDFOUNDRY_USERNAME --user-domain default Member
 
-openstack floating ip create --description cloudfoundry --project cloudfoundry --project-domain default public1 > /tmp/fip.out
-FIP=$(awk '/floating_ip_address/{print $4}' /tmp/fip.out)
+openstack floating ip create --description cloudfoundry --project cloudfoundry --project-domain default public1 > /cloudprep/fip.out
+FIP=$(awk '/floating_ip_address/{print $4}' /cloudprep/fip.out)
 
 ssh-keygen -t rsa -b 4096 -C "bosh" -N "" -f "bosh.pem"
 mv -f bosh.pem.pub bosh.pub
-openstack keypair create --public-key /tmp/bosh.pub bosh
+openstack keypair create --public-key /cloudprep/bosh.pub bosh
 
 #download and configure homebrew to run bbl install
-curl -fsSL https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/Homebrew/install/master/install.sh -o /tmp/homebrew.sh
+curl -fsSL https://mephmanx:$GITHUB_TOKEN@raw.githubusercontent.com/Homebrew/install/master/install.sh -o /cloudprep/homebrew.sh
 chmod 777 homebrew.sh
 
 PUBLIC_NETWORK_ID="$(openstack network list --name public1 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')"
 
-runuser -l stack -c  '/tmp/homebrew.sh </dev/null'
+runuser -l stack -c  '/cloudprep/homebrew.sh </dev/null'
 runuser -l stack -c  'echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> /opt/stack/.bash_profile'
 runuser -l stack -c  'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)'
 runuser -l stack -c  'brew tap cloudfoundry/tap'
@@ -321,7 +321,7 @@ git clone https://opendev.org/openstack/octavia -b master
 pip3 install diskimage-builder
 cd octavia/diskimage-create
 chmod 777 diskimage-create.sh
-runuser -l root -c  '/tmp/octavia/diskimage-create/diskimage-create.sh'
+runuser -l root -c  '/cloudprep/octavia/diskimage-create/diskimage-create.sh'
 
 openstack image create amphora-x64-haproxy \
   --container-format bare \
@@ -378,15 +378,15 @@ num_tcp_ports = 100 #default is 100, needs to be > 0
 # insecure = "true"
 EOF
 ./terraform init
-./terraform apply -auto-approve > /tmp/terraf.out
+./terraform apply -auto-approve > /cloudprep/terraf.out
 
-cd /tmp
+cd /cloudprep
 git clone https://github.com/cloudfoundry/cf-deployment
 
 source /opt/stack/.bash_profile
 eval "$(bbl print-env -s /opt/stack)"
 
-export STEMCELL_VERSION=$(bosh interpolate /tmp/cf-deployment/cf-deployment.yml --path=/stemcells/alias=default/version)
+export STEMCELL_VERSION=$(bosh interpolate /cloudprep/cf-deployment/cf-deployment.yml --path=/stemcells/alias=default/version)
 bosh upload-stemcell https://bosh-core-stemcells.s3-accelerate.amazonaws.com/$STEMCELL_VERSION/bosh-stemcell-$STEMCELL_VERSION-openstack-kvm-ubuntu-xenial-go_agent-raw.tgz
 bosh update-runtime-config /opt/stack/bosh-deployment/runtime-configs/dns.yml --name dns -n
 
@@ -397,35 +397,35 @@ bosh update-cloud-config \
      -v network_id1="$CF_NET_ID" \
      -v network_id2="$CF_NET_ID" \
      -v network_id3="$CF_NET_ID" \
-     /tmp/cf-deployment/iaas-support/openstack/cloud-config.yml -n
-bosh -d cf deploy /tmp/cf-deployment/cf-deployment.yml -o /tmp/cf-deployment/operations/openstack.yml \
-  --vars-store /tmp/vars/deployment-vars.yml \
+     /cloudprep/cf-deployment/iaas-support/openstack/cloud-config.yml -n
+bosh -d cf deploy /cloudprep/cf-deployment/cf-deployment.yml -o /cloudprep/cf-deployment/operations/openstack.yml \
+  --vars-store /cloudprep/vars/deployment-vars.yml \
   -v system_domain=lyonsgroup.family -n
 
 #prepare jumpbox access
 #bosh int /opt/stack/vars/jumpbox-vars-store.yml --path /jumpbox_ssh/private_key > jumpbox.key
 #chmod 600 jumpbox.key
-#export JP_IP=`bosh int /tmp/vars/jumpbox-vars-file.yml --path /external_ip`
+#export JP_IP=`bosh int /cloudprep/vars/jumpbox-vars-file.yml --path /external_ip`
 #
 #git clone https://github.com/cloudfoundry/cf-deployment
 #export STEMCELL_VERSION=$(bosh int /cf-deployment/cf-deployment.yml --path /stemcells/alias=default/version)
 #export DIRECTOR_ADDRESS=`bbl director-address`
-#bbl print-env > /tmp/init.sh
+#bbl print-env > /cloudprep/init.sh
 #bbl director-ca-cert > bosh-director.crt
-#echo 'export BOSH_ENVIRONMENT='$DIRECTOR_ADDRESS >> /tmp/init.sh
-#echo 'bosh alias-env cloudfoundry;bosh log-in;' >> /tmp/init.sh
+#echo 'export BOSH_ENVIRONMENT='$DIRECTOR_ADDRESS >> /cloudprep/init.sh
+#echo 'bosh alias-env cloudfoundry;bosh log-in;' >> /cloudprep/init.sh
 #
 ##delete proxy line
-#sed '/BOSH_ALL_PROXY/d' /tmp/init.sh > /tmp/init-env.sh
+#sed '/BOSH_ALL_PROXY/d' /cloudprep/init.sh > /cloudprep/init-env.sh
 #rm -rf init.sh
-#sed '/CREDHUB_PROXY/d' /tmp/init-env.sh > /tmp/init.sh
+#sed '/CREDHUB_PROXY/d' /cloudprep/init-env.sh > /cloudprep/init.sh
 #
-#scp -i jumpbox.key bosh-director.crt jumpbox@192.168.0.183:/tmp
-#scp -i jumpbox.key init.sh jumpbox@192.168.0.183:/tmp
+#scp -i jumpbox.key bosh-director.crt jumpbox@192.168.0.183:/cloudprep
+#scp -i jumpbox.key init.sh jumpbox@192.168.0.183:/cloudprep
 #
 ##use jumpbox to build out cloudfoundry env
 #SCRIPT="
-#source /tmp/init.sh
+#source /cloudprep/init.sh
 #sudo curl -o /usr/local/bin/jumpbox https://raw.githubusercontent.com/starkandwayne/jumpbox/master/bin/jumpbox;
 #sudo chmod 0755 /usr/local/bin/jumpbox;
 #sudo jumpbox system;
