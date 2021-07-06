@@ -178,6 +178,16 @@ virsh pool-autostart HP-SSD
 virsh pool-start HP-SSD
 ############################
 
+#### create support user for external help
+groupadd pcap
+chgrp pcap /usr/sbin/tcpdump
+chmod 750 /usr/sbin/tcpdump
+setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
+ln -s /usr/sbin/tcpdump /usr/local/bin/tcpdump
+sudo usermod -aG libvirtdbus upwork && sudo usermod -aG pcap upwork && sudo usermod -aG libvirt upwork
+
+######
+
 ################ Prep and run cloud script
 ################### Load cloud create
 cd /cloudprep
