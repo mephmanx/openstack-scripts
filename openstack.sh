@@ -5,15 +5,15 @@
 
 # Source function library.
 . /etc/init.d/functions
-. /root/vm_functions.sh
-. /root/openstack-env.sh
-. /root/global_addresses.sh
+. /tmp/vm_functions.sh
+. /tmp/openstack-env.sh
+. /tmp/global_addresses.sh
 
 start() {
 
 ######## Openstack main server install
 
-exec 1>/root/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+exec 1>/tmp/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
 ########## Add call to the beginning of all rc.local scripts as this wait guarantees network availability
@@ -99,7 +99,6 @@ brctl addif loc-static Node9s
 brctl addif loc-static Node10s
 
 runuser -l root -c  'echo "net.ipv4.ip_forward = 1" > /etc/sysctl.conf'
-
 runuser -l root -c  'echo "net.ipv4.conf.default.rp_filter=0" > /etc/sysctl.conf'
 runuser -l root -c  'echo "net.ipv4.conf.all.rp_filter=0" > /etc/sysctl.conf'
 
@@ -179,27 +178,17 @@ virsh pool-autostart HP-SSD
 virsh pool-start HP-SSD
 ############################
 
-#### create support user for external help
-groupadd pcap
-chgrp pcap /usr/sbin/tcpdump
-chmod 750 /usr/sbin/tcpdump
-setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
-ln -s /usr/sbin/tcpdump /usr/local/bin/tcpdump
-sudo usermod -aG libvirtdbus upwork && sudo usermod -aG pcap upwork && sudo usermod -aG libvirt upwork
-
-######
-
 ################ Prep and run cloud script
 ################### Load cloud create
-cd /~
+cd /tmp
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
 
-cp /root/openstack-scripts/*.sh /root/openstack-setup;
-cp /root/openstack-scripts/*.cfg /root/openstack-setup;
+cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
+cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
 ####################
-runuser -l root -c 'cd /root/openstack-setup; ./create-cloudsupport-kvm.sh;'
-runuser -l root -c 'cd /root/openstack-setup; ./create-cloud-kvm.sh;'
+runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloudsupport-kvm.sh;'
+runuser -l root -c 'cd /tmp/openstack-setup; ./create-cloud-kvm.sh;'
 ################
 
 #remove so as to not run again

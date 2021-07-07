@@ -5,12 +5,12 @@
 
 # Source function library.
 . /etc/init.d/functions
-. /root/vm_functions.sh
+. /tmp/vm_functions.sh
 
 start() {
 # code to start app comes here
 # example: daemon program_name &
-exec 1>/root/start-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+exec 1>/tmp/start-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
 ########## Add call to the beginning of all rc.local scripts as this wait guarantees network availability
@@ -23,8 +23,8 @@ load_libs "cloudsupport"
 ##### load secrets
 load_secrets
 
-chmod 777 /root/global_addresses.sh
-source ./root/global_addresses.sh
+chmod 777 /tmp/global_addresses.sh
+source ./tmp/global_addresses.sh
 
 systemctl start docker
 systemctl enable docker
@@ -38,8 +38,8 @@ chmod +x /usr/local/bin/docker-compose
 
 cd /root
 
-wget -O /root/harbor.tgz https://github.com/goharbor/harbor/releases/download/v2.2.2/harbor-offline-installer-v2.2.2.tgz
-tar xzvf /root/harbor.tgz
+wget -O /tmp/harbor.tgz https://github.com/goharbor/harbor/releases/download/v2.2.2/harbor-offline-installer-v2.2.2.tgz
+tar xzvf /tmp/harbor.tgz
 
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
 

@@ -44,7 +44,7 @@ data_volume: /data
 # storage_service:
 #   # ca_bundle is the path to the custom root ca certificate, which will be injected into the truststore
 #   # of registry's and chart repository's containers.  This is usually needed when the user hosts a internal storage with self signed certificate.
-#   ca_bundle: /root/proxy.crt
+#   ca_bundle: /tmp/proxy.crt
 
 #   # storage backend, default is filesystem, options include filesystem, azure, gcs, s3, swift and oss
 #   # for more info about this configuration please refer https://docs.docker.com/registry/configuration/
