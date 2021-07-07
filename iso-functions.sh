@@ -5,8 +5,8 @@ source ./openstack-env.sh
 source ./global_addresses.sh
 
 CENTOS_STREAM=http://centos.host-engine.com/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-20210421-boot.iso
-#CENTOS_8=https://pfsense.lyonsgroup.family/isos/CentOS-8.3.2011-x86_64-minimal.iso
-CENTOS_8=http://mirrors.oit.uci.edu/centos/8.3.2011/isos/x86_64/CentOS-8.3.2011-x86_64-minimal.iso
+CENTOS_8=https://pfsense.lyonsgroup.family/isos/CentOS-8.3.2011-x86_64-minimal.iso
+#CENTOS_8=http://linux.cc.lehigh.edu/centos/8.3.2011/isos/x86_64/CentOS-8.3.2011-x86_64-minimal.iso
 ALMA_LINUX=https://repo.almalinux.org/almalinux/8.3/isos/x86_64/AlmaLinux-8.3-x86_64-minimal.iso
 # versions supported 1 - CentOS 8, 2 - CentOS 8 Stream, 3 - Alma Linux 8
 LINUX_VERSION=1
