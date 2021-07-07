@@ -104,7 +104,7 @@ function prepareEnv {
   case ${LINUX_VERSION} in
     1)
       echo "Using CentOS 8"
-      curl -o /tmp/centos8.iso $CENTOS_8
+      wget -O /tmp/centos8.iso $CENTOS_8
     ;;
     2)
       echo "Using CentOS 8 Stream"
@@ -127,7 +127,7 @@ function prepareEnv {
     ;;
     3)
       echo "Using Alma Linux 8"
-      curl -o /tmp/centos8.iso $ALMA_LINUX
+      wget -O /tmp/centos8.iso $ALMA_LINUX
     ;;
   esac
 
