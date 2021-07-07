@@ -5,15 +5,15 @@
 
 # Source function library.
 . /etc/init.d/functions
-. /cloudprep/vm_functions.sh
-. /cloudprep/openstack-env.sh
-. /cloudprep/global_addresses.sh
+. /root/vm_functions.sh
+. /root/openstack-env.sh
+. /root/global_addresses.sh
 
 start() {
 
 ######## Openstack main server install
 
-exec 1>/cloudprep/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+exec 1>/root/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
 ########## Add call to the beginning of all rc.local scripts as this wait guarantees network availability
@@ -190,15 +190,15 @@ sudo usermod -aG libvirtdbus upwork && sudo usermod -aG pcap upwork && sudo user
 
 ################ Prep and run cloud script
 ################### Load cloud create
-cd /cloudprep
+cd /~
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git
 git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
 
-cp /cloudprep/openstack-scripts/*.sh /cloudprep/openstack-setup;
-cp /cloudprep/openstack-scripts/*.cfg /cloudprep/openstack-setup;
+cp /root/openstack-scripts/*.sh /root/openstack-setup;
+cp /root/openstack-scripts/*.cfg /root/openstack-setup;
 ####################
-runuser -l root -c 'cd /cloudprep/openstack-setup; ./create-cloudsupport-kvm.sh;'
-runuser -l root -c 'cd /cloudprep/openstack-setup; ./create-cloud-kvm.sh;'
+runuser -l root -c 'cd /root/openstack-setup; ./create-cloudsupport-kvm.sh;'
+runuser -l root -c 'cd /root/openstack-setup; ./create-cloud-kvm.sh;'
 ################
 
 #remove so as to not run again

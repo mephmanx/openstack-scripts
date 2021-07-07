@@ -20,13 +20,13 @@ sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' ${kickstart_file}
 ###########################
 
 ############### Global Addresses ################
-echo 'cat > /cloudprep/global_addresses.sh <<EOF' >> ${kickstart_file}
+echo 'cat > /root/global_addresses.sh <<EOF' >> ${kickstart_file}
 cat ./global_addresses.sh >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 ###############################
 
 ############### Secrets file ################
-echo 'cat > /cloudprep/openstack-env.sh <<EOF' >> ${kickstart_file}
+echo 'cat > /root/openstack-env.sh <<EOF' >> ${kickstart_file}
 cat ./openstack-env.sh >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 ###############################
@@ -45,7 +45,7 @@ create_line+="--memorybacking hugepages=yes "
 create_line+="--vcpus=4,maxvcpus=4,sockets=2,cores=1,threads=2 "
 create_line+="--controller type=scsi,model=virtio-scsi "
 create_line+="--disk=pool=HP-Disk,size=400,bus=virtio,sparse=no "
-create_line+="--cdrom=/var/cloudprep/cloudsupport-iso.iso "
+create_line+="--cdrom=/var/root/cloudsupport-iso.iso "
 create_line+="--network type=direct,source=int-static,model=virtio,source_mode=bridge  --network type=bridge,source=loc-static,model=virtio "
 create_line+="--os-variant=centos8 "
 create_line+="--graphics=vnc "

@@ -9,7 +9,7 @@ function grow_fs() {
   get_drive_name
 
   #One time machine setup
-  xfsdump -f /cloudprep/home.dump /home
+  xfsdump -f /root/home.dump /home
 
   umount /home
   lvreduce -L 20G -f /dev/mapper/cl_$DRIVE_NAME-home
@@ -17,7 +17,7 @@ function grow_fs() {
   lvextend -l +100%FREE /dev/mapper/cl_$DRIVE_NAME-root
   xfs_growfs /dev/mapper/cl_$DRIVE_NAME-root
   mount /dev/mapper/cl_$DRIVE_NAME-home /home
-  xfsrestore -f /cloudprep/home.dump /home
+  xfsrestore -f /root/home.dump /home
 }
 
 function load_libs() {
@@ -181,14 +181,14 @@ function prep_next_script() {
 
 function load_secrets() {
   #########load secrets into env
-  chmod 777 /cloudprep/openstack-env.sh
-  source ./cloudprep/openstack-env.sh
+  chmod 777 /root/openstack-env.sh
+  source ./root/openstack-env.sh
   ############################
 }
 
 function common_second_boot_setup() {
 
-  exec 1>/cloudprep/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+  exec 1>/root/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
   set -x                             # tell sh to display commands before execution
 
   ########## Add call to the beginning of all rc.local scripts as this wait guarantees network availability
@@ -199,9 +199,9 @@ function common_second_boot_setup() {
   docker login -u $SUPPORT_USERNAME -p $SUPPORT_PASSWORD $SUPPORT_HOST.$DOMAIN_NAME
 
   mkdir /root/.ssh
-  cp /cloudprep/openstack-setup.key.pub /root/.ssh/authorized_keys
-  mv /cloudprep/openstack-setup.key.pub /root/.ssh/id_rsa.pub
-  mv /cloudprep/openstack-setup.key /root/.ssh/id_rsa
+  cp /root/openstack-setup.key.pub /root/.ssh/authorized_keys
+  mv /root/openstack-setup.key.pub /root/.ssh/id_rsa.pub
+  mv /root/openstack-setup.key /root/.ssh/id_rsa
   chmod 600 /root/.ssh/id_rsa
   chmod 600 /root/.ssh/authorized_keys
 

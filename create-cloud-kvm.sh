@@ -3,29 +3,29 @@
 source ./iso-functions.sh
 source ./vm-configurations.sh
 source ./openstack-env.sh
-source /cloudprep/global_addresses.sh
+source /root/global_addresses.sh
 
 export TRANSFER=0
 
 IFS=
-ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /cloudprep/openstack-setup.key <<<y 2>&1 >/dev/null
+ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /root/openstack-setup.key <<<y 2>&1 >/dev/null
 ##################### Prep
-mkdir /cloudprep
-rm -rf /cloudprep/additional_hosts
-touch /cloudprep/additional_hosts
-chmod 777 /cloudprep/additional_hosts
+mkdir /~
+rm -rf /root/additional_hosts
+touch /root/additional_hosts
+chmod 777 /root/additional_hosts
 
-rm -rf /cloudprep/dns_hosts
-touch /cloudprep/dns_hosts
-chmod 777 /cloudprep/dns_hosts
+rm -rf /root/dns_hosts
+touch /root/dns_hosts
+chmod 777 /root/dns_hosts
 
-rm -rf /cloudprep/storage_hosts
-touch /cloudprep/storage_hosts
-chmod 777 /cloudprep/storage_hosts
+rm -rf /root/storage_hosts
+touch /root/storage_hosts
+chmod 777 /root/storage_hosts
 
-rm -rf /cloudprep/host_list
-touch /cloudprep/host_list
-chmod 777 /cloudprep/host_list
+rm -rf /root/host_list
+touch /root/host_list
+chmod 777 /root/host_list
 ####################
 
 #################### Global address setup
@@ -35,10 +35,10 @@ SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
 ##############################################
 
 #### setup static network local DNS entries
-#echo "runuser -l root -c  'echo "$EXTERNAL_VIP $EXTERNAL_VIP_DNS" >> /etc/hosts;'" >> /cloudprep/dns_hosts
-echo "runuser -l root -c  'echo "$INTERNAL_VIP $INTERNAL_VIP_DNS" >> /etc/hosts;'" >> /cloudprep/dns_hosts
+#echo "runuser -l root -c  'echo "$EXTERNAL_VIP $EXTERNAL_VIP_DNS" >> /etc/hosts;'" >> /root/dns_hosts
+echo "runuser -l root -c  'echo "$INTERNAL_VIP $INTERNAL_VIP_DNS" >> /etc/hosts;'" >> /root/dns_hosts
 ####  make sure to use an in-memory network for docker pull through cache otherwise 500's occur
-echo "runuser -l root -c  'echo "$SUPPORT_VIP $SUPPORT_VIP_DNS" >> /etc/hosts;'" >> /cloudprep/dns_hosts
+echo "runuser -l root -c  'echo "$SUPPORT_VIP $SUPPORT_VIP_DNS" >> /etc/hosts;'" >> /root/dns_hosts
 #########################
 
 ######### Openstack VM types
@@ -58,7 +58,7 @@ while [ $control_count -gt 0 ]; do
   printf -v control_count_format "%02d" $control_count
   echo "add vm to create string -> control$control_count_format"
   vms+=("control$control_count_format")
-  host_trust_script+=("runuser -l root -c  'ssh-keyscan -H control$control_count_format >> ~/.ssh/known_hosts';")
+  host_trust_script+=("runuser -l root -c  'ssh-keyscan -H control$control_count_format >> /root/.ssh/known_hosts';")
   control_hack_script+=("runuser -l root -c  'ssh root@control$control_count_format \"sed -i 's/www_authenticate_uri/auth_uri/g' /etc/kolla/swift-proxy-server/proxy-server.conf\"';")
   control_count=$[$control_count - 1]
 done
@@ -67,7 +67,7 @@ while [ $network_count -gt 0 ]; do
   printf -v network_count_format "%02d" $network_count
   echo "add vm to create string -> network$network_count_format"
   vms+=("network$network_count_format")
-  host_trust_script+=("runuser -l root -c  'ssh-keyscan -H network$network_count_format >> ~/.ssh/known_hosts';")
+  host_trust_script+=("runuser -l root -c  'ssh-keyscan -H network$network_count_format >> /root/.ssh/known_hosts';")
   network_count=$[$network_count - 1]
 done
 
@@ -75,7 +75,7 @@ while [ $compute_count -gt 0 ]; do
   printf -v compute_count_format "%02d" $compute_count
   echo "add vm to create string -> compute$compute_count_format"
   vms+=("compute$compute_count_format")
-  host_trust_script+=("runuser -l root -c  'ssh-keyscan -H compute$compute_count_format >> ~/.ssh/known_hosts';")
+  host_trust_script+=("runuser -l root -c  'ssh-keyscan -H compute$compute_count_format >> /root/.ssh/known_hosts';")
   compute_count=$[$compute_count - 1]
 done
 
@@ -83,7 +83,7 @@ while [ $monitoring_count -gt 0 ]; do
   printf -v monitoring_count_format "%02d" $monitoring_count
   echo "add vm to create string -> monitoring$monitoring_count_format"
   vms+=("monitoring$monitoring_count_format")
-  host_trust_script+=("runuser -l root -c  'ssh-keyscan -H monitoring$monitoring_count_format >> ~/.ssh/known_hosts';")
+  host_trust_script+=("runuser -l root -c  'ssh-keyscan -H monitoring$monitoring_count_format >> /root/.ssh/known_hosts';")
   monitoring_count=$[$monitoring_count - 1]
 done
 
@@ -91,7 +91,7 @@ while [ $storage_count -gt 0 ]; do
   printf -v storage_count_format "%02d" $storage_count
   echo "add vm to create string -> storage$storage_count_format"
   vms+=("storage$storage_count_format")
-  host_trust_script+=("runuser -l root -c  'ssh-keyscan -H storage$storage_count_format >> ~/.ssh/known_hosts';")
+  host_trust_script+=("runuser -l root -c  'ssh-keyscan -H storage$storage_count_format >> /root/.ssh/known_hosts';")
   storage_count=$[$storage_count - 1]
 done
 

@@ -30,9 +30,9 @@ function networkInformation {
   host=$3
 
   if [[ "kolla" != "$vm_type" ]]; then
-    echo "$host" >> /cloudprep/host_list
+    echo "$host" >> /root/host_list
   else
-    echo "" >> /cloudprep/host_list
+    echo "" >> /root/host_list
   fi
 
   vmstr=$(vm_definitions "$vm_type")
@@ -54,16 +54,16 @@ function networkInformation {
       if [[ "${element}" =~ .*"loc".* ]]; then
         ip_addr="${LOCAL_ADDRESS_PREFIX}${LOCAL_ADDRESS_INC}"
 
-        if ! grep -q $host "/cloudprep/dns_hosts"; then
+        if ! grep -q $host "/root/dns_hosts"; then
           #add localhost entry
-          echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /cloudprep/dns_hosts
+          echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /root/dns_hosts
           addresses+=($ip_addr)
         fi
 
         # If storage address, add to array to build rings later
         if [[ "${element}" =~ .*"$STORAGE_NETWORK".* ]]; then
           if [[ "$vm_type" == "storage" ]]; then
-            echo "$ip_addr" >> /cloudprep/storage_hosts
+            echo "$ip_addr" >> /root/storage_hosts
           fi
         fi
 
@@ -84,16 +84,16 @@ function networkInformation {
       elif [[ "${element}" =~ .*"int".* ]]; then
         ip_addr="${INTERNAL_ADDRESS_PREFIX}${INTERNAL_ADDRESS_INC}"
 
-        if ! grep -q $host "/cloudprep/dns_hosts"; then
+        if ! grep -q $host "/root/dns_hosts"; then
           #add localhost entry
-          echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /cloudprep/dns_hosts
+          echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /root/dns_hosts
           addresses+=($ip_addr)
         fi
 
         # If storage address, add to array to build rings later
         if [[ "${element}" =~ .*"$STORAGE_NETWORK".* ]]; then
           if [[ "$vm_type" == "storage" ]]; then
-            echo "$ip_addr" >> /cloudprep/storage_hosts
+            echo "$ip_addr" >> /root/storage_hosts
           fi
         fi
 
@@ -113,16 +113,16 @@ function networkInformation {
       else
         ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
 
-        if ! grep -q $host "/cloudprep/dns_hosts"; then
+        if ! grep -q $host "/root/dns_hosts"; then
           #add localhost entry
-          echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /cloudprep/dns_hosts
+          echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /root/dns_hosts
           addresses+=($ip_addr)
         fi
 
         # If storage address, add to array to build rings later
         if [[ "${element}" =~ .*"$STORAGE_NETWORK".* ]]; then
           if [[ "$vm_type" == "storage" ]]; then
-            echo "$ip_addr" >> /cloudprep/storage_hosts
+            echo "$ip_addr" >> /root/storage_hosts
           fi
         fi
 
@@ -150,7 +150,7 @@ function networkInformation {
 
   for ip in "${addresses[@]}"
   do
-    echo "runuser -l root -c  'ssh-keyscan -H $ip >> ~/.ssh/known_hosts';" >> /cloudprep/additional_hosts
+    echo "runuser -l root -c  'ssh-keyscan -H $ip >> /root/.ssh/known_hosts';" >> /root/additional_hosts
   done
 
   printf -v net_line_string '%s ' "${network_lines[@]}"

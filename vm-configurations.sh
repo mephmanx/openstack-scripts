@@ -9,7 +9,7 @@ function parse_json()
     sed -e 's/" ,"/'\",\"'/g' | \
     sed -e 's/" , "/'\",\"'/g' | \
     sed -e 's/","/'\"---SEPERATOR---\"'/g' | \
-    awk -F=':' -v RS='---SEPERATOR---' "\$1~/\"$2\"/ {print}" | \
+    awk -F=':' -v RS='---SEPERATOR---' "\$1/root/\"$2\"/ {print}" | \
     sed -e "s/\"$2\"://" | \
     tr -d "\n\t" | \
     sed -e 's/\\"/"/g' | \
@@ -158,7 +158,7 @@ function create_vm_kvm {
   create_line+="--memorybacking hugepages=yes "
   create_line+="--controller type=scsi,model=virtio-scsi "
   create_line+="$virt_disk_string"
-  create_line+="--cdrom=/var/cloudprep/$2-iso.iso "
+  create_line+="--cdrom=/var/root/$2-iso.iso "
   create_line+="$virt_network_string"
   create_line+="--os-variant=centos8 "
   create_line+="--graphics=vnc "

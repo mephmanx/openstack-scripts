@@ -5,9 +5,9 @@
 
 # Source function library.
 . /etc/init.d/functions
-. /cloudprep/vm_functions.sh
-. /cloudprep/openstack-env.sh
-. /cloudprep/global_addresses.sh
+. /root/vm_functions.sh
+. /root/openstack-env.sh
+. /root/global_addresses.sh
 
 start() {
 
