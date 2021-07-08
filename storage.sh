@@ -37,6 +37,8 @@ done
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 
+restrict_to_root
+
 reboot
 
 }
