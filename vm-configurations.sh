@@ -53,7 +53,7 @@ function vm_definitions {
             "count":"1",
             "cpu":"24",
             "memory":180",
-            "drive_string":"HP-SSD:800",
+            "drive_string":"HP-SSD:700",
             "network_string":"loc-static,int-static,int-static"
           }'
     ;;
