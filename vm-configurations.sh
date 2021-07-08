@@ -71,7 +71,7 @@ function vm_definitions {
             "count":"1",
             "cpu":"2",
             "memory":"22",
-            "drive_string":"HP-Disk:300,HP-Disk:300,HP-SSD:250,HP-SSD:250,HP-SSD:250",
+            "drive_string":"HP-Disk:300,HP-Disk:300,HP-SSD:175,HP-SSD:175,HP-SSD:175",
             "network_string":"loc-static,int-static"
           }'
     ;;
