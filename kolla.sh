@@ -286,7 +286,7 @@ runuser -l stack -c  'echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 runuser -l stack -c  'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)'
 runuser -l stack -c  'brew tap cloudfoundry/tap'
 runuser -l stack -c  'brew install bosh-cli'
-runuser -l root  -c  'cp /home/linuxbrew/.linuxbrew/Cellar/bosh-cli/6.4.4/bin/bosh-cli /usr/local/bin/bosh'
+#runuser -l root  -c  'cp /home/linuxbrew/.linuxbrew/Cellar/bosh-cli/6.4.4/bin/bosh-cli /usr/local/bin/bosh'
 runuser -l stack -c  'brew install bbl'
 
 runuser -l stack -c  "echo 'export BBL_IAAS=openstack' >> /opt/stack/.bash_profile"
