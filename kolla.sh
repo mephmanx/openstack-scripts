@@ -319,6 +319,10 @@ runuser -l stack -c  "echo 'export OS_IDENTITY_API_VERSION=$OS_IDENTITY_API_VERS
 runuser -l stack -c  "echo 'export OS_REGION_NAME=$OS_REGION_NAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_AUTH_PLUGIN=$OS_AUTH_PLUGIN' >> /opt/stack/.bash_profile"
 
+mkdir /opt/stack/.terraform.d/plugins
+wget -O /opt/stack/.terraform.d/plugins https://releases.hashicorp.com/terraform-provider-openstack/1.42.0/terraform-provider-openstack_1.42.0_linux_amd64.zip
+unzip /opt/stack/.terraform.d/plugins/terraform-provider-openstack_1.42.0_linux_amd64.zip
+
 runuser -l stack -c  'bbl up --debug'
 
 ############# build octavia image
