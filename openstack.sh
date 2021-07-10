@@ -52,7 +52,7 @@ ip addr add 10.0.20.2/24 dev vm2
 ip link set loc-static up
 ip link set vm2 up
 
-nmcli connection modify loc-static ipv4.addresses 10.0.20.1/24 ipv4.gateway 192.168.1.50 ipv4.method manual ipv4.dns 8.8.8.8 connection.autoconnect yes ipv6.method "disabled"
+nmcli connection modify loc-static ipv4.addresses 10.0.20.1/24 ipv4.gateway 192.168.1.50 ipv4.method manual ipv4.dns 8.8.8.8 connection.autoconnect yes ipv6.method disabled
 
 ip link add dev Node1s type veth peer name Node1
 ip link add dev Node2s type veth peer name Node2
