@@ -45,7 +45,7 @@ function vm_definitions {
             "cpu":"2",
             "memory":"12",
             "drive_string":"HP-Disk:100",
-            "network_string":"loc-static,int-static,int-static"
+            "network_string":"loc-static,loc-static,int-static"
           }'
     ;;
     "compute")
