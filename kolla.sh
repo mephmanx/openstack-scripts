@@ -284,15 +284,7 @@ PUBLIC_NETWORK_ID="$(openstack network list --name public1 | awk -F'|' ' NR > 3 
 runuser -l stack -c  '/tmp/homebrew.sh </dev/null'
 runuser -l stack -c  'echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> /opt/stack/.bash_profile'
 runuser -l stack -c  'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)'
-runuser -l stack -c  'brew tap cloudfoundry/tap'
-runuser -l stack -c  'brew install bosh-cli'
-
-shopt -s dotglob
-find /home/linuxbrew/.linuxbrew/Cellar/bosh-cli/* -prune -type d | while IFS= read -r d; do
-    echo "$d"
-    runuser -l root  -c  "cp /home/linuxbrew/.linuxbrew/Cellar/bosh-cli/$d/bin/bosh-cli /usr/local/bin/bosh"
-done
-
+runuser -l stack -c  'brew install cloudfoundry/tap/bosh-cli'
 runuser -l stack -c  'brew install bbl'
 
 runuser -l stack -c  "echo 'export BBL_IAAS=openstack' >> /opt/stack/.bash_profile"
