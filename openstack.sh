@@ -37,22 +37,24 @@ tuned-adm profile virtual-host
 #############
 
 ########## configure and start networks
+
+#### private net 1
 ip link add dev vm1 type veth peer name vm2
 ip link set dev vm1 up
 ip tuntap add tapm mode tap
 ip link set dev tapm up
-ip link add loc-static type bridge
+ip link add loc-static1 type bridge
 
-ip link set tapm master loc-static
-ip link set vm1 master loc-static
+ip link set tapm master loc-static1
+ip link set vm1 master loc-static1
 
-ip addr add 10.0.20.1/24 dev loc-static
+ip addr add 10.0.20.1/24 dev loc-static1
 ip addr add 10.0.20.2/24 dev vm2
 
-ip link set loc-static up
+ip link set loc-static1 up
 ip link set vm2 up
 
-nmcli connection modify loc-static ipv4.addresses 10.0.20.1/24 ipv4.gateway 192.168.1.50 ipv4.method manual ipv4.dns 8.8.8.8 connection.autoconnect yes ipv6.method disabled
+nmcli connection modify loc-static1 ipv4.addresses 10.0.20.1/24 ipv4.gateway `ip  -f inet a show int-static| grep inet| awk '{ print $2}' | cut -d/ -f1` ipv4.method manual ipv4.dns 8.8.8.8 connection.autoconnect yes ipv6.method disabled
 
 ip link add dev Node1s type veth peer name Node1
 ip link add dev Node2s type veth peer name Node2
@@ -87,16 +89,80 @@ ip link set Node8s up
 ip link set Node9s up
 ip link set Node10s up
 
-brctl addif loc-static Node1s
-brctl addif loc-static Node2s
-brctl addif loc-static Node3s
-brctl addif loc-static Node4s
-brctl addif loc-static Node5s
-brctl addif loc-static Node6s
-brctl addif loc-static Node7s
-brctl addif loc-static Node8s
-brctl addif loc-static Node9s
-brctl addif loc-static Node10s
+brctl addif loc-static1 Node1s
+brctl addif loc-static1 Node2s
+brctl addif loc-static1 Node3s
+brctl addif loc-static1 Node4s
+brctl addif loc-static1 Node5s
+brctl addif loc-static1 Node6s
+brctl addif loc-static1 Node7s
+brctl addif loc-static1 Node8s
+brctl addif loc-static1 Node9s
+brctl addif loc-static1 Node10s
+#############
+
+#########private net 2
+ip link add dev vm3 type veth peer name vm4
+ip link set dev vm3 up
+ip tuntap add tapm1 mode tap
+ip link set dev tapm1 up
+ip link add loc-static2 type bridge
+
+ip link set tapm1 master loc-static2
+ip link set vm3 master loc-static2
+
+ip addr add 10.0.21.1/24 dev loc-static2
+ip addr add 10.0.21.2/24 dev vm4
+
+ip link set loc-static2 up
+ip link set vm4 up
+
+nmcli connection modify loc-static2 ipv4.addresses 10.0.21.1/24 ipv4.gateway `ip  -f inet a show int-static| grep inet| awk '{ print $2}' | cut -d/ -f1` ipv4.method manual ipv4.dns 8.8.8.8 connection.autoconnect yes ipv6.method disabled
+
+ip link add dev Node11s type veth peer name Node11
+ip link add dev Node12s type veth peer name Node12
+ip link add dev Node13s type veth peer name Node13
+ip link add dev Node14s type veth peer name Node14
+ip link add dev Node15s type veth peer name Node15
+ip link add dev Node16s type veth peer name Node16
+ip link add dev Node17s type veth peer name Node17
+ip link add dev Node18s type veth peer name Node18
+ip link add dev Node19s type veth peer name Node19
+ip link add dev Node20s type veth peer name Node20
+
+ip link set Node11 up
+ip link set Node12 up
+ip link set Node13 up
+ip link set Node14 up
+ip link set Node15 up
+ip link set Node16 up
+ip link set Node17 up
+ip link set Node18 up
+ip link set Node19 up
+ip link set Node20 up
+
+ip link set Node11s up
+ip link set Node12s up
+ip link set Node13s up
+ip link set Node14s up
+ip link set Node15s up
+ip link set Node16s up
+ip link set Node17s up
+ip link set Node18s up
+ip link set Node19s up
+ip link set Node20s up
+
+brctl addif loc-static2 Node11s
+brctl addif loc-static2 Node12s
+brctl addif loc-static2 Node13s
+brctl addif loc-static2 Node14s
+brctl addif loc-static2 Node15s
+brctl addif loc-static2 Node16s
+brctl addif loc-static2 Node17s
+brctl addif loc-static2 Node18s
+brctl addif loc-static2 Node19s
+brctl addif loc-static2 Node20s
+##############
 
 runuser -l root -c  'echo "net.ipv4.ip_forward = 1" > /etc/sysctl.conf'
 runuser -l root -c  'echo "net.ipv4.conf.default.rp_filter=0" > /etc/sysctl.conf'
@@ -115,6 +181,13 @@ authoritative;
 subnet 10.0.20.0 netmask 255.255.255.0 {
         range 10.0.20.50 10.0.20.100;
         option routers 10.0.20.1;
+        option subnet-mask 255.255.255.0;
+        option domain-name-servers 8.8.8.8;
+}
+
+subnet 10.0.21.0 netmask 255.255.255.0 {
+        range 10.0.21.50 10.0.21.100;
+        option routers 10.0.21.1;
         option subnet-mask 255.255.255.0;
         option domain-name-servers 8.8.8.8;
 }
@@ -177,6 +250,78 @@ virsh pool-build HP-SSD
 virsh pool-autostart HP-SSD
 virsh pool-start HP-SSD
 ############################
+
+########## build router
+wget -O /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img.gz https://nyifiles.netgate.com/mirror/downloads/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img.gz
+gunzip /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img.gz
+
+virt-install --name pfsense \
+    --memory 8192 \
+    --cpu=host-passthrough,cache.mode=passthrough \
+    --vcpus=8 \
+    --boot hd,menu=off,useserial=off \
+    --disk  path=/tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img \
+    --network type=direct,source=int-static,model=virtio,source_mode=bridge  \
+    --network type=bridge,source=loc-static1,model=virtio  \
+    --network type=bridge,source=loc-static2,model=virtio  \
+    --disk pool=HP-Disk,size=25,bus=virtio,sparse=no \
+    --graphics vnc \
+    --connect qemu:///system \
+    --os-type=freebsd \
+    --os-variant=freebsd11.0 \
+    --serial tcp,host=0.0.0.0:4567,mode=bind,protocol=telnet \
+    --serial tcp,host=0.0.0.0:4568,mode=bind,protocol=telnet &
+
+sleep 30;
+
+(echo open 127.0.0.1 4568;
+  sleep 60;
+  echo "ansi";
+  sleep 5;
+  echo 'A'
+  sleep 5;
+  echo -ne '\r\n';
+  sleep 5;
+  echo -ne '\r\n';
+  sleep 5;
+  echo -ne '\r\n';
+  sleep 5;
+  echo -ne '\r\n';
+  sleep 5;
+  echo -ne '\r\n';
+  sleep 5;
+  echo 'v';
+  echo ' ';
+  echo -ne '\r\n';
+  sleep 5;
+  echo 'Y'
+  sleep 160;
+  echo 'N';
+  sleep 5;
+  echo 'R';
+  sleep 90;) | telnet
+
+## remove install disk from pfsense
+virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img --persistent --config --live
+virsh reboot pfsense
+
+sleep 30;
+
+(echo open 127.0.0.1 4568;
+  sleep 20;
+  echo  "n";
+  sleep 10;
+  echo  "vtnet0";
+  sleep 10;
+  echo  "vtnet1";
+  sleep 10;
+  echo  "vtnet2";
+  sleep 10;
+  echo  "y";
+  sleep 40;) | telnet
+
+sleep 5;
+####################
 
 ################ Prep and run cloud script
 ################### Load cloud create
