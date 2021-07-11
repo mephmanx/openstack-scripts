@@ -251,20 +251,38 @@ virsh pool-autostart HP-SSD
 virsh pool-start HP-SSD
 ############################
 
+#### prepare git repos
+cd /tmp
+git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git
+git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
+#########
+
 ########## build router
 wget -O /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img.gz https://nyifiles.netgate.com/mirror/downloads/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img.gz
 gunzip /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img.gz
+
+rm -rf /tmp/pfsense_recovery.img
+rm -rf /tmp/openstack-pfsense.xml
+cp /tmp/openstack-setup/openstack-pfsense.xml /tmp
+runuser -l root -c  'fallocate -l 20M /tmp/pfsense_recovery.img'
+runuser -l root -c  'mkfs.fat /tmp/pfsense_recovery.img'
+mkdir /tmp/usb
+runuser -l root -c  'mount -t auto -o loop /tmp/pfsense_recovery.img /tmp/usb'
+cp /tmp/openstack-pfsense.xml /tmp/usb
+mv /tmp/usb/openstack-pfsense.xml /tmp/usb/config.xml
+runuser -l root -c  'umount /tmp/usb'
 
 virt-install --name pfsense \
     --memory 8192 \
     --cpu=host-passthrough,cache.mode=passthrough \
     --vcpus=8 \
     --boot hd,menu=off,useserial=off \
-    --disk  path=/tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img \
     --network type=direct,source=int-static,model=virtio,source_mode=bridge  \
     --network type=bridge,source=loc-static1,model=virtio  \
     --network type=bridge,source=loc-static2,model=virtio  \
+    --disk  path=/tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img \
     --disk pool=HP-Disk,size=25,bus=virtio,sparse=no \
+    --disk /tmp/pfsense_recovery.img \
     --graphics vnc \
     --connect qemu:///system \
     --os-type=freebsd \
@@ -272,7 +290,7 @@ virt-install --name pfsense \
     --serial tcp,host=0.0.0.0:4567,mode=bind,protocol=telnet \
     --serial tcp,host=0.0.0.0:4568,mode=bind,protocol=telnet &
 
-sleep 30;
+sleep 10;
 
 (echo open 127.0.0.1 4568;
   sleep 60;
@@ -290,6 +308,7 @@ sleep 30;
   sleep 5;
   echo -ne '\r\n';
   sleep 5;
+  echo 'v';
   echo 'v';
   echo ' ';
   echo -ne '\r\n';
@@ -318,17 +337,37 @@ sleep 30;
   echo  "vtnet2";
   sleep 10;
   echo  "y";
-  sleep 40;) | telnet
+  sleep 40;
+) | telnet
 
 sleep 5;
+
+(echo open 127.0.0.1 4568;
+  sleep 100;
+  echo "8";
+  sleep 30;
+  echo "mkdir /tmp/usb";
+  sleep 5;
+  echo "mount -v -t msdosfs /dev/vtbd1 /tmp/usb";
+  sleep 5;
+  echo "rm -rf /conf/config.xml";
+  sleep 5;
+  echo "cp /tmp/usb/config.xml /conf";
+  sleep 5;
+) | telnet
+
+## copy config from disk and detach
+
+#### detach
+virsh detach-disk --domain pfsense /tmp/pfsense_recovery.img --persistent --config
+virsh reboot pfsense
+
+sleep 2;
 ####################
 
 ################ Prep and run cloud script
 ################### Load cloud create
 cd /tmp
-git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git
-git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
-
 cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
 cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
 ####################
