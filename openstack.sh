@@ -287,6 +287,7 @@ virt-install --name pfsense \
     --connect qemu:///system \
     --os-type=freebsd \
     --os-variant=freebsd11.0 \
+    --tpm emulator,model=tpm-tis,version=2.0 \
     --serial tcp,host=0.0.0.0:4567,mode=bind,protocol=telnet \
     --serial tcp,host=0.0.0.0:4568,mode=bind,protocol=telnet &
 
