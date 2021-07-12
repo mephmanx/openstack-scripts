@@ -282,7 +282,6 @@ sleep 10;
 
 ## remove install disk from pfsense
 virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img --persistent --config --live
-#virsh attach-disk --domain pfsense /tmp/pfsense_recovery.img --persistent --config --live --target vdc
 virsh reboot pfsense
 
 sleep 60;
@@ -303,11 +302,7 @@ sleep 60;
   sleep 60;
 ) | telnet
 
-## copy config from disk and detach
-
-#### detach
-#virsh detach-disk --domain pfsense /tmp/pfsense_recovery.img --persistent --config
-#virsh reboot pfsense
+virsh reboot pfsense
 
 sleep 2;
 ####################
