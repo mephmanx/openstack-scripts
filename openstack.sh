@@ -293,13 +293,14 @@ sleep 60;
   sleep 30;
   echo "8";
   sleep 60;
-  echo "yes | pkg install pfsense-pkg-acme";
+  echo "yes | pkg install pfsense-pkg-squid";
   sleep 60;
   echo "yes | pkg install pfsense-pkg-haproxy-devel";
   sleep 60;
   echo "yes | pkg install pfsense-pkg-cron";
   sleep 60;
-  echo "yes | pkg install pfsense-pkg-squid";
+  echo "yes | pkg install pfsense-pkg-acme";
+  sleep 60;
 ) | telnet
 
 ## copy config from disk and detach
