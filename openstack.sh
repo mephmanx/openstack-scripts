@@ -28,7 +28,7 @@ systemctl mask firewalld
 
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
-dnf install -y cockpit-machines virt-install virt-viewer dhcp-server bridge-utils swtpm libtpms
+dnf install -y cockpit-machines virt-install virt-viewer bridge-utils swtpm libtpms
 systemctl restart libvirtd
 ############################
 
@@ -54,7 +54,7 @@ ip addr add 10.0.20.2/24 dev vm2
 ip link set loc-static1 up
 ip link set vm2 up
 
-nmcli connection modify loc-static1 ipv4.addresses 10.0.20.1/24 ipv4.gateway `ip  -f inet a show int-static| grep inet| awk '{ print $2}' | cut -d/ -f1` ipv4.method manual ipv4.dns 8.8.8.8 connection.autoconnect yes ipv6.method disabled
+nmcli connection modify loc-static1 ipv4.addresses 10.0.20.1/24 ipv4.method manual connection.autoconnect yes ipv6.method disabled
 
 ip link add dev Node1s type veth peer name Node1
 ip link add dev Node2s type veth peer name Node2
@@ -117,7 +117,7 @@ ip addr add 10.0.21.2/24 dev vm4
 ip link set loc-static2 up
 ip link set vm4 up
 
-nmcli connection modify loc-static2 ipv4.addresses 10.0.21.1/24 ipv4.gateway `ip  -f inet a show int-static| grep inet| awk '{ print $2}' | cut -d/ -f1` ipv4.method manual ipv4.dns 8.8.8.8 connection.autoconnect yes ipv6.method disabled
+nmcli connection modify loc-static2 ipv4.addresses 10.0.21.1/24 ipv4.method manual connection.autoconnect yes ipv6.method disabled
 
 ip link add dev Node11s type veth peer name Node11
 ip link add dev Node12s type veth peer name Node12
@@ -163,41 +163,6 @@ brctl addif loc-static2 Node18s
 brctl addif loc-static2 Node19s
 brctl addif loc-static2 Node20s
 ##############
-
-runuser -l root -c  'echo "net.ipv4.ip_forward = 1" > /etc/sysctl.conf'
-runuser -l root -c  'echo "net.ipv4.conf.default.rp_filter=0" > /etc/sysctl.conf'
-runuser -l root -c  'echo "net.ipv4.conf.all.rp_filter=0" > /etc/sysctl.conf'
-
-sysctl -w net.ipv4.ip_forward=1
-sysctl -w net.ipv4.conf.default.rp_filter=0
-sysctl -w net.ipv4.conf.all.rp_filter=0
-
-runuser -l root -c 'cat << EOF > /etc/dhcp/dhcpd.conf
-default-lease-time 600;
-max-lease-time 7200;
-ddns-update-style none;
-authoritative;
-
-subnet 10.0.20.0 netmask 255.255.255.0 {
-        range 10.0.20.50 10.0.20.100;
-        option routers 10.0.20.1;
-        option subnet-mask 255.255.255.0;
-        option domain-name-servers 8.8.8.8;
-}
-
-subnet 10.0.21.0 netmask 255.255.255.0 {
-        range 10.0.21.50 10.0.21.100;
-        option routers 10.0.21.1;
-        option subnet-mask 255.255.255.0;
-        option domain-name-servers 8.8.8.8;
-}
-EOF'
-
-systemctl start dhcpd
-systemctl enable dhcpd
-
-iptables --table nat --append POSTROUTING --out-interface int-static -j MASQUERADE
-iptables --append FORWARD --in-interface loc-static -j ACCEPT
 
 virsh net-undefine default
 ###########################
