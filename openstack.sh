@@ -285,20 +285,20 @@ virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-am
 #virsh attach-disk --domain pfsense /tmp/pfsense_recovery.img --persistent --config --live --target vdc
 virsh reboot pfsense
 
-sleep 30;
+sleep 60;
 
 ### install packages
 
 (echo open 127.0.0.1 4568;
   sleep 30;
   echo "8";
-  sleep 30;
+  sleep 60;
   echo "yes | pkg install pfsense-pkg-acme";
-  sleep 30;
+  sleep 60;
   echo "yes | pkg install pfsense-pkg-haproxy-devel";
-  sleep 30;
+  sleep 60;
   echo "yes | pkg install pfsense-pkg-cron";
-  sleep 30;
+  sleep 60;
   echo "yes | pkg install pfsense-pkg-squid";
 ) | telnet
 
