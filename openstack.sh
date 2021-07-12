@@ -43,18 +43,18 @@ ip link add dev vm1 type veth peer name vm2
 ip link set dev vm1 up
 ip tuntap add tapm mode tap
 ip link set dev tapm up
-ip link add loc-static1 type bridge
+ip link add loc-static type bridge
 
-ip link set tapm master loc-static1
-ip link set vm1 master loc-static1
+ip link set tapm master loc-static
+ip link set vm1 master loc-static
 
-ip addr add 10.0.20.1/24 dev loc-static1
+ip addr add 10.0.20.1/24 dev loc-static
 ip addr add 10.0.20.2/24 dev vm2
 
-ip link set loc-static1 up
+ip link set loc-static up
 ip link set vm2 up
 
-nmcli connection modify loc-static1 ipv4.addresses 10.0.20.1/24 ipv4.method manual connection.autoconnect yes ipv6.method disabled
+nmcli connection modify loc-static ipv4.addresses 10.0.20.1/24 ipv4.method manual connection.autoconnect yes ipv6.method disabled
 
 ip link add dev Node1s type veth peer name Node1
 ip link add dev Node2s type veth peer name Node2
@@ -89,16 +89,16 @@ ip link set Node8s up
 ip link set Node9s up
 ip link set Node10s up
 
-brctl addif loc-static1 Node1s
-brctl addif loc-static1 Node2s
-brctl addif loc-static1 Node3s
-brctl addif loc-static1 Node4s
-brctl addif loc-static1 Node5s
-brctl addif loc-static1 Node6s
-brctl addif loc-static1 Node7s
-brctl addif loc-static1 Node8s
-brctl addif loc-static1 Node9s
-brctl addif loc-static1 Node10s
+brctl addif loc-static Node1s
+brctl addif loc-static Node2s
+brctl addif loc-static Node3s
+brctl addif loc-static Node4s
+brctl addif loc-static Node5s
+brctl addif loc-static Node6s
+brctl addif loc-static Node7s
+brctl addif loc-static Node8s
+brctl addif loc-static Node9s
+brctl addif loc-static Node10s
 #############
 
 #########private net 2
@@ -106,18 +106,18 @@ ip link add dev vm3 type veth peer name vm4
 ip link set dev vm3 up
 ip tuntap add tapm1 mode tap
 ip link set dev tapm1 up
-ip link add loc-static2 type bridge
+ip link add ext-static type bridge
 
-ip link set tapm1 master loc-static2
-ip link set vm3 master loc-static2
+ip link set tapm1 master ext-static
+ip link set vm3 master ext-static
 
-ip addr add 10.0.21.1/24 dev loc-static2
+ip addr add 10.0.21.1/24 dev ext-static
 ip addr add 10.0.21.2/24 dev vm4
 
-ip link set loc-static2 up
+ip link set ext-static up
 ip link set vm4 up
 
-nmcli connection modify loc-static2 ipv4.addresses 10.0.21.1/24 ipv4.method manual connection.autoconnect yes ipv6.method disabled
+nmcli connection modify ext-static ipv4.addresses 10.0.21.1/24 ipv4.method manual connection.autoconnect yes ipv6.method disabled
 
 ip link add dev Node11s type veth peer name Node11
 ip link add dev Node12s type veth peer name Node12
@@ -152,16 +152,16 @@ ip link set Node18s up
 ip link set Node19s up
 ip link set Node20s up
 
-brctl addif loc-static2 Node11s
-brctl addif loc-static2 Node12s
-brctl addif loc-static2 Node13s
-brctl addif loc-static2 Node14s
-brctl addif loc-static2 Node15s
-brctl addif loc-static2 Node16s
-brctl addif loc-static2 Node17s
-brctl addif loc-static2 Node18s
-brctl addif loc-static2 Node19s
-brctl addif loc-static2 Node20s
+brctl addif ext-static Node11s
+brctl addif ext-static Node12s
+brctl addif ext-static Node13s
+brctl addif ext-static Node14s
+brctl addif ext-static Node15s
+brctl addif ext-static Node16s
+brctl addif ext-static Node17s
+brctl addif ext-static Node18s
+brctl addif ext-static Node19s
+brctl addif ext-static Node20s
 ##############
 
 virsh net-undefine default
@@ -240,8 +240,8 @@ virt-install --name pfsense \
     --vcpus=8 \
     --boot hd,menu=off,useserial=off \
     --network type=direct,source=int-static,model=virtio,source_mode=bridge  \
-    --network type=bridge,source=loc-static1,model=virtio  \
-    --network type=bridge,source=loc-static2,model=virtio  \
+    --network type=bridge,source=loc-static,model=virtio  \
+    --network type=bridge,source=ext-static,model=virtio  \
     --disk /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img \
     --disk pool=HP-Disk,size=25,bus=virtio,sparse=no \
     --graphics vnc \
