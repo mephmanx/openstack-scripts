@@ -226,14 +226,11 @@ git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
 wget -O /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img.gz https://nyifiles.netgate.com/mirror/downloads/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img.gz
 gunzip /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img.gz
 
-rm -rf /tmp/pfsense_recovery.img
-rm -rf /tmp/openstack-pfsense.xml
-cp /tmp/openstack-setup/openstack-pfsense.xml /tmp
-runuser -l root -c  'fallocate -l 20M /tmp/pfsense_recovery.img'
-runuser -l root -c  'mkfs.fat /tmp/pfsense_recovery.img'
+rm -rf /tmp/usb
 mkdir /tmp/usb
-runuser -l root -c  'mount -t auto -o loop /tmp/pfsense_recovery.img /tmp/usb'
-cp /tmp/openstack-pfsense.xml /tmp/usb
+runuser -l root -c  'mount -o loop,offset=771924480 /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img /tmp/usb'
+rm -rf /tmp/usb/config.xml
+cp /tmp/openstack-setup/openstack-pfsense.xml /tmp/usb
 mv /tmp/usb/openstack-pfsense.xml /tmp/usb/config.xml
 runuser -l root -c  'umount /tmp/usb'
 
@@ -245,9 +242,8 @@ virt-install --name pfsense \
     --network type=direct,source=int-static,model=virtio,source_mode=bridge  \
     --network type=bridge,source=loc-static1,model=virtio  \
     --network type=bridge,source=loc-static2,model=virtio  \
-    --disk  path=/tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img \
+    --disk /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img \
     --disk pool=HP-Disk,size=25,bus=virtio,sparse=no \
-    --disk /tmp/pfsense_recovery.img \
     --graphics vnc \
     --connect qemu:///system \
     --os-type=freebsd \
@@ -275,7 +271,6 @@ sleep 10;
   echo -ne '\r\n';
   sleep 5;
   echo 'v';
-  echo 'v';
   echo ' ';
   echo -ne '\r\n';
   sleep 5;
@@ -283,50 +278,35 @@ sleep 10;
   sleep 160;
   echo 'N';
   sleep 5;
-  echo 'R';
-  sleep 90;) | telnet
+) | telnet
 
 ## remove install disk from pfsense
 virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img --persistent --config --live
+#virsh attach-disk --domain pfsense /tmp/pfsense_recovery.img --persistent --config --live --target vdc
 virsh reboot pfsense
 
 sleep 30;
 
-(echo open 127.0.0.1 4568;
-  sleep 20;
-  echo  "n";
-  sleep 10;
-  echo  "vtnet0";
-  sleep 10;
-  echo  "vtnet1";
-  sleep 10;
-  echo  "vtnet2";
-  sleep 10;
-  echo  "y";
-  sleep 40;
-) | telnet
-
-sleep 5;
+### install packages
 
 (echo open 127.0.0.1 4568;
-  sleep 100;
+  sleep 30;
   echo "8";
   sleep 30;
-  echo "mkdir /tmp/usb";
-  sleep 5;
-  echo "mount -v -t msdosfs /dev/vtbd1 /tmp/usb";
-  sleep 5;
-  echo "rm -rf /conf/config.xml";
-  sleep 5;
-  echo "cp /tmp/usb/config.xml /conf";
-  sleep 5;
+  echo "yes | pkg install pfsense-pkg-acme";
+  sleep 30;
+  echo "yes | pkg install pfsense-pkg-haproxy-devel";
+  sleep 30;
+  echo "yes | pkg install pfsense-pkg-cron";
+  sleep 30;
+  echo "yes | pkg install pfsense-pkg-squid";
 ) | telnet
 
 ## copy config from disk and detach
 
 #### detach
-virsh detach-disk --domain pfsense /tmp/pfsense_recovery.img --persistent --config
-virsh reboot pfsense
+#virsh detach-disk --domain pfsense /tmp/pfsense_recovery.img --persistent --config
+#virsh reboot pfsense
 
 sleep 2;
 ####################
