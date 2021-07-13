@@ -223,6 +223,9 @@ git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git
 #########
 
 ########## build router
+
+### make sure to get offset of fat32 partition to put config.xml file on stick to reload!
+##  use fdisk -l /path/to/image to find offset
 wget -O /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img.gz https://nyifiles.netgate.com/mirror/downloads/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img.gz
 gunzip /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img.gz
 
