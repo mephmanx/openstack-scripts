@@ -300,6 +300,8 @@ sleep 60;
   sleep 60;
   echo "yes | pkg install pfsense-pkg-acme";
   sleep 60;
+  echo "yes | pkg install pfsense-pkg-openvpn-client-export";
+  sleep 90;
 ) | telnet
 
 virsh reboot pfsense
