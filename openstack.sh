@@ -310,6 +310,8 @@ sleep 60;
   sleep 90;
   echo "git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/pfsense-scripts.git";
   sleep 90;
+  echo "git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/pfsense-backup.git";
+  sleep 90;
 ) | telnet
 
 virsh reboot pfsense
