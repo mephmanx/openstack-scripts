@@ -302,6 +302,14 @@ sleep 60;
   sleep 60;
   echo "yes | pkg install pfsense-pkg-openvpn-client-export";
   sleep 90;
+  echo "yes | pkg install git";
+  sleep 90;
+  echo "git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git";
+  sleep 90;
+  echo "git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git";
+  sleep 90;
+  echo "git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/pfsense-scripts.git";
+  sleep 90;
 ) | telnet
 
 virsh reboot pfsense
