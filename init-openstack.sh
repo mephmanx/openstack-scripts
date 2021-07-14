@@ -19,8 +19,6 @@ sleep 30
 ##### load secrets
 load_secrets
 
-chmod 777 /tmp/global_addresses.sh
-
 # set up net script to be called after reboot
 prep_next_script "openstack"
 
