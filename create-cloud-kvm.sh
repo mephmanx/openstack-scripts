@@ -3,7 +3,7 @@
 source ./iso-functions.sh
 source ./vm-configurations.sh
 source ./openstack-env.sh
-source /tmp/global_addresses.sh
+source ./global_addresses.sh
 
 export TRANSFER=0
 
