@@ -36,7 +36,7 @@ function vm_definitions {
             "cpu":"2",
             "memory":"34",
             "drive_string":"HP-Disk:100",
-            "network_string":"loc-static,ext-static"
+            "network_string":"loc-static"
           }'
     ;;
     "network")
@@ -63,7 +63,7 @@ function vm_definitions {
             "cpu":"2",
             "memory":"16",
             "drive_string":"HP-Disk:300",
-            "network_string":"loc-static,ext-static"
+            "network_string":"loc-static"
           }'
     ;;
     "storage")
@@ -72,7 +72,7 @@ function vm_definitions {
             "cpu":"2",
             "memory":"22",
             "drive_string":"HP-Disk:300,HP-Disk:300,HP-SSD:175,HP-SSD:175,HP-SSD:175",
-            "network_string":"loc-static,ext-static"
+            "network_string":"loc-static"
           }'
     ;;
     "kolla")
@@ -81,7 +81,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"8",
             "drive_string":"HP-Disk:100",
-            "network_string":"loc-static,ext-static"
+            "network_string":"loc-static"
           }'
     ;;
   esac
