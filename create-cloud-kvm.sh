@@ -10,19 +10,19 @@ export TRANSFER=0
 IFS=
 ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
 ##################### Prep
-rm -rf /tmp/additional_hosts
+runuser -l root -c 'rm -rf /tmp/additional_hosts'
 touch /tmp/additional_hosts
 chmod 777 /tmp/additional_hosts
 
-rm -rf /tmp/dns_hosts
+runuser -l root -c 'rm -rf /tmp/dns_hosts'
 touch /tmp/dns_hosts
 chmod 777 /tmp/dns_hosts
 
-rm -rf /tmp/storage_hosts
+runuser -l root -c 'rm -rf /tmp/storage_hosts'
 touch /tmp/storage_hosts
 chmod 777 /tmp/storage_hosts
 
-rm -rf /tmp/host_list
+runuser -l root -c 'rm -rf /tmp/host_list'
 touch /tmp/host_list
 chmod 777 /tmp/host_list
 ####################
