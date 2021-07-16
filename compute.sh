@@ -17,10 +17,6 @@ common_second_boot_setup
 systemctl stop libvirtd
 systemctl disable libvirtd
 
-#sed -i '/^IPADDR/d' /etc/sysconfig/network-scripts/ifcfg-eth1
-#sed -i '/^DNS1/d' /etc/sysconfig/network-scripts/ifcfg-eth1
-#sed -i '/^NETMASK/d' /etc/sysconfig/network-scripts/ifcfg-eth1
-#sed -i '/^GATEWAY/d' /etc/sysconfig/network-scripts/ifcfg-eth1
 ############################
 
 ###### vTPM setup #####

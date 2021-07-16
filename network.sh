@@ -14,10 +14,7 @@ start() {
 common_second_boot_setup
 
 ######## Put type specific code
-#sed -i '/^IPADDR/d' /etc/sysconfig/network-scripts/ifcfg-eth1
-#sed -i '/^DNS1/d' /etc/sysconfig/network-scripts/ifcfg-eth1
-#sed -i '/^NETMASK/d' /etc/sysconfig/network-scripts/ifcfg-eth1
-#sed -i '/^GATEWAY/d' /etc/sysconfig/network-scripts/ifcfg-eth1
+
 ############################
 
 #remove so as to not run again

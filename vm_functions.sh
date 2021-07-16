@@ -236,11 +236,8 @@ function delete_all_veth_interfaces() {
   ip link delete Node20
 
   ip link delete vm1
-  ip link delete vm3
 
   ip link delete tapm
-  ip link delete tapm1
 
-  ip link delete loc-static1
-  ip link delete loc-static2
+  ip link delete loc-static
 }
