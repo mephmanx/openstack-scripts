@@ -100,69 +100,6 @@ brctl addif loc-static Node9s
 brctl addif loc-static Node10s
 #############
 
-#########private net 2
-ip link add dev vm3 type veth peer name vm4
-ip link set dev vm3 up
-ip tuntap add tapm1 mode tap
-ip link set dev tapm1 up
-ip link add ext-static type bridge
-
-ip link set tapm1 master ext-static
-ip link set vm3 master ext-static
-
-ip addr add 10.0.21.1/24 dev ext-static
-ip addr add 10.0.21.2/24 dev vm4
-
-ip link set ext-static up
-ip link set vm4 up
-
-nmcli connection modify ext-static ipv4.addresses 10.0.21.1/24 ipv4.method manual connection.autoconnect yes ipv6.method disabled
-
-ip link add dev Node11s type veth peer name Node11
-ip link add dev Node12s type veth peer name Node12
-ip link add dev Node13s type veth peer name Node13
-ip link add dev Node14s type veth peer name Node14
-ip link add dev Node15s type veth peer name Node15
-ip link add dev Node16s type veth peer name Node16
-ip link add dev Node17s type veth peer name Node17
-ip link add dev Node18s type veth peer name Node18
-ip link add dev Node19s type veth peer name Node19
-ip link add dev Node20s type veth peer name Node20
-
-ip link set Node11 up
-ip link set Node12 up
-ip link set Node13 up
-ip link set Node14 up
-ip link set Node15 up
-ip link set Node16 up
-ip link set Node17 up
-ip link set Node18 up
-ip link set Node19 up
-ip link set Node20 up
-
-ip link set Node11s up
-ip link set Node12s up
-ip link set Node13s up
-ip link set Node14s up
-ip link set Node15s up
-ip link set Node16s up
-ip link set Node17s up
-ip link set Node18s up
-ip link set Node19s up
-ip link set Node20s up
-
-brctl addif ext-static Node11s
-brctl addif ext-static Node12s
-brctl addif ext-static Node13s
-brctl addif ext-static Node14s
-brctl addif ext-static Node15s
-brctl addif ext-static Node16s
-brctl addif ext-static Node17s
-brctl addif ext-static Node18s
-brctl addif ext-static Node19s
-brctl addif ext-static Node20s
-##############
-
 virsh net-undefine default
 ###########################
 
