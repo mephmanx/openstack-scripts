@@ -88,7 +88,6 @@ function initialKickstartSetup {
   sed -i 's/{TYPE}/'$vm_type'/g' ${kickstart_file}
   sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
   sed -i 's/{CENTOS_ROOT_PWD}/'$CENTOS_ROOT_PWD'/g' ${kickstart_file}
-  sed -i 's/{NTP_SERVER}/'$NTP_SERVER'/g' ${kickstart_file}
   networkInformation ${kickstart_file} ${vm_type} ${1}
   echo ${kickstart_file}
 }
