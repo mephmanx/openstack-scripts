@@ -178,7 +178,7 @@ virt-install --name pfsense \
     --cpu=host-passthrough,cache.mode=passthrough \
     --vcpus=8 \
     --boot hd,menu=off,useserial=off \
-    --network type=direct,source=int-static,model=virtio,source_mode=bridge  \
+    --network type=direct,source=ext-con,model=virtio,source_mode=bridge  \
     --network type=bridge,source=loc-static,model=virtio  \
     --disk /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img \
     --disk pool=HP-Disk,size=25,bus=virtio,sparse=no \
