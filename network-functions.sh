@@ -7,22 +7,13 @@ LOCAL_ADDRESS_PREFIX="10.0.20."
 LOCAL_GATEWAY="10.0.20.3"
 LOCAL_ADDRESS_INC=20
 
-INTERNAL_ADDRESS_PREFIX="192.168.1."
-INTERNAL_GATEWAY="192.168.1.1"
-INTERNAL_ADDRESS_INC=20
-
-#do not use external address unless it is a DIRECT connection to the public internet, not through router
-EXTERNAL_ADDRESS_PREFIX="10.0.21."
-EXTERNAL_GATEWAY="10.0.21.3"
-EXTERNAL_ADDRESS_INC=20
-
 NETMASK="255.255.255.0"
 
 #Storage network needs to be one of Internal, External, or Local
 STORAGE_NETWORK="loc"
 
 #Default route for system internet connection needs to be one of Internal, External, or Local
-DEFAULT_ROUTE="int"
+DEFAULT_ROUTE="loc"
 
 function networkInformation {
   kickstart_file=$1
@@ -80,66 +71,6 @@ function networkInformation {
         fi
 
         ((LOCAL_ADDRESS_INC++))
-
-      elif [[ "${element}" =~ .*"int".* ]]; then
-        ip_addr="${INTERNAL_ADDRESS_PREFIX}${INTERNAL_ADDRESS_INC}"
-
-        if ! grep -q $host "/tmp/dns_hosts"; then
-          #add localhost entry
-          echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /tmp/dns_hosts
-          addresses+=($ip_addr)
-        fi
-
-        # If storage address, add to array to build rings later
-        if [[ "${element}" =~ .*"$STORAGE_NETWORK".* ]]; then
-          if [[ "$vm_type" == "storage" ]]; then
-            echo "$ip_addr" >> /tmp/storage_hosts
-          fi
-        fi
-
-        if [[ $DEFAULT_ROUTE == "int" ]]; then
-          if [[ $default_flag == "0" ]]; then
-            default_set=""
-            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
-            default_flag="1"
-          else
-            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$INTERNAL_GATEWAY ${default_set}\n")
-          fi
-        else
-          network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$INTERNAL_GATEWAY --netmask=$NETMASK ${default_set} --nameserver=$INTERNAL_GATEWAY\n")
-        fi
-
-        ((INTERNAL_ADDRESS_INC++))
-      else
-        ip_addr="${EXTERNAL_ADDRESS_PREFIX}${EXTERNAL_ADDRESS_INC}"
-
-        if ! grep -q $host "/tmp/dns_hosts"; then
-          #add localhost entry
-          echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /tmp/dns_hosts
-          addresses+=($ip_addr)
-        fi
-
-        # If storage address, add to array to build rings later
-        if [[ "${element}" =~ .*"$STORAGE_NETWORK".* ]]; then
-          if [[ "$vm_type" == "storage" ]]; then
-            echo "$ip_addr" >> /tmp/storage_hosts
-          fi
-        fi
-
-        if [[ $DEFAULT_ROUTE == "ext" ]]; then
-          if [[ $default_flag == "0" ]]; then
-            default_set=""
-            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n")
-            default_flag="1"
-          else
-            network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK --nameserver=$EXTERNAL_GATEWAY ${default_set}\n")
-          fi
-        else
-          network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$EXTERNAL_GATEWAY --netmask=$NETMASK ${default_set} --nameserver=$EXTERNAL_GATEWAY\n")
-        fi
-
-        ((EXTERNAL_ADDRESS_INC++))
-      fi
 
     #not static, do DHCP
     else
