@@ -212,23 +212,3 @@ function common_second_boot_setup() {
   systemctl stop firewalld
   systemctl mask firewalld
 }
-
-function delete_all_veth_interfaces() {
-
-  ip link delete Node11
-  ip link delete Node12
-  ip link delete Node13
-  ip link delete Node14
-  ip link delete Node15
-  ip link delete Node16
-  ip link delete Node17
-  ip link delete Node18
-  ip link delete Node19
-  ip link delete Node20
-
-  ip link delete vm3
-
-  ip link delete tapm1
-
-  ip link delete ext-static
-}
