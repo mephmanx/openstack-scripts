@@ -180,7 +180,6 @@ virt-install --name pfsense \
     --boot hd,menu=off,useserial=off \
     --network type=direct,source=int-static,model=virtio,source_mode=bridge  \
     --network type=bridge,source=loc-static,model=virtio  \
-    --network type=bridge,source=ext-static,model=virtio  \
     --disk /tmp/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img \
     --disk pool=HP-Disk,size=25,bus=virtio,sparse=no \
     --graphics vnc \
