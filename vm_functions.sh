@@ -214,16 +214,7 @@ function common_second_boot_setup() {
 }
 
 function delete_all_veth_interfaces() {
-  ip link delete Node1
-  ip link delete Node2
-  ip link delete Node3
-  ip link delete Node4
-  ip link delete Node5
-  ip link delete Node6
-  ip link delete Node7
-  ip link delete Node8
-  ip link delete Node9
-  ip link delete Node10
+
   ip link delete Node11
   ip link delete Node12
   ip link delete Node13
@@ -235,9 +226,9 @@ function delete_all_veth_interfaces() {
   ip link delete Node19
   ip link delete Node20
 
-  ip link delete vm1
+  ip link delete vm3
 
-  ip link delete tapm
+  ip link delete tapm1
 
-  ip link delete loc-static
+  ip link delete ext-static
 }
