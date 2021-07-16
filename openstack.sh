@@ -244,6 +244,8 @@ sleep 60;
   sleep 90;
   echo "yes | pkg install git";
   sleep 90;
+  echo 'ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N ""';
+  sleep 90;
   echo "git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-setup.git";
   sleep 90;
   echo "git clone https://mephmanx:$GITHUB_TOKEN@github.com/mephmanx/openstack-scripts.git";
