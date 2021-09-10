@@ -4,6 +4,7 @@
 ### openstack-env needs to be in same directory as this script
 source ./openstack-env.sh
 
+git reset --hard
 git pull
 
 rm -rf /tmp/vm_functions.sh
