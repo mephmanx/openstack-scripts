@@ -4,8 +4,7 @@
 ### openstack-env needs to be in same directory as this script
 source ./openstack-env.sh
 
-rm -rf /tmp/openstack-scripts;
-git clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/openstack-scripts.git /tmp/openstack-scripts;
+git pull
 
 rm -rf /tmp/vm_functions.sh
 cp /tmp/openstack-scripts/vm_functions.sh /tmp
