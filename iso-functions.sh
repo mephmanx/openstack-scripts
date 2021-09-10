@@ -5,7 +5,7 @@ source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 
 LINUX_OS="https://$GATEWAY_ROUTER_IP/isos/linux.iso"
-KICKSTART_DIR=/tmp/openstack-setup
+KICKSTART_DIR=/tmp/openstack-scripts
 
 IFS=
 
