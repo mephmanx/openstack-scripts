@@ -72,6 +72,8 @@ function initialKickstartSetup {
     rootpwd=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
   fi
 
+  ADMIN_PWD=`cat /root/env_admin_pwd`
+
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
   cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
   echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg to -> ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg"
@@ -82,7 +84,7 @@ function initialKickstartSetup {
   sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
   sed -i 's/{GITHUB_USER}/'$GITHUB_USER'/g' ${kickstart_file}
   sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
-  sed -i 's/{CENTOS_ADMIN_PWD}/'$CENTOS_ADMIN_PWD'/g' ${kickstart_file}
+  sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
   sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
   sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
   networkInformation ${kickstart_file} ${vm_type} ${vm}

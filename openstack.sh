@@ -34,7 +34,9 @@ if [[ $HYPERVISOR_DEBUG == 1 ]]; then
   root_pw=`cat /home/admin/rootpw`
   telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor root pw: $root_pw"
 fi
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor admin account pw: $CENTOS_ADMIN_PWD"
+
+ADMIN_PWD=`cat /root/env_admin_pwd`
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor admin account pw: $ADMIN_PWD"
 ######
 
 ## generate OpenVPN TLS secret key
@@ -197,12 +199,12 @@ sed -i 's/{GATEWAY_ROUTER_DHCP_END}/'$GATEWAY_ROUTER_DHCP_END'/g' /tmp/usb/confi
 sed -i 's/{DOMAIN_NAME}/'$DOMAIN_NAME'/g' /tmp/usb/config.xml
 sed -i 's/{EXTERNAL_VIP_DNS}/'$EXTERNAL_VIP_DNS'/g' /tmp/usb/config.xml
 sed -i 's/{INTERNAL_VIP_DNS}/'$INTERNAL_VIP_DNS'/g' /tmp/usb/config.xml
-sed -i 's/{OPENSTACK_ADMIN_PWD}/'$OPENSTACK_ADMIN_PWD'/g' /tmp/usb/config.xml
+sed -i 's/{OPENSTACK_ADMIN_PWD}/'$ADMIN_PWD'/g' /tmp/usb/config.xml
 sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' /tmp/usb/config.xml
 sed -i 's/{APP_INTERNAL_HOSTNAME}/'$APP_INTERNAL_HOSTNAME'/g' /tmp/usb/config.xml
 sed -i 's/{APP_EXTERNAL_HOSTNAME}/'$APP_EXTERNAL_HOSTNAME'/g' /tmp/usb/config.xml
 sed -i 's/{NETWORK_PREFIX}/'$NETWORK_PREFIX'/g' /tmp/usb/config.xml
-sed -i 's/{OPENVPN_CERT_PWD}/'$OPENVPN_CERT_PWD'/g' /tmp/usb/config.xml
+sed -i 's/{OPENVPN_CERT_PWD}/'$ADMIN_PWD'/g' /tmp/usb/config.xml
 sed -i 's/{GODADDY_ACCOUNT}/'$GODADDY_ACCOUNT'/g' /tmp/usb/config.xml
 sed -i 's/{GODADDY_KEY}/'$GODADDY_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{GODADDY_KEY_BASE64}/'$GODADDY_KEY_BASE64'/g' /tmp/usb/config.xml
@@ -340,9 +342,9 @@ hypervisor_pub_array=( $(echo $HYPERVISOR_PUB_KEY | fold -c250 ))
   sleep 60;
   echo "pfSsh.php playback changepassword osuser";
   sleep 10;
-  echo "$OPENSTACK_ADMIN_PWD";
+  echo "$ADMIN_PWD";
   sleep 10;
-  echo "$OPENSTACK_ADMIN_PWD";
+  echo "$ADMIN_PWD";
   sleep 10;
   echo "yes | pkg install git &";
   sleep 90;

@@ -134,8 +134,10 @@ function common_second_boot_setup() {
   sleep 30
   ###########################
 
+  ADMIN_PWD=`cat /root/env_admin_pwd`
+
   systemctl restart docker
-  docker login -u $SUPPORT_USERNAME -p $SUPPORT_PASSWORD $SUPPORT_HOST.$DOMAIN_NAME
+  docker login -u $SUPPORT_USERNAME -p $ADMIN_PWD $SUPPORT_HOST.$DOMAIN_NAME
 
   mkdir /root/.ssh
   runuser -l root -c 'cp /tmp/openstack-setup.key.pub /root/.ssh/authorized_keys'

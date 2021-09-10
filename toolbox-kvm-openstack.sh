@@ -25,14 +25,12 @@ kickstart_file=centos-8-kickstart-openstack.cfg
 
 #### generate random password and reload env
 export RANDOM_PWD=`date +%s | sha256sum | base64 | head -c 32 ; echo`
-sed -i 's/{RANDOM_PWD}/'$RANDOM_PWD'/g' ./openstack-env.sh
-source ./openstack-env.sh
 ######
 
 ########### add passwords in
 sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
 sed -i 's/{GITHUB_USER}/'$GITHUB_USER'/g' ${kickstart_file}
-sed -i 's/{CENTOS_ADMIN_PWD}/'$CENTOS_ADMIN_PWD'/g' ${kickstart_file}
+sed -i 's/{CENTOS_ADMIN_PWD}/'$RANDOM_PWD'/g' ${kickstart_file}
 sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
 ###########################
 

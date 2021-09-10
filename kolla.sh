@@ -27,8 +27,10 @@ chmod 700 /tmp/host-trust.sh
 runuser -l root -c  'cd /tmp; ./host-trust.sh'
 cd $working_dir
 
+ADMIN_PWD=`cat /root/env_admin_pwd`
+
 ########### set up registry connection to docker hub
-export etext=`echo -n "$SUPPORT_USERNAME:$SUPPORT_PASSWORD" | base64`
+export etext=`echo -n "$SUPPORT_USERNAME:$ADMIN_PWD" | base64`
 curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/registries" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
@@ -101,10 +103,10 @@ sed -i "s/{SUPPORT_USERNAME}/${SUPPORT_USERNAME}/g" /etc/kolla/globals.yml
 kolla-genpwd
 
 #### Replace passwords
-sed -i "s/docker_registry_password: null/docker_registry_password: ${SUPPORT_PASSWORD}/g" /etc/kolla/passwords.yml
-sed -i "s/keystone_admin_password: .*/keystone_admin_password: ${OPENSTACK_ADMIN_PWD}/g" /etc/kolla/passwords.yml
-sed -i "s/kibana_password: .*/kibana_password: ${KIBANA_ADMIN_PWD}/g" /etc/kolla/passwords.yml
-sed -i "s/grafana_admin_password: .*/grafana_admin_password: ${GRAFANA_ADMIN_PWD}/g" /etc/kolla/passwords.yml
+sed -i "s/docker_registry_password: null/docker_registry_password: ${ADMIN_PWD}/g" /etc/kolla/passwords.yml
+sed -i "s/keystone_admin_password: .*/keystone_admin_password: ${ADMIN_PWD}/g" /etc/kolla/passwords.yml
+sed -i "s/kibana_password: .*/kibana_password: ${ADMIN_PWD}/g" /etc/kolla/passwords.yml
+sed -i "s/grafana_admin_password: .*/grafana_admin_password: ${ADMIN_PWD}/g" /etc/kolla/passwords.yml
 #####
 
 ######  prepare storage rings
@@ -402,7 +404,7 @@ openstack quota set --secgroup-rules -1 service
 openstack quota set --volumes -1 service
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry Openstack project ready.  user -> $OPENSTACK_CLOUDFOUNDRY_USERNAME pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
-telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack admin pwd is $OPENSTACK_ADMIN_PWD"
+telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack admin pwd is $ADMIN_PWD"
 
 #download and configure homebrew to run bbl install
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting Homebrew install...."

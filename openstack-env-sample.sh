@@ -4,24 +4,6 @@
 #  Encrypt these passwords using some sort of hardware specific key (TPM maybe?) so they are not unencrypted in the iso.
 ###############
 
-## RANDOM_PWD is generated ONCE and used wherever the token is.  It is NOT a random password for each use!
-
-### potentially remove all random pwd entries...make them internal to code
-## admin password for all hypervisor and openstack linux vms
-export CENTOS_ADMIN_PWD={RANDOM_PWD}
-####
-
-### cloud accounts and passwords, admin internal only
-export OPENSTACK_ADMIN_PWD={RANDOM_PWD}
-export KIBANA_ADMIN_PWD={RANDOM_PWD}
-export GRAFANA_ADMIN_PWD={RANDOM_PWD}
-########
-
-### internal
-export SUPPORT_PASSWORD={RANDOM_PWD}
-export OPENVPN_CERT_PWD={RANDOM_PWD}
-############
-
 ### github
 ## for prod move repo contents to disk during image create so this is no longer needed.
 export GITHUB_USER=<github username>

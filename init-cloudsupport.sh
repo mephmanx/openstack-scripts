@@ -42,7 +42,7 @@ wget -q -O /tmp/harbor.tgz ${HARBOR}
 tar xzvf /tmp/harbor.tgz
 
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
-
+ADMIN_PWD=`cat /root/env_admin_pwd`
 ### Generate database pwd
 HOWLONG=15 ## the number of characters
 NEWPW=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
@@ -50,7 +50,7 @@ NEWPW=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20)
 
 wget -q -O /root/harbor/harbor.yml -d https://$GITHUB_USER:$GITHUB_TOKEN@raw.githubusercontent.com/$GITHUB_USER/openstack-scripts/master/harbor.yml
 sed -i "s/{SUPPORT_HOST}/${SUPPORT_VIP_DNS}/g" /root/harbor/harbor.yml
-sed -i "s/{SUPPORT_PASSWORD}/${SUPPORT_PASSWORD}/g" /root/harbor/harbor.yml
+sed -i "s/{SUPPORT_PASSWORD}/${ADMIN_PWD}/g" /root/harbor/harbor.yml
 sed -i "s/{DATABASE_PASSWORD}/${NEWPW}/g" /root/harbor/harbor.yml
 cd /root/harbor
 chmod 700 *.sh

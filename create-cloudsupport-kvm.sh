@@ -24,10 +24,12 @@ else
   rootpwd=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
 fi
 
+ADMIN_PWD=`cat /root/env_admin_pwd`
+
 ########### add passwords in
 sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
 sed -i 's/{GITHUB_USER}/'$GITHUB_USER'/g' ${kickstart_file}
-sed -i 's/{CENTOS_ADMIN_PWD}/'$CENTOS_ADMIN_PWD'/g' ${kickstart_file}
+sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' ${kickstart_file}
 sed -i 's/{HOST}/'$SUPPORT_HOST'/g' ${kickstart_file}
 sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
