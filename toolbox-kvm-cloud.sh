@@ -5,8 +5,8 @@ exec 1>/root/cloud-install.log 2>&1 # send stdout and stderr from rc.local to a 
 set -x
 
 source /tmp/openstack-env.sh
-rm -rf /tmp/openstack-scripts;
 
+rm -rf /tmp/openstack-scripts;
 git clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/openstack-scripts.git /tmp/openstack-scripts;
 
 ## prep project config by replacing nested vars
