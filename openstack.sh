@@ -187,7 +187,7 @@ OPEN_VPN_TLS_KEY=`cat /root/.ssh/openvpn-secret.key | base64 | tr -d '\n\r'`
 #########
 
 ### godaddy dyndns key
-GODADDY_KEY_BASE64=`echo $GODADDY_KEY | base64 | tr -d '\n\r'`
+GODADDY_KEY_BASE64=`echo $GODADDY_KEY | base64 -w 0 | tr -d '\n\r'`
 
 ##### replace PFSense template vars
 sed -i 's/{INTERNAL_VIP}/'$INTERNAL_VIP'/g' /tmp/usb/config.xml
