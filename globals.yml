@@ -73,6 +73,7 @@ kolla_external_fqdn: "{EXTERNAL_VIP_DNS}"
 
 ## kuryr install options
 kuryr_install_type: source
+zun_install_type: source
 
 ################
 # Docker options
