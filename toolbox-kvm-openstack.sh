@@ -20,10 +20,11 @@ prep_project_config
 source ./iso-functions.sh
 source /tmp/project_config.sh
 
-cp centos-8-kickstart-openstack.cfg /tmp
+mkdir ./tmp
+cp centos-8-kickstart-openstack.cfg ./tmp
 
 IFS=
-kickstart_file=/tmp/centos-8-kickstart-openstack.cfg
+kickstart_file=./tmp/centos-8-kickstart-openstack.cfg
 
 #### generate random password and reload env
 export RANDOM_PWD=`date +%s | sha256sum | base64 | head -c 32 ; echo`
@@ -45,4 +46,4 @@ echo 'EOF' >> ${kickstart_file}
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack"
 
 ## cleanup kickstart file
-rm -rf /tmp/centos-8-kickstart-openstack.cfg
+rm -rf ./tmp/centos-8-kickstart-openstack.cfg
