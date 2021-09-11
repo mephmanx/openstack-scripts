@@ -3,7 +3,7 @@
 ## this script is run on a FreeBSD system, not centos, not bash.  Makes some things slightly different
 
 . /root/openstack-scripts/project_config.sh
-. /root/openstack-setup/openstack-env.sh
+. /root/openstack-env.sh
 . /root/openstack-scripts/pf_functions.sh
 
 exec 1>/tmp/init-install.log 2>&1 # send stdout and stderr from rc.local to a log file
@@ -44,12 +44,12 @@ cat <<EOF >/usr/local/etc/rc.d/pfsense-init.sh
 ## this script is run on a FreeBSD system, not centos, not bash.  Makes some things slightly different
 
 . /root/openstack-scripts/project_config.sh
-. /root/openstack-setup/openstack-env.sh
+. /root/openstack-env.sh
 . /root/openstack-scripts/pf_functions.sh
 
 if [ $PFSENSE_REBOOT_REBUILD == 1 ]; then
-  ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-setup; ./create-cloudsupport-kvm.sh;' &
-  ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-setup; ./create-cloud-kvm.sh;' &
+  ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-cloudsupport-kvm.sh;' &
+  ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-cloud-kvm.sh;' &
 fi
 
 install_pkg "pfsense-pkg-openvpn-client-export" $TELEGRAM_API $TELEGRAM_CHAT_ID

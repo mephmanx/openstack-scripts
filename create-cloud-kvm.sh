@@ -171,7 +171,6 @@ if [[ $HYPERVISOR_DEBUG == 0 ]]; then
   runuser -l root -c  'rm -rf /root/*.log'
   runuser -l root -c  'rm -rf /tmp/*.log'
   runuser -l root -c  'rm -rf /tmp/openstack-scripts'
-  runuser -l root -c  'rm -rf /tmp/openstack-setup'
 fi
 ######
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Host trust and cleanup scripts run.  Cloud create script is complete.  Next messages will come from cloud VM's."

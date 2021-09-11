@@ -21,11 +21,6 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setu
 
 #### prepare git repos
 git clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/openstack-scripts.git /tmp/openstack-scripts;
-git clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/openstack-setup.git /tmp/openstack-setup;
-
-cp /tmp/openstack-scripts/*.sh /tmp/openstack-setup;
-cp /tmp/openstack-scripts/*.cfg /tmp/openstack-setup;
-chmod 700 /tmp/openstack-setup
 chmod 700 /tmp/openstack-scripts
 #########
 
@@ -36,9 +31,8 @@ source /tmp/openstack-scripts/project_config.sh
 
 ##### test to make sure checkout was good and internet was reachable
 SCRIPTS_FILE_COUNT=`ls /tmp/openstack-scripts | wc -l`
-SETUP_FILE_COUNT=`ls /tmp/openstack-setup | wc -l`
-if [[ $SCRIPTS_FILE_COUNT -gt 0 && $SETUP_FILE_COUNT -gt 0 ]]; then
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Checkout successful, pulled $SCRIPTS_FILE_COUNT from scripts folder and $SETUP_FILE_COUNT from setup"
+if [[ $SCRIPTS_FILE_COUNT -gt 0 ]]; then
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Checkout successful, pulled $SCRIPTS_FILE_COUNT from scripts folder"
 else
   telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Checkout failed!  Possible network config issue or internet unreachable!  Install exiting."
   exit -1
