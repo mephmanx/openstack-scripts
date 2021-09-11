@@ -43,3 +43,6 @@ echo 'EOF' >> ${kickstart_file}
 ###############################
 
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack"
+
+## cleanup kickstart file
+rm -rf /tmp/centos-8-kickstart-openstack.cfg
