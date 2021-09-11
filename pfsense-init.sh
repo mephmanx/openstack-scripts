@@ -64,14 +64,31 @@ install_pkg "pfsense-pkg-cron" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-acme" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-Telegraf" $TELEGRAM_API $TELEGRAM_CHAT_ID
 
+### perform ACME init
+cur_dir=`pwd`
+cd /usr/local/pkg/acme
+### if cert exists, skip...
+if [ ! -d "/tmp/acme/$DOMAIN_NAME-external-wildcard" ]; then
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Registering account for $DOMAIN_NAME with LetsEncrypt"
+  ./acme.sh --register-account
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Requesting cert issue for *.$DOMAIN_NAME with LetsEncrypt"
+  ./acme_command.sh -- -perform=issue -certname=$DOMAIN_NAME-external-wildcard -force
+  ## analyze logs to pull actualy result
+  results=`cat -l 20 /tmp/init-install.log`
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "LetsEncrypt results: $results"
+else
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "LetsEncrypt cert already exists, skipping issue request..."
+fi
+####
+
 ## perform any cleanup here
 rm -rf /root/openstack-scripts
 ####
 
-rm -rf /usr/local/etc/rc.d/pfsense-init.sh
+rm -rf /root/pfsense-init.sh
 
 EOF
-chmod +x /usr/local/etc/rc.d/pfsense-init.sh
+chmod +x /root/pfsense-init.sh
 #########
 
 sed -i 's/\/root\/openstack-scripts\/pfsense-init.sh/\/root\/pfsense-init.sh/g' /conf/config.xml
@@ -96,23 +113,6 @@ rm -rf /root/pfsense-backup
 git clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/pfsense-scripts.git /root/pfsense-scripts
 git clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/pfsense-backup.git /root/pfsense-backup
 ###
-
-### perform ACME init
-cur_dir=`pwd`
-cd /usr/local/pkg/acme
-### if cert exists, skip...
-if [ ! -d "/tmp/acme/$DOMAIN_NAME-external-wildcard" ]; then
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Registering account for $DOMAIN_NAME with LetsEncrypt"
-  ./acme.sh --register-account
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Requesting cert issue for *.$DOMAIN_NAME with LetsEncrypt"
-  ./acme_command.sh -- -perform=issue -certname=$DOMAIN_NAME-external-wildcard -force
-  ## analyze logs to pull actualy result
-  results=`cat -l 20 /tmp/init-install.log`
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "LetsEncrypt results: $results"
-else
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "LetsEncrypt cert already exists, skipping issue request..."
-fi
-####
 
 rm -rf /root/openstack-scripts/pfsense-init.sh
 
