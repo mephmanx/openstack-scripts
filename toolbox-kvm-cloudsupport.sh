@@ -11,9 +11,9 @@ git clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/openstack-s
 
 ## prep project config by replacing nested vars
 cp /tmp/openstack-scripts/vm_functions.sh /tmp/vm_functions.sh
-source /tmp/openstack-scripts/vm_functions.sh
+source /tmp/vm_functions.sh
 prep_project_config
 #########
 
 cd /tmp/openstack-scripts
-/tmp/openstack-scripts/create-cloudsupport-kvm.sh &
+./create-cloudsupport-kvm.sh &
