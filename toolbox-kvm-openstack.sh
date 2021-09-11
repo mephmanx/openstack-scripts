@@ -2,7 +2,7 @@
 #can ONLY be run as root!  sudo to root
 
 ### openstack-env needs to be in same directory as this script
-source ./openstack-env.sh
+source $1
 
 git reset --hard
 git pull
@@ -36,7 +36,7 @@ sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
 
 ############### Secrets file ################
 echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
-cat ./openstack-env.sh >> ${kickstart_file}
+cat $1 >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 ###############################
 
