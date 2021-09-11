@@ -63,22 +63,6 @@ install_pkg "pfsense-pkg-snort" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-cron" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-Telegraf" $TELEGRAM_API $TELEGRAM_CHAT_ID
 
-### perform ACME init
-cur_dir=`pwd`
-cd /usr/local/pkg/acme
-### if cert exists, skip...
-if [ ! -d "/tmp/acme/$DOMAIN_NAME-external-wildcard" ]; then
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Registering account for $DOMAIN_NAME with LetsEncrypt"
-  ./acme.sh --register-account
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Requesting cert issue for *.$DOMAIN_NAME with LetsEncrypt"
-  ./acme_command.sh -- -perform=issue -certname=$DOMAIN_NAME-external-wildcard -force
-  ## analyze logs to pull actualy result
-  results=`cat -l 20 /tmp/init-install.log`
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "LetsEncrypt results: $results"
-else
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "LetsEncrypt cert already exists, skipping issue request..."
-fi
-####
 
 ## perform any cleanup here
 rm -rf /root/openstack-scripts
@@ -105,6 +89,22 @@ fi
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: additional packages installed...  Pulling repos.."
 #####################
+### perform ACME init
+cur_dir=`pwd`
+cd /usr/local/pkg/acme
+### if cert exists, skip...
+if [ ! -d "/tmp/acme/$DOMAIN_NAME-external-wildcard" ]; then
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Registering account for $DOMAIN_NAME with LetsEncrypt"
+  ./acme.sh --register-account
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Requesting cert issue for *.$DOMAIN_NAME with LetsEncrypt"
+  ./acme_command.sh -- -perform=issue -certname=$DOMAIN_NAME-external-wildcard -force
+  ## analyze logs to pull actualy result
+  results=`cat -l 20 /tmp/init-install.log`
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "LetsEncrypt results: $results"
+else
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "LetsEncrypt cert already exists, skipping issue request..."
+fi
+####
 
 ## remove once template is complete and verified.
 rm -rf /root/pfsense-scripts

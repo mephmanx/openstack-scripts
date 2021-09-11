@@ -374,9 +374,11 @@ openstack_env_file=( $(echo $OPENSTACK_SETUP_FILE | fold -c250 ))
   sleep 30;
   for element in "${openstack_env_file[@]}"
   do
-    echo "echo '$element' >> /root/openstack-env.sh";
+    echo "echo '$element' >> /root/openstack-env.sh.enc";
     sleep 10;
   done
+  echo "openssl base64 -d -in /root/openstack-env.sh.enc -out /root/openstack-env.sh";
+  sleep 30;
   echo "chmod 600 /root/.ssh/*";
   sleep 30;
   echo "ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;";
