@@ -6,7 +6,7 @@
 . /root/openstack-env.sh
 . /root/openstack-scripts/pf_functions.sh
 
-exec 1>/tmp/init-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+exec 1>/root/init-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense initialization script beginning..."
@@ -37,8 +37,11 @@ fi
 ## build next reboot script to start cloud build.  overwrite contents of this file so it is executed on next reboot
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: Building second init script to kick off cloud build."
 
-cat <<EOF >/usr/local/etc/rc.d/pfsense-init.sh
+cat <<EOF >/root/pfsense-init.sh
 #!/bin/sh
+
+exec 1>/root/init2-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+set -x                             # tell sh to display commands before execution
 
 ## this script will run on pfsense reboot and then remove itself
 ## this script is run on a FreeBSD system, not centos, not bash.  Makes some things slightly different
@@ -70,6 +73,8 @@ rm -rf /usr/local/etc/rc.d/pfsense-init.sh
 EOF
 chmod +x /usr/local/etc/rc.d/pfsense-init.sh
 #########
+
+sed -i 's/\/root\/openstack-scripts\/pfsense-init.sh/\/root\/pfsense-init.sh/g' /conf/config.xml
 
 ## additional packages
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: Installing packages..."
