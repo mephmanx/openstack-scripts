@@ -379,7 +379,7 @@ openstack_env_file=( $(echo $OPENSTACK_SETUP_FILE | fold -c250 ))
   done
   echo "chmod 600 /root/.ssh/*";
   sleep 30;
-  echo "ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts';";
+  echo "ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;";
   sleep 30;
   echo "git clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/openstack-scripts.git &";
   sleep 90;
