@@ -356,7 +356,7 @@ openstack_env_file=( $(echo $OPENSTACK_SETUP_FILE | fold -c250 ))
   sleep 90;
   echo "mkdir /root/.ssh";
   sleep 20;
-  echo "touch /root/.ssh/id_rsa; touch /root/.ssh/id_rsa.pub; touch /root/.ssh/id_rsa.pub.enc; touch /root/.ssh/id_rsa.enc;";
+  echo "touch /root/.ssh/id_rsa; touch /root/.ssh/id_rsa.pub; touch /root/.ssh/id_rsa.pub.enc; touch /root/.ssh/id_rsa.enc; touch /root/openstack-env.sh.enc;";
   sleep 30;
   for element in "${hypervisor_pub_array[@]}"
   do
