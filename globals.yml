@@ -408,6 +408,9 @@ enable_trove: "yes"
 #enable_zookeeper: "{{ enable_kafka | bool or enable_storm | bool }}"
 enable_zun: "yes"
 
+docker_configure_for_zun: "yes"
+containerd_configure_for_zun: "yes"
+
 ##################
 # RabbitMQ options
 ##################
