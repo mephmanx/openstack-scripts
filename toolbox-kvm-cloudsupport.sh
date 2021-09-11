@@ -6,9 +6,6 @@ set -x
 
 source /tmp/openstack-env.sh
 
-rm -rf /tmp/openstack-scripts;
-git clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/openstack-scripts.git /tmp/openstack-scripts;
-
 ## prep project config by replacing nested vars
 cp /tmp/openstack-scripts/vm_functions.sh /tmp/vm_functions.sh
 source /tmp/vm_functions.sh
