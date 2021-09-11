@@ -61,7 +61,6 @@ install_pkg "pfsense-pkg-Lightsquid" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-pfBlockerNG-devel" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-snort" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-cron" $TELEGRAM_API $TELEGRAM_CHAT_ID
-install_pkg "pfsense-pkg-acme" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-Telegraf" $TELEGRAM_API $TELEGRAM_CHAT_ID
 
 ### perform ACME init
@@ -96,6 +95,7 @@ sed -i 's/\/root\/openstack-scripts\/pfsense-init.sh/\/root\/pfsense-init.sh/g' 
 ## additional packages
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: Installing packages..."
 
+install_pkg "pfsense-pkg-acme" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-squid" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-haproxy-devel" $TELEGRAM_API $TELEGRAM_CHAT_ID
 
