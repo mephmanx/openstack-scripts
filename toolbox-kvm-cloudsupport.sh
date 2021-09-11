@@ -13,4 +13,5 @@ prep_project_config
 #########
 
 cd /tmp/openstack-scripts
+git pull
 ./create-cloudsupport-kvm.sh &
