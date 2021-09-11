@@ -19,7 +19,7 @@ export PFSENSE=https://nyifiles.netgate.com/mirror/downloads/pfSense-CE-memstick
 
 ## Linux iso
 ## This is cached on PFSense to be used as the base image by all other systems.
-export LINUX_ISO=http://linux.cc.lehigh.edu/centos/8.3.2011/isos/x86_64/CentOS-8.3.2011-x86_64-minimal.iso
+export LINUX_ISO=https://vault.centos.org/8.3.2011/isos/x86_64/CentOS-8.3.2011-x86_64-minimal.iso
 
 ## Administrator email.
 # This is CRITICAL as OpenVPN profile will be email there, this email will receive ALL critical install and system emails until changed,
