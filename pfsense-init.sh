@@ -99,7 +99,7 @@ if [ ! -d "/tmp/acme/$DOMAIN_NAME-external-wildcard" ]; then
   telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Requesting cert issue for *.$DOMAIN_NAME with LetsEncrypt"
   ./acme_command.sh -- -perform=issue -certname=$DOMAIN_NAME-external-wildcard -force
   ## analyze logs to pull actualy result
-  results=`cat -l 20 /root/init-install.log`
+  results=`grep -C 10 "status" /root/init-install.log`
   telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "LetsEncrypt results: $results"
 else
   telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "LetsEncrypt cert already exists, skipping issue request..."
