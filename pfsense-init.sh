@@ -70,7 +70,7 @@ install_pkg "pfsense-pkg-Telegraf" $TELEGRAM_API $TELEGRAM_CHAT_ID
 rm -rf /root/openstack-scripts
 ####
 
-rm -rf /root/pfsense-init.sh
+rm -rf /usr/local/etc/rc.d/pfsense-init-2.sh
 
 EOF
 chmod a+rx /usr/local/etc/rc.d/pfsense-init-2.sh
