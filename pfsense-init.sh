@@ -37,7 +37,7 @@ fi
 ## build next reboot script to start cloud build.  overwrite contents of this file so it is executed on next reboot
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: Building second init script to kick off cloud build."
 
-cat <<EOF >/root/pfsense-init.sh
+cat <<EOF >/usr/local/etc/rc.d/pfsense-init-2.sh
 #!/bin/sh
 
 exec 1>/root/init2-install.log 2>&1 # send stdout and stderr from rc.local to a log file
@@ -49,6 +49,8 @@ set -x                             # tell sh to display commands before executio
 . /root/openstack-scripts/project_config.sh
 . /root/openstack-env.sh
 . /root/openstack-scripts/pf_functions.sh
+
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: Second init script running"
 
 if [ $PFSENSE_REBOOT_REBUILD == 1 ]; then
   ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-cloudsupport-kvm.sh;' &
@@ -71,10 +73,8 @@ rm -rf /root/openstack-scripts
 rm -rf /root/pfsense-init.sh
 
 EOF
-chmod +x /root/pfsense-init.sh
+chmod a+rx /usr/local/etc/rc.d/pfsense-init-2.sh
 #########
-
-sed -i -e 's/\/root\/openstack-scripts\/pfsense-init.sh/\/root\/pfsense-init.sh/g' /conf/config.xml
 
 ## additional packages
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: Installing packages..."

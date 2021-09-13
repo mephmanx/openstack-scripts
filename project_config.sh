@@ -103,7 +103,7 @@ export PRODUCT_ID='0002'
 ####  LiveCD Debug VM image
 ##  This is an image that is cached and ready for use as a debug VM
 ##  Recommended to be a LiveCD style image that can boot without using disk storage and minimal permissions
-export DEBUG_VM_IMAGE=https://sourceforge.net/projects/archbang/files/ArchBang/archbang-beta-2908-x86_64.iso/download
+export DEBUG_VM_IMAGE=https://sourceforge.net/projects/archbang/files/ArchBang/archbang-beta-1209-x86_64.iso/download
 
 ### Magnum docker image
 export MAGNUM_IMAGE=https://download.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180419.0/CloudImages/x86_64/images/Fedora-Atomic-27-20180419.0.x86_64.qcow2
