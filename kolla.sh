@@ -558,33 +558,6 @@ $SWIFT_KEY
 EOF
 
 swift post -m "Temp-URL-Key:$SWIFT_KEY" -A http://$INTERNAL_VIP_DNS:5000/v3 -U $OPENSTACK_CLOUDFOUNDRY_USERNAME -K $OPENSTACK_CLOUDFOUNDRY_PWD -V 3 --os-project-name cloudfoundry --os-project-domain-name default
-#
-### create containers
-#cat > /tmp/create.txt <<EOF
-#blank
-#EOF
-#
-#swift post cloudfoundry_storage -A http://$INTERNAL_VIP_DNS:5000/v3 -U $OPENSTACK_CLOUDFOUNDRY_USERNAME -K $OPENSTACK_CLOUDFOUNDRY_PWD --os-project-name cloudfoundry --os-project-domain-name default -V 3
-#swift upload cloudfoundry_storage/app_package_directory /tmp/create.txt -A http://$INTERNAL_VIP_DNS:5000/v3 -U $OPENSTACK_CLOUDFOUNDRY_USERNAME -K $OPENSTACK_CLOUDFOUNDRY_PWD --os-project-name cloudfoundry --os-project-domain-name default -V 3
-#swift upload cloudfoundry_storage/buildpack_directory /tmp/create.txt -A http://$INTERNAL_VIP_DNS:5000/v3 -U $OPENSTACK_CLOUDFOUNDRY_USERNAME -K $OPENSTACK_CLOUDFOUNDRY_PWD --os-project-name cloudfoundry --os-project-domain-name default -V 3
-#swift upload cloudfoundry_storage/droplet_directory /tmp/create.txt -A http://$INTERNAL_VIP_DNS:5000/v3 -U $OPENSTACK_CLOUDFOUNDRY_USERNAME -K $OPENSTACK_CLOUDFOUNDRY_PWD --os-project-name cloudfoundry --os-project-domain-name default -V 3
-#swift upload cloudfoundry_storage/resource_directory /tmp/create.txt -A http://$INTERNAL_VIP_DNS:5000/v3 -U $OPENSTACK_CLOUDFOUNDRY_USERNAME -K $OPENSTACK_CLOUDFOUNDRY_PWD --os-project-name cloudfoundry --os-project-domain-name default -V 3
-#
-#### create tempurls for each of the folders required
-#swift tempurl GET 86400 /v1/AUTH_$OPENSTACK_CLOUDFOUNDRY_USERNAME/cloudfoundry_storage/app_package_directory $SWIFT_KEY
-#swift tempurl GET 86400 /v1/AUTH_$OPENSTACK_CLOUDFOUNDRY_USERNAME/cloudfoundry_storage/buildpack_directory $SWIFT_KEY
-#swift tempurl GET 86400 /v1/AUTH_$OPENSTACK_CLOUDFOUNDRY_USERNAME/cloudfoundry_storage/droplet_directory $SWIFT_KEY
-#swift tempurl GET 86400 /v1/AUTH_$OPENSTACK_CLOUDFOUNDRY_USERNAME/cloudfoundry_storage/resource_directory $SWIFT_KEY
-#
-#swift tempurl PUT 86400 /v1/AUTH_$OPENSTACK_CLOUDFOUNDRY_USERNAME/cloudfoundry_storage/app_package_directory $SWIFT_KEY
-#swift tempurl PUT 86400 /v1/AUTH_$OPENSTACK_CLOUDFOUNDRY_USERNAME/cloudfoundry_storage/buildpack_directory $SWIFT_KEY
-#swift tempurl PUT 86400 /v1/AUTH_$OPENSTACK_CLOUDFOUNDRY_USERNAME/cloudfoundry_storage/droplet_directory $SWIFT_KEY
-#swift tempurl PUT 86400 /v1/AUTH_$OPENSTACK_CLOUDFOUNDRY_USERNAME/cloudfoundry_storage/resource_directory $SWIFT_KEY
-#
-#swift tempurl POST 86400 /v1/AUTH_$OPENSTACK_CLOUDFOUNDRY_USERNAME/cloudfoundry_storage/app_package_directory $SWIFT_KEY
-#swift tempurl POST 86400 /v1/AUTH_$OPENSTACK_CLOUDFOUNDRY_USERNAME/cloudfoundry_storage/buildpack_directory $SWIFT_KEY
-#swift tempurl POST 86400 /v1/AUTH_$OPENSTACK_CLOUDFOUNDRY_USERNAME/cloudfoundry_storage/droplet_directory $SWIFT_KEY
-#swift tempurl POST 86400 /v1/AUTH_$OPENSTACK_CLOUDFOUNDRY_USERNAME/cloudfoundry_storage/resource_directory $SWIFT_KEY
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Swift blobstores key ready, pulling latest CF stemcell..."
 
