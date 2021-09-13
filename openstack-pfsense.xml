@@ -5546,7 +5546,6 @@
 							<status>active</status>
 							<name>cloudfoundry-lb</name>
 							<address>{CLOUDFOUNDRY_VIP}</address>
-							<ssl>yes</ssl>
 							<port>443</port>
 							<id>214</id>
 							<_index></_index>
