@@ -17,19 +17,19 @@ mkdir /usr/local/www/isos
 if [ ! -f "/usr/local/www/isos/linux.iso" ]; then
   telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: downloading linux image"
   rm -rf /usr/local/www/isos/linux.iso
-  curl -o /usr/local/www/isos/linux.iso $LINUX_ISO -s
+  curl -o /usr/local/www/isos/linux.iso $LINUX_ISO -s --retry 10
 fi
 
 if [ ! -f "/usr/local/www/isos/livecd.iso" ]; then
   telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: downloading livecd debug image"
   rm -rf /usr/local/www/isos/livecd.iso
-  curl -o /usr/local/www/isos/livecd.iso $DEBUG_VM_IMAGE -s -L
+  curl -o /usr/local/www/isos/livecd.iso $DEBUG_VM_IMAGE -s -L --retry 10
 fi
 
 if [ ! -f "/usr/local/www/isos/magnum.qcow2" ]; then
   telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: downloading magnum image"
   rm -rf /usr/local/www/isos/magnum.qcow2
-  curl -o /usr/local/www/isos/magnum.qcow2 $MAGNUM_IMAGE -s -L
+  curl -o /usr/local/www/isos/magnum.qcow2 $MAGNUM_IMAGE -s -L --retry 10
 fi
 ################
 
