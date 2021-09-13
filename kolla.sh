@@ -319,12 +319,6 @@ cd /usr/local/share/kolla-ansible
 export HOME=/home/stack
 cd /tmp
 
-## create BOSH key here to use for magnum
-#ssh-keygen -t rsa -b 4096 -C "bosh" -N "" -f "bosh.pem"
-#mv -f bosh.pem.pub bosh.pub
-#openstack keypair create --public-key /tmp/bosh.pub bosh
-
-
 ## install openstack python clients
 pip install python-octaviaclient
 pip install python-troveclient
