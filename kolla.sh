@@ -523,10 +523,6 @@ runuser -l root -c  "echo '$EXTERNAL_VIP $EXTERNAL_VIP_DNS' >> /etc/hosts;"
 
 runuser -l root -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init;"
 runuser -l root -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /tmp/terraf-bbl.out;"
-
-## remove external dns entry
-sed -i "s/$EXTERNAL_VIP.*//g" /etc/hosts
-####
 ################
 
 ### update cf-lb to preconfigured address
