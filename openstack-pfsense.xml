@@ -1859,46 +1859,6 @@
 					<forwardfor>yes</forwardfor>
 				</item>
 				<item>
-					<name>heat-os-cf</name>
-					<status>active</status>
-					<primary_frontend>cinder</primary_frontend>
-					<type>http</type>
-					<httpclose>http-keep-alive</httpclose>
-					<ssloffloadcert>60ec35a6053df</ssloffloadcert>
-					<advanced></advanced>
-					<ha_acls>
-						<item>
-							<name>external</name>
-							<expression>host_contains</expression>
-							<value>{EXTERNAL_VIP_DNS}</value>
-							<backendservercountbackend>amqp</backendservercountbackend>
-							<_index></_index>
-						</item>
-					</ha_acls>
-					<ha_certificates></ha_certificates>
-					<clientcert_ca></clientcert_ca>
-					<clientcert_crl></clientcert_crl>
-					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8003</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-					</a_extaddr>
-					<a_actionitems>
-						<item>
-							<action>use_backend</action>
-							<acl>external</acl>
-							<use_backendbackend>heat-ows-cw</use_backendbackend>
-							<_index></_index>
-						</item>
-					</a_actionitems>
-					<a_errorfiles></a_errorfiles>
-					<ssloffloadacl_an>yes</ssloffloadacl_an>
-					<forwardfor>yes</forwardfor>
-				</item>
-				<item>
 					<name>vitrage</name>
 					<status>active</status>
 					<primary_frontend>cinder</primary_frontend>
@@ -3874,76 +3834,6 @@
 					<email_level></email_level>
 					<email_to></email_to>
 					<id>147</id>
-				</item>
-				<item>
-					<ha_servers>
-						<item>
-							<status>active</status>
-							<name>internal</name>
-							<address>{EXTERNAL_VIP}</address>
-							<port>8003</port>
-							<id>101</id>
-							<_index></_index>
-						</item>
-					</ha_servers>
-					<a_acl></a_acl>
-					<a_actionitems></a_actionitems>
-					<errorfiles></errorfiles>
-					<advanced></advanced>
-					<advanced_backend></advanced_backend>
-					<name>heat-ows-cw</name>
-					<balance></balance>
-					<balance_urilen></balance_urilen>
-					<balance_uridepth></balance_uridepth>
-					<balance_uriwhole></balance_uriwhole>
-					<transparent_clientip></transparent_clientip>
-					<transparent_interface>wan</transparent_interface>
-					<check_type>HTTP</check_type>
-					<checkinter></checkinter>
-					<log-health-checks></log-health-checks>
-					<httpcheck_method>GET</httpcheck_method>
-					<monitor_uri></monitor_uri>
-					<monitor_httpversion></monitor_httpversion>
-					<monitor_username></monitor_username>
-					<monitor_domain></monitor_domain>
-					<monitor_agentport>heat-ows-cw</monitor_agentport>
-					<agent_check></agent_check>
-					<agent_port></agent_port>
-					<agent_inter></agent_inter>
-					<connection_timeout></connection_timeout>
-					<server_timeout></server_timeout>
-					<retries></retries>
-					<stats_enabled></stats_enabled>
-					<stats_username></stats_username>
-					<stats_password></stats_password>
-					<stats_uri></stats_uri>
-					<stats_scope></stats_scope>
-					<stats_realm></stats_realm>
-					<stats_admin></stats_admin>
-					<stats_node></stats_node>
-					<stats_desc></stats_desc>
-					<stats_refresh></stats_refresh>
-					<persist_stick_expire></persist_stick_expire>
-					<persist_stick_tablesize></persist_stick_tablesize>
-					<persist_stick_length></persist_stick_length>
-					<persist_stick_cookiename></persist_stick_cookiename>
-					<persist_sticky_type>none</persist_sticky_type>
-					<persist_cookie_enabled></persist_cookie_enabled>
-					<persist_cookie_name></persist_cookie_name>
-					<persist_cookie_mode>passive</persist_cookie_mode>
-					<persist_cookie_cachable></persist_cookie_cachable>
-					<persist_cookie_postonly></persist_cookie_postonly>
-					<persist_cookie_httponly></persist_cookie_httponly>
-					<persist_cookie_secure></persist_cookie_secure>
-					<haproxy_cookie_maxidle></haproxy_cookie_maxidle>
-					<haproxy_cookie_maxlife></haproxy_cookie_maxlife>
-					<haproxy_cookie_domains></haproxy_cookie_domains>
-					<haproxy_cookie_dynamic_cookie_key></haproxy_cookie_dynamic_cookie_key>
-					<strict_transport_security>31536000</strict_transport_security>
-					<cookie_attribute_secure>yes</cookie_attribute_secure>
-					<email_level></email_level>
-					<email_to></email_to>
-					<id>148</id>
 				</item>
 				<item>
 					<ha_servers>
