@@ -648,10 +648,10 @@ runuser -l stack -c  "cd /opt/stack; \
                   -v buildpack_directory_key=buildpack_directory \
                   -v droplet_directory_key=droplet_directory \
                   -v resource_directory_key=resource_directory \
-                  -n"
+                  -n" > /tmp/coudfoundry-install.log
 
 ### grab last set of lines from log to send
-LOG_TAIL=`tail -25 /tmp/openstack-install.log`
+LOG_TAIL=`tail -25 /tmp/coudfoundry-install.log`
 ###
 
 telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install tail -> $LOG_TAIL"
