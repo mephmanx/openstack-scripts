@@ -5686,7 +5686,7 @@
 						<item>
 							<status>active</status>
 							<name>internal</name>
-							<address>{SUPPORT_VIP}}</address>
+							<address>{SUPPORT_VIP}</address>
 							<port>443</port>
 							<ssl>yes</ssl>
 							<id>115</id>
