@@ -79,6 +79,10 @@ export TIMEZONE="America\/New_York";
 ##  DISABLE FOR PRODUCTION USE!
 export HYPERVISOR_DEBUG=1
 
+#### Load dynamic config
+## config will be pulled from git instead of embedded repo
+export DYNAMIC_CONFIG=1
+
 ### Enable auto-update
 ## This enables the centos/stream auto update function on install.
 ## Auto update can be enabled later if not enabled here, this just sets it up and enables it for you.
