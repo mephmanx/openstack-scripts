@@ -78,9 +78,6 @@ export TIMEZONE="America\/New_York";
 ## This is used to enabled/disable logs and root pwd saving.
 ##  DISABLE FOR PRODUCTION USE!
 export HYPERVISOR_DEBUG=1
-## this switch is to toggle cloud rebuild on pfsense reboot.
-## be careful!  This should normally be turned on because PFSENSE should not be rebooted.  This should only happen once on cloud build and is mainly meant for debug.
-export PFSENSE_REBOOT_REBUILD=1
 
 ### Enable auto-update
 ## This enables the centos/stream auto update function on install.
