@@ -45,7 +45,7 @@ echo 'EOF' >> ${kickstart_file}
 ###############################
 
 #### zip repo and embed in iso
-zip -r ./tmp/repo.zip ./* -x "*.git"
+zip -r /tmp/repo.zip ./* -x "*.git"
 echo 'cat > /tmp/repo.zip <<EOF' >> ${kickstart_file}
 cat /tmp/repo.zip >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
