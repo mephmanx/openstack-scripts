@@ -331,6 +331,7 @@ ssh-keygen -t rsa -b 4096 -C "pf-openstack" -N "" -f /tmp/pf_key-${UNIQUE_SUFFIX
 HYPERVISOR_KEY=`cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key | base64 | tr -d '\n\r'`
 HYPERVISOR_PUB_KEY=`cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub | base64 | tr -d '\n\r'`
 OPENSTACK_SETUP_FILE=`cat /tmp/openstack-env.sh | base64 | tr -d '\n\r'`
+OPENSTACK_SETUP_REPO=`cat /tmp/repo.zip | base64 | tr -d '\n\r'`
 
 runuser -l root -c "cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub >> /root/.ssh/authorized_keys"
 
@@ -338,6 +339,7 @@ runuser -l root -c "cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub >> /root/.ssh/au
 hypervisor_key_array=( $(echo $HYPERVISOR_KEY | fold -c250 ))
 hypervisor_pub_array=( $(echo $HYPERVISOR_PUB_KEY | fold -c250 ))
 openstack_env_file=( $(echo $OPENSTACK_SETUP_FILE | fold -c250 ))
+openstack_repo_file=( $(echo $OPENSTACK_SETUP_REPO | fold -c250 ))
 (echo open 127.0.0.1 4568;
   sleep 30;
   echo "8";
@@ -383,7 +385,14 @@ openstack_env_file=( $(echo $OPENSTACK_SETUP_FILE | fold -c250 ))
   sleep 30;
   echo "ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;";
   sleep 30;
-  echo "git clone https://github.com/$GITHUB_USER/openstack-scripts.git &";
+  for element in "${openstack_repo_file[@]}"
+  do
+    echo "echo '$element' >> /tmp/repo.zip.enc";
+    sleep 10;
+  done
+  echo "openssl base64 -d -in /tmp/repo.zip.enc -out /tmp/repo.zip";
+  sleep 30;
+  echo "unzip /tmp/repo.zip -d /root/openstack-scripts";
   sleep 90;
 ) | telnet
 
