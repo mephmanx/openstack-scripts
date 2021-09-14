@@ -1,19 +1,16 @@
 #!/bin/bash
 #can ONLY be run as root!  sudo to root
 
+source ./vm_functions.sh
 ### openstack-env needs to be in same directory as this script
 source $1
 
 git reset --hard
 git pull
 
-rm -rf /tmp/vm_functions.sh
-cp /tmp/openstack-scripts/vm_functions.sh /tmp
-
 rm -rf /var/tmp/openstack-iso.iso
 
 ## prep project config by replacing nested vars
-source /tmp/vm_functions.sh
 prep_project_config
 #########
 
