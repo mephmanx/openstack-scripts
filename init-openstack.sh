@@ -17,12 +17,7 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup. Pulling git repos...."
-
-#### prepare git repos
-git clone https://github.com/$GITHUB_USER/openstack-scripts.git /tmp/openstack-scripts;
-chmod 700 /tmp/openstack-scripts
-#########
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup."
 
 ### load project config
 prep_project_config
