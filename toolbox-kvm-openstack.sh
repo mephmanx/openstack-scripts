@@ -55,3 +55,4 @@ closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack"
 
 ## cleanup kickstart file
 rm -rf ./tmp/centos-8-kickstart-openstack.cfg
+rm -rf ./tmp
