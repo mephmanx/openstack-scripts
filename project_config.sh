@@ -105,3 +105,5 @@ export UPS_PRESENT=1
 export VENDOR_ID='051d'
 export PRODUCT_ID='0002'
 
+### Cloudfoundry variables
+export CF_TCP_PORT_COUNT=10

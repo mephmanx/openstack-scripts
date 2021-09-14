@@ -503,7 +503,7 @@ use_local_blobstore = "true" #default is true
 
 # enable TCP routing setup
 use_tcp_router = "true" #default is true
-num_tcp_ports = 25 #default is 100, needs to be > 0
+num_tcp_ports = $CF_TCP_PORT_COUNT #default is 100, needs to be > 0
 
 # in case of self signed certificate select one of the following options
 # cacert_file = "<path-to-certificate>"
@@ -636,6 +636,43 @@ runuser -l stack -c  "cd /opt/stack; \
                   -v droplet_directory_key=droplet_directory \
                   -v resource_directory_key=resource_directory \
                   -n" > /tmp/cloudfoundry-install.log
+
+### Cloudfoundry instal can fail at times.  BOSH can handle this and retry is fine.  Retry a few times and if faile still occurs, alert admin
+error_count=grep "error" /tmp/cloudfoundry-install.log | wc -l
+retry_count=3
+if [[ $error_count -gt 0 ]]; then
+  while [ $retry_count -gt 0 ]; do
+    rm -rf /tmp/cloudfoundry-install.log
+    telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install failed, retrying $retry_count more times..."
+    runuser -l stack -c  "cd /opt/stack; \
+                      bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                      chmod 700 /tmp/bbl_env.sh; \
+                      source /tmp/bbl_env.sh; \
+                      bosh -d cf deploy -o /tmp/cf-deployment/operations/use-external-blobstore.yml \
+                      -o /tmp/cf-deployment/operations/use-swift-blobstore.yml \
+                      -o /tmp/cf-deployment/operations/openstack.yml \
+                      -o /tmp/cf-deployment/operations/scale-to-one-az.yml \
+                      -o /tmp/cf-deployment/operations/use-compiled-releases.yml \
+                      --vars-store /tmp/vars/deployment-vars.yml \
+                      /tmp/cf-deployment/cf-deployment.yml \
+                      -v system_domain=$DOMAIN_NAME \
+                      -v auth_url=https://$EXTERNAL_VIP_DNS:5000/v3 \
+                      -v openstack_project=cloudfoundry \
+                      -v openstack_domain=default \
+                      -v openstack_username=$OPENSTACK_CLOUDFOUNDRY_USERNAME \
+                      -v openstack_password=$OPENSTACK_CLOUDFOUNDRY_PWD \
+                      -v cf_admin_password=$OPENSTACK_CLOUDFOUNDRY_PWD \
+                      -v openstack_temp_url_key=$SWIFT_KEY \
+                      -v app_package_directory_key=app_package_directory \
+                      -v buildpack_directory_key=buildpack_directory \
+                      -v droplet_directory_key=droplet_directory \
+                      -v resource_directory_key=resource_directory \
+                      -n" > /tmp/cloudfoundry-install.log
+
+    error_count=grep "error" /tmp/cloudfoundry-install.log | wc -l
+    ((retry_count--))
+  done
+fi
 
 ### grab last set of lines from log to send
 LOG_TAIL=`tail -25 /tmp/cloudfoundry-install.log`
