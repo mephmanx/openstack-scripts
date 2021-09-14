@@ -90,7 +90,7 @@ cp /tmp/*.pem /etc/kolla/certificates
 cp /tmp/internal-ca.pem /etc/kolla/certificates/ca
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Downloading Openstack Kolla deployment playbook and performing env customization...."
-curl -s -o /etc/kolla/globals.yml https://$GITHUB_USER:$GITHUB_TOKEN@raw.githubusercontent.com/$GITHUB_USER/openstack-scripts/master/globals.yml > /dev/null
+curl -s -o /etc/kolla/globals.yml https://raw.githubusercontent.com/$GITHUB_USER/openstack-scripts/master/globals.yml > /dev/null
 
 sed -i "s/{INTERNAL_VIP}/${INTERNAL_VIP}/g" /etc/kolla/globals.yml
 sed -i "s/{INTERNAL_VIP_DNS}/${INTERNAL_VIP_DNS}/g" /etc/kolla/globals.yml
@@ -212,10 +212,6 @@ done
 rm -rf /tmp/ping.txt
 rm -rf /tmp/host_count
 #####################################
-
-## remove external dns entry but leave internal as it is used by BOSH.
-sed -i "s/$EXTERNAL_VIP.*//g" /etc/hosts
-####
 
 ### host ping successful, all hosts came up properly
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "All Openstack VM's came up properly and are ready for install. continuing..."
@@ -400,7 +396,7 @@ telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack admin pwd is $ADMI
 
 #download and configure homebrew to run bbl install
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting Homebrew install...."
-curl -fsSL https://$GITHUB_USER:$GITHUB_TOKEN@raw.githubusercontent.com/Homebrew/install/master/install.sh -o /tmp/homebrew.sh > /dev/null
+curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh -o /tmp/homebrew.sh > /dev/null
 chmod 777 homebrew.sh
 
 PUBLIC_NETWORK_ID="$(openstack network list --name public1 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')"

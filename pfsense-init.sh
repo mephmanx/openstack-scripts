@@ -110,8 +110,8 @@ fi
 rm -rf /root/pfsense-scripts
 rm -rf /root/pfsense-backup
 
-git clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/pfsense-scripts.git /root/pfsense-scripts
-git clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/pfsense-backup.git /root/pfsense-backup
+git clone https://github.com/$GITHUB_USER/pfsense-scripts.git /root/pfsense-scripts
+git clone https://github.com/$GITHUB_USER/pfsense-backup.git /root/pfsense-backup
 ###
 
 rm -rf /root/openstack-scripts/pfsense-init.sh

@@ -113,7 +113,7 @@ function prep_next_script() {
 
   ## Prep OpenStack install
   rm -rf /etc/rc.d/rc.local
-  curl -s -o /etc/rc.d/rc.local https://$GITHUB_USER:$GITHUB_TOKEN@raw.githubusercontent.com/$GITHUB_USER/openstack-scripts/master/$1.sh > /dev/null
+  curl -s -o /etc/rc.d/rc.local https://raw.githubusercontent.com/$GITHUB_USER/openstack-scripts/master/$1.sh > /dev/null
   chmod +x /etc/rc.d/rc.local
 }
 

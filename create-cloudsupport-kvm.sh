@@ -27,7 +27,7 @@ fi
 ADMIN_PWD=`cat /root/env_admin_pwd`
 
 ########### add passwords in
-sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
+#sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
 sed -i 's/{GITHUB_USER}/'$GITHUB_USER'/g' ${kickstart_file}
 sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' ${kickstart_file}

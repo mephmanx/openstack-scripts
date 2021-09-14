@@ -31,7 +31,7 @@ export RANDOM_PWD=`date +%s | sha256sum | base64 | head -c 32 ; echo`
 ######
 
 ########### add passwords in
-sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
+#sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
 sed -i 's/{GITHUB_USER}/'$GITHUB_USER'/g' ${kickstart_file}
 sed -i 's/{CENTOS_ADMIN_PWD}/'$RANDOM_PWD'/g' ${kickstart_file}
 sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}

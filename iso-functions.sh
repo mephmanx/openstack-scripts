@@ -81,7 +81,7 @@ function initialKickstartSetup {
   echo "kickstart file -> ${kickstart_file}"
   sed -i 's/{HOST}/'$vm'/g' ${kickstart_file}
   sed -i 's/{TYPE}/'$vm_type'/g' ${kickstart_file}
-  sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
+#  sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
   sed -i 's/{GITHUB_USER}/'$GITHUB_USER'/g' ${kickstart_file}
   sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
   sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}

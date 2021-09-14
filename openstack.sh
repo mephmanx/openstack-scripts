@@ -383,7 +383,7 @@ openstack_env_file=( $(echo $OPENSTACK_SETUP_FILE | fold -c250 ))
   sleep 30;
   echo "ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;";
   sleep 30;
-  echo "git clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/openstack-scripts.git &";
+  echo "git clone https://github.com/$GITHUB_USER/openstack-scripts.git &";
   sleep 90;
 ) | telnet
 
