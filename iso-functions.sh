@@ -74,6 +74,12 @@ function initialKickstartSetup {
 
   ADMIN_PWD=`cat /root/env_admin_pwd`
 
+  ### load file contents
+  PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh`
+  INIT_SCRIPT_FILE=`cat /tmp/init-cloud_common.sh`
+  VM_FUNCTIONS_FILE=`cat /tmp/vm_functions.sh`
+  ###
+
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
   cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
   echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg to -> ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg"
@@ -81,6 +87,9 @@ function initialKickstartSetup {
   echo "kickstart file -> ${kickstart_file}"
   sed -i 's/{HOST}/'$vm'/g' ${kickstart_file}
   sed -i 's/{TYPE}/'$vm_type'/g' ${kickstart_file}
+  sed -i 's/{PROJECT_CONFIG_FILE}/'$PROJECT_CONFIG_FILE'/g' ${kickstart_file}
+  sed -i 's/{INIT_SCRIPT_FILE}/'$INIT_SCRIPT_FILE'/g' ${kickstart_file}
+  sed -i 's/{VM_FUNCTIONS_FILE}/'$VM_FUNCTIONS_FILE'/g' ${kickstart_file}
 #  sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
   sed -i 's/{GITHUB_USER}/'$GITHUB_USER'/g' ${kickstart_file}
   sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
