@@ -28,7 +28,7 @@ ADMIN_PWD=`cat /root/env_admin_pwd`
 
 ### load file contents
 PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh`
-INIT_SCRIPT_FILE=`cat /tmp/init-cloudsupport.sh`
+INIT_SCRIPT_FILE=`cat /tmp/openstack-scripts/init-cloudsupport.sh`
 VM_FUNCTIONS_FILE=`cat /tmp/vm_functions.sh`
 ###
 

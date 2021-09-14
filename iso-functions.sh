@@ -76,7 +76,7 @@ function initialKickstartSetup {
 
   ### load file contents
   PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh`
-  INIT_SCRIPT_FILE=`cat /tmp/init-cloud_common.sh`
+  INIT_SCRIPT_FILE=`cat /tmp/openstack-scripts/init-cloud_common.sh`
   VM_FUNCTIONS_FILE=`cat /tmp/vm_functions.sh`
   ###
 
