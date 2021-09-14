@@ -511,15 +511,10 @@ num_tcp_ports = 25 #default is 100, needs to be > 0
 
 # in case of self signed certificate select one of the following options
 # cacert_file = "<path-to-certificate>"
-insecure = "true"
+insecure = "false"
 EOF
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Executing env prep script..."
-
-## add external VIP to localhost to bypass gateway router.
-# gateway router causes timeouts (504)
-runuser -l root -c  "echo '$EXTERNAL_VIP $EXTERNAL_VIP_DNS' >> /etc/hosts;"
-####
 
 runuser -l root -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init;"
 runuser -l root -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /tmp/terraf-bbl.out;"
