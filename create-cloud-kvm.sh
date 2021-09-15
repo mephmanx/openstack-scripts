@@ -4,7 +4,7 @@ source ./iso-functions.sh
 source ./vm-configurations.sh
 source /tmp/openstack-env.sh
 source /tmp/project_config.sh
-source /tmp/vm_functions.sh
+source ./vm_functions.sh
 
 IFS=
 HOWLONG=5 ## the number of characters

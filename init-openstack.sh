@@ -5,7 +5,7 @@
 
 # Source function library.
 . /etc/init.d/functions
-. /tmp/vm_functions.sh
+. /tmp/openstack-scripts/vm_functions.sh
 . /tmp/openstack-env.sh
 
 start() {
@@ -21,7 +21,7 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setu
 
 ### load project config
 prep_project_config
-source /tmp/openstack-scripts/project_config.sh
+source /tmp/project_config.sh
 #######
 
 ##### test to make sure checkout was good and internet was reachable
