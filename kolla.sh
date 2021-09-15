@@ -86,8 +86,9 @@ cp /usr/local/share/kolla-ansible/ansible/inventory/* /etc/kolla
 
 mkdir -p /var/lib/kolla/config_files
 mkdir /etc/kolla/certificates
+mkdir /etc/kolla/certificates/ca
 cp /tmp/*.pem /etc/kolla/certificates
-cp /tmp/internal-ca.pem /etc/kolla/certificates/ca
+cp /tmp/internal-ca.pem /etc/kolla/certificates/ca/internal-ca.pem
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Downloading Openstack Kolla deployment playbook and performing env customization...."
 cp /tmp/globals.yml /etc/kolla/globals.yml
