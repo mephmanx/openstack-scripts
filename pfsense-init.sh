@@ -52,9 +52,11 @@ set -x                             # tell sh to display commands before executio
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: Second init script running"
 
+## kickoff cloud build
 ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-cloudsupport-kvm.sh;' &
 ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-cloud-kvm.sh;' &
 
+### install remaining packages here
 install_pkg "pfsense-pkg-openvpn-client-export" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-bandwidthd" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-Lightsquid" $TELEGRAM_API $TELEGRAM_CHAT_ID
@@ -68,9 +70,11 @@ install_pkg "pfsense-pkg-Telegraf" $TELEGRAM_API $TELEGRAM_CHAT_ID
 rm -rf /root/openstack-scripts
 ####
 
+### remove from starting on boot
 rm -rf /usr/local/etc/rc.d/pfsense-init-2.sh
 
 EOF
+
 chmod a+rx /usr/local/etc/rc.d/pfsense-init-2.sh
 #########
 
