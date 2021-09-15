@@ -38,7 +38,7 @@
 		</user>
 		<user>
 			<scope>user</scope>
-			<bcrypt-hash>$2y$10$VXxoWJ9VFMFrRYM4am7cmudy37yzFUooWiDKmsM6LEoeZ84OyXqJi</bcrypt-hash>
+			<bcrypt-hash>$2y$10$f3DbCjySN.IaqRpVkRFH4.Koy.vwFAHJr0bY9aflNj/YYfxZxBr6y</bcrypt-hash>
 			<descr><![CDATA[Openstack Admin]]></descr>
 			<name>osuser</name>
 			<expires></expires>
@@ -254,6 +254,31 @@
 		<outbound>
 			<mode>hybrid</mode>
 		</outbound>
+		<separator></separator>
+		<rule>
+			<source>
+				<any></any>
+			</source>
+			<destination>
+				<network>wanip</network>
+				<port>{CF_TCP_START_PORT}-{CF_TCP_END_PORT}</port>
+			</destination>
+			<ipprotocol>inet</ipprotocol>
+			<protocol>tcp</protocol>
+			<target>{CLOUDFOUNDRY_VIP}</target>
+			<local-port>1024</local-port>
+			<interface>wan</interface>
+			<descr><![CDATA[Cloudfoundry TCP ports]]></descr>
+			<associated-rule-id>nat_61408bd1843bd8.26304973</associated-rule-id>
+			<updated>
+				<time>1631620049</time>
+				<username><![CDATA[osuser@10.0.9.1[192.168.1.1] (Local Database)]]></username>
+			</updated>
+			<created>
+				<time>1631620049</time>
+				<username><![CDATA[osuser@10.0.9.1[192.168.1.1] (Local Database)]]></username>
+			</created>
+		</rule>
 	</nat>
 	<filter>
 		<rule>
@@ -271,11 +296,11 @@
 			</destination>
 			<log></log>
 			<created>
-				<time>1630864835</time>
+				<time>1631502046</time>
 				<username><![CDATA[Auto]]></username>
 			</created>
 			<interface>wan</interface>
-			<tracker>1770009669</tracker>
+			<tracker>1770009790</tracker>
 		</rule>
 		<rule>
 			<quick>yes</quick>
@@ -292,7 +317,7 @@
 			</destination>
 			<log></log>
 			<created>
-				<time>1630864835</time>
+				<time>1631502046</time>
 				<username><![CDATA[Auto]]></username>
 			</created>
 			<interface>lan</interface>
@@ -548,6 +573,25 @@
 				<username><![CDATA[osuser@10.0.9.2 (Local Database)]]></username>
 			</created>
 		</rule>
+		<rule>
+			<source>
+				<any></any>
+			</source>
+			<interface>wan</interface>
+			<ipprotocol>inet</ipprotocol>
+			<protocol>tcp</protocol>
+			<destination>
+				<address>{CLOUDFOUNDRY_VIP}</address>
+				<port>{CF_TCP_START_PORT}-{CF_TCP_END_PORT}</port>
+			</destination>
+			<descr><![CDATA[NAT Cloudfoundry TCP ports]]></descr>
+			<associated-rule-id>nat_61408bd1843bd8.26304973</associated-rule-id>
+			<tracker>1631620049</tracker>
+			<created>
+				<time>1631620049</time>
+				<username><![CDATA[NAT Port Forward]]></username>
+			</created>
+		</rule>
 		<separator>
 			<wan></wan>
 			<opt1></opt1>
@@ -735,15 +779,6 @@
 			<command>/usr/local/pkg/acme/acme_command.sh &quot;renewall&quot; | /usr/bin/logger -t ACME 2&gt;&amp;1</command>
 		</item>
 		<item>
-			<minute>*/5</minute>
-			<hour>*</hour>
-			<mday>*</mday>
-			<month>*</month>
-			<wday>*</wday>
-			<who>root</who>
-			<command>/usr/bin/nice -n20 /sbin/pfctl -q -t snort2c -T expire 3600</command>
-		</item>
-		<item>
 			<minute>*/60</minute>
 			<hour>*</hour>
 			<mday>*</mday>
@@ -760,6 +795,15 @@
 			<wday>*</wday>
 			<who>root</who>
 			<command>/usr/local/bin/perl /usr/local/www/lightsquid/lightparser.pl yesterday</command>
+		</item>
+		<item>
+			<minute>*/5</minute>
+			<hour>*</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/bin/nice -n20 /sbin/pfctl -q -t snort2c -T expire 3600</command>
 		</item>
 	</cron>
 	<wol></wol>
@@ -935,9 +979,9 @@
 		</hosts>
 	</unbound>
 	<revision>
-		<time>1630949840</time>
-		<description><![CDATA[osuser@10.0.200.51 (Local Database): Services: HAProxy: Backend server pool:  modified pool: 'designate' stats_username: &quot;&quot; -&gt; &quot;osuser&quot; stats_password: &quot;&quot; -&gt; &quot;MWYxYTI5YmNmOTBjOGUxMzg2Y2FjZmZh&quot;]]></description>
-		<username><![CDATA[osuser@10.0.200.51 (Local Database)]]></username>
+		<time>1631639926</time>
+		<description><![CDATA[osuser@10.0.200.3[68.87.97.254] (Local Database): Services: HAProxy: Backend server pool:  modified pool: 'gnocci' check_type: &quot;HTTP&quot; -&gt; &quot;Basic&quot;]]></description>
+		<username><![CDATA[osuser@10.0.200.3[68.87.97.254] (Local Database)]]></username>
 	</revision>
 	<ppps></ppps>
 	<gateways>
@@ -1018,7 +1062,7 @@
 					<ocspstaple></ocspstaple>
 					<dnssleep></dnssleep>
 					<renewafter></renewafter>
-					<lastrenewal>1630963726</lastrenewal>
+					<lastrenewal>1631497988</lastrenewal>
 				</item>
 			</certificates>
 			<accountkeys>
@@ -1619,13 +1663,6 @@
 							<backendservercountbackend>amqp</backendservercountbackend>
 							<_index></_index>
 						</item>
-						<item>
-							<name>external</name>
-							<expression>host_contains</expression>
-							<value>{EXTERNAL_VIP_DNS}</value>
-							<backendservercountbackend>amqp</backendservercountbackend>
-							<_index></_index>
-						</item>
 					</ha_acls>
 					<ha_certificates></ha_certificates>
 					<clientcert_ca></clientcert_ca>
@@ -1645,18 +1682,12 @@
 							<use_backendbackend>octavia</use_backendbackend>
 							<_index></_index>
 						</item>
-						<item>
-							<action>use_backend</action>
-							<acl>external</acl>
-							<use_backendbackend>neutron</use_backendbackend>
-							<_index></_index>
-						</item>
 					</a_actionitems>
 					<a_errorfiles></a_errorfiles>
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
-					<log-detailed>yes</log-detailed>
 					<client_timeout>600000</client_timeout>
+					<backend_serverpool>neutron</backend_serverpool>
 				</item>
 				<item>
 					<name>swift-1</name>
@@ -2605,8 +2636,6 @@
 					<ssloffloadacl>yes</ssloffloadacl>
 					<client_timeout>2147483647</client_timeout>
 					<backend_serverpool>cloudfoundry</backend_serverpool>
-					<log-separate-errors>yes</log-separate-errors>
-					<log-detailed>yes</log-detailed>
 				</item>
 				<item>
 					<name>cloudfoundry-ssh</name>
@@ -2633,6 +2662,126 @@
 					<a_actionitems></a_actionitems>
 					<a_errorfiles></a_errorfiles>
 					<ssloffloadacl>yes</ssloffloadacl>
+				</item>
+				<item>
+					<name>manilla</name>
+					<status>active</status>
+					<primary_frontend>amqp</primary_frontend>
+					<type>http</type>
+					<forwardfor>yes</forwardfor>
+					<httpclose>http-keep-alive</httpclose>
+					<ssloffloadcert>60ec35a6053df</ssloffloadcert>
+					<ssloffloadacl_an>yes</ssloffloadacl_an>
+					<advanced></advanced>
+					<ha_acls>
+						<item>
+							<name>external</name>
+							<expression>host_contains</expression>
+							<value>{EXTERNAL_VIP}</value>
+							<backendservercountbackend>amqp</backendservercountbackend>
+							<_index></_index>
+						</item>
+					</ha_acls>
+					<ha_certificates></ha_certificates>
+					<clientcert_ca></clientcert_ca>
+					<clientcert_crl></clientcert_crl>
+					<a_extaddr>
+						<item>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8786</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+					</a_extaddr>
+					<a_actionitems>
+						<item>
+							<action>use_backend</action>
+							<acl>external</acl>
+							<use_backendbackend>manilla</use_backendbackend>
+							<_index></_index>
+						</item>
+					</a_actionitems>
+					<a_errorfiles></a_errorfiles>
+				</item>
+				<item>
+					<name>magnum-infra</name>
+					<status>active</status>
+					<primary_frontend>amqp</primary_frontend>
+					<type>http</type>
+					<forwardfor>yes</forwardfor>
+					<httpclose>http-keep-alive</httpclose>
+					<ssloffloadcert>60ec35a6053df</ssloffloadcert>
+					<ssloffloadacl_an>yes</ssloffloadacl_an>
+					<advanced></advanced>
+					<ha_acls>
+						<item>
+							<name>external</name>
+							<expression>host_contains</expression>
+							<value>{EXTERNAL_VIP}</value>
+							<backendservercountbackend>amqp</backendservercountbackend>
+							<_index></_index>
+						</item>
+					</ha_acls>
+					<ha_certificates></ha_certificates>
+					<clientcert_ca></clientcert_ca>
+					<clientcert_crl></clientcert_crl>
+					<a_extaddr>
+						<item>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>9517</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+					</a_extaddr>
+					<a_actionitems>
+						<item>
+							<action>use_backend</action>
+							<acl>external</acl>
+							<use_backendbackend>magnum-infra</use_backendbackend>
+							<_index></_index>
+						</item>
+					</a_actionitems>
+					<a_errorfiles></a_errorfiles>
+				</item>
+				<item>
+					<name>gnocci</name>
+					<status>active</status>
+					<primary_frontend>amqp</primary_frontend>
+					<type>http</type>
+					<forwardfor>yes</forwardfor>
+					<httpclose>http-keep-alive</httpclose>
+					<ssloffloadcert>60ec35a6053df</ssloffloadcert>
+					<ssloffloadacl_an>yes</ssloffloadacl_an>
+					<advanced></advanced>
+					<ha_acls>
+						<item>
+							<name>external</name>
+							<expression>host_contains</expression>
+							<value>{EXTERNAL_VIP}</value>
+							<backendservercountbackend>amqp</backendservercountbackend>
+							<_index></_index>
+						</item>
+					</ha_acls>
+					<ha_certificates></ha_certificates>
+					<clientcert_ca></clientcert_ca>
+					<clientcert_crl></clientcert_crl>
+					<a_extaddr>
+						<item>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8041</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+					</a_extaddr>
+					<a_actionitems>
+						<item>
+							<action>use_backend</action>
+							<acl>external</acl>
+							<use_backendbackend>gnocci</use_backendbackend>
+							<_index></_index>
+						</item>
+					</a_actionitems>
+					<a_errorfiles></a_errorfiles>
 				</item>
 			</ha_backends>
 			<ha_pools>
@@ -4976,12 +5125,9 @@
 							<_index></_index>
 						</item>
 					</ha_servers>
-					<a_acl>
-					</a_acl>
-					<a_actionitems>
-					</a_actionitems>
-					<errorfiles>
-					</errorfiles>
+					<a_acl></a_acl>
+					<a_actionitems></a_actionitems>
+					<errorfiles></errorfiles>
 					<advanced></advanced>
 					<advanced_backend></advanced_backend>
 					<name>designate</name>
@@ -5531,6 +5677,221 @@
 					<email_level></email_level>
 					<email_to></email_to>
 					<id>114</id>
+				</item>
+				<item>
+					<ha_servers>
+						<item>
+							<status>active</status>
+							<name>internal</name>
+							<address>{EXTERNAL_VIP}</address>
+							<port>8786</port>
+							<ssl>yes</ssl>
+							<id>101</id>
+							<_index></_index>
+						</item>
+					</ha_servers>
+					<a_acl></a_acl>
+					<a_actionitems></a_actionitems>
+					<errorfiles></errorfiles>
+					<advanced></advanced>
+					<advanced_backend></advanced_backend>
+					<name>manilla</name>
+					<balance></balance>
+					<balance_urilen></balance_urilen>
+					<balance_uridepth></balance_uridepth>
+					<balance_uriwhole></balance_uriwhole>
+					<transparent_clientip></transparent_clientip>
+					<transparent_interface>wan</transparent_interface>
+					<check_type>HTTP</check_type>
+					<checkinter></checkinter>
+					<log-health-checks></log-health-checks>
+					<httpcheck_method>GET</httpcheck_method>
+					<monitor_uri></monitor_uri>
+					<monitor_httpversion></monitor_httpversion>
+					<monitor_username></monitor_username>
+					<monitor_domain></monitor_domain>
+					<monitor_agentport>designate-copy</monitor_agentport>
+					<agent_check></agent_check>
+					<agent_port></agent_port>
+					<agent_inter></agent_inter>
+					<connection_timeout></connection_timeout>
+					<server_timeout></server_timeout>
+					<retries></retries>
+					<stats_enabled></stats_enabled>
+					<stats_username></stats_username>
+					<stats_password></stats_password>
+					<stats_uri></stats_uri>
+					<stats_scope></stats_scope>
+					<stats_realm></stats_realm>
+					<stats_admin></stats_admin>
+					<stats_node></stats_node>
+					<stats_desc></stats_desc>
+					<stats_refresh></stats_refresh>
+					<persist_stick_expire></persist_stick_expire>
+					<persist_stick_tablesize></persist_stick_tablesize>
+					<persist_stick_length></persist_stick_length>
+					<persist_stick_cookiename></persist_stick_cookiename>
+					<persist_sticky_type>none</persist_sticky_type>
+					<persist_cookie_enabled></persist_cookie_enabled>
+					<persist_cookie_name></persist_cookie_name>
+					<persist_cookie_mode>passive</persist_cookie_mode>
+					<persist_cookie_cachable></persist_cookie_cachable>
+					<persist_cookie_postonly></persist_cookie_postonly>
+					<persist_cookie_httponly></persist_cookie_httponly>
+					<persist_cookie_secure></persist_cookie_secure>
+					<haproxy_cookie_maxidle></haproxy_cookie_maxidle>
+					<haproxy_cookie_maxlife></haproxy_cookie_maxlife>
+					<haproxy_cookie_domains></haproxy_cookie_domains>
+					<haproxy_cookie_dynamic_cookie_key></haproxy_cookie_dynamic_cookie_key>
+					<strict_transport_security>31536000</strict_transport_security>
+					<cookie_attribute_secure>yes</cookie_attribute_secure>
+					<email_level></email_level>
+					<email_to></email_to>
+					<id>116</id>
+				</item>
+				<item>
+					<ha_servers>
+						<item>
+							<status>active</status>
+							<name>internal</name>
+							<address>{EXTERNAL_VIP}</address>
+							<port>9517</port>
+							<ssl>yes</ssl>
+							<id>101</id>
+							<_index></_index>
+						</item>
+					</ha_servers>
+					<a_acl></a_acl>
+					<a_actionitems></a_actionitems>
+					<errorfiles></errorfiles>
+					<advanced></advanced>
+					<advanced_backend></advanced_backend>
+					<name>magnum-infra</name>
+					<balance></balance>
+					<balance_urilen></balance_urilen>
+					<balance_uridepth></balance_uridepth>
+					<balance_uriwhole></balance_uriwhole>
+					<transparent_clientip></transparent_clientip>
+					<transparent_interface>wan</transparent_interface>
+					<check_type>HTTP</check_type>
+					<checkinter></checkinter>
+					<log-health-checks></log-health-checks>
+					<httpcheck_method>OPTIONS</httpcheck_method>
+					<monitor_uri></monitor_uri>
+					<monitor_httpversion></monitor_httpversion>
+					<monitor_username></monitor_username>
+					<monitor_domain></monitor_domain>
+					<monitor_agentport>magnum-infra</monitor_agentport>
+					<agent_check></agent_check>
+					<agent_port></agent_port>
+					<agent_inter></agent_inter>
+					<connection_timeout></connection_timeout>
+					<server_timeout></server_timeout>
+					<retries></retries>
+					<stats_enabled></stats_enabled>
+					<stats_username></stats_username>
+					<stats_password></stats_password>
+					<stats_uri></stats_uri>
+					<stats_scope></stats_scope>
+					<stats_realm></stats_realm>
+					<stats_admin></stats_admin>
+					<stats_node></stats_node>
+					<stats_desc></stats_desc>
+					<stats_refresh></stats_refresh>
+					<persist_stick_expire></persist_stick_expire>
+					<persist_stick_tablesize></persist_stick_tablesize>
+					<persist_stick_length></persist_stick_length>
+					<persist_stick_cookiename></persist_stick_cookiename>
+					<persist_sticky_type>none</persist_sticky_type>
+					<persist_cookie_enabled></persist_cookie_enabled>
+					<persist_cookie_name></persist_cookie_name>
+					<persist_cookie_mode>passive</persist_cookie_mode>
+					<persist_cookie_cachable></persist_cookie_cachable>
+					<persist_cookie_postonly></persist_cookie_postonly>
+					<persist_cookie_httponly></persist_cookie_httponly>
+					<persist_cookie_secure></persist_cookie_secure>
+					<haproxy_cookie_maxidle></haproxy_cookie_maxidle>
+					<haproxy_cookie_maxlife></haproxy_cookie_maxlife>
+					<haproxy_cookie_domains></haproxy_cookie_domains>
+					<haproxy_cookie_dynamic_cookie_key></haproxy_cookie_dynamic_cookie_key>
+					<strict_transport_security>31536000</strict_transport_security>
+					<cookie_attribute_secure>yes</cookie_attribute_secure>
+					<email_level></email_level>
+					<email_to></email_to>
+					<id>117</id>
+				</item>
+				<item>
+					<ha_servers>
+						<item>
+							<status>active</status>
+							<name>internal</name>
+							<address>{EXTERNAL_VIP}</address>
+							<port>8041</port>
+							<id>101</id>
+							<_index></_index>
+						</item>
+					</ha_servers>
+					<a_acl>
+					</a_acl>
+					<a_actionitems>
+					</a_actionitems>
+					<errorfiles>
+					</errorfiles>
+					<advanced></advanced>
+					<advanced_backend></advanced_backend>
+					<name>gnocci</name>
+					<balance></balance>
+					<balance_urilen></balance_urilen>
+					<balance_uridepth></balance_uridepth>
+					<balance_uriwhole></balance_uriwhole>
+					<transparent_clientip></transparent_clientip>
+					<transparent_interface>wan</transparent_interface>
+					<check_type>Basic</check_type>
+					<checkinter></checkinter>
+					<log-health-checks></log-health-checks>
+					<httpcheck_method>HEAD</httpcheck_method>
+					<monitor_uri></monitor_uri>
+					<monitor_httpversion></monitor_httpversion>
+					<monitor_username></monitor_username>
+					<monitor_domain></monitor_domain>
+					<monitor_agentport>gnocci</monitor_agentport>
+					<agent_check></agent_check>
+					<agent_port></agent_port>
+					<agent_inter></agent_inter>
+					<connection_timeout></connection_timeout>
+					<server_timeout></server_timeout>
+					<retries></retries>
+					<stats_enabled></stats_enabled>
+					<stats_username></stats_username>
+					<stats_password></stats_password>
+					<stats_uri></stats_uri>
+					<stats_scope></stats_scope>
+					<stats_realm></stats_realm>
+					<stats_admin></stats_admin>
+					<stats_node></stats_node>
+					<stats_desc></stats_desc>
+					<stats_refresh></stats_refresh>
+					<persist_stick_expire></persist_stick_expire>
+					<persist_stick_tablesize></persist_stick_tablesize>
+					<persist_stick_length></persist_stick_length>
+					<persist_stick_cookiename></persist_stick_cookiename>
+					<persist_sticky_type>none</persist_sticky_type>
+					<persist_cookie_enabled></persist_cookie_enabled>
+					<persist_cookie_name></persist_cookie_name>
+					<persist_cookie_mode>passive</persist_cookie_mode>
+					<persist_cookie_cachable></persist_cookie_cachable>
+					<persist_cookie_postonly></persist_cookie_postonly>
+					<persist_cookie_httponly></persist_cookie_httponly>
+					<persist_cookie_secure></persist_cookie_secure>
+					<haproxy_cookie_maxidle></haproxy_cookie_maxidle>
+					<haproxy_cookie_maxlife></haproxy_cookie_maxlife>
+					<haproxy_cookie_domains></haproxy_cookie_domains>
+					<haproxy_cookie_dynamic_cookie_key></haproxy_cookie_dynamic_cookie_key>
+					<strict_transport_security>31536000</strict_transport_security>
+					<cookie_attribute_secure>yes</cookie_attribute_secure>
+					<email_level></email_level>
+					<email_to></email_to>
+					<id>118</id>
 				</item>
 			</ha_pools>
 			<configversion>00.58</configversion>
@@ -6385,11 +6746,13 @@
 			<configurationfile>shellcmd.xml</configurationfile>
 		</package>
 		<package>
-			<name>Telegraf</name>
-			<descr><![CDATA[Telegraf is an agent written in Go for collecting, processing, aggregating, and writing metrics.]]></descr>
-			<version>0.9_5</version>
-			<configurationfile>telegraf.xml</configurationfile>
-			<include_file>/usr/local/pkg/telegraf.inc</include_file>
+			<name>acme</name>
+			<pkginfolink>https://docs.netgate.com/pfsense/en/latest/packages/acme/index.html</pkginfolink>
+			<descr><![CDATA[Automated Certificate Management Environment, for automated use of LetsEncrypt certificates.]]></descr>
+			<website>https://letsencrypt.org/</website>
+			<version>0.6.10</version>
+			<configurationfile>acme.xml</configurationfile>
+			<plugins></plugins>
 		</package>
 		<package>
 			<name>squid3</name>
@@ -6429,20 +6792,13 @@
 			</plugins>
 		</package>
 		<package>
-			<name>Cron</name>
-			<descr><![CDATA[The cron utility is used to manage commands on a schedule.]]></descr>
-			<version>0.3.7_5</version>
-			<configurationfile>cron.xml</configurationfile>
-			<include_file>/usr/local/pkg/cron.inc</include_file>
-		</package>
-		<package>
-			<name>acme</name>
-			<pkginfolink>https://docs.netgate.com/pfsense/en/latest/packages/acme/index.html</pkginfolink>
-			<descr><![CDATA[Automated Certificate Management Environment, for automated use of LetsEncrypt certificates.]]></descr>
-			<website>https://letsencrypt.org/</website>
-			<version>0.6.10</version>
-			<configurationfile>acme.xml</configurationfile>
-			<plugins></plugins>
+			<name>nut</name>
+			<pkginfolink>https://docs.netgate.com/pfsense/en/latest/packages/nut.html</pkginfolink>
+			<website>http://networkupstools.org/</website>
+			<descr><![CDATA[Network UPS Tools]]></descr>
+			<version>2.7.4_8</version>
+			<configurationfile>nut.xml</configurationfile>
+			<include_file>/usr/local/pkg/nut/nut.inc</include_file>
 		</package>
 		<package>
 			<name>OpenVPN Client Export Utility</name>
@@ -6504,7 +6860,7 @@
 			Advanced Integration for Proofpoint ET IQRisk IP Reputation Threat Sources.&lt;br /&gt;
 			Domain Name (DNSBL) blocking via Unbound DNS Resolver.]]></descr>
 			<pkginfolink>https://forum.netgate.com/topic/158592/pfblockerng-devel-v3-0-0-no-longer-bound-by-unbound/43</pkginfolink>
-			<version>3.0.0_16</version>
+			<version>3.1.0</version>
 			<configurationfile>pfblockerng.xml</configurationfile>
 		</package>
 		<package>
@@ -6517,14 +6873,21 @@
 			<after_install_info>Please visit Services - Snort - Interfaces tab first and select your desired rules. Afterwards visit the Updates tab to download your configured rulesets.</after_install_info>
 		</package>
 		<package>
-			<name>nut</name>
-			<pkginfolink>https://docs.netgate.com/pfsense/en/latest/packages/nut.html</pkginfolink>
-			<website>http://networkupstools.org/</website>
-			<descr><![CDATA[Network UPS Tools]]></descr>
-			<version>2.7.4_8</version>
-			<configurationfile>nut.xml</configurationfile>
-			<include_file>/usr/local/pkg/nut/nut.inc</include_file>
+			<name>Cron</name>
+			<descr><![CDATA[The cron utility is used to manage commands on a schedule.]]></descr>
+			<version>0.3.7_5</version>
+			<configurationfile>cron.xml</configurationfile>
+			<include_file>/usr/local/pkg/cron.inc</include_file>
 		</package>
+		<package>
+			<name>Telegraf</name>
+			<descr><![CDATA[Telegraf is an agent written in Go for collecting, processing, aggregating, and writing metrics.]]></descr>
+			<version>0.9_5</version>
+			<configurationfile>telegraf.xml</configurationfile>
+			<include_file>/usr/local/pkg/telegraf.inc</include_file>
+		</package>
+		<pfblockerngblacklist></pfblockerngblacklist>
+		<pfblockerngglobal></pfblockerngglobal>
 	</installedpackages>
 	<ca>
 		<refid>60ed826b68fa7</refid>
