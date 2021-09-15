@@ -216,9 +216,9 @@ function telegram_debug_msg() {
 }
 
 function prep_project_config() {
-  source /tmp/openstack-scripts/project_config.sh
+  source ./project_config.sh
   ### prep project config
-  cp /tmp/openstack-scripts/project_config.sh /tmp/project_config.sh
+  cp ./project_config.sh /tmp/project_config.sh
   ## replace variables using sed as this does not work the way one would think it would
   ###  remember to replace all variables that are nested in project config!
   sed -i 's/$NETWORK_PREFIX/'$NETWORK_PREFIX'/g' /tmp/project_config.sh
