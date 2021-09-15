@@ -91,8 +91,8 @@ docker_namespace: "library/kolla"
 # Docker client timeout in seconds.
 #docker_client_timeout: 120
 
-#docker_configure_for_zun: "no"
-#containerd_configure_for_zun: "no"
+docker_configure_for_zun: "yes"
+containerd_configure_for_zun: "yes"
 #containerd_grpc_gid: 42463
 
 ###################
@@ -408,9 +408,6 @@ enable_trove: "yes"
 #enable_watcher: "no"
 #enable_zookeeper: "{{ enable_kafka | bool or enable_storm | bool }}"
 enable_zun: "yes"
-
-docker_configure_for_zun: "yes"
-containerd_configure_for_zun: "yes"
 
 ##################
 # RabbitMQ options
