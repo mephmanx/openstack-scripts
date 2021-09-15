@@ -6,9 +6,8 @@ set -x
 
 source /tmp/openstack-env.sh
 
-## prep project config by replacing nested vars
-cp /tmp/openstack-scripts/vm_functions.sh /tmp/vm_functions.sh
-source /tmp/vm_functions.sh
+## prep project config by replacing nested vars]
+source ./vm_functions.sh
 prep_project_config
 #########
 
