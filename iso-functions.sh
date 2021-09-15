@@ -91,7 +91,7 @@ function initialKickstartSetup {
   sed -i 's/{INIT_SCRIPT_FILE}/'$INIT_SCRIPT_FILE'/g' ${kickstart_file}
   sed -i 's/{VM_FUNCTIONS_FILE}/'$VM_FUNCTIONS_FILE'/g' ${kickstart_file}
 #  sed -i 's/{GITHUB_TOKEN}/'$GITHUB_TOKEN'/g' ${kickstart_file}
-  sed -i 's/{GITHUB_USER}/'$GITHUB_USER'/g' ${kickstart_file}
+#  sed -i 's/{GITHUB_USER}/'$GITHUB_USER'/g' ${kickstart_file}
   sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
   sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
   sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
@@ -173,6 +173,12 @@ function buildAndPushVMTypeISO {
   commonItems ${kickstart_file}
   ##########################
 
+  ########## server type second boot script
+  echo "cat > /tmp/$vm_name.sh <<EOF" >> ${kickstart_file}
+  cat ./$vm_name.sh >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+  #####################
+
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} ${vm_name}
 }
@@ -213,6 +219,12 @@ function buildAndPushOpenstackSetupISO {
   cat /tmp/dns_hosts >> ${kickstart_file}
   echo  $1 >> ${kickstart_file}
   cat /tmp/additional_hosts >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+  #####################
+
+  ########## kolla globals file
+  echo 'cat > /tmp/globals.yml <<EOF' >> ${kickstart_file}
+  cat ./globals.yml >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #####################
 

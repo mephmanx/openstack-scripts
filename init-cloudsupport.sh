@@ -48,7 +48,7 @@ HOWLONG=15 ## the number of characters
 NEWPW=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
 ###
 
-wget -q -O /root/harbor/harbor.yml -d https://raw.githubusercontent.com/$GITHUB_USER/openstack-scripts/master/harbor.yml
+cp /tmp/harbor.yml /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_HOST}/${SUPPORT_VIP_DNS}/g" /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_PASSWORD}/${ADMIN_PWD}/g" /root/harbor/harbor.yml
 sed -i "s/{DATABASE_PASSWORD}/${NEWPW}/g" /root/harbor/harbor.yml

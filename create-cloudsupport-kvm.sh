@@ -37,7 +37,7 @@ VM_FUNCTIONS_FILE=`cat /tmp/vm_functions.sh`
 sed -i 's/{PROJECT_CONFIG_FILE}/'$PROJECT_CONFIG_FILE'/g' ${kickstart_file}
 sed -i 's/{INIT_SCRIPT_FILE}/'$INIT_SCRIPT_FILE'/g' ${kickstart_file}
 sed -i 's/{VM_FUNCTIONS_FILE}/'$VM_FUNCTIONS_FILE'/g' ${kickstart_file}
-sed -i 's/{GITHUB_USER}/'$GITHUB_USER'/g' ${kickstart_file}
+#sed -i 's/{GITHUB_USER}/'$GITHUB_USER'/g' ${kickstart_file}
 sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' ${kickstart_file}
 sed -i 's/{HOST}/'$SUPPORT_HOST'/g' ${kickstart_file}
@@ -58,6 +58,12 @@ echo 'EOF' >> ${kickstart_file}
 ############### Secrets file ################
 echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
 cat /tmp/openstack-env.sh >> ${kickstart_file}
+echo 'EOF' >> ${kickstart_file}
+###############################
+
+############### harbor.yml file ################
+echo 'cat > /tmp/harbor.yml <<EOF' >> ${kickstart_file}
+cat ./harbor.yml >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 ###############################
 

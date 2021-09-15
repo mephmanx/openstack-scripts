@@ -108,12 +108,13 @@ function add_stack_user() {
 }
 
 function prep_next_script() {
+  vm_type=$1
   systemctl start cockpit.socket
   systemctl enable --now cockpit.socket
 
   ## Prep OpenStack install
   rm -rf /etc/rc.d/rc.local
-  curl -s -o /etc/rc.d/rc.local https://raw.githubusercontent.com/$GITHUB_USER/openstack-scripts/master/$1.sh > /dev/null
+  cp /tmp/$vm_type.sh /etc/rc.d/rc.local
   chmod +x /etc/rc.d/rc.local
 }
 
