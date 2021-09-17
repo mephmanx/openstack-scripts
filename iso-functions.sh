@@ -173,8 +173,10 @@ function buildAndPushVMTypeISO {
   commonItems ${kickstart_file}
   ##########################
 
+  printf -v vm_type_n '%s\n' "${vm_name//[[:digit:]]/}"
+  vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
   ########## server type second boot script
-  echo "cat > /tmp/$vm_name.sh <<EOF" >> ${kickstart_file}
+  echo "cat > /tmp/$vm_type.sh <<EOF" >> ${kickstart_file}
   cat /tmp/openstack-scripts/$vm_name.sh >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #####################
