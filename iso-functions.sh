@@ -248,6 +248,12 @@ function buildAndPushOpenstackSetupISO {
   echo 'EOF' >> ${kickstart_file}
   #########################
 
+  ########## server type second boot script
+  echo "cat > /tmp/kolla.sh <<EOF" >> ${kickstart_file}
+  cat /tmp/openstack-scripts/kolla.sh >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+  #####################
+
   #####################################
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla"
 }
