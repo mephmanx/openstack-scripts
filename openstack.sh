@@ -214,9 +214,9 @@ sed -i 's/{OPENVPN_CERT_PWD}/'$ADMIN_PWD'/g' /tmp/usb/config.xml
 sed -i 's/{GODADDY_ACCOUNT}/'$GODADDY_ACCOUNT'/g' /tmp/usb/config.xml
 sed -i 's/{GODADDY_KEY}/'$GODADDY_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{GODADDY_KEY_BASE64}/'$GODADDY_KEY_BASE64'/g' /tmp/usb/config.xml
-sed -i 's/{GMAIL_ACCOUNT}/'$GMAIL_ACCOUNT'/g' /tmp/usb/config.xml
-sed -i 's/{GMAIL_KEY}/'$GMAIL_KEY'/g' /tmp/usb/config.xml
-sed -i 's/{GMAIL_ADDRESS}/'$GMAIL_ADDRESS'/g' /tmp/usb/config.xml
+sed -i 's/{SMTP_ACCOUNT}/'$SMTP_ACCOUNT'/g' /tmp/usb/config.xml
+sed -i 's/{SMTP_KEY}/'$SMTP_KEY'/g' /tmp/usb/config.xml
+sed -i 's/{SMTP_ADDRESS}/'$SMTP_ADDRESS'/g' /tmp/usb/config.xml
 sed -i 's/{TELEGRAM_API}/'$TELEGRAM_API'/g' /tmp/usb/config.xml
 sed -i 's/{TELEGRAM_CHAT_ID}/'$TELEGRAM_CHAT_ID'/g' /tmp/usb/config.xml
 sed -i 's/{OINKMASTER}/'$OINKMASTER'/g' /tmp/usb/config.xml

@@ -6,6 +6,7 @@ RUN curl -L -o /CentOS-Stream.iso http://isoredirect.centos.org/centos/8-stream/
 
 RUN git clone https://github.com/mephmanx/centos-8-minimal.git /centos-build/
 RUN cp /CentOS-Stream.iso /centos-build/
+RUN echo "test"
 RUN chmod +x /centos-build/create_iso_in_container.sh && cd /centos-build/; ./create_iso_in_container.sh
 
 ARG ENVFILE

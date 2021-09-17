@@ -27,9 +27,9 @@ export GODADDY_KEY=<godaddy api secret>
 
 #### gmail info
 ## prefer telegram over SMTP...remove if possible
-export GMAIL_ACCOUNT=<gmail username>
-export GMAIL_KEY=<gmail application auth key>
-export GMAIL_ADDRESS=smtp.gmail.com
+export SMTP_ACCOUNT=<gmail username>
+export SMTP_KEY=<gmail application auth key>
+export SMTP_ADDRESS=smtp.gmail.com
 #######
 
 ### telegram
