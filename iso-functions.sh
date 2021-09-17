@@ -40,12 +40,6 @@ function commonItems {
   #####
   ###############################
 
-  ############### External Project Configs ################
-  echo 'cat > /tmp/project_config.sh <<EOF' >> ${kickstart_file}
-  cat /tmp/project_config.sh >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  ###############################
-
   ##########
   # Maybe decrypt this file or values with a TPM pk or password
   #########
