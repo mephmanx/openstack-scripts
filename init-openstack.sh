@@ -24,16 +24,6 @@ prep_project_config
 source /tmp/project_config.sh
 #######
 
-##### test to make sure checkout was good and internet was reachable
-SCRIPTS_FILE_COUNT=`ls /tmp/openstack-scripts | wc -l`
-if [[ $SCRIPTS_FILE_COUNT -gt 0 ]]; then
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Checkout successful, pulled $SCRIPTS_FILE_COUNT from scripts folder"
-else
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Checkout failed!  Possible network config issue or internet unreachable!  Install exiting."
-  exit -1
-fi
-##########
-
 ### cleanup from previous boot
 rm -rf /tmp/eth*
 ########
