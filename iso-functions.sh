@@ -47,7 +47,7 @@ function commonItems {
   ###############################
 
   ##########
-  # Maybe decrpyt this file or values with a TPM pk or password
+  # Maybe decrypt this file or values with a TPM pk or password
   #########
 
   ############### Secrets File ################
