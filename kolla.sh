@@ -395,6 +395,36 @@ openstack quota set --volumes -1 service
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry Openstack project ready.  user -> $OPENSTACK_CLOUDFOUNDRY_USERNAME pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
 telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack admin pwd is $ADMIN_PWD"
 
+#### start logstash container on monitoring01
+
+cat > /tmp/monitoring01-logstash.sh <<EOF
+# Create logstash configurations
+mkdir ~/logstash-docker
+cd ~/logstash-docker
+
+# Clone sample files
+git clone https://github.com/pfelk/docker.git
+cp -r docker/etc .
+
+# Remove repository
+rm -rf docker
+
+# Update elasticsearch hostname
+sed -i "s/es01/openstack-local.lyonsgroup.family/g" etc/logstash/config/logstash.yml
+sed -i "s/es01/openstack-local.lyonsgroup.family/g" etc/pfelk/conf.d/50-outputs.conf
+
+# Port 5140 is already in use by some other process, going to use a different port range (5540,5541)
+sed -i "s/5140/5540/g" etc/pfelk/conf.d/01-inputs.conf
+sed -i "s/5141/5541/g" etc/pfelk/conf.d/01-inputs.conf
+
+# Start the logstash container
+docker run --rm -d -v $PWD/etc/logstash/config:/usr/share/logstash/config:ro -v $PWD/etc/pfelk:/etc/pfelk:ro -e "LS_JAVA_OPTS=-Xmx1G -Xms1G" --network=host --name logstash docker.elastic.co/logstash/logstash:7.10.2
+EOF
+
+scp /tmp/monitoring01-logstash.sh root@monitoring01:/tmp
+runuser -l root -c "ssh root@monitoring01 'chmod 777 /tmp/monitoring01-logstash.sh; cd /tmp; ./monitoring01-logstash.sh'"
+####
+
 #download and configure homebrew to run bbl install
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting Homebrew install...."
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh -o /tmp/homebrew.sh > /dev/null
