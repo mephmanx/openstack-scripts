@@ -75,9 +75,9 @@ function initialKickstartSetup {
   ADMIN_PWD=`cat /root/env_admin_pwd`
 
   ### load file contents
-  PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh`
-  INIT_SCRIPT_FILE=`cat /tmp/openstack-scripts/init-cloud_common.sh`
-  VM_FUNCTIONS_FILE=`cat /tmp/vm_functions.sh`
+  PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh  | base64 | tr -d '\n\r'`
+  INIT_SCRIPT_FILE=`cat /tmp/openstack-scripts/init-cloud_common.sh  | base64 | tr -d '\n\r'`
+  VM_FUNCTIONS_FILE=`cat /tmp/vm_functions.sh  | base64 | tr -d '\n\r'`
   ###
 
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
