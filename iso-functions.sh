@@ -175,7 +175,7 @@ function buildAndPushVMTypeISO {
 
   ########## server type second boot script
   echo "cat > /tmp/$vm_name.sh <<EOF" >> ${kickstart_file}
-  cat ./$vm_name.sh >> ${kickstart_file}
+  cat /tmp/openstack-scripts/$vm_name.sh >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #####################
 
