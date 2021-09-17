@@ -146,7 +146,7 @@ create_vm_kvm "kolla" "kolla"
 ###wait until jobs complete and servers come up
 wait
 sleep 300
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "All cloud VM's performed 2nd reboot.  Openstack install will begin if VM's came up correctly."
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "All cloud VM's installed.  Openstack install will begin if VM's came up correctly."
 ##########
 
 ### delete isos when done as they have private info
@@ -171,4 +171,4 @@ if [[ $HYPERVISOR_DEBUG == 0 ]]; then
   runuser -l root -c  'rm -rf /tmp/openstack-scripts'
 fi
 ######
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Host trust and cleanup scripts run.  Cloud create script is complete.  Next messages will come from cloud VM's."
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Host trust and cleanup scripts run.  Cloud create script is complete."
