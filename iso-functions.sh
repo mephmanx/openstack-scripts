@@ -136,11 +136,9 @@ function closeOutAndBuildKickstartAndISO {
   ## file must exist on filesystem
   for element in "${embedded_files[@]}"
   do
-    cat $element > $element-tmp
     if [ -f "$element" ]; then
       IFS='/' read -ra ADDR <<< "$element"
-      length=${#array[@]}
-      cat ${ADDR[length - 1]} > /tmp/file-$element
+      length=${#ADDR[@]}
       cp $element /var/tmp/${vm_name}/${ADDR[length - 1]}
     fi
   done
