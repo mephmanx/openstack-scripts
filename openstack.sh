@@ -28,7 +28,7 @@ systemctl mask firewalld
 
 ## Send System info
 load_system_info
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Cloud System: $SYSTEM_INFO \r\n CPU Count: $CPU_COUNT \r\n Installed RAM: $INSTALLED_RAM GB \r\n Reserved RAM: $RESERVED_RAM GB \r\n Disk Count: $DISK_COUNT"
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Cloud System: $SYSTEM_INFO"
 #### Notify admin pwd in debug mode
 if [[ $HYPERVISOR_DEBUG == 1 ]]; then
   root_pw=`cat /home/admin/rootpw`

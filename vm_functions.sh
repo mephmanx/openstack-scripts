@@ -11,15 +11,19 @@ function load_system_info() {
   export INSTALLED_RAM=`runuser -l root -c  'dmidecode -t memory | grep  Size: | grep -v "No Module Installed"' | awk '{sum+=$2}END{print sum}'`
   export RESERVED_RAM=$(( $INSTALLED_RAM * $RAM_PCT_AVAIL_CLOUD/100 ))
   export CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
-  export DISK_COUNT=`lshw -class disk | grep -o -i disk: | wc -l`
+  export DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
 #  ct=0
 #  while [ $ct -lt $DISK_COUNT ]; do
 #    export DISK_$ct=
 #  done
-  ## this is just an output of dmidecode.  its just sent out via telegram for info
+
+  ## build system output to send via telegram
+  CPU_INFO="CPU Count: $CPU_COUNT"
+  RAM_INFO="Installed RAM: $INSTALLED_RAM GB \r\n Reserved RAM: $RESERVED_RAM GB"
+  DISK_INFO="Disk Count: $DISK_COUNT"
   DMI_DECODE=`runuser -l root -c  "dmidecode -t system"`
   OS_INFO=`cat /etc/os-release`
-  export SYSTEM_INFO="$DMI_DECODE\n\n$OS_INFO"
+  export SYSTEM_INFO="$DMI_DECODE\n\n$OS_INFO\n\n$CPU_INFO\n\n$RAM_INFO\n\n$DISK_INFO"
 }
 
 function grow_fs() {
