@@ -55,7 +55,7 @@ if [ ! -f "/tmp/harbor.tgz" ]; then
 fi
 
 if [ ! -f "/tmp/magnum.qcow2" ]; then
-  curl -o /tmp/magnum.qcow2 $MAGNUM_IMAGE -k
+  wget -O /tmp/magnum.qcow2 ${}MAGNUM_IMAGE}
 fi
 ####
 
