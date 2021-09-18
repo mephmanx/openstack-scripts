@@ -307,7 +307,7 @@ pip install python-magnumclient
 pip install python-swiftclient
 #####
 
-curl -o /tmp/magnum.qcow2 https://$GATEWAY_ROUTER_IP/isos/magnum.qcow2 -s -k
+curl -o /tmp/magnum.qcow2 https://$GATEWAY_ROUTER_IP/isos/magnum.qcow2 -s
 openstack image create \
                       --disk-format=qcow2 \
                       --container-format=bare \
