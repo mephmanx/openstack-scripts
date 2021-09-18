@@ -84,7 +84,7 @@ function vm_definitions {
         echo '{
             "count":"1",
             "cpu":"24",
-            "memory":174",
+            "memory":178",
             "drive_string":"SSD:700",
             "network_string":"amp-net,loc-static,loc-static"
           }'
@@ -94,7 +94,7 @@ function vm_definitions {
             "count":"1",
             "cpu":"2",
             "memory":"16",
-            "drive_string":"Disk:300",
+            "drive_string":"Disk:350",
             "network_string":"amp-net,loc-static"
           }'
     ;;
@@ -111,8 +111,8 @@ function vm_definitions {
         echo '{
             "count":"1",
             "cpu":"4",
-            "memory":"8",
-            "drive_string":"Disk:100",
+            "memory":"4",
+            "drive_string":"Disk:60",
             "network_string":"loc-static"
           }'
     ;;
