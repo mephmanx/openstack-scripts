@@ -223,7 +223,7 @@ function buildAndPushOpenstackSetupISO {
   echo "cat > /tmp/globals.yml.enc <<EOF" >> ${kickstart_file}
   echo $KOLLA_SETTINGS >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
-  echo "cat /tmp/globals.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/globals.yml"
+  echo "cat /tmp/globals.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/globals.yml" >> ${kickstart_file}
   #####################
 
   ############ control hack script
@@ -255,8 +255,8 @@ function buildAndPushOpenstackSetupISO {
   echo "cat > /tmp/kolla.sh.enc <<EOF" >> ${kickstart_file}
   echo $START_SCRIPT >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
-  echo "cat /tmp/kolla.sh.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/kolla.sh"
-  echo "chmod 700 /tmp/kolla.sh'"
+  echo "cat /tmp/kolla.sh.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/kolla.sh" >> ${kickstart_file}
+  echo "chmod 700 /tmp/kolla.sh'" >> ${kickstart_file}
   #####################
 
   #####################################
