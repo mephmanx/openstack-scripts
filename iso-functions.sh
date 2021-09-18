@@ -134,12 +134,13 @@ function closeOutAndBuildKickstartAndISO {
 
   #### add embedded files to iso
   ## file must exist on filesystem
+  mkdir /var/tmp/${vm_name}/embedded
   for embed_file in "${embedded_files[@]}";
   do
     if [ -f "$embed_file" ]; then
       IFS='/' read -ra file_parts <<< "$embed_file"
       length=${#file_parts[@]}
-      echo "copying file -> $embed_file to /var/tmp/${vm_name}/${file_parts[length - 1]}"
+      echo "copying file -> $embed_file to /var/tmp/${vm_name}/embedded/${file_parts[length - 1]}"
       cp $embed_file /var/tmp/${vm_name}/${file_parts[length - 1]}
     fi
   done
