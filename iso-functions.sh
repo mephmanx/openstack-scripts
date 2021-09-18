@@ -134,7 +134,7 @@ function closeOutAndBuildKickstartAndISO {
 
   #### add embedded files to iso
   ## file must exist on filesystem
-  for element in "${embedded_files[@]}"
+  for element in "${embedded_files[@]}";
   do
     if [ -f "$element" ]; then
       IFS='/' read -ra ADDR <<< "$element"
