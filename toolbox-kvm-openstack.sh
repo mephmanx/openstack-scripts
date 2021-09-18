@@ -46,9 +46,12 @@ echo 'EOF' >> ${kickstart_file}
 #####
 
 ## download files to be embedded
+echo "downloading pfsense from ${PFSENSE}"
 wget -q -O /tmp/pfSense-CE-memstick-ADI.img.gz ${PFSENSE}
+echo "downloading harbor from ${HARBOR}"
 wget -q -O /tmp/harbor.tgz ${HARBOR}
-curl -o /tmp/magnum.qcow2 https://$GATEWAY_ROUTER_IP/isos/magnum.qcow2 -s -k
+echo "downloading magnum image from $MAGNUM_IMAGE"
+curl -o /tmp/magnum.qcow2 $MAGNUM_IMAGE -s -k
 ####
 
 embed_files=("/tmp/pfSense-CE-memstick-ADI.img.gz" "/tmp/harbor.tgz" "/tmp/magnum.qcow2")
