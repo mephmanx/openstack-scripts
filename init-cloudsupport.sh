@@ -38,7 +38,7 @@ chmod +x /usr/local/bin/docker-compose
 
 cd /root
 
-wget -q -O /tmp/harbor.tgz ${HARBOR}
+#wget -q -O /tmp/harbor.tgz ${HARBOR}
 tar xzvf /tmp/harbor.tgz
 
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"

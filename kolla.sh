@@ -307,7 +307,7 @@ pip install python-magnumclient
 pip install python-swiftclient
 #####
 
-curl -o /tmp/magnum.qcow2 https://$GATEWAY_ROUTER_IP/isos/magnum.qcow2 -s
+#curl -o /tmp/magnum.qcow2 https://$GATEWAY_ROUTER_IP/isos/magnum.qcow2 -s
 openstack image create \
                       --disk-format=qcow2 \
                       --container-format=bare \
@@ -487,8 +487,9 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Pulling terraform 0.11.15 for p
 #### prepare env for cloudfoundry
 git clone https://github.com/cloudfoundry-attic/bosh-openstack-environment-templates.git /tmp/bosh-openstack-environment-templates
 cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf
+cp /tmp/terraform_0.11.15_linux_amd64.zip ./
 
-wget -q https://releases.hashicorp.com/terraform/0.11.15/terraform_0.11.15_linux_amd64.zip
+#wget -q https://releases.hashicorp.com/terraform/0.11.15/terraform_0.11.15_linux_amd64.zip
 unzip terraform_0.11.15_linux_amd64.zip
 chmod 700 terraform
 

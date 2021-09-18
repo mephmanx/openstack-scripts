@@ -57,9 +57,13 @@ fi
 if [ ! -f "/tmp/magnum.qcow2" ]; then
   wget -O /tmp/magnum.qcow2 ${MAGNUM_IMAGE}
 fi
+
+if [ ! -f "/tmp/terraform_0.11.15_linux_amd64.zip" ]; then
+  wget -O /tmp/terraform_0.11.15_linux_amd64.zip ${CF_ATTIC_TERRAFORM}
+fi
 ####
 
-embed_files=('/tmp/magnum.qcow2' '/tmp/pfSense-CE-memstick-ADI.img.gz' '/tmp/harbor.tgz')
+embed_files=('/tmp/magnum.qcow2' '/tmp/pfSense-CE-memstick-ADI.img.gz' '/tmp/harbor.tgz' '/tmp/terraform_0.11.15_linux_amd64.zip')
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_string
 
