@@ -139,6 +139,7 @@ function closeOutAndBuildKickstartAndISO {
     if [ -f "$embed_file" ]; then
       IFS='/' read -ra file_parts <<< "$embed_file"
       length=${#file_parts[@]}
+      echo "copying file -> $embed_file to /var/tmp/${vm_name}/${file_parts[length - 1]}"
       cp $embed_file /var/tmp/${vm_name}/${file_parts[length - 1]}
     fi
   done
