@@ -109,7 +109,7 @@ function closeOutAndBuildKickstartAndISO {
   kickstart_file=$1
   vm_name=$2
   working_dir=`pwd`
-  embedded_files=$3
+  IFS=' ' read -r -a embedded_files <<< "$3"
   #### to allow certs to print right
   IFS=
   ########

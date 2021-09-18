@@ -60,7 +60,8 @@ fi
 ####
 
 embed_files=('/tmp/magnum.qcow2' '/tmp/pfSense-CE-memstick-ADI.img.gz' '/tmp/harbor.tgz')
-closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files
+printf -v embed_files_string '%s ' "${embed_files[@]}"
+closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_string
 
 ## cleanup kickstart file
 rm -rf ./tmp/centos-8-kickstart-openstack.cfg
