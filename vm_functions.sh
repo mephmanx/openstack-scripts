@@ -17,7 +17,9 @@ function load_system_info() {
 #    export DISK_$ct=
 #  done
   ## this is just an output of dmidecode.  its just sent out via telegram for info
-  export SYSTEM_INFO=`runuser -l root -c  "dmidecode -t system"`
+  DMI_DECODE=`runuser -l root -c  "dmidecode -t system"`
+  OS_INFO=`cat /etc/os-release`
+  export SYSTEM_INFO="$DMI_DECODE\n\n$OS_INFO"
 }
 
 function grow_fs() {
