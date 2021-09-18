@@ -170,9 +170,11 @@ function buildAndPushVMTypeISO {
   printf -v vm_type_n '%s\n' "${vm_name//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
   ########## server type second boot script
-  echo "cat > /tmp/$vm_type.sh <<EOF" >> ${kickstart_file}
-  cat /tmp/openstack-scripts/$vm_type.sh >> ${kickstart_file}
+  OS_VM_SECOND_BOOT=`cat /tmp/openstack-scripts/$vm_type.sh | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
+  echo "cat > /tmp/$vm_type.sh.enc <<EOF" >> ${kickstart_file}
+  echo $OS_VM_SECOND_BOOT >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
+  echo "cat /tmp/$vm_type.sh.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/$vm_type.sh" >> ${kickstart_file}
   #####################
 
   #####################################
