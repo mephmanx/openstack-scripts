@@ -19,12 +19,6 @@ if [ ! -f "/usr/local/www/isos/linux.iso" ]; then
   rm -rf /usr/local/www/isos/linux.iso
   curl -o /usr/local/www/isos/linux.iso $LINUX_ISO -s --retry 10
 fi
-
-if [ ! -f "/usr/local/www/isos/magnum.qcow2" ]; then
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: downloading magnum image"
-  rm -rf /usr/local/www/isos/magnum.qcow2
-  curl -o /usr/local/www/isos/magnum.qcow2 $MAGNUM_IMAGE -s -L --retry 10
-fi
 ################
 
 ## preparing next reboot
