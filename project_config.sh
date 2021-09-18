@@ -40,7 +40,7 @@ export SUPPORT_HOST=cloudsupport;
 
 ## openstack hostnames
 export APP_INTERNAL_HOSTNAME=openstack-local;
-export APP_EXTERNAL_HOSTNAME=openstack-external;
+export APP_EXTERNAL_HOSTNAME=openstack;
 
 ### Network prefix, used for all networks below
 #MariaDB seems to have a problem with 172 addresses.  Dont use!
