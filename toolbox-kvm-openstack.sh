@@ -59,7 +59,7 @@ if [ ! -f "/tmp/magnum.qcow2" ]; then
 fi
 ####
 
-embed_files=("/tmp/pfSense-CE-memstick-ADI.img.gz" "/tmp/magnum.qcow2" "/tmp/harbor.tgz")
+embed_files=("/tmp/magnum.qcow2" "/tmp/pfSense-CE-memstick-ADI.img.gz" "/tmp/harbor.tgz")
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files
 
 ## cleanup kickstart file
