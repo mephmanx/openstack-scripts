@@ -45,7 +45,14 @@ cat /tmp/repo.zip >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 #####
 
-closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack"
+## download files to be embedded
+wget -q -O /tmp/pfSense-CE-memstick-ADI.img.gz ${PFSENSE}
+wget -q -O /tmp/harbor.tgz ${HARBOR}
+curl -o /tmp/magnum.qcow2 https://$GATEWAY_ROUTER_IP/isos/magnum.qcow2 -s -k
+####
+
+embed_files=("/tmp/pfSense-CE-memstick-ADI.img.gz" "/tmp/harbor.tgz" "/tmp/magnum.qcow2")
+closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files
 
 ## cleanup kickstart file
 rm -rf ./tmp/centos-8-kickstart-openstack.cfg

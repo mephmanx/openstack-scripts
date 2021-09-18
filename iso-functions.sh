@@ -109,6 +109,7 @@ function closeOutAndBuildKickstartAndISO {
   kickstart_file=$1
   vm_name=$2
   working_dir=`pwd`
+  embedded_files=$3
   #### to allow certs to print right
   IFS=
   ########
@@ -130,6 +131,16 @@ function closeOutAndBuildKickstartAndISO {
 
   cp ${kickstart_file} /var/tmp/${vm_name}/ks.cfg
   cp ${KICKSTART_DIR}/isolinux-centos8.cfg /var/tmp/${vm_name}/isolinux/isolinux.cfg
+
+  #### add embedded files to iso
+  ## file must exist on filesystem
+  for element in "${embedded_files[@]}"
+  do
+    if [ -f "$element" ]; then
+      cp $element /var/tmp/${vm_name}/$element
+    fi
+  done
+  #####
 
   sudo ksvalidator /var/tmp/${vm_name}/ks.cfg
 
