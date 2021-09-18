@@ -61,11 +61,13 @@ cat /tmp/openstack-env.sh >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 ###############################
 
-############### harbor.yml file ################
-echo 'cat > /tmp/harbor.yml <<EOF' >> ${kickstart_file}
-cat /tmp/openstack-scripts/harbor.yml >> ${kickstart_file}
+########## harbor.yml file
+HARBOR_CONFIG=`cat /tmp/openstack-scripts/harbor.yml | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
+echo "cat > /tmp/harbor.yml.enc <<EOF" >> ${kickstart_file}
+echo $HARBOR_CONFIG >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
-###############################
+echo "cat /tmp/harbor.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/harbor.yml"
+#####################
 
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport"
 
