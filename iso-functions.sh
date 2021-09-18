@@ -219,9 +219,11 @@ function buildAndPushOpenstackSetupISO {
   #####################
 
   ########## kolla globals file
-  echo 'cat > /tmp/globals.yml <<EOF' >> ${kickstart_file}
+  KOLLA_SETTINGS=`echo /tmp/globals.yml | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
+  echo "cat > /tmp/globals.yml.enc <<EOF" >> ${kickstart_file}
   cat ./globals.yml >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
+  echo "cat /tmp/globals.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/globals.yml"
   #####################
 
   ############ control hack script
