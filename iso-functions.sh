@@ -137,7 +137,9 @@ function closeOutAndBuildKickstartAndISO {
   for element in "${embedded_files[@]}"
   do
     if [ -f "$element" ]; then
-      cp $element /var/tmp/${vm_name}/$element
+      IFS='/' read -ra ADDR <<< "$element"
+      length=${#array[@]}
+      cp $element /var/tmp/${vm_name}/${ADDR[length - 1]}
     fi
   done
   #####
