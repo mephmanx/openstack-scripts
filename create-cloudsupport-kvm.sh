@@ -63,7 +63,7 @@ echo 'EOF' >> ${kickstart_file}
 
 ############### harbor.yml file ################
 echo 'cat > /tmp/harbor.yml <<EOF' >> ${kickstart_file}
-cat ./harbor.yml >> ${kickstart_file}
+cat /tmp/openstack-scripts/harbor.yml >> ${kickstart_file}
 echo 'EOF' >> ${kickstart_file}
 ###############################
 
