@@ -654,7 +654,7 @@ runuser -l stack -c  "cd /opt/stack; \
 
 ### Cloudfoundry instal can fail at times.  BOSH can handle this and retry is fine.  Retry a few times and if faile still occurs, alert admin
 error_count=`grep "error" /tmp/cloudfoundry-install.log | wc -l`
-retry_count=3
+retry_count=5
 if [[ $error_count -gt 0 ]]; then
   while [ $retry_count -gt 0 ]; do
     rm -rf /tmp/cloudfoundry-install.log
@@ -685,6 +685,9 @@ if [[ $error_count -gt 0 ]]; then
                       -n" > /tmp/cloudfoundry-install.log
 
     error_count=`grep "error" /tmp/cloudfoundry-install.log | wc -l`
+    if [[ $error_count == 0 ]]; then
+      break
+    fi
     ((retry_count--))
   done
 fi
