@@ -134,12 +134,12 @@ function closeOutAndBuildKickstartAndISO {
 
   #### add embedded files to iso
   ## file must exist on filesystem
-  for element in "${embedded_files[@]}";
+  for embed_file in "${embedded_files[@]}";
   do
-    if [ -f "$element" ]; then
-      IFS='/' read -ra ADDR <<< "$element"
-      length=${#ADDR[@]}
-      cp $element /var/tmp/${vm_name}/${ADDR[length - 1]}
+    if [ -f "$embed_file" ]; then
+      IFS='/' read -ra file_parts <<< "$embed_file"
+      length=${#file_parts[@]}
+      cp $embed_file /var/tmp/${vm_name}/${file_parts[length - 1]}
     fi
   done
   #####
