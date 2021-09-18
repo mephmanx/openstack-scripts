@@ -67,7 +67,7 @@ echo 'EOF' >> ${kickstart_file}
 echo "cat /tmp/harbor.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/harbor.yml"
 #####################
 
-closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport"
+closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport" "/tmp/harbor.tgz"
 
 create_line="virt-install "
 create_line+="--hvm "
