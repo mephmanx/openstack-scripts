@@ -21,11 +21,6 @@ export PFSENSE=https://nyifiles.netgate.com/mirror/downloads/pfSense-CE-memstick
 ## This is cached on PFSense to be used as the base image by all other systems.
 export LINUX_ISO=https://vault.centos.org/8.3.2011/isos/x86_64/CentOS-8.3.2011-x86_64-minimal.iso
 
-####  LiveCD Debug VM image
-##  This is an image that is cached and ready for use as a debug VM
-##  Recommended to be a LiveCD style image that can boot without using disk storage and minimal permissions
-export DEBUG_VM_IMAGE=https://sourceforge.net/projects/archbang/files/ArchBang/archbang-beta-1209-x86_64.iso/download
-
 ### Magnum docker image
 export MAGNUM_IMAGE=https://download.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180419.0/CloudImages/x86_64/images/Fedora-Atomic-27-20180419.0.x86_64.qcow2
 

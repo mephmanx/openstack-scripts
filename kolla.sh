@@ -298,18 +298,6 @@ openstack endpoint create --region us-east volumev2 internal http://$INTERNAL_VI
 openstack endpoint create --region us-east volumev2 admin http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
 #############
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Installing LiveCD debug image into Openstack...."
-openstack image create --disk-format iso --container-format bare --public --file /tmp/livecd.iso LiveCD-Debug
-
-test=`openstack image show 'LiveCD-Debug'`
-if [[ "No Image found" == *"$test"* ]]; then
-#  cp /tmp/multinode /etc/kolla
-#  kolla-ansible -i /etc/kolla/multinode destroy --yes-i-really-really-mean-it
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack install failed!  Install quit, please check!"
-  exit -1
-fi
-rm -rf /tmp/livecd.iso
-
 cd /usr/local/share/kolla-ansible
 ./init-runonce
 
