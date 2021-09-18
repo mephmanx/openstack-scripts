@@ -136,7 +136,7 @@ function closeOutAndBuildKickstartAndISO {
   ## file must exist on filesystem
   for element in "${embedded_files[@]}"
   do
-    cat $element > /tmp/file-$element
+    cat $element > file-$element-tmp
     if [ -f "$element" ]; then
       IFS='/' read -ra ADDR <<< "$element"
       length=${#array[@]}
