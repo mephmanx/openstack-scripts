@@ -46,9 +46,17 @@ echo 'EOF' >> ${kickstart_file}
 #####
 
 ## download files to be embedded
-wget -O /tmp/pfSense-CE-memstick-ADI.img.gz ${PFSENSE}
-wget -O /tmp/harbor.tgz ${HARBOR}
-curl -o /tmp/magnum.qcow2 $MAGNUM_IMAGE -k
+if [ ! -f "/tmp/pfSense-CE-memstick-ADI.img.gz" ]; then
+  wget -O /tmp/pfSense-CE-memstick-ADI.img.gz ${PFSENSE}
+fi
+
+if [ ! -f "/tmp/harbor.tgz" ]; then
+  wget -O /tmp/harbor.tgz ${HARBOR}
+fi
+
+if [ ! -f "/tmp/magnum.qcow2" ]; then
+  curl -o /tmp/magnum.qcow2 $MAGNUM_IMAGE -k
+fi
 ####
 
 embed_files=("/tmp/pfSense-CE-memstick-ADI.img.gz" "/tmp/harbor.tgz" "/tmp/magnum.qcow2")
