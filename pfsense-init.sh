@@ -108,14 +108,6 @@ else
 fi
 ####
 
-## remove once template is complete and verified.
-rm -rf /root/pfsense-scripts
-rm -rf /root/pfsense-backup
-
-git clone https://github.com/$GITHUB_USER/pfsense-scripts.git /root/pfsense-scripts
-git clone https://github.com/$GITHUB_USER/pfsense-backup.git /root/pfsense-backup
-###
-
 rm -rf /root/openstack-scripts/pfsense-init.sh
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: init complete! removing script and rebooting.."

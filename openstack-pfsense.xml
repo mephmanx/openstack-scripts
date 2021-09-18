@@ -749,15 +749,6 @@
 			<command>/usr/bin/nice -n20 /usr/local/bin/php -f /usr/local/pkg/snort/snort_check_for_rule_updates.php</command>
 		</item>
 		<item>
-			<minute>1</minute>
-			<hour>1</hour>
-			<mday>*</mday>
-			<month>*</month>
-			<wday>*</wday>
-			<who>root</who>
-			<command>cd /root/pfsense-scripts;./pfsense-cloud-backup.sh</command>
-		</item>
-		<item>
 			<minute>0</minute>
 			<hour>0</hour>
 			<mday>*</mday>

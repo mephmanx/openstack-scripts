@@ -4,11 +4,6 @@
 #  Encrypt these passwords using some sort of hardware specific key (TPM maybe?) so they are not unencrypted in the iso.
 ###############
 
-### github
-## for prod move repo contents to disk during image create so this is no longer needed.
-export GITHUB_USER=<github username>
-###
-
 ### CloudFoundry admin account name. ## Password is generated and sent via telegram once deploy is complete
 export OPENSTACK_CLOUDFOUNDRY_USERNAME=osuser
 
