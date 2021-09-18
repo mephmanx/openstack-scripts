@@ -219,7 +219,7 @@ function buildAndPushOpenstackSetupISO {
   #####################
 
   ########## kolla globals file
-  KOLLA_SETTINGS=`cat /tmp/globals.yml | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
+  KOLLA_SETTINGS=`cat /tmp/openstack-scripts/globals.yml | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
   echo "cat > /tmp/globals.yml.enc <<EOF" >> ${kickstart_file}
   cat $KOLLA_SETTINGS >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
