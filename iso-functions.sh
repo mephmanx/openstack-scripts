@@ -219,9 +219,9 @@ function buildAndPushOpenstackSetupISO {
   #####################
 
   ########## kolla globals file
-  KOLLA_SETTINGS=`echo /tmp/globals.yml | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
+  KOLLA_SETTINGS=`cat /tmp/globals.yml | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
   echo "cat > /tmp/globals.yml.enc <<EOF" >> ${kickstart_file}
-  cat ./globals.yml >> ${kickstart_file}
+  cat $KOLLA_SETTINGS >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   echo "cat /tmp/globals.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/globals.yml"
   #####################
@@ -251,7 +251,7 @@ function buildAndPushOpenstackSetupISO {
   #########################
 
   ########## server type second boot script
-  START_SCRIPT=`echo /tmp/openstack-scripts/kolla.sh | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
+  START_SCRIPT=`cat /tmp/openstack-scripts/kolla.sh | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
   echo "cat > /tmp/kolla.sh.enc <<EOF" >> ${kickstart_file}
   echo $START_SCRIPT >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
