@@ -236,10 +236,6 @@ kolla-ansible octavia-certificates
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
 
-#use for loading time as opposed to needing the image
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Downloading LiveCD debug image..."
-curl -o /tmp/livecd.iso https://$GATEWAY_ROUTER_IP/isos/livecd.iso -s -k
-
 export KOLLA_DEBUG=0
 export ENABLE_EXT_NET=1
 export EXT_NET_CIDR="$GATEWAY_ROUTER_IP/24"
