@@ -275,5 +275,8 @@ function buildAndPushOpenstackSetupISO {
   #####################
 
   #####################################
-  closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla"
+  embed_files=('/tmp/magnum.qcow2' '/tmp/terraform_0.11.15_linux_amd64.zip')
+  printf -v embed_files_string '%s ' "${embed_files[@]}"
+
+  closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla" $embed_files_string
 }

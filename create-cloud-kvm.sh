@@ -139,10 +139,7 @@ printf -v host_trust_string '%s ' "${host_trust_script[@]}"
 printf -v control_hack_string '%s ' "${control_hack_script[@]}"
 echo "creating openstack setup vm"
 
-embed_files=('/tmp/magnum.qcow2' '/tmp/terraform_0.11.15_linux_amd64.zip')
-printf -v embed_files_string '%s ' "${embed_files[@]}"
-
-buildAndPushOpenstackSetupISO "$host_trust_string" "$control_hack_string" "$(($(getVMCount "control") + $(getVMCount "network") + $(getVMCount "compute") + $(getVMCount "monitoring") + $(getVMCount "storage")))" $embed_files_string
+buildAndPushOpenstackSetupISO "$host_trust_string" "$control_hack_string" "$(($(getVMCount "control") + $(getVMCount "network") + $(getVMCount "compute") + $(getVMCount "monitoring") + $(getVMCount "storage")))"
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Creating cloud vm: kolla"
 create_vm_kvm "kolla" "kolla"
 ########################
