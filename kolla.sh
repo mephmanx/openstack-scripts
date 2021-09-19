@@ -383,8 +383,8 @@ telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack admin pwd is $ADMI
 
 cat > /tmp/monitoring01-logstash.sh <<EOF
 # Create logstash configurations
-mkdir ~/logstash-docker
-cd ~/logstash-docker
+mkdir /root/logstash-docker
+cd /root/logstash-docker
 
 # Clone sample files
 git clone https://github.com/pfelk/docker.git
@@ -394,12 +394,41 @@ cp -r docker/etc .
 rm -rf docker
 
 # Update elasticsearch hostname
-sed -i "s/es01/openstack-local.lyonsgroup.family/g" etc/logstash/config/logstash.yml
-sed -i "s/es01/openstack-local.lyonsgroup.family/g" etc/pfelk/conf.d/50-outputs.conf
+sed -i "s/es01/$INTERNAL_VIP_DNS/g" etc/logstash/config/logstash.yml
+sed -i "s/es01/$INTERNAL_VIP_DNS/g" etc/pfelk/conf.d/50-outputs.conf
 
 # Port 5140 is already in use by some other process, going to use a different port range (5540,5541)
 sed -i "s/5140/5540/g" etc/pfelk/conf.d/01-inputs.conf
 sed -i "s/5141/5541/g" etc/pfelk/conf.d/01-inputs.conf
+
+# Set Device names
+sed -i "s/OPNsense/pfSense/g" etc/pfelk/conf.d/02-types.conf
+sed -i "s/Supermicro/$DOMAIN_NAME/g" etc/pfelk/conf.d/01-inputs.conf
+
+# Create Index Patterns for indexes
+# Need to run this command on any of control node
+# It will through an error related to (_ilm) policy which is fine, since we don't have x-pack on elasticsearch server
+ssh root@control01 curl -q https://raw.githubusercontent.com/pfelk/pfelk/main/etc/pfelk/scripts/pfelk-template-installer.sh | sed -e "s/localhost/control01/g" | bash
+
+# ISSUE: unboubd, _grokparsefailure
+#
+# https://githubmemory.com/repo/pfelk/pfelk/issues/213
+# Requires to set pfSense->Services->DNS Rsolver->Advanced Settings->Advanced Resolver Options->Log Level to "Level 0: No logging"
+# Requires to add following option in pfSense->Services->DNS Rsolver->Custom Options
+# server:
+# log-queries: yes
+# server:include: /var/unbound/pfb_dnsbl.*conf
+#
+# And apply changes to remove "unbound, _grokparsefailure" issue
+
+# pfSense-Haproxy Logs
+# Set value of pfSense->Services->HAproxy->Loggin->Remote syslog host to "monitoring01:5190"
+# Set ->Syslog facility to "local0"
+# Set ->Syslog level to "Informational"
+# Set/Update ->HAproxy->Frontend->(*)->Advanced pass thru to "option httplog"
+# OR add following line in haproxy.cf to enable it for all frontends instead of adding to every frontend manually
+# defaults:
+# option httplog
 
 # Start the logstash container
 docker run --rm -d -v /root/logstash-docker/etc/logstash/config:/usr/share/logstash/config:ro -v /root/logstash-docker/etc/pfelk:/etc/pfelk:ro -e "LS_JAVA_OPTS=-Xmx1G -Xms1G" --network=host --name logstash docker.elastic.co/logstash/logstash:7.10.2
