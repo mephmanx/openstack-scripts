@@ -402,7 +402,7 @@ sed -i "s/5140/5540/g" etc/pfelk/conf.d/01-inputs.conf
 sed -i "s/5141/5541/g" etc/pfelk/conf.d/01-inputs.conf
 
 # Start the logstash container
-docker run --rm -d -v $PWD/etc/logstash/config:/usr/share/logstash/config:ro -v $PWD/etc/pfelk:/etc/pfelk:ro -e "LS_JAVA_OPTS=-Xmx1G -Xms1G" --network=host --name logstash docker.elastic.co/logstash/logstash:7.10.2
+docker run --rm -d -v /root/logstash-docker/etc/logstash/config:/usr/share/logstash/config:ro -v /root/logstash-docker/etc/pfelk:/etc/pfelk:ro -e "LS_JAVA_OPTS=-Xmx1G -Xms1G" --network=host --name logstash docker.elastic.co/logstash/logstash:7.10.2
 EOF
 
 scp /tmp/monitoring01-logstash.sh root@monitoring01:/tmp
