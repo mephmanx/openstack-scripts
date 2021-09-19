@@ -271,7 +271,7 @@ function buildAndPushOpenstackSetupISO {
   echo $START_SCRIPT >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   echo "cat /tmp/kolla.sh.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/kolla.sh" >> ${kickstart_file}
-  echo "chmod 700 /tmp/kolla.sh'" >> ${kickstart_file}
+  echo "chmod 700 /tmp/kolla.sh" >> ${kickstart_file}
   #####################
 
   #####################################
