@@ -143,6 +143,13 @@ virsh pool-autostart SSD
 virsh pool-start SSD
 ############################
 
+### start image hosting
+pwd=`pwd`
+mkdir /tmp/iso
+cp /tmp/linux.iso /tmp/iso
+cd /tmp/iso
+python3 -m http.server &
+
 ########## build router
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Downloading PFSense image....."
 ### make sure to get offset of fat32 partition to put config.xml file on stick to reload!

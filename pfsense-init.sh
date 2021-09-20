@@ -17,7 +17,7 @@ mkdir /usr/local/www/isos
 if [ ! -f "/usr/local/www/isos/linux.iso" ]; then
   telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: downloading linux image"
   rm -rf /usr/local/www/isos/linux.iso
-  curl -o /usr/local/www/isos/linux.iso $LINUX_ISO -s --retry 10
+  curl -o /usr/local/www/isos/linux.iso http://$LAN_CENTOS_IP:8000/linux.iso -s --retry 10
 fi
 ################
 
@@ -52,7 +52,6 @@ install_pkg "pfsense-pkg-pfBlockerNG-devel" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-snort" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-cron" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-Telegraf" $TELEGRAM_API $TELEGRAM_CHAT_ID
-
 
 ## perform any cleanup here
 rm -rf /root/openstack-scripts
@@ -95,7 +94,6 @@ else
   telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "LetsEncrypt cert already exists, skipping issue request..."
 fi
 ####
-
 rm -rf /root/openstack-scripts/pfsense-init.sh
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: init complete! removing script and rebooting.."
