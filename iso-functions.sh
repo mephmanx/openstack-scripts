@@ -269,6 +269,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/kolla.sh'
                 '/tmp/globals.yml'
                 '/tmp/vm_functions.sh'
+                '/tmp/openstack-env.sh'
                 '/tmp/project_config.sh')
   printf -v embed_files_string '%s ' "${embed_files[@]}"
 
