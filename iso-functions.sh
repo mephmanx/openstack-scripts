@@ -43,12 +43,12 @@ function commonItems {
   ##########
   # Maybe decrypt this file or values with a TPM pk or password
   #########
-
-  ############### Secrets File ################
-  echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
-  cat /tmp/openstack-env.sh >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  ###############################
+#
+#  ############### Secrets File ################
+#  echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
+#  cat /tmp/openstack-env.sh >> ${kickstart_file}
+#  echo 'EOF' >> ${kickstart_file}
+#  ###############################
 }
 
 function initialKickstartSetup {
@@ -191,7 +191,7 @@ function buildAndPushVMTypeISO {
 #  #####################
 
   #####################################
-  embed_files=('/tmp/vm_functions.sh' '/tmp/project_config.sh' "/tmp/$vm_type.sh")
+  embed_files=('/tmp/vm_functions.sh' '/tmp/project_config.sh' "/tmp/$vm_type.sh" '/tmp/openstack-env.sh')
   printf -v embed_files_string '%s ' "${embed_files[@]}"
 
   closeOutAndBuildKickstartAndISO ${kickstart_file} ${vm_name} $embed_files_string
