@@ -39,11 +39,11 @@ sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
 ###########################
 
 embed_files=('/tmp/harbor.tgz'
-              '/tmp/harbor.yml'
+              '/tmp/openstack-scripts/harbor.yml'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
-              '/tmp/init-cloudsupport.sh'
-              '/tmp/vm_functions.sh')
+              '/tmp/openstack-scripts/init-cloudsupport.sh'
+              '/tmp/openstack-scripts/vm_functions.sh')
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport" $embed_files_string
