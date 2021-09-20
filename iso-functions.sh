@@ -167,7 +167,7 @@ function buildAndPushVMTypeISO {
   embed_files=('/tmp/vm_functions.sh'
                 '/tmp/project_config.sh'
                 "/tmp/$vm_type.sh"
-                '/tmp/init-cloud_common.sh'
+                '/tmp/openstack-scripts/init-cloud_common.sh'
                 '/tmp/openstack-env.sh')
 
   printf -v embed_files_string '%s ' "${embed_files[@]}"
@@ -224,7 +224,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/globals.yml'
                 '/tmp/vm_functions.sh'
                 '/tmp/openstack-env.sh'
-                '/tmp/init-cloud_common.sh'
+                '/tmp/openstack-scripts/init-cloud_common.sh'
                 '/tmp/project_config.sh')
 
   printf -v embed_files_string '%s ' "${embed_files[@]}"
