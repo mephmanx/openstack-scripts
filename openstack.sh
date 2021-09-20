@@ -149,6 +149,7 @@ mkdir /tmp/iso
 cp /tmp/linux.iso /tmp/iso
 cd /tmp/iso
 python3 -m http.server &
+cd $pwd
 
 ########## build router
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Downloading PFSense image....."
