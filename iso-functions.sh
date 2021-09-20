@@ -78,12 +78,12 @@ function prepareEnv {
   sudo yum install epel-release -y
   sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
 
-  if [ -f "/tmp/centos8.iso" ]; then
+  if [ -f "/tmp/linux.iso" ]; then
     return;
   fi
 
-  echo "Using CentOS 8"
-  curl -o /tmp/centos8.iso $LINUX_OS -k -s
+  echo "Linux ISO not found, downloading..."
+  curl -o /tmp/linux.iso $LINUX_OS -k -s
 }
 
 function closeOutAndBuildKickstartAndISO {
@@ -104,14 +104,14 @@ function closeOutAndBuildKickstartAndISO {
 
   sudo rm -rf /var/tmp/${vm_name}
   mkdir /centos
-  sudo mount -t iso9660 -o loop /tmp/centos8.iso /centos
+  sudo mount -t iso9660 -o loop /tmp/linux.iso /centos
   sudo mkdir -p /var/tmp/${vm_name}
   sudo rsync -q -a /centos/ /var/tmp/${vm_name}
   sudo umount /centos
   rm -rf /centos
 
   cp ${kickstart_file} /var/tmp/${vm_name}/ks.cfg
-  cp ${KICKSTART_DIR}/isolinux-centos8.cfg /var/tmp/${vm_name}/isolinux/isolinux.cfg
+  cp ${KICKSTART_DIR}/isolinux.cfg /var/tmp/${vm_name}/isolinux/isolinux.cfg
 
   #### add embedded files to iso
   ## file must exist on filesystem
@@ -141,7 +141,7 @@ function closeOutAndBuildKickstartAndISO {
     -eltorito-alt-boot \
     -e images/efiboot.img \
     -quiet \
-    -no-emul-boot -J -R -v -T -V 'CentOS 8 x86_64' .
+    -no-emul-boot -J -R -v -T -V 'CentOS' .
 
   cd /var/tmp/
   sudo implantisomd5 ${vm_name}-iso.iso
