@@ -141,7 +141,7 @@ function closeOutAndBuildKickstartAndISO {
     -eltorito-alt-boot \
     -e images/efiboot.img \
     -quiet \
-    -no-emul-boot -J -R -v -T -V 'CentOS' .
+    -no-emul-boot -J -R -v -T -V 'CentOS 8 x86_64' .
 
   cd /var/tmp/
   sudo implantisomd5 ${vm_name}-iso.iso
