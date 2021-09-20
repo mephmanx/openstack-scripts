@@ -44,8 +44,8 @@ embed_files=('/tmp/harbor.tgz'
               '/tmp/project_config.sh'
               '/tmp/openstack-scripts/init-cloudsupport.sh'
               '/tmp/openstack-scripts/vm_functions.sh')
-printf -v embed_files_string '%s ' "${embed_files[@]}"
 
+printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport" $embed_files_string
 
 create_line="virt-install "
