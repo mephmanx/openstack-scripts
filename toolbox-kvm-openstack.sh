@@ -56,6 +56,7 @@ embed_files=('/tmp/magnum.qcow2'
               '/tmp/terraform_0.11.15_linux_amd64.zip'
               '/tmp/repo.zip'
               '/tmp/openstack-env.sh'
+              '/tmp/linux.iso'
               '/tmp/project_config.sh')
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"
