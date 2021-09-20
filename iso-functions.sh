@@ -180,18 +180,18 @@ function buildAndPushVMTypeISO {
   commonItems ${kickstart_file}
   ##########################
 
-  printf -v vm_type_n '%s\n' "${vm_name//[[:digit:]]/}"
-  vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-  ########## server type second boot script
-  OS_VM_SECOND_BOOT=`cat /tmp/openstack-scripts/$vm_type.sh | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-  echo "cat > /tmp/$vm_type.sh.enc <<EOF" >> ${kickstart_file}
-  echo $OS_VM_SECOND_BOOT >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  echo "cat /tmp/$vm_type.sh.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/$vm_type.sh" >> ${kickstart_file}
-  #####################
+#  printf -v vm_type_n '%s\n' "${vm_name//[[:digit:]]/}"
+#  vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
+#  ########## server type second boot script
+#  OS_VM_SECOND_BOOT=`cat /tmp/openstack-scripts/$vm_type.sh | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
+#  echo "cat > /tmp/$vm_type.sh.enc <<EOF" >> ${kickstart_file}
+#  echo $OS_VM_SECOND_BOOT >> ${kickstart_file}
+#  echo 'EOF' >> ${kickstart_file}
+#  echo "cat /tmp/$vm_type.sh.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/$vm_type.sh" >> ${kickstart_file}
+#  #####################
 
   #####################################
-  closeOutAndBuildKickstartAndISO ${kickstart_file} ${vm_name}
+  closeOutAndBuildKickstartAndISO ${kickstart_file} ${vm_name} '/tmp/$vm_type.sh'
 }
 
 function buildAndPushOpenstackSetupISO {
@@ -232,50 +232,26 @@ function buildAndPushOpenstackSetupISO {
   cat /tmp/additional_hosts >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #####################
-
-  ########## kolla globals file
-  KOLLA_SETTINGS=`cat /tmp/openstack-scripts/globals.yml | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-  echo "cat > /tmp/globals.yml.enc <<EOF" >> ${kickstart_file}
-  echo $KOLLA_SETTINGS >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  echo "cat /tmp/globals.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/globals.yml" >> ${kickstart_file}
-  #####################
-
-  ############ control hack script
-  echo 'cat > /tmp/control-trust.sh <<EOF' >> ${kickstart_file}
-  echo  $2 >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  #################################
-
-  ############## host count
-  echo 'cat > /tmp/host_count <<EOF' >> ${kickstart_file}
-  echo  $3 >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  #########################
-
-  ############## storage internal host ip
-  echo 'cat > /tmp/storage_hosts <<EOF' >> ${kickstart_file}
-  cat /tmp/storage_hosts >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  #########################
-
-  ############## host list
-  echo 'cat > /tmp/host_list <<EOF' >> ${kickstart_file}
-  cat /tmp/host_list >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  #########################
-
-  ########## server type second boot script
-  START_SCRIPT=`cat /tmp/openstack-scripts/kolla.sh | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-  echo "cat > /tmp/kolla.sh.enc <<EOF" >> ${kickstart_file}
-  echo $START_SCRIPT >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  echo "cat /tmp/kolla.sh.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/kolla.sh" >> ${kickstart_file}
-  echo "chmod 700 /tmp/kolla.sh" >> ${kickstart_file}
-  #####################
+#
+#  ########## kolla globals file
+#  KOLLA_SETTINGS=`cat /tmp/openstack-scripts/globals.yml | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
+#  echo "cat > /tmp/globals.yml.enc <<EOF" >> ${kickstart_file}
+#  echo $KOLLA_SETTINGS >> ${kickstart_file}
+#  echo 'EOF' >> ${kickstart_file}
+#  echo "cat /tmp/globals.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/globals.yml" >> ${kickstart_file}
+#  #####################
+#
+#  ########## server type second boot script
+#  START_SCRIPT=`cat /tmp/openstack-scripts/kolla.sh | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
+#  echo "cat > /tmp/kolla.sh.enc <<EOF" >> ${kickstart_file}
+#  echo $START_SCRIPT >> ${kickstart_file}
+#  echo 'EOF' >> ${kickstart_file}
+#  echo "cat /tmp/kolla.sh.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/kolla.sh" >> ${kickstart_file}
+#  echo "chmod 700 /tmp/kolla.sh" >> ${kickstart_file}
+#  #####################
 
   #####################################
-  embed_files=('/tmp/magnum.qcow2' '/tmp/terraform_0.11.15_linux_amd64.zip')
+  embed_files=('/tmp/magnum.qcow2' '/tmp/terraform_0.11.15_linux_amd64.zip' '/tmp/host_list' '/tmp/storage_hosts' '/tmp/host_count' '/tmp/control-trust.sh' '/tmp/kolla.sh' '/tmp/globals.yml')
   printf -v embed_files_string '%s ' "${embed_files[@]}"
 
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla" $embed_files_string
