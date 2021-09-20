@@ -164,7 +164,7 @@ function buildAndPushVMTypeISO {
   ##########################
 
   #####################################
-  embed_files=('/tmp/vm_functions.sh'
+  embed_files=('/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/project_config.sh'
                 "/tmp/openstack-scripts/$vm_type.sh"
                 '/tmp/openstack-scripts/init-cloud_common.sh'
@@ -222,7 +222,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/control-trust.sh'
                 '/tmp/openstack-scripts/kolla.sh'
                 '/tmp/openstack-scripts/globals.yml'
-                '/tmp/vm_functions.sh'
+                '/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/openstack-env.sh'
                 '/tmp/openstack-scripts/init-cloud_common.sh'
                 '/tmp/project_config.sh')
