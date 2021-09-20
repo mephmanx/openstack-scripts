@@ -169,8 +169,8 @@ function buildAndPushVMTypeISO {
                 "/tmp/$vm_type.sh"
                 '/tmp/init-cloud_common.sh'
                 '/tmp/openstack-env.sh')
-  printf -v embed_files_string '%s ' "${embed_files[@]}"
 
+  printf -v embed_files_string '%s ' "${embed_files[@]}"
   closeOutAndBuildKickstartAndISO ${kickstart_file} ${vm_name} $embed_files_string
 }
 
@@ -226,7 +226,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/openstack-env.sh'
                 '/tmp/init-cloud_common.sh'
                 '/tmp/project_config.sh')
-  printf -v embed_files_string '%s ' "${embed_files[@]}"
 
+  printf -v embed_files_string '%s ' "${embed_files[@]}"
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla" $embed_files_string
 }
