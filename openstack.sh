@@ -146,7 +146,6 @@ virsh pool-start SSD
 ########## build router
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Downloading PFSense image....."
 ### make sure to get offset of fat32 partition to put config.xml file on stick to reload!
-#wget -q -O /tmp/pfSense-CE-memstick-ADI.img.gz ${PFSENSE}
 gunzip /tmp/pfSense-CE-memstick-ADI.img.gz
 
 ## watch this logic on update and make sure it gets the last fat32 partition
