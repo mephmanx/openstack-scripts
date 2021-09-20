@@ -166,7 +166,7 @@ function buildAndPushVMTypeISO {
   #####################################
   embed_files=('/tmp/vm_functions.sh'
                 '/tmp/project_config.sh'
-                "/tmp/$vm_type.sh"
+                "/tmp/openstack-scripts/$vm_type.sh"
                 '/tmp/openstack-scripts/init-cloud_common.sh'
                 '/tmp/openstack-env.sh')
 
