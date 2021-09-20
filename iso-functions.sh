@@ -191,7 +191,7 @@ function buildAndPushVMTypeISO {
 #  #####################
 
   #####################################
-  closeOutAndBuildKickstartAndISO ${kickstart_file} ${vm_name} '/tmp/$vm_type.sh'
+  closeOutAndBuildKickstartAndISO ${kickstart_file} ${vm_name} "/tmp/$vm_type.sh"
 }
 
 function buildAndPushOpenstackSetupISO {
