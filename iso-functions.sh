@@ -70,7 +70,7 @@ function initialKickstartSetup {
 
   ### load file contents
 #  PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-  INIT_SCRIPT_FILE=`cat /tmp/openstack-scripts/init-cloud_common.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
+#  INIT_SCRIPT_FILE=`cat /tmp/openstack-scripts/init-cloud_common.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
 #  VM_FUNCTIONS_FILE=`cat /tmp/openstack-scripts/vm_functions.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
   ###
 
@@ -81,9 +81,9 @@ function initialKickstartSetup {
   echo "kickstart file -> ${kickstart_file}"
   sed -i 's/{HOST}/'$vm'/g' ${kickstart_file}
   sed -i 's/{TYPE}/'$vm_type'/g' ${kickstart_file}
-  sed -i 's/{PROJECT_CONFIG_FILE}/'$PROJECT_CONFIG_FILE'/g' ${kickstart_file}
-  sed -i 's/{INIT_SCRIPT_FILE}/'$INIT_SCRIPT_FILE'/g' ${kickstart_file}
-  sed -i 's/{VM_FUNCTIONS_FILE}/'$VM_FUNCTIONS_FILE'/g' ${kickstart_file}
+#  sed -i 's/{PROJECT_CONFIG_FILE}/'$PROJECT_CONFIG_FILE'/g' ${kickstart_file}
+#  sed -i 's/{INIT_SCRIPT_FILE}/'$INIT_SCRIPT_FILE'/g' ${kickstart_file}
+#  sed -i 's/{VM_FUNCTIONS_FILE}/'$VM_FUNCTIONS_FILE'/g' ${kickstart_file}
   sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
   sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
   sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
@@ -134,6 +134,8 @@ function closeOutAndBuildKickstartAndISO {
 
   #### add embedded files to iso
   ## file must exist on filesystem
+  ##  It will be added to a /embedded directory.
+  ##  Contents of this directory will be copied to the /tmp directory during install
   mkdir /var/tmp/${vm_name}/embedded
   for embed_file in "${embedded_files[@]}";
   do
@@ -191,7 +193,11 @@ function buildAndPushVMTypeISO {
 #  #####################
 
   #####################################
-  embed_files=('/tmp/vm_functions.sh' '/tmp/project_config.sh' "/tmp/$vm_type.sh" '/tmp/openstack-env.sh')
+  embed_files=('/tmp/vm_functions.sh'
+                '/tmp/project_config.sh'
+                "/tmp/$vm_type.sh"
+                '/tmp/init-cloud_common.sh'
+                '/tmp/openstack-env.sh')
   printf -v embed_files_string '%s ' "${embed_files[@]}"
 
   closeOutAndBuildKickstartAndISO ${kickstart_file} ${vm_name} $embed_files_string
@@ -254,7 +260,16 @@ function buildAndPushOpenstackSetupISO {
 #  #####################
 
   #####################################
-  embed_files=('/tmp/magnum.qcow2' '/tmp/terraform_0.11.15_linux_amd64.zip' '/tmp/host_list' '/tmp/storage_hosts' '/tmp/host_count' '/tmp/control-trust.sh' '/tmp/kolla.sh' '/tmp/globals.yml' '/tmp/vm_functions.sh' '/tmp/project_config.sh')
+  embed_files=('/tmp/magnum.qcow2'
+                '/tmp/terraform_0.11.15_linux_amd64.zip'
+                '/tmp/host_list'
+                '/tmp/storage_hosts'
+                '/tmp/host_count'
+                '/tmp/control-trust.sh'
+                '/tmp/kolla.sh'
+                '/tmp/globals.yml'
+                '/tmp/vm_functions.sh'
+                '/tmp/project_config.sh')
   printf -v embed_files_string '%s ' "${embed_files[@]}"
 
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla" $embed_files_string

@@ -33,9 +33,9 @@ VM_FUNCTIONS_FILE=`cat /tmp/openstack-scripts/vm_functions.sh  | base64 | tr -d 
 ###
 
 ########### add passwords in
-sed -i 's/{PROJECT_CONFIG_FILE}/'$PROJECT_CONFIG_FILE'/g' ${kickstart_file}
-sed -i 's/{INIT_SCRIPT_FILE}/'$INIT_SCRIPT_FILE'/g' ${kickstart_file}
-sed -i 's/{VM_FUNCTIONS_FILE}/'$VM_FUNCTIONS_FILE'/g' ${kickstart_file}
+#sed -i 's/{PROJECT_CONFIG_FILE}/'$PROJECT_CONFIG_FILE'/g' ${kickstart_file}
+#sed -i 's/{INIT_SCRIPT_FILE}/'$INIT_SCRIPT_FILE'/g' ${kickstart_file}
+#sed -i 's/{VM_FUNCTIONS_FILE}/'$VM_FUNCTIONS_FILE'/g' ${kickstart_file}
 sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' ${kickstart_file}
 sed -i 's/{HOST}/'$SUPPORT_HOST'/g' ${kickstart_file}
@@ -67,7 +67,12 @@ sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
 #echo "cat /tmp/harbor.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/harbor.yml"
 ######################
 
-embed_files=('/tmp/harbor.tgz' '/tmp/harbor.yml' '/tmp/openstack-env.sh' '/tmp/project_config.sh' '/tmp/vm_functions.sh')
+embed_files=('/tmp/harbor.tgz'
+              '/tmp/harbor.yml'
+              '/tmp/openstack-env.sh'
+              '/tmp/project_config.sh'
+              '/tmp/init-cloudsupport.sh'
+              '/tmp/vm_functions.sh')
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport" $embed_files_string
