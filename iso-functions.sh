@@ -69,9 +69,9 @@ function initialKickstartSetup {
   ADMIN_PWD=`cat /root/env_admin_pwd`
 
   ### load file contents
-  PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
+#  PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
   INIT_SCRIPT_FILE=`cat /tmp/openstack-scripts/init-cloud_common.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-  VM_FUNCTIONS_FILE=`cat /tmp/openstack-scripts/vm_functions.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
+#  VM_FUNCTIONS_FILE=`cat /tmp/openstack-scripts/vm_functions.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
   ###
 
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
@@ -191,7 +191,10 @@ function buildAndPushVMTypeISO {
 #  #####################
 
   #####################################
-  closeOutAndBuildKickstartAndISO ${kickstart_file} ${vm_name} "/tmp/$vm_type.sh"
+  embed_files=('/tmp/vm_functions.sh' '/tmp/project_config.sh' "/tmp/$vm_type.sh")
+  printf -v embed_files_string '%s ' "${embed_files[@]}"
+
+  closeOutAndBuildKickstartAndISO ${kickstart_file} ${vm_name} $embed_files_string
 }
 
 function buildAndPushOpenstackSetupISO {
@@ -251,7 +254,7 @@ function buildAndPushOpenstackSetupISO {
 #  #####################
 
   #####################################
-  embed_files=('/tmp/magnum.qcow2' '/tmp/terraform_0.11.15_linux_amd64.zip' '/tmp/host_list' '/tmp/storage_hosts' '/tmp/host_count' '/tmp/control-trust.sh' '/tmp/kolla.sh' '/tmp/globals.yml')
+  embed_files=('/tmp/magnum.qcow2' '/tmp/terraform_0.11.15_linux_amd64.zip' '/tmp/host_list' '/tmp/storage_hosts' '/tmp/host_count' '/tmp/control-trust.sh' '/tmp/kolla.sh' '/tmp/globals.yml' '/tmp/vm_functions.sh' '/tmp/project_config.sh')
   printf -v embed_files_string '%s ' "${embed_files[@]}"
 
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla" $embed_files_string

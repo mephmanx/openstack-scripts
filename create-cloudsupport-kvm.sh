@@ -67,7 +67,7 @@ sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
 #echo "cat /tmp/harbor.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/harbor.yml"
 ######################
 
-embed_files=('/tmp/harbor.tgz' '/tmp/harbor.yml' '/tmp/openstack-env.sh' '/tmp/project_config.sh')
+embed_files=('/tmp/harbor.tgz' '/tmp/harbor.yml' '/tmp/openstack-env.sh' '/tmp/project_config.sh' '/tmp/vm_functions.sh')
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport" $embed_files_string
