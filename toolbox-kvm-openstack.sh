@@ -50,7 +50,7 @@ if [ ! -f "/tmp/terraform_0.11.15_linux_amd64.zip" ]; then
 fi
 ####
 
-embed_files=('/tmp/magnum.qcow2' '/tmp/pfSense-CE-memstick-ADI.img.gz' '/tmp/harbor.tgz' '/tmp/terraform_0.11.15_linux_amd64.zip' '/tmp/repo.zip' '/tmp/openstack-env.sh')
+embed_files=('/tmp/magnum.qcow2' '/tmp/pfSense-CE-memstick-ADI.img.gz' '/tmp/harbor.tgz' '/tmp/terraform_0.11.15_linux_amd64.zip' '/tmp/repo.zip' '/tmp/openstack-env.sh' '/tmp/project_config.sh')
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_string
 
