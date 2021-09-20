@@ -37,7 +37,6 @@ curl -s -L "https://github.com/docker/compose/releases/download/1.27.4/docker-co
 chmod +x /usr/local/bin/docker-compose
 
 cd /root
-
 tar xzvf /tmp/harbor.tgz
 
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"

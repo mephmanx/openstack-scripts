@@ -26,16 +26,7 @@ fi
 
 ADMIN_PWD=`cat /root/env_admin_pwd`
 
-### load file contents
-PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-INIT_SCRIPT_FILE=`cat /tmp/openstack-scripts/init-cloudsupport.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-VM_FUNCTIONS_FILE=`cat /tmp/openstack-scripts/vm_functions.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-###
-
 ########### add passwords in
-#sed -i 's/{PROJECT_CONFIG_FILE}/'$PROJECT_CONFIG_FILE'/g' ${kickstart_file}
-#sed -i 's/{INIT_SCRIPT_FILE}/'$INIT_SCRIPT_FILE'/g' ${kickstart_file}
-#sed -i 's/{VM_FUNCTIONS_FILE}/'$VM_FUNCTIONS_FILE'/g' ${kickstart_file}
 sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' ${kickstart_file}
 sed -i 's/{HOST}/'$SUPPORT_HOST'/g' ${kickstart_file}
@@ -46,26 +37,6 @@ sed -i 's/{GATEWAY_ROUTER_IP}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
 sed -i 's/{NETMASK}/'$NETMASK'/g' ${kickstart_file}
 sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
 ###########################
-
-################ External Project Configs ################
-#echo 'cat > /tmp/project_config.sh <<EOF' >> ${kickstart_file}
-#cat /tmp/project_config.sh >> ${kickstart_file}
-#echo 'EOF' >> ${kickstart_file}
-################################
-#
-################ Secrets file ################
-#echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
-#cat /tmp/openstack-env.sh >> ${kickstart_file}
-#echo 'EOF' >> ${kickstart_file}
-################################
-
-########### harbor.yml file
-#HARBOR_CONFIG=`cat /tmp/openstack-scripts/harbor.yml | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-#echo "cat > /tmp/harbor.yml.enc <<EOF" >> ${kickstart_file}
-#echo $HARBOR_CONFIG >> ${kickstart_file}
-#echo 'EOF' >> ${kickstart_file}
-#echo "cat /tmp/harbor.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/harbor.yml"
-######################
 
 embed_files=('/tmp/harbor.tgz'
               '/tmp/harbor.yml'

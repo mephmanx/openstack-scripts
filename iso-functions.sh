@@ -39,16 +39,6 @@ function commonItems {
   echo 'EOF' >> ${kickstart_file}
   #####
   ###############################
-
-  ##########
-  # Maybe decrypt this file or values with a TPM pk or password
-  #########
-#
-#  ############### Secrets File ################
-#  echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
-#  cat /tmp/openstack-env.sh >> ${kickstart_file}
-#  echo 'EOF' >> ${kickstart_file}
-#  ###############################
 }
 
 function initialKickstartSetup {
@@ -68,12 +58,6 @@ function initialKickstartSetup {
 
   ADMIN_PWD=`cat /root/env_admin_pwd`
 
-  ### load file contents
-#  PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-#  INIT_SCRIPT_FILE=`cat /tmp/openstack-scripts/init-cloud_common.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-#  VM_FUNCTIONS_FILE=`cat /tmp/openstack-scripts/vm_functions.sh  | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-  ###
-
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
   cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
   echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg to -> ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg"
@@ -81,9 +65,6 @@ function initialKickstartSetup {
   echo "kickstart file -> ${kickstart_file}"
   sed -i 's/{HOST}/'$vm'/g' ${kickstart_file}
   sed -i 's/{TYPE}/'$vm_type'/g' ${kickstart_file}
-#  sed -i 's/{PROJECT_CONFIG_FILE}/'$PROJECT_CONFIG_FILE'/g' ${kickstart_file}
-#  sed -i 's/{INIT_SCRIPT_FILE}/'$INIT_SCRIPT_FILE'/g' ${kickstart_file}
-#  sed -i 's/{VM_FUNCTIONS_FILE}/'$VM_FUNCTIONS_FILE'/g' ${kickstart_file}
   sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
   sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
   sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
@@ -182,16 +163,6 @@ function buildAndPushVMTypeISO {
   commonItems ${kickstart_file}
   ##########################
 
-#  printf -v vm_type_n '%s\n' "${vm_name//[[:digit:]]/}"
-#  vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-#  ########## server type second boot script
-#  OS_VM_SECOND_BOOT=`cat /tmp/openstack-scripts/$vm_type.sh | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-#  echo "cat > /tmp/$vm_type.sh.enc <<EOF" >> ${kickstart_file}
-#  echo $OS_VM_SECOND_BOOT >> ${kickstart_file}
-#  echo 'EOF' >> ${kickstart_file}
-#  echo "cat /tmp/$vm_type.sh.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/$vm_type.sh" >> ${kickstart_file}
-#  #####################
-
   #####################################
   embed_files=('/tmp/vm_functions.sh'
                 '/tmp/project_config.sh'
@@ -241,23 +212,6 @@ function buildAndPushOpenstackSetupISO {
   cat /tmp/additional_hosts >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
   #####################
-#
-#  ########## kolla globals file
-#  KOLLA_SETTINGS=`cat /tmp/openstack-scripts/globals.yml | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-#  echo "cat > /tmp/globals.yml.enc <<EOF" >> ${kickstart_file}
-#  echo $KOLLA_SETTINGS >> ${kickstart_file}
-#  echo 'EOF' >> ${kickstart_file}
-#  echo "cat /tmp/globals.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/globals.yml" >> ${kickstart_file}
-#  #####################
-#
-#  ########## server type second boot script
-#  START_SCRIPT=`cat /tmp/openstack-scripts/kolla.sh | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-#  echo "cat > /tmp/kolla.sh.enc <<EOF" >> ${kickstart_file}
-#  echo $START_SCRIPT >> ${kickstart_file}
-#  echo 'EOF' >> ${kickstart_file}
-#  echo "cat /tmp/kolla.sh.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/kolla.sh" >> ${kickstart_file}
-#  echo "chmod 700 /tmp/kolla.sh" >> ${kickstart_file}
-#  #####################
 
   #####################################
   embed_files=('/tmp/magnum.qcow2'
