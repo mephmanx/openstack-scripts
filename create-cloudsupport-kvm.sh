@@ -47,27 +47,30 @@ sed -i 's/{NETMASK}/'$NETMASK'/g' ${kickstart_file}
 sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
 ###########################
 
-############### External Project Configs ################
-echo 'cat > /tmp/project_config.sh <<EOF' >> ${kickstart_file}
-cat /tmp/project_config.sh >> ${kickstart_file}
-echo 'EOF' >> ${kickstart_file}
-###############################
+################ External Project Configs ################
+#echo 'cat > /tmp/project_config.sh <<EOF' >> ${kickstart_file}
+#cat /tmp/project_config.sh >> ${kickstart_file}
+#echo 'EOF' >> ${kickstart_file}
+################################
+#
+################ Secrets file ################
+#echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
+#cat /tmp/openstack-env.sh >> ${kickstart_file}
+#echo 'EOF' >> ${kickstart_file}
+################################
 
-############### Secrets file ################
-echo 'cat > /tmp/openstack-env.sh <<EOF' >> ${kickstart_file}
-cat /tmp/openstack-env.sh >> ${kickstart_file}
-echo 'EOF' >> ${kickstart_file}
-###############################
+########### harbor.yml file
+#HARBOR_CONFIG=`cat /tmp/openstack-scripts/harbor.yml | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
+#echo "cat > /tmp/harbor.yml.enc <<EOF" >> ${kickstart_file}
+#echo $HARBOR_CONFIG >> ${kickstart_file}
+#echo 'EOF' >> ${kickstart_file}
+#echo "cat /tmp/harbor.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/harbor.yml"
+######################
 
-########## harbor.yml file
-HARBOR_CONFIG=`cat /tmp/openstack-scripts/harbor.yml | base64 | tr -d '\n\r' | tr -- '+=/' '-_~'`
-echo "cat > /tmp/harbor.yml.enc <<EOF" >> ${kickstart_file}
-echo $HARBOR_CONFIG >> ${kickstart_file}
-echo 'EOF' >> ${kickstart_file}
-echo "cat /tmp/harbor.yml.enc | tr -- '-_~' '+=/' | base64 -d > /tmp/harbor.yml"
-#####################
+embed_files=('/tmp/harbor.tgz' '/tmp/harbor.yml' '/tmp/openstack-env.sh' '/tmp/project_config.sh')
+printf -v embed_files_string '%s ' "${embed_files[@]}"
 
-closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport" "/tmp/harbor.tgz"
+closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport" $embed_files_string
 
 create_line="virt-install "
 create_line+="--hvm "
