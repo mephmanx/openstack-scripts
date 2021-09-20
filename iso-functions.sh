@@ -213,13 +213,23 @@ function buildAndPushOpenstackSetupISO {
   echo 'EOF' >> ${kickstart_file}
   #####################
 
+  ############ control hack script
+  echo 'cat > /tmp/control-trust.sh <<EOF' >> ${kickstart_file}
+  echo  $2 >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+  #################################
+
+  ############## host count
+  echo 'cat > /tmp/host_count <<EOF' >> ${kickstart_file}
+  echo  $3 >> ${kickstart_file}
+  echo 'EOF' >> ${kickstart_file}
+  #########################
+
   #####################################
   embed_files=('/tmp/magnum.qcow2'
                 '/tmp/terraform_0.11.15_linux_amd64.zip'
                 '/tmp/host_list'
                 '/tmp/storage_hosts'
-                '/tmp/host_count'
-                '/tmp/control-trust.sh'
                 '/tmp/openstack-scripts/kolla.sh'
                 '/tmp/openstack-scripts/globals.yml'
                 '/tmp/openstack-scripts/vm_functions.sh'
