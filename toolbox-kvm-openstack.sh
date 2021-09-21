@@ -49,6 +49,7 @@ if [ ! -f "/tmp/terraform_0.11.15_linux_amd64.zip" ]; then
   wget -O /tmp/terraform_0.11.15_linux_amd64.zip ${CF_ATTIC_TERRAFORM}
 fi
 ####
+rm -rf /tmp/repo.zip
 zip -r /tmp/repo.zip ./* -x "*.git"
 
 embed_files=('/tmp/magnum.qcow2'
