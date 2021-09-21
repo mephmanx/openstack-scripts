@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ./vm-configurations.sh
-source ./project_config.sh
+source /tmp/project_config.sh
 
 NETMASK="255.255.255.0"
 
