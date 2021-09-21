@@ -90,7 +90,7 @@ mkdir /etc/kolla/certificates/ca
 cp /tmp/*.pem /etc/kolla/certificates
 cp /tmp/internal-ca.pem /etc/kolla/certificates/ca/internal-ca.pem
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Downloading Openstack Kolla deployment playbook and performing env customization...."
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Loading Openstack Kolla deployment playbook and performing env customization...."
 cp /tmp/globals.yml /etc/kolla/globals.yml
 
 sed -i "s/{INTERNAL_VIP}/${INTERNAL_VIP}/g" /etc/kolla/globals.yml
