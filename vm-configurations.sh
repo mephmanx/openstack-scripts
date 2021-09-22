@@ -30,91 +30,121 @@ function getVMCount {
   echo $vm_ct
 }
 
-### Need to add methods for calculating memory, disk, and cpu for each VM by detecting whats available in env, not hardcoding.
-function calculate_mem() {
-  option="${1}"
+function getDiskMappings() {
+  DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+  if [[ $DISK_COUNT -gt 1 ]]; then
+    ## multiple disks, find which one corresponds to "high speed" and "regular speed"
+    drive_ratings=()
+    export LSHW_OUT=`lshw -json -class disk`
+    export jq_out=`echo "[$LSHW_OUT]" | jq .`
+    for disk in `echo $jq_out | jq .[].logicalname`; do
+      drive=`echo $disk | rev | cut -d'/' -f 1 | rev | tr -d '"'`
+      speed=`hdparm -tv /dev/$drive | awk '/Timing buffered disk reads/ {print $11}'`
+      drive_ratings+=("$drive:$speed")
+    done
+    fastest_drive=drive_ratings[0]
+    for entry in "${drive_ratings[@]}"; do
 
-  vmstr=$(vm_definitions "$option")
-  vm_count=$(getVMCount "$option")
-  memory_ct=$(parse_json "$vm_str" "memory")
-
+      echo $entry;
+    done
+  else
+    ### one disk, return same value for all disks
+    export LSHW_OUT=`lshw -json -class disk`
+    export jq_out=`echo "[$LSHW_OUT]" | jq .`
+    disk_name=`echo $jq_out | jq .[].logicalname`
+    echo $disk_name | rev | cut -d'/' -f 1 | rev | tr -d '"'
+  fi
 }
-
-function calculate_disk() {
-  option="${1}"
-
-  vmstr=$(vm_definitions "$option")
-  vm_count=$(getVMCount "$option")
-  drive_string=$(parse_json "$vm_str" "drive_string")
-
-}
-
-function calculate_cpu() {
-  option="${1}"
-
-  vmstr=$(vm_definitions "$option")
-  vm_count=$(getVMCount "$option")
-  cpu=$(parse_json "$vm_str" "cpu")
-
-}
-##############
 
 function vm_definitions {
   option="${1}"
+
+  ### these counts can be adjusted if larger than 1 server
+  ### below counts are based on single server
+  CONTROL_RAM=34
+  NETWORK_RAM=12
+  MONITORING_RAM=16
+  STORAGE_RAM=22
+  KOLLA_RAM=4
+
+  CONTROL_COUNT=3
+  NETWORK_COUNT=2
+  MONITORING_COUNT=1
+  STORAGE_COUNT=1
+  KOLLA_COUNT=1
+  ######
+
   case $option in
     "control")
-        echo '{
+        STRING='{
             "count":"3",
             "cpu":"2",
-            "memory":"34",
+            "memory":"$CONTROL_RAM",
             "drive_string":"Disk:100",
             "network_string":"amp-net,loc-static"
           }'
+        STRING="$(echo $STRING | sed 's/$CONTROL_RAM/'$CONTROL_RAM'/g')"
+        echo $STRING
     ;;
     "network")
-        echo '{
+        STRING='{
             "count":"2",
             "cpu":"2",
-            "memory":"12",
+            "memory":"$NETWORK_RAM",
             "drive_string":"Disk:100",
             "network_string":"amp-net,loc-static,loc-static"
           }'
+        STRING="$(echo $STRING | sed 's/$NETWORK_RAM/'$NETWORK_RAM'/g')"
+        echo $STRING
     ;;
     "compute")
-        echo '{
+        CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
+        INSTALLED_RAM=`runuser -l root -c  'dmidecode -t memory | grep  Size: | grep -v "No Module Installed"' | awk '{sum+=$2}END{print sum}'`
+        RESERVED_RAM=$(( $INSTALLED_RAM * $RAM_PCT_AVAIL_CLOUD/100 ))
+        COMPUTE_RAM=$((RESERVED_RAM - (CONTROL_RAM * CONTROL_COUNT) - (NETWORK_RAM * NETWORK_COUNT) - (MONITORING_RAM * MONITORING_COUNT) - (STORAGE_RAM * STORAGE_COUNT) - KOLLA_RAM))
+        STRING='{
             "count":"1",
-            "cpu":"24",
-            "memory":178",
+            "cpu":"$CPU_COUNT",
+            "memory":$COMPUTE_RAM",
             "drive_string":"SSD:700",
             "network_string":"amp-net,loc-static,loc-static"
           }'
+        STRING="$(echo $STRING | sed 's/$CPU_COUNT/'$CPU_COUNT'/g')"
+        STRING="$(echo $STRING | sed 's/$COMPUTE_RAM/'$COMPUTE_RAM'/g')"
+        echo $STRING
     ;;
     "monitoring")
-        echo '{
+        STRING='{
             "count":"1",
             "cpu":"2",
-            "memory":"16",
+            "memory":"$MONITORING_RAM",
             "drive_string":"Disk:350",
             "network_string":"amp-net,loc-static"
           }'
+        STRING="$(echo $STRING | sed 's/$MONITORING_RAM/'$MONITORING_RAM'/g')"
+        echo $STRING
     ;;
     "storage")
-        echo '{
+        STRING='{
             "count":"1",
             "cpu":"2",
-            "memory":"22",
+            "memory":"$STORAGE_RAM",
             "drive_string":"Disk:300,Disk:300,SSD:175,SSD:175,SSD:175",
             "network_string":"amp-net,loc-static"
           }'
+        STRING="$(echo $STRING | sed 's/$STORAGE_RAM/'$STORAGE_RAM'/g')"
+        echo $STRING
     ;;
     "kolla")
-        echo '{
+        STRING='{
             "count":"1",
             "cpu":"4",
-            "memory":"4",
+            "memory":"$KOLLA_RAM",
             "drive_string":"Disk:60",
             "network_string":"loc-static"
           }'
+        STRING="$(echo $STRING | sed 's/$KOLLA_RAM/'$KOLLA_RAM'/g')"
+        echo $STRING
     ;;
   esac
 }
