@@ -437,6 +437,37 @@ scp /tmp/monitoring01-logstash.sh root@monitoring01:/tmp
 runuser -l root -c "ssh root@monitoring01 'chmod 777 /tmp/monitoring01-logstash.sh; cd /tmp; ./monitoring01-logstash.sh'"
 ####
 
+############# build octavia image
+runuser -l root -c  'yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils'
+git clone https://opendev.org/openstack/octavia -b master
+pip3 install diskimage-builder
+cd octavia/diskimage-create
+chmod 700 diskimage-create.sh
+runuser -l root -c  '/tmp/octavia/diskimage-create/diskimage-create.sh'
+
+### load octavia creds and upload amphora image
+source /etc/kolla/octavia-openrc.sh
+openstack image create amphora-x64-haproxy \
+  --container-format bare \
+  --disk-format qcow2 \
+  --tag amphora \
+  --private \
+  --file /root/amphora-x64-haproxy.qcow2 \
+  --property hw_architecture='x86_64' \
+  --property hw_rng_model=virtio
+
+test=`openstack image show 'amphora-x64-haproxy'`
+if [[ "No Image found" == *"$test"* ]]; then
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Amphora image install failed! Please review!"
+  exit -1
+fi
+#########################
+
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Amphora image install complete"
+####
+
+### consider installing BOSH on an openstack VM for access
+
 #download and configure homebrew to run bbl install
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting Homebrew install...."
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh -o /tmp/homebrew.sh > /dev/null
@@ -476,36 +507,7 @@ runuser -l stack -c  "echo 'export OS_REGION_NAME=$OS_REGION_NAME' >> /opt/stack
 runuser -l stack -c  "echo 'export OS_AUTH_PLUGIN=$OS_AUTH_PLUGIN' >> /opt/stack/.bash_profile"
 runuser -l stack -c  'bbl up --debug'
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed, amphora build/install..."
-
-############# build octavia image
-runuser -l root -c  'yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils'
-git clone https://opendev.org/openstack/octavia -b master
-pip3 install diskimage-builder
-cd octavia/diskimage-create
-chmod 700 diskimage-create.sh
-runuser -l root -c  '/tmp/octavia/diskimage-create/diskimage-create.sh'
-
-### load octavia creds and upload amphora image
-source /etc/kolla/octavia-openrc.sh
-openstack image create amphora-x64-haproxy \
-  --container-format bare \
-  --disk-format qcow2 \
-  --tag amphora \
-  --private \
-  --file /root/amphora-x64-haproxy.qcow2 \
-  --property hw_architecture='x86_64' \
-  --property hw_rng_model=virtio
-
-test=`openstack image show 'amphora-x64-haproxy'`
-if [[ "No Image found" == *"$test"* ]]; then
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Amphora image install failed! Please review!"
-  exit -1
-fi
-#########################
-
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Amphora image install complete, beginning cloudfoundry install..."
-####
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed"
 
 ### reload openstack admin creds
 source /etc/kolla/admin-openrc.sh
