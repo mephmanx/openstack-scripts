@@ -36,7 +36,7 @@ export ADMIN_EMAIL=administrator@$DOMAIN_NAME
 export DOMAIN_NAME=lyonsgroup.family;
 
 ### hostname for harbor install
-export SUPPORT_HOST=cloudsupport;
+export SUPPORT_HOST=harbor;
 
 ## openstack hostnames
 export APP_INTERNAL_HOSTNAME=openstack-local;

@@ -4,7 +4,7 @@
 	<lastchange></lastchange>
 	<system>
 		<optimization>normal</optimization>
-		<hostname>pf-openstack</hostname>
+		<hostname>pfsense</hostname>
 		<domain>{DOMAIN_NAME}</domain>
 		<group>
 			<name>all</name>
@@ -968,7 +968,7 @@
 			<aliases></aliases>
 		</hosts>
 		<hosts>
-			<host>pf-openstack</host>
+			<host>pfsense</host>
 			<domain>{DOMAIN_NAME}</domain>
 			<ip>10.0.9.1</ip>
 			<descr><![CDATA[pfsense dashboard]]></descr>
@@ -1880,7 +1880,7 @@
 						<item>
 							<name>pfsense</name>
 							<expression>host_contains</expression>
-							<value>pf-openstack.{DOMAIN_NAME}</value>
+							<value>pfsense.{DOMAIN_NAME}</value>
 							<backendservercountbackend>amqp</backendservercountbackend>
 							<_index></_index>
 						</item>
@@ -1913,9 +1913,9 @@
 							<_index></_index>
 						</item>
 						<item>
-							<name>cloudsupport</name>
+							<name>harbor</name>
 							<expression>host_contains</expression>
-							<value>cloudsupport.{DOMAIN_NAME}</value>
+							<value>harbor.{DOMAIN_NAME}</value>
 							<backendservercountbackend>amqp</backendservercountbackend>
 							<_index></_index>
 						</item>
@@ -1964,8 +1964,8 @@
 						</item>
 						<item>
 							<action>use_backend</action>
-							<acl>cloudsupport</acl>
-							<use_backendbackend>cloudsupport</use_backendbackend>
+							<acl>harbor</acl>
+							<use_backendbackend>harbor</use_backendbackend>
 							<_index></_index>
 						</item>
 					</a_actionitems>
@@ -3964,8 +3964,8 @@
 					<ha_servers>
 						<item>
 							<status>active</status>
-							<name>pf-openstack</name>
-							<address>pf-openstack.{DOMAIN_NAME}</address>
+							<name>pfsense</name>
+							<address>pfsense.{DOMAIN_NAME}</address>
 							<port>443</port>
 							<ssl>yes</ssl>
 							<_index></_index>
@@ -4387,7 +4387,7 @@
 					<ha_servers>
 						<item>
 							<status>active</status>
-							<name>cloudsupport</name>
+							<name>harbor</name>
 							<address>{SUPPORT_VIP}</address>
 							<port>443</port>
 							<ssl>yes</ssl>
@@ -4400,7 +4400,7 @@
 					<errorfiles></errorfiles>
 					<advanced></advanced>
 					<advanced_backend></advanced_backend>
-					<name>cloudsupport</name>
+					<name>harbor</name>
 					<balance></balance>
 					<balance_urilen></balance_urilen>
 					<balance_uridepth></balance_uridepth>
@@ -4415,7 +4415,7 @@
 					<monitor_httpversion></monitor_httpversion>
 					<monitor_username></monitor_username>
 					<monitor_domain></monitor_domain>
-					<monitor_agentport>cloudsupport</monitor_agentport>
+					<monitor_agentport>harbor</monitor_agentport>
 					<agent_check></agent_check>
 					<agent_port></agent_port>
 					<agent_inter></agent_inter>

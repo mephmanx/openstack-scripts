@@ -339,7 +339,7 @@ cat > /tmp/pf_suffix <<EOF
 $UNIQUE_SUFFIX_PF
 EOF
 
-ssh-keygen -t rsa -b 4096 -C "pf-openstack" -N "" -f /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key <<<y 2>&1 >/dev/null
+ssh-keygen -t rsa -b 4096 -C "pfsense" -N "" -f /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key <<<y 2>&1 >/dev/null
 
 HYPERVISOR_KEY=`cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key | base64 | tr -d '\n\r'`
 HYPERVISOR_PUB_KEY=`cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub | base64 | tr -d '\n\r'`
