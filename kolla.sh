@@ -754,7 +754,7 @@ cf update-quota default -i 2G -m 4G
 ## get max available memory
 memStr=`ssh root@compute01 "cat /proc/meminfo | grep MemTotal"`
 mem=`echo $mem | awk -F' ' '{ print $2 }'`
-memGB=$((mem / 1024 / 1024 - 16))
+memGB=$((mem / 1024 / 1024 - 32))
 cf create-quota $DOMAIN_NAME -i 8096M -m "$memGBG"
 cf set-quota $DOMAIN_NAME $DOMAIN_NAME
 
