@@ -35,8 +35,8 @@ function getDiskMappings() {
   if [[ $DISK_COUNT -gt 1 ]]; then
     ## multiple disks, find which one corresponds to "high speed" and "regular speed"
     drive_ratings=()
-    export LSHW_OUT=`lshw -json -class disk`
-    export jq_out=`echo "[$LSHW_OUT]" | jq .`
+    LSHW_OUT=`lshw -json -class disk`
+    jq_out=`echo "[$LSHW_OUT]" | jq .`
     for disk in `echo $jq_out | jq .[].logicalname`; do
       drive=`echo $disk | rev | cut -d'/' -f 1 | rev | tr -d '"'`
       speed=`hdparm -tv /dev/$drive | awk '/Timing buffered disk reads/ {print $11}'`
@@ -49,8 +49,8 @@ function getDiskMappings() {
     done
   else
     ### one disk, return same value for all disks
-    export LSHW_OUT=`lshw -json -class disk`
-    export jq_out=`echo "[$LSHW_OUT]" | jq .`
+    LSHW_OUT=`lshw -json -class disk`
+    jq_out=`echo "[$LSHW_OUT]" | jq .`
     disk_name=`echo $jq_out | jq .[].logicalname`
     echo $disk_name | rev | cut -d'/' -f 1 | rev | tr -d '"'
   fi
