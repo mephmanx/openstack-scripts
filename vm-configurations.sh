@@ -77,24 +77,26 @@ function vm_definitions {
   case $option in
     "control")
         STRING='{
-            "count":"3",
+            "count":"$CONTROL_COUNT",
             "cpu":"2",
             "memory":"$CONTROL_RAM",
             "drive_string":"Disk:100",
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$CONTROL_RAM/'$CONTROL_RAM'/g')"
+        STRING="$(echo $STRING | sed 's/$CONTROL_COUNT/'$CONTROL_COUNT'/g')"
         echo $STRING
     ;;
     "network")
         STRING='{
-            "count":"2",
+            "count":"$NETWORK_COUNT",
             "cpu":"2",
             "memory":"$NETWORK_RAM",
             "drive_string":"Disk:100",
             "network_string":"amp-net,loc-static,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$NETWORK_RAM/'$NETWORK_RAM'/g')"
+        STRING="$(echo $STRING | sed 's/$NETWORK_COUNT/'$NETWORK_COUNT'/g')"
         echo $STRING
     ;;
     "compute")
@@ -115,35 +117,38 @@ function vm_definitions {
     ;;
     "monitoring")
         STRING='{
-            "count":"1",
+            "count":"$MONITORING_COUNT",
             "cpu":"2",
             "memory":"$MONITORING_RAM",
             "drive_string":"Disk:350",
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$MONITORING_RAM/'$MONITORING_RAM'/g')"
+        STRING="$(echo $STRING | sed 's/$MONITORING_COUNT/'$MONITORING_COUNT'/g')"
         echo $STRING
     ;;
     "storage")
         STRING='{
-            "count":"1",
+            "count":"$STORAGE_COUNT",
             "cpu":"2",
             "memory":"$STORAGE_RAM",
             "drive_string":"Disk:300,Disk:300,SSD:175,SSD:175,SSD:175",
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$STORAGE_RAM/'$STORAGE_RAM'/g')"
+        STRING="$(echo $STRING | sed 's/$STORAGE_COUNT/'$STORAGE_COUNT'/g')"
         echo $STRING
     ;;
     "kolla")
         STRING='{
-            "count":"1",
+            "count":"$KOLLA_COUNT",
             "cpu":"4",
             "memory":"$KOLLA_RAM",
             "drive_string":"Disk:60",
             "network_string":"loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$KOLLA_RAM/'$KOLLA_RAM'/g')"
+        STRING="$(echo $STRING | sed 's/$KOLLA_COUNT/'$KOLLA_COUNT'/g')"
         echo $STRING
     ;;
   esac
