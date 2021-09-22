@@ -754,6 +754,9 @@ cf update-quota default -i 2G -m 4G
 ## get max available memory
 memStr=`ssh root@compute01 "cat /proc/meminfo | grep MemTotal"`
 mem=`echo $mem | awk -F' ' '{ print $2 }'`
+
+### determine quota formula.  this is memory on compute server to be made available for cloudfoundry org.
+## Remember, other VM's run on compute (amphora, DBaas, BOSH, docker/kuba clusters, etc) so make sure to leave enough for them!
 memGB=$((mem / 1024 / 1024 - 32))
 cf create-quota $DOMAIN_NAME -i 8096M -m "$memGBG"
 cf set-quota $DOMAIN_NAME $DOMAIN_NAME
