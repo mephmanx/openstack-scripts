@@ -32,7 +32,6 @@ export RANDOM_PWD=`date +%s | sha256sum | base64 | head -c 32 ; echo`
 ########### add passwords in
 sed -i 's/{CENTOS_ADMIN_PWD}/'$RANDOM_PWD'/g' ${kickstart_file}
 sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
-sed -i 's/{DYNAMIC_CONFIG}/'$DYNAMIC_CONFIG'/g' ${kickstart_file}
 ###########################
 
 ## download files to be embedded
