@@ -758,7 +758,7 @@ mem=`echo $mem | awk -F' ' '{ print $2 }'`
 ### determine quota formula.  this is memory on compute server to be made available for cloudfoundry org.
 ## Remember, other VM's run on compute (amphora, DBaas, BOSH, docker/kube clusters, etc) so make sure to leave enough for them!
 memGB=$((mem / 1024 / 1024 - 32))
-cf create-quota $DOMAIN_NAME -i 8096M -m "$memGBG" -r 1000 -s 1000 -a 1000 --allow-paid-service-plans
+cf create-quota $DOMAIN_NAME -i 8096M -m "$memGBG" -r 1000 -s 1000 -a 1000 --allow-paid-service-plans --reserved-route-ports $CF_TCP_PORT_COUNT
 cf set-quota $DOMAIN_NAME $DOMAIN_NAME
 
 #push stratos
