@@ -131,16 +131,19 @@ vtpm
 
 ############ Create and init storage pools
 ## Disk pool
-virsh pool-define-as Disk dir - - - - "/Disk"
-virsh pool-build Disk
-virsh pool-autostart Disk
-virsh pool-start Disk
-
+DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+while [ $DISK_COUNT - gt 0 ]; do
+  virsh pool-define-as VM-VOL$DISK_COUNT dir - - - - "/VM-VOL$DISK_COUNT"
+  virsh pool-build VM-VOL$DISK_COUNT
+  virsh pool-autostart VM-VOL$DISK_COUNT
+  virsh pool-start VM-VOL$DISK_COUNT
+  ((DISK_COUNT--))
+done
 ## SSD pool
-virsh pool-define-as SSD dir - - - - "/SSD"
-virsh pool-build SSD
-virsh pool-autostart SSD
-virsh pool-start SSD
+#virsh pool-define-as SSD dir - - - - "/SSD"
+#virsh pool-build SSD
+#virsh pool-autostart SSD
+#virsh pool-start SSD
 ############################
 
 ### start image hosting

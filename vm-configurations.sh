@@ -60,39 +60,17 @@ function getFastestDrive() {
   echo "$fastest_drive"
 }
 
-function getDiskMappings() {
+function getDiskMapping() {
+  ### this is the drive request from below config, REG for regular speed drive, HIGH for high speed drive
+  drive_speed_request=$1
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
-  if [[ $DISK_COUNT -gt 1 ]]; then
-    ## multiple disks, find which one corresponds to "high speed" and "regular speed"
-    drive_ratings=$(getDriveRatings)
-    fastest_drive=`cut -d':' -f1 <<<${drive_ratings[0]}`
-    fastest_drive_speed=$(round $(cut -d':' -f2 <<<${drive_ratings[0]}) 0)
-    for entry in "${drive_ratings[@]}"; do
-      if [[ $(round $(cut -d':' -f2 <<<$entry) 0) -gt $fastest_drive_speed ]]; then
-        fastest_drive=`cut -d':' -f1 <<<$entry`
-        fastest_drive_speed=$(round $(cut -d':' -f2 <<<$entry) 0)
-      fi
-    done
-    response_string=()
-    response_string+=("HIGH:$fastest_drive")
-    if [[ $DISK_COUNT -lt 3 ]]; then
-      ## 2 drives, list fastest one as high speed and other one as regular speed
-      for disk in `echo $jq_out | jq .[].logicalname`; do
-        drive=`echo $disk | rev | cut -d'/' -f 1 | rev | tr -d '"'`
-        if [[ $drive != `echo $fastest_drive | rev | cut -d'/' -f 1 | rev | tr -d '"'` ]]; then
-          response_string+=("REG:$drive")
-        fi
-      done
-    else
-      ## more than 2 drives, return the fastest and next fastest
-    fi
-    echo $fastest_drive;
+  drive_ratings=$(getDriveRatings)
+  if [[ $DISK_COUNT -lt 2 ]]; then
+    ## only 1 disk, return only storage pool
+    echo "VM-VOL1"
   else
-    ### one disk, return same value for all disks
-    LSHW_OUT=`lshw -json -class disk`
-    jq_out=`echo "[$LSHW_OUT]" | jq .`
-    disk_name=`echo $jq_out | jq .[].logicalname`
-    echo $disk_name | rev | cut -d'/' -f 1 | rev | tr -d '"'
+    ## multiple disks, find which one corresponds to "high speed" and "regular speed"
+
   fi
 }
 
@@ -220,7 +198,8 @@ function create_vm_kvm {
     do
       IFS=':' read -ra drive_info <<< "$element"
       ### use above function to match speed (REG, HIGH) with the volume name to put the disk on
-      virt_disk_list+=("--disk pool=${drive_info[0]},size=${drive_info[1]},bus=virtio,sparse=no ")
+      pool=$((getDiskMapping ${drive_info[0]}))
+      virt_disk_list+=("--disk pool=$pool,size=${drive_info[1]},bus=virtio,sparse=no ")
   done
   #####################
 
@@ -295,20 +274,16 @@ function removeVM_kvm {
   virsh undefine "$vm_name"
 
   ########### Delete volumes in storage pools
-  virsh vol-list Disk | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
-    if [[ ! -z $line ]]; then
-      if [[ "$line" =~ .*"$vm_name".* ]]; then
-        virsh vol-delete --pool Disk $line
-      fi
-    fi
-  done
+  DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
 
-  virsh vol-list SSD | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
-    if [[ ! -z $line ]]; then
-      if [[ "$line" =~ .*"$vm_name".* ]]; then
-        virsh vol-delete --pool SSD $line
-      fi
-    fi
+  while [ $DISK_COUNT -gt 0 ]; do
+    virsh vol-list VM-VOL$DISK_COUNT | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
+        if [[ ! -z $line ]]; then
+          if [[ "$line" =~ .*"$vm_name".* ]]; then
+            virsh vol-delete --pool VM-VOL$DISK_COUNT $line
+          fi
+        fi
+      done
   done
   ##########################
 }
