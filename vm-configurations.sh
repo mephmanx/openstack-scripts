@@ -30,7 +30,7 @@ function getVMCount {
   echo $vm_ct
 }
 
-round() {
+function round() {
     printf "%.${2:-0}f" "$1"
 }
 
