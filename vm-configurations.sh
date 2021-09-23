@@ -50,9 +50,9 @@ function getDriveRatings() {
 
 function getFastestDrive() {
   drive_speed_string=$1
-  IFS=' ' read -r -a drive_ratings <<< "$drive_speed_string"
+  IFS=' ' read -r -a drive_ratings_fst <<< "$drive_speed_string"
   fastest_drive_speed=0
-  for entry in "${drive_ratings[@]}"; do
+  for entry in "${drive_ratings_fst[@]}"; do
     if [[ $(round $(cut -d':' -f2 <<<$entry) 0) -gt $fastest_drive_speed ]]; then
       fastest_drive=`cut -d':' -f1 <<<$entry`
       fastest_drive_speed=$(round $(cut -d':' -f2 <<<$entry) 0)
@@ -65,9 +65,9 @@ function getSecondFastestDrive() {
   drive_speed_string=$1
   ## remove fastest drive info
   fDr="$(getFastestDrive $drive_speed_string)"
-  IFS=' ' read -r -a drive_ratings <<< "$drive_speed_string"
+  IFS=' ' read -r -a drive_ratings_reg <<< "$drive_speed_string"
   new_arr=()
-  for ele in "${drive_ratings[@]}"; do
+  for ele in "${drive_ratings_reg[@]}"; do
     if [[ ! "$ele" =~ .*"$fDr".* ]]; then
       ##do nothing as it matches
       echo "$ele not being added to test array"
