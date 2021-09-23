@@ -68,8 +68,8 @@ function getSecondFastestDrive() {
   IFS=' ' read -r -a drive_ratings <<< "$drive_speed_string"
   new_arr=()
   for ele in "${drive_ratings[@]}"; do
-    if [[ "$ele" != *"$fDr"* ]]; then
-      new_arr+=($ele)
+    if [[ "$ele" =~ .*"$fDr".* ]]; then
+      new_arr+=("$ele")
     fi
   done
 
