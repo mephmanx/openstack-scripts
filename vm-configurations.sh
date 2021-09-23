@@ -57,6 +57,7 @@ function getFastestDrive() {
       fastest_drive_speed=$(round $(cut -d':' -f2 <<<$entry) 0)
     fi
   done
+  echo "$fastest_drive"
 }
 
 function getDiskMappings() {
