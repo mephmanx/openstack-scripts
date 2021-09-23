@@ -69,7 +69,7 @@ function getSecondFastestDrive() {
   new_arr=()
   for ele in "${drive_ratings[@]}"; do
     if [[ "$ele" != "$fDr"* ]]; then
-      new_arr+=ele
+      new_arr+=($ele)
     fi
   done
 
