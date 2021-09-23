@@ -44,13 +44,13 @@ function getDriveRatings() {
     speed=$(round $(cut -d':' -f2 <<<$speed) 0)
     drive_ratings+=("$drive:$speed")
   done
-  printf -v drive_speed_string '%s ' "${drive_ratings[@]}"
+  printf -v drive_speed_string '%s,' "${drive_ratings[@]}"
   echo $drive_speed_string
 }
 
 function getFastestDrive() {
   drive_speed_string=$1
-  IFS=' ' read -r -a drive_ratings_fst <<< "$drive_speed_string"
+  IFS=',' read -r -a drive_ratings_fst <<< "$drive_speed_string"
   fastest_drive_speed=0
   for entry in "${drive_ratings_fst[@]}"; do
     if [[ $(round $(cut -d':' -f2 <<<$entry) 0) -gt $fastest_drive_speed ]]; then
@@ -65,7 +65,7 @@ function getSecondFastestDrive() {
   drive_speed_string=$1
   ## remove fastest drive info
   fDr="$(getFastestDrive $drive_speed_string)"
-  IFS=' ' read -r -a drive_ratings_reg <<< "$drive_speed_string"
+  IFS=',' read -r -a drive_ratings_reg <<< "$drive_speed_string"
   new_arr=()
   echo $drive_ratings_reg
   for ele in "${drive_ratings_reg[@]}"; do
