@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./vm-configurations.sh
+source /tmp/openstack-scripts/vm-configurations.sh
 source /tmp/project_config.sh
 
 NETMASK="255.255.255.0"

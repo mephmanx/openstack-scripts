@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./iso-functions.sh
+source /tmp/openstack-scripts/iso-functions.sh
 source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 

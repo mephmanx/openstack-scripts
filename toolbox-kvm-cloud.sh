@@ -11,5 +11,4 @@ source ./vm_functions.sh
 prep_project_config
 #########
 
-cd /tmp/openstack-scripts
 ./create-cloud-kvm.sh &

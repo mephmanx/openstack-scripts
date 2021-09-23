@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./network-functions.sh
+source /tmp/openstack-scripts/network-functions.sh
 source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 

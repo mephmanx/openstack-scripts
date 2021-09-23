@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source /tmp/project_config.sh
-source ./vm_functions.sh
+source /tmp/openstack-scripts/vm_functions.sh
 ####  Functions in this file should be used AFTER ISO's are created and pushed to esxi
 
 function parse_json()
