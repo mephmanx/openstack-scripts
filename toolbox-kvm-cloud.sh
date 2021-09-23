@@ -5,9 +5,8 @@ exec 1>/root/cloud-install.log 2>&1 # send stdout and stderr from rc.local to a 
 set -x
 
 source /tmp/openstack-env.sh
-
-## prep project config by replacing nested vars]
 source ./vm_functions.sh
+## prep project config by replacing nested vars]
 prep_project_config
 #########
 
