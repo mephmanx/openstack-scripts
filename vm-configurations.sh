@@ -67,7 +67,9 @@ function getSecondFastestDrive() {
   fDr="$(getFastestDrive $drive_speed_string)"
   IFS=' ' read -r -a drive_ratings_reg <<< "$drive_speed_string"
   new_arr=()
+  echo $drive_ratings_reg
   for ele in "${drive_ratings_reg[@]}"; do
+    echo $ele
     if [ -n "$(sed -n "/$fDr/p" <<< "$ele")" ]; then
       ##do nothing as it matches
       echo "$ele not being added to test array"
