@@ -62,15 +62,19 @@ function getFastestDrive() {
 
 function getDiskMapping() {
   ### this is the drive request from below config, REG for regular speed drive, HIGH for high speed drive
-  drive_speed_request=$1
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
-  drive_ratings=$(getDriveRatings)
   if [[ $DISK_COUNT -lt 2 ]]; then
     ## only 1 disk, return only storage pool
     echo "VM-VOL1"
   else
     ## multiple disks, find which one corresponds to "high speed" and "regular speed"
+    drive_speed_request=$1
+    drive_ratings=$(getDriveRatings)
+    if [[ "HIGH" == $drive_speed_request ]]; then
+      volume=`lsblk -o MOUNTPOINT -nr /dev/"$(getFastestDrive)"`
+    else
 
+    fi
   fi
 }
 
