@@ -51,7 +51,30 @@ function getDriveRatings() {
 function getFastestDrive() {
   drive_speed_string=$1
   IFS=',' read -r -a drive_ratings <<< "$drive_speed_string"
+  fastest_drive_speed=0
   for entry in "${drive_ratings[@]}"; do
+    if [[ $(round $(cut -d':' -f2 <<<$entry) 0) -gt $fastest_drive_speed ]]; then
+      fastest_drive=`cut -d':' -f1 <<<$entry`
+      fastest_drive_speed=$(round $(cut -d':' -f2 <<<$entry) 0)
+    fi
+  done
+  echo "$fastest_drive"
+}
+
+function getSecondFastestDrive() {
+  drive_speed_string=$1
+  ## remove fastest drive info
+  fDr=$(getFastestDrive $drive_speed_string)
+  IFS=',' read -r -a drive_ratings <<< "$drive_speed_string"
+  new_arr=()
+  for ele in "${drive_ratings[@]}"; do
+    if [[ "$ele" =!= *"$fDr"* ]]; then
+      new_arr+=ele
+    fi
+  done
+
+  fastest_drive_speed=0
+  for entry in "${new_arr[@]}"; do
     if [[ $(round $(cut -d':' -f2 <<<$entry) 0) -gt $fastest_drive_speed ]]; then
       fastest_drive=`cut -d':' -f1 <<<$entry`
       fastest_drive_speed=$(round $(cut -d':' -f2 <<<$entry) 0)
@@ -71,10 +94,10 @@ function getDiskMapping() {
     drive_speed_request=$1
     drive_ratings=$(getDriveRatings)
     if [[ "HIGH" == $drive_speed_request ]]; then
-      volume=`lsblk -o MOUNTPOINT -nr /dev/"$(getFastestDrive $drive_ratings)"`
+      volume=`lsblk -o MOUNTPOINT -nr /dev/"$(getFastestDrive $drive_ratings)" | grep "VM-VOL" | tr -d '/'`
       echo $volume
     else
-      volume=`lsblk -o MOUNTPOINT -nr /dev/"$(getFastestDrive $drive_ratings)"`
+      volume=`lsblk -o MOUNTPOINT -nr /dev/"$(getSecondFastestDrive $drive_ratings)" | grep "VM-VOL" | tr -d '/'`
       echo $volume
     fi
   fi
