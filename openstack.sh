@@ -33,6 +33,9 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Cloud System: $SYSTEM
 if [[ $HYPERVISOR_DEBUG == 1 ]]; then
   root_pw=`cat /home/admin/rootpw`
   telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor root pw: $root_pw"
+else
+  HOWLONG=15 ## the number of characters
+  root_pw=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
 fi
 
 ADMIN_PWD=`cat /root/env_admin_pwd`
@@ -360,6 +363,12 @@ openstack_repo_file=( $(echo $OPENSTACK_SETUP_REPO | fold -c250 ))
   sleep 30;
   echo "8";
   sleep 60;
+  echo "pfSsh.php playback changepassword admin";
+  sleep 10;
+  echo "$root_pw";
+  sleep 10;
+  echo "$root_pw";
+  sleep 10;
   echo "pfSsh.php playback changepassword osuser";
   sleep 10;
   echo "$ADMIN_PWD";
