@@ -41,6 +41,7 @@ function getDriveRatings() {
   for disk in `echo $jq_out | jq .[].logicalname`; do
     drive=`echo $disk | rev | cut -d'/' -f 1 | rev | tr -d '"'`
     speed=`hdparm -tv /dev/$drive | awk '/Timing buffered disk reads/ {print $11}'`
+    speed=$(round $(cut -d':' -f2 <<<$speed) 0)
     drive_ratings+=("$drive:$speed")
   done
   echo $drive_ratings
@@ -72,7 +73,6 @@ function getDiskMappings() {
       done
     else
       ## more than 2 drives, return the fastest and next fastest
-
     fi
     echo $fastest_drive;
   else
