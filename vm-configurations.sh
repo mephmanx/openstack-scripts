@@ -170,7 +170,7 @@ function vm_definitions {
             "count":"$MONITORING_COUNT",
             "cpu":"2",
             "memory":"$MONITORING_RAM",
-            "drive_string":"REG:350",
+            "drive_string":"REG:300",
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$MONITORING_RAM/'$MONITORING_RAM'/g')"
@@ -182,7 +182,7 @@ function vm_definitions {
             "count":"$STORAGE_COUNT",
             "cpu":"2",
             "memory":"$STORAGE_RAM",
-            "drive_string":"REG:300,REG:300,HIGH:175,HIGH:175,HIGH:175",
+            "drive_string":"REG:100,REG:400,HIGH:175,HIGH:175,HIGH:175",
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$STORAGE_RAM/'$STORAGE_RAM'/g')"
