@@ -34,18 +34,24 @@ round() {
     printf "%.${2:-0}f" "$1"
 }
 
+function getDriveRatings() {
+  drive_ratings=()
+  LSHW_OUT=`lshw -json -class disk`
+  jq_out=`echo "[$LSHW_OUT]" | jq .`
+  for disk in `echo $jq_out | jq .[].logicalname`; do
+    drive=`echo $disk | rev | cut -d'/' -f 1 | rev | tr -d '"'`
+    speed=`hdparm -tv /dev/$drive | awk '/Timing buffered disk reads/ {print $11}'`
+    drive_ratings+=("$drive:$speed")
+  done
+  echo $drive_ratings
+}
+
 function getDiskMappings() {
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
   if [[ $DISK_COUNT -gt 1 ]]; then
     ## multiple disks, find which one corresponds to "high speed" and "regular speed"
-    drive_ratings=()
-    LSHW_OUT=`lshw -json -class disk`
-    jq_out=`echo "[$LSHW_OUT]" | jq .`
-    for disk in `echo $jq_out | jq .[].logicalname`; do
-      drive=`echo $disk | rev | cut -d'/' -f 1 | rev | tr -d '"'`
-      speed=`hdparm -tv /dev/$drive | awk '/Timing buffered disk reads/ {print $11}'`
-      drive_ratings+=("$drive:$speed")
-    done
+    drive_ratings=getDriveRatings()
+    echo $drive_ratings
     fastest_drive=`cut -d':' -f1 <<<${drive_ratings[0]}`
     fastest_drive_speed=$(round $(cut -d':' -f2 <<<${drive_ratings[0]}) 0)
     for entry in "${drive_ratings[@]}"; do
