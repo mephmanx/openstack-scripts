@@ -2,6 +2,7 @@
 #can ONLY be run as root!  sudo to root
 
 source ./vm_functions.sh
+source ./iso-functions.sh
 ### openstack-env needs to be in same directory as this script
 rm -rf /tmp/openstack-env.sh
 cp $1 /tmp/openstack-env.sh
@@ -14,10 +15,8 @@ yum install -y wget zip
 
 ## prep project config by replacing nested vars
 prep_project_config
-#########
-
-source ./iso-functions.sh
 source /tmp/project_config.sh
+#########
 
 mkdir ./tmp
 cp centos-8-kickstart-openstack.cfg ./tmp
