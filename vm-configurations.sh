@@ -48,12 +48,22 @@ function getDriveRatings() {
   echo $drive_speed_string
 }
 
+function getFastestDrive() {
+  drive_speed_string=$1
+  IFS=',' read -r -a drive_ratings <<< "$drive_speed_string"
+  for entry in "${drive_ratings[@]}"; do
+    if [[ $(round $(cut -d':' -f2 <<<$entry) 0) -gt $fastest_drive_speed ]]; then
+      fastest_drive=`cut -d':' -f1 <<<$entry`
+      fastest_drive_speed=$(round $(cut -d':' -f2 <<<$entry) 0)
+    fi
+  done
+}
+
 function getDiskMappings() {
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
   if [[ $DISK_COUNT -gt 1 ]]; then
     ## multiple disks, find which one corresponds to "high speed" and "regular speed"
     drive_ratings=$(getDriveRatings)
-    echo $drive_ratings
     fastest_drive=`cut -d':' -f1 <<<${drive_ratings[0]}`
     fastest_drive_speed=$(round $(cut -d':' -f2 <<<${drive_ratings[0]}) 0)
     for entry in "${drive_ratings[@]}"; do
