@@ -44,7 +44,7 @@ function getDriveRatings() {
     speed=$(round $(cut -d':' -f2 <<<$speed) 0)
     drive_ratings+=("$drive:$speed")
   done
-  echo $drive_ratings
+  printf -v drive_speed_string '%s ' "${drive_ratings[@]}"
 }
 
 function getDiskMappings() {
