@@ -50,7 +50,7 @@ function getDiskMappings() {
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
   if [[ $DISK_COUNT -gt 1 ]]; then
     ## multiple disks, find which one corresponds to "high speed" and "regular speed"
-    drive_ratings=getDriveRatings()
+    drive_ratings=$(getDriveRatings)
     echo $drive_ratings
     fastest_drive=`cut -d':' -f1 <<<${drive_ratings[0]}`
     fastest_drive_speed=$(round $(cut -d':' -f2 <<<${drive_ratings[0]}) 0)
