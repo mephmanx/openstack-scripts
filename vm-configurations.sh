@@ -45,6 +45,7 @@ function getDriveRatings() {
     drive_ratings+=("$drive:$speed")
   done
   printf -v drive_speed_string '%s ' "${drive_ratings[@]}"
+  echo $drive_speed_string
 }
 
 function getDiskMappings() {
