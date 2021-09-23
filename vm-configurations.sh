@@ -73,7 +73,7 @@ function getDiskMapping() {
     if [[ "HIGH" == $drive_speed_request ]]; then
       volume=`lsblk -o MOUNTPOINT -nr /dev/"$(getFastestDrive)"`
     else
-
+      volume=`lsblk -o MOUNTPOINT -nr /dev/"$(getFastestDrive)"`
     fi
   fi
 }
