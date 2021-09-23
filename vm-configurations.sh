@@ -30,6 +30,10 @@ function getVMCount {
   echo $vm_ct
 }
 
+round() {
+    printf "%.${2:-0}f" "$1"
+}
+
 function getDiskMappings() {
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
   if [[ $DISK_COUNT -gt 1 ]]; then
@@ -45,7 +49,7 @@ function getDiskMappings() {
     fastest_drive=`cut -d':' -f1 <<<${drive_ratings[0]}`
     fastest_drive_speed=`cut -d':' -f2 <<<${drive_ratings[0]}`
     for entry in "${drive_ratings[@]}"; do
-      if [[ `cut -d':' -f2 <<<$entry` -gt $fastest_drive_speed ]]; then
+      if [[ $((round $(cut -d':' -f2 <<<$entry) 0)) -gt $fastest_drive_speed ]]; then
         fastest_drive=`cut -d':' -f1 <<<$entry`
         fastest_drive_speed=`cut -d':' -f2 <<<$entry`
       fi
