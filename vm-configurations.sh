@@ -64,21 +64,22 @@ function getFastestDrive() {
 function getSecondFastestDrive() {
   drive_speed_string=$1
   ## remove fastest drive info
-  fDr=$(getFastestDrive $drive_speed_string)
+  fDr="$(getFastestDrive $drive_speed_string)"
   IFS=' ' read -r -a drive_ratings <<< "$drive_speed_string"
   new_arr=()
   for ele in "${drive_ratings[@]}"; do
     if [[ ! "$fDr" =~ .*"$ele".* ]]; then
+      echo "$ele being added to test array"
       new_arr+=("$ele")
     fi
   done
-  echo $new_arr
   fastest_drive_speed=0
   fastest_drive=""
   for entry in "${new_arr[@]}"; do
     if [[ $(round $(cut -d':' -f2 <<<$entry) 0) -gt $fastest_drive_speed ]]; then
       fastest_drive=`cut -d':' -f1 <<<$entry`
       fastest_drive_speed=$(round $(cut -d':' -f2 <<<$entry) 0)
+      echo "$fastest_drive found, $fastest_drive_speed"
     fi
   done
   echo "$fastest_drive"
