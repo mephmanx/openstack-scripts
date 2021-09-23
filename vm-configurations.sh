@@ -74,6 +74,7 @@ function getSecondFastestDrive() {
   done
   echo $new_arr
   fastest_drive_speed=0
+  fastest_drive=""
   for entry in "${new_arr[@]}"; do
     if [[ $(round $(cut -d':' -f2 <<<$entry) 0) -gt $fastest_drive_speed ]]; then
       fastest_drive=`cut -d':' -f1 <<<$entry`
