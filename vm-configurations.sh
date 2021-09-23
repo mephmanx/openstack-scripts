@@ -54,6 +54,20 @@ function getDiskMappings() {
         fastest_drive_speed=$(round $(cut -d':' -f2 <<<$entry) 0)
       fi
     done
+    response_string=()
+    response_string+=("HIGH:$fastest_drive")
+    if [[ $DISK_COUNT -lt 3 ]]; then
+      ## 2 drives, list fastest one as high speed and other one as regular speed
+      for disk in `echo $jq_out | jq .[].logicalname`; do
+        drive=`echo $disk | rev | cut -d'/' -f 1 | rev | tr -d '"'`
+        if [[ $drive != `echo $fastest_drive | rev | cut -d'/' -f 1 | rev | tr -d '"'` ]]; then
+          response_string+=("REG:$drive")
+        fi
+      done
+    else
+      ## more than 2 drives, return the fastest and next fastest
+
+    fi
     echo $fastest_drive;
   else
     ### one disk, return same value for all disks
@@ -88,7 +102,7 @@ function vm_definitions {
             "count":"$CONTROL_COUNT",
             "cpu":"2",
             "memory":"$CONTROL_RAM",
-            "drive_string":"Disk:100",
+            "drive_string":"REG:100",
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$CONTROL_RAM/'$CONTROL_RAM'/g')"
@@ -100,7 +114,7 @@ function vm_definitions {
             "count":"$NETWORK_COUNT",
             "cpu":"2",
             "memory":"$NETWORK_RAM",
-            "drive_string":"Disk:100",
+            "drive_string":"REG:100",
             "network_string":"amp-net,loc-static,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$NETWORK_RAM/'$NETWORK_RAM'/g')"
@@ -116,7 +130,7 @@ function vm_definitions {
             "count":"1",
             "cpu":"$CPU_COUNT",
             "memory":$COMPUTE_RAM",
-            "drive_string":"SSD:700",
+            "drive_string":"HIGH:700",
             "network_string":"amp-net,loc-static,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$CPU_COUNT/'$CPU_COUNT'/g')"
@@ -128,7 +142,7 @@ function vm_definitions {
             "count":"$MONITORING_COUNT",
             "cpu":"2",
             "memory":"$MONITORING_RAM",
-            "drive_string":"Disk:350",
+            "drive_string":"REG:350",
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$MONITORING_RAM/'$MONITORING_RAM'/g')"
@@ -140,7 +154,7 @@ function vm_definitions {
             "count":"$STORAGE_COUNT",
             "cpu":"2",
             "memory":"$STORAGE_RAM",
-            "drive_string":"Disk:300,Disk:300,SSD:175,SSD:175,SSD:175",
+            "drive_string":"REG:300,REG:300,HIGH:175,HIGH:175,HIGH:175",
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$STORAGE_RAM/'$STORAGE_RAM'/g')"
@@ -152,7 +166,7 @@ function vm_definitions {
             "count":"$KOLLA_COUNT",
             "cpu":"4",
             "memory":"$KOLLA_RAM",
-            "drive_string":"Disk:60",
+            "drive_string":"REG:60",
             "network_string":"loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$KOLLA_RAM/'$KOLLA_RAM'/g')"
@@ -187,6 +201,7 @@ function create_vm_kvm {
   for element in "${disk_array[@]}"
     do
       IFS=':' read -ra drive_info <<< "$element"
+      ### use above function to match speed (REG, HIGH) with the volume name to put the disk on
       virt_disk_list+=("--disk pool=${drive_info[0]},size=${drive_info[1]},bus=virtio,sparse=no ")
   done
   #####################
