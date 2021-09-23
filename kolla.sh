@@ -435,6 +435,8 @@ EOF
 
 scp /tmp/monitoring01-logstash.sh root@monitoring01:/tmp
 runuser -l root -c "ssh root@monitoring01 'chmod 777 /tmp/monitoring01-logstash.sh; cd /tmp; ./monitoring01-logstash.sh'"
+runuser -l root -c "ssh root@monitoring01 'docker exec grafana grafana-cli plugins install grafana-worldmap-panel'"
+runuser -l root -c "ssh root@monitoring01 'docker restart grafana'"
 ####
 
 ############# build octavia image
@@ -767,6 +769,8 @@ git clone https://github.com/cloudfoundry/stratos
 cd stratos
 cf push console -f manifest-docker.yml -k 2G
 cf scale console -i 2
+
+cf install-plugin -r CF-Community "Firehose Plugin"
 
 ## Stratos complete!
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stratos deployment complete!  access at console.$DOMAIN_NAME user -> admin , pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
