@@ -47,11 +47,11 @@ function getDiskMappings() {
       drive_ratings+=("$drive:$speed")
     done
     fastest_drive=`cut -d':' -f1 <<<${drive_ratings[0]}`
-    fastest_drive_speed=`cut -d':' -f2 <<<${drive_ratings[0]}`
+    fastest_drive_speed=$(round $(cut -d':' -f2 <<<${drive_ratings[0]}) 0)
     for entry in "${drive_ratings[@]}"; do
       if [[ $(round $(cut -d':' -f2 <<<$entry) 0) -gt $fastest_drive_speed ]]; then
         fastest_drive=`cut -d':' -f1 <<<$entry`
-        fastest_drive_speed=`cut -d':' -f2 <<<$entry`
+        fastest_drive_speed=$(round $(cut -d':' -f2 <<<$entry) 0)
       fi
     done
     echo $fastest_drive;
