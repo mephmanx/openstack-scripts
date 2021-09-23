@@ -42,11 +42,15 @@ function getDiskMappings() {
       speed=`hdparm -tv /dev/$drive | awk '/Timing buffered disk reads/ {print $11}'`
       drive_ratings+=("$drive:$speed")
     done
-    fastest_drive=drive_ratings[0]
+    fastest_drive=`cut -d':' -f1 <<<${drive_ratings[0]}`
+    fastest_drive_speed=`cut -d':' -f2 <<<${drive_ratings[0]}`
     for entry in "${drive_ratings[@]}"; do
-
-      echo $entry;
+      if [[ `cut -d':' -f2 <<<$entry` -gt $fastest_drive_speed ]]; then
+        fastest_drive=`cut -d':' -f1 <<<$entry`
+        fastest_drive_speed=`cut -d':' -f2 <<<$entry`
+      fi
     done
+    echo $fastest_drive;
   else
     ### one disk, return same value for all disks
     LSHW_OUT=`lshw -json -class disk`
