@@ -49,7 +49,7 @@
 			<descr><![CDATA[System Administrator]]></descr>
 			<scope>system</scope>
 			<groupname>admins</groupname>
-			<bcrypt-hash>$2y$10$yRhMKzpNVVYvKtHng1kuF.a42V47ANPXUdTZLTR0kvCRBdvOG8ydy</bcrypt-hash>
+			<bcrypt-hash></bcrypt-hash>
 			<uid>0</uid>
 			<priv>user-shell-access</priv>
 			<expires></expires>
@@ -60,7 +60,7 @@
 		</user>
 		<user>
 			<scope>user</scope>
-			<bcrypt-hash>$2y$10$f3DbCjySN.IaqRpVkRFH4.Koy.vwFAHJr0bY9aflNj/YYfxZxBr6y</bcrypt-hash>
+			<bcrypt-hash></bcrypt-hash>
 			<descr><![CDATA[Openstack Admin]]></descr>
 			<name>osuser</name>
 			<expires></expires>
