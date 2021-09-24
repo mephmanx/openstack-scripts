@@ -91,7 +91,7 @@ function getDiskMapping() {
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
   if [[ $DISK_COUNT -lt 2 ]]; then
     ## only 1 disk, return only storage pool
-    echo "VM-VOL1"
+    echo "VM-VOL"
   else
     ## multiple disks, find which one corresponds to "high speed" and "regular speed"
     drive_speed_request=$1
