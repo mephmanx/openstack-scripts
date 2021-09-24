@@ -4,11 +4,7 @@
 #  Encrypt these passwords using some sort of hardware specific key (TPM maybe?) so they are not unencrypted in the iso.
 ###############
 
-### CloudFoundry admin account name. ## Password is generated and sent via telegram once deploy is complete
-export OPENSTACK_CLOUDFOUNDRY_USERNAME=osuser
-
 ### harbor and docker accounts
-export SUPPORT_USERNAME=admin
 export DOCKER_HUB_USER=<docker hub username>
 export DOCKER_HUB_PWD=<dokcer hub access token>
 ##########

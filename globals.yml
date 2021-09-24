@@ -82,7 +82,7 @@ zun_install_type: source
 # Custom docker registry settings:
 docker_registry: "{SUPPORT_HOST}"
 docker_registry_insecure: "yes"
-docker_registry_username: "{SUPPORT_USERNAME}"
+docker_registry_username: "admin"
 #docker_registry_password is set in the passwords.yml file.
 
 # Namespace of images:

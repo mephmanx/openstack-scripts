@@ -30,7 +30,7 @@ cd $working_dir
 ADMIN_PWD=`cat /root/env_admin_pwd`
 
 ########### set up registry connection to docker hub
-export etext=`echo -n "$SUPPORT_USERNAME:$ADMIN_PWD" | base64`
+export etext=`echo -n "$admin:$ADMIN_PWD" | base64`
 curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/registries" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
@@ -99,7 +99,6 @@ sed -i "s/{EXTERNAL_VIP}/${EXTERNAL_VIP}/g" /etc/kolla/globals.yml
 sed -i "s/{EXTERNAL_VIP_DNS}/${EXTERNAL_VIP_DNS}/g" /etc/kolla/globals.yml
 sed -i "s/{SUPPORT_HOST}/${SUPPORT_VIP_DNS}/g" /etc/kolla/globals.yml
 sed -i "s/{DESIGNATE_RECORD}/${DOMAIN_NAME}/g" /etc/kolla/globals.yml
-sed -i "s/{SUPPORT_USERNAME}/${SUPPORT_USERNAME}/g" /etc/kolla/globals.yml
 
 kolla-genpwd
 
@@ -344,6 +343,8 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Preparing Openstack environment
 ## generate cloudfoundry admin pwd
 HOWLONG=15 ## the number of characters
 OPENSTACK_CLOUDFOUNDRY_PWD=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+
+export OPENSTACK_CLOUDFOUNDRY_USERNAME=osuser
 
 openstack project create cloudfoundry
 openstack user create $OPENSTACK_CLOUDFOUNDRY_USERNAME --project cloudfoundry --password $OPENSTACK_CLOUDFOUNDRY_PWD
