@@ -106,6 +106,30 @@ function getDiskMapping() {
   fi
 }
 
+function getDiskSize() {
+  disk_device=$1
+  df -PT /"$disk_device" | awk '{print $5}' | sed 1d
+}
+
+function getComputeDiskSize() {
+  DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+  if [[ $DISK_COUNT -gt 1 ]]; then
+    echo "700"
+  else
+    echo "700"
+  fi
+}
+
+function getCinderDiskSize() {
+  DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+  echo "400"
+}
+
+function getSwiftDiskSize() {
+  DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+  echo "175"
+}
+
 function vm_definitions {
   option="${1}"
 
@@ -158,9 +182,10 @@ function vm_definitions {
             "count":"1",
             "cpu":"$CPU_COUNT",
             "memory":$COMPUTE_RAM",
-            "drive_string":"HIGH:700",
+            "drive_string":"HIGH:$COMPUTE_DISK",
             "network_string":"amp-net,loc-static,loc-static"
           }'
+        STRING="$(echo $STRING | sed 's/$COMPUTE_DISK/'$(getComputeDiskSize)'/g')"
         STRING="$(echo $STRING | sed 's/$CPU_COUNT/'$CPU_COUNT'/g')"
         STRING="$(echo $STRING | sed 's/$COMPUTE_RAM/'$COMPUTE_RAM'/g')"
         echo $STRING
@@ -182,10 +207,12 @@ function vm_definitions {
             "count":"$STORAGE_COUNT",
             "cpu":"2",
             "memory":"$STORAGE_RAM",
-            "drive_string":"REG:100,REG:400,HIGH:175,HIGH:175,HIGH:175",
+            "drive_string":"REG:100,REG:$CINDER_SIZE,HIGH:$SWIFT_SIZE,HIGH:$SWIFT_SIZE,HIGH:$SWIFT_SIZE",
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$STORAGE_RAM/'$STORAGE_RAM'/g')"
+        STRING="$(echo $STRING | sed 's/$CINDER_SIZE/'$(getCinderDiskSize)'/g')"
+        STRING="$(echo $STRING | sed 's/$SWIFT_SIZE/'$(getSwiftDiskSize)'/g')"
         STRING="$(echo $STRING | sed 's/$STORAGE_COUNT/'$STORAGE_COUNT'/g')"
         echo $STRING
     ;;
