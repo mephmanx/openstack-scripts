@@ -9,8 +9,6 @@ export DOCKER_HUB_USER=<docker hub username>
 export DOCKER_HUB_PWD=<dokcer hub access token>
 ##########
 
-##### pfsense related
-
 ### godaddy info
 export GODADDY_ACCOUNT=<godaddy api key>
 export GODADDY_KEY=<godaddy api secret>
