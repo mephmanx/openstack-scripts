@@ -109,7 +109,7 @@ function getDiskMapping() {
 function getDiskSize() {
   disk_device=$1
   drive_size=`df -PT /"$disk_device" | awk '{print $5}' | sed 1d`
-  echo "$(drive_size / 1024 / 1024)"
+  echo "$((drive_size / 1024 / 1024))"
 }
 
 function getComputeDiskSize() {
