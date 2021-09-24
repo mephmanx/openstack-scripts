@@ -7,10 +7,28 @@
 		<hostname>pfsense</hostname>
 		<domain>{DOMAIN_NAME}</domain>
 		<group>
-			<name>all</name>
-			<description><![CDATA[All Users]]></description>
-			<scope>system</scope>
-			<gid>1998</gid>
+			<name>CloudAccess</name>
+			<description><![CDATA[Infrastructure Access]]></description>
+			<scope>local</scope>
+			<gid>2000</gid>
+			<member>2000</member>
+			<priv>page-dashboard-all</priv>
+			<priv>page-openvpn-client-export</priv>
+			<priv>page-openvpn-client</priv>
+			<priv>user-ssh-tunnel</priv>
+			<priv>page-status-openvpn</priv>
+			<priv>page-vpn-ipsec</priv>
+			<priv>page-vpn-ipsec-editphase1</priv>
+			<priv>page-vpn-ipsec-editphase2</priv>
+			<priv>page-vpn-ipsec-editkeys</priv>
+			<priv>page-vpn-ipsec-mobile</priv>
+			<priv>page-vpn-ipsec-listkeys</priv>
+			<priv>page-vpn-ipsec-settings</priv>
+			<priv>page-openvpn-csc</priv>
+			<priv>page-openvpn-csc-advanced</priv>
+			<priv>page-openvpn-server-advanced</priv>
+			<priv>page-openvpn-client-advanced</priv>
+			<priv>page-openvpn-server</priv>
 		</group>
 		<group>
 			<name>admins</name>
@@ -18,15 +36,20 @@
 			<scope>system</scope>
 			<gid>1999</gid>
 			<member>0</member>
-			<member>2000</member>
 			<priv>page-all</priv>
+		</group>
+		<group>
+			<name>all</name>
+			<description><![CDATA[All Users]]></description>
+			<scope>system</scope>
+			<gid>1998</gid>
 		</group>
 		<user>
 			<name>admin</name>
 			<descr><![CDATA[System Administrator]]></descr>
 			<scope>system</scope>
 			<groupname>admins</groupname>
-			<bcrypt-hash>$2y$10$3BOlWbNMIg2UPJCnUYLd2OH92.86FlbbBqqV.9RVxzFb1HxELSc4G</bcrypt-hash>
+			<bcrypt-hash>$2y$10$yRhMKzpNVVYvKtHng1kuF.a42V47ANPXUdTZLTR0kvCRBdvOG8ydy</bcrypt-hash>
 			<uid>0</uid>
 			<priv>user-shell-access</priv>
 			<expires></expires>
@@ -34,7 +57,6 @@
 			<authorizedkeys></authorizedkeys>
 			<ipsecpsk></ipsecpsk>
 			<webguicss>pfSense.css</webguicss>
-			<disabled></disabled>
 		</user>
 		<user>
 			<scope>user</scope>
@@ -49,8 +71,8 @@
 			<cert>60ed87a168aec</cert>
 			<uid>2000</uid>
 		</user>
-		<nextuid>2002</nextuid>
-		<nextgid>2000</nextgid>
+		<nextuid>2003</nextuid>
+		<nextgid>2001</nextgid>
 		<timeservers>2.pfsense.pool.ntp.org</timeservers>
 		<webgui>
 			<protocol>https</protocol>
