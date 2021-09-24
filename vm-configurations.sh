@@ -108,7 +108,8 @@ function getDiskMapping() {
 
 function getDiskSize() {
   disk_device=$1
-  drive_size=`df -PT /"$disk_device" | awk '{print $5}' | sed 1d`
+  ## $5 is for available disk size, $4 is for total disk size
+  drive_size=`df -PT /"$disk_device" | awk '{print $4}' | sed 1d`
   echo "$((drive_size / 1024 / 1024))"
 }
 
@@ -123,12 +124,20 @@ function getComputeDiskSize() {
 
 function getCinderDiskSize() {
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
-  echo "400"
+  if [[ $DISK_COUNT -gt 1 ]]; then
+    echo "400"
+  else
+    echo "400"
+  fi
 }
 
 function getSwiftDiskSize() {
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
-  echo "175"
+  if [[ $DISK_COUNT -gt 1 ]]; then
+    echo "175"
+  else
+    echo "175"
+  fi
 }
 
 function vm_definitions {
