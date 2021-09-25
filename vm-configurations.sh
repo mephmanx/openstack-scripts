@@ -189,6 +189,7 @@ function vm_definitions {
         STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "compute" "1")'/g')"
         STRING="$(echo $STRING | sed 's/$CPU_COUNT/'$CPU_COUNT'/g')"
         STRING="$(echo $STRING | sed 's/$COMPUTE_RAM/'$COMPUTE_RAM'/g')"
+        STRING="$(echo $STRING | sed 's/$COMPUTE_COUNT/'$COMPUTE_COUNT'/g')"
         echo $STRING
     ;;
     "monitoring")
