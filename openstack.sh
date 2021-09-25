@@ -133,7 +133,6 @@ vtpm
 ######
 
 ############ Create and init storage pools
-## Disk pool
 PART_LIST=`df | grep "VM-VOL" | awk '{print $6}' | tr -d '/'`
 for part in "${PART_LIST[@]}"; do
   virsh pool-define-as VM-VOL$part dir - - - - "/$part"
@@ -141,11 +140,6 @@ for part in "${PART_LIST[@]}"; do
   virsh pool-autostart VM-VOL$part
   virsh pool-start VM-VOL$part
 done
-## SSD pool
-#virsh pool-define-as SSD dir - - - - "/SSD"
-#virsh pool-build SSD
-#virsh pool-autostart SSD
-#virsh pool-start SSD
 ############################
 
 ### start image hosting
