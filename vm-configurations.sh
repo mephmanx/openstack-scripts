@@ -30,40 +30,79 @@ function getVMCount {
   echo $vm_ct
 }
 
+function getVMVolSize() {
+      disk_type="${1}"
+      vm_count=$2
+       case $disk_type in
+          "control")
+            size_avail=`df /VM-VOL-CONTROL | awk '{print $4}' | sed 1d`
+            echo $(($((size_avail / 3)) / 1024 / 1024))
+          ;;
+       case $disk_type in
+          "network")
+
+          ;;
+        case $disk_type in
+           "compute")
+
+          ;;
+        case $disk_type in
+            "monitoring")
+
+            ;;
+        case $disk_type in
+            "cinder")
+
+            ;;
+        case $disk_type in
+            "swift")
+
+            ;;
+        case $disk_type in
+            "kolla")
+
+            ;;
+        esac
+}
+
 function getDiskMapping() {
+  vm_type=$1
+  vm_count=$2
   ### this is the drive request from below config, REG for regular speed drive, HIGH for high speed drive
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
   if [[ $DISK_COUNT -lt 2 ]]; then
     ## only 1 disk, return only storage pool
-    echo "VM-VOL"
+    echo "VM-VOL:$(getVMVolSize $vm_type $vm_count)"
   else
     ## multiple disks, find which one corresponds to "high speed" and "regular speed"
     option="${1}"
-     case $option in
+    vm_count=$2
+      case $option in
         "control")
-
+          echo "VM-VOL-CONTROL:$(getVMVolSize $vm_type $vm_count)"
         ;;
-     case $option in
-        "network")
-
-        ;;
-      case $option in
-         "compute")
-
-        ;;
-      case $option in
+        case $option in
+          "network")
+            echo "VM-VOL-NETWORK:$(getVMVolSize $vm_type $vm_count)"
+          ;;
+        case $option in
+          "compute")
+            echo "VM-VOL-COMPUTE:$(getVMVolSize $vm_type $vm_count)"
+          ;;
+        case $option in
           "monitoring")
-
+            echo "VM-VOL-MONITORING:$(getVMVolSize $vm_type $vm_count)"
           ;;
-      case $option in
+        case $option in
           "storage")
-
+          #Disk:300,Disk:300,SSD:175,SSD:175,SSD:175
+            echo "VM-VOL-CINDER:100,VM-VOL-CINDER:$(getVMVolSize "cinder" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" $vm_count)"
           ;;
-      case $option in
+        case $option in
           "kolla")
-
+            echo "VM-VOL-KOLLA:$(getVMVolSize $vm_type 1)"
           ;;
-      esac
+        esac
     fi
 }
 
