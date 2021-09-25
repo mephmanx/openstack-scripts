@@ -40,27 +40,33 @@ function getVMVolSize() {
           ;;
        case $disk_type in
           "network")
-
+            size_avail=`df /VM-VOL-NETWORK | awk '{print $4}' | sed 1d`
+            echo $(($((size_avail / 2)) / 1024 / 1024))
           ;;
         case $disk_type in
-           "compute")
-
+          "compute")
+            size_avail=`df /VM-VOL-COMPUTE | awk '{print $4}' | sed 1d`
+            echo $((size_avail / 1024 / 1024))
           ;;
         case $disk_type in
             "monitoring")
-
+              size_avail=`df /VM-VOL-MONITORING | awk '{print $4}' | sed 1d`
+              echo $((size_avail / 1024 / 1024))
             ;;
         case $disk_type in
             "cinder")
-
+              size_avail=`df /VM-VOL-CINDER | awk '{print $4}' | sed 1d`
+              echo $((size_avail - 100 / 1024 / 1024))
             ;;
         case $disk_type in
             "swift")
-
+              size_avail=`df /VM-VOL-SWIFT | awk '{print $4}' | sed 1d`
+              echo $(($((size_avail / 3)) / 1024 / 1024))
             ;;
         case $disk_type in
             "kolla")
-
+              size_avail=`df /VM-VOL-KOLLA | awk '{print $4}' | sed 1d`
+              echo $((size_avail / 1024 / 1024))
             ;;
         esac
 }
