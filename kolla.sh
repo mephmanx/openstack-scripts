@@ -574,7 +574,11 @@ LB_FIP_SUBNET=`openstack subnet show  public1-subnet -f value -c id`
 LB_FIP_NETWORK_ID=`openstack network show public1 -f value -c id`
 
 openstack floating ip delete ${LB_FLOATING_IP}
-openstack floating ip create --subnet ${LB_FIP_SUBNET} --project ${LB_PROJECT_ID} --port ${LB_VIP_PORT_ID} --fixed-ip-address ${LB_VIP_ADDRESS} --floating-ip-address ${LB_FIXED_IP} ${LB_FIP_NETWORK_ID}
+openstack floating ip create --subnet ${LB_FIP_SUBNET} \
+                              --project ${LB_PROJECT_ID} \
+                              --port ${LB_VIP_PORT_ID} \
+                              --fixed-ip-address ${LB_VIP_ADDRESS} \
+                              --floating-ip-address ${LB_FIXED_IP} ${LB_FIP_NETWORK_ID}
 ###
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Env prep script complete, pulling CF deployment repo...."
@@ -592,7 +596,13 @@ cat > /tmp/swift.key <<EOF
 $SWIFT_KEY
 EOF
 
-swift post -m "Temp-URL-Key:$SWIFT_KEY" -A http://$INTERNAL_VIP_DNS:5000/v3 -U $OPENSTACK_CLOUDFOUNDRY_USERNAME -K $OPENSTACK_CLOUDFOUNDRY_PWD -V 3 --os-project-name cloudfoundry --os-project-domain-name default
+swift post -m "Temp-URL-Key:$SWIFT_KEY" \
+            -A http://$INTERNAL_VIP_DNS:5000/v3 \
+            -U $OPENSTACK_CLOUDFOUNDRY_USERNAME \
+            -K $OPENSTACK_CLOUDFOUNDRY_PWD \
+            -V 3 \
+            --os-project-name cloudfoundry \
+            --os-project-domain-name default
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Swift blobstores key ready, pulling latest CF stemcell..."
 
