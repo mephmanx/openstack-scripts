@@ -350,9 +350,14 @@ openstack project create cloudfoundry
 openstack user create $OPENSTACK_CLOUDFOUNDRY_USERNAME --project cloudfoundry --password $OPENSTACK_CLOUDFOUNDRY_PWD
 openstack role add --project cloudfoundry --project-domain default --user $OPENSTACK_CLOUDFOUNDRY_USERNAME --user-domain default admin
 
+## get max available memory
+memStr=`ssh root@compute01 "cat /proc/meminfo | grep MemTotal"`
+mem=`echo $memStr | awk -F' ' '{ print $2 }'`
+quotaRam=$((mem / 1024 - 32000))
+
 openstack quota set --cores 256 cloudfoundry
 openstack quota set --instances 100 cloudfoundry
-openstack quota set --ram 164000 cloudfoundry
+openstack quota set --ram $quotaRam cloudfoundry
 openstack quota set --secgroups 100 cloudfoundry
 openstack quota set --secgroup-rules 200 cloudfoundry
 openstack quota set --volumes 100 cloudfoundry
@@ -763,10 +768,6 @@ cf enable-feature-flag diego_docker
 ## change to prod dir for deploy
 cf target -o "system" -s "system"
 cf update-quota default -i 2G -m 4G
-
-## get max available memory
-memStr=`ssh root@compute01 "cat /proc/meminfo | grep MemTotal"`
-mem=`echo $mem | awk -F' ' '{ print $2 }'`
 
 ### determine quota formula.  this is memory on compute server to be made available for cloudfoundry org.
 ## Remember, other VM's run on compute (amphora, DBaas, BOSH, docker/kube clusters, etc) so make sure to leave enough for them!
