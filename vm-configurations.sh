@@ -42,21 +42,27 @@ function getDiskMapping() {
      case $option in
         "control")
 
+        ;;
      case $option in
         "network")
 
+        ;;
       case $option in
          "compute")
 
+        ;;
       case $option in
           "monitoring")
 
+          ;;
       case $option in
           "storage")
 
+          ;;
       case $option in
-            "kolla")
-        ;;
+          "kolla")
+
+          ;;
       esac
     fi
 }
