@@ -38,36 +38,30 @@ function getVMVolSize() {
             size_avail=`df /VM-VOL-CONTROL | awk '{print $4}' | sed 1d`
             echo $(($((size_avail / 3)) / 1024 / 1024))
           ;;
-       case $disk_type in
           "network")
             size_avail=`df /VM-VOL-NETWORK | awk '{print $4}' | sed 1d`
             echo $(($((size_avail / 2)) / 1024 / 1024))
           ;;
-        case $disk_type in
           "compute")
             size_avail=`df /VM-VOL-COMPUTE | awk '{print $4}' | sed 1d`
             echo $((size_avail / 1024 / 1024))
           ;;
-        case $disk_type in
-            "monitoring")
-              size_avail=`df /VM-VOL-MONITORING | awk '{print $4}' | sed 1d`
-              echo $((size_avail / 1024 / 1024))
-            ;;
-        case $disk_type in
-            "cinder")
-              size_avail=`df /VM-VOL-CINDER | awk '{print $4}' | sed 1d`
-              echo $((size_avail - 100 / 1024 / 1024))
-            ;;
-        case $disk_type in
-            "swift")
-              size_avail=`df /VM-VOL-SWIFT | awk '{print $4}' | sed 1d`
-              echo $(($((size_avail / 3)) / 1024 / 1024))
-            ;;
-        case $disk_type in
-            "kolla")
-              size_avail=`df /VM-VOL-KOLLA | awk '{print $4}' | sed 1d`
-              echo $((size_avail / 1024 / 1024))
-            ;;
+          "monitoring")
+            size_avail=`df /VM-VOL-MONITORING | awk '{print $4}' | sed 1d`
+            echo $((size_avail / 1024 / 1024))
+          ;;
+          "cinder")
+            size_avail=`df /VM-VOL-CINDER | awk '{print $4}' | sed 1d`
+            echo $((size_avail - 100 / 1024 / 1024))
+          ;;
+          "swift")
+            size_avail=`df /VM-VOL-SWIFT | awk '{print $4}' | sed 1d`
+            echo $(($((size_avail / 3)) / 1024 / 1024))
+          ;;
+          "kolla")
+            size_avail=`df /VM-VOL-KOLLA | awk '{print $4}' | sed 1d`
+            echo $((size_avail / 1024 / 1024))
+          ;;
         esac
 }
 
@@ -87,27 +81,22 @@ function getDiskMapping() {
         "control")
           echo "VM-VOL-CONTROL:$(getVMVolSize $vm_type $vm_count)"
         ;;
-        case $option in
-          "network")
-            echo "VM-VOL-NETWORK:$(getVMVolSize $vm_type $vm_count)"
-          ;;
-        case $option in
-          "compute")
-            echo "VM-VOL-COMPUTE:$(getVMVolSize $vm_type $vm_count)"
-          ;;
-        case $option in
-          "monitoring")
-            echo "VM-VOL-MONITORING:$(getVMVolSize $vm_type $vm_count)"
-          ;;
-        case $option in
-          "storage")
+        "network")
+          echo "VM-VOL-NETWORK:$(getVMVolSize $vm_type $vm_count)"
+        ;;
+        "compute")
+          echo "VM-VOL-COMPUTE:$(getVMVolSize $vm_type $vm_count)"
+        ;;
+        "monitoring")
+          echo "VM-VOL-MONITORING:$(getVMVolSize $vm_type $vm_count)"
+        ;;
+        "storage")
           #Disk:300,Disk:300,SSD:175,SSD:175,SSD:175
-            echo "VM-VOL-CINDER:100,VM-VOL-CINDER:$(getVMVolSize "cinder" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" $vm_count)"
-          ;;
-        case $option in
-          "kolla")
-            echo "VM-VOL-KOLLA:$(getVMVolSize $vm_type 1)"
-          ;;
+          echo "VM-VOL-CINDER:100,VM-VOL-CINDER:$(getVMVolSize "cinder" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" $vm_count)"
+        ;;
+        "kolla")
+          echo "VM-VOL-KOLLA:$(getVMVolSize $vm_type 1)"
+        ;;
         esac
     fi
 }
