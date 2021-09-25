@@ -33,36 +33,64 @@ function getVMCount {
 function getVMVolSize() {
       disk_type="${1}"
       vm_count=$2
-       case $disk_type in
+      DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+      if [[ $DISK_COUNT -lt 2 ]]; then
+        size_avail=`df /VM-VOL | awk '{print $4}' | sed 1d`
+        case $disk_type in
           "control")
-            size_avail=`df /VM-VOL-CONTROL | awk '{print $4}' | sed 1d`
-            echo $(($((size_avail / 3)) / 1024 / 1024))
+            echo $(($((size_avail * 15/100)) / 1024 / 1024 / vm_count))
           ;;
           "network")
-            size_avail=`df /VM-VOL-NETWORK | awk '{print $4}' | sed 1d`
-            echo $(($((size_avail / 2)) / 1024 / 1024))
+            echo $(($((size_avail * 10/100)) / 1024 / 1024 / vm_count))
           ;;
           "compute")
-            size_avail=`df /VM-VOL-COMPUTE | awk '{print $4}' | sed 1d`
-            echo $((size_avail / 1024 / 1024))
+            echo $(($((size_avail * 25/100)) / 1024 / 1024))
           ;;
           "monitoring")
-            size_avail=`df /VM-VOL-MONITORING | awk '{print $4}' | sed 1d`
-            echo $((size_avail / 1024 / 1024))
+            echo $(($((size_avail * 5/100)) / 1024 / 1024))
           ;;
           "cinder")
-            size_avail=`df /VM-VOL-CINDER | awk '{print $4}' | sed 1d`
-            echo $((size_avail - 100 / 1024 / 1024))
+            echo $(($((size_avail * 20/100)) / 1024 / 1024))
           ;;
           "swift")
-            size_avail=`df /VM-VOL-SWIFT | awk '{print $4}' | sed 1d`
-            echo $(($((size_avail / 3)) / 1024 / 1024))
+            echo $(($((size_avail * 20/100)) / 1024 / 1024))
           ;;
           "kolla")
-            size_avail=`df /VM-VOL-KOLLA | awk '{print $4}' | sed 1d`
-            echo $((size_avail / 1024 / 1024))
+            echo $(($((size_avail * 5/100)) / 1024 / 1024))
           ;;
         esac
+      else
+         case $disk_type in
+            "control")
+              size_avail=`df /VM-VOL-CONTROL | awk '{print $4}' | sed 1d`
+              echo $(($((size_avail / 3)) / 1024 / 1024))
+            ;;
+            "network")
+              size_avail=`df /VM-VOL-NETWORK | awk '{print $4}' | sed 1d`
+              echo $(($((size_avail / 2)) / 1024 / 1024))
+            ;;
+            "compute")
+              size_avail=`df /VM-VOL-COMPUTE | awk '{print $4}' | sed 1d`
+              echo $((size_avail / 1024 / 1024))
+            ;;
+            "monitoring")
+              size_avail=`df /VM-VOL-MONITORING | awk '{print $4}' | sed 1d`
+              echo $((size_avail / 1024 / 1024))
+            ;;
+            "cinder")
+              size_avail=`df /VM-VOL-CINDER | awk '{print $4}' | sed 1d`
+              echo $((size_avail - 100 / 1024 / 1024))
+            ;;
+            "swift")
+              size_avail=`df /VM-VOL-SWIFT | awk '{print $4}' | sed 1d`
+              echo $(($((size_avail / 3)) / 1024 / 1024))
+            ;;
+            "kolla")
+              size_avail=`df /VM-VOL-KOLLA | awk '{print $4}' | sed 1d`
+              echo $((size_avail / 1024 / 1024))
+            ;;
+          esac
+      fi
 }
 
 function getDiskMapping() {
