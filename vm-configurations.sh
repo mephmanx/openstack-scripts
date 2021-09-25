@@ -30,62 +30,6 @@ function getVMCount {
   echo $vm_ct
 }
 
-function round() {
-    printf "%.${2:-0}f" "$1"
-}
-
-function getDriveRatings() {
-  drive_ratings=()
-  LSHW_OUT=`lshw -json -class disk`
-  jq_out=`echo "[$LSHW_OUT]" | jq .`
-  for disk in `echo $jq_out | jq .[].logicalname`; do
-    drive=`echo $disk | rev | cut -d'/' -f 1 | rev | tr -d '"'`
-    speed=`hdparm -tv /dev/$drive | awk '/Timing buffered disk reads/ {print $11}'`
-    speed=$(round $(cut -d':' -f2 <<<$speed) 0)
-    drive_ratings+=("$drive:$speed")
-  done
-  printf -v drive_speed_string '%s,' "${drive_ratings[@]}"
-  echo $drive_speed_string
-}
-
-function getFastestDrive() {
-  drive_speed_string=$1
-  IFS=',' read -r -a drive_ratings_fst <<< "$drive_speed_string"
-  fastest_drive_speed=0
-  for entry in "${drive_ratings_fst[@]}"; do
-    if [[ $(round $(cut -d':' -f2 <<<$entry) 0) -gt $fastest_drive_speed ]]; then
-      fastest_drive=`cut -d':' -f1 <<<$entry`
-      fastest_drive_speed=$(round $(cut -d':' -f2 <<<$entry) 0)
-    fi
-  done
-  echo "$fastest_drive"
-}
-
-function getSecondFastestDrive() {
-  drive_speed_string=$1
-  ## remove fastest drive info
-  fDr="$(getFastestDrive $drive_speed_string)"
-  IFS=',' read -r -a drive_ratings_reg <<< "$drive_speed_string"
-  new_arr=()
-  for ele in "${drive_ratings_reg[@]}"; do
-    if [ -n "$(sed -n "/$fDr/p" <<< "$ele")" ]; then
-      ##do nothing as it matches
-      x=1
-    else
-      new_arr+=("$ele")
-    fi
-  done
-  fastest_drive_speed=0
-  fastest_drive=""
-  for entry in "${new_arr[@]}"; do
-    if [[ $(round $(cut -d':' -f2 <<<$entry) 0) -gt $fastest_drive_speed ]]; then
-      fastest_drive=`cut -d':' -f1 <<<$entry`
-      fastest_drive_speed=$(round $(cut -d':' -f2 <<<$entry) 0)
-    fi
-  done
-  echo "$fastest_drive"
-}
-
 function getDiskMapping() {
   ### this is the drive request from below config, REG for regular speed drive, HIGH for high speed drive
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
@@ -94,50 +38,27 @@ function getDiskMapping() {
     echo "VM-VOL"
   else
     ## multiple disks, find which one corresponds to "high speed" and "regular speed"
-    drive_speed_request=$1
-    drive_ratings=$(getDriveRatings)
-    if [[ "HIGH" == $drive_speed_request ]]; then
-      volume=`lsblk -o MOUNTPOINT -nr /dev/"$(getFastestDrive $drive_ratings)" | grep "VM-VOL" | tr -d '/'`
-      echo $volume
-    else
-      volume=`lsblk -o MOUNTPOINT -nr /dev/"$(getSecondFastestDrive $drive_ratings)" | grep "VM-VOL" | tr -d '/'`
-      echo $volume
+    option="${1}"
+     case $option in
+        "control")
+
+     case $option in
+        "network")
+
+      case $option in
+         "compute")
+
+      case $option in
+          "monitoring")
+
+      case $option in
+          "storage")
+
+      case $option in
+            "kolla")
+        ;;
+      esac
     fi
-  fi
-}
-
-function getDiskSize() {
-  disk_device=$1
-  ## $5 is for available disk size, $4 is for total disk size
-  drive_size=`df -PT /"$disk_device" | awk '{print $4}' | sed 1d`
-  echo "$((drive_size / 1024 / 1024))"
-}
-
-function getComputeDiskSize() {
-  DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
-  if [[ $DISK_COUNT -gt 1 ]]; then
-    echo "700"
-  else
-    echo "700"
-  fi
-}
-
-function getCinderDiskSize() {
-  DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
-  if [[ $DISK_COUNT -gt 1 ]]; then
-    echo "400"
-  else
-    echo "400"
-  fi
-}
-
-function getSwiftDiskSize() {
-  DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
-  if [[ $DISK_COUNT -gt 1 ]]; then
-    echo "175"
-  else
-    echo "175"
-  fi
 }
 
 function vm_definitions {
@@ -155,7 +76,7 @@ function vm_definitions {
   NETWORK_COUNT=2
   MONITORING_COUNT=1
   STORAGE_COUNT=1
-  KOLLA_COUNT=1
+  COMPUTE_COUNT=1
   ######
 
   case $option in
@@ -164,10 +85,11 @@ function vm_definitions {
             "count":"$CONTROL_COUNT",
             "cpu":"2",
             "memory":"$CONTROL_RAM",
-            "drive_string":"REG:100",
+            "drive_string":"$DRIVE_MAPPING",
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$CONTROL_RAM/'$CONTROL_RAM'/g')"
+        STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "control" "$CONTROL_COUNT")'/g')"
         STRING="$(echo $STRING | sed 's/$CONTROL_COUNT/'$CONTROL_COUNT'/g')"
         echo $STRING
     ;;
@@ -176,10 +98,11 @@ function vm_definitions {
             "count":"$NETWORK_COUNT",
             "cpu":"2",
             "memory":"$NETWORK_RAM",
-            "drive_string":"REG:100",
+            "drive_string":"$DRIVE_MAPPING",
             "network_string":"amp-net,loc-static,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$NETWORK_RAM/'$NETWORK_RAM'/g')"
+        STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "network" "$NETWORK_COUNT")'/g')"
         STRING="$(echo $STRING | sed 's/$NETWORK_COUNT/'$NETWORK_COUNT'/g')"
         echo $STRING
     ;;
@@ -189,13 +112,13 @@ function vm_definitions {
         RESERVED_RAM=$(( $INSTALLED_RAM * $RAM_PCT_AVAIL_CLOUD/100 ))
         COMPUTE_RAM=$((RESERVED_RAM - (CONTROL_RAM * CONTROL_COUNT) - (NETWORK_RAM * NETWORK_COUNT) - (MONITORING_RAM * MONITORING_COUNT) - (STORAGE_RAM * STORAGE_COUNT) - KOLLA_RAM))
         STRING='{
-            "count":"1",
+            "count":"$COMPUTE_COUNT",
             "cpu":"$CPU_COUNT",
             "memory":$COMPUTE_RAM",
-            "drive_string":"HIGH:$COMPUTE_DISK",
+            "drive_string":"$DRIVE_MAPPING",
             "network_string":"amp-net,loc-static,loc-static"
           }'
-        STRING="$(echo $STRING | sed 's/$COMPUTE_DISK/'$(getComputeDiskSize)'/g')"
+        STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "compute" "1")'/g')"
         STRING="$(echo $STRING | sed 's/$CPU_COUNT/'$CPU_COUNT'/g')"
         STRING="$(echo $STRING | sed 's/$COMPUTE_RAM/'$COMPUTE_RAM'/g')"
         echo $STRING
@@ -205,10 +128,11 @@ function vm_definitions {
             "count":"$MONITORING_COUNT",
             "cpu":"2",
             "memory":"$MONITORING_RAM",
-            "drive_string":"REG:300",
+            "drive_string":"$DRIVE_MAPPING",
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$MONITORING_RAM/'$MONITORING_RAM'/g')"
+        STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "monitoring" "$MONITORING_COUNT")'/g')"
         STRING="$(echo $STRING | sed 's/$MONITORING_COUNT/'$MONITORING_COUNT'/g')"
         echo $STRING
     ;;
@@ -217,25 +141,24 @@ function vm_definitions {
             "count":"$STORAGE_COUNT",
             "cpu":"2",
             "memory":"$STORAGE_RAM",
-            "drive_string":"REG:100,REG:$CINDER_SIZE,HIGH:$SWIFT_SIZE,HIGH:$SWIFT_SIZE,HIGH:$SWIFT_SIZE",
+            "drive_string":"$DRIVE_MAPPING",
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$STORAGE_RAM/'$STORAGE_RAM'/g')"
-        STRING="$(echo $STRING | sed 's/$CINDER_SIZE/'$(getCinderDiskSize)'/g')"
-        STRING="$(echo $STRING | sed 's/$SWIFT_SIZE/'$(getSwiftDiskSize)'/g')"
+        STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "monitoring" "$STORAGE_COUNT")'/g')"
         STRING="$(echo $STRING | sed 's/$STORAGE_COUNT/'$STORAGE_COUNT'/g')"
         echo $STRING
     ;;
     "kolla")
         STRING='{
-            "count":"$KOLLA_COUNT",
+            "count":"1",
             "cpu":"4",
             "memory":"$KOLLA_RAM",
-            "drive_string":"REG:60",
+            "drive_string":"$DRIVE_MAPPING",
             "network_string":"loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$KOLLA_RAM/'$KOLLA_RAM'/g')"
-        STRING="$(echo $STRING | sed 's/$KOLLA_COUNT/'$KOLLA_COUNT'/g')"
+        STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "monitoring" "1")'/g')"
         echo $STRING
     ;;
   esac

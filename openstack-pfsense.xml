@@ -29,6 +29,8 @@
 			<priv>page-openvpn-server-advanced</priv>
 			<priv>page-openvpn-client-advanced</priv>
 			<priv>page-openvpn-server</priv>
+			<priv>page-firewall-pfblockerng</priv>
+			<priv>page-services-snort</priv>
 		</group>
 		<group>
 			<name>admins</name>
