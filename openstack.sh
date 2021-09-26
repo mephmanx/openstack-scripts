@@ -414,7 +414,10 @@ openstack_repo_file=( $(echo $OPENSTACK_SETUP_REPO | fold -c250 ))
   sleep 90;
 ) | telnet
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense rebooting after package install, pfsense-init script should begin after reboot. Remember to configure wildcard DNS properly on DNS provider site! \n For eaxmple, a CNAME record with Host: * and Value: @ on GoDaddy."
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID \
+        "PFSense rebooting after package install, \
+          pfsense-init script should begin after reboot. Remember to configure wildcard DNS properly on DNS provider site! \
+           \n For eaxmple, a CNAME record with Host: * and Value: @ on GoDaddy."
 
 virsh reboot pfsense
 
