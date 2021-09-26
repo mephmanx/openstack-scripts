@@ -30,7 +30,7 @@ cd $working_dir
 ADMIN_PWD=`cat /root/env_admin_pwd`
 
 ########### set up registry connection to docker hub
-export etext=`echo -n "$admin:$ADMIN_PWD" | base64`
+export etext=`echo -n "admin:$ADMIN_PWD" | base64`
 curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/registries" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
