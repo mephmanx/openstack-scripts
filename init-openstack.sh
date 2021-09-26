@@ -7,6 +7,7 @@
 . /etc/init.d/functions
 . /tmp/openstack-scripts/vm_functions.sh
 . /tmp/openstack-env.sh
+. /tmp/project_config.sh
 
 start() {
 
@@ -18,11 +19,6 @@ sleep 30
 ###########################
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup."
-
-### load project config
-prep_project_config
-source /tmp/project_config.sh
-#######
 
 ### cleanup from previous boot
 rm -rf /tmp/eth*

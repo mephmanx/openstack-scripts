@@ -6,7 +6,6 @@ function get_drive_name() {
 }
 
 function load_system_info() {
-  prep_project_config
   source /tmp/project_config.sh
   export INSTALLED_RAM=`runuser -l root -c  'dmidecode -t memory | grep  Size: | grep -v "No Module Installed"' | awk '{sum+=$2}END{print sum}'`
   export RESERVED_RAM=$(( $INSTALLED_RAM * $RAM_PCT_AVAIL_CLOUD/100 ))

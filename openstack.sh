@@ -421,10 +421,6 @@ virsh reboot pfsense
 ## cleanup key
 rm -rf /tmp/pf_key*
 
-## prep project config by replacing nested vars
-prep_project_config
-#########
-
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 
