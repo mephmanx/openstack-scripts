@@ -127,6 +127,11 @@
 		<dns1host></dns1host>
 		<shellcmd>/root/openstack-scripts/pfsense-init.sh</shellcmd>
 		<afterfilterchangeshellcmd></afterfilterchangeshellcmd>
+		<nologdefaultpass></nologdefaultpass>
+		<logall></logall>
+		<nologdefaultblock></nologdefaultblock>
+		<nologbogons></nologbogons>
+		<nologprivatenets></nologprivatenets>
 	</system>
 	<interfaces>
 		<wan>
