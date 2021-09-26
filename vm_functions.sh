@@ -310,7 +310,10 @@ EOF
   # create CA key and cert
   runuser -l root -c  "ssh-keygen -P $ca_pwd -f $cert_dir/id_rsa -y > $cert_dir/id_rsa.pub"
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
-  runuser -l root -c  "openssl req -new -x509 -days 7300 -key $cert_dir/id_rsa.key -out $cert_dir/id_rsa.crt -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=centos.$COMMON_NAME' -config $cert_dir/ca_conf.cnf"
+  runuser -l root -c  "openssl req -new -x509 -days 7300 \
+                        -key $cert_dir/id_rsa.key -out $cert_dir/id_rsa.crt \
+                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=centos.$COMMON_NAME' \
+                        -config $cert_dir/ca_conf.cnf"
 }
 
 function create_server_cert() {
@@ -354,8 +357,17 @@ EOF
 
   runuser -l root -c  "openssl genrsa -aes256 -passout pass:$ca_pwd -out $cert_dir/$cert_name.pass.key 4096"
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/$cert_name.pass.key -out $cert_dir/$cert_name.key"
-  runuser -l root -c  "openssl req -new -key $cert_dir/$cert_name.key -out $cert_dir/$cert_name.csr -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$cert_name.$COMMON_NAME' -config $cert_dir/$cert_name.cnf"
-  runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 -in $cert_dir/$cert_name.csr -CA $cert_dir/id_rsa.crt -CAkey $cert_dir/id_rsa -passin pass:$ca_pwd -out $cert_dir/$cert_name.crt"
+  runuser -l root -c  "openssl req -new -key $cert_dir/$cert_name.key \
+                          -out $cert_dir/$cert_name.csr \
+                          -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$cert_name.$COMMON_NAME' \
+                          -config $cert_dir/$cert_name.cnf"
+
+  runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
+                          -in $cert_dir/$cert_name.csr \
+                          -CA $cert_dir/id_rsa.crt \
+                          -CAkey $cert_dir/id_rsa \
+                          -passin pass:$ca_pwd \
+                          -out $cert_dir/$cert_name.crt"
 }
 
 function create_user_cert() {
@@ -373,8 +385,14 @@ function create_user_cert() {
   ### generate osuser cert and key
   runuser -l root -c  "openssl genrsa -aes256 -passout pass:$NEWPW -out $CERT_DIR/$user_name.pass.key 4096 "
   runuser -l root -c  "openssl rsa -passin pass:$NEWPW -in $CERT_DIR/$user_name.pass.key -out $CERT_DIR/$user_name.key"
-  runuser -l root -c  "openssl req -new -key $CERT_DIR/$user_name.key -out $CERT_DIR/$user_name.csr -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$user_name.$COMMON_NAME'"
-  runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 -in $CERT_DIR/$user_name.csr -CA $CERT_DIR/id_rsa.crt -CAkey $CERT_DIR/id_rsa -passin pass:$NEWPW -out $CERT_DIR/$user_name.crt"
+  runuser -l root -c  "openssl req -new -key $CERT_DIR/$user_name.key \
+                        -out $CERT_DIR/$user_name.csr \
+                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$user_name.$COMMON_NAME'"
+
+  runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
+                        -in $CERT_DIR/$user_name.csr -CA $CERT_DIR/id_rsa.crt \
+                        -CAkey $CERT_DIR/id_rsa -passin pass:$NEWPW \
+                        -out $CERT_DIR/$user_name.crt"
   ##########
 }
 
