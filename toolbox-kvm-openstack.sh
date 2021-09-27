@@ -18,18 +18,18 @@ prep_project_config
 source /tmp/project_config.sh
 #########
 
-### build centos iso if not exist
-if [ ! -f "/tmp/linux.iso" ]; then
-  pwd=`pwd`
-  git clone https://github.com/mephmanx/centos-8-minimal.git /tmp/centos-8-minimal
-  if [ ! -f "/tmp/CentOS-Stream.iso" ]; then
-    curl -o /tmp/CentOS-Stream.iso $CENTOS_BASE -L
-  fi
-  cd /tmp/centos-8-minimal
-  ./create_iso_in_container.sh "/tmp/CentOS-Stream.iso"
-  mv /tmp/centos-8-minimal/CentOS-x86_64-minimal.iso /tmp/linux.iso
-  cd $pwd
-fi
+#### build centos iso if not exist
+#if [ ! -f "/tmp/linux.iso" ]; then
+#  pwd=`pwd`
+#  git clone https://github.com/mephmanx/centos-8-minimal.git /tmp/centos-8-minimal
+#  if [ ! -f "/tmp/CentOS-Stream.iso" ]; then
+#    curl -o /tmp/CentOS-Stream.iso $CENTOS_BASE -L
+#  fi
+#  cd /tmp/centos-8-minimal
+#  ./create_iso_in_container.sh "/tmp/CentOS-Stream.iso"
+#  mv /tmp/centos-8-minimal/CentOS-x86_64-minimal.iso /tmp/linux.iso
+#  cd $pwd
+#fi
 
 mkdir ./tmp
 cp centos-8-kickstart-openstack.cfg ./tmp
