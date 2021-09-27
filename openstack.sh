@@ -133,12 +133,12 @@ vtpm
 ######
 
 ############ Create and init storage pools
-PART_LIST=`df | grep "VM-VOL" | awk '{print $6}' | tr -d '/' | tr -d 'VM-VOL-'`
+PART_LIST=`df | grep "VM-VOL" | awk '{print $6}' | tr -d '/'`
 for part in "${PART_LIST[@]}"; do
-  virsh pool-define-as VM-VOL$part dir - - - - "/$part"
-  virsh pool-build VM-VOL$part
-  virsh pool-autostart VM-VOL$part
-  virsh pool-start VM-VOL$part
+  virsh pool-define-as $part dir - - - - "/$part"
+  virsh pool-build $part
+  virsh pool-autostart $part
+  virsh pool-start $part
 done
 ############################
 

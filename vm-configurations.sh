@@ -35,7 +35,7 @@ function getVMVolSize() {
       vm_count=$2
       DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
       if [[ $DISK_COUNT -lt 2 ]]; then
-        size_avail=`df /VM-VOL | awk '{print $4}' | sed 1d`
+        size_avail=`df /VM-VOL-ALL | awk '{print $4}' | sed 1d`
         case $disk_type in
           "control")
             echo $(($((size_avail * 15/100)) / 1024 / 1024 / vm_count))
@@ -100,7 +100,7 @@ function getDiskMapping() {
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
   if [[ $DISK_COUNT -lt 2 ]]; then
     ## only 1 disk, return only storage pool
-    echo "VM-VOL:$(getVMVolSize $vm_type $vm_count)"
+    echo "VM-VOL-ALL:$(getVMVolSize $vm_type $vm_count)"
   else
     ## multiple disks, find which one corresponds to "high speed" and "regular speed"
     option="${1}"
@@ -336,15 +336,17 @@ function removeVM_kvm {
 
   ########### Delete volumes in storage pools
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+  VM_TYPE=$(echo $vm_name | tr 'a-z' 'A-Z')
+  if [[ $DISK_COUNT -lt 2 ]]; then
+    VM_TYPE="ALL"
+  fi
 
-  while [ $DISK_COUNT -gt 0 ]; do
-    virsh vol-list VM-VOL$DISK_COUNT | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
-        if [[ ! -z $line ]]; then
-          if [[ "$line" =~ .*"$vm_name".* ]]; then
-            virsh vol-delete --pool VM-VOL$DISK_COUNT $line
-          fi
-        fi
-      done
+  virsh vol-list VM-VOL-$VM_TYPE | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
+    if [[ ! -z $line ]]; then
+      if [[ "$line" =~ .*"$vm_name".* ]]; then
+        virsh vol-delete --pool VM-VOL-$VM_TYPE $line
+      fi
+    fi
   done
   ##########################
 }
