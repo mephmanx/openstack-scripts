@@ -355,7 +355,13 @@ memStr=`ssh root@compute01 "cat /proc/meminfo | grep MemTotal"`
 mem=`echo $memStr | awk -F' ' '{ print $2 }'`
 quotaRam=$((mem / 1024 - 32000))
 
-openstack quota set --cores 256 cloudfoundry
+## get cpu count for quota
+CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
+
+## overcommit scale by 10
+openstack quota set --cores $((CPU_COUNT * 10)) cloudfoundry
+
+
 openstack quota set --instances 100 cloudfoundry
 openstack quota set --ram $quotaRam cloudfoundry
 openstack quota set --secgroups 100 cloudfoundry
