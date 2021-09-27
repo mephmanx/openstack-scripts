@@ -22,7 +22,7 @@ export PFSENSE=https://nyifiles.netgate.com/mirror/downloads/pfSense-CE-memstick
 export LINUX_ISO=https://vault.centos.org/8.3.2011/isos/x86_64/CentOS-8.3.2011-x86_64-minimal.iso
 
 ### centos base image
-export CENTOS_BASE=http://isoredirect.centos.org/centos/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-latest-boot.iso
+export CENTOS_BASE=http://isoredirect.centos.org/centos/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-20210916-dvd1.iso
 
 ### Magnum docker image
 export MAGNUM_IMAGE=https://download.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180419.0/CloudImages/x86_64/images/Fedora-Atomic-27-20180419.0.x86_64.qcow2
