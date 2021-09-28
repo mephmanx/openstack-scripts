@@ -721,6 +721,7 @@ if [[ $error_count -gt 0 ]]; then
                       -o /tmp/cf-deployment/operations/openstack.yml \
                       -o /tmp/cf-deployment/operations/scale-to-one-az.yml \
                       -o /tmp/cf-deployment/operations/use-compiled-releases.yml \
+                      -o /tmp/cf-deployment/operations/enable-nfs-volume-service.yml \
                       --vars-store /tmp/vars/deployment-vars.yml \
                       /tmp/cf-deployment/cf-deployment.yml \
                       -v system_domain=$DOMAIN_NAME \
@@ -748,6 +749,9 @@ fi
 ### grab last set of lines from log to send
 LOG_TAIL=`tail -25 /tmp/cloudfoundry-install.log`
 ###
+
+## run volume errand
+runuser -l stack -c "bosh -d cf run-errand nfs-broker-push"
 
 telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install tail -> $LOG_TAIL"
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install complete!  Beginning Stratos UI deploy"
