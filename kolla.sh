@@ -689,6 +689,7 @@ runuser -l stack -c  "cd /opt/stack; \
                   -o /tmp/cf-deployment/operations/openstack.yml \
                   -o /tmp/cf-deployment/operations/scale-to-one-az.yml \
                   -o /tmp/cf-deployment/operations/use-compiled-releases.yml \
+                  -o /tmp/cf-deployment/operations/enable-nfs-volume-service.yml \
                   --vars-store /tmp/vars/deployment-vars.yml \
                   /tmp/cf-deployment/cf-deployment.yml \
                   -v system_domain=$DOMAIN_NAME \
