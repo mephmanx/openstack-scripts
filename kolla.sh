@@ -793,8 +793,6 @@ cd stratos
 cf push console -f manifest-docker.yml -k 2G
 cf scale console -i 2
 
-cf install-plugin -r CF-Community "Firehose Plugin"
-
 ## Stratos complete!
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stratos deployment complete!  access at console.$DOMAIN_NAME user -> admin , pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
 
