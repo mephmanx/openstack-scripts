@@ -358,6 +358,10 @@ quotaRam=$((mem / 1024 - 32000))
 ## get cpu count for quota
 CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
 
+## get cinder volume size
+cinder_vol_size="`ssh root@storage01 "pvs | grep 'vdb'"`"
+cinder_quota="$cinder_vol_size" | awk '{print $5}' | tr -d '<g'
+
 ## overcommit scale by 10
 openstack quota set --cores $((CPU_COUNT * 10)) cloudfoundry
 
@@ -366,6 +370,7 @@ openstack quota set --ram $quotaRam cloudfoundry
 openstack quota set --secgroups 100 cloudfoundry
 openstack quota set --secgroup-rules 200 cloudfoundry
 openstack quota set --volumes 100 cloudfoundry
+openstack quota set --gigabytes round $cinder_quota cloudfoundry
 
 ### cloudfoundry flavors
 openstack flavor create --ram 3840 --ephemeral 10 --vcpus 1 --public minimal
@@ -803,6 +808,10 @@ rm -rf /etc/rc.d/rc.local
 post_install_cleanup
 
 restrict_to_root
+}
+
+function round() {
+    printf "%.${2:-0}f" "$1"
 }
 
 stop() {
