@@ -26,6 +26,9 @@ systemctl stop firewalld
 systemctl disable firewalld
 systemctl mask firewalld
 
+### modukle recommended on openstack.org
+modprobe vhost_net
+
 ## Send System info
 load_system_info
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Cloud System: $SYSTEM_INFO"

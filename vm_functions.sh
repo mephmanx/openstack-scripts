@@ -158,6 +158,9 @@ function common_second_boot_setup() {
   rm -rf /tmp/hypervisor.key
   systemctl stop firewalld
   systemctl mask firewalld
+
+  ### module recommended on openstack.org
+  modprobe vhost_net
 }
 
 function vtpm() {
