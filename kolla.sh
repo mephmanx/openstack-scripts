@@ -642,6 +642,8 @@ runuser -l stack -c  "source /opt/stack/.bash_profile"
 #### prep variables
 
 ### download latest stemcell
+##  also pull latest stemcell for all ubuntu releases
+## currently bionic, trusty, xenial
 runuser -l stack -c  "bosh interpolate /tmp/cf-deployment/cf-deployment.yml --path=/stemcells/alias=default/version > /opt/stack/stemcell_version"
 
 runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
@@ -694,6 +696,9 @@ runuser -l stack -c  "cd /opt/stack; \
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Executing Cloudfoundry install.  Should take about 30 - 45 min..."
 
+## pull logging repo
+git clone https://github.com/bosh-prometheus/prometheus-boshrelease /tmp/prometheus-boshrelease
+
 ### prepare google SAML config and include it in deploy
 
 ### deploy cloudfoundry
@@ -721,6 +726,7 @@ runuser -l stack -c  "cd /opt/stack; \
                   -v buildpack_directory_key=buildpack_directory \
                   -v droplet_directory_key=droplet_directory \
                   -v resource_directory_key=resource_directory \
+                  -v grafana_redirect_uri=https://grafana-cf.$DOMAIN_NAME/login/generic_oauth \
                   -n" > /tmp/cloudfoundry-install.log
 
 ### Cloudfoundry instal can fail at times.  BOSH can handle this and retry is fine.  Retry a few times and if faile still occurs, alert admin
@@ -740,6 +746,8 @@ if [[ $error_count -gt 0 ]]; then
                       -o /tmp/cf-deployment/operations/scale-to-one-az.yml \
                       -o /tmp/cf-deployment/operations/use-compiled-releases.yml \
                       -o /tmp/cf-deployment/operations/enable-nfs-volume-service.yml \
+                      -o /tmp/prometheus-boshrelease/manifests/operators/cf/add-grafana-uaa-clients.yml \
+                      -o /tmp/prometheus-boshrelease/manifests/operators/cf/add-prometheus-uaa-clients.yml \
                       --vars-store /tmp/vars/deployment-vars.yml \
                       /tmp/cf-deployment/cf-deployment.yml \
                       -v system_domain=$DOMAIN_NAME \
@@ -754,6 +762,8 @@ if [[ $error_count -gt 0 ]]; then
                       -v buildpack_directory_key=buildpack_directory \
                       -v droplet_directory_key=droplet_directory \
                       -v resource_directory_key=resource_directory \
+                      -v uaa_clients_grafana_secret=test \
+                      -v grafana_redirect_uri=https://grafana-cf.$DOMAIN_NAME/login/generic_oauth \
                       -n" > /tmp/cloudfoundry-install.log
 
     error_count=`grep -i "error" /tmp/cloudfoundry-install.log | wc -l`
@@ -803,11 +813,92 @@ memGB=$((mem / 1024 / 1024 - 32))
 cf create-quota $DOMAIN_NAME -i 8096M -m "$memGBG" -r 1000 -s 1000 -a 1000 --allow-paid-service-plans --reserved-route-ports $CF_TCP_PORT_COUNT
 cf set-quota $DOMAIN_NAME $DOMAIN_NAME
 
+## push logging
+# get latest stemcell
+runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                      chmod 700 /tmp/bbl_env.sh; \
+                      source /tmp/bbl_env.sh; \
+                      bosh upload-release https://github.com/bosh-prometheus/node-exporter-boshrelease/releases/download/v5.0.0/node-exporter-5.0.0.tgz"
+
+cat > /tmp/node-exporter.yml <<EOF
+releases:
+  - name: node-exporter
+    version: 5.0.0
+
+addons:
+  - name: node_exporter
+    jobs:
+      - name: node_exporter
+        release: node-exporter
+    include:
+      stemcell:
+        - os: ubuntu-trusty
+        - os: ubuntu-xenial
+    properties: {}
+EOF
+
+runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                      chmod 700 /tmp/bbl_env.sh; \
+                      source /tmp/bbl_env.sh; \
+                      bosh update-runtime-config /tmp/node-exporter.yml"
+
+runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                      chmod 700 /tmp/bbl_env.sh; \
+                      source /tmp/bbl_env.sh; \
+                      bosh upload-stemcell https://storage.googleapis.com/bosh-core-stemcells/1.31/bosh-stemcell-1.31-openstack-kvm-ubuntu-bionic-go_agent.tgz"
+
+## update cloud-config
+## vm_type used for prometheus/grafana
+runuser -l stack -c  "cd /opt/stack; \
+                      bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                      chmod 700 /tmp/bbl_env.sh; \
+                      source /tmp/bbl_env.sh; \
+                      bosh cloud-config > /tmp/cloud-config.yml
+                      "
+
+cat > /tmp/default.yml <<EOF
+- cloud_properties:
+    instance_type: m1.small
+  name: default
+EOF
+
+
+
+echo -e "$(grep "directorSSLCA" /opt/stack/bbl-state.json | awk '{print $2, $3, $4}' | tr -d '",')" > /tmp/bosh_ca
+runuser -l stack -c  "cd /opt/stack; \
+                      bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                      chmod 700 /tmp/bbl_env.sh; \
+                      source /tmp/bbl_env.sh; \
+                      bosh -d prometheus deploy /tmp/prometheus-boshrelease/manifests/prometheus.yml \
+                        --vars-store /tmp/vars/deployment-vars.yml \
+                        -o /tmp/prometheus-boshrelease/manifests/operators/monitor-bosh.yml \
+                        -o /tmp/prometheus-boshrelease/manifests/operators/enable-cf-route-registrar.yml \
+                        -o /tmp/prometheus-boshrelease/manifests/operators/monitor-cf.yml \
+                        -v bosh_url="$(grep "directorAddress" /opt/stack/bbl-state.json | awk '{print $2}' | tr -d '",')" \
+                        -v bosh_username="$(grep "directorUsername" /opt/stack/bbl-state.json | awk '{print $2}' | tr -d '",')" \
+                        -v bosh_password="$(grep "directorPassword" /opt/stack/bbl-state.json | awk '{print $2}' | tr -d '",')" \
+                        --var-file bosh_ca_cert=/tmp/bosh_ca \
+                        -v metrics_environment=prod \
+                        -v metron_deployment_name=cf \
+                        -v system_domain=$DOMAIN_NAME \
+                        -v traffic_controller_external_port=443 \
+                        -v skip_ssl_verify=true \
+                        -v uaa_clients_cf_exporter_secret=test \
+                        -v uaa_clients_firehose_exporter_secret=test \
+                        -v cf_deployment_name=cf \
+  -n" > /tmp/prometheus-install.log
+
+#runuser -l stack -c  "cd /opt/stack; \
+#                      bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+#                      chmod 700 /tmp/bbl_env.sh; \
+#                      source /tmp/bbl_env.sh; \
+#bosh -d prometheus deploy /tmp/prometheus-boshrelease/manifests/prometheus.yml \
+#  --vars-store tmp/deployment-vars.yml \
+#    -n" > /tmp/prometheus-install.log
+
 #push stratos
-cd /tmp
-git clone https://github.com/cloudfoundry/stratos
-cd stratos
-cf push console -f manifest-docker.yml -k 2G
+git clone https://github.com/cloudfoundry/stratos /tmp/stratos
+cf push console -f /tmp/stratos/manifest-docker.yml -k 2G
 cf scale console -i 2
 
 ## Stratos complete!
