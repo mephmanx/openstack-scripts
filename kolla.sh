@@ -370,7 +370,7 @@ openstack quota set --ram $quotaRam cloudfoundry
 openstack quota set --secgroups 100 cloudfoundry
 openstack quota set --secgroup-rules 200 cloudfoundry
 openstack quota set --volumes 100 cloudfoundry
-openstack quota set --gigabytes round $cinder_quota cloudfoundry
+openstack quota set --gigabytes $((round $cinder_quota)) cloudfoundry
 
 ### cloudfoundry flavors
 openstack flavor create --ram 3840 --ephemeral 10 --vcpus 1 --public minimal
