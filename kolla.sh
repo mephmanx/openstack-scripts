@@ -262,7 +262,8 @@ rm -rf /opt/stack/cache_out
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cache pull/prime complete!  Install continuing.."
 
 ### nova.conf options
-echo "libvirt.swtpm_enabled=true" >> /etc/kolla/config/nova.conf
+echo "[libvirt]" >> /etc/kolla/config/nova.conf
+echo "swtpm_enabled=true" >> /etc/kolla/config/nova.conf
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Kolla Ansible deploy task execution begun....."
 kolla-ansible -i /etc/kolla/multinode deploy
