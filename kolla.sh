@@ -774,6 +774,7 @@ cf create-space -o $DOMAIN_NAME uat
 
 # enable docker support
 cf enable-feature-flag diego_docker
+cf enable-service-access nfs
 
 ## change to prod dir for deploy
 cf target -o "system" -s "system"
