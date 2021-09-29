@@ -146,8 +146,10 @@ function common_second_boot_setup() {
   docker login -u admin -p $ADMIN_PWD $SUPPORT_HOST.$DOMAIN_NAME
 
   mkdir /root/.ssh
+  ## this allows openstack vm's to ssh to each other without password
   runuser -l root -c 'cp /tmp/openstack-setup.key.pub /root/.ssh/authorized_keys'
   #### add hypervisor host key to authorized keys
+  ## this allows the hypervisor to ssh without password to openstack vms
   runuser -l root -c 'cat /tmp/hypervisor.key >> /root/.ssh/authorized_keys'
   ######
   mv /tmp/openstack-setup.key.pub /root/.ssh/id_rsa.pub

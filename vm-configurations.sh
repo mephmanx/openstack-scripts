@@ -102,7 +102,6 @@ function getDiskMapping() {
     ## only 1 disk, return only storage pool
     echo "VM-VOL-ALL:$(getVMVolSize $vm_type $vm_count)"
   else
-    ## multiple disks, find which one corresponds to "high speed" and "regular speed"
     option="${1}"
     vm_count=$2
       case $option in

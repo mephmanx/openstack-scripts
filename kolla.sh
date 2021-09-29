@@ -523,8 +523,6 @@ fi
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Amphora image install complete"
 ####
 
-### consider installing BOSH on an openstack VM for access
-
 #download and configure homebrew to run bbl install
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting Homebrew install...."
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh -o /tmp/homebrew.sh > /dev/null
@@ -771,7 +769,7 @@ runuser -l stack -c  "cd /opt/stack; \
                   -v grafana_redirect_uri=https://grafana-cf.$DOMAIN_NAME/login/generic_oauth \
                   -n" > /tmp/cloudfoundry-install.log
 
-### Cloudfoundry instal can fail at times.  BOSH can handle this and retry is fine.  Retry a few times and if faile still occurs, alert admin
+### Cloudfoundry install can fail at times.  BOSH can handle this and retry is fine.  Retry a few times and if fail still occurs, alert admin
 error_count=`grep -i "error" /tmp/cloudfoundry-install.log | wc -l`
 retry_count=5
 if [[ $error_count -gt 0 ]]; then

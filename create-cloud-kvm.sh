@@ -1,10 +1,10 @@
 #!/bin/bash
 
+source /tmp/openstack-scripts/vm_functions.sh
 source /tmp/openstack-scripts/iso-functions.sh
 source /tmp/openstack-scripts/vm-configurations.sh
 source /tmp/openstack-env.sh
 source /tmp/project_config.sh
-source /tmp/openstack-scripts/vm_functions.sh
 
 IFS=
 HOWLONG=5 ## the number of characters
