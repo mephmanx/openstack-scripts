@@ -679,10 +679,11 @@ runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.
                       bosh upload-stemcell https://storage.googleapis.com/bosh-core-stemcells/1.31/bosh-stemcell-1.31-openstack-kvm-ubuntu-bionic-go_agent.tgz"
 
 ## pull latest trusty imge
+
 runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
                       chmod 700 /tmp/bbl_env.sh; \
                       source /tmp/bbl_env.sh; \
-                      bosh upload-stemcell https://storage.googleapis.com/bosh-core-stemcells/1.31/bosh-stemcell-1.31-openstack-kvm-ubuntu-bionic-go_agent.tgz"
+                      bosh upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/3586.100/bosh-stemcell-3586.100-openstack-kvm-ubuntu-trusty-go_agent.tgz"
 
 ## cloudfoundry uses xenial, pull version it is requesting
 runuser -l stack -c  "bosh interpolate /tmp/cf-deployment/cf-deployment.yml --path=/stemcells/alias=default/version > /opt/stack/stemcell_version"
