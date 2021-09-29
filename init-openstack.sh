@@ -24,6 +24,11 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setu
 rm -rf /tmp/eth*
 ########
 
+## enable auto updates if selected
+if [[ $LINUX_AUTOUPDATE == 1 ]]; then
+  systemctl enable --now dnf-automatic.timer
+fi
+
 # set up net script to be called after reboot
 prep_next_script "openstack"
 
