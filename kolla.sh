@@ -847,6 +847,11 @@ runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.
                       source /tmp/bbl_env.sh; \
                       bosh upload-release https://github.com/bosh-prometheus/node-exporter-boshrelease/releases/download/v5.0.0/node-exporter-5.0.0.tgz"
 
+runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                      chmod 700 /tmp/bbl_env.sh; \
+                      source /tmp/bbl_env.sh; \
+                      bosh upload-stemcell https://storage.googleapis.com/bosh-core-stemcells/1.31/bosh-stemcell-1.31-openstack-kvm-ubuntu-bionic-go_agent.tgz"
+
 cat > /tmp/node-exporter.yml <<EOF
 releases:
   - name: node-exporter
@@ -861,6 +866,7 @@ addons:
       stemcell:
         - os: ubuntu-trusty
         - os: ubuntu-xenial
+        - os: ubuntu-bionic
     properties: {}
 EOF
 
@@ -869,10 +875,7 @@ runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.
                       source /tmp/bbl_env.sh; \
                       bosh update-runtime-config /tmp/node-exporter.yml"
 
-runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                      chmod 700 /tmp/bbl_env.sh; \
-                      source /tmp/bbl_env.sh; \
-                      bosh upload-stemcell https://storage.googleapis.com/bosh-core-stemcells/1.31/bosh-stemcell-1.31-openstack-kvm-ubuntu-bionic-go_agent.tgz"
+
 
 ## update cloud-config
 ## vm_type used for prometheus/grafana
