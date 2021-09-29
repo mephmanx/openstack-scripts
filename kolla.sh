@@ -671,12 +671,26 @@ runuser -l stack -c  "source /opt/stack/.bash_profile"
 ### download latest stemcell
 ##  also pull latest stemcell for all ubuntu releases
 ## currently bionic, trusty, xenial
+
+## pull latest bionic image
+runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                      chmod 700 /tmp/bbl_env.sh; \
+                      source /tmp/bbl_env.sh; \
+                      bosh upload-stemcell https://storage.googleapis.com/bosh-core-stemcells/1.31/bosh-stemcell-1.31-openstack-kvm-ubuntu-bionic-go_agent.tgz"
+
+## pull latest trusty imge
+runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                      chmod 700 /tmp/bbl_env.sh; \
+                      source /tmp/bbl_env.sh; \
+                      bosh upload-stemcell https://storage.googleapis.com/bosh-core-stemcells/1.31/bosh-stemcell-1.31-openstack-kvm-ubuntu-bionic-go_agent.tgz"
+
+## cloudfoundry uses xenial, pull version it is requesting
 runuser -l stack -c  "bosh interpolate /tmp/cf-deployment/cf-deployment.yml --path=/stemcells/alias=default/version > /opt/stack/stemcell_version"
 
 runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
                       chmod 700 /tmp/bbl_env.sh; \
                       source /tmp/bbl_env.sh; \
-                      bosh upload-stemcell https://bosh-core-stemcells.s3-accelerate.amazonaws.com/`cat /opt/stack/stemcell_version`/bosh-stemcell-`cat /opt/stack/stemcell_version`-openstack-kvm-ubuntu-xenial-go_agent-raw.tgz"
+                      bosh upload-stemcell https://bosh-core-stemcells.s3-accelerate.amazonaws.com/`cat /opt/stack/stemcell_version`/bosh-stemcell-`cat /opt/stack/stemcell_version`-openstack-kvm-ubuntu-xenial-go_agent.tgz"
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stemcell installed, finalizing environment for CF install..."
 ## add cf and cf-deployment-for-bosh security groups to bosh director
@@ -847,11 +861,6 @@ runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.
                       source /tmp/bbl_env.sh; \
                       bosh upload-release https://github.com/bosh-prometheus/node-exporter-boshrelease/releases/download/v5.0.0/node-exporter-5.0.0.tgz"
 
-runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                      chmod 700 /tmp/bbl_env.sh; \
-                      source /tmp/bbl_env.sh; \
-                      bosh upload-stemcell https://storage.googleapis.com/bosh-core-stemcells/1.31/bosh-stemcell-1.31-openstack-kvm-ubuntu-bionic-go_agent.tgz"
-
 cat > /tmp/node-exporter.yml <<EOF
 releases:
   - name: node-exporter
@@ -944,6 +953,10 @@ restrict_to_root
 
 function round() {
     printf "%.${2:-0}f" "$1"
+}
+
+function pull_latest_stemcell() {
+
 }
 
 stop() {
