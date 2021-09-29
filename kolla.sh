@@ -288,8 +288,9 @@ for cert_name in $(cat /tmp/google-certs.json | jq 'keys[]'); do
   OIDC_CERTIFICATE_FILE=/etc/kolla/idp/$cert_name.pem
   echo -e $(cat /tmp/google-certs.json | jq .[$cert_name] | tr -d '"') > /etc/kolla/idp/$cert_name.pem
 done
-#####
+
 sed -i "s/{OIDC_CERTIFICATE_FILE}/${OIDC_CERTIFICATE_FILE}/g" /etc/kolla/globals.yml
+#####
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Kolla Ansible deploy task execution begun....."
 kolla-ansible -i /etc/kolla/multinode deploy
@@ -879,8 +880,7 @@ runuser -l stack -c  "cd /opt/stack; \
                       bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
                       chmod 700 /tmp/bbl_env.sh; \
                       source /tmp/bbl_env.sh; \
-                      bosh cloud-config > /tmp/cloud-config.yml
-                      "
+                      bosh cloud-config > /tmp/cloud-config.yml"
 
 cat > /tmp/default.yml <<EOF
 - cloud_properties:
