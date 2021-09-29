@@ -264,6 +264,32 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cache pull/prime complete!  Ins
 ### nova.conf options
 echo "[libvirt]" >> /etc/kolla/config/nova.conf
 echo "swtpm_enabled=true" >> /etc/kolla/config/nova.conf
+####
+
+### configure OIDC config
+mkdir /etc/kolla/config/idp
+curl -o /etc/kolla/config/idp/google.provider https://accounts.google.com/.well-known/openid-configuration
+
+cat > /etc/kolla/idp/google.client <<EOF
+{
+  "client_id":"1015758907501-7dldip5suj2cplu7ck2hnitujigal7ct.apps.googleusercontent.com",
+  "client_secret":"f5Tvnj_8XTAI3jd9Qh5-BKhK"
+}
+EOF
+
+cat > /etc/kolla/idp/google.conf <<EOF
+{
+
+}
+EOF
+
+curl -o /tmp/google-certs.json https://www.googleapis.com/oauth2/v1/certs
+for cert_name in $(cat /tmp/google-certs.json | jq 'keys[]'); do
+  OIDC_CERTIFICATE_FILE=/etc/kolla/idp/$cert_name.pem
+  echo -e $(cat /tmp/google-certs.json | jq .[$cert_name] | tr -d '"') > /etc/kolla/idp/$cert_name.pem
+done
+#####
+sed -i "s/{OIDC_CERTIFICATE_FILE}/${OIDC_CERTIFICATE_FILE}/g" /etc/kolla/globals.yml
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Kolla Ansible deploy task execution begun....."
 kolla-ansible -i /etc/kolla/multinode deploy
