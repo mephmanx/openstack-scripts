@@ -223,7 +223,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"$KOLLA_RAM",
             "drive_string":"$DRIVE_MAPPING",
-            "network_string":"loc-static"
+            "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$KOLLA_RAM/'$KOLLA_RAM'/g')"
         STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "monitoring" "1")'/g')"
