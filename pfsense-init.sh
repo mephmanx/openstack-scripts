@@ -15,9 +15,18 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense initialization script b
 mkdir /usr/local/www/isos
 
 if [ ! -f "/usr/local/www/isos/linux.iso" ]; then
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: downloading linux image"
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: pulling linux image"
   rm -rf /usr/local/www/isos/linux.iso
   curl -o /usr/local/www/isos/linux.iso http://$LAN_CENTOS_IP:8000/linux.iso -s --retry 10
+fi
+
+if [ ! -f "/root/repo.zip" ]; then
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: pulling repo"
+  rm -rf /root/repo.zip
+  rm -rf /root/openstack-scripts
+  curl -o /root/repo.zip http://$LAN_CENTOS_IP:8000/repo.zip -s --retry 10
+  unzip /tmp/repo.zip -d /root/openstack-scripts
+  rm -rf /root/repo.zip
 fi
 ################
 
