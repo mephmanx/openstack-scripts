@@ -150,6 +150,8 @@ cp /tmp/linux.iso /tmp/iso
 cp /tmp/repo.zip /tmp/iso
 cd /tmp/iso
 python3 -m http.server &
+web_pid=$1
+echo $web_pid > /tmp/web_pid
 cd $pwd
 
 ########## build router
