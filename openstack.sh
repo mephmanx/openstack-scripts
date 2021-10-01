@@ -151,7 +151,7 @@ python3 -m http.server &
 cd $pwd
 
 ########## build router
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Downloading PFSense image....."
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Fetching PFSense image....."
 ### make sure to get offset of fat32 partition to put config.xml file on stick to reload!
 gunzip /tmp/pfSense-CE-memstick-ADI.img.gz
 
