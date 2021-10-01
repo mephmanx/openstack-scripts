@@ -134,7 +134,8 @@ vtpm
 
 ############ Create and init storage pools
 PART_LIST=`df | grep "VM-VOL" | awk '{print $6}' | tr -d '/'`
-for part in "${PART_LIST[@]}"; do
+IFS=' ' read -r -a part_array <<< "$PART_LIST"
+for part in "${part_array[@]}"; do
   virsh pool-define-as $part dir - - - - "/$part"
   virsh pool-build $part
   virsh pool-autostart $part
