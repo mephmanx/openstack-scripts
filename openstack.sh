@@ -6,6 +6,7 @@
 # Source function library.
 . /etc/init.d/functions
 . /tmp/openstack-scripts/vm_functions.sh
+. /tmp/openstack-scripts/vm-configurations.sh
 . /tmp/openstack-env.sh
 . /tmp/project_config.sh
 
@@ -133,13 +134,11 @@ vtpm
 ######
 
 ############ Create and init storage pools
-PART_LIST=`df | grep "VM-VOL" | awk '{print $6}' | tr -d '/'`
-IFS=' ' read -r -a part_array <<< "$PART_LIST"
-for part in "${part_array[@]}"; do
-  virsh pool-define-as $part dir - - - - "/$part"
-  virsh pool-build $part
-  virsh pool-autostart $part
-  virsh pool-start $part
+for part in `df | grep "VM-VOL" | awk '{print $6, " " }' | tr -d '/' | tr -d '\n'`; do
+  virsh pool-define-as "$part" dir - - - - "/$part"
+  virsh pool-build "$part"
+  virsh pool-autostart "$part"
+  virsh pool-start "$part"
 done
 ############################
 
