@@ -404,15 +404,6 @@ openstack_repo_file=( $(echo $OPENSTACK_SETUP_REPO | fold -c250 ))
   sleep 30;
   echo "ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;";
   sleep 30;
-#  for element in "${openstack_repo_file[@]}"
-#  do
-#    echo "echo '$element' >> /tmp/repo.zip.enc";
-#    sleep 10;
-#  done
-#  echo "openssl base64 -d -in /tmp/repo.zip.enc -out /tmp/repo.zip";
-#  sleep 30;
-#  echo "unzip /tmp/repo.zip -d /root/openstack-scripts";
-#  sleep 90;
 ) | telnet
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID \
