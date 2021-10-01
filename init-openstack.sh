@@ -30,6 +30,7 @@ if [[ $LINUX_AUTOUPDATE == 1 ]]; then
 fi
 
 # set up net script to be called after reboot
+cp /tmp/openstack-scripts/openstack.sh /tmp
 prep_next_script "openstack"
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor core network setup in progress....."
