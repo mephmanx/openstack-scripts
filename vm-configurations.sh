@@ -100,7 +100,15 @@ function getDiskMapping() {
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
   if [[ $DISK_COUNT -lt 2 ]]; then
     ## only 1 disk, return only storage pool
-    echo "VM-VOL-ALL:$(getVMVolSize $vm_type $vm_count)"
+    option="${1}"
+    case $option in
+      "misc")
+          echo "VM-VOL-ALL"
+        ;;
+      *)
+        echo "VM-VOL-ALL:$(getVMVolSize $vm_type $vm_count)"
+      ;;
+    esac
   else
     option="${1}"
     vm_count=$2
@@ -123,6 +131,9 @@ function getDiskMapping() {
         ;;
         "kolla")
           echo "VM-VOL-KOLLA:$(getVMVolSize $vm_type 1)"
+        ;;
+        "misc")
+          echo "VM-VOL-MISC"
         ;;
         esac
     fi

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source /tmp/openstack-scripts/iso-functions.sh
+source /tmp/openstack-scripts/vm_functions.sh
 source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 
@@ -59,7 +60,7 @@ create_line+="--tpm emulator,model=tpm-tis,version=2.0 "
 create_line+="--memorybacking hugepages=yes "
 create_line+="--vcpus=4,maxvcpus=4,sockets=2,cores=1,threads=2 "
 create_line+="--controller type=scsi,model=virtio-scsi "
-create_line+="--disk pool=Disk,size=300,bus=virtio,sparse=no "
+create_line+="--disk pool=$(getDiskMapping "misc" "1"),size=200,bus=virtio,sparse=no "
 create_line+="--cdrom=/var/tmp/cloudsupport-iso.iso "
 create_line+="--network type=bridge,source=loc-static,model=virtio "
 create_line+="--os-variant=centos8 "
