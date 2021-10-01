@@ -21,7 +21,8 @@ function load_system_info() {
   RAM_INFO="Installed RAM: $INSTALLED_RAM GB \r\n Reserved RAM: $RESERVED_RAM GB"
   DISK_INFO="Disk Count: $DISK_COUNT"
   DMI_DECODE=`runuser -l root -c  "dmidecode -t system"`
-  OS_INFO=`cat /etc/os-release`
+  source /etc/os-release
+  OS_INFO=$PRETTY_NAME
   export SYSTEM_INFO="$DMI_DECODE\n\n$OS_INFO\n\n$CPU_INFO\n\n$RAM_INFO\n\n$DISK_INFO"
 }
 
