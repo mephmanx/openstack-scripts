@@ -5,7 +5,7 @@
 
 # Source function library.
 . /etc/init.d/functions
-. /tmp/openstack-setup/vm_functions.sh
+. /tmp/openstack-scripts/vm_functions.sh
 . /tmp/openstack-env.sh
 . /tmp/project_config.sh
 
