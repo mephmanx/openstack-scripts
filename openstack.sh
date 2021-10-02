@@ -433,6 +433,8 @@ pfsense_init_file=( $(echo $PFSENSE_INIT_FILE | fold -c250 ))
   done
   echo "openssl base64 -d -in /root/openstack-scripts/pfsense-init.sh.enc -out /root/openstack-scripts/pfsense-init.sh";
   sleep 30;
+  echo "chmod 777 /tmp/openstack-scripts/*.sh"
+  sleep 10;
 ) | telnet
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID \
