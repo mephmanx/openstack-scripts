@@ -82,7 +82,7 @@ function getVMVolSize() {
             ;;
             "swift")
               size_avail=`df /VM-VOL-SWIFT | awk '{print $2}' | sed 1d`
-              echo $(($((size_avail / 3)) / 1024 / 1024))
+              echo $(($((size_avail / vm_count)) / 1024 / 1024))
             ;;
             "kolla")
               size_avail=`df /VM-VOL-KOLLA | awk '{print $4}' | sed 1d`
@@ -125,7 +125,7 @@ function getDiskMapping() {
         ;;
         "storage")
           #Disk:300,Disk:300,SSD:175,SSD:175,SSD:175
-          echo "VM-VOL-CINDER:100,VM-VOL-CINDER:$(getVMVolSize "cinder" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" $vm_count)"
+          echo "VM-VOL-CINDER:100,VM-VOL-CINDER:$(getVMVolSize "cinder" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" 3),VM-VOL-SWIFT:$(getVMVolSize "swift" 3),VM-VOL-SWIFT:$(getVMVolSize "swift" 3)"
         ;;
         "kolla")
           echo "VM-VOL-KOLLA:$(getVMVolSize $vm_type 1)"
