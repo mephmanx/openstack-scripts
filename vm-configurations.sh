@@ -124,7 +124,6 @@ function getDiskMapping() {
           echo "VM-VOL-MONITORING:$(getVMVolSize $vm_type $vm_count)"
         ;;
         "storage")
-          #Disk:300,Disk:300,SSD:175,SSD:175,SSD:175
           echo "VM-VOL-CINDER:100,VM-VOL-CINDER:$(getVMVolSize "cinder" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" 3),VM-VOL-SWIFT:$(getVMVolSize "swift" 3),VM-VOL-SWIFT:$(getVMVolSize "swift" 3)"
         ;;
         "kolla")
