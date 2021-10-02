@@ -954,10 +954,6 @@ function round() {
     printf "%.${2:-0}f" "$1"
 }
 
-function pull_latest_stemcell() {
-
-}
-
 stop() {
     # code to stop app comes here
     # example: killproc program_name
