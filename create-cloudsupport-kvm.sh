@@ -51,10 +51,10 @@ closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport" $embed_files_
 
 DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
 if [[ $DISK_COUNT -lt 2 ]]; then
-  DRIVE_SIZE=`df -h /VM-VOL-MISC | awk '{print $4}' | sed 1d | tr -d 'G'`
-else
   size_avail=`df /VM-VOL-ALL | awk '{print $4}' | sed 1d`
   DRIVE_SIZE=$(($((size_avail * 5/100)) / 1024 / 1024))
+else
+  DRIVE_SIZE=`df -h /VM-VOL-MISC | awk '{print $4}' | sed 1d | tr -d 'G'`
 fi
 
 create_line="virt-install "
