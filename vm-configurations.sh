@@ -328,7 +328,8 @@ function create_vm_kvm {
 
 function removeVM_kvm {
   vm_name=$1
-
+  printf -v vm_type_n '%s\n' "${vm_name//[[:digit:]]/}"
+  vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
   #### test if vm exists
   if (virsh list --name | grep -q $vm_name)
   then
