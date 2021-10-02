@@ -61,11 +61,11 @@ function getVMVolSize() {
       else
          case $disk_type in
             "control")
-              size_avail=`df /VM-VOL-CONTROL | awk '{print $4}' | sed 1d`
+              size_avail=`df /VM-VOL-CONTROL | awk '{print $2}' | sed 1d`
               echo $(($((size_avail / 3)) / 1024 / 1024))
             ;;
             "network")
-              size_avail=`df /VM-VOL-NETWORK | awk '{print $4}' | sed 1d`
+              size_avail=`df /VM-VOL-NETWORK | awk '{print $2}' | sed 1d`
               echo $(($((size_avail / 2)) / 1024 / 1024))
             ;;
             "compute")
@@ -81,7 +81,7 @@ function getVMVolSize() {
               echo $((size_avail - 100 / 1024 / 1024))
             ;;
             "swift")
-              size_avail=`df /VM-VOL-SWIFT | awk '{print $4}' | sed 1d`
+              size_avail=`df /VM-VOL-SWIFT | awk '{print $2}' | sed 1d`
               echo $(($((size_avail / 3)) / 1024 / 1024))
             ;;
             "kolla")
