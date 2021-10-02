@@ -19,15 +19,6 @@ if [ ! -f "/usr/local/www/isos/linux.iso" ]; then
   rm -rf /usr/local/www/isos/linux.iso
   curl -o /usr/local/www/isos/linux.iso http://$LAN_CENTOS_IP:8000/linux.iso -s --retry 10
 fi
-
-if [ ! -f "/root/repo.zip" ]; then
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: pulling repo"
-  rm -rf /root/repo.zip
-  rm -rf /root/openstack-scripts
-  curl -o /root/repo.zip http://$LAN_CENTOS_IP:8000/repo.zip -s --retry 10
-  unzip /tmp/repo.zip -d /root/openstack-scripts
-  rm -rf /root/repo.zip
-fi
 ################
 
 ## preparing next reboot
@@ -43,7 +34,7 @@ set -x                             # tell sh to display commands before executio
 ## this script will run on pfsense reboot and then remove itself
 ## this script is run on a FreeBSD system, not centos, not bash.  Makes some things slightly different
 
-. /root/openstack-scripts/project_config.sh
+. /root/project_config.sh
 . /root/openstack-env.sh
 . /root/openstack-scripts/pf_functions.sh
 
@@ -63,7 +54,7 @@ install_pkg "pfsense-pkg-cron" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-Telegraf" $TELEGRAM_API $TELEGRAM_CHAT_ID
 
 ## perform any cleanup here
-rm -rf /root/openstack-scripts
+
 ####
 
 ### remove from starting on boot

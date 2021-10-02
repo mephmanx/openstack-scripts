@@ -146,7 +146,6 @@ done
 pwd=`pwd`
 mkdir /tmp/iso
 cp /tmp/linux.iso /tmp/iso
-cp /tmp/repo.zip /tmp/iso
 cd /tmp/iso
 python3 -m http.server &
 web_pid=$1
