@@ -342,11 +342,43 @@ function removeVM_kvm {
 
   ########### Delete volumes in storage pools
   DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
-  VM_TYPE=$(echo $vm_name | tr 'a-z' 'A-Z')
   if [[ $DISK_COUNT -lt 2 ]]; then
     VM_TYPE="ALL"
+    deleteVMVol $vm_name "ALL"
+  else
+    case $vm_type in
+      "control")
+        deleteVMVol $vm_name "CONTROL"
+      ;;
+      "network")
+        deleteVMVol $vm_name "NETWORK"
+      ;;
+      "compute")
+        deleteVMVol $vm_name "COMPUTE"
+      ;;
+      "monitoring")
+        deleteVMVol $vm_name "MONITORING"
+      ;;
+      "storage")
+        deleteVMVol $vm_name "CINDER"
+        deleteVMVol $vm_name "SWIFT"
+      ;;
+      "kolla")
+        deleteVMVol $vm_name "KOLLA"
+      ;;
+      "misc")
+        deleteVMVol $vm_name "MISC"
+      ;;
+    esac
   fi
 
+
+  ##########################
+}
+
+function deleteVMVol() {
+  vm_name=$1
+  VM_TYPE=$2
   virsh vol-list VM-VOL-$VM_TYPE | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
     if [[ ! -z $line ]]; then
       if [[ "$line" =~ .*"$vm_name".* ]]; then
@@ -354,5 +386,4 @@ function removeVM_kvm {
       fi
     fi
   done
-  ##########################
 }
