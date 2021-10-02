@@ -268,7 +268,7 @@ function create_vm_kvm {
     do
       IFS=':' read -ra drive_info <<< "$element"
       ### use above function to match speed (REG, HIGH) with the volume name to put the disk on
-      pool=$((getDiskMapping ${drive_info[0]}))
+      pool="$((getDiskMapping ${drive_info[0]}))"
       virt_disk_list+=("--disk pool=$pool,size=${drive_info[1]},bus=virtio,sparse=no ")
   done
   #####################
