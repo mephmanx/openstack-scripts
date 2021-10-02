@@ -11,6 +11,7 @@ function load_system_info() {
   export RESERVED_RAM=$(( $INSTALLED_RAM * $RAM_PCT_AVAIL_CLOUD/100 ))
   export CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
   export DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+  export IP_INFO=`ip -f inet addr show ext-con`
 #  ct=0
 #  while [ $ct -lt $DISK_COUNT ]; do
 #    export DISK_$ct=
@@ -23,7 +24,7 @@ function load_system_info() {
   DMI_DECODE=`runuser -l root -c  "dmidecode -t system"`
   source /etc/os-release
   OS_INFO=$PRETTY_NAME
-  export SYSTEM_INFO="$DMI_DECODE\n\n$OS_INFO\n\n$CPU_INFO\n\n$RAM_INFO\n\n$DISK_INFO"
+  export SYSTEM_INFO="$DMI_DECODE\n\n$OS_INFO\n\n$CPU_INFO\n\n$RAM_INFO\n\n$DISK_INFO\n\n$IP_INFO"
 }
 
 function grow_fs() {
