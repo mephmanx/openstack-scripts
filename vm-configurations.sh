@@ -109,9 +109,8 @@ function getDiskMapping() {
       ;;
     esac
   else
-    option="${1}"
     vm_count=$2
-      case $option in
+      case $vm_type in
         "control")
           echo "VM-VOL-CONTROL:$(getVMVolSize $vm_type $vm_count)"
         ;;
@@ -267,9 +266,7 @@ function create_vm_kvm {
   for element in "${disk_array[@]}"
     do
       IFS=':' read -ra drive_info <<< "$element"
-      ### use above function to match speed (REG, HIGH) with the volume name to put the disk on
-      pool="$(getDiskMapping ${drive_info[0]})"
-      virt_disk_list+=("--disk pool=$pool,size=${drive_info[1]},bus=virtio,sparse=no ")
+      virt_disk_list+=("--disk pool=${drive_info[0]},size=${drive_info[1]},bus=virtio,sparse=no ")
   done
   #####################
 
