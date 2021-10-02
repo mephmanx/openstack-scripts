@@ -78,7 +78,7 @@ function getVMVolSize() {
             ;;
             "cinder")
               size_avail=`df /VM-VOL-CINDER | awk '{print $4}' | sed 1d`
-              echo $((size_avail - 100 / 1024 / 1024))
+              echo $(($((size_avail / 1024 / 1024)) - 100))
             ;;
             "swift")
               size_avail=`df /VM-VOL-SWIFT | awk '{print $2}' | sed 1d`
