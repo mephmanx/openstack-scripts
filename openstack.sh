@@ -434,6 +434,8 @@ pfsense_init_file=( $(echo $PFSENSE_INIT_FILE | fold -c250 ))
   sleep 30;
   echo "chmod 777 /root/openstack-scripts/*.sh"
   sleep 10;
+  echo "chmod 777 /root/*.sh"
+  sleep 10;
 ) | telnet
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID \
