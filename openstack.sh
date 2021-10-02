@@ -348,7 +348,7 @@ HYPERVISOR_PUB_KEY=`cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub | base64 | tr -d
 OPENSTACK_SETUP_FILE=`cat /tmp/openstack-env.sh | base64 | tr -d '\n\r'`
 PF_FUNCTIONS_FILE=`cat /tmp/openstack-scripts/pf_functions.sh | base64 | tr -d '\n\r'`
 PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh | base64 | tr -d '\n\r'`
-PFSENSE_INIT_FILE=`cat /root/openstack-scripts/pfsense-init.sh | base64 | tr -d '\n\r'`
+PFSENSE_INIT_FILE=`cat /tmp/openstack-scripts/pfsense-init.sh | base64 | tr -d '\n\r'`
 
 runuser -l root -c "cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub >> /root/.ssh/authorized_keys"
 
