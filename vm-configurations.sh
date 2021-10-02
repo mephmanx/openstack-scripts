@@ -222,7 +222,7 @@ function vm_definitions {
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$STORAGE_RAM/'$STORAGE_RAM'/g')"
-        STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "monitoring" "$STORAGE_COUNT")'/g')"
+        STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "storage" "$STORAGE_COUNT")'/g')"
         STRING="$(echo $STRING | sed 's/$STORAGE_COUNT/'$STORAGE_COUNT'/g')"
         echo $STRING
     ;;
@@ -235,7 +235,7 @@ function vm_definitions {
             "network_string":"amp-net,loc-static"
           }'
         STRING="$(echo $STRING | sed 's/$KOLLA_RAM/'$KOLLA_RAM'/g')"
-        STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "monitoring" "1")'/g')"
+        STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "kolla" "1")'/g')"
         echo $STRING
     ;;
   esac
