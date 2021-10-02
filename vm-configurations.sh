@@ -82,7 +82,7 @@ function getVMVolSize() {
             ;;
             "swift")
               size_avail=`df /VM-VOL-SWIFT | awk '{print $2}' | sed 1d`
-              echo $(($((size_avail / vm_count)) / 1024 / 1024))
+              echo $(($((size_avail / 3)) / 1024 / 1024))
             ;;
             "kolla")
               size_avail=`df /VM-VOL-KOLLA | awk '{print $4}' | sed 1d`
