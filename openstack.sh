@@ -148,7 +148,7 @@ mkdir /tmp/iso
 cp /tmp/linux.iso /tmp/iso
 cd /tmp/iso
 python3 -m http.server &
-web_pid=$1
+web_pid=$!
 echo $web_pid > /tmp/web_pid
 cd $pwd
 
