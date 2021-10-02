@@ -372,8 +372,6 @@ function removeVM_kvm {
       ;;
     esac
   fi
-
-
   ##########################
 }
 
