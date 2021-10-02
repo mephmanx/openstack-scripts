@@ -77,7 +77,7 @@ if [ $UPS_PRESENT == 1 ]; then
   install_pkg "pfsense-pkg-nut" $TELEGRAM_API $TELEGRAM_CHAT_ID
 fi
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: additional packages installed...  Pulling repos.."
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: additional packages installed... Requesting certs..."
 #####################
 ### perform ACME init
 cur_dir=`pwd`
