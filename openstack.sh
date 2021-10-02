@@ -346,6 +346,8 @@ ssh-keygen -t rsa -b 4096 -C "pfsense" -N "" -f /tmp/pf_key-${UNIQUE_SUFFIX_PF}.
 HYPERVISOR_KEY=`cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key | base64 | tr -d '\n\r'`
 HYPERVISOR_PUB_KEY=`cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub | base64 | tr -d '\n\r'`
 OPENSTACK_SETUP_FILE=`cat /tmp/openstack-env.sh | base64 | tr -d '\n\r'`
+PF_FUNCTIONS_FILE=`cat /tmp/pf_functions.sh | base64 | tr -d '\n\r'`
+PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh | base64 | tr -d '\n\r'`
 
 runuser -l root -c "cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub >> /root/.ssh/authorized_keys"
 
@@ -353,6 +355,8 @@ runuser -l root -c "cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub >> /root/.ssh/au
 hypervisor_key_array=( $(echo $HYPERVISOR_KEY | fold -c250 ))
 hypervisor_pub_array=( $(echo $HYPERVISOR_PUB_KEY | fold -c250 ))
 openstack_env_file=( $(echo $OPENSTACK_SETUP_FILE | fold -c250 ))
+pf_functions_file=( $(echo $PF_FUNCTIONS_FILE | fold -c250 ))
+project_config_file=( $(echo $PROJECT_CONFIG_FILE | fold -c250 ))
 (echo open 127.0.0.1 4568;
   sleep 30;
   echo "8";
@@ -403,6 +407,22 @@ openstack_env_file=( $(echo $OPENSTACK_SETUP_FILE | fold -c250 ))
   echo "chmod 600 /root/.ssh/*";
   sleep 30;
   echo "ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;";
+  sleep 30;
+  echo "mkdir /root/openstack-scripts";
+  sleep 30;
+  for element in "${pf_functions_file[@]}"
+  do
+    echo "echo '$element' >> /root/openstack-scripts/pf_functions.sh.enc";
+    sleep 10;
+  done
+  echo "openssl base64 -d -in /root/openstack-scripts/pf_functions.sh.enc -out /root/openstack-scripts/pf_functions.sh";
+  sleep 30;
+  for element in "${project_config_file[@]}"
+  do
+    echo "echo '$element' >> /root/openstack-scripts/project_config.sh.enc";
+    sleep 10;
+  done
+  echo "openssl base64 -d -in /root/openstack-scripts/project_config.sh.enc -out /root/openstack-scripts/project_config.sh";
   sleep 30;
 ) | telnet
 
