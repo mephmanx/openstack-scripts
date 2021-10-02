@@ -2,7 +2,7 @@
 ## this script will run on pfsense reboot and then remove itself
 ## this script is run on a FreeBSD system, not centos, not bash.  Makes some things slightly different
 
-. /root/openstack-scripts/project_config.sh
+. /root/project_config.sh
 . /root/openstack-env.sh
 . /root/openstack-scripts/pf_functions.sh
 

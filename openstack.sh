@@ -348,6 +348,7 @@ HYPERVISOR_PUB_KEY=`cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub | base64 | tr -d
 OPENSTACK_SETUP_FILE=`cat /tmp/openstack-env.sh | base64 | tr -d '\n\r'`
 PF_FUNCTIONS_FILE=`cat /tmp/pf_functions.sh | base64 | tr -d '\n\r'`
 PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh | base64 | tr -d '\n\r'`
+PFSENSE_INIT_FILE=`cat /root/openstack-scripts/pfsense-init.sh | base64 | tr -d '\n\r'`
 
 runuser -l root -c "cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub >> /root/.ssh/authorized_keys"
 
@@ -357,6 +358,7 @@ hypervisor_pub_array=( $(echo $HYPERVISOR_PUB_KEY | fold -c250 ))
 openstack_env_file=( $(echo $OPENSTACK_SETUP_FILE | fold -c250 ))
 pf_functions_file=( $(echo $PF_FUNCTIONS_FILE | fold -c250 ))
 project_config_file=( $(echo $PROJECT_CONFIG_FILE | fold -c250 ))
+pfsense_init_file=( $(echo $PFSENSE_INIT_FILE | fold -c250 ))
 (echo open 127.0.0.1 4568;
   sleep 30;
   echo "8";
@@ -419,10 +421,17 @@ project_config_file=( $(echo $PROJECT_CONFIG_FILE | fold -c250 ))
   sleep 30;
   for element in "${project_config_file[@]}"
   do
-    echo "echo '$element' >> /root/openstack-scripts/project_config.sh.enc";
+    echo "echo '$element' >> /root/project_config.sh.enc";
     sleep 10;
   done
-  echo "openssl base64 -d -in /root/openstack-scripts/project_config.sh.enc -out /root/openstack-scripts/project_config.sh";
+  echo "openssl base64 -d -in /root/project_config.sh.enc -out /root/project_config.sh";
+  sleep 30;
+  for element in "${pfsense_init_file[@]}"
+  do
+    echo "echo '$element' >> /root/openstack-scripts/pfsense-init.sh.enc";
+    sleep 10;
+  done
+  echo "openssl base64 -d -in /root/openstack-scripts/pfsense-init.sh.enc -out /root/openstack-scripts/pfsense-init.sh";
   sleep 30;
 ) | telnet
 
