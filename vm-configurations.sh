@@ -185,6 +185,7 @@ function vm_definitions {
     "compute")
         CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
         INSTALLED_RAM=`runuser -l root -c  'dmidecode -t memory | grep  Size: | grep -v "No Module Installed"' | awk '{sum+=$2}END{print sum}'`
+        ## the minus 9 is to subtract the pfsense allocation from available memory
         RESERVED_RAM=$(($(( $INSTALLED_RAM * $RAM_PCT_AVAIL_CLOUD/100 )) - 9))
         COMPUTE_RAM=$((RESERVED_RAM - (CONTROL_RAM * CONTROL_COUNT) - (NETWORK_RAM * NETWORK_COUNT) - (MONITORING_RAM * MONITORING_COUNT) - (STORAGE_RAM * STORAGE_COUNT) - KOLLA_RAM))
         STRING='{
