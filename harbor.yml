@@ -74,7 +74,7 @@ chart:
 # Log configurations
 log:
   # options are debug, info, warning, error, fatal
-  level: info
+  level: warning
   # configs for logs in local storage
   local:
     # Log files are rotated log_rotate_count times before being removed. If count is 0, old versions are removed rather than rotated.
