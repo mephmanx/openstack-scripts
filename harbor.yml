@@ -87,13 +87,13 @@ log:
     location: /var/log/harbor
 
   # Uncomment following lines to enable external syslog endpoint.
-   external_endpoint:
+  external_endpoint:
      # protocol used to transmit log to external endpoint, options is tcp or udp
-     protocol: tcp
+    protocol: tcp
      # The host of external endpoint
-     host: monitoring01
+    host: monitoring01
      # Port of external endpoint
-     port: 5540
+    port: 5540
 
 #This attribute is for migrator to detect the version of the .cfg file, DO NOT MODIFY!
 _version: 1.10.0
