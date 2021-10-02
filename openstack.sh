@@ -407,11 +407,11 @@ pfsense_init_file=( $(echo $PFSENSE_INIT_FILE | fold -c250 ))
   echo "openssl base64 -d -in /root/openstack-env.sh.enc -out /root/openstack-env.sh";
   sleep 30;
   echo "chmod 600 /root/.ssh/*";
-  sleep 30;
+  sleep 10;
   echo "ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;";
   sleep 30;
   echo "mkdir /root/openstack-scripts";
-  sleep 30;
+  sleep 10;
   for element in "${pf_functions_file[@]}"
   do
     echo "echo '$element' >> /root/openstack-scripts/pf_functions.sh.enc";
