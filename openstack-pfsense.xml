@@ -86,6 +86,8 @@
 			<webguicss>pfSense.css</webguicss>
 			<logincss>1e3f75;</logincss>
 			<loginshowhost></loginshowhost>
+			<nodnsrebindcheck></nodnsrebindcheck>
+			<althostnames>harbor.lyonsgroup.family cockpit.lyonsgroup.family</althostnames>
 		</webgui>
 		<disablesegmentationoffloading></disablesegmentationoffloading>
 		<disablelargereceiveoffloading></disablelargereceiveoffloading>
@@ -4820,7 +4822,7 @@
 				<keep_squid_data>on</keep_squid_data>
 				<listenproto>inet</listenproto>
 				<carpstatusvid>none</carpstatusvid>
-				<active_interface>lan</active_interface>
+				<active_interface>lan,opt1</active_interface>
 				<outgoing_interface>auto</outgoing_interface>
 				<proxy_port>3128</proxy_port>
 				<icp_port></icp_port>
@@ -4830,20 +4832,20 @@
 				<dns_nameservers></dns_nameservers>
 				<extraca>none</extraca>
 				<transparent_proxy>on</transparent_proxy>
-				<transparent_active_interface>lan</transparent_active_interface>
-				<private_subnet_proxy_off></private_subnet_proxy_off>
+				<transparent_active_interface>lan,opt1</transparent_active_interface>
+				<private_subnet_proxy_off>on</private_subnet_proxy_off>
 				<defined_ip_proxy_off></defined_ip_proxy_off>
 				<defined_ip_proxy_off_dest></defined_ip_proxy_off_dest>
-				<ssl_proxy></ssl_proxy>
+				<ssl_proxy>on</ssl_proxy>
 				<sslproxy_mitm_mode>splicewhitelist</sslproxy_mitm_mode>
-				<ssl_active_interface>lan</ssl_active_interface>
-				<ssl_proxy_port></ssl_proxy_port>
+				<ssl_active_interface>lan,opt1</ssl_active_interface>
+				<ssl_proxy_port>3129</ssl_proxy_port>
 				<sslproxy_compatibility_mode>modern</sslproxy_compatibility_mode>
-				<dhparams_size>2048</dhparams_size>
+				<dhparams_size>4096</dhparams_size>
 				<dca>60ed826b68fa7</dca>
 				<sslcrtd_children></sslcrtd_children>
-				<interception_checks></interception_checks>
-				<interception_adapt></interception_adapt>
+				<interception_checks>sslproxy_cert_error,sslproxy_flags</interception_checks>
+				<interception_adapt>setValidAfter,setValidBefore</interception_adapt>
 				<log_enabled>on</log_enabled>
 				<log_dir>/var/squid/logs</log_dir>
 				<log_rotate>3</log_rotate>
