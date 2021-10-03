@@ -23,6 +23,11 @@ sleep 30
 rm -rf /tmp/eth*
 ########
 
+## trust generated ca
+cp /etc/cockpit/ws-certs.d/certificate.cert /etc/pki/ca-trust/source/anchors
+runuser -l root -c  'update-ca-trust extract'
+#########
+
 ## enable auto updates if selected
 if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   systemctl enable --now dnf-automatic.timer

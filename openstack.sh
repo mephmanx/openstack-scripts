@@ -27,6 +27,11 @@ systemctl stop firewalld
 systemctl disable firewalld
 systemctl mask firewalld
 
+## trust generated ca
+cp /root/.ssh/id_rsa.crt /etc/pki/ca-trust/source/anchors
+runuser -l root -c  'update-ca-trust extract'
+#########
+
 ## Send System info
 load_system_info
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Cloud System: $SYSTEM_INFO"

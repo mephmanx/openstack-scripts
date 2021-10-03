@@ -38,6 +38,11 @@ fi
 # load libraries for this VM "type"
 load_libs "${TYPE}"
 
+## trust generated ca
+cp /etc/cockpit/ws-certs.d/certificate.cert /etc/pki/ca-trust/source/anchors
+runuser -l root -c  'update-ca-trust extract'
+#########
+
 #### Centos8 to Centos 8 Stream
 if [[ $NAME == "CentOS Linux" ]]; then
   dnf swap centos-linux-repos centos-stream-repos -y
