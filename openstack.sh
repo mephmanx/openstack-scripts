@@ -51,7 +51,7 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor admin account pw: $A
 
 HOWLONG=15 ## the number of characters
 osuser_pwd=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
-echo $osuser_pwd > /home/admin/env_osuser_pwd
+runuser -l root -c  "echo $osuser_pwd > /home/admin/env_osuser_pwd"
 ######
 
 ## generate OpenVPN TLS secret key
