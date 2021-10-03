@@ -286,11 +286,11 @@ EOF
 curl -o /tmp/google-certs.json https://www.googleapis.com/oauth2/v1/certs
 for cert_name in $(cat /tmp/google-certs.json | jq 'keys[]'); do
   cert_name=`echo $cert_name | tr -d '"'`
-  OIDC_CERTIFICATE_FILE="/etc/kolla/config/idp/$cert_name.pem"
+  export OIDC_CERTIFICATE_FILE="/etc/kolla/config/idp/$cert_name.pem"
   echo -e $(cat /tmp/google-certs.json | jq .[$cert_name] | tr -d '"') > /etc/kolla/config/idp/$cert_name.pem
 done
 
-sed -i "s/{OIDC_CERTIFICATE_FILE}/${OIDC_CERTIFICATE_FILE}/g" /etc/kolla/globals.yml
+sed -i "s/{OIDC_CERTIFICATE_FILE}/$OIDC_CERTIFICATE_FILE/g" /etc/kolla/globals.yml
 #####
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Kolla Ansible deploy task execution begun....."
