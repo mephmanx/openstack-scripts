@@ -51,12 +51,11 @@ function initialKickstartSetup {
     rootpwd=`cat /home/admin/rootpw`
     ######
   else
-    #### Use autogen password
-    HOWLONG=15 ## the number of characters
-    rootpwd=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+    #### Use hypervisor admin password
+    rootpwd=`cat /root/env_admin_pwd`
   fi
 
-  ADMIN_PWD=`cat /root/env_admin_pwd`
+  ADMIN_PWD=`cat /home/admin/env_osuser_pwd`
 
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
   cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg

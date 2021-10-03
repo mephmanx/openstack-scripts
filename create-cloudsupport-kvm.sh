@@ -20,12 +20,11 @@ if [[ $HYPERVISOR_DEBUG == 1 ]]; then
   rootpwd=`cat /home/admin/rootpw`
   ######
 else
-  #### Use autogen password
-  HOWLONG=15 ## the number of characters
-  rootpwd=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+  #### Use hypervisor admin password
+  rootpwd=`cat /root/env_admin_pwd`
 fi
 
-ADMIN_PWD=`cat /root/env_admin_pwd`
+ADMIN_PWD=`cat /home/admin/env_osuser_pwd`
 
 ########### add passwords in
 sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
