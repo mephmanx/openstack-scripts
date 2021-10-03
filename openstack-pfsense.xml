@@ -132,6 +132,7 @@
 		<nologdefaultblock></nologdefaultblock>
 		<nologbogons></nologbogons>
 		<nologprivatenets></nologprivatenets>
+		<disablenatreflection>yes</disablenatreflection>
 	</system>
 	<interfaces>
 		<wan>
