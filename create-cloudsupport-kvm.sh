@@ -5,12 +5,19 @@ source /tmp/openstack-scripts/vm_functions.sh
 source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 
+KICKSTART_DIR=/tmp/openstack-scripts
+
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Removing existing cloudsupport vm and building image for new one...."
 
 removeVM_kvm "cloudsupport"
 
 IFS=
-kickstart_file=centos-8-kickstart-cloudsupport.cfg
+rm -rf ${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
+cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
+echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg to -> ${KICKSTART_DIR}/centos-8-kickstart-cs.cfg"
+kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
+echo "kickstart file -> ${kickstart_file}"
+kickstart_file=centos-8-kickstart-cs.cfg
 ####initial certs###############
 cockpitCerts ${kickstart_file}
 ###############################
