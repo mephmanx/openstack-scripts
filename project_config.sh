@@ -5,7 +5,7 @@
 
 ### Harbor version
 # Be careful changing this as API's DO change so errors could result from breaking changes
-export HARBOR=https://github.com/goharbor/harbor/releases/download/v2.3.2/harbor-offline-installer-v2.3.3.tgz;
+export HARBOR=https://github.com/goharbor/harbor/releases/download/v2.3.3/harbor-offline-installer-v2.3.3.tgz;
 
 ## SWTPM libs
 export LIBTPMS_GIT=https://github.com/stefanberger/libtpms.git;
