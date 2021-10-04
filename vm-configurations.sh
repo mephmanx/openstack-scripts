@@ -367,7 +367,7 @@ function removeVM_kvm {
       "kolla")
         deleteVMVol $vm_name "KOLLA"
       ;;
-      "misc")
+      *)
         deleteVMVol $vm_name "MISC"
       ;;
     esac
