@@ -18,9 +18,6 @@ echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg t
 kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
 echo "kickstart file -> ${kickstart_file}"
 kickstart_file=centos-8-kickstart-cs.cfg
-####initial certs###############
-cockpitCerts ${kickstart_file}
-###############################
 
 if [[ $HYPERVISOR_DEBUG == 1 ]]; then
   #### use random root password from install
@@ -46,6 +43,8 @@ sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
 ###########################
 
 embed_files=('/tmp/harbor.tgz'
+              '/root/.ssh/id_rsa.crt'
+              '/root/.ssh/id_rsa.key'
               '/tmp/openstack-scripts/harbor.yml'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'

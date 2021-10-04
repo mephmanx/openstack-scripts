@@ -9,17 +9,6 @@ KICKSTART_DIR=/tmp/openstack-scripts
 
 IFS=
 
-function cockpitCerts {
-  kickstart_file=$1
-  ###  Prepare certs
-  echo 'cat > /etc/cockpit/ws-certs.d/certificate.cert <<EOF' >> ${kickstart_file}
-  cat /root/.ssh/id_rsa.crt >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  echo 'cat > /etc/cockpit/ws-certs.d/certificate.key <<EOF' >> ${kickstart_file}
-  cat /root/.ssh/id_rsa.key >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-}
-
 function commonItems {
   kickstart_file=$1
 
@@ -154,10 +143,6 @@ function buildAndPushVMTypeISO {
   initialKickstartSetup ${vm_name}
   ###########################
 
-  ########### common certs
-  cockpitCerts ${kickstart_file}
-  ##########################
-
   ############## common misc items
   commonItems ${kickstart_file}
   ##########################
@@ -165,6 +150,8 @@ function buildAndPushVMTypeISO {
   #####################################
   embed_files=('/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/project_config.sh'
+                '/root/.ssh/id_rsa.crt'
+                '/root/.ssh/id_rsa.key'
                 "/tmp/openstack-scripts/$vm_type.sh"
                 '/tmp/openstack-scripts/init-cloud_common.sh'
                 '/tmp/openstack-env.sh')
@@ -178,10 +165,6 @@ function buildAndPushOpenstackSetupISO {
   ############### kickstart init
   initialKickstartSetup "kolla"
   ###########################
-
-  ########### common certs
-  cockpitCerts ${kickstart_file}
-  ##########################
 
   ############## common misc items
   commonItems ${kickstart_file}
@@ -228,6 +211,8 @@ function buildAndPushOpenstackSetupISO {
   embed_files=('/tmp/magnum.qcow2'
                 '/tmp/terraform_0.11.15_linux_amd64.zip'
                 '/tmp/host_list'
+                '/root/.ssh/id_rsa.crt'
+                '/root/.ssh/id_rsa.key'
                 '/tmp/storage_hosts'
                 '/tmp/openstack-scripts/kolla.sh'
                 '/tmp/openstack-scripts/globals.yml'
