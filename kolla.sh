@@ -73,6 +73,9 @@ chown /home/stack stack
 runuser -l root -c  'su - stack'
 ########################
 
+python3 -m pip install --user virtualenv
+python3 -m venv env
+source env/bin/activate
 pip3 install --upgrade pip
 pip3 install 'ansible==2.9.10' --ignore-installed
 pip3 install kolla-ansible --ignore-installed
