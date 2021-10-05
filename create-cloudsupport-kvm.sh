@@ -18,15 +18,7 @@ echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg t
 kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
 echo "kickstart file -> ${kickstart_file}"
 kickstart_file=centos-8-kickstart-cs.cfg
-
-if [[ $HYPERVISOR_DEBUG == 1 ]]; then
-  #### use random root password from install
-  rootpwd=`cat /home/admin/rootpw`
-  ######
-else
-  #### Use hypervisor admin password
-  rootpwd=`cat /root/env_admin_pwd`
-fi
+rootpwd=`cat /root/env_admin_pwd`
 
 ADMIN_PWD=`cat /home/admin/env_osuser_pwd`
 

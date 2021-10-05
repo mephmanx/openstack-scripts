@@ -34,16 +34,7 @@ function initialKickstartSetup {
   vm=$1
   printf -v vm_type_n '%s\n' "${vm//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-
-  if [[ $HYPERVISOR_DEBUG == 1 ]]; then
-    #### use random root password from install
-    rootpwd=`cat /home/admin/rootpw`
-    ######
-  else
-    #### Use hypervisor admin password
-    rootpwd=`cat /root/env_admin_pwd`
-  fi
-
+  rootpwd=`cat /root/env_admin_pwd`
   ADMIN_PWD=`cat /home/admin/env_osuser_pwd`
 
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg

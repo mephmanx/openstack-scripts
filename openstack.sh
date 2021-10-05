@@ -36,15 +36,8 @@ runuser -l root -c  'update-ca-trust extract'
 load_system_info
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Cloud System: $SYSTEM_INFO"
 #### Notify admin pwd in debug mode
-if [[ $HYPERVISOR_DEBUG == 1 ]]; then
-  ## root_pwd is pfsense admin account. This is also the hypervisor admin account.
-  ## if debug is turned off, this should never be accessible.
-  root_pw=`cat /home/admin/rootpw`
-  telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor root pw: $root_pw"
-else
-  HOWLONG=15 ## the number of characters
-  root_pw=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
-fi
+HOWLONG=15 ## the number of characters
+root_pw=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
 
 ADMIN_PWD=`cat /root/env_admin_pwd`
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor admin account pw: $ADMIN_PWD"
