@@ -73,8 +73,8 @@ chown /home/stack stack
 runuser -l root -c  'su - stack'
 ########################
 
-python3 -m pip install --user virtualenv
-python3 -m venv env
+python3 -m pip install --user --trusted-host pypi.org --trusted-host files.pythonhosted.org virtualenv
+python3 -m venv env --trusted-host pypi.org --trusted-host files.pythonhosted.org
 source env/bin/activate
 pip3 install --upgrade  --trusted-host pypi.org --trusted-host files.pythonhosted.org pip
 pip3 install  --ignore-installed --trusted-host pypi.org --trusted-host files.pythonhosted.org 'ansible==2.9.10'
