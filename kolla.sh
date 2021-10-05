@@ -76,9 +76,9 @@ runuser -l root -c  'su - stack'
 python3 -m pip install --user virtualenv
 python3 -m venv env
 source env/bin/activate
-pip3 install --upgrade pip
-pip3 install 'ansible==2.9.10' --ignore-installed
-pip3 install kolla-ansible --ignore-installed
+pip3 install --upgrade  --trusted-host pypi.org --trusted-host files.pythonhosted.org pip
+pip3 install  --ignore-installed --trusted-host pypi.org --trusted-host files.pythonhosted.org 'ansible==2.9.10'
+pip3 install  --ignore-installed --trusted-host pypi.org --trusted-host files.pythonhosted.org kolla-ansible
 
 export PATH="/usr/local/bin:$PATH"
 
@@ -303,7 +303,7 @@ kolla-ansible -i /etc/kolla/multinode deploy
 LOG_TAIL=`tail -25 /tmp/openstack-install.log`
 ###
 
-pip3 install python-openstackclient --ignore-installed
+pip3 install  --ignore-installed --trusted-host pypi.org --trusted-host files.pythonhosted.org python-openstackclient
 kolla-ansible post-deploy
 
 telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "End of Openstack Install log -> $LOG_TAIL"
@@ -334,10 +334,10 @@ export HOME=/home/stack
 cd /tmp
 
 ## install openstack python clients
-pip install python-octaviaclient
-pip install python-troveclient
-pip install python-magnumclient
-pip install python-swiftclient
+pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-octaviaclient
+pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-troveclient
+pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-magnumclient
+pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-swiftclient
 #####
 
 openstack image create \
@@ -501,7 +501,7 @@ runuser -l root -c "ssh root@monitoring01 'docker restart grafana'"
 ############# build octavia image
 runuser -l root -c  'yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils'
 git clone https://opendev.org/openstack/octavia -b master
-pip3 install diskimage-builder
+pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org diskimage-builder
 cd octavia/diskimage-create
 chmod 700 diskimage-create.sh
 runuser -l root -c  '/tmp/octavia/diskimage-create/diskimage-create.sh'

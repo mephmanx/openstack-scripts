@@ -164,7 +164,7 @@ function common_second_boot_setup() {
   systemctl stop firewalld
   systemctl mask firewalld
 
-  pip3 install --upgrade pip
+  pip3 install --upgrade  --trusted-host pypi.org --trusted-host files.pythonhosted.org pip
   ### module recommended on openstack.org
   modprobe vhost_net
 }
@@ -177,7 +177,7 @@ function vtpm() {
    && git clone ${LIBTPMS_GIT} \
    && dnf -y install which python3 python3-cryptography python3-pip python3-setuptools expect libtasn1-devel \
       socat trousers tpm-tools gnutls-devel gnutls-utils net-tools libseccomp-devel json-glib-devel \
-   && pip3 install twisted \
+   && pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org twisted \
    && git clone ${SWTPM_GIT}
 
   LIBTPMS_BRANCH=master
