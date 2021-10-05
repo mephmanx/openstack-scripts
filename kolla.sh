@@ -67,7 +67,7 @@ unset HOME
 
 ###  Make sure noting goes into the /home/stack folder
 mkdir /home/stack
-chown /home/stack stack
+chown stack /home/stack
 #chmod 777 /home/stack
 #change to stack user
 runuser -l root -c  'su - stack'
