@@ -164,6 +164,7 @@ function common_second_boot_setup() {
   systemctl stop firewalld
   systemctl mask firewalld
 
+  pip3 install --upgrade pip
   ### module recommended on openstack.org
   modprobe vhost_net
 }
