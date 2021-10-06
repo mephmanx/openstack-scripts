@@ -293,6 +293,7 @@ for cert_name in $(cat /tmp/google-certs.json | jq 'keys[]'); do
   echo -e $(cat /tmp/google-certs.json | jq .[$cert_name] | tr -d '"') > /etc/kolla/config/idp/$cert_name.pem
 done
 echo "OIDC file: $OIDC_CERTIFICATE_FILE"
+OIDC_CERTIFICATE_FILE="${OIDC_CERTIFICATE_FILE//\//\\/}"
 sed -i "s/{OIDC_CERTIFICATE_FILE}/$OIDC_CERTIFICATE_FILE/g" /etc/kolla/globals.yml
 #####
 
