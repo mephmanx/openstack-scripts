@@ -292,9 +292,33 @@ for cert_name in $(cat /tmp/google-certs.json | jq 'keys[]'); do
   export OIDC_CERTIFICATE_FILE="/etc/kolla/config/idp/$cert_name.pem"
   echo -e $(cat /tmp/google-certs.json | jq .[$cert_name] | tr -d '"') > /etc/kolla/config/idp/$cert_name.pem
 done
+
+cat > /etc/kolla/idp/google.mapping <<EOF
+[
+  {
+    "local": [
+        {
+        "group": {
+          "name": "cloudfoundry"
+          }
+        }
+    ],
+    "remote": [
+        {
+        "type": "HTTP_OIDC_ISS",
+        "any_one_of": [
+          "https://accounts.google.com"
+          ]
+        }
+    ]
+  }
+]
+EOF
+
 echo "OIDC file: $OIDC_CERTIFICATE_FILE"
 export OIDC_CERTIFICATE_FILE="${OIDC_CERTIFICATE_FILE//\//\\/}"
 sed -i "s/{OIDC_CERTIFICATE_FILE}/$OIDC_CERTIFICATE_FILE/g" /etc/kolla/globals.yml
+sed -i "s/{OIDC_MAPPING_FILE}/\/etc\/kolla\/idp\/google.mapping/g" /etc/kolla/globals.yml
 #####
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Kolla Ansible deploy task execution begun....."

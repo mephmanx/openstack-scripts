@@ -843,5 +843,5 @@ keystone_identity_providers:
 
 keystone_identity_mappings:
   - name: "mappingId1"
-    file: "/full/qualified/path/to/mapping/json/file/to/mappingId1"
+    file: "{OIDC_MAPPING_FILE}"
 
