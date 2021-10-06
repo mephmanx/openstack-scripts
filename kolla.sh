@@ -299,7 +299,7 @@ cat > /etc/kolla/config/idp/google.mapping <<EOF
     "local": [
         {
         "group": {
-          "name": "cloudfoundry"
+          "name": "admin"
           }
         }
     ],
