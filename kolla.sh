@@ -298,10 +298,16 @@ cat > /etc/kolla/config/idp/google.mapping <<EOF
   {
     "local": [
         {
-        "group": {
-          "name": "admin"
-          }
-        }
+                        "user": {
+                            "name": "{0}"
+                        },
+                        "group": {
+                            "domain": {
+                                "name": "Default"
+                            },
+                            "name": "federated_users"
+                        }
+                    }
     ],
     "remote": [
         {
