@@ -830,18 +830,18 @@ octavia_amp_network_cidr: "10.1.0.0/24"
 # this is UDP port
 #hacluster_corosync_port: 5405
 
-### Keystone federation
-keystone_identity_providers:
-  - name: "google"
-    openstack_domain: "default"
-    protocol: "openid"
-    identifier: "https://accounts.google.com"
-    public_name: "Authenticate via Google"
-    attribute_mapping: "mappingId1"
-    metadata_folder: "/etc/kolla/config/idp"
-    certificate_file: "{OIDC_CERTIFICATE_FILE}"
+# ### Keystone federation
+# keystone_identity_providers:
+#   - name: "google"
+#     openstack_domain: "default"
+#     protocol: "openid"
+#     identifier: "https://accounts.google.com"
+#     public_name: "Authenticate via Google"
+#     attribute_mapping: "mappingId1"
+#     metadata_folder: "/etc/kolla/config/idp"
+#     certificate_file: "{OIDC_CERTIFICATE_FILE}"
 
-keystone_identity_mappings:
-  - name: "mappingId1"
-    file: "{OIDC_MAPPING_FILE}"
+# keystone_identity_mappings:
+#   - name: "mappingId1"
+#     file: "{OIDC_MAPPING_FILE}"
 
