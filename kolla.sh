@@ -425,8 +425,8 @@ quotaRam=$((mem / 1024 - 32000))
 CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
 
 ## get cinder volume size
-cinder_vol_size="`runuser -l root -c "ssh root@compute01 'pvs --units G | grep 'vdb''"`"
-cinder_quota=$(echo "$cinder_vol_size" | awk '{print $5}' | tr -d '<g')
+cinder_vol_size="`runuser -l root -c "ssh root@compute01 'pvs --units G | grep 'vda''"`"
+cinder_quota=$(echo "$cinder_vol_size" | awk '{print $5}' | tr -d '<G')
 
 ## overcommit scale by 10
 openstack quota set --cores $((CPU_COUNT * 10)) cloudfoundry
