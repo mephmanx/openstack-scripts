@@ -273,14 +273,14 @@ echo "swtpm_enabled=true" >> /etc/kolla/config/nova.conf
 mkdir /etc/kolla/config/idp
 curl -o /etc/kolla/config/idp/google.provider https://accounts.google.com/.well-known/openid-configuration
 
-cat > /etc/kolla/idp/google.client <<EOF
+cat > /etc/kolla/config/idp/google.client <<EOF
 {
   "client_id":"1015758907501-7dldip5suj2cplu7ck2hnitujigal7ct.apps.googleusercontent.com",
   "client_secret":"f5Tvnj_8XTAI3jd9Qh5-BKhK"
 }
 EOF
 
-cat > /etc/kolla/idp/google.conf <<EOF
+cat > /etc/kolla/config/idp/google.conf <<EOF
 {
 
 }
