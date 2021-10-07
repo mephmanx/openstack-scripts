@@ -416,7 +416,8 @@ openstack user create $OPENSTACK_CLOUDFOUNDRY_USERNAME --project cloudfoundry --
 openstack role add --project cloudfoundry --project-domain default --user $OPENSTACK_CLOUDFOUNDRY_USERNAME --user-domain default admin
 
 ## get max available memory
-memStr=`ssh root@compute01 "cat /proc/meminfo | grep MemTotal"`
+
+memStr=`runuser -l root -c "ssh root@compute01 'cat /proc/meminfo | grep MemTotal'"`
 mem=`echo $memStr | awk -F' ' '{ print $2 }'`
 quotaRam=$((mem / 1024 - 32000))
 
@@ -424,7 +425,7 @@ quotaRam=$((mem / 1024 - 32000))
 CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
 
 ## get cinder volume size
-cinder_vol_size="`ssh root@storage01 "pvs --units G | grep 'vdb'"`"
+cinder_vol_size="`runuser -l root -c "ssh root@compute01 'pvs --units G | grep 'vdb''"`"
 cinder_quota=$(echo "$cinder_vol_size" | awk '{print $5}' | tr -d '<g')
 
 ## overcommit scale by 10
@@ -561,7 +562,7 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Amphora image install complete"
 #download and configure homebrew to run bbl install
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting Homebrew install...."
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh -o /tmp/homebrew.sh > /dev/null
-chmod 777 homebrew.sh
+chmod 777 /tmp/homebrew.sh
 
 PUBLIC_NETWORK_ID="$(openstack network list --name public1 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')"
 
