@@ -422,7 +422,11 @@ mem=`echo $memStr | awk -F' ' '{ print $2 }'`
 quotaRam=$((mem / 1024 - 32000))
 
 ## get cpu count for quota
-CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
+cat > /tmp/cpu_count.sh <<EOF
+grep -c ^processor /proc/cpuinfo
+EOF
+scp /tmp/cpu_count.sh root@compute01:/tmp
+CPU_COUNT=`runuser -l root -c "ssh root@compute01 'chmod 777 /tmp/cpu_count.sh; cd /tmp; ./cpu_count.sh'"`
 
 ## get cinder volume size
 cinder_vol_size="`runuser -l root -c "ssh root@compute01 'pvs --units G | grep 'vda''"`"
