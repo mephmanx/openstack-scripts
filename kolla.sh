@@ -430,8 +430,8 @@ scp /tmp/cpu_count.sh root@compute01:/tmp
 CPU_COUNT=`runuser -l root -c "ssh root@compute01 'chmod 777 /tmp/cpu_count.sh; cd /tmp; ./cpu_count.sh'"`
 
 ## get cinder volume size
-cinder_vol_size="`runuser -l root -c "ssh root@compute01 'pvs --units G | grep 'vda''"`"
-cinder_quota=$(echo "$cinder_vol_size" | awk '{print $5}' | tr -d '<G')
+cinder_vol_size="`runuser -l root -c "ssh root@compute01 'df -h / --block-size G' | sed 1d"`"
+cinder_quota=$(echo "$cinder_vol_size" | awk '{print $4}' | tr -d '<G')
 cinder_q=`printf "%.${2:-0}f" "$cinder_quota"`
 ## overcommit scale by 10
 openstack quota set --cores $((CPU_COUNT * 3)) cloudfoundry
