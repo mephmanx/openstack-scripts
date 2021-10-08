@@ -419,7 +419,8 @@ openstack role add --project cloudfoundry --project-domain default --user $OPENS
 
 memStr=`runuser -l root -c "ssh root@compute01 'cat /proc/meminfo | grep MemTotal'"`
 mem=`echo $memStr | awk -F' ' '{ print $2 }'`
-quotaRam=$((mem / 1024 - 32000))
+### allocation for openstack docker processes & os
+quotaRam=$((mem / 1024 - 8000))
 
 ## get cpu count for quota
 cat > /tmp/cpu_count.sh <<EOF
