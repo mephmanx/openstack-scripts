@@ -433,7 +433,7 @@ cinder_vol_size="`runuser -l root -c "ssh root@compute01 'pvs --units G | grep '
 cinder_quota=$(echo "$cinder_vol_size" | awk '{print $5}' | tr -d '<G')
 cinder_q=`printf "%.${2:-0}f" "$cinder_quota"`
 ## overcommit scale by 10
-openstack quota set --cores $((CPU_COUNT * 10)) cloudfoundry
+openstack quota set --cores $((CPU_COUNT * 3)) cloudfoundry
 
 openstack quota set --instances 100 cloudfoundry
 openstack quota set --ram $quotaRam cloudfoundry
