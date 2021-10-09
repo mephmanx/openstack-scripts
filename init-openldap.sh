@@ -28,6 +28,16 @@ if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   systemctl enable --now dnf-automatic.timer
 fi
 
+mkdir /root/.ssh
+
+#### add hypervisor host key to authorized keys
+## this allows the hypervisor to ssh without password to openstack vms
+runuser -l root -c 'cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys'
+######
+
+chmod 600 /root/.ssh/id_rsa
+chmod 600 /root/.ssh/authorized_keys
+
 dnf update -y
 
 dnf install -y cyrus-sasl-devel make libtool autoconf libtool-ltdl-devel openssl-devel libdb-devel tar gcc perl perl-devel wget vim
