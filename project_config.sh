@@ -31,6 +31,9 @@ export MAGNUM_IMAGE=https://download.fedoraproject.org/pub/alt/atomic/stable/Fed
 ### cloudfoundry attic terraform
 export CF_ATTIC_TERRAFORM=https://releases.hashicorp.com/terraform/0.11.15/terraform_0.11.15_linux_amd64.zip
 
+### openldap source
+export OPENLDAP_SOURCE=ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/openldap-2.4.48.tgz
+
 ## Administrator email.
 # This is CRITICAL as OpenVPN profile will be email there, this email will receive ALL critical install and system emails until changed,
 # This email will be used for Telegram auto register, will be used for LetsEncrypt, will be used for SNMP notifications, UPS alerts, and more.
@@ -41,6 +44,7 @@ export DOMAIN_NAME=lyonsgroup.family;
 
 ### hostname for harbor install
 export SUPPORT_HOST=harbor;
+export OPENLDAP_HOST=openldap;
 
 ## openstack hostnames
 export APP_INTERNAL_HOSTNAME=openstack-local;
@@ -55,6 +59,7 @@ export INTERNAL_VIP="$NETWORK_PREFIX.254";
 export EXTERNAL_VIP="$NETWORK_PREFIX.253";
 export CLOUDFOUNDRY_VIP="$NETWORK_PREFIX.252";
 export SUPPORT_VIP="$NETWORK_PREFIX.10";
+export OPENLDAP_VIP="$NETWORK_PREFIX.11";
 
 ### Internal IP config
 export LAN_CENTOS_IP="$NETWORK_PREFIX.1";
@@ -109,3 +114,9 @@ export PRODUCT_ID='0002'
 
 ### Cloudfoundry variables
 export CF_TCP_PORT_COUNT=10
+
+### External openstack VM memory
+## virsh format, MB
+export PFSENSE_RAM=8000
+export CLOUDSUPPORT_RAM=8000
+export OPENLDAP_RAM=8000

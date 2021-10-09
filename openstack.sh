@@ -205,6 +205,12 @@ GODADDY_KEY_BASE64=`echo -n $GODADDY_KEY | base64 | tr -d '\n\r'`
 CF_TCP_START_PORT=1024
 CF_TCP_END_PORT=$(($CF_TCP_START_PORT + $CF_TCP_PORT_COUNT))
 
+### create openldap and keycloak vm's to make login available to everything else
+pwd=`pwd`
+cd /tmp/openstack-scripts
+./create-openldap-kvm.sh
+cd $pwd
+
 ##### replace PFSense template vars
 sed -i 's/{CF_TCP_START_PORT}/'$CF_TCP_START_PORT'/g' /tmp/usb/config.xml
 sed -i 's/{CF_TCP_END_PORT}/'$CF_TCP_END_PORT'/g' /tmp/usb/config.xml
@@ -254,7 +260,7 @@ create_line="virt-install "
 create_line+="--hvm "
 create_line+="--virt-type=kvm "
 create_line+="--name=pfsense "
-create_line+="--memory=8192 "
+create_line+="--memory=$PFSENSE_RAM "
 create_line+="--cpu=host-passthrough,cache.mode=passthrough "
 create_line+="--tpm emulator,model=tpm-tis,version=2.0 "
 create_line+="--memorybacking hugepages=yes "
