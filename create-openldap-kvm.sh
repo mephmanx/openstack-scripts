@@ -34,6 +34,7 @@ sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
 embed_files=('/root/.ssh/id_rsa.crt'
               '/root/.ssh/id_rsa.key'
               '/root/.ssh/id_rsa.pub'
+              '/tmp/openldap.tgz'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
               '/tmp/openstack-scripts/init-openldap.sh'
