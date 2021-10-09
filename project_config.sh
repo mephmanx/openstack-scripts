@@ -116,7 +116,12 @@ export PRODUCT_ID='0002'
 export CF_TCP_PORT_COUNT=10
 
 ### External openstack VM memory
-## virsh format, MB
-export PFSENSE_RAM=8000
-export CLOUDSUPPORT_RAM=8000
-export OPENLDAP_RAM=8000
+## In GB
+export PFSENSE_RAM=8
+export CLOUDSUPPORT_RAM=8
+export OPENLDAP_RAM=8
+export CONTROL_RAM=34
+export NETWORK_RAM=12
+export MONITORING_RAM=16
+export STORAGE_RAM=20
+export KOLLA_RAM=4

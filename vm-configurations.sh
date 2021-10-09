@@ -141,12 +141,6 @@ function vm_definitions {
 
   ### these counts can be adjusted if larger than 1 server
   ### below counts are based on single server
-  CONTROL_RAM=34
-  NETWORK_RAM=12
-  MONITORING_RAM=16
-  STORAGE_RAM=20
-  KOLLA_RAM=4
-
   CONTROL_COUNT=3
   NETWORK_COUNT=2
   MONITORING_COUNT=1
