@@ -13,7 +13,7 @@ removeVM_kvm "openldap"
 
 IFS=
 rm -rf ${KICKSTART_DIR}/centos-8-kickstart-openldap.cfg
-cp ${KICKSTART_DIR}/centos-8-kickstart-cloudsupport.cfg ${KICKSTART_DIR}/centos-8-kickstart-ld.cfg
+cp ${KICKSTART_DIR}/centos-8-kickstart-openldap.cfg ${KICKSTART_DIR}/centos-8-kickstart-ld.cfg
 echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-openldap.cfg to -> ${KICKSTART_DIR}/centos-8-kickstart-ld.cfg"
 kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-ld.cfg
 echo "kickstart file -> ${kickstart_file}"
@@ -28,8 +28,6 @@ sed -i 's/{OPENLDAP_VIP}/'$OPENLDAP_VIP'/g' ${kickstart_file}
 sed -i 's/{HOST}/'$OPENLDAP_HOST'/g' ${kickstart_file}
 sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
 sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
-sed -i 's/{GATEWAY_ROUTER_IP}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
-sed -i 's/{NETMASK}/'$NETMASK'/g' ${kickstart_file}
 sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
 ###########################
 
