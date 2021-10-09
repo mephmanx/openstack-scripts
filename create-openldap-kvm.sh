@@ -12,7 +12,7 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Removing existing openldap vm a
 removeVM_kvm "openldap"
 
 IFS=
-rm -rf ${KICKSTART_DIR}/centos-8-kickstart-openldap.cfg
+rm -rf ${KICKSTART_DIR}/centos-8-kickstart-ld.cfg
 cp ${KICKSTART_DIR}/centos-8-kickstart-openldap.cfg ${KICKSTART_DIR}/centos-8-kickstart-ld.cfg
 echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-openldap.cfg to -> ${KICKSTART_DIR}/centos-8-kickstart-ld.cfg"
 kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-ld.cfg
