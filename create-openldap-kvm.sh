@@ -49,7 +49,7 @@ if [[ $DISK_COUNT -lt 2 ]]; then
   DRIVE_SIZE=$(($((size_avail * 2/100)) / 1024 / 1024))
 else
   size_avail=`df /VM-VOL-MISC | awk '{print $4}' | sed 1d`
-  DRIVE_SIZE=$(($((size_avail * 10/100)) / 1024 / 1024))
+  DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
 fi
 
 create_line="virt-install "

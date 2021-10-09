@@ -256,6 +256,15 @@ sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' /tmp/usb/config.xml
 
 runuser -l root -c  'umount /tmp/usb'
 
+DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+if [[ $DISK_COUNT -lt 2 ]]; then
+  size_avail=`df /VM-VOL-ALL | awk '{print $4}' | sed 1d`
+  DRIVE_SIZE=$(($((size_avail * 5/100)) / 1024 / 1024))
+else
+  size_avail=`df /VM-VOL-MISC | awk '{print $4}' | sed 1d`
+  DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
+fi
+
 create_line="virt-install "
 create_line+="--hvm "
 create_line+="--virt-type=kvm "
@@ -267,7 +276,7 @@ create_line+="--memorybacking hugepages=yes "
 create_line+="--vcpus=8 "
 create_line+="--boot hd,menu=off,useserial=off "
 create_line+="--disk /tmp/pfSense-CE-memstick-ADI.img "
-create_line+="--disk pool=$(getDiskMapping "misc" "1"),size=25,bus=virtio,sparse=no "
+create_line+="--disk pool=$(getDiskMapping "misc" "1"),size=$DRIVE_SIZE,bus=virtio,sparse=no "
 create_line+="--connect qemu:///system "
 create_line+="--os-type=freebsd "
 create_line+="--serial tcp,host=0.0.0.0:4567,mode=bind,protocol=telnet "
