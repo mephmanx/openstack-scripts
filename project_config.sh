@@ -115,6 +115,16 @@ export PRODUCT_ID='0002'
 ### Cloudfoundry variables
 export CF_TCP_PORT_COUNT=10
 
+## openstack vm counts
+### these counts can be adjusted if larger than 1 server
+### below counts are based on single server
+export CONTROL_COUNT=3
+export NETWORK_COUNT=2
+export MONITORING_COUNT=1
+export STORAGE_COUNT=1
+export COMPUTE_COUNT=1
+######
+
 ### External openstack VM memory
 ## In GB
 export PFSENSE_RAM=8

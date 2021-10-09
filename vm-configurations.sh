@@ -139,15 +139,6 @@ function getDiskMapping() {
 function vm_definitions {
   option="${1}"
 
-  ### these counts can be adjusted if larger than 1 server
-  ### below counts are based on single server
-  CONTROL_COUNT=3
-  NETWORK_COUNT=2
-  MONITORING_COUNT=1
-  STORAGE_COUNT=1
-  COMPUTE_COUNT=1
-  ######
-
   case $option in
     "control")
         STRING='{
