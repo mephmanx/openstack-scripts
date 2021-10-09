@@ -32,7 +32,7 @@ export MAGNUM_IMAGE=https://download.fedoraproject.org/pub/alt/atomic/stable/Fed
 export CF_ATTIC_TERRAFORM=https://releases.hashicorp.com/terraform/0.11.15/terraform_0.11.15_linux_amd64.zip
 
 ### openldap source
-export OPENLDAP_SOURCE=ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/openldap-2.4.48.tgz
+export OPENLDAP_SOURCE=https://www.openldap.org/software/download/OpenLDAP/openldap-release.tgz
 
 ## Administrator email.
 # This is CRITICAL as OpenVPN profile will be email there, this email will receive ALL critical install and system emails until changed,
