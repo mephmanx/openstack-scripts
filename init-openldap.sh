@@ -36,6 +36,7 @@ runuser -l root -c 'cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys'
 ######
 
 chmod 600 /root/.ssh/id_rsa
+chmod 600 /root/.ssh/id_rsa.pub
 chmod 600 /root/.ssh/authorized_keys
 
 dnf update -y
