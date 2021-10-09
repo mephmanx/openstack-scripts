@@ -34,7 +34,7 @@ function getVMVolSize() {
       vm_count=$2
       DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
       if [[ $DISK_COUNT -lt 2 ]]; then
-        size_avail=`df /VM-VOL-ALL | awk '{print $4}' | sed 1d`
+        size_avail=`df /VM-VOL-ALL | awk '{print $2}' | sed 1d`
         case $disk_type in
           "control")
             echo $(($((size_avail * 15/100)) / 1024 / 1024 / vm_count))
