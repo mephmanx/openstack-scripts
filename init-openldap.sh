@@ -45,7 +45,7 @@ dnf install -y cyrus-sasl-devel make libtool autoconf libtool-ltdl-devel openssl
 
 useradd -r -M -d /var/lib/openldap -u 55 -s /usr/sbin/nologin ldap
 
-tar xzf /tmp/openldap.tgz
+tar xzf /tmp/openldap.tgz -c /tmp/openldap
 
 cd /tmp/openldap
 
