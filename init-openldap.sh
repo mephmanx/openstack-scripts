@@ -288,16 +288,16 @@ objectClass: organizationalUnit
 objectClass: top
 ou: groups
 
-dn: ou=people,dc=ldapmaster,dc=lyonsgroup,dc=family
+dn: ou=users,dc=ldapmaster,dc=lyonsgroup,dc=family
 objectClass: organizationalUnit
 objectClass: top
-ou: people
+ou: users
 EOF
 
 ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/basedn.ldif
 
 cat > /tmp/users.ldif <<EOF
-dn: uid=pfsense,ou=people,dc=ldapmaster,dc=lyonsgroup,dc=family
+dn: uid=pfsense,ou=users,dc=ldapmaster,dc=lyonsgroup,dc=family
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: shadowAccount
@@ -314,7 +314,7 @@ shadowWarning: 7
 shadowInactive: 7
 shadowLastChange: 0
 
-dn: cn=pfsense,ou=groups,dc=ldapmaster,dc=lyonsgroup,dc=family
+dn: cn=pfsense,ou=users,dc=ldapmaster,dc=lyonsgroup,dc=family
 objectClass: posixGroup
 cn: pfsense
 gidNumber: 10000
