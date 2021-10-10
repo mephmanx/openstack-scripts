@@ -84,16 +84,7 @@ ExecStart=/usr/libexec/slapd -u ldap -g ldap -h 'ldap:/// ldapi:/// ldaps:///' -
 WantedBy=multi-user.target
 EOF
 
-cat > /var/run/slapd.pid <<EOF
-
-EOF
-
-cat > /var/run/slapd.args <<EOF
-
-EOF
-
-chown -R ldap:ldap /var/run/slapd.pid
-chown -R ldap:ldap /var/run/slapd.args
+sed -i "s/\/var\/run\/slapd.pid/\/var\/run\/slapd\/slapd.pid/g" /etc/openldap/slapd.conf
 
 cp /usr/share/doc/sudo/schema.OpenLDAP  /etc/openldap/schema/sudo.schema
 
