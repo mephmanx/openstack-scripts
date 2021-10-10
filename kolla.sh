@@ -526,7 +526,7 @@ ssh root@control01 curl -q https://raw.githubusercontent.com/pfelk/pfelk/main/et
 # option httplog
 
 # Start the logstash container
-docker run -d -v /root/logstash-docker/etc/logstash/config:/usr/share/logstash/config:ro -v /root/logstash-docker/etc/pfelk:/etc/pfelk:ro -e "LS_JAVA_OPTS=-Xmx1G -Xms1G" --network=host --name logstash docker.elastic.co/logstash/logstash:7.10.2 --restart=always
+docker run -d -v /root/logstash-docker/etc/logstash/config:/usr/share/logstash/config:ro -v /root/logstash-docker/etc/pfelk:/etc/pfelk:ro -e "LS_JAVA_OPTS=-Xmx1G -Xms1G" --network=host --restart=always --name logstash docker.elastic.co/logstash/logstash:7.10.2
 EOF
 
 scp /tmp/monitoring01-logstash.sh root@monitoring01:/tmp
