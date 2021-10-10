@@ -257,7 +257,7 @@ shadowWarning: 7
 shadowInactive: 7
 shadowLastChange: 0
 
-dn: cn=johndoe,ou=groups,dc=ldapmaster,dc=lyonsgroup,dc=family
+dn: cn=pfsense,ou=groups,dc=ldapmaster,dc=lyonsgroup,dc=family
 objectClass: posixGroup
 cn: pfsense
 gidNumber: 10000
