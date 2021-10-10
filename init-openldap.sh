@@ -77,7 +77,7 @@ Documentation=man:slapd-mdb
 
 [Service]
 Type=forking
-PIDFile=/var/lib/openldap/slapd.pid
+PIDFile=/var/run/slapd/slapd.pid
 ExecStart=/usr/libexec/slapd -u ldap -g ldap -h 'ldap:/// ldapi:/// ldaps:///' -F /etc/openldap/slapd.d
 
 [Install]
