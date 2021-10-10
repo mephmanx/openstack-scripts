@@ -160,6 +160,48 @@ olcObjectClasses: {1}( 1.3.6.1.4.1.42.2.27.8.2.1 NAME 'pwdPolicy' SUP top AUXI
   $ pwdAllowUserChange $ pwdSafeModify ) )
 EOF
 
+cat > /etc/openldap/slapd.ldif <<EOF
+dn: cn=config
+objectClass: olcGlobal
+cn: config
+olcArgsFile: /var/run/slapd/slapd.args
+olcPidFile: /var/run/slapd/slapd.pid
+
+dn: cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: schema
+
+dn: cn=module,cn=config
+objectClass: olcModuleList
+cn: module
+olcModulepath: /usr/libexec/openldap
+olcModuleload: back_mdb.la
+
+include: file:///etc/openldap/schema/core.ldif
+include: file:///etc/openldap/schema/cosine.ldif
+include: file:///etc/openldap/schema/nis.ldif
+include: file:///etc/openldap/schema/inetorgperson.ldif
+include: file:///etc/openldap/schema/ppolicy.ldif
+include: file:///etc/openldap/schema/sudo.ldif
+
+dn: olcDatabase=frontend,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcFrontendConfig
+olcDatabase: frontend
+olcAccess: to dn.base="cn=Subschema" by * read
+olcAccess: to *
+  by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" manage
+  by * none
+
+dn: olcDatabase=config,cn=config
+objectClass: olcDatabaseConfig
+olcDatabase: config
+olcRootDN: cn=config
+olcAccess: to *
+  by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" manage
+  by * none
+EOF
+
 slapadd -n 0 -F /etc/openldap/slapd.d -l /etc/openldap/slapd.ldif
 
 chown -R ldap:ldap /etc/openldap/slapd.d
