@@ -326,7 +326,7 @@ ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/users.ldif
 echo `slappasswd -g` > /tmp/pfsense.txt
 chmod 600 /tmp/pfsense.txt
 
-ldappasswd -H ldapi:/// -Y EXTERNAL -S "uid=pfsense,ou=people,dc=ldapmaster,dc=lyonsgroup,dc=family" -T /tmp/pfsense.txt
+ldappasswd -H ldapi:/// -Y EXTERNAL -S "uid=pfsense,ou=users,dc=ldapmaster,dc=lyonsgroup,dc=family" -T /tmp/pfsense.txt
 
 echo `slappasswd -g` > /tmp/bind.txt
 chmod 600 /tmp/bind.txt
