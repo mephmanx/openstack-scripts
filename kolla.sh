@@ -390,7 +390,7 @@ openstack coe cluster template create swarm-cluster-template \
           --docker-volume-size 10 \
           --master-flavor m1.small \
           --flavor m1.small \
-          --coe swarm
+          --coe swarm-mode
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Created magnum cluster..."
 
