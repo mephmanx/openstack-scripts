@@ -85,6 +85,9 @@ WantedBy=multi-user.target
 EOF
 
 sed -i "s/\/var\/run\/slapd.pid/\/var\/run\/slapd\/slapd.pid/g" /etc/openldap/slapd.conf
+sed -i "s/\/var\/run\/slapd.pid/\/var\/run\/slapd\/slapd.pid/g" /etc/openldap/slapd.ldif
+sed -i "s/\/var\/run\/slapd.pid/\/var\/run\/slapd\/slapd.pid/g" /etc/openldap/slapd.conf.default
+sed -i "s/\/var\/run\/slapd.pid/\/var\/run\/slapd\/slapd.pid/g" /etc/openldap/slapd.ldif.default
 
 cp /usr/share/doc/sudo/schema.OpenLDAP  /etc/openldap/schema/sudo.schema
 
