@@ -89,6 +89,14 @@ sed -i "s/\/var\/run\/slapd.pid/\/var\/run\/slapd\/slapd.pid/g" /etc/openldap/sl
 sed -i "s/\/var\/run\/slapd.pid/\/var\/run\/slapd\/slapd.pid/g" /etc/openldap/slapd.conf.default
 sed -i "s/\/var\/run\/slapd.pid/\/var\/run\/slapd\/slapd.pid/g" /etc/openldap/slapd.ldif.default
 
+sed -i "s/\/var\/run\/slapd.args/\/var\/run\/slapd\/slapd.args/g" /etc/openldap/slapd.conf
+sed -i "s/\/var\/run\/slapd.args/\/var\/run\/slapd\/slapd.args/g" /etc/openldap/slapd.ldif
+sed -i "s/\/var\/run\/slapd.args/\/var\/run\/slapd\/slapd.args/g" /etc/openldap/slapd.conf.default
+sed -i "s/\/var\/run\/slapd.args/\/var\/run\/slapd\/slapd.args/g" /etc/openldap/slapd.ldif.default
+
+mkdir /var/run/slapd
+chown -R ldap:ldap /var/run/slapd
+
 cp /usr/share/doc/sudo/schema.OpenLDAP  /etc/openldap/schema/sudo.schema
 
 cat << 'EOL' > /etc/openldap/schema/sudo.ldif
