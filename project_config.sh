@@ -115,6 +115,10 @@ export PRODUCT_ID='0002'
 ### Cloudfoundry variables
 export CF_TCP_PORT_COUNT=10
 
+## how much available memory (after operating system, vm overhead, openstack overhead, and other misc resources are allocated) is allocated to cloudfoundry
+export CF_MEMORY_ALLOCATION_PCT=90
+export CF_DISK_ALLOCATION=80
+
 ## openstack vm counts
 ### these counts can be adjusted if larger than 1 server
 ### below counts are based on single server
