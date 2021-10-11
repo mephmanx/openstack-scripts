@@ -34,6 +34,9 @@ export CF_ATTIC_TERRAFORM=https://releases.hashicorp.com/terraform/0.11.15/terra
 ### openldap source
 export OPENLDAP_SOURCE=https://www.openldap.org/software/download/OpenLDAP/openldap-release.tgz
 
+### image for trove DBs
+export TROVE_DB_IMAGE=https://cloud-images.ubuntu.com/releases/bionic/release-20210928/ubuntu-18.04-server-cloudimg-amd64.img
+
 ## Administrator email.
 # This is CRITICAL as OpenVPN profile will be email there, this email will receive ALL critical install and system emails until changed,
 # This email will be used for Telegram auto register, will be used for LetsEncrypt, will be used for SNMP notifications, UPS alerts, and more.

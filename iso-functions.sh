@@ -200,6 +200,7 @@ function buildAndPushOpenstackSetupISO {
 
   #####################################
   embed_files=('/tmp/magnum.qcow2'
+                '/tmp/trove_base.img'
                 '/tmp/terraform_0.11.15_linux_amd64.zip'
                 '/tmp/host_list'
                 '/root/.ssh/id_rsa.crt'

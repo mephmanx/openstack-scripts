@@ -66,6 +66,10 @@ fi
 if [ ! -f "/tmp/openldap.tgz" ]; then
   wget -O /tmp/openldap.tgz ${OPENLDAP_SOURCE}
 fi
+
+if [ ! -f "/tmp/trove_base.img" ]; then
+  wget -O /tmp/trove_base.img ${TROVE_DB_IMAGE}
+fi
 ####
 rm -rf /tmp/repo.zip
 zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*"
@@ -78,6 +82,7 @@ embed_files=('/tmp/magnum.qcow2'
               '/tmp/openstack-env.sh'
               '/tmp/openldap.tgz'
               '/tmp/linux.iso'
+              '/tmp/trove_base.img'
               '/tmp/project_config.sh')
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"
