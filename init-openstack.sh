@@ -93,6 +93,9 @@ create_server_cert $NEWPW $CERT_DIR "placeholder"
 create_user_cert $NEWPW $CERT_DIR "osuser"
 ##########
 
+## setup public key as other systems use it for cross system passwordless ssh
+runuser -l root -c 'cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys'
+
 ### use CA cert for cockpit
 cp $CERT_DIR/id_rsa.crt /etc/cockpit/ws-certs.d/certificate.cert
 cp $CERT_DIR/id_rsa.key /etc/cockpit/ws-certs.d/certificate.key
