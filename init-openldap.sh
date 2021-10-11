@@ -371,6 +371,8 @@ setsebool -P nis_enabled 1
 
 systemctl enable --now httpd
 
+ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-pfsense-kvm.sh;' &
+
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openldap VM ready for use"
 ##########################
 #remove so as to not run again
