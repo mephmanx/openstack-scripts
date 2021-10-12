@@ -31,9 +31,6 @@ export MAGNUM_IMAGE=https://download.fedoraproject.org/pub/alt/atomic/stable/Fed
 ### cloudfoundry attic terraform
 export CF_ATTIC_TERRAFORM=https://releases.hashicorp.com/terraform/0.11.15/terraform_0.11.15_linux_amd64.zip
 
-### openldap source
-export OPENLDAP_SOURCE=https://www.openldap.org/software/download/OpenLDAP/openldap-release.tgz
-
 ### image for trove instances
 export TROVE_INSTANCE_IMAGE=https://cloud-images.ubuntu.com/releases/bionic/release-20210928/ubuntu-18.04-server-cloudimg-amd64.img
 
@@ -50,7 +47,7 @@ export DOMAIN_NAME=lyonsgroup.family;
 
 ### hostname for harbor install
 export SUPPORT_HOST=harbor;
-export OPENLDAP_HOST=openldap;
+export IDENTITY_HOST=identity;
 
 ## openstack hostnames
 export APP_INTERNAL_HOSTNAME=openstack-local;
@@ -65,7 +62,7 @@ export INTERNAL_VIP="$NETWORK_PREFIX.254";
 export EXTERNAL_VIP="$NETWORK_PREFIX.253";
 export CLOUDFOUNDRY_VIP="$NETWORK_PREFIX.252";
 export SUPPORT_VIP="$NETWORK_PREFIX.10";
-export OPENLDAP_VIP="$NETWORK_PREFIX.11";
+export IDENTITY_VIP="$NETWORK_PREFIX.11";
 
 ### Internal IP config
 export LAN_CENTOS_IP="$NETWORK_PREFIX.1";
@@ -139,7 +136,7 @@ export COMPUTE_COUNT=1
 ## In GB
 export PFSENSE_RAM=8
 export CLOUDSUPPORT_RAM=8
-export OPENLDAP_RAM=8
+export IDENTITY_RAM=8
 export CONTROL_RAM=34
 export NETWORK_RAM=12
 export MONITORING_RAM=16

@@ -156,10 +156,10 @@ web_pid=$!
 echo $web_pid > /tmp/web_pid
 cd $pwd
 
-### create openldap and keycloak vm's to make login available to everything else
+
 pwd=`pwd`
 cd /tmp/openstack-scripts
-./create-openldap-kvm.sh
+./create-identity-kvm.sh
 cd $pwd
 
 #remove so as to not run again
