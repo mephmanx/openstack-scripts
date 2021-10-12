@@ -7,13 +7,14 @@ source /tmp/project_config.sh
 
 KICKSTART_DIR=/tmp/openstack-scripts
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Removing existing pfsense vm and building image for new one...."
-
 ### if pfsense" images exists, skip this file
 #removeVM_kvm "pfsense"
 if (virsh list --name | grep -q "pfsense")
- return
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense VM exists, exiting create script"
+  exit -1
 fi
+
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Building PFSense VM"
 
 ########## build router
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Fetching PFSense image....."
