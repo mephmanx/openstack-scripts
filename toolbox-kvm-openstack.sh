@@ -67,8 +67,12 @@ if [ ! -f "/tmp/openldap.tgz" ]; then
   wget -O /tmp/openldap.tgz ${OPENLDAP_SOURCE}
 fi
 
-if [ ! -f "/tmp/trove_base.img" ]; then
-  wget -O /tmp/trove_base.img ${TROVE_DB_IMAGE}
+if [ ! -f "/tmp/trove_instance.img" ]; then
+  wget -O /tmp/trove_instance.img ${TROVE_INSTANCE_IMAGE}
+fi
+
+if [ ! -f "/tmp/trove_db.img" ]; then
+  wget -O /tmp/trove_db.img ${TROVE_DB_INSTANCE}
 fi
 ####
 rm -rf /tmp/repo.zip
