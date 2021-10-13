@@ -593,7 +593,7 @@ runuser -l stack -c  'brew install bbl'
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting BOSH infrastructure install...."
 runuser -l stack -c  "echo 'export BBL_IAAS=openstack' >> /opt/stack/.bash_profile"
-runuser -l stack -c  "echo 'export BBL_OPENSTACK_AUTH_URL=https://$EXTERNAL_VIP_DNS:5000/v3' >> /opt/stack/.bash_profile"
+runuser -l stack -c  "echo 'export BBL_OPENSTACK_AUTH_URL=http://$INTERNAL_VIP_DNS:5000/v3' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_AZ=nova' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_NETWORK_ID=$PUBLIC_NETWORK_ID' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_NETWORK_NAME=public1' >> /opt/stack/.bash_profile"
@@ -609,7 +609,7 @@ runuser -l stack -c  "echo 'export OS_PROJECT_NAME=$OS_PROJECT_NAME' >> /opt/sta
 runuser -l stack -c  "echo 'export OS_TENANT_NAME=$OS_TENANT_NAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_USERNAME=$OS_USERNAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_PASSWORD=$OS_PASSWORD' >> /opt/stack/.bash_profile"
-runuser -l stack -c  "echo 'export OS_AUTH_URL=https://$EXTERNAL_VIP_DNS:5000/v3' >> /opt/stack/.bash_profile"
+runuser -l stack -c  "echo 'export OS_AUTH_URL=http://$INTERNAL_VIP_DNS:5000/v3' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_INTERFACE=$OS_INTERFACE' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_ENDPOINT_TYPE=$OS_ENDPOINT_TYPE' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_IDENTITY_API_VERSION=$OS_IDENTITY_API_VERSION' >> /opt/stack/.bash_profile"
@@ -638,7 +638,7 @@ mv cf.tf-new cf.tf
 
 ## add availability zones to the list below for a full HA deploy
 cat > terraform.tfvars <<EOF
-auth_url = "https://$EXTERNAL_VIP_DNS:5000/v3"
+auth_url = "http://$INTERNAL_VIP_DNS:5000/v3"
 domain_name = "default"
 user_name = "$OPENSTACK_CLOUDFOUNDRY_USERNAME"
 password = "$OPENSTACK_CLOUDFOUNDRY_PWD"
@@ -662,7 +662,7 @@ num_tcp_ports = $CF_TCP_PORT_COUNT #default is 100, needs to be > 0
 
 # in case of self signed certificate select one of the following options
 # cacert_file = "<path-to-certificate>"
-insecure = "false"
+insecure = "true"
 EOF
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Executing env prep script..."
@@ -849,7 +849,7 @@ if [[ $error_count -gt 0 ]]; then
                       --vars-store /tmp/vars/deployment-vars.yml \
                       /tmp/cf-deployment/cf-deployment.yml \
                       -v system_domain=$DOMAIN_NAME \
-                      -v auth_url=https://$EXTERNAL_VIP_DNS:5000/v3 \
+                      -v auth_url=http://$INTERNAL_VIP_DNS:5000/v3 \
                       -v openstack_project=cloudfoundry \
                       -v openstack_domain=default \
                       -v openstack_username=$OPENSTACK_CLOUDFOUNDRY_USERNAME \
