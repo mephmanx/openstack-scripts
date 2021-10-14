@@ -79,8 +79,6 @@ pip3 install --upgrade  --trusted-host pypi.org --trusted-host files.pythonhoste
 pip3 install  --ignore-installed --trusted-host pypi.org --trusted-host files.pythonhosted.org 'ansible==2.9.10'
 pip3 install  --ignore-installed --trusted-host pypi.org --trusted-host files.pythonhosted.org kolla-ansible
 
-export PATH="/opt/stack/venv/bin:/usr/local/bin:$PATH"
-
 mkdir -p /etc/kolla
 
 cp -r /opt/stack/venv/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
