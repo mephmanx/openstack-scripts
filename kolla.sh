@@ -594,6 +594,9 @@ runuser -l stack -c  'echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 runuser -l stack -c  'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)'
 runuser -l stack -c  'brew install cloudfoundry/tap/bosh-cli'
 runuser -l stack -c  'brew install bbl'
+runuser -l stack -c  'brew install tfenv'
+runuser -l stack -c  'tfenv install 1.0.2'
+runuser -l stack -c  'tfenv use 1.0.2'
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting BOSH infrastructure install...."
 runuser -l stack -c  "echo 'export BBL_IAAS=openstack' >> /opt/stack/.bash_profile"
