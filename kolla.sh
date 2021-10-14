@@ -574,6 +574,10 @@ if [[ "No Image found" == *"$test"* ]]; then
 fi
 #########################
 
+### reload openstack admin creds
+source /etc/kolla/admin-openrc.sh
+######
+
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Amphora image install complete"
 ####
 
@@ -619,11 +623,7 @@ runuser -l stack -c  'bbl up --debug'
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed"
 
-### reload openstack admin creds
-source /etc/kolla/admin-openrc.sh
-######
-
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Pulling terraform 0.11.15 for prepare script..."
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "loading terraform 0.11.15 for prepare script..."
 #### prepare env for cloudfoundry
 git clone https://github.com/cloudfoundry-attic/bosh-openstack-environment-templates.git /tmp/bosh-openstack-environment-templates
 cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf
