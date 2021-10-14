@@ -397,7 +397,7 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Magnum image installed, continu
 openstack coe cluster template create swarm-cluster-template \
           --image fedora-atomic-latest \
           --external-network public1 \
-          --dns-nameserver 10.0.200.3 \
+          --dns-nameserver $GATEWAY_ROUTER_IP \
           --network-driver docker \
           --docker-storage-driver overlay2 \
           --docker-volume-size 10 \
@@ -410,7 +410,7 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Created magnum cluster..."
 openstack coe cluster create swarm-cluster \
                         --cluster-template swarm-cluster-template \
                         --master-count 1 \
-                        --node-count 1 \
+                        --node-count 2 \
                         --keypair mykey
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack installed and accepting images, continuing install..."
