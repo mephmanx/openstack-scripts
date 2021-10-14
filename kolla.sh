@@ -547,9 +547,9 @@ runuser -l root -c "ssh root@monitoring01 'docker restart grafana'"
 
 ############# build octavia image
 runuser -l root -c  'yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils'
-git clone https://opendev.org/openstack/octavia -b master
+git clone https://opendev.org/openstack/octavia -b master /tmp/octavia
 pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org diskimage-builder
-cd octavia/diskimage-create
+cd /tmp/octavia/diskimage-create
 chmod 700 diskimage-create.sh
 runuser -l root -c  '/tmp/octavia/diskimage-create/diskimage-create.sh'
 
