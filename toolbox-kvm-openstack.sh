@@ -68,7 +68,7 @@ if [ ! -f "/tmp/trove_instance.img" ]; then
 fi
 
 if [ ! -f "/tmp/trove_db.img" ]; then
-  wget -O /tmp/trove_db.img ${TROVE_DB_INSTANCE}
+  wget -O /tmp/trove_db.img ${TROVE_DB_IMAGE}
 fi
 ####
 rm -rf /tmp/repo.zip
