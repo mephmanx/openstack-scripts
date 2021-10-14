@@ -73,7 +73,6 @@ runuser -l root -c  'su - stack'
 ########################
 
 python3 -m pip install --user --trusted-host pypi.org --trusted-host files.pythonhosted.org virtualenv
-python3 -m venv env --trusted-host pypi.org --trusted-host files.pythonhosted.org
 python3 -m venv /opt/stack/venv
 source /opt/stack/venv/bin/activate
 pip3 install --upgrade  --trusted-host pypi.org --trusted-host files.pythonhosted.org pip
