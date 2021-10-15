@@ -385,6 +385,11 @@ openstack router add subnet trove-router trove-subnet0
 
 ####
 
+### make change to cluster.yaml for magnum upstream error, remove when resolved
+
+####
+
+### magnum cluster create
 openstack image create \
                       --disk-format=qcow2 \
                       --container-format=bare \
@@ -415,9 +420,9 @@ openstack coe cluster create swarm-cluster \
                         --keypair mykey
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack installed and accepting images, continuing install..."
+##############
 
 #prepare openstack env for CF
-
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Preparing Openstack environment for BOSH install...."
 ## generate cloudfoundry admin pwd
 HOWLONG=15 ## the number of characters
