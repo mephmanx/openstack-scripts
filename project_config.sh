@@ -35,7 +35,7 @@ export CF_ATTIC_TERRAFORM=https://releases.hashicorp.com/terraform/0.11.15/terra
 export TROVE_INSTANCE_IMAGE=https://cloud-images.ubuntu.com/releases/bionic/release-20210928/ubuntu-18.04-server-cloudimg-amd64.img
 
 ### image for trove DB's
-export TROVE_DB_IMAGE=https://tarballs.opendev.org/openstack/trove/images/trove-wallaby-guest-ubuntu-bionic.qcow2
+export TROVE_DB_IMAGE=https://tarballs.opendev.org/openstack/trove/images/trove-master-guest-ubuntu-bionic.qcow2
 
 ## Administrator email.
 # This is CRITICAL as OpenVPN profile will be email there, this email will receive ALL critical install and system emails until changed,
