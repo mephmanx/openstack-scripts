@@ -369,11 +369,15 @@ pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org pytho
 #####
 
 ### trove setup
+export TROVE_CIDR="$TROVE_NETWORK.0/24"
+export TROVE_RANGE="start=$TROVE_DHCP_START,end=$TROVE_DHCP_END"
+export TROVE_GATEWAY="$TROVE_NETWORK.1"
+
 openstack image create trove-master-guest-ubuntu --private --disk-format qcow2 --container-format bare --tag trove --tag mysql --tag mariadb --tag postgresql --file /tmp/trove_db.img
 
 openstack image create trove-base --disk-format qcow2 --container-format bare --file /tmp/trove_instance.img
 openstack network create trove-net
-openstack subnet create --subnet-range 10.2.0.0/24  --gateway 10.2.0.1 --network trove-net --allocation-pool start=10.2.0.100,end=10.2.0.199 --dns-nameserver $GATEWAY_ROUTER_IP trove-subnet0
+openstack subnet create --subnet-range $TROVE_CIDR  --gateway $TROVE_GATEWAY --network trove-net --allocation-pool $TROVE_RANGE --dns-nameserver $GATEWAY_ROUTER_IP trove-subnet0
 
 openstack router create trove-router
 openstack router set --external-gateway public1
