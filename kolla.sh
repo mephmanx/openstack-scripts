@@ -592,8 +592,8 @@ runuser -l stack -c  'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)'
 runuser -l stack -c  'brew install cloudfoundry/tap/bosh-cli'
 runuser -l stack -c  'brew install bbl'
 runuser -l stack -c  'brew install tfenv'
-runuser -l stack -c  'tfenv install 1.0.2'
-runuser -l stack -c  'tfenv use 1.0.2'
+runuser -l stack -c  "tfenv install $CF_BBL_INSTALL_VERSION"
+runuser -l stack -c  "tfenv use $CF_BBL_INSTALL_VERSION"
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting BOSH infrastructure install...."
 runuser -l stack -c  "echo 'export BBL_IAAS=openstack' >> /opt/stack/.bash_profile"
@@ -797,33 +797,6 @@ git clone https://github.com/bosh-prometheus/prometheus-boshrelease /tmp/prometh
 ### prepare google SAML config and include it in deploy
 
 ### deploy cloudfoundry
-#runuser -l stack -c  "cd /opt/stack; \
-#                  bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-#                  chmod 700 /tmp/bbl_env.sh; \
-#                  source /tmp/bbl_env.sh; \
-#                  bosh -d cf deploy -o /tmp/cf-deployment/operations/use-external-blobstore.yml \
-#                  -o /tmp/cf-deployment/operations/use-swift-blobstore.yml \
-#                  -o /tmp/cf-deployment/operations/openstack.yml \
-#                  -o /tmp/cf-deployment/operations/scale-to-one-az.yml \
-#                  -o /tmp/cf-deployment/operations/use-compiled-releases.yml \
-#                  -o /tmp/cf-deployment/operations/enable-nfs-volume-service.yml \
-#                  --vars-store /tmp/vars/deployment-vars.yml \
-#                  /tmp/cf-deployment/cf-deployment.yml \
-#                  -v system_domain=$DOMAIN_NAME \
-#                  -v auth_url=https://$EXTERNAL_VIP_DNS:5000/v3 \
-#                  -v openstack_project=cloudfoundry \
-#                  -v openstack_domain=default \
-#                  -v openstack_username=$OPENSTACK_CLOUDFOUNDRY_USERNAME \
-#                  -v openstack_password=$OPENSTACK_CLOUDFOUNDRY_PWD \
-#                  -v cf_admin_password=$OPENSTACK_CLOUDFOUNDRY_PWD \
-#                  -v openstack_temp_url_key=$SWIFT_KEY \
-#                  -v app_package_directory_key=app_package_directory \
-#                  -v buildpack_directory_key=buildpack_directory \
-#                  -v droplet_directory_key=droplet_directory \
-#                  -v resource_directory_key=resource_directory \
-#                  -v grafana_redirect_uri=https://grafana-cf.$DOMAIN_NAME/login/generic_oauth \
-#                  -n" > /tmp/cloudfoundry-install.log
-
 #this is to make the CF install fall into the below loop as it seems to need 2 deployments to fully deploy
 ## would be good to fix but was suggested by community so....
 echo "error" > /tmp/cloudfoundry-install.log
