@@ -602,6 +602,7 @@ runuser -l stack -c  'echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 runuser -l stack -c  'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)'
 runuser -l stack -c  'brew install cloudfoundry/tap/bosh-cli'
 runuser -l stack -c  'brew install bbl'
+runuser -l stack -c  'brew unlink terraform'
 runuser -l stack -c  'brew install tfenv'
 runuser -l stack -c  "tfenv install $CF_BBL_INSTALL_VERSION"
 runuser -l stack -c  "tfenv use $CF_BBL_INSTALL_VERSION"
@@ -631,6 +632,13 @@ runuser -l stack -c  "echo 'export OS_IDENTITY_API_VERSION=$OS_IDENTITY_API_VERS
 runuser -l stack -c  "echo 'export OS_REGION_NAME=$OS_REGION_NAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_AUTH_PLUGIN=$OS_AUTH_PLUGIN' >> /opt/stack/.bash_profile"
 runuser -l stack -c  'bbl up --debug'
+
+BBL_LOG=`tail -25 /tmp/openstack-install.log`
+failure_occur=`echo $BBL_LOG | grep -o 'Error' | wc -l`
+if [[ $failure_occur -gt 0 ]]; then
+  sed -i 's/~> 1.16/1.40/g' /opt/stack/terraform/bbl-template.tf
+  runuser -l stack -c  'bbl up --debug'
+fi
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed"
 
