@@ -631,14 +631,26 @@ runuser -l stack -c  "echo 'export OS_ENDPOINT_TYPE=$OS_ENDPOINT_TYPE' >> /opt/s
 runuser -l stack -c  "echo 'export OS_IDENTITY_API_VERSION=$OS_IDENTITY_API_VERSION' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_REGION_NAME=$OS_REGION_NAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_AUTH_PLUGIN=$OS_AUTH_PLUGIN' >> /opt/stack/.bash_profile"
-runuser -l stack -c  'bbl up --debug'
+runuser -l stack -c  'bbl plan'
 
-BBL_LOG=`tail -25 /tmp/openstack-install.log`
-failure_occur=`echo $BBL_LOG | grep -o 'Error' | wc -l`
-if [[ $failure_occur -gt 0 ]]; then
-  sed -i 's/~> 1.16/1.40/g' /opt/stack/terraform/bbl-template.tf
-  runuser -l stack -c  'bbl up --debug'
+sed -i 's/~> 1.16/1.40/g' /opt/stack/terraform/bbl-template.tf
+
+length=$(wc -c </opt/stack/create-director.sh)
+if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-director.sh)" ]; then
+  # The file ends with a newline or null
+  dd if=/dev/null of=/opt/stack/create-director.sh obs="$((length-1))" seek=1
 fi
+
+length=$(wc -c </opt/stack/create-jumpbox.sh)
+if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-jumpbox.sh)" ]; then
+  # The file ends with a newline or null
+  dd if=/dev/null of=/opt/stack/create-jumpbox.sh obs="$((length-1))" seek=1
+fi
+
+echo " -o  \${BBL_STATE_DIR}/bosh-deployment/misc/dns.yml  -v internal_dns=$GATEWAY_ROUTER_IP" >> create-director.sh
+echo " -o  \${BBL_STATE_DIR}/bosh-deployment/misc/dns.yml  -v internal_dns=$GATEWAY_ROUTER_IP" >> create-jumpbox.sh
+
+runuser -l stack -c  'bbl up --debug'
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed"
 
