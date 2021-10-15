@@ -56,6 +56,7 @@ export APP_EXTERNAL_HOSTNAME=openstack;
 ### Network prefix, used for all networks below
 #MariaDB seems to have a problem with 172 addresses.  Dont use!
 export NETWORK_PREFIX="10.0.200";
+export TROVE_NETWORK="10.2.0";
 
 ## vips for openstack
 export INTERNAL_VIP="$NETWORK_PREFIX.254";
@@ -79,6 +80,10 @@ export GATEWAY_ROUTER_DHCP_END="$NETWORK_PREFIX.75";
 ## These are for OS project floating IP's
 export OPENSTACK_DHCP_START="$NETWORK_PREFIX.100";
 export OPENSTACK_DHCP_END="$NETWORK_PREFIX.200";
+
+### Trove network settings
+export TROVE_DHCP_START="$TROVE_NETWORK.100";
+export TROVE_DHCP_END="$TROVE_NETWORK.200";
 
 ###timezone
 ## escape the separator otherwise sed will have an error and nothing will be built

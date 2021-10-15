@@ -237,6 +237,7 @@ function prep_project_config() {
   ###  remember to replace all variables that are nested in project config!
   sed -i 's/$NETWORK_PREFIX/'$NETWORK_PREFIX'/g' /tmp/project_config.sh
   sed -i 's/$DOMAIN_NAME/'$DOMAIN_NAME'/g' /tmp/project_config.sh
+  sed -i 's/$TROVE_NETWORK/'$TROVE_NETWORK'/g' /tmp/project_config.sh
   ####
 }
 
