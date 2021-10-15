@@ -40,7 +40,9 @@ runuser -l root -c 'chmod 600 /root/.ssh/id_rsa'
 runuser -l root -c 'chmod 600 /root/.ssh/id_rsa.pub'
 runuser -l root -c 'chmod 600 /root/.ssh/authorized_keys'
 
-
+yum -y install @idm:DL1
+yum -y install freeipa-server ipa-server-dns bind-dyndb-ldap
+ipa-server-install --setup-dns
 
 ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;
 ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-pfsense-kvm.sh;' &
