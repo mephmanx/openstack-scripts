@@ -435,8 +435,8 @@ openstack project create cloudfoundry
 openstack user create $OPENSTACK_CLOUDFOUNDRY_USERNAME --project cloudfoundry --password $OPENSTACK_CLOUDFOUNDRY_PWD
 openstack role add --project cloudfoundry --project-domain default --user $OPENSTACK_CLOUDFOUNDRY_USERNAME --user-domain default admin
 
+##### quota configuration
 ## get max available memory
-
 memStr=`runuser -l root -c "ssh root@compute01 'cat /proc/meminfo | grep MemTotal'"`
 mem=`echo $memStr | awk -F' ' '{ print $2 }'`
 ### allocation for openstack docker processes & os
@@ -456,12 +456,23 @@ cinder_q=`printf "%.${2:-0}f" "$cinder_quota"`
 ## overcommit scale by 10
 openstack quota set --cores $((CPU_COUNT * 3)) cloudfoundry
 
+### cloudfoundry quotas
 openstack quota set --instances 100 cloudfoundry
 openstack quota set --ram $quotaRam cloudfoundry
 openstack quota set --secgroups 100 cloudfoundry
 openstack quota set --secgroup-rules 200 cloudfoundry
 openstack quota set --volumes 100 cloudfoundry
 openstack quota set --gigabytes $cinder_q cloudfoundry
+###########
+
+### octavia quotas
+openstack quota set --cores -1 service
+openstack quota set --instances -1 service
+openstack quota set --ram -1 service
+openstack quota set --secgroups -1 service
+openstack quota set --secgroup-rules -1 service
+openstack quota set --volumes -1 service
+###############
 
 ### cloudfoundry flavors
 openstack flavor create --ram 3840 --ephemeral 10 --vcpus 1 --public minimal
@@ -479,17 +490,7 @@ for f in "${flavors[@]}"; do
       --property hw:tpm_version=2.0 \
       --property hw:tpm_model=tpm-crb
 done
-
-### livecd flavor
-openstack flavor create --ram 7680 --ephemeral 0 --vcpus 4 --public livecd
-####
-
-openstack quota set --cores -1 service
-openstack quota set --instances -1 service
-openstack quota set --ram -1 service
-openstack quota set --secgroups -1 service
-openstack quota set --secgroup-rules -1 service
-openstack quota set --volumes -1 service
+###########
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry Openstack project ready.  user -> $OPENSTACK_CLOUDFOUNDRY_USERNAME pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
 telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack admin pwd is $ADMIN_PWD"
