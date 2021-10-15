@@ -68,16 +68,17 @@ unset HOME
 ###  Make sure noting goes into the /home/stack folder
 mkdir /home/stack
 chown stack /home/stack
-
 runuser -l root -c  'su - stack'
 ########################
 
+### setup python venv
 python3 -m pip install --user --trusted-host pypi.org --trusted-host files.pythonhosted.org virtualenv
 python3 -m venv /opt/stack/venv
 source /opt/stack/venv/bin/activate
 pip3 install --upgrade  --trusted-host pypi.org --trusted-host files.pythonhosted.org pip
 pip3 install  --ignore-installed --trusted-host pypi.org --trusted-host files.pythonhosted.org 'ansible==2.9.10'
 pip3 install  --ignore-installed --trusted-host pypi.org --trusted-host files.pythonhosted.org kolla-ansible
+####
 
 mkdir -p /etc/kolla
 
@@ -331,7 +332,14 @@ kolla-ansible -i /etc/kolla/multinode deploy
 LOG_TAIL=`tail -25 /tmp/openstack-install.log`
 ###
 
+## install openstack python clients
 pip3 install  --ignore-installed --trusted-host pypi.org --trusted-host files.pythonhosted.org python-openstackclient
+pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-octaviaclient
+pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-troveclient
+pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-magnumclient
+pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-swiftclient
+#####
+
 kolla-ansible post-deploy
 
 telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "End of Openstack Install log -> $LOG_TAIL"
@@ -360,13 +368,6 @@ cd /opt/stack/venv/share/kolla-ansible
 
 export HOME=/home/stack
 cd /tmp
-
-## install openstack python clients
-pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-octaviaclient
-pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-troveclient
-pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-magnumclient
-pip install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-swiftclient
-#####
 
 ### trove setup
 export TROVE_CIDR="$TROVE_NETWORK.0/24"
