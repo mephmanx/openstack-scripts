@@ -661,7 +661,7 @@ cp /tmp/terraform_0.11.15_linux_amd64.zip ./
 unzip terraform_0.11.15_linux_amd64.zip
 chmod 700 terraform
 
-sed  '/provider "openstack" {/a use_octavia   = true' ./cf.tf >> cf.tf-new
+sed  '/provider "openstack" {/a version = "1.40"/a use_octavia   = true' ./cf.tf >> cf.tf-new
 rm -rf cf.tf
 mv cf.tf-new cf.tf
 
@@ -696,8 +696,8 @@ EOF
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Executing env prep script..."
 
-runuser -l root -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init;"
-runuser -l root -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /tmp/terraf-bbl.out;"
+runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init;"
+runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /tmp/terraf-bbl.out;"
 ################
 
 ### update cf-lb to preconfigured address
