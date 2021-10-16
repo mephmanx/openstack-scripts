@@ -1057,13 +1057,6 @@
 			<descr><![CDATA[openstack local]]></descr>
 			<aliases></aliases>
 		</hosts>
-		<hosts>
-			<host>pfsense</host>
-			<domain>{DOMAIN_NAME}</domain>
-			<ip>10.0.9.1</ip>
-			<descr><![CDATA[pfsense dashboard]]></descr>
-			<aliases></aliases>
-		</hosts>
 	</unbound>
 	<revision>
 		<time>1631891739</time>
