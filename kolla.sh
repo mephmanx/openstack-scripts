@@ -381,7 +381,7 @@ openstack network create trove-net
 openstack subnet create --subnet-range $TROVE_CIDR  --gateway $TROVE_GATEWAY --network trove-net --allocation-pool $TROVE_RANGE --dns-nameserver $GATEWAY_ROUTER_IP trove-subnet0
 
 openstack router create trove-router
-openstack router set --external-gateway public1
+openstack router set --external-gateway public1 trove-router
 openstack router add subnet trove-router trove-subnet0
 
 ####
