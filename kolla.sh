@@ -655,16 +655,17 @@ runuser -l stack -c  'bbl up --debug'
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed, loading terraform 0.11.15 for prepare script..."
 #### prepare env for cloudfoundry
 git clone https://github.com/cloudfoundry-attic/bosh-openstack-environment-templates.git /tmp/bosh-openstack-environment-templates
-cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf
+cd /tmp/bosh-openstack-environment-templates
+chown -R stack cf-deployment-tf/
+cd cf-deployment-tf
 cp /tmp/terraform_0.11.15_linux_amd64.zip ./
 
 unzip terraform_0.11.15_linux_amd64.zip
 chmod 700 terraform
 chown -R stack terraform
 
-sed  '/provider "openstack" {/a version = "1.40"/a use_octavia   = true' ./cf.tf >> cf.tf-new
-rm -rf cf.tf
-mv cf.tf-new cf.tf
+sed -i '/provider "openstack" {/a use_octavia   = true' ./cf.tf
+sed -i '/use_octavia   = true/a version = "1.40"' ./cf.tf
 
 ## add availability zones to the list below for a full HA deploy
 cat > terraform.tfvars <<EOF
