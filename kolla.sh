@@ -652,9 +652,7 @@ echo " -o  \${BBL_STATE_DIR}/bosh-deployment/misc/dns.yml  -v internal_dns=$GATE
 
 runuser -l stack -c  'bbl up --debug'
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed"
-
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "loading terraform 0.11.15 for prepare script..."
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed, loading terraform 0.11.15 for prepare script..."
 #### prepare env for cloudfoundry
 git clone https://github.com/cloudfoundry-attic/bosh-openstack-environment-templates.git /tmp/bosh-openstack-environment-templates
 cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf
