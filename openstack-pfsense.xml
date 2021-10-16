@@ -4049,7 +4049,7 @@
 						<item>
 							<status>active</status>
 							<name>pfsense</name>
-							<address>pfsense.{DOMAIN_NAME}</address>
+							<address>{GATEWAY_ROUTER_IP}</address>
 							<port>443</port>
 							<ssl>yes</ssl>
 							<_index></_index>
