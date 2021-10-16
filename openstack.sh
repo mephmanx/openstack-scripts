@@ -156,7 +156,6 @@ web_pid=$!
 echo $web_pid > /tmp/web_pid
 cd $pwd
 
-
 pwd=`pwd`
 cd /tmp/openstack-scripts
 ./create-identity-kvm.sh
