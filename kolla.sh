@@ -634,6 +634,7 @@ runuser -l stack -c  "echo 'export OS_AUTH_PLUGIN=$OS_AUTH_PLUGIN' >> /opt/stack
 runuser -l stack -c  'bbl plan'
 
 sed -i 's/~> 1.16/1.40/g' /opt/stack/terraform/bbl-template.tf
+sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/terraform/bbl-template.tf
 
 length=$(wc -c </opt/stack/create-director.sh)
 if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-director.sh)" ]; then
