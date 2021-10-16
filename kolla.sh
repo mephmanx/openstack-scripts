@@ -660,6 +660,7 @@ cp /tmp/terraform_0.11.15_linux_amd64.zip ./
 
 unzip terraform_0.11.15_linux_amd64.zip
 chmod 700 terraform
+chown -R stack terraform
 
 sed  '/provider "openstack" {/a version = "1.40"/a use_octavia   = true' ./cf.tf >> cf.tf-new
 rm -rf cf.tf
