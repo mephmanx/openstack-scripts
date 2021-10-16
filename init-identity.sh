@@ -81,8 +81,8 @@ ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD -a $ADMIN_PASSWORD -n $DOMAIN_
 /usr/bin/ipa sudorule-add su
 /usr/bin/ipa sudocmd-add /usr/bin/su
 /usr/bin/ipa sudorule-add-allow-command su --sudocmds /usr/bin/su
-/usr/bin/ipa sudorule-add-host su --hosts pfsense.lyonsgroup.local
-/usr/bin/ipa sudorule-add-host su --hosts harbor.lyonsgroup.local
+/usr/bin/ipa sudorule-add-host su --hosts pfsense.$DOMAIN_NAME
+/usr/bin/ipa sudorule-add-host su --hosts harbor.$DOMAIN_NAME
 /usr/bin/ipa sudorule-add-user su --users ipauser
 /usr/bin/ipa sudorule-add defaults
 /usr/bin/ipa sudorule-add-option defaults --sudooption '!authenticate'
