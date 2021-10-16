@@ -40,9 +40,52 @@ runuser -l root -c 'chmod 600 /root/.ssh/id_rsa'
 runuser -l root -c 'chmod 600 /root/.ssh/id_rsa.pub'
 runuser -l root -c 'chmod 600 /root/.ssh/authorized_keys'
 
-yum -y install @idm:DL1
-yum -y install freeipa-server ipa-server-dns bind-dyndb-ldap
-ipa-server-install --setup-dns
+#IPA vars
+
+### gen pwd's
+HOWLONG=30 ## the number of characters
+DIR_PWD=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+echo $DIR_PWD > /root/directory_pwd
+
+ADMIN_PWD=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+echo $ADMIN_PWD > /root/admin_pwd
+##############
+
+DIRECTORY_MANAGER_PASSWORD=$DIR_PWD
+ADMIN_PASSWORD=$ADMIN_PWD
+REALM_NAME=$(echo "$DOMAIN_NAME" | tr '[:lower:]' '[:upper:]')
+HOSTNAME=identity.$DOMAIN_NAME
+
+/usr/bin/hostnamectl set-hostname $HOSTNAME
+
+dnf module enable idm:DL1 -y
+
+dnf distro-sync -y
+
+dnf update -y
+
+dnf install -y cyrus-sasl-devel make libtool autoconf libtool-ltdl-devel openssl-devel libdb-devel tar gcc perl perl-devel wget vim rsyslog ipa-server ipa-server-dns
+
+#Disable root login in ssh and disable password login
+sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
+sed -i 's/\(PasswordAuthentication\).*/\1 no/' ./sshd_config
+/usr/sbin/service sshd restart
+
+# Configure freeipa
+ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD -a $ADMIN_PASSWORD -n $DOMAIN_NAME -r $REALM_NAME --hostname $HOSTNAME --ip-address $IDENTITY_VIP --mkhomedir --setup-dns --auto-reverse --auto-forwarders --no-dnssec-validation --ntp-server=$NTP_SERVER -U -q
+#Create user on ipa WITHOUT A PASSWORD - we don't need one since we'll be using ssh key
+/usr/bin/ipa user-add --first=Firstname --last=Lastname ipauser
+/usr/bin/ipa user-mod ipauser --sshpubkey="xxxxxxxxxx"
+
+#Add sudo rules
+/usr/bin/ipa sudorule-add su
+/usr/bin/ipa sudocmd-add /usr/bin/su
+/usr/bin/ipa sudorule-add-allow-command su --sudocmds /usr/bin/su
+/usr/bin/ipa sudorule-add-host su --hosts pfsense.lyonsgroup.local
+/usr/bin/ipa sudorule-add-host su --hosts harbor.lyonsgroup.local
+/usr/bin/ipa sudorule-add-user su --users ipauser
+/usr/bin/ipa sudorule-add defaults
+/usr/bin/ipa sudorule-add-option defaults --sudooption '!authenticate'
 
 ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;
 ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-pfsense-kvm.sh;' &
