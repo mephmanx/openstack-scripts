@@ -254,9 +254,15 @@ function post_install_cleanup() {
   rm -rf /tmp/type
   runuser -l root -c  'rm -rf /root/*.log'
   runuser -l root -c  'rm -rf /tmp/*.log'
+  sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
+  sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
+  /usr/sbin/service sshd restart
   #### cleanup nodes
   file=/tmp/host_list
 cat > /tmp/server_cleanup.sh <<EOF
+sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
+sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
+/usr/sbin/service sshd restart
 rm -rf /tmp/host-trust.sh
 rm -rf /tmp/openstack-env.sh
 rm -rf /tmp/project_config.sh

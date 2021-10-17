@@ -29,6 +29,12 @@ if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   systemctl enable --now dnf-automatic.timer
 fi
 
+if [[ $HYPERVISOR_DEBUG == 0 ]]; then
+  sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
+  sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
+  /usr/sbin/service sshd restart
+fi
+
 # set up net script to be called after reboot
 cp /tmp/openstack-scripts/openstack.sh /tmp
 prep_next_script "openstack"
