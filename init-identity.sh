@@ -56,7 +56,7 @@ ADMIN_PASSWORD=$ADMIN_PWD
 REALM_NAME=$(echo "$DOMAIN_NAME" | tr '[:lower:]' '[:upper:]')
 HOSTNAME=identity.$DOMAIN_NAME
 
-/usr/bin/hostnamectl set-hostname $HOSTNAME
+runuser -l root -c "/usr/bin/hostnamectl set-hostname $HOSTNAME"
 
 dnf module enable idm:DL1 -y
 
