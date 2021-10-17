@@ -73,6 +73,7 @@ if [[ $HYPERVISOR_DEBUG == 0 ]]; then
   /usr/sbin/service sshd restart
 fi
 
+runuser -l root -c "echo '$IDENTITY_VIP $HOSTNAME' > /etc/hosts"
 runuser -l root -c 'cp /tmp/id_rsa.crt /etc/ipa/ca.crt'
 # Configure freeipa
 ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD -a $ADMIN_PASSWORD -n $DOMAIN_NAME -r $REALM_NAME --hostname $HOSTNAME --ip-address $IDENTITY_VIP --mkhomedir --setup-dns --auto-reverse --auto-forwarders --no-dnssec-validation --ntp-server=$NTP_SERVER -U -q
