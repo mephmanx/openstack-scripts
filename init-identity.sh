@@ -75,7 +75,8 @@ sed -i 's/\(PasswordAuthentication\).*/\1 no/' ./sshd_config
 ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD -a $ADMIN_PASSWORD -n $DOMAIN_NAME -r $REALM_NAME --hostname $HOSTNAME --ip-address $IDENTITY_VIP --mkhomedir --setup-dns --auto-reverse --auto-forwarders --no-dnssec-validation --ntp-server=$NTP_SERVER -U -q
 #Create user on ipa WITHOUT A PASSWORD - we don't need one since we'll be using ssh key
 /usr/bin/ipa user-add --first=Firstname --last=Lastname ipauser
-/usr/bin/ipa user-mod ipauser --sshpubkey="xxxxxxxxxx"
+SSH_KEY=`cat /root/.ssh/id_rsa.pub`
+/usr/bin/ipa user-mod ipauser --sshpubkey="$SSH_KEY"
 
 #Add sudo rules
 /usr/bin/ipa sudorule-add su
