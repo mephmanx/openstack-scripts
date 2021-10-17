@@ -839,7 +839,6 @@ retry_count=5
 if [[ $error_count -gt 0 ]]; then
   while [ $retry_count -gt 0 ]; do
     rm -rf /tmp/cloudfoundry-install.log
-    telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install failed, retrying $retry_count more times..."
     runuser -l stack -c  "cd /opt/stack; \
                       bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
                       chmod 700 /tmp/bbl_env.sh; \
@@ -869,6 +868,7 @@ if [[ $error_count -gt 0 ]]; then
     if [[ $error_count == 0 ]]; then
       break
     fi
+    telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install failed, retrying $retry_count more times..."
     ((retry_count--))
   done
 fi
