@@ -68,9 +68,10 @@ dnf install -y cyrus-sasl-devel make libtool autoconf libtool-ltdl-devel openssl
 
 #Disable root login in ssh and disable password login
 sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
-sed -i 's/\(PasswordAuthentication\).*/\1 no/' ./sshd_config
+sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
 /usr/sbin/service sshd restart
 
+runuser -l root -c 'cp /tmp/id_rsa.crt /etc/ipa/ca.crt'
 # Configure freeipa
 ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD -a $ADMIN_PASSWORD -n $DOMAIN_NAME -r $REALM_NAME --hostname $HOSTNAME --ip-address $IDENTITY_VIP --mkhomedir --setup-dns --auto-reverse --auto-forwarders --no-dnssec-validation --ntp-server=$NTP_SERVER -U -q
 #Create user on ipa WITHOUT A PASSWORD - we don't need one since we'll be using ssh key
