@@ -864,7 +864,9 @@ if [[ $error_count -gt 0 ]]; then
                       -v resource_directory_key=resource_directory \
                       -n" > /tmp/cloudfoundry-install.log
 
-    error_count=`grep -i "error" /tmp/cloudfoundry-install.log | wc -l`
+    error_count1=`grep -i "error" /tmp/cloudfoundry-install.log | wc -l`
+    error_count2=`grep -i "Error" /tmp/cloudfoundry-install.log | wc -l`
+    error_count=$(($error_count1 + $error_count2))
     if [[ $error_count == 0 ]]; then
       break
     fi

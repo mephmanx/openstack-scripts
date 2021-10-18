@@ -57,7 +57,7 @@ REALM_NAME=$(echo "$DOMAIN_NAME" | tr '[:lower:]' '[:upper:]')
 HOSTNAME=identity.$DOMAIN_NAME
 
 runuser -l root -c "echo '$IDENTITY_VIP $HOSTNAME' > /etc/hosts"
-runuser -l root -c "/usr/bin/hostnamectl set-hostname $HOSTNAME"
+runuser -l root -c "echo $HOSTNAME > /etc/hostname"
 
 dnf module enable idm:DL1 -y
 
