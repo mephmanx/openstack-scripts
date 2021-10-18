@@ -55,10 +55,7 @@ modprobe kvm_intel ept=1
 ## do not perform anything that would need internet access after the below command is executed.
 ##  the network is being reconfigured, the call will fail, and it might kill all future scripts
 ##### create bond ext-con
-nmcli connection add type team con-name ext-con ifname ext-con config '{"runner":{"name":"lacp"}}'
-
-nmcli con mod ext-con ipv4.method auto
-nmcli con mod ext-con ipv6.method auto
+nmcli connection add type team con-name ext-con ifname ext-con config '{"runner":{"name":"lacp"}, "link_watch": {"name": "ethtool"}}'
 nmcli con mod ext-con connection.autoconnect yes
 
 ct=0
@@ -66,6 +63,7 @@ for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == 
     echo "$DEVICE"
     nmcli connection delete $DEVICE
     nmcli con add type team-slave con-name ext-con-slave$ct ifname $DEVICE master ext-con
+    nmcli dev dis $DEVICE
     ((ct++))
 done
 
