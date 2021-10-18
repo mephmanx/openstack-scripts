@@ -81,7 +81,8 @@ embed_files=('/tmp/magnum.qcow2'
               '/tmp/repo.zip'
               '/tmp/openstack-env.sh'
               '/tmp/linux.iso'
-              '/tmp/trove_base.img'
+              '/tmp/trove_instance.img'
+              '/tmp/trove_db.img'
               '/tmp/project_config.sh')
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"
