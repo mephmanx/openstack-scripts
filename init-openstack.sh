@@ -55,8 +55,7 @@ modprobe kvm_intel ept=1
 ## do not perform anything that would need internet access after the below command is executed.
 ##  the network is being reconfigured, the call will fail, and it might kill all future scripts
 ##### create bond ext-con
-nmcli connection add type team con-name ext-con ifname ext-con mode 802.3ad
-nmcli con mod id ext-con team.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
+nmcli connection add type team con-name ext-con ifname ext-con config '{"runner":{"name":"lacp"}}'
 
 nmcli con mod ext-con ipv4.method auto
 nmcli con mod ext-con ipv6.method auto
