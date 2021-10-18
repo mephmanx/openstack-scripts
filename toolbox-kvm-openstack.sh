@@ -2,11 +2,11 @@
 #can ONLY be run as root!  sudo to root
 
 source ./vm_functions.sh
-source ./iso-functions.sh
 ### openstack-env needs to be in same directory as this script
 rm -rf /tmp/openstack-env.sh
 cp $1 /tmp/openstack-env.sh
 source /tmp/openstack-env.sh
+source ./iso-functions.sh
 
 rm -rf /var/tmp/openstack-iso.iso
 
