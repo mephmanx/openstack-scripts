@@ -56,7 +56,7 @@ modprobe kvm_intel ept=1
 ##  the network is being reconfigured, the call will fail, and it might kill all future scripts
 ##### create bond ext-con
 nmcli connection add type team con-name ext-con ifname ext-con config '{"runner":{"name":"lacp"}, "link_watch": {"name": "ethtool"}}'
-nmcli con mod ext-con connection.autoconnect yes
+nmcli connection modify ext-con autoconnect yes ipv4.method dhcp ipv6.method ignore
 
 ct=0
 for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'`; do
