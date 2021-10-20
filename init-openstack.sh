@@ -55,7 +55,7 @@ modprobe kvm_intel ept=1
 ## do not perform anything that would need internet access after the below command is executed.
 ##  the network is being reconfigured, the call will fail, and it might kill all future scripts
 ##### create bond ext-con
-nmcli connection add type team con-name ext-con ifname ext-con config '{"runner":{"name":"lacp"}, "link_watch": {"name": "ethtool"}}'
+nmcli connection add type team con-name ext-con ifname ext-con config '{"runner":{"name":"lacp","active":true,"fast_rate":true,"tx_hash":["eth":"ipv4"]}, "link_watch": {"name": "ethtool"}}'
 nmcli connection modify ext-con autoconnect yes ipv4.method auto ipv6.method auto
 
 ct=0
