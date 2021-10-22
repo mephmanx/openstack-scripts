@@ -18,6 +18,31 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
+yum update -y
+yum -y install epel-release
+yum update -y
+
+yum install -y perl tpm-tools yum-utils cockpit git python3-devel python38 make ruby ruby-devel gcc-c++ mysql-devel nodejs mysql-server cockpit-podman cockpit-machines cockpit-networkmanager cockpit-packagekit cockpit-storaged openvpn wget
+
+systemctl status tcsd
+systemctl enable tcsd
+
+# If autoupdate is enabled
+if [[ $LINUX_AUTOUPDATE == 1 ]]; then
+    dnf install -y dnf-automatic
+
+cat > /etc/dnf/automatic.conf <<EOF
+[commands]
+upgrade_type = default
+random_sleep = 0
+network_online_timeout = 60
+download_updates = yes
+apply_updates = yes
+EOF
+
+fi
+
+
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup."
 
 ### cleanup from previous boot

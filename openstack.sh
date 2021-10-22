@@ -52,7 +52,7 @@ runuser -l root -c  'openvpn --genkey --secret /root/.ssh/openvpn-secret.key'
 
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
-dnf install -y cockpit-machines virt-install virt-viewer bridge-utils swtpm libtpms telnet
+dnf install -y cockpit-machines virt-install virt-viewer bridge-utils swtpm libtpms telnet bridge-utils
 systemctl restart libvirtd
 ############################
 
