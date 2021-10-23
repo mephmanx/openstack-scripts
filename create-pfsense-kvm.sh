@@ -251,11 +251,11 @@ pfsense_init_file=( $(echo $PFSENSE_INIT_FILE | fold -c250 ))
   echo "$ADMIN_PWD";
   sleep 10;
   echo "yes | pkg install git &";
-  sleep 90;
+  sleep 120;
   echo "yes | pkg install bash &";
-  sleep 90;
+  sleep 120;
   echo "yes | pkg install pfsense-pkg-Shellcmd &";
-  sleep 90;
+  sleep 120;
   echo "mkdir /root/.ssh";
   sleep 20;
   echo "touch /root/.ssh/id_rsa; touch /root/.ssh/id_rsa.pub; touch /root/.ssh/id_rsa.pub.enc; touch /root/.ssh/id_rsa.enc; touch /root/openstack-env.sh.enc;";
