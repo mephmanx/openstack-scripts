@@ -137,9 +137,16 @@ done
 
 ### start image hosting
 pwd=`pwd`
-mkdir /tmp/iso
-cp /tmp/linux.iso /tmp/iso
-cd /tmp/iso
+mkdir /tmp/pftransfer
+cp /tmp/linux.iso /tmp/pftransfer
+### copy pfsense files to folder for host
+cp /root/.ssh/id_rsa.pub /tmp/pftransfer
+cp /root/.ssh/id_rsa /tmp/pftransfer
+cp /root/openstack-env.sh /tmp/pftransfer
+cp /root/openstack-scripts/pf_functions.sh /tmp/pftransfer
+cp /root/project_config.sh /tmp/pftransfer
+cp /root/openstack-scripts/pfsense-init.sh /tmp/pftransfer
+cd /tmp/pftransfer
 python3 -m http.server &
 web_pid=$!
 echo $web_pid > /tmp/web_pid

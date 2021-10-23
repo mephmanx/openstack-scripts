@@ -213,13 +213,6 @@ EOF
 
 ssh-keygen -t rsa -b 4096 -C "pfsense" -N "" -f /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key <<<y 2>&1 >/dev/null
 
-HYPERVISOR_KEY=`cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key | base64 | tr -d '\n\r'`
-HYPERVISOR_PUB_KEY=`cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub | base64 | tr -d '\n\r'`
-OPENSTACK_SETUP_FILE=`cat /tmp/openstack-env.sh | base64 | tr -d '\n\r'`
-PF_FUNCTIONS_FILE=`cat /tmp/openstack-scripts/pf_functions.sh | base64 | tr -d '\n\r'`
-PROJECT_CONFIG_FILE=`cat /tmp/project_config.sh | base64 | tr -d '\n\r'`
-PFSENSE_INIT_FILE=`cat /tmp/openstack-scripts/pfsense-init.sh | base64 | tr -d '\n\r'`
-
 runuser -l root -c "cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub >> /root/.ssh/authorized_keys"
 
 HOWLONG=15 ## the number of characters
@@ -227,13 +220,6 @@ root_pw=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%2
 
 telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_pw"
 
-### pfsense prep
-hypervisor_key_array=( $(echo $HYPERVISOR_KEY | fold -c250 ))
-hypervisor_pub_array=( $(echo $HYPERVISOR_PUB_KEY | fold -c250 ))
-openstack_env_file=( $(echo $OPENSTACK_SETUP_FILE | fold -c250 ))
-pf_functions_file=( $(echo $PF_FUNCTIONS_FILE | fold -c250 ))
-project_config_file=( $(echo $PROJECT_CONFIG_FILE | fold -c250 ))
-pfsense_init_file=( $(echo $PFSENSE_INIT_FILE | fold -c250 ))
 (echo open 127.0.0.1 4568;
   sleep 30;
   echo "8";
@@ -258,28 +244,9 @@ pfsense_init_file=( $(echo $PFSENSE_INIT_FILE | fold -c250 ))
   sleep 120;
   echo "mkdir /root/.ssh";
   sleep 20;
-  echo "touch /root/.ssh/id_rsa; touch /root/.ssh/id_rsa.pub; touch /root/.ssh/id_rsa.pub.enc; touch /root/.ssh/id_rsa.enc; touch /root/openstack-env.sh.enc;";
+  echo "curl -o /root/.ssh/id_rsa.pub http://$LAN_CENTOS_IP:8000/id_rsa.pub";
   sleep 30;
-  for element in "${hypervisor_pub_array[@]}"
-  do
-    echo "echo '$element' >> /root/.ssh/id_rsa.pub.enc";
-    sleep 10;
-  done
-  for element in "${hypervisor_key_array[@]}"
-  do
-    echo "echo '$element' >> /root/.ssh/id_rsa.enc";
-    sleep 10;
-  done
-  echo "openssl base64 -d -in /root/.ssh/id_rsa.pub.enc -out /root/.ssh/id_rsa.pub;";
-  sleep 30;
-  echo "openssl base64 -d -in /root/.ssh/id_rsa.enc -out /root/.ssh/id_rsa;";
-  sleep 30;
-  for element in "${openstack_env_file[@]}"
-  do
-    echo "echo '$element' >> /root/openstack-env.sh.enc";
-    sleep 10;
-  done
-  echo "openssl base64 -d -in /root/openstack-env.sh.enc -out /root/openstack-env.sh";
+  echo "curl -o /root/.ssh/id_rsa http://$LAN_CENTOS_IP:8000/id_rsa";
   sleep 30;
   echo "chmod 600 /root/.ssh/*";
   sleep 10;
@@ -287,26 +254,13 @@ pfsense_init_file=( $(echo $PFSENSE_INIT_FILE | fold -c250 ))
   sleep 30;
   echo "mkdir /root/openstack-scripts";
   sleep 10;
-  for element in "${pf_functions_file[@]}"
-  do
-    echo "echo '$element' >> /root/openstack-scripts/pf_functions.sh.enc";
-    sleep 10;
-  done
-  echo "openssl base64 -d -in /root/openstack-scripts/pf_functions.sh.enc -out /root/openstack-scripts/pf_functions.sh";
+  echo "curl -o /root/openstack-env.sh http://$LAN_CENTOS_IP:8000/openstack-env.sh";
   sleep 30;
-  for element in "${project_config_file[@]}"
-  do
-    echo "echo '$element' >> /root/project_config.sh.enc";
-    sleep 10;
-  done
-  echo "openssl base64 -d -in /root/project_config.sh.enc -out /root/project_config.sh";
+  echo "curl -o /root/openstack-scripts/pf_functions.sh http://$LAN_CENTOS_IP:8000/pf_functions.sh";
   sleep 30;
-  for element in "${pfsense_init_file[@]}"
-  do
-    echo "echo '$element' >> /root/openstack-scripts/pfsense-init.sh.enc";
-    sleep 10;
-  done
-  echo "openssl base64 -d -in /root/openstack-scripts/pfsense-init.sh.enc -out /root/openstack-scripts/pfsense-init.sh";
+  echo "curl -o /root/project_config.sh http://$LAN_CENTOS_IP:8000/project_config.sh";
+  sleep 30;
+  echo "curl -o /root/openstack-scripts/pfsense-init.sh http://$LAN_CENTOS_IP:8000/pfsense-init.sh";
   sleep 30;
   echo "chmod 777 /root/openstack-scripts/*.sh"
   sleep 10;
