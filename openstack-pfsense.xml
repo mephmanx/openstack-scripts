@@ -86,8 +86,6 @@
 			<webguicss>pfSense.css</webguicss>
 			<logincss>1e3f75;</logincss>
 			<loginshowhost></loginshowhost>
-			<nodnsrebindcheck></nodnsrebindcheck>
-			<althostnames>harbor.lyonsgroup.family cockpit.lyonsgroup.family</althostnames>
 		</webgui>
 		<disablesegmentationoffloading></disablesegmentationoffloading>
 		<disablelargereceiveoffloading></disablelargereceiveoffloading>
@@ -307,14 +305,14 @@
 			<interface>wan</interface>
 			<descr><![CDATA[SSH to kolla]]></descr>
 			<associated-rule-id>nat_6159ad88d67aa1.00024133</associated-rule-id>
-			<updated>
-				<time>1633267080</time>
-				<username><![CDATA[admin@10.0.9.1[192.168.1.1] (Local Database)]]></username>
-			</updated>
 			<created>
 				<time>1633267080</time>
 				<username><![CDATA[admin@10.0.9.1[192.168.1.1] (Local Database)]]></username>
 			</created>
+			<updated>
+				<time>1634497772</time>
+				<username><![CDATA[admin@10.0.9.2 (Local Database)]]></username>
+			</updated>
 		</rule>
 		<rule>
 			<source>
@@ -357,11 +355,11 @@
 			</destination>
 			<log></log>
 			<created>
-				<time>1633194158</time>
+				<time>1633291423</time>
 				<username><![CDATA[Auto]]></username>
 			</created>
 			<interface>wan</interface>
-			<tracker>1770009683</tracker>
+			<tracker>1770009879</tracker>
 		</rule>
 		<rule>
 			<quick>yes</quick>
@@ -378,7 +376,7 @@
 			</destination>
 			<log></log>
 			<created>
-				<time>1633194158</time>
+				<time>1633291423</time>
 				<username><![CDATA[Auto]]></username>
 			</created>
 			<interface>lan</interface>
@@ -866,6 +864,15 @@
 			<command>/usr/local/pkg/acme/acme_command.sh &quot;renewall&quot; | /usr/bin/logger -t ACME 2&gt;&amp;1</command>
 		</item>
 		<item>
+			<minute>*/5</minute>
+			<hour>*</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/bin/nice -n20 /sbin/pfctl -q -t snort2c -T expire 3600</command>
+		</item>
+		<item>
 			<minute>*/60</minute>
 			<hour>*</hour>
 			<mday>*</mday>
@@ -882,15 +889,6 @@
 			<wday>*</wday>
 			<who>root</who>
 			<command>/usr/local/bin/perl /usr/local/www/lightsquid/lightparser.pl yesterday</command>
-		</item>
-		<item>
-			<minute>*/5</minute>
-			<hour>*</hour>
-			<mday>*</mday>
-			<month>*</month>
-			<wday>*</wday>
-			<who>root</who>
-			<command>/usr/bin/nice -n20 /sbin/pfctl -q -t snort2c -T expire 3600</command>
 		</item>
 	</cron>
 	<wol></wol>
@@ -929,7 +927,7 @@
 			<strictusercn></strictusercn>
 			<data_ciphers_fallback>AES-256-GCM</data_ciphers_fallback>
 			<digest>SHA256</digest>
-			<engine>none</engine>
+			<engine>devcrypto</engine>
 			<tunnel_network>10.0.9.0/24</tunnel_network>
 			<tunnel_networkv6>fe80:2245::/64</tunnel_networkv6>
 			<remote_network></remote_network>
@@ -1059,9 +1057,9 @@
 		</hosts>
 	</unbound>
 	<revision>
-		<time>1631891739</time>
-		<description><![CDATA[osuser@10.0.9.1[68.87.97.254] (Local Database): Services: HAProxy: Backend server pool:  modified pool: 'magnum-infra']]></description>
-		<username><![CDATA[osuser@10.0.9.1[68.87.97.254] (Local Database)]]></username>
+		<time>1634522831</time>
+		<description><![CDATA[admin@10.0.9.2 (Local Database): Domain override configured for DNS Resolver.]]></description>
+		<username><![CDATA[admin@10.0.9.2 (Local Database)]]></username>
 	</revision>
 	<ppps></ppps>
 	<gateways>
@@ -1142,7 +1140,7 @@
 					<ocspstaple></ocspstaple>
 					<dnssleep></dnssleep>
 					<renewafter></renewafter>
-					<lastrenewal>1633190901</lastrenewal>
+					<lastrenewal>1633289896</lastrenewal>
 				</item>
 			</certificates>
 			<accountkeys>
@@ -1996,6 +1994,12 @@
 							<value>harbor</value>
 							<_index></_index>
 						</item>
+						<item>
+							<name>identity</name>
+							<expression>host_contains</expression>
+							<value>identity</value>
+							<_index></_index>
+						</item>
 					</ha_acls>
 					<ha_certificates></ha_certificates>
 					<clientcert_ca></clientcert_ca>
@@ -2043,6 +2047,12 @@
 							<action>use_backend</action>
 							<acl>harbor</acl>
 							<use_backendbackend>harbor</use_backendbackend>
+							<_index></_index>
+						</item>
+						<item>
+							<action>use_backend</action>
+							<acl>identity</acl>
+							<use_backendbackend>identity</use_backendbackend>
 							<_index></_index>
 						</item>
 					</a_actionitems>
@@ -4045,8 +4055,8 @@
 							<address>{GATEWAY_ROUTER_IP}</address>
 							<port>443</port>
 							<ssl>yes</ssl>
-							<_index></_index>
 							<id>104</id>
+							<_index></_index>
 						</item>
 					</ha_servers>
 					<a_acl></a_acl>
@@ -4069,7 +4079,7 @@
 					<monitor_httpversion></monitor_httpversion>
 					<monitor_username></monitor_username>
 					<monitor_domain></monitor_domain>
-					<monitor_agentport></monitor_agentport>
+					<monitor_agentport>pfsense</monitor_agentport>
 					<agent_check></agent_check>
 					<agent_port></agent_port>
 					<agent_inter></agent_inter>
@@ -4673,6 +4683,77 @@
 					<email_to></email_to>
 					<id>117</id>
 				</item>
+				<item>
+					<ha_servers>
+						<item>
+							<status>active</status>
+							<name>identity</name>
+							<address>identity.{DOMAIN_NAME}}</address>
+							<port>443</port>
+							<ssl>yes</ssl>
+							<id>214</id>
+							<_index></_index>
+						</item>
+					</ha_servers>
+					<a_acl></a_acl>
+					<a_actionitems></a_actionitems>
+					<errorfiles></errorfiles>
+					<advanced></advanced>
+					<advanced_backend></advanced_backend>
+					<name>identity</name>
+					<balance></balance>
+					<balance_urilen></balance_urilen>
+					<balance_uridepth></balance_uridepth>
+					<balance_uriwhole></balance_uriwhole>
+					<transparent_clientip></transparent_clientip>
+					<transparent_interface>lan</transparent_interface>
+					<check_type>HTTP</check_type>
+					<checkinter>30000</checkinter>
+					<log-health-checks></log-health-checks>
+					<httpcheck_method>GET</httpcheck_method>
+					<monitor_uri></monitor_uri>
+					<monitor_httpversion></monitor_httpversion>
+					<monitor_username></monitor_username>
+					<monitor_domain></monitor_domain>
+					<monitor_agentport>identity</monitor_agentport>
+					<agent_check></agent_check>
+					<agent_port></agent_port>
+					<agent_inter></agent_inter>
+					<connection_timeout>2147483647</connection_timeout>
+					<server_timeout>2147483647</server_timeout>
+					<retries>5</retries>
+					<stats_enabled></stats_enabled>
+					<stats_username></stats_username>
+					<stats_password></stats_password>
+					<stats_uri></stats_uri>
+					<stats_scope></stats_scope>
+					<stats_realm></stats_realm>
+					<stats_admin></stats_admin>
+					<stats_node></stats_node>
+					<stats_desc></stats_desc>
+					<stats_refresh></stats_refresh>
+					<persist_stick_expire></persist_stick_expire>
+					<persist_stick_tablesize></persist_stick_tablesize>
+					<persist_stick_length></persist_stick_length>
+					<persist_stick_cookiename></persist_stick_cookiename>
+					<persist_sticky_type>none</persist_sticky_type>
+					<persist_cookie_enabled></persist_cookie_enabled>
+					<persist_cookie_name></persist_cookie_name>
+					<persist_cookie_mode>passive</persist_cookie_mode>
+					<persist_cookie_cachable></persist_cookie_cachable>
+					<persist_cookie_postonly></persist_cookie_postonly>
+					<persist_cookie_httponly></persist_cookie_httponly>
+					<persist_cookie_secure></persist_cookie_secure>
+					<haproxy_cookie_maxidle></haproxy_cookie_maxidle>
+					<haproxy_cookie_maxlife></haproxy_cookie_maxlife>
+					<haproxy_cookie_domains></haproxy_cookie_domains>
+					<haproxy_cookie_dynamic_cookie_key></haproxy_cookie_dynamic_cookie_key>
+					<strict_transport_security>31536000</strict_transport_security>
+					<cookie_attribute_secure>yes</cookie_attribute_secure>
+					<email_level></email_level>
+					<email_to></email_to>
+					<id>107</id>
+				</item>
 			</ha_pools>
 			<configversion>00.58</configversion>
 			<email_mailers>
@@ -4703,11 +4784,10 @@
 			<resolver_holdvalid></resolver_holdvalid>
 			<config></config>
 			<localstatsport>2200</localstatsport>
-			<files>
-			</files>
-			<remotesyslog>monitoring01:5190</remotesyslog>
+			<files></files>
 			<enable></enable>
 			<advanced>c3NsLWRlZmF1bHQtYmluZC1vcHRpb25zIHNzbC1taW4tdmVyIFRMU3YxLjINCnR1bmUuc3NsLmRlZmF1bHQtZGgtcGFyYW0gMjA0OA0Kc3NsLWRlZmF1bHQtYmluZC1jaXBoZXJzIEVDREhFLVJTQS1BRVMxMjgtR0NNLVNIQTI1NjpFQ0RIRS1FQ0RTQS1BRVMxMjgtR0NNLVNIQTI1NjpFQ0RIRS1SU0EtQUVTMjU2LUdDTS1TSEEzODQ6RUNESEUtRUNEU0EtQUVTMjU2LUdDTS1TSEEzODQ6REhFLVJTQS1BRVMxMjgtR0NNLVNIQTI1NjpESEUtRFNTLUFFUzEyOC1HQ00tU0hBMjU2OmtFREgrQUVTR0NNOkVDREhFLVJTQS1BRVMxMjgtU0hBMjU2OkVDREhFLUVDRFNBLUFFUzEyOC1TSEEyNTY6RUNESEUtUlNBLUFFUzEyOC1TSEE6RUNESEUtRUNEU0EtQUVTMTI4LVNIQTpFQ0RIRS1SU0EtQUVTMjU2LVNIQTM4NDpFQ0RIRS1FQ0RTQS1BRVMyNTYtU0hBMzg0OkVDREhFLVJTQS1BRVMyNTYtU0hBOkVDREhFLUVDRFNBLUFFUzI1Ni1TSEE6REhFLVJTQS1BRVMxMjgtU0hBMjU2OkRIRS1SU0EtQUVTMTI4LVNIQTpESEUtRFNTLUFFUzEyOC1TSEEyNTY6REhFLVJTQS1BRVMyNTYtU0hBMjU2OkRIRS1EU1MtQUVTMjU2LVNIQTpESEUtUlNBLUFFUzI1Ni1TSEE6IWFOVUxMOiFlTlVMTDohRVhQT1JUOiFERVM6IVJDNDohM0RFUzohTUQ1OiFQU0s=</advanced>
+			<remotesyslog>monitoring01:5190</remotesyslog>
 		</haproxy>
 		<service>
 			<name>haproxy</name>
@@ -4787,7 +4867,7 @@
 				<cache_replacement_policy>heap LFUDA</cache_replacement_policy>
 				<cache_swap_low>90</cache_swap_low>
 				<cache_swap_high>95</cache_swap_high>
-				<donotcache>LmdpdGh1Yi5jb20NCi5naXRodWJ1c2VyY29udGVudC5jb20NCi5kb2NrZXIuaW8NCi5yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tDQouaHViLmRvY2tlci5jb20NCi5hcHAtaW50ZXJuYWwubHlvbnNncm91cC5mYW1pbHkNCi5hcHAtZXh0ZXJuYWwubHlvbnNncm91cC5mYW1pbHkNCi5oYXNoaWNvcnAuY29tDQouYW1hem9uYXdzLmNvbQ==</donotcache>
+				<donotcache>LmdpdGh1Yi5jb20NCi5naXRodWJ1c2VyY29udGVudC5jb20NCi5kb2NrZXIuaW8NCi5yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tDQouaHViLmRvY2tlci5jb20NCi5oYXNoaWNvcnAuY29tDQouYW1hem9uYXdzLmNvbQ==</donotcache>
 				<enable_offline></enable_offline>
 				<ext_cachemanager></ext_cachemanager>
 				<harddisk_cache_size>20000</harddisk_cache_size>
@@ -4829,7 +4909,7 @@
 				<private_subnet_proxy_off>on</private_subnet_proxy_off>
 				<defined_ip_proxy_off></defined_ip_proxy_off>
 				<defined_ip_proxy_off_dest></defined_ip_proxy_off_dest>
-				<ssl_proxy>on</ssl_proxy>
+				<ssl_proxy></ssl_proxy>
 				<sslproxy_mitm_mode>splicewhitelist</sslproxy_mitm_mode>
 				<ssl_active_interface>lan,opt1</ssl_active_interface>
 				<ssl_proxy_port>3129</ssl_proxy_port>
