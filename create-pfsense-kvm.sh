@@ -11,6 +11,11 @@ KICKSTART_DIR=/tmp/openstack-scripts
 removeVM_kvm "pfsense"
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Building PFSense VM"
 
+#### Notify admin pwd in debug mode
+
+ADMIN_PWD=`cat /root/env_admin_pwd`
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor admin account pw: $ADMIN_PWD"
+
 ########## build router
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Fetching PFSense image....."
 ### make sure to get offset of fat32 partition to put config.xml file on stick to reload!
