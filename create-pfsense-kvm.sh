@@ -67,8 +67,8 @@ INITIAL_WILDCARD_KEY=`cat /root/.ssh/placeholder.key | base64 | tr -d '\n\r'`
 OPEN_VPN_TLS_KEY=`cat /root/.ssh/openvpn-secret.key | base64 | tr -d '\n\r'`
 #########
 
-### godaddy dyndns key
-GODADDY_KEY_BASE64=`echo -n $GODADDY_KEY | base64 | tr -d '\n\r'`
+#### godaddy dyndns key
+#GODADDY_KEY_BASE64=`echo -n $GODADDY_KEY | base64 | tr -d '\n\r'`
 
 ### cloudfoundry TCP ports
 CF_TCP_START_PORT=1024
@@ -190,28 +190,9 @@ virsh reboot pfsense
 sleep 120;
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense first reboot in progress, continuing to package install...."
 
-### attach USB UPS to pfsense for monitoring
-#if [[ $UPS_PRESENT == 1 ]]; then
-#  #### prepare usb ups device
-#  # gather vendor and product id from lsusb if ups changes
-#  ### maybe somehow detect?
-#
-#cat > /tmp/ups.xml <<EOF
-#<hostdev mode='subsystem' type='usb' managed='yes'>
-#  <source>
-#    <vendor id='0x$VENDOR_ID'/>
-#    <product id='0x$PRODUCT_ID'/>
-#  </source>
-#</hostdev>
-#EOF
-#
-#  virsh attach-device pfsense /tmp/ups.xml --persistent
-#fi
-######
-#
-#### cleanup
-#runuser -l root -c  "rm -rf /tmp/usb"
-######
+### cleanup
+runuser -l root -c  "rm -rf /tmp/usb"
+#####
 
 HOWLONG=15 ## the number of characters
 root_pw=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
