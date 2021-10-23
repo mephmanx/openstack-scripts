@@ -39,6 +39,7 @@ EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME"
 ###################
 
 ### copy pfsense files to folder for host
+rm -rf /tmp/pftransfer/*.sh
 cp -nf /tmp/openstack-env.sh /tmp/pftransfer
 cp -nf /tmp/openstack-scripts/pf_functions.sh /tmp/pftransfer
 cp -nf /tmp/project_config.sh /tmp/pftransfer
