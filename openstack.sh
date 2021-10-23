@@ -147,7 +147,7 @@ web_pid=$!
 echo $web_pid > /tmp/web_pid
 cd $pwd
 
-runuser -l root -c  'cd /tmp/openstack-scripts; ./create-identity-kvm.sh'
+runuser -l root -c  'cd /tmp/openstack-scripts; ./create-pfsense-kvm.sh'
 
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
