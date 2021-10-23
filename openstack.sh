@@ -141,13 +141,6 @@ runuser -l root -c "cat /tmp/pftransfer/pf_key.pub >> /root/.ssh/authorized_keys
 pwd=`pwd`
 mkdir /tmp/pftransfer
 cp /tmp/linux.iso /tmp/pftransfer
-### copy pfsense files to folder for host
-cp /tmp/pf_key.key.pub /tmp/pftransfer
-cp /tmp/pf_key.key /tmp/pftransfer
-cp /tmp/openstack-env.sh /tmp/pftransfer
-cp /tmp/openstack-scripts/pf_functions.sh /tmp/pftransfer
-cp /tmp/project_config.sh /tmp/pftransfer
-cp /tmp/openstack-scripts/pfsense-init.sh /tmp/pftransfer
 cd /tmp/pftransfer
 python3 -m http.server &
 web_pid=$!
