@@ -49,6 +49,7 @@ sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
 ## download files to be embedded
 if [ ! -f "/tmp/pfSense-CE-memstick-ADI.img.gz" ]; then
   wget -O /tmp/pfSense-CE-memstick-ADI.img.gz ${PFSENSE}
+  gunzip /tmp/pfSense-CE-memstick-ADI.img.gz
 fi
 
 if [ ! -f "/tmp/harbor.tgz" ]; then
@@ -75,7 +76,7 @@ rm -rf /tmp/repo.zip
 zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*"
 
 embed_files=('/tmp/magnum.qcow2'
-              '/tmp/pfSense-CE-memstick-ADI.img.gz'
+              '/tmp/pfSense-CE-memstick-ADI.img'
               '/tmp/harbor.tgz'
               '/tmp/terraform_0.11.15_linux_amd64.zip'
               '/tmp/repo.zip'

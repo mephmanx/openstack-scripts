@@ -14,7 +14,6 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Building PFSense VM"
 ########## build router
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Fetching PFSense image....."
 ### make sure to get offset of fat32 partition to put config.xml file on stick to reload!
-gunzip /tmp/pfSense-CE-memstick-ADI.img.gz
 
 ## watch this logic on update and make sure it gets the last fat32 partition
 startsector=$(file /tmp/pfSense-CE-memstick-ADI.img | sed -n -e 's/.* startsector *\([0-9]*\),.*/\1/p')
