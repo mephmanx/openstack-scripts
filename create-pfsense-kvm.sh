@@ -266,5 +266,3 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID \
 
 virsh reboot pfsense
 
-## cleanup key
-rm -rf /tmp/pf_key*
