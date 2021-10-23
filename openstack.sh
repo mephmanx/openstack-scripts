@@ -142,10 +142,10 @@ cp /tmp/linux.iso /tmp/pftransfer
 ### copy pfsense files to folder for host
 cp /root/.ssh/id_rsa.pub /tmp/pftransfer
 cp /root/.ssh/id_rsa /tmp/pftransfer
-cp /root/openstack-env.sh /tmp/pftransfer
-cp /root/openstack-scripts/pf_functions.sh /tmp/pftransfer
-cp /root/project_config.sh /tmp/pftransfer
-cp /root/openstack-scripts/pfsense-init.sh /tmp/pftransfer
+cp /tmp/openstack-env.sh /tmp/pftransfer
+cp /tmp/openstack-scripts/pf_functions.sh /tmp/pftransfer
+cp /tmp/project_config.sh /tmp/pftransfer
+cp /tmp/openstack-scripts/pfsense-init.sh /tmp/pftransfer
 cd /tmp/pftransfer
 python3 -m http.server &
 web_pid=$!
