@@ -201,7 +201,6 @@ fi
 #####
 
 ### cleanup
-rm -rf /tmp/pfSense-CE-memstick-ADI.img
 runuser -l root -c  "rm -rf /tmp/usb"
 #####
 
