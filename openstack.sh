@@ -36,9 +36,6 @@ runuser -l root -c  'update-ca-trust extract'
 load_system_info
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Cloud System: $SYSTEM_INFO"
 
-## generate OpenVPN TLS secret key
-runuser -l root -c  'openvpn --genkey --secret /root/.ssh/openvpn-secret.key'
-
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
 dnf install -y cockpit-machines virt-install virt-viewer bridge-utils swtpm libtpms telnet bridge-utils

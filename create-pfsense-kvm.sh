@@ -38,6 +38,9 @@ INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$DOMAIN_NAME"
 EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME"
 ###################
 
+## generate OpenVPN TLS secret key
+runuser -l root -c  'openvpn --genkey --secret /root/.ssh/openvpn-secret.key'
+
 ### replace variables
 ## load generated cert variables
 LETS_ENCRYPT_ACCOUNT_KEY=`cat /root/.ssh/id_rsa.key | base64 | tr -d '\n\r'`
