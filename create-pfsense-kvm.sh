@@ -223,9 +223,9 @@ telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_p
   sleep 120;
   echo "mkdir /root/.ssh";
   sleep 20;
-  echo "curl -o /root/.ssh/id_rsa.pub http://$LAN_CENTOS_IP:8000/pf_key.pub";
+  echo "curl -o /root/.ssh/id_rsa.pub http://$LAN_CENTOS_IP:8000/pf_key.pub > /dev/null";
   sleep 30;
-  echo "curl -o /root/.ssh/id_rsa http://$LAN_CENTOS_IP:8000/pf_key";
+  echo "curl -o /root/.ssh/id_rsa http://$LAN_CENTOS_IP:8000/pf_key > /dev/null";
   sleep 30;
   echo "chmod 600 /root/.ssh/*";
   sleep 10;
@@ -233,13 +233,13 @@ telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_p
   sleep 30;
   echo "mkdir /root/openstack-scripts";
   sleep 10;
-  echo "curl -o /root/openstack-env.sh http://$LAN_CENTOS_IP:8000/openstack-env.sh";
+  echo "curl -o /root/openstack-env.sh http://$LAN_CENTOS_IP:8000/openstack-env.sh > /dev/null";
   sleep 30;
-  echo "curl -o /root/openstack-scripts/pf_functions.sh http://$LAN_CENTOS_IP:8000/pf_functions.sh";
+  echo "curl -o /root/openstack-scripts/pf_functions.sh http://$LAN_CENTOS_IP:8000/pf_functions.sh > /dev/null";
   sleep 30;
-  echo "curl -o /root/project_config.sh http://$LAN_CENTOS_IP:8000/project_config.sh";
+  echo "curl -o /root/project_config.sh http://$LAN_CENTOS_IP:8000/project_config.sh > /dev/null";
   sleep 30;
-  echo "curl -o /root/openstack-scripts/pfsense-init.sh http://$LAN_CENTOS_IP:8000/pfsense-init.sh";
+  echo "curl -o /root/openstack-scripts/pfsense-init.sh http://$LAN_CENTOS_IP:8000/pfsense-init.sh > /dev/null";
   sleep 30;
   echo "chmod 777 /root/openstack-scripts/*.sh"
   sleep 10;
