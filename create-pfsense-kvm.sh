@@ -39,12 +39,10 @@ EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME"
 ###################
 
 ### copy pfsense files to folder for host
-cp /tmp/pf_key.key.pub /tmp/pftransfer
-cp /tmp/pf_key.key /tmp/pftransfer
-cp /tmp/openstack-env.sh /tmp/pftransfer
-cp /tmp/openstack-scripts/pf_functions.sh /tmp/pftransfer
-cp /tmp/project_config.sh /tmp/pftransfer
-cp /tmp/openstack-scripts/pfsense-init.sh /tmp/pftransfer
+cp -nf /tmp/openstack-env.sh /tmp/pftransfer
+cp -nf /tmp/openstack-scripts/pf_functions.sh /tmp/pftransfer
+cp -nf /tmp/project_config.sh /tmp/pftransfer
+cp -nf /tmp/openstack-scripts/pfsense-init.sh /tmp/pftransfer
 ##################
 
 ## generate OpenVPN TLS secret key
