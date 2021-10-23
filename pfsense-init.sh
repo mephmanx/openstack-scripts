@@ -9,7 +9,7 @@
 exec 1>/root/init-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
-IP_DATA=`ifconfig vtnet0`
+IP_DATA=`ifconfig vtnet0 | grep inet`
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense initialization script beginning... \n\nCloud DMZ IP: $IP_DATA"
 
 ### perform downloads first so that VM installs can continue
