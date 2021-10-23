@@ -109,8 +109,8 @@ while [ $node_ct -gt 0 ]; do
   ((node_ct--))
 done
 
-node_ct=10
-while [ $node_ct -gt 0 ]; do
+node_ct=20
+while [ $node_ct -gt 10 ]; do
   brctl addif amp-net Node${node_ct}s
   ((node_ct--))
 done
