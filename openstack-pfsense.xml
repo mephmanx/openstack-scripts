@@ -980,18 +980,6 @@
 	</openvpn>
 	<dnshaper></dnshaper>
 	<notifications>
-		<smtp>
-			<ipaddress>{SMTP_ADDRESS}</ipaddress>
-			<port>465</port>
-			<sslvalidate>enabled</sslvalidate>
-			<timeout></timeout>
-			<notifyemailaddress>{ADMIN_EMAIL}</notifyemailaddress>
-			<username><![CDATA[{SMTP_ACCOUNT}]]></username>
-			<password><![CDATA[{SMTP_KEY}]]></password>
-			<authentication_mechanism>PLAIN</authentication_mechanism>
-			<fromaddress>no-reply@{DOMAIN_NAME}</fromaddress>
-			<ssl></ssl>
-		</smtp>
 		<certexpire>
 			<enable>enabled</enable>
 			<expiredays></expiredays>
@@ -1096,66 +1084,7 @@
 		<crt>{OSUSER_CRT}</crt>
 		<prv>{OSUSER_KEY}</prv>
 	</cert>
-	<dyndnses>
-		<dyndns>
-			<type>godaddy</type>
-			<username><![CDATA[{GODADDY_ACCOUNT}]]></username>
-			<password><![CDATA[{GODADDY_KEY_BASE64}]]></password>
-			<host>@</host>
-			<domainname>{DOMAIN_NAME}</domainname>
-			<mx></mx>
-			<enable></enable>
-			<interface>wan</interface>
-			<zoneid></zoneid>
-			<ttl>600</ttl>
-			<updateurl></updateurl>
-			<resultmatch></resultmatch>
-			<requestif>wan</requestif>
-			<descr><![CDATA[openstack external]]></descr>
-			<id>0</id>
-		</dyndns>
-	</dyndnses>
 	<installedpackages>
-		<acme>
-			<certificates>
-				<item>
-					<a_domainlist>
-						<item>
-							<status>enable</status>
-							<name>*.{DOMAIN_NAME}</name>
-							<method>dns_gd</method>
-							<dns_gdgd_key>{GODADDY_ACCOUNT}</dns_gdgd_key>
-							<dns_gdgd_secret>{GODADDY_KEY}</dns_gdgd_secret>
-							<anydnschallengedomain>yes</anydnschallengedomain>
-							<_index></_index>
-						</item>
-					</a_domainlist>
-					<a_actionlist></a_actionlist>
-					<keypaste></keypaste>
-					<name>{DOMAIN_NAME}-external-wildcard</name>
-					<descr><![CDATA[{DOMAIN_NAME} wildcard cert]]></descr>
-					<status>active</status>
-					<acmeaccount>{DOMAIN_NAME}</acmeaccount>
-					<keylength>2048</keylength>
-					<ocspstaple></ocspstaple>
-					<dnssleep></dnssleep>
-					<renewafter></renewafter>
-					<lastrenewal>1633289896</lastrenewal>
-				</item>
-			</certificates>
-			<accountkeys>
-				<item>
-					<accountkey>{LETSENCRYPT_KEY}</accountkey>
-					<name>{DOMAIN_NAME}</name>
-					<descr></descr>
-					<email><![CDATA[{ADMIN_EMAIL}]]></email>
-					<acmeserver>letsencrypt-production-2</acmeserver>
-					<renewafter></renewafter>
-				</item>
-			</accountkeys>
-			<enable>yes</enable>
-			<writecerts>yes</writecerts>
-		</acme>
 		<menu>
 			<name>Acme Certificates</name>
 			<tooltiptext></tooltiptext>
@@ -4756,14 +4685,6 @@
 				</item>
 			</ha_pools>
 			<configversion>00.58</configversion>
-			<email_mailers>
-				<item>
-					<name>gmail</name>
-					<mailserver>{SMTP_ADDRESS}</mailserver>
-					<mailserverport>465</mailserverport>
-					<_index></_index>
-				</item>
-			</email_mailers>
 			<dns_resolvers></dns_resolvers>
 			<maxconn>5000</maxconn>
 			<logfacility>local0</logfacility>

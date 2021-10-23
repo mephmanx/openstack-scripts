@@ -43,7 +43,7 @@ export TROVE_DB_IMAGE=https://tarballs.opendev.org/openstack/trove/images/trove-
 export ADMIN_EMAIL=administrator@$DOMAIN_NAME
 
 ## external global domain name
-export DOMAIN_NAME=lyonsgroup.family;
+export DOMAIN_NAME=lyonsgroup.local;
 
 ### hostname for harbor install
 export SUPPORT_HOST=harbor;

@@ -9,18 +9,6 @@ export DOCKER_HUB_USER=<docker hub username>
 export DOCKER_HUB_PWD=<dokcer hub access token>
 ##########
 
-### godaddy info
-export GODADDY_ACCOUNT=<godaddy api key>
-export GODADDY_KEY=<godaddy api secret>
-####
-
-#### gmail info
-## prefer telegram over SMTP...remove if possible
-export SMTP_ACCOUNT=<gmail username>
-export SMTP_KEY=<gmail application auth key>
-export SMTP_ADDRESS=smtp.gmail.com
-#######
-
 ### telegram
 export TELEGRAM_API=<telegram api key>
 export TELEGRAM_CHAT_ID=<telegram chat id>
