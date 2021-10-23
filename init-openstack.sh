@@ -80,14 +80,18 @@ modprobe kvm_intel ept=1
 ## do not perform anything that would need internet access after the below command is executed.
 ##  the network is being reconfigured, the call will fail, and it might kill all future scripts
 ##### create bond ext-con
-nmcli connection add type team con-name ext-con ifname ext-con config '{"runner":{"name":"lacp","active":true,"fast_rate":true,"tx_hash":["eth","ipv4"]}, "link_watch": {"name": "ethtool"}}'
-nmcli connection modify ext-con autoconnect yes ipv4.method auto ipv6.method auto
+nmcli connection add type bond con-name ext-con ifname ext-con mode 802.3ad
+nmcli con mod id ext-con bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
+
+nmcli con mod ext-con ipv4.method auto
+nmcli con mod ext-con ipv6.method auto
+nmcli con mod ext-con connection.autoconnect yes
 
 ct=0
 for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'`; do
     echo "$DEVICE"
     nmcli connection delete $DEVICE
-    nmcli con add type team-slave con-name ext-con-slave$ct ifname $DEVICE master ext-con
+    nmcli con add type bond-slave con-name ext-con-slave$ct ifname $DEVICE master ext-con
     ((ct++))
 done
 
