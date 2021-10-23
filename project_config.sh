@@ -113,12 +113,12 @@ export COMMON_NAME="$DOMAIN_NAME"
 ##  Adjust based on your system needs
 export RAM_PCT_AVAIL_CLOUD=96
 
-### UPS attachment
-## If physical server, does it contain a UPS system?  This can be monitored through PFSense to send alerts when power is on battery.
-export UPS_PRESENT=1
-## if UPS present, gather ids from lsusb to attach to pfsense KVM
-export VENDOR_ID='051d'
-export PRODUCT_ID='0002'
+#### UPS attachment
+### If physical server, does it contain a UPS system?  This can be monitored through PFSense to send alerts when power is on battery.
+#export UPS_PRESENT=1
+### if UPS present, gather ids from lsusb to attach to pfsense KVM
+#export VENDOR_ID='051d'
+#export PRODUCT_ID='0002'
 
 ### Cloudfoundry variables
 export CF_TCP_PORT_COUNT=10

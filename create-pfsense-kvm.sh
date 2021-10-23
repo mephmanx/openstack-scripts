@@ -176,28 +176,28 @@ virsh reboot pfsense
 sleep 120;
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense first reboot in progress, continuing to package install...."
 
-## attach USB UPS to pfsense for monitoring
-if [[ $UPS_PRESENT == 1 ]]; then
-  #### prepare usb ups device
-  # gather vendor and product id from lsusb if ups changes
-  ### maybe somehow detect?
-
-cat > /tmp/ups.xml <<EOF
-<hostdev mode='subsystem' type='usb' managed='yes'>
-  <source>
-    <vendor id='0x$VENDOR_ID'/>
-    <product id='0x$PRODUCT_ID'/>
-  </source>
-</hostdev>
-EOF
-
-  virsh attach-device pfsense /tmp/ups.xml --persistent
-fi
-#####
-
-### cleanup
-runuser -l root -c  "rm -rf /tmp/usb"
-#####
+### attach USB UPS to pfsense for monitoring
+#if [[ $UPS_PRESENT == 1 ]]; then
+#  #### prepare usb ups device
+#  # gather vendor and product id from lsusb if ups changes
+#  ### maybe somehow detect?
+#
+#cat > /tmp/ups.xml <<EOF
+#<hostdev mode='subsystem' type='usb' managed='yes'>
+#  <source>
+#    <vendor id='0x$VENDOR_ID'/>
+#    <product id='0x$PRODUCT_ID'/>
+#  </source>
+#</hostdev>
+#EOF
+#
+#  virsh attach-device pfsense /tmp/ups.xml --persistent
+#fi
+######
+#
+#### cleanup
+#runuser -l root -c  "rm -rf /tmp/usb"
+######
 
 HOWLONG=5 ## the number of characters
 UNIQUE_SUFFIX_PF=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
@@ -221,7 +221,7 @@ runuser -l root -c "cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub >> /root/.ssh/au
 HOWLONG=15 ## the number of characters
 root_pw=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
 
-telegram_notify_debug $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_pw"
+telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_pw"
 
 ### pfsense prep
 hypervisor_key_array=( $(echo $HYPERVISOR_KEY | fold -c250 ))
