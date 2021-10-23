@@ -67,13 +67,6 @@ dnf update -y
 
 dnf install -y cyrus-sasl-devel make libtool autoconf libtool-ltdl-devel openssl-devel libdb-devel tar gcc perl perl-devel wget vim rsyslog ipa-server ipa-server-dns
 
-#Disable root login in ssh and disable password login
-if [[ $HYPERVISOR_DEBUG == 0 ]]; then
-  sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
-  sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
-  /usr/sbin/service sshd restart
-fi
-
 runuser -l root -c 'cp /tmp/id_rsa.crt /etc/ipa/ca.crt'
 # Configure freeipa
 ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD -a $ADMIN_PASSWORD -n $DOMAIN_NAME -r $REALM_NAME --hostname $HOSTNAME --ip-address $IDENTITY_VIP --mkhomedir --setup-dns --auto-reverse --auto-forwarders --no-dnssec-validation --ntp-server=$NTP_SERVER -U -q
