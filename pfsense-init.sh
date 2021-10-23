@@ -42,7 +42,7 @@ set -x                             # tell sh to display commands before executio
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: Second init script running"
 
 ## kickoff cloud build
-ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-pfsense-kvm.sh;' &
+ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-identity-kvm.sh;' &
 ssh root@$LAN_CENTOS_IP 'cat /tmp/web_pid | kill -KILL' &
 
 ### install remaining packages here
