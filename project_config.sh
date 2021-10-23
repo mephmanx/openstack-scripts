@@ -37,11 +37,6 @@ export TROVE_INSTANCE_IMAGE=https://cloud-images.ubuntu.com/releases/bionic/rele
 ### image for trove DB's
 export TROVE_DB_IMAGE=https://tarballs.opendev.org/openstack/trove/images/trove-master-guest-ubuntu-bionic.qcow2
 
-## Administrator email.
-# This is CRITICAL as OpenVPN profile will be email there, this email will receive ALL critical install and system emails until changed,
-# This email will be used for Telegram auto register, will be used for LetsEncrypt, will be used for SNMP notifications, UPS alerts, and more.
-export ADMIN_EMAIL=administrator@$DOMAIN_NAME
-
 ## external global domain name
 export DOMAIN_NAME=lyonsgroup.local;
 
