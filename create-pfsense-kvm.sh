@@ -206,18 +206,6 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense first reboot in progres
 #runuser -l root -c  "rm -rf /tmp/usb"
 ######
 
-HOWLONG=5 ## the number of characters
-UNIQUE_SUFFIX_PF=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
-
-#### store suffix for future use
-cat > /tmp/pf_suffix <<EOF
-$UNIQUE_SUFFIX_PF
-EOF
-
-ssh-keygen -t rsa -b 4096 -C "pfsense" -N "" -f /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key <<<y 2>&1 >/dev/null
-
-runuser -l root -c "cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub >> /root/.ssh/authorized_keys"
-
 HOWLONG=15 ## the number of characters
 root_pw=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
 
@@ -247,9 +235,9 @@ telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_p
   sleep 120;
   echo "mkdir /root/.ssh";
   sleep 20;
-  echo "curl -o /root/.ssh/id_rsa.pub http://$LAN_CENTOS_IP:8000/id_rsa.pub";
+  echo "curl -o /root/.ssh/id_rsa.pub http://$LAN_CENTOS_IP:8000/pf_key.pub";
   sleep 30;
-  echo "curl -o /root/.ssh/id_rsa http://$LAN_CENTOS_IP:8000/id_rsa";
+  echo "curl -o /root/.ssh/id_rsa http://$LAN_CENTOS_IP:8000/pf_key";
   sleep 30;
   echo "chmod 600 /root/.ssh/*";
   sleep 10;

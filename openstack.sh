@@ -132,13 +132,18 @@ for part in `df | grep "VM-VOL" | awk '{print $6, " " }' | tr -d '/' | tr -d '\n
 done
 ############################
 
+#### build pfsense ssh key
+ssh-keygen -t rsa -b 4096 -C "pfsense" -N "" -f /tmp/pftransfer/pf_key <<<y 2>&1 >/dev/null
+runuser -l root -c "cat /tmp/pftransfer/pf_key.pub >> /root/.ssh/authorized_keys"
+#####
+
 ### start image hosting
 pwd=`pwd`
 mkdir /tmp/pftransfer
 cp /tmp/linux.iso /tmp/pftransfer
 ### copy pfsense files to folder for host
-cp /root/.ssh/id_rsa.pub /tmp/pftransfer
-cp /root/.ssh/id_rsa /tmp/pftransfer
+cp /tmp/pf_key.key.pub /tmp/pftransfer
+cp /tmp/pf_key.key /tmp/pftransfer
 cp /tmp/openstack-env.sh /tmp/pftransfer
 cp /tmp/openstack-scripts/pf_functions.sh /tmp/pftransfer
 cp /tmp/project_config.sh /tmp/pftransfer
