@@ -224,6 +224,11 @@ PFSENSE_INIT_FILE=`cat /tmp/openstack-scripts/pfsense-init.sh | base64 | tr -d '
 
 runuser -l root -c "cat /tmp/pf_key-${UNIQUE_SUFFIX_PF}.key.pub >> /root/.ssh/authorized_keys"
 
+HOWLONG=15 ## the number of characters
+root_pw=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+
+telegram_notify_debug $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_pw"
+
 ### pfsense prep
 hypervisor_key_array=( $(echo $HYPERVISOR_KEY | fold -c250 ))
 hypervisor_pub_array=( $(echo $HYPERVISOR_PUB_KEY | fold -c250 ))
