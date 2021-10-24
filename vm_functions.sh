@@ -296,7 +296,7 @@ req_extensions                                   = v3_ca
 
 ##About the system for the request. Ensure the CN = FQDN
 [ req_distinguished_name ]
-commonName                                    = centos.$DOMAIN_NAME
+commonName                                    = ca.$DOMAIN_NAME
 
 ##Extensions to add to a certificate request for how it will be used
 [ v3_ca ]
@@ -308,8 +308,8 @@ subjectAltName          = email:$ADMIN_EMAIL
 
 ##The other names your server may be connected to as
 [alt_names]
-DNS.1                                                 = centos
-DNS.2                                                 = centos.$DOMAIN_NAME
+DNS.1                                                 = ca
+DNS.2                                                 = ca.$DOMAIN_NAME
 DNS.3                                                 = *.$DOMAIN_NAME
 DNS.4                                                 = $IP
 EOF
@@ -321,7 +321,7 @@ EOF
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
   runuser -l root -c  "openssl req -new -x509 -days 7300 \
                         -key $cert_dir/id_rsa.key -out $cert_dir/id_rsa.crt \
-                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=centos.$DOMAIN_NAME' \
+                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=ca.$DOMAIN_NAME' \
                         -config $cert_dir/ca_conf.cnf"
 }
 
