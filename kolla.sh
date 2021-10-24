@@ -635,6 +635,9 @@ runuser -l stack -c  'bbl plan'
 
 sed -i 's/~> 1.16/1.40/g' /opt/stack/terraform/bbl-template.tf
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/terraform/bbl-template.tf
+sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/jumpbox-deployment/jumpbox.yml
+sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/bosh-deployment/bosh.yml
+
 
 length=$(wc -c </opt/stack/create-director.sh)
 if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-director.sh)" ]; then

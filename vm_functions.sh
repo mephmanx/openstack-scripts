@@ -329,6 +329,7 @@ function create_server_cert() {
     ca_pwd=$1
     cert_dir=$2
     cert_name=$3
+    host_name=$4
 
     runuser -l root -c  "touch $CERT_DIR/$cert_name.pass.key"
     runuser -l root -c  "touch $CERT_DIR/$cert_name.key"
@@ -346,7 +347,7 @@ req_extensions                                   = v3_vpn_server
 
 ##About the system for the request. Ensure the CN = FQDN
 [ req_distinguished_name ]
-commonName                                    = $cert_name.$COMMON_NAME
+commonName                                    = $host_name.$COMMON_NAME
 
 ##Extensions to add to a certificate request for how it will be used
 [ v3_vpn_server ]
@@ -358,8 +359,8 @@ subjectAltName          = @alt_vpn_server
 
 ##The other names your server may be connected to as
 [alt_vpn_server]
-DNS.1                                                 = $cert_name
-DNS.2                                                 = $cert_name.$COMMON_NAME
+DNS.1                                                 = $host_name
+DNS.2                                                 = $host_name.$COMMON_NAME
 DNS.3                                                 = *.$DOMAIN_NAME
 DNS.4                                                 = $IP
 EOF
