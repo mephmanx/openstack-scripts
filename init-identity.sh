@@ -69,7 +69,7 @@ dnf install -y cyrus-sasl-devel make libtool autoconf libtool-ltdl-devel openssl
 
 runuser -l root -c 'cp /tmp/id_rsa.crt /etc/ipa/ca.crt'
 # Configure freeipa
-runuser -l root -c "ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD -a $ADMIN_PASSWORD -n $DOMAIN_NAME -r $REALM_NAME --hostname $HOSTNAME --ip-address $IDENTITY_VIP --mkhomedir --setup-dns --auto-reverse --auto-forwarders --no-dnssec-validation --ntp-server=$NTP_SERVER -U -q"
+runuser -l root -c "ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD -a $ADMIN_PASSWORD -n $DOMAIN_NAME -r $REALM_NAME --ip-address $IDENTITY_VIP --mkhomedir --setup-dns --auto-reverse --auto-forwarders --no-dnssec-validation --ntp-server=$NTP_SERVER -U -q"
 #Create user on ipa WITHOUT A PASSWORD - we don't need one since we'll be using ssh key
 /usr/bin/ipa user-add --first=Firstname --last=Lastname ipauser
 SSH_KEY=`cat /root/.ssh/id_rsa.pub`
