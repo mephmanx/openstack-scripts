@@ -86,8 +86,8 @@ SSH_KEY=`cat /root/.ssh/id_rsa.pub`
 /usr/bin/ipa sudorule-add-option defaults --sudooption '!authenticate'
 
 ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;
-ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-cloudsupport-kvm.sh;' &
-ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-cloud-kvm.sh;' &
+#ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-cloudsupport-kvm.sh;' &
+#ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-cloud-kvm.sh;' &
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Identity VM ready for use"
 ##########################
