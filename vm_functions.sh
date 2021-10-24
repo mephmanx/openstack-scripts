@@ -369,7 +369,7 @@ EOF
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/$cert_name.pass.key -out $cert_dir/$cert_name.key"
   runuser -l root -c  "openssl req -new -key $cert_dir/$cert_name.key \
                           -out $cert_dir/$cert_name.csr \
-                          -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$cert_name.$DOMAIN_NAME' \
+                          -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$host_name.$DOMAIN_NAME' \
                           -config $cert_dir/$cert_name.cnf"
 
   runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
