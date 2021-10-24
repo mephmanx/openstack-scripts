@@ -43,7 +43,6 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: Second init scrip
 
 ## kickoff cloud build
 ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-identity-kvm.sh;' &
-ssh root@$LAN_CENTOS_IP 'cat /tmp/web_pid | kill -KILL' &
 
 ### install remaining packages here
 install_pkg "pfsense-pkg-openvpn-client-export" $TELEGRAM_API $TELEGRAM_CHAT_ID
