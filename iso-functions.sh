@@ -162,13 +162,13 @@ function buildAndPushOpenstackSetupISO {
 
   ############ certs to enable SSL on VNC
   echo 'cat > /tmp/haproxy.pem <<EOF' >> ${kickstart_file}
-  cat /root/.ssh/id_rsa.crt >> ${kickstart_file}
-  cat /root/.ssh/id_rsa.key >> ${kickstart_file}
+  cat /root/.ssh/wildcard.crt >> ${kickstart_file}
+  cat /root/.ssh/wildcard.key >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
 
   echo 'cat > /tmp/haproxy-internal.pem <<EOF' >> ${kickstart_file}
-  cat /root/.ssh/id_rsa.crt >> ${kickstart_file}
-  cat /root/.ssh/id_rsa.key >> ${kickstart_file}
+  cat /root/.ssh/wildcard.crt >> ${kickstart_file}
+  cat /root/.ssh/wildcard.key >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
 
   echo 'cat > /tmp/internal-ca.pem <<EOF' >> ${kickstart_file}
