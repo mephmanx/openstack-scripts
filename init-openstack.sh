@@ -111,7 +111,6 @@ create_ca_cert $NEWPW $CERT_DIR
 create_server_cert $NEWPW $CERT_DIR "cloud-vpn"
 
 ### initial wildcard cert
-## this will be replaced through letsencrypt process later.  should never be used
 create_server_cert $NEWPW $CERT_DIR "placeholder"
 
 ### generate osuser cert and key
