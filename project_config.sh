@@ -101,7 +101,6 @@ export STATE="PA"
 export LOCATION="Scranton"
 export ORGANIZATION="$DOMAIN_NAME"
 export OU="HQ"
-export COMMON_NAME="$DOMAIN_NAME"
 
 ### Infrastructure tuning params
 ## These control various build infrastructure decisions on machine size.

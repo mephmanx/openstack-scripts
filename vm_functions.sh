@@ -296,7 +296,7 @@ req_extensions                                   = v3_ca
 
 ##About the system for the request. Ensure the CN = FQDN
 [ req_distinguished_name ]
-commonName                                    = centos.$COMMON_NAME
+commonName                                    = centos.$DOMAIN_NAME
 
 ##Extensions to add to a certificate request for how it will be used
 [ v3_ca ]
@@ -309,7 +309,7 @@ subjectAltName          = email:$ADMIN_EMAIL
 ##The other names your server may be connected to as
 [alt_names]
 DNS.1                                                 = centos
-DNS.2                                                 = centos.$COMMON_NAME
+DNS.2                                                 = centos.$DOMAIN_NAME
 DNS.3                                                 = *.$DOMAIN_NAME
 DNS.4                                                 = $IP
 EOF
@@ -321,7 +321,7 @@ EOF
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
   runuser -l root -c  "openssl req -new -x509 -days 7300 \
                         -key $cert_dir/id_rsa.key -out $cert_dir/id_rsa.crt \
-                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=centos.$COMMON_NAME' \
+                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=centos.$DOMAIN_NAME' \
                         -config $cert_dir/ca_conf.cnf"
 }
 
@@ -347,7 +347,7 @@ req_extensions                                   = v3_vpn_server
 
 ##About the system for the request. Ensure the CN = FQDN
 [ req_distinguished_name ]
-commonName                                    = $host_name.$COMMON_NAME
+commonName                                    = $host_name.$DOMAIN_NAME
 
 ##Extensions to add to a certificate request for how it will be used
 [ v3_vpn_server ]
@@ -360,7 +360,7 @@ subjectAltName          = @alt_vpn_server
 ##The other names your server may be connected to as
 [alt_vpn_server]
 DNS.1                                                 = $host_name
-DNS.2                                                 = $host_name.$COMMON_NAME
+DNS.2                                                 = $host_name.$DOMAIN_NAME
 DNS.3                                                 = *.$DOMAIN_NAME
 DNS.4                                                 = $IP
 EOF
@@ -369,7 +369,7 @@ EOF
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/$cert_name.pass.key -out $cert_dir/$cert_name.key"
   runuser -l root -c  "openssl req -new -key $cert_dir/$cert_name.key \
                           -out $cert_dir/$cert_name.csr \
-                          -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$cert_name.$COMMON_NAME' \
+                          -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$cert_name.$DOMAIN_NAME' \
                           -config $cert_dir/$cert_name.cnf"
 
   runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
@@ -397,7 +397,7 @@ function create_user_cert() {
   runuser -l root -c  "openssl rsa -passin pass:$NEWPW -in $CERT_DIR/$user_name.pass.key -out $CERT_DIR/$user_name.key"
   runuser -l root -c  "openssl req -new -key $CERT_DIR/$user_name.key \
                         -out $CERT_DIR/$user_name.csr \
-                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$user_name.$COMMON_NAME'"
+                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$user_name.$DOMAIN_NAME'"
 
   runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
                         -in $CERT_DIR/$user_name.csr -CA $CERT_DIR/id_rsa.crt \
