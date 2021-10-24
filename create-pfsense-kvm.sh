@@ -62,8 +62,8 @@ VPN_KEY=`cat /root/.ssh/cloud-vpn.key | base64 | tr -d '\n\r'`
 OSUSER_CRT=`cat /root/.ssh/osuser.crt | base64 | tr -d '\n\r'`
 OSUSER_KEY=`cat /root/.ssh/osuser.key | base64 | tr -d '\n\r'`
 
-INITIAL_WILDCARD_CRT=`cat /root/.ssh/placeholder.crt | base64 | tr -d '\n\r'`
-INITIAL_WILDCARD_KEY=`cat /root/.ssh/placeholder.key | base64 | tr -d '\n\r'`
+INITIAL_WILDCARD_CRT=`cat /root/.ssh/wildcard.crt | base64 | tr -d '\n\r'`
+INITIAL_WILDCARD_KEY=`cat /root/.ssh/wildcard.key | base64 | tr -d '\n\r'`
 
 OPEN_VPN_TLS_KEY=`cat /root/.ssh/openvpn-secret.key | base64 | tr -d '\n\r'`
 #########

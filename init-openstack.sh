@@ -111,7 +111,7 @@ create_ca_cert $NEWPW $CERT_DIR
 create_server_cert $NEWPW $CERT_DIR "cloud-vpn"
 
 ### initial wildcard cert
-create_server_cert $NEWPW $CERT_DIR "placeholder"
+create_server_cert $NEWPW $CERT_DIR "wildcard" "*"
 
 ### generate osuser cert and key
 create_user_cert $NEWPW $CERT_DIR "osuser"
