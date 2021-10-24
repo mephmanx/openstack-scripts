@@ -1066,8 +1066,8 @@
 	<cert>
 		<refid>60ec35a6053df</refid>
 		<descr><![CDATA[{DOMAIN_NAME}-external-wildcard]]></descr>
-		<prv>{INITIAL_WILDCARD_CRT}</prv>
-		<crt>{INITIAL_WILDCARD_KEY}</crt>
+		<prv>{INITIAL_WILDCARD_KEY}</prv>
+		<crt>{INITIAL_WILDCARD_CRT}</crt>
 	</cert>
 	<cert>
 		<refid>60ed830f42e09</refid>
