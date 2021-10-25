@@ -75,6 +75,15 @@ OPEN_VPN_TLS_KEY=`cat /root/.ssh/openvpn-secret.key | base64 | tr -d '\n\r'`
 CF_TCP_START_PORT=1024
 CF_TCP_END_PORT=$(($CF_TCP_START_PORT + $CF_TCP_PORT_COUNT))
 
+DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+if [[ $DISK_COUNT -lt 2 ]]; then
+  size_avail=`df /VM-VOL-ALL | awk '{print $2}' | sed 1d`
+  DRIVE_SIZE=$(($((size_avail * 5/100)) / 1024 / 1024))
+else
+  size_avail=`df /VM-VOL-MISC | awk '{print $2}' | sed 1d`
+  DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
+fi
+
 ##### replace PFSense template vars
 sed -i 's/{CF_TCP_START_PORT}/'$CF_TCP_START_PORT'/g' /tmp/usb/config.xml
 sed -i 's/{CF_TCP_END_PORT}/'$CF_TCP_END_PORT'/g' /tmp/usb/config.xml
@@ -116,18 +125,10 @@ sed -i 's/{OPEN_VPN_TLS_KEY}/'$OPEN_VPN_TLS_KEY'/g' /tmp/usb/config.xml
 #sed -i 's/{ADMIN_EMAIL}/'$ADMIN_EMAIL'/g' /tmp/usb/config.xml
 sed -i 's/{CLOUDFOUNDRY_VIP}/'$CLOUDFOUNDRY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' /tmp/usb/config.xml
+sed -i 's/{CACHE_SIZE}/'$(($DRIVE_SIZE * 75/100))'/g' /tmp/usb/config.xml
 #######
 
 runuser -l root -c  'umount /tmp/usb'
-
-DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
-if [[ $DISK_COUNT -lt 2 ]]; then
-  size_avail=`df /VM-VOL-ALL | awk '{print $2}' | sed 1d`
-  DRIVE_SIZE=$(($((size_avail * 5/100)) / 1024 / 1024))
-else
-  size_avail=`df /VM-VOL-MISC | awk '{print $2}' | sed 1d`
-  DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
-fi
 
 create_line="virt-install "
 create_line+="--hvm "

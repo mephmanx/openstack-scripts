@@ -4791,7 +4791,7 @@
 				<donotcache>LmdpdGh1Yi5jb20NCi5naXRodWJ1c2VyY29udGVudC5jb20NCi5kb2NrZXIuaW8NCi5yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tDQouaHViLmRvY2tlci5jb20NCi5oYXNoaWNvcnAuY29tDQouYW1hem9uYXdzLmNvbQ==</donotcache>
 				<enable_offline></enable_offline>
 				<ext_cachemanager></ext_cachemanager>
-				<harddisk_cache_size>20000</harddisk_cache_size>
+				<harddisk_cache_size>{CACHE_SIZE}</harddisk_cache_size>
 				<harddisk_cache_system>diskd</harddisk_cache_system>
 				<level1_subdirs>16</level1_subdirs>
 				<harddisk_cache_location>/var/squid/cache</harddisk_cache_location>
