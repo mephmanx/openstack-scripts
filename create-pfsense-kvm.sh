@@ -44,6 +44,8 @@ cp -nf /tmp/openstack-env.sh /tmp/pftransfer
 cp -nf /tmp/openstack-scripts/pf_functions.sh /tmp/pftransfer
 cp -nf /tmp/project_config.sh /tmp/pftransfer
 cp -nf /tmp/openstack-scripts/pfsense-init.sh /tmp/pftransfer
+cp -nf /root/.ssh/wildcard.crt /tmp/pftransfer
+cp -nf /root/.ssh/wildcard.key /tmp/pftransfer
 ##################
 
 ## generate OpenVPN TLS secret key
@@ -221,6 +223,10 @@ telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_p
   echo "curl -o /root/.ssh/id_rsa.pub http://$LAN_CENTOS_IP:8000/pf_key.pub > /dev/null";
   sleep 30;
   echo "curl -o /root/.ssh/id_rsa http://$LAN_CENTOS_IP:8000/pf_key > /dev/null";
+  sleep 30;
+  echo "curl -o /root/wildcard.crt http://$LAN_CENTOS_IP:8000/wildcard.crt > /dev/null";
+  sleep 30;
+  echo "curl -o /root/wildcard.key http://$LAN_CENTOS_IP:8000/wildcard.key > /dev/null";
   sleep 30;
   echo "chmod 600 /root/.ssh/*";
   sleep 10;
