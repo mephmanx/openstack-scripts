@@ -4699,7 +4699,7 @@
 			<email_level><![CDATA[err]]></email_level>
 			<email_myhostname><![CDATA[pfsense-external]]></email_myhostname>
 			<email_from><![CDATA[pfsense-external@{DOMAIN_NAME}]]></email_from>
-			<email_to><![CDATA[{ADMIN_EMAIL}]]></email_to>
+			<email_to><![CDATA[]]></email_to>
 			<resolver_retries></resolver_retries>
 			<resolver_timeoutretry></resolver_timeoutretry>
 			<resolver_holdvalid></resolver_holdvalid>
@@ -4845,7 +4845,7 @@
 				<log_rotate>3</log_rotate>
 				<log_sqd></log_sqd>
 				<visible_hostname>{DOMAIN_NAME}</visible_hostname>
-				<admin_email>{ADMIN_EMAIL}</admin_email>
+				<admin_email></admin_email>
 				<error_language>en</error_language>
 				<xforward_mode>on</xforward_mode>
 				<disable_via></disable_via>
