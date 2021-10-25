@@ -38,7 +38,7 @@ export TROVE_INSTANCE_IMAGE=https://cloud-images.ubuntu.com/releases/bionic/rele
 export TROVE_DB_IMAGE=https://tarballs.opendev.org/openstack/trove/images/trove-master-guest-ubuntu-bionic.qcow2
 
 ## domain name
-export DOMAIN_NAME=lyonsgroup.local;
+export DOMAIN_NAME=lan.lyonsgroup.family;
 
 ### hostname for harbor install
 export SUPPORT_HOST=harbor;
