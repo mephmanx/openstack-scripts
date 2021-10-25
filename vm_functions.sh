@@ -264,7 +264,7 @@ rm -rf /tmp/vm_functions.sh
 rm -rf /tmp/type
 rm -rf /tmp/server_cleanup.sh
 EOF
-  chmod 700 /tmp/server_cleanup.sh
+  chmod +x /tmp/server_cleanup.sh
   for i in `cat $file`
   do
     echo "cleanup server $i"

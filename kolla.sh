@@ -23,7 +23,7 @@ EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME"
 
 ############ add keys
 working_dir=`pwd`
-chmod 700 /tmp/host-trust.sh
+chmod +x /tmp/host-trust.sh
 runuser -l root -c  'cd /tmp; ./host-trust.sh'
 cd $working_dir
 
@@ -198,7 +198,7 @@ while [ "$ct" != $host_count ]; do
 
   ############ add keys
   working_dir=`pwd`
-  chmod 700 /tmp/host-trust.sh
+  chmod +x /tmp/host-trust.sh
   runuser -l root -c  'cd /tmp; ./host-trust.sh'
   cd $working_dir
 
@@ -346,7 +346,7 @@ telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "End of Openstack Install log
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Kolla Ansible deploy task execution complete.  Performing post install tasks....."
 #stupid hack
 working_dir=`pwd`
-chmod 700 /tmp/control-trust.sh
+chmod +x /tmp/control-trust.sh
 runuser -l root -c  'cd /tmp; ./control-trust.sh'
 cd $working_dir
 rm -rf /tmp/control-trust.sh
@@ -563,7 +563,7 @@ runuser -l root -c "ssh root@monitoring01 'docker restart grafana'"
 runuser -l root -c  'yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils'
 git clone https://opendev.org/openstack/octavia -b master /tmp/octavia
 pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org diskimage-builder
-chmod 700 /tmp/octavia/diskimage-create/diskimage-create.sh
+chmod +x /tmp/octavia/diskimage-create/diskimage-create.sh
 chown -R stack /tmp/octavia/diskimage-create/diskimage-create.sh
 runuser -l root -c  'source /opt/stack/venv/bin/activate; cd /tmp/octavia/diskimage-create; ./diskimage-create.sh'
 
@@ -674,7 +674,7 @@ cd cf-deployment-tf
 cp /tmp/terraform_0.11.15_linux_amd64.zip ./
 
 unzip terraform_0.11.15_linux_amd64.zip
-chmod 700 terraform
+chmod +x terraform
 chown -R stack terraform
 
 sed -i '/provider "openstack" {/a use_octavia   = true' ./cf.tf
@@ -771,14 +771,14 @@ runuser -l stack -c  "source /opt/stack/.bash_profile"
 
 ## pull latest bionic image
 runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                      chmod 700 /tmp/bbl_env.sh; \
+                      chmod +x /tmp/bbl_env.sh; \
                       source /tmp/bbl_env.sh; \
                       bosh upload-stemcell https://storage.googleapis.com/bosh-core-stemcells/1.31/bosh-stemcell-1.31-openstack-kvm-ubuntu-bionic-go_agent.tgz"
 
 ## pull latest trusty imge
 
 runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                      chmod 700 /tmp/bbl_env.sh; \
+                      chmod +x /tmp/bbl_env.sh; \
                       source /tmp/bbl_env.sh; \
                       bosh upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/3586.100/bosh-stemcell-3586.100-openstack-kvm-ubuntu-trusty-go_agent.tgz"
 
@@ -786,7 +786,7 @@ runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.
 runuser -l stack -c  "bosh interpolate /tmp/cf-deployment/cf-deployment.yml --path=/stemcells/alias=default/version > /opt/stack/stemcell_version"
 
 runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                      chmod 700 /tmp/bbl_env.sh; \
+                      chmod +x /tmp/bbl_env.sh; \
                       source /tmp/bbl_env.sh; \
                       bosh upload-stemcell https://bosh-core-stemcells.s3-accelerate.amazonaws.com/`cat /opt/stack/stemcell_version`/bosh-stemcell-`cat /opt/stack/stemcell_version`-openstack-kvm-ubuntu-xenial-go_agent.tgz"
 
@@ -817,13 +817,13 @@ export CF_NET_ID_1=`openstack network list --project cloudfoundry --name cf-z0 |
 ## modify net id's if AZ's added to terraform script above for HA
 runuser -l stack -c  "cd /opt/stack; \
                       bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                      chmod 700 /tmp/bbl_env.sh; \
+                      chmod +x /tmp/bbl_env.sh; \
                       source /tmp/bbl_env.sh; \
                       bosh update-runtime-config /opt/stack/bosh-deployment/runtime-configs/dns.yml --name dns -n"
 
 runuser -l stack -c  "cd /opt/stack; \
                       bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                      chmod 700 /tmp/bbl_env.sh; \
+                      chmod +x /tmp/bbl_env.sh; \
                       source /tmp/bbl_env.sh; \
                       bosh update-cloud-config  -v availability_zone1=nova \
                           -v availability_zone2=nova \
@@ -853,7 +853,7 @@ if [[ $error_count -gt 0 ]]; then
     rm -rf /tmp/cloudfoundry-install.log
     runuser -l stack -c  "cd /opt/stack; \
                       bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                      chmod 700 /tmp/bbl_env.sh; \
+                      chmod +x /tmp/bbl_env.sh; \
                       source /tmp/bbl_env.sh; \
                       bosh -d cf deploy -o /tmp/cf-deployment/operations/use-external-blobstore.yml \
                       -o /tmp/cf-deployment/operations/use-swift-blobstore.yml \
