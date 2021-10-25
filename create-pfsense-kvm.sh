@@ -102,12 +102,6 @@ sed -i 's/{APP_INTERNAL_HOSTNAME}/'$APP_INTERNAL_HOSTNAME'/g' /tmp/usb/config.xm
 sed -i 's/{APP_EXTERNAL_HOSTNAME}/'$APP_EXTERNAL_HOSTNAME'/g' /tmp/usb/config.xml
 sed -i 's/{NETWORK_PREFIX}/'$NETWORK_PREFIX'/g' /tmp/usb/config.xml
 sed -i 's/{OPENVPN_CERT_PWD}/'$ADMIN_PWD'/g' /tmp/usb/config.xml
-#sed -i 's/{GODADDY_ACCOUNT}/'$GODADDY_ACCOUNT'/g' /tmp/usb/config.xml
-#sed -i 's/{GODADDY_KEY}/'$GODADDY_KEY'/g' /tmp/usb/config.xml
-#sed -i 's/{GODADDY_KEY_BASE64}/'$GODADDY_KEY_BASE64'/g' /tmp/usb/config.xml
-#sed -i 's/{SMTP_ACCOUNT}/'$SMTP_ACCOUNT'/g' /tmp/usb/config.xml
-#sed -i 's/{SMTP_KEY}/'$SMTP_KEY'/g' /tmp/usb/config.xml
-#sed -i 's/{SMTP_ADDRESS}/'$SMTP_ADDRESS'/g' /tmp/usb/config.xml
 sed -i 's/{TELEGRAM_API}/'$TELEGRAM_API'/g' /tmp/usb/config.xml
 sed -i 's/{TELEGRAM_CHAT_ID}/'$TELEGRAM_CHAT_ID'/g' /tmp/usb/config.xml
 sed -i 's/{OINKMASTER}/'$OINKMASTER'/g' /tmp/usb/config.xml
@@ -122,7 +116,6 @@ sed -i 's/{OSUSER_KEY}/'$OSUSER_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{INITIAL_WILDCARD_CRT}/'$INITIAL_WILDCARD_CRT'/g' /tmp/usb/config.xml
 sed -i 's/{INITIAL_WILDCARD_KEY}/'$INITIAL_WILDCARD_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{OPEN_VPN_TLS_KEY}/'$OPEN_VPN_TLS_KEY'/g' /tmp/usb/config.xml
-#sed -i 's/{ADMIN_EMAIL}/'$ADMIN_EMAIL'/g' /tmp/usb/config.xml
 sed -i 's/{CLOUDFOUNDRY_VIP}/'$CLOUDFOUNDRY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{CACHE_SIZE}/'$(($DRIVE_SIZE * 75/100))'/g' /tmp/usb/config.xml

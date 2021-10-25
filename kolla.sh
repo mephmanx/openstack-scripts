@@ -556,6 +556,9 @@ runuser -l root -c "ssh root@monitoring01 'docker exec grafana grafana-cli plugi
 runuser -l root -c "ssh root@monitoring01 'docker restart grafana'"
 ####
 
+### enable haproxy (and any others) to log to monitoring01:5190
+### <remotesyslog>monitoring01:5190</remotesyslog>
+
 ############# build octavia image
 runuser -l root -c  'yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils'
 git clone https://opendev.org/openstack/octavia -b master /tmp/octavia
