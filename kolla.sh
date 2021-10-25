@@ -637,7 +637,10 @@ sed -i 's/~> 1.16/1.40/g' /opt/stack/terraform/bbl-template.tf
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/terraform/bbl-template.tf
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/jumpbox-deployment/jumpbox.yml
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/bosh-deployment/bosh.yml
+sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/cloud-config/ops.yml
 
+### add internal ca to bosh.yml
+sed -i "s//$GATEWAY_ROUTER_IP/g" /opt/stack/bosh-deployment/bosh.yml
 
 length=$(wc -c </opt/stack/create-director.sh)
 if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-director.sh)" ]; then
@@ -651,8 +654,11 @@ if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-jumpbox.sh)" ]; 
   dd if=/dev/null of=/opt/stack/create-jumpbox.sh obs="$((length-1))" seek=1
 fi
 
-echo " -o  \${BBL_STATE_DIR}/bosh-deployment/misc/dns.yml  -v internal_dns=$GATEWAY_ROUTER_IP" >> create-director.sh
-echo " -o  \${BBL_STATE_DIR}/bosh-deployment/misc/dns.yml  -v internal_dns=$GATEWAY_ROUTER_IP" >> create-jumpbox.sh
+echo " -o  \${BBL_STATE_DIR}/bosh-deployment/misc/dns.yml  -v internal_dns=$GATEWAY_ROUTER_IP \\" >> create-director.sh
+echo " -o  \${BBL_STATE_DIR}/bosh-deployment/misc/dns.yml  -v internal_dns=$GATEWAY_ROUTER_IP \\" >> create-jumpbox.sh
+
+echo " -o  \${BBL_STATE_DIR}/bosh-deployment/openstack/custom-ca.yml  -v openstack_ca_cert=/tmp/internal-ca.pem" >> create-director.sh
+echo " -o  \${BBL_STATE_DIR}/bosh-deployment/openstack/custom-ca.yml  -v openstack_ca_cert=/tmp/internal-ca.pem" >> create-jumpbox.sh
 
 runuser -l stack -c  'bbl up --debug'
 
