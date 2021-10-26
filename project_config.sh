@@ -99,7 +99,7 @@ export LINUX_AUTOUPDATE=1
 export COUNTRY="US"
 export STATE="PA"
 export LOCATION="Scranton"
-export ORGANIZATION="$DOMAIN_NAME"
+export ORGANIZATION="LyonsGroup-Cloud"
 export OU="HQ"
 
 ### Infrastructure tuning params
