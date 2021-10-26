@@ -447,7 +447,7 @@ cat > /tmp/cpu_count.sh <<EOF
 grep -c ^processor /proc/cpuinfo
 EOF
 scp /tmp/cpu_count.sh root@compute01:/tmp
-CPU_COUNT=`runuser -l root -c "ssh root@compute01 'chmod 777 /tmp/cpu_count.sh; cd /tmp; ./cpu_count.sh'"`
+CPU_COUNT=`runuser -l root -c "ssh root@compute01 'chmod +x /tmp/cpu_count.sh; cd /tmp; ./cpu_count.sh'"`
 
 ## get cinder volume size
 cinder_vol_size="`runuser -l root -c "ssh root@compute01 'df -h / --block-size G' | sed 1d"`"
@@ -551,7 +551,7 @@ docker run -d -v /root/logstash-docker/etc/logstash/config:/usr/share/logstash/c
 EOF
 
 scp /tmp/monitoring01-logstash.sh root@monitoring01:/tmp
-runuser -l root -c "ssh root@monitoring01 'chmod 777 /tmp/monitoring01-logstash.sh; cd /tmp; ./monitoring01-logstash.sh'"
+runuser -l root -c "ssh root@monitoring01 'chmod +x /tmp/monitoring01-logstash.sh; cd /tmp; ./monitoring01-logstash.sh'"
 runuser -l root -c "ssh root@monitoring01 'docker exec grafana grafana-cli plugins install grafana-worldmap-panel'"
 runuser -l root -c "ssh root@monitoring01 'docker restart grafana'"
 ####
