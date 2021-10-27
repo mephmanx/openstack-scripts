@@ -86,12 +86,6 @@ cp -r /opt/stack/venv/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
 cp /opt/stack/venv/share/kolla-ansible/ansible/inventory/* /etc/kolla
 
 mkdir -p /var/lib/kolla/config_files
-mkdir /etc/kolla/certificates
-mkdir /etc/kolla/certificates/ca
-cp /tmp/*.pem /etc/kolla/certificates
-cp /tmp/internal-ca.pem /etc/kolla/certificates/ca/internal-ca.pem
-cp /tmp/id_rsa.crt /opt/stack
-chown -R stack /opt/stack/id_rsa.crt
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Loading Openstack Kolla deployment playbook and performing env customization...."
 cp /tmp/globals.yml /etc/kolla/globals.yml
