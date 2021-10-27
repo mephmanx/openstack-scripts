@@ -647,30 +647,6 @@ sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/jumpbox-deployment/jumpbox.ym
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/bosh-deployment/bosh.yml
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/cloud-config/ops.yml
 
-cp /opt/stack/create-director.sh /opt/stack/create-director-override.sh
-cp /opt/stack/create-jumpbox.sh /opt/stack/create-jumpbox-override.sh
-
-chown -R stack /opt/stack/create-director-override.sh
-chown -R stack /opt/stack/create-jumpbox-override.sh
-
-length=$(wc -c </opt/stack/create-director-override.sh)
-if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-director-override.sh)" ]; then
-  # The file ends with a newline or null
-  dd if=/dev/null of=/opt/stack/create-director-override.sh obs="$((length-1))" seek=1
-fi
-
-length=$(wc -c </opt/stack/create-jumpbox-override.sh)
-if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-jumpbox-override.sh)" ]; then
-  # The file ends with a newline or null
-  dd if=/dev/null of=/opt/stack/create-jumpbox-override.sh obs="$((length-1))" seek=1
-fi
-
-echo " -o  \${BBL_STATE_DIR}/bosh-deployment/misc/dns.yml  -v internal_dns=$GATEWAY_ROUTER_IP \\" >> create-director-override.sh
-echo " -o  \${BBL_STATE_DIR}/bosh-deployment/misc/dns.yml  -v internal_dns=$GATEWAY_ROUTER_IP \\" >> create-jumpbox-override.sh
-
-echo " -o  \${BBL_STATE_DIR}/bosh-deployment/openstack/custom-ca.yml  -v openstack_ca_cert=/opt/stack/id_rsa.crt" >> create-director-override.sh
-echo " -o  \${BBL_STATE_DIR}/bosh-deployment/openstack/custom-ca.yml  -v openstack_ca_cert=/opt/stack/id_rsa.crt" >> create-jumpbox-override.sh
-
 runuser -l stack -c  'bbl up --debug'
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed, loading terraform 0.11.15 for prepare script..."
