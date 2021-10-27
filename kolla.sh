@@ -625,7 +625,7 @@ runuser -l stack -c  "echo 'export BBL_OPENSTACK_DOMAIN=default' >> /opt/stack/.
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_REGION=us-east' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_CACERT_FILE=/opt/stack/id_rsa.crt' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_DNS_NAME_SERVERS=$GATEWAY_ROUTER_IP' >> /opt/stack/.bash_profile"
-runuser -l stack -c  "echo 'export BBL_OPENSTACK_INSECURE=false' >> /opt/stack/.bash_profile"
+runuser -l stack -c  "echo 'export BBL_OPENSTACK_INSECURE=true' >> /opt/stack/.bash_profile"
 
 runuser -l stack -c  "echo 'export OS_PROJECT_DOMAIN_NAME=$OS_PROJECT_DOMAIN_NAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_USER_DOMAIN_NAME=$OS_USER_DOMAIN_NAME' >> /opt/stack/.bash_profile"
@@ -668,8 +668,8 @@ fi
 echo " -o  \${BBL_STATE_DIR}/bosh-deployment/misc/dns.yml  -v internal_dns=$GATEWAY_ROUTER_IP \\" >> create-director-override.sh
 echo " -o  \${BBL_STATE_DIR}/bosh-deployment/misc/dns.yml  -v internal_dns=$GATEWAY_ROUTER_IP \\" >> create-jumpbox-override.sh
 
-echo " -o  \${BBL_STATE_DIR}/bosh-deployment/openstack/custom-ca.yml  -v openstack_ca_cert=/tmp/id_rsa.crt" >> create-director-override.sh
-echo " -o  \${BBL_STATE_DIR}/bosh-deployment/openstack/custom-ca.yml  -v openstack_ca_cert=/tmp/id_rsa.crt" >> create-jumpbox-override.sh
+echo " -o  \${BBL_STATE_DIR}/bosh-deployment/openstack/custom-ca.yml  -v openstack_ca_cert=/opt/stack/id_rsa.crt" >> create-director-override.sh
+echo " -o  \${BBL_STATE_DIR}/bosh-deployment/openstack/custom-ca.yml  -v openstack_ca_cert=/opt/stack/id_rsa.crt" >> create-jumpbox-override.sh
 
 runuser -l stack -c  'bbl up --debug'
 
