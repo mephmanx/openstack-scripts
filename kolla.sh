@@ -650,6 +650,9 @@ sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/cloud-config/ops.yml
 cp /opt/stack/create-director.sh /opt/stack/create-director-override.sh
 cp /opt/stack/create-jumpbox.sh /opt/stack/create-jumpbox-override.sh
 
+chown -R stack /opt/stack/create-director-override.sh
+chown -R stack /opt/stack/create-jumpbox-override.sh
+
 length=$(wc -c </opt/stack/create-director-override.sh)
 if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-director-override.sh)" ]; then
   # The file ends with a newline or null
