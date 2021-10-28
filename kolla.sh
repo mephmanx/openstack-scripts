@@ -618,6 +618,7 @@ runuser -l stack -c  "echo 'export BBL_OPENSTACK_PROJECT=cloudfoundry' >> /opt/s
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_DOMAIN=default' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_REGION=us-east' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_DNS_NAME_SERVERS=$GATEWAY_ROUTER_IP' >> /opt/stack/.bash_profile"
+runuser -l stack -c  "echo 'export BBL_OPENSTACK_INSECURE=true' >> /opt/stack/.bash_profile"
 
 runuser -l stack -c  "echo 'export OS_PROJECT_DOMAIN_NAME=$OS_PROJECT_DOMAIN_NAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_USER_DOMAIN_NAME=$OS_USER_DOMAIN_NAME' >> /opt/stack/.bash_profile"
