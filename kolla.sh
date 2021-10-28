@@ -86,12 +86,6 @@ cp -r /opt/stack/venv/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
 cp /opt/stack/venv/share/kolla-ansible/ansible/inventory/* /etc/kolla
 
 mkdir -p /var/lib/kolla/config_files
-mkdir /etc/kolla/certificates
-mkdir /etc/kolla/certificates/ca
-cp /tmp/*.pem /etc/kolla/certificates
-cp /tmp/internal-ca.pem /etc/kolla/certificates/ca/internal-ca.pem
-cp /tmp/id_rsa.crt /opt/stack
-chown -R stack /opt/stack/id_rsa.crt
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Loading Openstack Kolla deployment playbook and performing env customization...."
 cp /tmp/globals.yml /etc/kolla/globals.yml
@@ -623,7 +617,6 @@ runuser -l stack -c  "echo 'export BBL_OPENSTACK_USERNAME=$OPENSTACK_CLOUDFOUNDR
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_PROJECT=cloudfoundry' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_DOMAIN=default' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_REGION=us-east' >> /opt/stack/.bash_profile"
-runuser -l stack -c  "echo 'export BBL_OPENSTACK_CACERT_FILE=/opt/stack/id_rsa.crt' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_DNS_NAME_SERVERS=$GATEWAY_ROUTER_IP' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_INSECURE=true' >> /opt/stack/.bash_profile"
 
