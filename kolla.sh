@@ -87,7 +87,7 @@ cp /opt/stack/venv/share/kolla-ansible/ansible/inventory/* /etc/kolla
 mkdir /etc/kolla/certificates
 mkdir /etc/kolla/certificates/ca
 cp /tmp/*.pem /etc/kolla/certificates
-cp /tmp/internal-ca.pem /etc/kolla/certificates/ca/internal-ca.pem
+cp /tmp/id_rsa.crt /etc/kolla/certificates/ca/id_rsa.crt
 cp /tmp/id_rsa.crt /opt/stack
 chown -R stack /opt/stack/id_rsa.crt
 
