@@ -643,7 +643,7 @@ runuser -l stack -c  "echo 'export OS_CACERT=/opt/stack/id_rsa.crt' >> /opt/stac
 runuser -l stack -c  'bbl plan'
 
 sed -i 's/~> 1.16/1.40/g' /opt/stack/terraform/bbl-template.tf
-sed -i 's/${var.cacert_file}/\/tmp\/id_rsa.crt/g' /opt/stack/terraform/bbl-template.tf
+sed -i 's/${var.cacert_file}/\/opt\/stack\/id_rsa.crt/g' /opt/stack/terraform/bbl-template.tf
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/terraform/bbl-template.tf
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/jumpbox-deployment/jumpbox.yml
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/bosh-deployment/bosh.yml
