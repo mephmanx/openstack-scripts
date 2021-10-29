@@ -649,7 +649,7 @@ sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/terraform/bbl-template.tf
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/jumpbox-deployment/jumpbox.yml
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/bosh-deployment/bosh.yml
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/cloud-config/ops.yml
-sed -i "s/username: ((openstack_username))/aca_cert: \/opt\/stack\/id_rsa.crt/g" /opt/stack/bosh-deployment/openstack/cpi.yml
+sed -i "s/username: ((openstack_username))/a ca_cert: \/opt\/stack\/id_rsa.crt/g" /opt/stack/bosh-deployment/openstack/cpi.yml
 
 runuser -l stack -c  'bbl up --debug'
 
