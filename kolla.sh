@@ -649,14 +649,13 @@ sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/bosh-deployment/bosh.yml
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/cloud-config/ops.yml
 
 cat > /opt/stack/trusted-certs.vars.yml <<EOF
-# trusted-certs.vars.yml
-trusted_certs: |
+trusted_certs: |-
 EOF
 
+sed -i 's/^/  /' /opt/stack/trusted-certs.vars.yml
 cat /opt/stack/id_rsa.crt >> /opt/stack/trusted-certs.vars.yml
 
 cat > /opt/stack/add-trusted-certs-to-director-vm.ops.yml <<EOF
-# add-trusted-certs-to-director-vm.ops.yml
 - type: replace
   path: /releases/name=os-conf?
   value:
@@ -692,9 +691,14 @@ if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-jumpbox-override
   dd if=/dev/null of=/opt/stack/create-jumpbox-override.sh obs="$((length-1))" seek=1
 fi
 
+### modify director / jumpbox override here
 echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml" >> create-director-override.sh
 
+####
+
+### deploy bosh!
 runuser -l stack -c  'bbl up --debug'
+#####
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed, loading terraform 0.11.15 for prepare script..."
 #### prepare env for cloudfoundry
