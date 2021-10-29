@@ -643,15 +643,51 @@ runuser -l stack -c  "echo 'export OS_CACERT=/opt/stack/id_rsa.crt' >> /opt/stac
 runuser -l stack -c  'bbl plan'
 
 sed -i 's/~> 1.16/1.40/g' /opt/stack/terraform/bbl-template.tf
-sed -i 's/${var.cacert_file}/\/opt\/stack\/id_rsa.crt/g' /opt/stack/terraform/bbl-template.tf
-sed -i 's/default = ""/default = "\/opt\/stack\/id_rsa.crt"/g' /opt/stack/terraform/bbl-template.tf
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/terraform/bbl-template.tf
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/jumpbox-deployment/jumpbox.yml
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/bosh-deployment/bosh.yml
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/cloud-config/ops.yml
-sed -i "s/username: ((openstack_username))/a ca_cert: \/opt\/stack\/id_rsa.crt/g" /opt/stack/bosh-deployment/openstack/cpi.yml
 
 runuser -l stack -c  'bbl up --debug'
+
+runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                      chmod +x /tmp/bbl_env.sh; \
+                      source /tmp/bbl_env.sh; \
+                      bosh upload-release --sha1 386293038ae3d00813eaa475b4acf63f8da226ef \
+                        https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=22.1.2"
+
+cat > /opt/stack/trusted-certs.vars.yml <<EOF
+# trusted-certs.vars.yml
+trusted_certs: |
+EOF
+
+cat /opt/stack/id_rsa.crt >> /opt/stack/trusted-certs.vars.yml
+
+cat > /opt/stack/add-trusted-certs-to-director-vm.ops.yml <<EOF
+# add-trusted-certs-to-director-vm.ops.yml
+- type: replace
+  path: /releases/name=os-conf?
+  value:
+    name: os-conf
+    version: 22.1.2
+    url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=22.1.2
+    sha1: 386293038ae3d00813eaa475b4acf63f8da226ef
+
+- type: replace
+  path: /instance_groups/name=bosh/jobs/-
+  value:
+    name: ca_certs
+    release: os-conf
+    properties:
+      certs: ((trusted_certs))
+EOF
+
+runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                      chmod +x /tmp/bbl_env.sh; \
+                      source /tmp/bbl_env.sh; \
+                      bosh create-env /opt/stack/bosh-deployment/bosh.yml \
+                        -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml \
+                        -l /opt/stack/trusted-certs.vars.yml"
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed, loading terraform 0.11.15 for prepare script..."
 #### prepare env for cloudfoundry
