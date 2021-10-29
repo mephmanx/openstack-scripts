@@ -648,14 +648,6 @@ sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/jumpbox-deployment/jumpbox.ym
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/bosh-deployment/bosh.yml
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/cloud-config/ops.yml
 
-runuser -l stack -c  'bbl up --debug'
-
-runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                      chmod +x /tmp/bbl_env.sh; \
-                      source /tmp/bbl_env.sh; \
-                      bosh upload-release --sha1 386293038ae3d00813eaa475b4acf63f8da226ef \
-                        https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=22.1.2"
-
 cat > /opt/stack/trusted-certs.vars.yml <<EOF
 # trusted-certs.vars.yml
 trusted_certs: |
@@ -682,12 +674,27 @@ cat > /opt/stack/add-trusted-certs-to-director-vm.ops.yml <<EOF
       certs: ((trusted_certs))
 EOF
 
-runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                      chmod +x /tmp/bbl_env.sh; \
-                      source /tmp/bbl_env.sh; \
-                      bosh create-env /opt/stack/bosh-deployment/bosh.yml \
-                        -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml \
-                        -l /opt/stack/trusted-certs.vars.yml"
+cp /opt/stack/create-director.sh /opt/stack/create-director-override.sh
+cp /opt/stack/create-jumpbox.sh /opt/stack/create-jumpbox-override.sh
+
+chown -R stack /opt/stack/create-director-override.sh
+chown -R stack /opt/stack/create-jumpbox-override.sh
+
+length=$(wc -c </opt/stack/create-director-override.sh)
+if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-director-override.sh)" ]; then
+  # The file ends with a newline or null
+  dd if=/dev/null of=/opt/stack/create-director-override.sh obs="$((length-1))" seek=1
+fi
+
+length=$(wc -c </opt/stack/create-jumpbox-override.sh)
+if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-jumpbox-override.sh)" ]; then
+  # The file ends with a newline or null
+  dd if=/dev/null of=/opt/stack/create-jumpbox-override.sh obs="$((length-1))" seek=1
+fi
+
+echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml" >> create-director-override.sh
+
+runuser -l stack -c  'bbl up --debug'
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed, loading terraform 0.11.15 for prepare script..."
 #### prepare env for cloudfoundry
