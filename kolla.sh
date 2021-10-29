@@ -644,10 +644,12 @@ runuser -l stack -c  'bbl plan'
 
 sed -i 's/~> 1.16/1.40/g' /opt/stack/terraform/bbl-template.tf
 sed -i 's/${var.cacert_file}/\/opt\/stack\/id_rsa.crt/g' /opt/stack/terraform/bbl-template.tf
+sed -i 's/default = ""/default "\/opt\/stack\/id_rsa.crt"/g' /opt/stack/terraform/bbl-template.tf
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/terraform/bbl-template.tf
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/jumpbox-deployment/jumpbox.yml
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/bosh-deployment/bosh.yml
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/cloud-config/ops.yml
+sed -i "s/username: ((openstack_username))/aca_cert: \/opt\/stack\/id_rsa.crt/g" /opt/stack/bosh-deployment/openstack/cpi.yml
 
 runuser -l stack -c  'bbl up --debug'
 
