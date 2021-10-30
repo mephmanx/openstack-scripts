@@ -652,7 +652,7 @@ cat > /opt/stack/trusted-certs.vars.yml <<EOF
 trusted_certs: |-
 EOF
 
-sed -i 's/^/  /' /opt/stack/trusted-certs.vars.yml
+sed -i 's/^/  /' /opt/stack/id_rsa.crt
 cat /opt/stack/id_rsa.crt >> /opt/stack/trusted-certs.vars.yml
 
 cat > /opt/stack/add-trusted-certs-to-director-vm.ops.yml <<EOF
