@@ -669,26 +669,8 @@ runuser -l stack -c  "cat > /opt/stack/add-trusted-certs-to-director-vm.ops.yml 
         certs: ((trusted_certs))
 EOF"
 
-cp /opt/stack/create-director.sh /opt/stack/create-director-override.sh
-cp /opt/stack/create-jumpbox.sh /opt/stack/create-jumpbox-override.sh
-
-chown -R stack /opt/stack/create-director-override.sh
-chown -R stack /opt/stack/create-jumpbox-override.sh
-
-length=$(wc -c </opt/stack/create-director-override.sh)
-if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-director-override.sh)" ]; then
-  # The file ends with a newline or null
-  dd if=/dev/null of=/opt/stack/create-director-override.sh obs="$((length-1))" seek=1
-fi
-
-length=$(wc -c </opt/stack/create-jumpbox-override.sh)
-if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-jumpbox-override.sh)" ]; then
-  # The file ends with a newline or null
-  dd if=/dev/null of=/opt/stack/create-jumpbox-override.sh obs="$((length-1))" seek=1
-fi
-
 ### modify director / jumpbox override here
-echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml" >> /opt/stack/create-director-override.sh
+echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml" >> /opt/stack/create-director.sh
 
 ####
 
