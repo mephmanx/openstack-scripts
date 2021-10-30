@@ -675,7 +675,7 @@ if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-director.sh)" ];
   dd if=/dev/null of=/opt/stack/create-director.sh obs="$((length-1))" seek=1
 fi
 
-### modify director / jumpbox override here
+### modify director / jumpbox  here
 echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml" >> /opt/stack/create-director.sh
 
 ####
