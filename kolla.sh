@@ -669,6 +669,12 @@ runuser -l stack -c  "cat > /opt/stack/add-trusted-certs-to-director-vm.ops.yml 
         certs: ((trusted_certs))
 EOF"
 
+length=$(wc -c </opt/stack/create-director.sh)
+if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-director.sh)" ]; then
+  # The file ends with a newline or null
+  dd if=/dev/null of=/opt/stack/create-director.sh obs="$((length-1))" seek=1
+fi
+
 ### modify director / jumpbox override here
 echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml" >> /opt/stack/create-director.sh
 
