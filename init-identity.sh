@@ -61,6 +61,7 @@ HOSTNAME=identity.$DOMAIN_NAME
 
 runuser -l root -c "echo '$IDENTITY_VIP $HOSTNAME' > /etc/hosts"
 runuser -l root -c "echo $HOSTNAME > /etc/hostname"
+runuser -l root -c "sysctl kernel.hostname=$HOSTNAME"
 
 dnf module enable idm:DL1 -y
 
