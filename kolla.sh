@@ -645,30 +645,29 @@ sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/jumpbox-deployment/jumpbox.ym
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/bosh-deployment/bosh.yml
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/cloud-config/ops.yml
 
-cat > /opt/stack/trusted-certs.vars.yml <<EOF
+runuser -l stack -c  "cat > /opt/stack/trusted-certs.vars.yml <<EOF
 trusted_certs: |-
-EOF
+EOF"
 
 sed -i 's/^/  /' /opt/stack/id_rsa.crt
-cat /opt/stack/id_rsa.crt >> /opt/stack/trusted-certs.vars.yml
+runuser -l stack -c  'cat /opt/stack/id_rsa.crt >> /opt/stack/trusted-certs.vars.yml'
 
-cat > /opt/stack/add-trusted-certs-to-director-vm.ops.yml <<EOF
+runuser -l stack -c  "cat > /opt/stack/add-trusted-certs-to-director-vm.ops.yml <<EOF
 - type: replace
-  path: /releases/name=os-conf?
-  value:
+    path: /releases/name=os-conf?
+    value:
     name: os-conf
     version: 22.1.2
     url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=22.1.2
     sha1: 386293038ae3d00813eaa475b4acf63f8da226ef
-
 - type: replace
-  path: /instance_groups/name=bosh/jobs/-
-  value:
-    name: ca_certs
-    release: os-conf
-    properties:
-      certs: ((trusted_certs))
-EOF
+    path: /instance_groups/name=bosh/jobs/-
+    value:
+      name: ca_certs
+      release: os-conf
+      properties:
+        certs: ((trusted_certs))
+EOF"
 
 cp /opt/stack/create-director.sh /opt/stack/create-director-override.sh
 cp /opt/stack/create-jumpbox.sh /opt/stack/create-jumpbox-override.sh
