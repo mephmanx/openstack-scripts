@@ -117,6 +117,7 @@ export RAM_PCT_AVAIL_CLOUD=96
 ### Cloudfoundry variables
 export CF_TCP_PORT_COUNT=10
 export CF_BBL_INSTALL_VERSION=1.0.2
+export CF_BBL_OPENSTACK_CPI_VERSION=1.40
 
 ## how much available memory (after operating system, vm overhead, openstack overhead, and other misc resources are allocated) is allocated to cloudfoundry
 export CF_MEMORY_ALLOCATION_PCT=90

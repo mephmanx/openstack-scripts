@@ -639,7 +639,7 @@ runuser -l stack -c  "echo 'export OS_REGION_NAME=$OS_REGION_NAME' >> /opt/stack
 runuser -l stack -c  "echo 'export OS_AUTH_PLUGIN=$OS_AUTH_PLUGIN' >> /opt/stack/.bash_profile"
 runuser -l stack -c  'bbl plan'
 
-sed -i 's/~> 1.16/1.40/g' /opt/stack/terraform/bbl-template.tf
+sed -i "s/~> 1.16/$CF_BBL_OPENSTACK_CPI_VERSION/g" /opt/stack/terraform/bbl-template.tf
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/terraform/bbl-template.tf
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/jumpbox-deployment/jumpbox.yml
 sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/bosh-deployment/bosh.yml
@@ -709,7 +709,7 @@ chmod +x terraform
 chown -R stack terraform
 
 sed -i '/provider "openstack" {/a use_octavia   = true' ./cf.tf
-sed -i '/use_octavia   = true/a version = "1.40"' ./cf.tf
+sed -i "/use_octavia   = true/a version = \"$CF_BBL_OPENSTACK_CPI_VERSION\"" ./cf.tf
 
 ## add availability zones to the list below for a full HA deploy
 cat > terraform.tfvars <<EOF
