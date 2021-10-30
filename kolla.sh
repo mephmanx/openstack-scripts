@@ -609,8 +609,8 @@ runuser -l stack -c  'brew install cloudfoundry/tap/bosh-cli'
 runuser -l stack -c  'brew install bbl'
 runuser -l stack -c  'brew unlink terraform'
 runuser -l stack -c  'brew install tfenv'
-runuser -l stack -c  "tfenv install $CF_BBL_INSTALL_VERSION"
-runuser -l stack -c  "tfenv use $CF_BBL_INSTALL_VERSION"
+runuser -l stack -c  "tfenv install $CF_BBL_INSTALL_TERRAFORM_VERSION"
+runuser -l stack -c  "tfenv use $CF_BBL_INSTALL_TERRAFORM_VERSION"
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting BOSH infrastructure install...."
 runuser -l stack -c  "echo 'export BBL_IAAS=openstack' >> /opt/stack/.bash_profile"
