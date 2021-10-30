@@ -688,7 +688,7 @@ if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-jumpbox-override
 fi
 
 ### modify director / jumpbox override here
-echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml" >> create-director-override.sh
+echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml" >> /opt/stack/create-director-override.sh
 
 ####
 
