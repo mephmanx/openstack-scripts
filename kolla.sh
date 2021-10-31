@@ -416,7 +416,7 @@ openstack coe cluster template create swarm-cluster-template \
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Created magnum cluster..."
 
-openstack coe cluster create swarm-cluster \
+openstack coe cluster create gocd-cluster \
                         --cluster-template swarm-cluster-template \
                         --master-count 1 \
                         --node-count 2 \
