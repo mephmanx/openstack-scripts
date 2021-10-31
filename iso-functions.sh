@@ -142,6 +142,8 @@ function buildAndPushVMTypeISO {
                 '/tmp/project_config.sh'
                 '/root/.ssh/id_rsa.crt'
                 '/root/.ssh/id_rsa.key'
+                '/root/.ssh/wildcard.crt'
+                '/root/.ssh/wildcard.key'
                 "/tmp/openstack-scripts/$vm_type.sh"
                 '/tmp/openstack-scripts/init-cloud_common.sh'
                 '/tmp/openstack-env.sh')
@@ -205,6 +207,8 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/host_list'
                 '/root/.ssh/id_rsa.crt'
                 '/root/.ssh/id_rsa.key'
+                '/root/.ssh/wildcard.crt'
+                '/root/.ssh/wildcard.key'
                 '/tmp/storage_hosts'
                 '/tmp/openstack-scripts/kolla.sh'
                 '/tmp/openstack-scripts/globals.yml'

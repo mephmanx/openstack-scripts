@@ -116,8 +116,8 @@ create_user_cert $NEWPW $CERT_DIR "osuser"
 runuser -l root -c 'cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys'
 
 ### use CA cert for cockpit
-cp $CERT_DIR/id_rsa.crt /etc/cockpit/ws-certs.d/certificate.cert
-cp $CERT_DIR/id_rsa.key /etc/cockpit/ws-certs.d/certificate.key
+cp $CERT_DIR/wildcard.crt /etc/cockpit/ws-certs.d/certificate.cert
+cp $CERT_DIR/wildcard.key /etc/cockpit/ws-certs.d/certificate.key
 
 ### adjust key permissions.  Important! cockpit wolnt work without correct permissions
 chmod 755 /etc/cockpit/ws-certs.d/*
