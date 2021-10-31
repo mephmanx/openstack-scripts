@@ -118,6 +118,9 @@ export RAM_PCT_AVAIL_CLOUD=96
 export CF_TCP_PORT_COUNT=10
 export CF_BBL_INSTALL_TERRAFORM_VERSION=1.0.2
 export CF_BBL_OPENSTACK_CPI_VERSION=1.40
+export CF_BBL_OS_CONF_RELEASE=22.1.2
+### be careful about changing the version of os-conf as the hash below is REQUIRED to match!
+export CF_BBL_OS_CONF_HASH=386293038ae3d00813eaa475b4acf63f8da226ef
 
 ## how much available memory (after operating system, vm overhead, openstack overhead, and other misc resources are allocated) is allocated to cloudfoundry
 export CF_MEMORY_ALLOCATION_PCT=90

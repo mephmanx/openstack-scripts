@@ -657,9 +657,9 @@ runuser -l stack -c  "cat > /opt/stack/add-trusted-certs-to-director-vm.ops.yml 
     path: /releases/name=os-conf?
     value:
     name: os-conf
-    version: 22.1.2
-    url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=22.1.2
-    sha1: 386293038ae3d00813eaa475b4acf63f8da226ef
+    version: $CF_BBL_OS_CONF_RELEASE
+    url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=$CF_BBL_OS_CONF_RELEASE
+    sha1: $CF_BBL_OS_CONF_HASH
 - type: replace
     path: /instance_groups/name=bosh/jobs/-
     value:
@@ -684,15 +684,15 @@ runuser -l stack -c  'echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.
 runuser -l stack -c  'bbl up --debug'
 #####
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed, loading terraform 0.11.15 for prepare script..."
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed, loading terraform cf for prepare script..."
 #### prepare env for cloudfoundry
 git clone https://github.com/cloudfoundry-attic/bosh-openstack-environment-templates.git /tmp/bosh-openstack-environment-templates
 cd /tmp/bosh-openstack-environment-templates
 chown -R stack cf-deployment-tf/
 cd cf-deployment-tf
-cp /tmp/terraform_0.11.15_linux_amd64.zip ./
+cp /tmp/terraform_cf.zip ./
 
-unzip terraform_0.11.15_linux_amd64.zip
+unzip terraform_cf.zip
 chmod +x terraform
 chown -R stack terraform
 

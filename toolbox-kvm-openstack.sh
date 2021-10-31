@@ -61,7 +61,7 @@ if [ ! -f "/tmp/magnum.qcow2" ]; then
 fi
 
 if [ ! -f "/tmp/terraform_0.11.15_linux_amd64.zip" ]; then
-  wget -O /tmp/terraform_0.11.15_linux_amd64.zip ${CF_ATTIC_TERRAFORM}
+  wget -O /tmp/terraform_cf.zip ${CF_ATTIC_TERRAFORM}
 fi
 
 if [ ! -f "/tmp/trove_instance.img" ]; then
@@ -78,7 +78,7 @@ zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*"
 embed_files=('/tmp/magnum.qcow2'
               '/tmp/pfSense-CE-memstick-ADI.img'
               '/tmp/harbor.tgz'
-              '/tmp/terraform_0.11.15_linux_amd64.zip'
+              '/tmp/terraform_cf.zip'
               '/tmp/repo.zip'
               '/tmp/openstack-env.sh'
               '/tmp/linux.iso'
