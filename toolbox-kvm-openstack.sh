@@ -18,7 +18,7 @@ prep_project_config
 source /tmp/project_config.sh
 #########
 
-#### build centos iso if not exist
+### build centos iso if not exist
 #if [ ! -f "/tmp/linux.iso" ]; then
 #  pwd=`pwd`
 #  git clone https://github.com/mephmanx/centos-8-minimal.git /tmp/centos-8-minimal
