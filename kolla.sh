@@ -396,7 +396,7 @@ openstack router add subnet trove-router trove-subnet0
 openstack image create \
                       --disk-format=qcow2 \
                       --container-format=bare \
-                      --file=/tmp/magnum.qcow2\
+                      --file=/tmp/magnum.qcow2 \
                       --property os_distro='fedora-atomic' \
                       fedora-atomic-latest
 
