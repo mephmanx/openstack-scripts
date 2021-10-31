@@ -37,9 +37,6 @@ export TROVE_INSTANCE_IMAGE=https://cloud-images.ubuntu.com/releases/bionic/rele
 ### image for trove DB's
 export TROVE_DB_IMAGE=https://tarballs.opendev.org/openstack/trove/images/trove-master-guest-ubuntu-bionic.qcow2
 
-## domain name
-export DOMAIN_NAME=lyonsgroup.local;
-
 ### hostname for harbor install
 export SUPPORT_HOST=harbor;
 export IDENTITY_HOST=identity;
@@ -80,39 +77,15 @@ export OPENSTACK_DHCP_END="$NETWORK_PREFIX.200";
 export TROVE_DHCP_START="$TROVE_NETWORK.100";
 export TROVE_DHCP_END="$TROVE_NETWORK.200";
 
-###timezone
-## escape the separator otherwise sed will have an error and nothing will be built
-export TIMEZONE="America\/New_York";
-
 ##### Infrastructure debug mode
 ## This is used to enabled/disable logs and root pwd saving.
 ##  DISABLE FOR PRODUCTION USE!
 export HYPERVISOR_DEBUG=1
 
-### Enable auto-update
-## This enables the centos/stream auto update function on install.
-## Auto update can be enabled later if not enabled here, this just sets it up and enables it for you.
-export LINUX_AUTOUPDATE=1
-
-## Cert params
-# these parameters will be used to generate CSR for all certificates
-export COUNTRY="US"
-export STATE="PA"
-export LOCATION="Scranton"
-export ORGANIZATION="LyonsGroup-Cloud"
-export OU="HQ"
-
 ### Infrastructure tuning params
 ## These control various build infrastructure decisions on machine size.
 ##  Adjust based on your system needs
 export RAM_PCT_AVAIL_CLOUD=96
-
-#### UPS attachment
-### If physical server, does it contain a UPS system?  This can be monitored through PFSense to send alerts when power is on battery.
-#export UPS_PRESENT=1
-### if UPS present, gather ids from lsusb to attach to pfsense KVM
-#export VENDOR_ID='051d'
-#export PRODUCT_ID='0002'
 
 ### Cloudfoundry variables
 export CF_TCP_PORT_COUNT=10
