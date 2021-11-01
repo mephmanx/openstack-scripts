@@ -699,7 +699,7 @@
 		<alias>
 			<name>identity</name>
 			<type>host</type>
-			<address>10.0.200.11</address>
+			<address>{IDENTITY_VIP}</address>
 			<descr><![CDATA[identity]]></descr>
 			<detail><![CDATA[Entry added Sat, 30 Oct 2021 17:28:40 -0400]]></detail>
 		</alias>
@@ -4627,7 +4627,7 @@
 						<item>
 							<status>active</status>
 							<name>identity</name>
-							<address>identity.{DOMAIN_NAME}}</address>
+							<address>{IDENTITY_VIP}</address>
 							<port>443</port>
 							<ssl>yes</ssl>
 							<id>214</id>
