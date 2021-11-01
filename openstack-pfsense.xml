@@ -1040,6 +1040,13 @@
 		<dns64prefix></dns64prefix>
 		<dns64netbits>96</dns64netbits>
 		<hosts>
+			<host>openstack</host>
+			<domain>{DOMAIN_NAME]}</domain>
+			<ip>{GATEWAY_ROUTER_IP}</ip>
+			<descr><![CDATA[openstack external]]></descr>
+			<aliases></aliases>
+		</hosts>
+		<hosts>
 			<host>{APP_INTERNAL_HOSTNAME}</host>
 			<domain>{DOMAIN_NAME}</domain>
 			<ip>{INTERNAL_VIP}</ip>
