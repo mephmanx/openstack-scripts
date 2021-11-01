@@ -18,17 +18,6 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
-yum update -y
-yum -y install epel-release
-yum update -y
-
-yum install -y perl tpm-tools yum-utils cockpit git python3-devel python38 make ruby ruby-devel gcc-c++ mysql-devel nodejs mysql-server cockpit-podman cockpit-machines cockpit-networkmanager cockpit-packagekit cockpit-storaged openvpn wget
-
-systemctl status tcsd
-systemctl enable tcsd
-
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup."
-
 ### cleanup from previous boot
 rm -rf /tmp/eth*
 ########
@@ -52,8 +41,6 @@ fi
 # set up net script to be called after reboot
 cp /tmp/openstack-scripts/openstack.sh /tmp
 prep_next_script "openstack"
-
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor core network setup in progress....."
 
 ### enable nested virtualization
 sed -i "s/#options kvm_intel nested=1/options kvm_intel nested=1/g" /etc/modprobe.d/kvm.conf

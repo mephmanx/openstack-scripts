@@ -23,6 +23,17 @@ sleep 30
 
 yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
 
+yum -y install epel-release
+yum update -y
+
+yum install -y perl tpm-tools yum-utils cockpit git python3-devel python38 make ruby ruby-devel gcc-c++ mysql-devel nodejs mysql-server cockpit-podman cockpit-machines cockpit-networkmanager cockpit-packagekit cockpit-storaged openvpn wget
+
+systemctl status tcsd
+systemctl enable tcsd
+
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup."
+
+
 systemctl stop firewalld
 systemctl disable firewalld
 systemctl mask firewalld
