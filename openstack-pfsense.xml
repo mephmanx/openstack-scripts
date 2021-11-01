@@ -4856,7 +4856,7 @@
 				<log_rotate>3</log_rotate>
 				<log_sqd></log_sqd>
 				<visible_hostname>{DOMAIN_NAME}</visible_hostname>
-				<admin_email>{ADMIN_EMAIL}</admin_email>
+				<admin_email></admin_email>
 				<error_language>en</error_language>
 				<xforward_mode>on</xforward_mode>
 				<disable_via></disable_via>
