@@ -865,9 +865,9 @@ chown -R stack /tmp/prometheus-boshrelease
 runuser -l stack -c  "cat > /opt/stack/trusted-certs-cf.vars.yml <<EOF
 trusted_cert_for_apps:
   ca: |
-
 EOF"
 
+sed -i 's/^/  /' /opt/stack/id_rsa.crt
 runuser -l stack -c  'cat /opt/stack/id_rsa.crt >> /opt/stack/trusted-certs-cf.vars.yml'
 ######
 
