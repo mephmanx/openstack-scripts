@@ -51,9 +51,6 @@ runuser -l root -c 'chmod 600 /root/.ssh/id_rsa'
 runuser -l root -c 'chmod 600 /root/.ssh/id_rsa.pub'
 runuser -l root -c 'chmod 600 /root/.ssh/authorized_keys'
 
-#Disable selinux (or do it in ks)
-runuser -l root -c "sed -i 's/\(SELINUX\=\).*/\1disabled/' /etc/selinux/config"
-
 #IPA vars
 
 ### gen pwd's
