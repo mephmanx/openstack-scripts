@@ -861,6 +861,16 @@ chown -R stack /tmp/prometheus-boshrelease
 
 ### prepare google SAML config and include it in deploy
 
+### prep cloudfoundry ca cert
+runuser -l stack -c  "cat > /opt/stack/trusted-certs-cf.vars.yml <<EOF
+trusted_cert_for_apps:
+  ca: |
+
+EOF"
+
+runuser -l stack -c  'cat /opt/stack/id_rsa.crt >> /opt/stack/trusted-certs-cf.vars.yml'
+######
+
 ### deploy cloudfoundry
 #this is to make the CF install fall into the below loop as it seems to need 2 deployments to fully deploy
 ## would be good to fix but was suggested by community so....
@@ -880,6 +890,8 @@ if [[ $error_count -gt 0 ]]; then
                       -o /tmp/cf-deployment/operations/openstack.yml \
                       -o /tmp/cf-deployment/operations/scale-to-one-az.yml \
                       -o /tmp/cf-deployment/operations/use-compiled-releases.yml \
+                      -o /tmp/cf-deployment/operations/use-trusted-ca-cert-for-apps.yml \
+                      -l /opt/stack/trusted-certs-cf.vars.yml \
                       --vars-store /tmp/vars/deployment-vars.yml \
                       /tmp/cf-deployment/cf-deployment.yml \
                       -v system_domain=$DOMAIN_NAME \
