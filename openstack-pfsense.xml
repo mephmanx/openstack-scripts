@@ -1040,7 +1040,7 @@
 		<dns64prefix></dns64prefix>
 		<dns64netbits>96</dns64netbits>
 		<hosts>
-			<host>openstack</host>
+			<host>{APP_EXTERNAL_HOSTNAME}</host>
 			<domain>{DOMAIN_NAME]}</domain>
 			<ip>{GATEWAY_ROUTER_IP}</ip>
 			<descr><![CDATA[openstack external]]></descr>
