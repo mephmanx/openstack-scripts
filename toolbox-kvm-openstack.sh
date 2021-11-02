@@ -47,6 +47,17 @@ sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
 ###########################
 
 ## download files to be embedded
+if [ ! -f "/tmp/amphora-x64-haproxy.qcow2" ]
+  ############# build octavia image
+  runuser -l root -c  'yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils'
+  git clone https://opendev.org/openstack/octavia -b master /tmp/octavia
+  pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org diskimage-builder
+  chmod +x /tmp/octavia/diskimage-create/diskimage-create.sh
+  chown -R stack /tmp/octavia/diskimage-create/diskimage-create.sh
+  runuser -l root -c  'source /opt/stack/venv/bin/activate; cd /tmp/octavia/diskimage-create; ./diskimage-create.sh'
+  cp /tmp/octavia/diskimage-create/amphora-x64-haproxy.qcow2 /tmp/amphora-x64-haproxy.qcow2
+fi
+
 if [ ! -f "/tmp/pfSense.gz" ]; then
   wget -O /tmp/pfSense.gz ${PFSENSE}
 fi
@@ -79,6 +90,7 @@ zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*"
 embed_files=('/tmp/magnum.qcow2'
               '/tmp/pfSense-CE-memstick-ADI.img'
               '/tmp/harbor.tgz'
+              '/tmp/amphora-x64-haproxy.qcow2'
               '/tmp/terraform_cf.zip'
               '/tmp/repo.zip'
               '/tmp/openstack-env.sh'
