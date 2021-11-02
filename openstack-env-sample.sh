@@ -6,6 +6,7 @@
 
 ## domain name
 export DOMAIN_NAME=<internal cloud domain name>;
+export EXTERNAL_DOMAIN_NAME=<domain name on external requests>
 
 ###timezone
 ## escape the separator otherwise sed will have an error and nothing will be built
