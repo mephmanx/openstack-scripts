@@ -1041,7 +1041,7 @@
 		<dns64netbits>96</dns64netbits>
 		<hosts>
 			<host>{APP_EXTERNAL_HOSTNAME}</host>
-			<domain>{DOMAIN_NAME]}</domain>
+			<domain>{DOMAIN_NAME}</domain>
 			<ip>{GATEWAY_ROUTER_IP}</ip>
 			<descr><![CDATA[openstack external]]></descr>
 			<aliases></aliases>
