@@ -210,6 +210,7 @@ function buildAndPushOpenstackSetupISO {
                 '/root/.ssh/wildcard.crt'
                 '/root/.ssh/wildcard.key'
                 '/tmp/storage_hosts'
+                '/tmp/amphora-x64-haproxy.qcow2'
                 '/tmp/openstack-scripts/kolla.sh'
                 '/tmp/openstack-scripts/globals.yml'
                 '/tmp/openstack-scripts/vm_functions.sh'
