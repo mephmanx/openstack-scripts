@@ -80,7 +80,7 @@
 			<protocol>https</protocol>
 			<loginautocomplete></loginautocomplete>
 			<dashboardcolumns>3</dashboardcolumns>
-			<port>443</port>
+			<port></port>
 			<max_procs>2</max_procs>
 			<ssl-certref>60ec35a6053df</ssl-certref>
 			<webguicss>pfSense.css</webguicss>
@@ -1496,7 +1496,6 @@
 							<name>lbaas</name>
 							<expression>path_contains</expression>
 							<value>lbaas</value>
-							<backendservercountbackend>ceilometer</backendservercountbackend>
 							<_index></_index>
 						</item>
 					</ha_acls>
