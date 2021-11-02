@@ -55,7 +55,6 @@ if [ ! -f "/tmp/amphora-x64-haproxy.qcow2" ]
   chmod +x /tmp/octavia/diskimage-create/diskimage-create.sh
   chown -R stack /tmp/octavia/diskimage-create/diskimage-create.sh
   pwd=`pwd`
-  source /opt/stack/venv/bin/activate;
   cd /tmp/octavia/diskimage-create;
   ./diskimage-create.sh;
   cd $pwd
