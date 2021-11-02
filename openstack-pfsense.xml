@@ -80,7 +80,7 @@
 			<protocol>https</protocol>
 			<loginautocomplete></loginautocomplete>
 			<dashboardcolumns>3</dashboardcolumns>
-			<port></port>
+			<port>444</port>
 			<max_procs>2</max_procs>
 			<ssl-certref>60ec35a6053df</ssl-certref>
 			<webguicss>pfSense.css</webguicss>
@@ -3991,7 +3991,7 @@
 							<status>active</status>
 							<name>pfsense</name>
 							<address>{GATEWAY_ROUTER_IP}</address>
-							<port>443</port>
+							<port>444</port>
 							<ssl>yes</ssl>
 							<id>104</id>
 							<_index></_index>
