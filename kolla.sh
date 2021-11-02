@@ -679,7 +679,8 @@ runuser -l stack -c  'bbl up --debug'
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed, loading terraform cf for prepare script..."
 #### prepare env for cloudfoundry
-git clone https://github.com/cloudfoundry-attic/bosh-openstack-environment-templates.git /tmp/bosh-openstack-environment-templates
+unzip /tmp/cf-templates.zip -d /tmp/bosh-openstack-environment-templates
+mv /tmp/bosh-openstack-environment-templates/bosh-openstack-environment-templates-master/* /tmp/bosh-openstack-environment-templates
 cd /tmp/bosh-openstack-environment-templates
 chown -R stack cf-deployment-tf/
 cd cf-deployment-tf
@@ -745,7 +746,8 @@ openstack floating ip create --subnet ${LB_FIP_SUBNET} \
 ###
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Env prep script complete, pulling CF deployment repo...."
-git clone https://github.com/cloudfoundry/cf-deployment /tmp/cf-deployment
+unzip cf_deployment.zip -d /tmp/cf-deployment
+mv /tmp/cf-deployment/cf-deployment-main/* /tmp/cf-deployment
 chown -R stack /tmp/cf-deployment
 
 ###  build swift tmp url key to use below

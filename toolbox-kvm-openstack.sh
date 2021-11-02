@@ -86,6 +86,22 @@ fi
 if [ ! -f "/tmp/trove_db.img" ]; then
   wget -O /tmp/trove_db.img ${TROVE_DB_IMAGE}
 fi
+
+if [ ! -f "/tmp/libtpms.zip" ]; then
+  wget -O /tmp/libtpms.zip ${LIBTPMS_GIT}
+fi
+
+if [ ! -f "/tmp/swtpm.zip" ]; then
+  wget -O /tmp/swtpm.zip ${SWTPM_GIT}
+fi
+
+if [ ! -f "/tmp/cf-templates.zip" ]; then
+  wget -O /tmp/cf-templates.zip ${BOSH_OPENSTACK_ENVIRONMENT_TEMPLATES}
+fi
+
+if [ ! -f "/tmp/cf_deployment.zip" ]; then
+  wget -O /tmp/cf_deployment.zip ${CF_DEPLOYMENT}
+fi
 ####
 rm -rf /tmp/repo.zip
 zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*"
@@ -100,6 +116,10 @@ embed_files=('/tmp/magnum.qcow2'
               '/tmp/linux.iso'
               '/tmp/trove_instance.img'
               '/tmp/trove_db.img'
+              '/tmp/libtpms.zip'
+              '/tmp/swtpm.zip'
+              '/tmp/cf-templates.zip'
+              '/tmp/cf_deployment.zip'
               '/tmp/project_config.sh')
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"

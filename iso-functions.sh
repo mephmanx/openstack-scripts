@@ -144,6 +144,8 @@ function buildAndPushVMTypeISO {
                 '/root/.ssh/id_rsa.key'
                 '/root/.ssh/wildcard.crt'
                 '/root/.ssh/wildcard.key'
+                '/tmp/libtpms.zip'
+                '/tmp/swtpm.zip'
                 "/tmp/openstack-scripts/$vm_type.sh"
                 '/tmp/openstack-scripts/init-cloud_common.sh'
                 '/tmp/openstack-env.sh')
@@ -216,6 +218,10 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/openstack-env.sh'
                 '/tmp/openstack-scripts/init-cloud_common.sh'
+                '/tmp/libtpms.zip'
+                '/tmp/swtpm.zip'
+                '/tmp/cf-templates.zip'
+                '/tmp/cf_deployment.zip'
                 '/tmp/project_config.sh')
 
   printf -v embed_files_string '%s ' "${embed_files[@]}"

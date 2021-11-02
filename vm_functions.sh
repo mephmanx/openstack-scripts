@@ -170,31 +170,26 @@ function common_second_boot_setup() {
 }
 
 function vtpm() {
+  unzip /tmp/libtpms.zip -d /root/libtpms
+  unzip /tmp/swtpm.zip -d /root/swtpm
+  mv /root/libtpms/libtpms-master/* /root/libtpms
+  mv /root/swtpm/swtpm-master/* /root/swtpm
   ###### vTPM setup #####
   cd /root
   dnf -y update \
    && dnf -y install diffutils make file automake autoconf libtool gcc gcc-c++ openssl-devel gawk git \
-   && git clone ${LIBTPMS_GIT} \
    && dnf -y install which python3 python3-cryptography python3-pip python3-setuptools expect libtasn1-devel \
       socat trousers tpm-tools gnutls-devel gnutls-utils net-tools libseccomp-devel json-glib-devel \
-   && pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org twisted \
-   && git clone ${SWTPM_GIT}
-
-  LIBTPMS_BRANCH=master
+   && pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org twisted
 
   cd libtpms \
    && runuser -l root -c  'echo ${date} > /.date' \
-   && git pull \
-   && git checkout ${LIBTPMS_BRANCH} \
    && runuser -l root -c  'cd libtpms; ./autogen.sh --prefix=/usr --with-openssl --with-tpm2;' \
    && make -j$(nproc) V=1 \
    && make -j$(nproc) V=1 check \
    && make install
 
-  SWTPM_BRANCH=master
   cd ../swtpm \
-   && git pull \
-   && git checkout ${SWTPM_BRANCH} \
    && runuser -l root -c  'cd /root/swtpm; ./autogen.sh --prefix=/usr --with-openssl;' \
    && make -j$(nproc) V=1 \
    && make -j$(nproc) V=1 VERBOSE=1 check \

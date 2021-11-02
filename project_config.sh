@@ -8,10 +8,8 @@
 export HARBOR=https://github.com/goharbor/harbor/releases/download/v2.3.3/harbor-offline-installer-v2.3.3.tgz;
 
 ## SWTPM libs
-export LIBTPMS_GIT=https://github.com/stefanberger/libtpms.git;
-export LIBTPMS_BRANCH=master;
-export SWTPM_GIT=https://github.com/stefanberger/swtpm.git;
-export SWTPM_BRANCH=master;
+export LIBTPMS_GIT=https://github.com/stefanberger/libtpms/archive/master/libtpms.zip;
+export SWTPM_GIT=https://github.com/stefanberger/swtpm/archive/master/swtpm.zip;
 
 ###  PFSense installer
 ## fat32 offset is added but logic NEEDS to be validated on update
@@ -36,6 +34,10 @@ export TROVE_INSTANCE_IMAGE=https://cloud-images.ubuntu.com/releases/bionic/rele
 
 ### image for trove DB's
 export TROVE_DB_IMAGE=https://tarballs.opendev.org/openstack/trove/images/trove-master-guest-ubuntu-bionic.qcow2
+
+### cloudfoundry repos
+export BOSH_OPENSTACK_ENVIRONMENT_TEMPLATES=https://github.com/cloudfoundry-attic/bosh-openstack-environment-templates/archive/master/cf-templates.zip
+export CF_DEPLOYMENT=https://github.com/cloudfoundry/cf-deployment/archive/main/cf_deployment.zip
 
 ### hostnames for infra vms
 export SUPPORT_HOST=harbor;
