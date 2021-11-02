@@ -37,11 +37,9 @@ export TROVE_INSTANCE_IMAGE=https://cloud-images.ubuntu.com/releases/bionic/rele
 ### image for trove DB's
 export TROVE_DB_IMAGE=https://tarballs.opendev.org/openstack/trove/images/trove-master-guest-ubuntu-bionic.qcow2
 
-### hostname for harbor install
+### hostnames for infra vms
 export SUPPORT_HOST=harbor;
 export IDENTITY_HOST=identity;
-
-## openstack hostnames
 export APP_INTERNAL_HOSTNAME=openstack-local;
 export APP_EXTERNAL_HOSTNAME=openstack;
 
