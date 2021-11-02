@@ -80,7 +80,7 @@
 			<protocol>https</protocol>
 			<loginautocomplete></loginautocomplete>
 			<dashboardcolumns>3</dashboardcolumns>
-			<port>444</port>
+			<port>443</port>
 			<max_procs>2</max_procs>
 			<ssl-certref>60ec35a6053df</ssl-certref>
 			<webguicss>pfSense.css</webguicss>
