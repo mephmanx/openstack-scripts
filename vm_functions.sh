@@ -304,7 +304,7 @@ basicConstraints        = critical, CA:TRUE
 subjectKeyIdentifier    = hash
 authorityKeyIdentifier  = keyid:always, issuer:always
 keyUsage                = critical, cRLSign, digitalSignature, keyCertSign
-subjectAltName          = email:$ADMIN_EMAIL
+subjectAltName          = email:administrator@$DOMAIN_NAME
 
 ##The other names your server may be connected to as
 [alt_names]
