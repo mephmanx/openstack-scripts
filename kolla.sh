@@ -798,11 +798,12 @@ runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.
 
 ## cloudfoundry uses xenial, pull version it is requesting
 runuser -l stack -c  "bosh interpolate /tmp/cf-deployment/cf-deployment.yml --path=/stemcells/alias=default/version > /opt/stack/stemcell_version"
+runuser -l stack -c  "bosh interpolate /tmp/cf-deployment/cf-deployment.yml --path=/stemcells/alias=default/os > /opt/stack/stemcell_os"
 
 runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
                       chmod +x /tmp/bbl_env.sh; \
                       source /tmp/bbl_env.sh; \
-                      bosh upload-stemcell https://bosh-core-stemcells.s3-accelerate.amazonaws.com/`cat /opt/stack/stemcell_version`/bosh-stemcell-`cat /opt/stack/stemcell_version`-openstack-kvm-ubuntu-xenial-go_agent.tgz"
+                      bosh upload-stemcell https://bosh-core-stemcells.s3-accelerate.amazonaws.com/`cat /opt/stack/stemcell_version`/bosh-stemcell-`cat /opt/stack/stemcell_version`-openstack-kvm-`cat /opt/stack/stemcell_os`-go_agent.tgz"
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stemcell installed, finalizing environment for CF install..."
 ## add cf and cf-deployment-for-bosh security groups to bosh director
