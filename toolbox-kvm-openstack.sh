@@ -47,7 +47,7 @@ sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
 ###########################
 
 ## download files to be embedded
-if [ ! -f "/tmp/amphora-x64-haproxy.qcow2" ]
+if [ ! -f "/tmp/amphora-x64-haproxy.qcow2" ]; then
   ############# build octavia image
   yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils
   git clone https://opendev.org/openstack/octavia -b master /tmp/octavia
