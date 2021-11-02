@@ -141,7 +141,6 @@ function buildAndPushVMTypeISO {
   embed_files=('/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/project_config.sh'
                 '/root/.ssh/id_rsa.crt'
-                '/root/.ssh/id_rsa.key'
                 '/root/.ssh/wildcard.crt'
                 '/root/.ssh/wildcard.key'
                 '/tmp/libtpms.zip'
