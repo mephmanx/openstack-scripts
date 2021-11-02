@@ -561,14 +561,6 @@ runuser -l root -c "ssh root@monitoring01 'docker restart grafana'"
 ### enable haproxy (and any others) to log to monitoring01:5190
 ### <remotesyslog>monitoring01:5190</remotesyslog>
 
-############# build octavia image
-runuser -l root -c  'yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils'
-git clone https://opendev.org/openstack/octavia -b master /tmp/octavia
-pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org diskimage-builder
-chmod +x /tmp/octavia/diskimage-create/diskimage-create.sh
-chown -R stack /tmp/octavia/diskimage-create/diskimage-create.sh
-runuser -l root -c  'source /opt/stack/venv/bin/activate; cd /tmp/octavia/diskimage-create; ./diskimage-create.sh'
-
 ### load octavia creds and upload amphora image
 source /etc/kolla/octavia-openrc.sh
 openstack image create amphora-x64-haproxy \
@@ -576,7 +568,7 @@ openstack image create amphora-x64-haproxy \
   --disk-format qcow2 \
   --tag amphora \
   --private \
-  --file /tmp/octavia/diskimage-create/amphora-x64-haproxy.qcow2 \
+  --file /tmp/amphora-x64-haproxy.qcow2 \
   --property hw_architecture='x86_64' \
   --property hw_rng_model=virtio
 
