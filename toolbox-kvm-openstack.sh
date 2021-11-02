@@ -75,7 +75,7 @@ if [ ! -f "/tmp/magnum.qcow2" ]; then
   wget -O /tmp/magnum.qcow2 ${MAGNUM_IMAGE}
 fi
 
-if [ ! -f "/tmp/terraform_0.11.15_linux_amd64.zip" ]; then
+if [ ! -f "/tmp/terraform_cf.zip" ]; then
   wget -O /tmp/terraform_cf.zip ${CF_ATTIC_TERRAFORM}
 fi
 
