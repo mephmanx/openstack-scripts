@@ -65,7 +65,7 @@ if [ ! -f "/tmp/pfSense.gz" ]; then
   wget -O /tmp/pfSense.gz ${PFSENSE}
 fi
 cp /tmp/pfSense.gz /tmp/pfSense-CE-memstick-ADI.img.gz
-gunzip -o /tmp/pfSense-CE-memstick-ADI.img.gz
+gunzip -f /tmp/pfSense-CE-memstick-ADI.img.gz
 
 if [ ! -f "/tmp/harbor.tgz" ]; then
   wget -O /tmp/harbor.tgz ${HARBOR}
