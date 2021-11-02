@@ -102,6 +102,10 @@ fi
 if [ ! -f "/tmp/cf_deployment.zip" ]; then
   wget -O /tmp/cf_deployment.zip ${CF_DEPLOYMENT}
 fi
+
+if [ ! -f "/tmp/docker-compose" ]; then
+  wget -O /tmp/docker-compose ${DOCKER_COMPOSE}
+fi
 ####
 rm -rf /tmp/repo.zip
 zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*"
@@ -120,6 +124,7 @@ embed_files=('/tmp/magnum.qcow2'
               '/tmp/swtpm.zip'
               '/tmp/cf-templates.zip'
               '/tmp/cf_deployment.zip'
+              '/tmp/docker-compose'
               '/tmp/project_config.sh')
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"

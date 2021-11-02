@@ -39,6 +39,9 @@ export TROVE_DB_IMAGE=https://tarballs.opendev.org/openstack/trove/images/trove-
 export BOSH_OPENSTACK_ENVIRONMENT_TEMPLATES=https://github.com/cloudfoundry-attic/bosh-openstack-environment-templates/archive/master/cf-templates.zip
 export CF_DEPLOYMENT=https://github.com/cloudfoundry/cf-deployment/archive/main/cf_deployment.zip
 
+## docker compose
+export DOCKER_COMPOSE=https://github.com/docker/compose/releases/download/1.29.2/docker-compose-linux-x86_64
+
 ### hostnames for infra vms
 export SUPPORT_HOST=harbor;
 export IDENTITY_HOST=identity;

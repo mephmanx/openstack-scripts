@@ -49,7 +49,7 @@ chkconfig docker on
 systemctl restart docker
 docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD
 
-curl -s -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose > /dev/null
+cp /tmp/docker-compose /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
 cd /root
