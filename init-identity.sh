@@ -23,6 +23,14 @@ sleep 30
 rm -rf /tmp/eth*
 ########
 
+### initial libs
+yum update -y
+yum -y install epel-release
+yum update -y
+
+yum install -y perl yum-utils cockpit wget git python3-devel python38 make ruby ruby-devel gcc-c++ mysql-devel nodejs mysql-server open-vm-tools cockpit-machines cockpit-networkmanager cockpit-packagekit cockpit-storaged
+#########
+
 ## enable auto updates if selected
 if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   dnf install -y dnf-automatic
