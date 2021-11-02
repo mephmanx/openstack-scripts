@@ -49,9 +49,9 @@ sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
 ## download files to be embedded
 if [ ! -f "/tmp/pfSense.gz" ]; then
   wget -O /tmp/pfSense.gz ${PFSENSE}
-  cp /tmp/pfSense.gz /tmp/pfSense-CE-memstick-ADI.img.gz
-  gunzip /tmp/pfSense.gz
 fi
+cp /tmp/pfSense.gz /tmp/pfSense-CE-memstick-ADI.img.gz
+gunzip /tmp/pfSense-CE-memstick-ADI.img.gz
 
 if [ ! -f "/tmp/harbor.tgz" ]; then
   wget -O /tmp/harbor.tgz ${HARBOR}
