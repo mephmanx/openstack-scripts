@@ -47,7 +47,7 @@ sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
 ###########################
 
 ## download files to be embedded
-if [ ! -f "/tmp/pfSense-CE-memstick-ADI.img.gz" ]; then
+if [ ! -f "/tmp/pfSense.gz" ]; then
   wget -O /tmp/pfSense-CE-memstick-ADI.img.gz ${PFSENSE}
   cp /tmp/pfSense-CE-memstick-ADI.img.gz /tmp/pfSense.gz
   gunzip /tmp/pfSense.gz
