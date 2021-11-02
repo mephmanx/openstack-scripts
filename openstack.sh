@@ -51,12 +51,13 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Cloud System: $SYSTEM
 dnf module install -y virt
 dnf install -y cockpit-machines virt-install virt-viewer bridge-utils swtpm libtpms telnet bridge-utils
 systemctl restart libvirtd
-systemctl enable --now cockpit.socket
 
 cat > /etc/cockpit/cockpit.conf <<EOF
 [WebService]
 Origins = https://cockpit.$EXTERNAL_DOMAIN_NAME wss://cockpit.$EXTERNAL_DOMAIN_NAME
 EOF
+
+systemctl enable --now cockpit.socket
 ############################
 
 ### system profile
