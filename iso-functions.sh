@@ -107,6 +107,7 @@ function closeOutAndBuildKickstartAndISO {
   done
   #####
 
+  cp splash.png /var/tmp/${vm_name}
   sudo ksvalidator /var/tmp/${vm_name}/ks.cfg
 
   cd /var/tmp/${vm_name}
