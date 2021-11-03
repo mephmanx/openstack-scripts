@@ -108,10 +108,10 @@ function closeOutAndBuildKickstartAndISO {
   #####
 
   if [[ "kolla" == $vm_name ]]; then
-    cp splash.png /var/tmp/${vm_name}/isolinux
-    sudo ksvalidator /var/tmp/${vm_name}/ks.cfg
+    convert splash.png +dither -colors 16 -depth 4 /var/tmp/${vm_name}/isolinux/splash.png
   fi
 
+  sudo ksvalidator /var/tmp/${vm_name}/ks.cfg
   cd /var/tmp/${vm_name}
   sudo genisoimage -o ../${vm_name}-iso.iso \
     -b isolinux/isolinux.bin \
