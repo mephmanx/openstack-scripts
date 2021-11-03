@@ -73,10 +73,10 @@ CF_TCP_END_PORT=$(($CF_TCP_START_PORT + $CF_TCP_PORT_COUNT))
 DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
 if [[ $DISK_COUNT -lt 2 ]]; then
   size_avail=`df /VM-VOL-ALL | awk '{print $2}' | sed 1d`
-  DRIVE_SIZE=$(($((size_avail * 5/100)) / 1024))
+  DRIVE_SIZE=$(($((size_avail * 5/100)) / 1024 / 1024))
 else
   size_avail=`df /VM-VOL-MISC | awk '{print $2}' | sed 1d`
-  DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024))
+  DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
 fi
 
 ##### replace PFSense template vars
@@ -114,7 +114,7 @@ sed -i 's/{OPEN_VPN_TLS_KEY}/'$OPEN_VPN_TLS_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{CLOUDFOUNDRY_VIP}/'$CLOUDFOUNDRY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{IDENTITY_VIP}/'$IDENTITY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' /tmp/usb/config.xml
-sed -i 's/{CACHE_SIZE}/'$(($DRIVE_SIZE * 75/100))'/g' /tmp/usb/config.xml
+sed -i 's/{CACHE_SIZE}/'$(($DRIVE_SIZE * 75/100 * 1024))'/g' /tmp/usb/config.xml
 #######
 
 runuser -l root -c  'umount /tmp/usb'
