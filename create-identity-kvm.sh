@@ -18,7 +18,9 @@ echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-identity.cfg to ->
 kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-ld.cfg
 echo "kickstart file -> ${kickstart_file}"
 kickstart_file=centos-8-kickstart-ld.cfg
-rootpwd=`cat /root/env_admin_pwd`
+HOWLONG=15 ## the number of characters
+NEWPW=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+rootpwd=$NEWPW
 
 ADMIN_PWD=`cat /root/env_admin_pwd`
 

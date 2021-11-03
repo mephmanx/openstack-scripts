@@ -164,6 +164,10 @@ function common_second_boot_setup() {
   systemctl stop firewalld
   systemctl mask firewalld
 
+  ### setup python venv
+  python3 -m pip install --user --trusted-host pypi.org --trusted-host files.pythonhosted.org virtualenv
+  python3 -m venv /opt/stack/venv
+  source /opt/stack/venv/bin/activate
   pip3 install --upgrade  --trusted-host pypi.org --trusted-host files.pythonhosted.org pip
   ### module recommended on openstack.org
   modprobe vhost_net

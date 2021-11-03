@@ -33,7 +33,9 @@ function initialKickstartSetup {
   vm=$1
   printf -v vm_type_n '%s\n' "${vm//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-  rootpwd=`cat /root/env_admin_pwd`
+  HOWLONG=15 ## the number of characters
+  NEWPW=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+  rootpwd=$NEWPW
   ADMIN_PWD=`cat /root/env_admin_pwd`
 
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
@@ -56,6 +58,10 @@ function prepareEnv {
   sudo yum install epel-release -y
   sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
 
+  git clone https://github.com/ImageMagick/ImageMagick.git /tmp/ImageMagick-7.1.0
+  cd /tmp/ImageMagick-7.1.0
+  ./configure
+  make
   if [ -f "/tmp/linux.iso" ]; then
     return;
   fi
