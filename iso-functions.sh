@@ -58,12 +58,6 @@ function prepareEnv {
   sudo yum install epel-release -y
   sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
 
-  if [[ -z `which convert` ]]; then
-    git clone https://github.com/ImageMagick/ImageMagick.git /tmp/ImageMagick-7.1.0
-    cd /tmp/ImageMagick-7.1.0
-    ./configure
-    make
-  fi
   if [ -f "/tmp/linux.iso" ]; then
     return;
   fi
@@ -116,6 +110,12 @@ function closeOutAndBuildKickstartAndISO {
   #####
 
   if [[ "openstack" == $vm_name ]]; then
+    if [[ -z `which convert` ]]; then
+      git clone https://github.com/ImageMagick/ImageMagick.git /tmp/ImageMagick-7.1.0
+      cd /tmp/ImageMagick-7.1.0
+      ./configure
+      make
+    fi
     convert splash.png +dither -colors 16 -depth 4 -resize 640x480\! /var/tmp/${vm_name}/isolinux/splash.png
   fi
 
