@@ -1096,12 +1096,6 @@
 	</cert>
 	<installedpackages>
 		<menu>
-			<name>Acme Certificates</name>
-			<tooltiptext></tooltiptext>
-			<section>Services</section>
-			<url>/acme/acme_certificates.php</url>
-		</menu>
-		<menu>
 			<name>Cron</name>
 			<section>Services</section>
 			<configfile>cron.xml</configfile>
@@ -1147,12 +1141,6 @@
 			<url>/snort/snort_interfaces.php</url>
 		</menu>
 		<menu>
-			<name>UPS</name>
-			<tooltiptext>Network UPS Tools status</tooltiptext>
-			<section>Services</section>
-			<url>/nut_status.php</url>
-		</menu>
-		<menu>
 			<name>Squid Proxy Reports</name>
 			<section>Status</section>
 			<url>/pkg_edit.php?xml=lightsquid.xml</url>
@@ -1174,12 +1162,6 @@
 			<section>Services</section>
 			<configfile>shellcmd.xml</configfile>
 			<url>/pkg.php?xml=shellcmd.xml</url>
-		</menu>
-		<menu>
-			<name>Suricata</name>
-			<tooltiptext>Configure Suricata settings</tooltiptext>
-			<section>Services</section>
-			<url>/suricata/suricata_interfaces.php</url>
 		</menu>
 		<haproxy>
 			<ha_backends>
