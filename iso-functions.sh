@@ -116,7 +116,7 @@ function closeOutAndBuildKickstartAndISO {
   #####
 
   if [[ "openstack" == $vm_name ]]; then
-    convert splash.png +dither -colors 16 -depth 4 /var/tmp/${vm_name}/isolinux/splash.png
+    convert splash.png +dither -colors 16 -depth 4 -resize 640x480 /var/tmp/${vm_name}/isolinux/splash.png
   fi
 
   sudo ksvalidator /var/tmp/${vm_name}/ks.cfg
