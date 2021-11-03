@@ -51,8 +51,6 @@ runuser -l root -c  'openvpn --genkey --secret /root/.ssh/openvpn-secret.key'
 
 ### replace variables
 ## load generated cert variables
-LETS_ENCRYPT_ACCOUNT_KEY=`cat /root/.ssh/id_rsa.key | base64 | tr -d '\n\r'`
-
 CA_KEY=`cat /root/.ssh/id_rsa.key | base64 | tr -d '\n\r'`
 CA_CRT=`cat /root/.ssh/id_rsa.crt | base64 | tr -d '\n\r'`
 
