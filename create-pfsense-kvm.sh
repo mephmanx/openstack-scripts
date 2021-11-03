@@ -75,10 +75,10 @@ CF_TCP_END_PORT=$(($CF_TCP_START_PORT + $CF_TCP_PORT_COUNT))
 DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
 if [[ $DISK_COUNT -lt 2 ]]; then
   size_avail=`df /VM-VOL-ALL | awk '{print $2}' | sed 1d`
-  DRIVE_SIZE=$(($((size_avail * 5/100)) / 1024 / 1024))
+  DRIVE_SIZE=$(($((size_avail * 5/100)) / 1024))
 else
   size_avail=`df /VM-VOL-MISC | awk '{print $2}' | sed 1d`
-  DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
+  DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024))
 fi
 
 ##### replace PFSense template vars
