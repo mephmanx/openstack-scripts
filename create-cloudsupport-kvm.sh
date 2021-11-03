@@ -20,7 +20,7 @@ echo "kickstart file -> ${kickstart_file}"
 kickstart_file=centos-8-kickstart-cs.cfg
 rootpwd=`cat /root/env_admin_pwd`
 
-ADMIN_PWD=`cat /home/admin/env_osuser_pwd`
+ADMIN_PWD=`cat /root/env_admin_pwd`
 
 ########### add passwords in
 sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}

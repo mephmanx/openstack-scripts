@@ -34,7 +34,7 @@ function initialKickstartSetup {
   printf -v vm_type_n '%s\n' "${vm//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
   rootpwd=`cat /root/env_admin_pwd`
-  ADMIN_PWD=`cat /home/admin/env_osuser_pwd`
+  ADMIN_PWD=`cat /root/env_admin_pwd`
 
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
   cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
