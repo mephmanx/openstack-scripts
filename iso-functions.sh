@@ -115,7 +115,7 @@ function closeOutAndBuildKickstartAndISO {
   done
   #####
 
-  if [[ "kolla" == $vm_name ]]; then
+  if [[ "openstack" == $vm_name ]]; then
     convert splash.png +dither -colors 16 -depth 4 /var/tmp/${vm_name}/isolinux/splash.png
   fi
 
