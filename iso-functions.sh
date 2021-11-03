@@ -58,10 +58,12 @@ function prepareEnv {
   sudo yum install epel-release -y
   sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
 
-  git clone https://github.com/ImageMagick/ImageMagick.git /tmp/ImageMagick-7.1.0
-  cd /tmp/ImageMagick-7.1.0
-  ./configure
-  make
+  if [[ -z `which convert` ]]; then
+    git clone https://github.com/ImageMagick/ImageMagick.git /tmp/ImageMagick-7.1.0
+    cd /tmp/ImageMagick-7.1.0
+    ./configure
+    make
+  fi
   if [ -f "/tmp/linux.iso" ]; then
     return;
   fi
