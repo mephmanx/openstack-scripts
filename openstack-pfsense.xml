@@ -1043,14 +1043,14 @@
 			<host>{APP_EXTERNAL_HOSTNAME}</host>
 			<domain>{DOMAIN_NAME}</domain>
 			<ip>{GATEWAY_ROUTER_IP}</ip>
-			<descr><![CDATA[openstack external]]></descr>
+			<descr><![CDATA[{APP_EXTERNAL_HOSTNAME}]]></descr>
 			<aliases></aliases>
 		</hosts>
 		<hosts>
 			<host>{APP_INTERNAL_HOSTNAME}</host>
 			<domain>{DOMAIN_NAME}</domain>
 			<ip>{INTERNAL_VIP}</ip>
-			<descr><![CDATA[openstack local]]></descr>
+			<descr><![CDATA[{APP_INTERNAL_HOSTNAME}]]></descr>
 			<aliases></aliases>
 		</hosts>
 	</unbound>
@@ -1903,9 +1903,9 @@
 							<_index></_index>
 						</item>
 						<item>
-							<name>openstack</name>
+							<name>{APP_EXTERNAL_HOSTNAME}</name>
 							<expression>host_contains</expression>
-							<value>openstack</value>
+							<value>{APP_EXTERNAL_HOSTNAME}</value>
 							<_index></_index>
 						</item>
 						<item>
@@ -1959,7 +1959,7 @@
 						</item>
 						<item>
 							<action>use_backend</action>
-							<acl>openstack</acl>
+							<acl>{APP_EXTERNAL_HOSTNAME}</acl>
 							<use_backendbackend>horizon</use_backendbackend>
 							<_index></_index>
 						</item>
