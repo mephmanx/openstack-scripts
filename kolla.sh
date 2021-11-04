@@ -15,6 +15,13 @@ start() {
 common_second_boot_setup
 #################
 
+### setup python venv
+python3 -m pip install --user --trusted-host pypi.org --trusted-host files.pythonhosted.org virtualenv
+python3 -m venv /opt/stack/venv
+source /opt/stack/venv/bin/activate
+pip3 install --upgrade  --trusted-host pypi.org --trusted-host files.pythonhosted.org pip
+###############
+
 #####  setup global VIPs
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"

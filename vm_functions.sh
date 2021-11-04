@@ -145,7 +145,6 @@ function common_second_boot_setup() {
   ADMIN_PWD=`cat /root/env_admin_pwd`
 
   systemctl restart docker
-  docker login -u admin -p $ADMIN_PWD $SUPPORT_HOST.$INTERNAL_DOMAIN_NAME
 
   mkdir /root/.ssh
   ## this allows openstack vm's to ssh to each other without password
@@ -163,11 +162,6 @@ function common_second_boot_setup() {
   systemctl stop firewalld
   systemctl mask firewalld
 
-  ### setup python venv
-  python3 -m pip install --user --trusted-host pypi.org --trusted-host files.pythonhosted.org virtualenv
-  python3 -m venv /opt/stack/venv
-  source /opt/stack/venv/bin/activate
-  pip3 install --upgrade  --trusted-host pypi.org --trusted-host files.pythonhosted.org pip
   ### module recommended on openstack.org
   modprobe vhost_net
 }
