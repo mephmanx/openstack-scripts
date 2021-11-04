@@ -167,11 +167,12 @@ virsh net-undefine default
 ###########################
 
 #### vtpm
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Installing VTPM."
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Installing VTPM"
 vtpm
 ######
 
 ############ Create and init storage pools
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Build storage pools"
 for part in `df | grep "VM-VOL" | awk '{print $6, " " }' | tr -d '/' | tr -d '\n'`; do
   virsh pool-define-as "$part" dir - - - - "/$part"
   virsh pool-build "$part"
