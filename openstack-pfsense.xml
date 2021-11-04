@@ -4739,12 +4739,6 @@
 			<description><![CDATA[Snort IDS/IPS Daemon]]></description>
 		</service>
 		<service>
-			<name>nut</name>
-			<rcfile>nut.sh</rcfile>
-			<executable>upsmon</executable>
-			<description><![CDATA[UPS monitoring daemon]]></description>
-		</service>
-		<service>
 			<name>lightsquid_web</name>
 			<rcfile>lighttpd_ls.sh</rcfile>
 			<executable>lighttpd_ls</executable>
@@ -4767,12 +4761,6 @@
 			<rcfile>c-icap.sh</rcfile>
 			<executable>c-icap</executable>
 			<description><![CDATA[ICAP Interface for Squid and ClamAV integration]]></description>
-		</service>
-		<service>
-			<name>suricata</name>
-			<rcfile>suricata.sh</rcfile>
-			<executable>suricata</executable>
-			<description><![CDATA[Suricata IDS/IPS Daemon]]></description>
 		</service>
 		<squidcache>
 			<config>
