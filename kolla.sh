@@ -874,15 +874,14 @@ if [[ $error_count -gt 0 ]]; then
                       bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
                       chmod +x /tmp/bbl_env.sh; \
                       source /tmp/bbl_env.sh; \
-                      bosh -d cf deploy -o /tmp/cf-deployment/operations/use-external-blobstore.yml \
+                      bosh -d cf deploy \
+                      -o /tmp/cf-deployment/operations/use-external-blobstore.yml \
                       -o /tmp/cf-deployment/operations/use-swift-blobstore.yml \
                       -o /tmp/cf-deployment/operations/openstack.yml \
                       -o /tmp/cf-deployment/operations/scale-to-one-az.yml \
                       -o /tmp/cf-deployment/operations/use-compiled-releases.yml \
                       -o /tmp/cf-deployment/operations/use-trusted-ca-cert-for-apps.yml \
                       -l /opt/stack/trusted-certs-cf.vars.yml \
-                      --vars-store /tmp/vars/deployment-vars.yml \
-                      /tmp/cf-deployment/cf-deployment.yml \
                       -v system_domain=$DOMAIN_NAME \
                       -v auth_url=http://$INTERNAL_VIP_DNS:5000/v3 \
                       -v openstack_project=cloudfoundry \
@@ -895,6 +894,8 @@ if [[ $error_count -gt 0 ]]; then
                       -v buildpack_directory_key=buildpack_directory \
                       -v droplet_directory_key=droplet_directory \
                       -v resource_directory_key=resource_directory \
+                      --vars-store /tmp/vars/deployment-vars.yml \
+                      /tmp/cf-deployment/cf-deployment.yml \
                       -n" > /tmp/cloudfoundry-install.log
 
     error_count1=`grep -i "error" /tmp/cloudfoundry-install.log | wc -l`
