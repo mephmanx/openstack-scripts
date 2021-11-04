@@ -1653,7 +1653,7 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
+							<extaddr>any_ipv4</extaddr>
 							<extaddr_port>80</extaddr_port>
 							<_index></_index>
 						</item>
@@ -1926,7 +1926,7 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
+							<extaddr>any_ipv4</extaddr>
 							<extaddr_port>443</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
