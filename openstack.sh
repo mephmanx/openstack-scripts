@@ -29,8 +29,36 @@ yum -y install epel-release
 yum update -y
 dnf module install -y virt
 
-yum install -y perl tpm-tools yum-utils cockpit git python3-devel python38 make ruby ruby-devel gcc-c++ mysql-devel nodejs mysql-server cockpit-podman cockpit-machines cockpit-networkmanager cockpit-packagekit cockpit-storaged openvpn wget
-dnf install -y cockpit-machines virt-install virt-viewer bridge-utils swtpm libtpms telnet bridge-utils
+yum install -y perl \
+                tpm-tools \
+                yum-utils \
+                cockpit \
+                git \
+                python3-devel \
+                python38 \
+                make \
+                ruby \
+                ruby-devel \
+                gcc-c++ \
+                mysql-devel \
+                nodejs \
+                mysql-server \
+                cockpit-podman \
+                cockpit-machines \
+                cockpit-networkmanager \
+                cockpit-packagekit \
+                cockpit-storaged \
+                openvpn \
+                wget
+
+dnf install -y cockpit-machines \
+                virt-install \
+                virt-viewer \
+                bridge-utils \
+                swtpm \
+                libtpms \
+                telnet \
+                bridge-utils
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Package install complete, continuing install..."
 
