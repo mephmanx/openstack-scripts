@@ -552,7 +552,7 @@ glance_backend_swift: "yes"
 ###################
 # Valid options are [ bind9 ]
 #designate_backend: "bind9"
-designate_ns_record: "{DOMAIN_NAME}"
+designate_ns_record: "{INTERNAL_DOMAIN_NAME}"
 # Valid options are [ '', redis ]
 #designate_coordination_backend: "{{ 'redis' if enable_redis|bool else '' }}"
 

@@ -81,7 +81,7 @@ chmod +x /usr/local/bin/docker-compose
 cd /root
 tar xzvf /tmp/harbor.tgz
 
-SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
+SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 ADMIN_PWD=`cat /root/env_admin_pwd`
 
 cp /tmp/harbor.yml /root/harbor/harbor.yml

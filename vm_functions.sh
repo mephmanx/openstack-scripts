@@ -145,7 +145,7 @@ function common_second_boot_setup() {
   ADMIN_PWD=`cat /root/env_admin_pwd`
 
   systemctl restart docker
-  docker login -u admin -p $ADMIN_PWD $SUPPORT_HOST.$DOMAIN_NAME
+  docker login -u admin -p $ADMIN_PWD $SUPPORT_HOST.$INTERNAL_DOMAIN_NAME
 
   mkdir /root/.ssh
   ## this allows openstack vm's to ssh to each other without password
@@ -234,7 +234,7 @@ function prep_project_config() {
   ## replace variables using sed as this does not work the way one would think it would
   ###  remember to replace all variables that are nested in project config!
   sed -i 's/$NETWORK_PREFIX/'$NETWORK_PREFIX'/g' /tmp/project_config.sh
-  sed -i 's/$DOMAIN_NAME/'$DOMAIN_NAME'/g' /tmp/project_config.sh
+  sed -i 's/$INTERNAL_DOMAIN_NAME/'$INTERNAL_DOMAIN_NAME'/g' /tmp/project_config.sh
   sed -i 's/$TROVE_NETWORK/'$TROVE_NETWORK'/g' /tmp/project_config.sh
   ####
 }
@@ -294,7 +294,7 @@ req_extensions                                   = v3_ca
 
 ##About the system for the request. Ensure the CN = FQDN
 [ req_distinguished_name ]
-commonName                                    = ca.$DOMAIN_NAME
+commonName                                    = ca.$INTERNAL_DOMAIN_NAME
 
 ##Extensions to add to a certificate request for how it will be used
 [ v3_ca ]
@@ -302,13 +302,13 @@ basicConstraints        = critical, CA:TRUE
 subjectKeyIdentifier    = hash
 authorityKeyIdentifier  = keyid:always, issuer:always
 keyUsage                = critical, cRLSign, digitalSignature, keyCertSign
-subjectAltName          = email:administrator@$DOMAIN_NAME
+subjectAltName          = email:administrator@$INTERNAL_DOMAIN_NAME
 
 ##The other names your server may be connected to as
 [alt_names]
 DNS.1                                                 = ca
-DNS.2                                                 = ca.$DOMAIN_NAME
-DNS.3                                                 = *.$DOMAIN_NAME
+DNS.2                                                 = ca.$INTERNAL_DOMAIN_NAME
+DNS.3                                                 = *.$INTERNAL_DOMAIN_NAME
 DNS.4                                                 = $IP
 EOF
 
@@ -319,7 +319,7 @@ EOF
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
   runuser -l root -c  "openssl req -new -x509 -days 7300 \
                         -key $cert_dir/id_rsa.key -out $cert_dir/id_rsa.crt \
-                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=ca.$DOMAIN_NAME' \
+                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=ca.$INTERNAL_DOMAIN_NAME' \
                         -config $cert_dir/ca_conf.cnf"
 }
 
@@ -345,7 +345,7 @@ req_extensions                                   = v3_vpn_server
 
 ##About the system for the request. Ensure the CN = FQDN
 [ req_distinguished_name ]
-commonName                                    = $host_name.$DOMAIN_NAME
+commonName                                    = $host_name.$INTERNAL_DOMAIN_NAME
 
 ##Extensions to add to a certificate request for how it will be used
 [ v3_vpn_server ]
@@ -358,8 +358,8 @@ subjectAltName          = @alt_vpn_server
 ##The other names your server may be connected to as
 [alt_vpn_server]
 DNS.1                                                 = $host_name
-DNS.2                                                 = $host_name.$DOMAIN_NAME
-DNS.3                                                 = *.$DOMAIN_NAME
+DNS.2                                                 = $host_name.$INTERNAL_DOMAIN_NAME
+DNS.3                                                 = *.$INTERNAL_DOMAIN_NAME
 DNS.4                                                 = $IP
 EOF
 
@@ -367,7 +367,7 @@ EOF
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/$cert_name.pass.key -out $cert_dir/$cert_name.key"
   runuser -l root -c  "openssl req -new -key $cert_dir/$cert_name.key \
                           -out $cert_dir/$cert_name.csr \
-                          -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$host_name.$DOMAIN_NAME' \
+                          -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$host_name.$INTERNAL_DOMAIN_NAME' \
                           -config $cert_dir/$cert_name.cnf"
 
   runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
@@ -395,7 +395,7 @@ function create_user_cert() {
   runuser -l root -c  "openssl rsa -passin pass:$NEWPW -in $CERT_DIR/$user_name.pass.key -out $CERT_DIR/$user_name.key"
   runuser -l root -c  "openssl req -new -key $CERT_DIR/$user_name.key \
                         -out $CERT_DIR/$user_name.csr \
-                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$user_name.$DOMAIN_NAME'"
+                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$user_name.$INTERNAL_DOMAIN_NAME'"
 
   runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
                         -in $CERT_DIR/$user_name.csr -CA $CERT_DIR/id_rsa.crt \

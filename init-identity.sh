@@ -83,8 +83,8 @@ echo $ADMIN_PWD > /root/admin_pwd
 
 DIRECTORY_MANAGER_PASSWORD=$DIR_PWD
 ADMIN_PASSWORD=$ADMIN_PWD
-REALM_NAME=$(echo "$DOMAIN_NAME" | tr '[:lower:]' '[:upper:]')
-HOSTNAME=identity.$DOMAIN_NAME
+REALM_NAME=$(echo "$INTERNAL_DOMAIN_NAME" | tr '[:lower:]' '[:upper:]')
+HOSTNAME=identity.$INTERNAL_DOMAIN_NAME
 
 runuser -l root -c "echo '$IDENTITY_VIP $HOSTNAME' > /etc/hosts"
 runuser -l root -c "echo $HOSTNAME > /etc/hostname"
@@ -101,7 +101,7 @@ dnf install -y cyrus-sasl-devel make libtool autoconf libtool-ltdl-devel openssl
 runuser -l root -c 'cp /tmp/id_rsa.crt /etc/ipa/ca.crt'
 runuser -l root -c 'chown -R pkiuser /etc/ipa/ca.crt'
 # Configure freeipa
-runuser -l root -c "ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD -a $ADMIN_PASSWORD -n $DOMAIN_NAME -r $REALM_NAME --ip-address $IDENTITY_VIP --mkhomedir --setup-dns --auto-reverse --auto-forwarders --no-dnssec-validation --ntp-server=$GATEWAY_ROUTER_IP -U -q"
+runuser -l root -c "ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD -a $ADMIN_PASSWORD -n $INTERNAL_DOMAIN_NAME -r $REALM_NAME --ip-address $IDENTITY_VIP --mkhomedir --setup-dns --auto-reverse --auto-forwarders --no-dnssec-validation --ntp-server=$GATEWAY_ROUTER_IP -U -q"
 #Create user on ipa WITHOUT A PASSWORD - we don't need one since we'll be using ssh key
 #Kinit session
 echo $ADMIN_PWD | kinit admin
@@ -114,8 +114,8 @@ SSH_KEY=`cat /root/.ssh/id_rsa.pub`
 /usr/bin/ipa sudorule-add su
 /usr/bin/ipa sudocmd-add /usr/bin/su
 /usr/bin/ipa sudorule-add-allow-command su --sudocmds /usr/bin/su
-/usr/bin/ipa sudorule-add-host su --hosts pfsense.$DOMAIN_NAME
-/usr/bin/ipa sudorule-add-host su --hosts harbor.$DOMAIN_NAME
+/usr/bin/ipa sudorule-add-host su --hosts pfsense.$INTERNAL_DOMAIN_NAME
+/usr/bin/ipa sudorule-add-host su --hosts harbor.$INTERNAL_DOMAIN_NAME
 /usr/bin/ipa sudorule-add-user su --users ipauser
 /usr/bin/ipa sudorule-add defaults
 /usr/bin/ipa sudorule-add-option defaults --sudooption '!authenticate'

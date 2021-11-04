@@ -16,9 +16,9 @@ common_second_boot_setup
 #################
 
 #####  setup global VIPs
-SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
-INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$DOMAIN_NAME"
-EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$DOMAIN_NAME"
+SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
+INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
+EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
 ###################
 
 ############ add keys
@@ -97,7 +97,7 @@ sed -i "s/{INTERNAL_VIP_DNS}/${INTERNAL_VIP_DNS}/g" /etc/kolla/globals.yml
 sed -i "s/{EXTERNAL_VIP}/${EXTERNAL_VIP}/g" /etc/kolla/globals.yml
 sed -i "s/{EXTERNAL_VIP_DNS}/${EXTERNAL_VIP_DNS}/g" /etc/kolla/globals.yml
 sed -i "s/{SUPPORT_HOST}/${SUPPORT_VIP_DNS}/g" /etc/kolla/globals.yml
-sed -i "s/{DOMAIN_NAME}/${DOMAIN_NAME}/g" /etc/kolla/globals.yml
+sed -i "s/{INTERNAL_DOMAIN_NAME}/${INTERNAL_DOMAIN_NAME}/g" /etc/kolla/globals.yml
 
 kolla-genpwd
 
@@ -516,7 +516,7 @@ sed -i "s/5141/5541/g" etc/pfelk/conf.d/01-inputs.conf
 
 # Set Device names
 sed -i "s/OPNsense/pfSense/g" etc/pfelk/conf.d/02-types.conf
-sed -i "s/Supermicro/$DOMAIN_NAME/g" etc/pfelk/conf.d/01-inputs.conf
+sed -i "s/Supermicro/$INTERNAL_DOMAIN_NAME/g" etc/pfelk/conf.d/01-inputs.conf
 
 # Create Index Patterns for indexes
 # Need to run this command on any of control node
@@ -882,7 +882,7 @@ if [[ $error_count -gt 0 ]]; then
                       -o /tmp/cf-deployment/operations/use-compiled-releases.yml \
                       -o /tmp/cf-deployment/operations/use-trusted-ca-cert-for-apps.yml \
                       -l /opt/stack/trusted-certs-cf.vars.yml \
-                      -v system_domain=$DOMAIN_NAME \
+                      -v system_domain=$INTERNAL_DOMAIN_NAME \
                       -v auth_url=http://$INTERNAL_VIP_DNS:5000/v3 \
                       -v openstack_project=cloudfoundry \
                       -v openstack_domain=default \
@@ -924,19 +924,19 @@ runuser -l root -c  "wget -O /etc/yum.repos.d/cloudfoundry-cli.repo https://pack
 runuser -l root -c  "yum install -y cf7-cli"
 
 # cf api login
-cf login -a api.$DOMAIN_NAME -u admin -p $OPENSTACK_CLOUDFOUNDRY_PWD
+cf login -a api.$INTERNAL_DOMAIN_NAME -u admin -p $OPENSTACK_CLOUDFOUNDRY_PWD
 
 ## create org
-cf create-org $DOMAIN_NAME
+cf create-org $INTERNAL_DOMAIN_NAME
 
 # create cf spaces
 cf create-space -o system system
-cf create-space -o $DOMAIN_NAME prod
-cf create-space -o $DOMAIN_NAME uat
+cf create-space -o $INTERNAL_DOMAIN_NAME prod
+cf create-space -o $INTERNAL_DOMAIN_NAME uat
 
 # enable docker support
 cf enable-feature-flag diego_docker
-cf enable-service-access nfs -o $DOMAIN_NAME
+cf enable-service-access nfs -o $INTERNAL_DOMAIN_NAME
 
 ## change to prod dir for deploy
 cf target -o "system" -s "system"
@@ -945,8 +945,8 @@ cf update-quota default -i 2G -m 4G
 ### determine quota formula.  this is memory on compute server to be made available for cloudfoundry org.
 ## Remember, other VM's run on compute (amphora, DBaas, BOSH, docker/kube clusters, etc) so make sure to leave enough for them!
 memGB=$((mem / 1024 / 1024 - 32 * (CF_MEMORY_ALLOCATION_PCT / 100)))
-cf create-quota $DOMAIN_NAME -i 8096M -m "$memGBG" -r 1000 -s 1000 -a 1000 --allow-paid-service-plans --reserved-route-ports $CF_TCP_PORT_COUNT
-cf set-quota $DOMAIN_NAME $DOMAIN_NAME
+cf create-quota $INTERNAL_DOMAIN_NAME -i 8096M -m "$memGBG" -r 1000 -s 1000 -a 1000 --allow-paid-service-plans --reserved-route-ports $CF_TCP_PORT_COUNT
+cf set-quota $INTERNAL_DOMAIN_NAME $INTERNAL_DOMAIN_NAME
 
 ## push logging
 # get latest stemcell
@@ -1012,7 +1012,7 @@ cf set-quota $DOMAIN_NAME $DOMAIN_NAME
 #                        --var-file bosh_ca_cert=/tmp/bosh_ca \
 #                        -v metrics_environment=prod \
 #                        -v metron_deployment_name=cf \
-#                        -v system_domain=$DOMAIN_NAME \
+#                        -v system_domain=$INTERNAL_DOMAIN_NAME \
 #                        -v traffic_controller_external_port=443 \
 #                        -v skip_ssl_verify=true \
 #                        -v uaa_clients_cf_exporter_secret=test \
@@ -1034,7 +1034,7 @@ cf push console -f /tmp/stratos/manifest-docker.yml -k 2G
 cf scale console -i 2
 
 ## Stratos complete!
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stratos deployment complete!  access at console.$DOMAIN_NAME user -> admin , pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stratos deployment complete!  access at console.$INTERNAL_DOMAIN_NAME user -> admin , pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
 
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
