@@ -1653,7 +1653,7 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>80</extaddr_port>
 							<_index></_index>
 						</item>
