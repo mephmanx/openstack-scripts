@@ -239,8 +239,7 @@ telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_p
 ) | telnet
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID \
-        "PFSense rebooting after package install, \
-          pfsense-init script should begin after reboot."
+        "PFSense rebooting after package install, pfsense-init script should begin after reboot."
 
 virsh reboot pfsense
 
