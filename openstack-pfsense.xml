@@ -5,7 +5,7 @@
 	<system>
 		<optimization>normal</optimization>
 		<hostname>pfsense</hostname>
-		<domain>{DOMAIN_NAME}</domain>
+		<domain>{INTERNAL_DOMAIN_NAME}</domain>
 		<group>
 			<name>CloudAccess</name>
 			<description><![CDATA[Infrastructure Access]]></description>
@@ -952,7 +952,7 @@
 			<serverbridge_routegateway></serverbridge_routegateway>
 			<serverbridge_dhcp_start></serverbridge_dhcp_start>
 			<serverbridge_dhcp_end></serverbridge_dhcp_end>
-			<dns_domain>{DOMAIN_NAME}</dns_domain>
+			<dns_domain>{INTERNAL_DOMAIN_NAME}</dns_domain>
 			<dns_server1>10.0.9.1</dns_server1>
 			<dns_server2></dns_server2>
 			<dns_server3></dns_server3>
@@ -1041,14 +1041,14 @@
 		<dns64netbits>96</dns64netbits>
 		<hosts>
 			<host>{APP_EXTERNAL_HOSTNAME}</host>
-			<domain>{DOMAIN_NAME}</domain>
+			<domain>{INTERNAL_DOMAIN_NAME}</domain>
 			<ip>{GATEWAY_ROUTER_IP}</ip>
 			<descr><![CDATA[{APP_EXTERNAL_HOSTNAME}]]></descr>
 			<aliases></aliases>
 		</hosts>
 		<hosts>
 			<host>{APP_INTERNAL_HOSTNAME}</host>
-			<domain>{DOMAIN_NAME}</domain>
+			<domain>{INTERNAL_DOMAIN_NAME}</domain>
 			<ip>{INTERNAL_VIP}</ip>
 			<descr><![CDATA[{APP_INTERNAL_HOSTNAME}]]></descr>
 			<aliases></aliases>
@@ -1075,13 +1075,13 @@
 	</gateways>
 	<cert>
 		<refid>60ec35a6053df</refid>
-		<descr><![CDATA[{DOMAIN_NAME}-external-wildcard]]></descr>
+		<descr><![CDATA[{INTERNAL_DOMAIN_NAME}-external-wildcard]]></descr>
 		<prv>{INITIAL_WILDCARD_KEY}</prv>
 		<crt>{INITIAL_WILDCARD_CRT}</crt>
 	</cert>
 	<cert>
 		<refid>60ed830f42e09</refid>
-		<descr><![CDATA[{DOMAIN_NAME} VPN Server]]></descr>
+		<descr><![CDATA[{INTERNAL_DOMAIN_NAME} VPN Server]]></descr>
 		<crt>{VPN_CRT}</crt>
 		<prv>{VPN_KEY}</prv>
 		<caref>60ed826b68fa7</caref>
@@ -1643,7 +1643,7 @@
 						<item>
 							<name>redirect</name>
 							<expression>host_contains</expression>
-							<value>{DOMAIN_NAME}</value>
+							<value>{INTERNAL_DOMAIN_NAME}</value>
 							<backendservercountbackend>ceilometer</backendservercountbackend>
 							<_index></_index>
 						</item>
@@ -4689,7 +4689,7 @@
 			<ssldefaultdhparam>4096</ssldefaultdhparam>
 			<email_level><![CDATA[err]]></email_level>
 			<email_myhostname><![CDATA[pfsense-external]]></email_myhostname>
-			<email_from><![CDATA[pfsense-external@{DOMAIN_NAME}]]></email_from>
+			<email_from><![CDATA[pfsense-external@{INTERNAL_DOMAIN_NAME}]]></email_from>
 			<email_to><![CDATA[]]></email_to>
 			<resolver_retries></resolver_retries>
 			<resolver_timeoutretry></resolver_timeoutretry>
@@ -4824,7 +4824,7 @@
 				<log_dir>/var/squid/logs</log_dir>
 				<log_rotate>3</log_rotate>
 				<log_sqd></log_sqd>
-				<visible_hostname>{DOMAIN_NAME}</visible_hostname>
+				<visible_hostname>{INTERNAL_DOMAIN_NAME}</visible_hostname>
 				<admin_email></admin_email>
 				<error_language>en</error_language>
 				<xforward_mode>on</xforward_mode>
@@ -4844,7 +4844,7 @@
 					<proxypass></proxypass>
 					<server>1</server>
 					<useaddr>other</useaddr>
-					<useaddr_hostname>cloud-vpn.{DOMAIN_NAME}</useaddr_hostname>
+					<useaddr_hostname>cloud-vpn.{EXTERNAL_DOMAIN_NAME}</useaddr_hostname>
 					<verifyservercn>auto</verifyservercn>
 					<blockoutsidedns>yes</blockoutsidedns>
 					<legacy></legacy>
@@ -5592,7 +5592,7 @@
 	</installedpackages>
 	<ca>
 		<refid>60ed826b68fa7</refid>
-		<descr><![CDATA[{DOMAIN_NAME} CA]]></descr>
+		<descr><![CDATA[{INTERNAL_DOMAIN_NAME} CA]]></descr>
 		<trust>enabled</trust>
 		<randomserial>enabled</randomserial>
 		<crt>{CA_CRT}</crt>
