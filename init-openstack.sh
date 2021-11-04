@@ -43,7 +43,6 @@ cp /tmp/openstack-scripts/openstack.sh /tmp
 prep_next_script "openstack"
 
 ### enable nested virtualization
-mkdir /etc/modprobe.d
 touch /etc/modprobe.d/kvm.conf
 runuser -l root -c  'echo "options kvm_intel nested=1" >> /etc/modprobe.d/kvm.conf;'
 runuser -l root -c  'echo "options kvm-intel enable_shadow_vmcs=1" >> /etc/modprobe.d/kvm.conf;'
