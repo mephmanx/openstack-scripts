@@ -18,7 +18,6 @@ echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg t
 kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
 echo "kickstart file -> ${kickstart_file}"
 kickstart_file=centos-8-kickstart-cs.cfg
-
 ADMIN_PWD=`cat /root/env_admin_pwd`
 
 ########### add passwords in
