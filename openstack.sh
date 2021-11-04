@@ -167,6 +167,7 @@ virsh net-undefine default
 ###########################
 
 #### vtpm
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Installing VTPM."
 vtpm
 ######
 
