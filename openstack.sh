@@ -166,6 +166,10 @@ web_pid=$!
 echo $web_pid > /tmp/web_pid
 cd $pwd
 
+#### Notify admin pwd in debug mode
+ADMIN_PWD=`cat /root/env_admin_pwd`
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor admin account pw: $ADMIN_PWD"
+
 runuser -l root -c  'cd /tmp/openstack-scripts; ./create-pfsense-kvm.sh'
 
 #remove so as to not run again
