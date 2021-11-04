@@ -33,9 +33,6 @@ function initialKickstartSetup {
   vm=$1
   printf -v vm_type_n '%s\n' "${vm//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-  HOWLONG=15 ## the number of characters
-  NEWPW=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
-  rootpwd=$NEWPW
   ADMIN_PWD=`cat /root/env_admin_pwd`
 
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
@@ -45,7 +42,7 @@ function initialKickstartSetup {
   echo "kickstart file -> ${kickstart_file}"
   sed -i 's/{HOST}/'$vm'/g' ${kickstart_file}
   sed -i 's/{TYPE}/'$vm_type'/g' ${kickstart_file}
-  sed -i 's/{GENERATED_PWD}/'$rootpwd'/g' ${kickstart_file}
+  sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd)'/g' ${kickstart_file}
   sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
   sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
   sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}

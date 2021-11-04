@@ -180,8 +180,7 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense first reboot in progres
 runuser -l root -c  "rm -rf /tmp/usb"
 #####
 
-HOWLONG=15 ## the number of characters
-root_pw=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+root_pw=$(generate_random_pwd)
 
 telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_pw"
 

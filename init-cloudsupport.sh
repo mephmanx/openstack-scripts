@@ -83,15 +83,11 @@ tar xzvf /tmp/harbor.tgz
 
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
 ADMIN_PWD=`cat /root/env_admin_pwd`
-### Generate database pwd
-HOWLONG=15 ## the number of characters
-NEWPW=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
-###
 
 cp /tmp/harbor.yml /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_HOST}/${SUPPORT_VIP_DNS}/g" /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_PASSWORD}/${ADMIN_PWD}/g" /root/harbor/harbor.yml
-sed -i "s/{DATABASE_PASSWORD}/${NEWPW}/g" /root/harbor/harbor.yml
+sed -i "s/{DATABASE_PASSWORD}/$(generate_random_pwd)/g" /root/harbor/harbor.yml
 cd /root/harbor
 chmod 700 *.sh
 

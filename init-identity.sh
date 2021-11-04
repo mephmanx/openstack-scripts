@@ -74,11 +74,10 @@ runuser -l root -c 'chmod 600 /root/.ssh/authorized_keys'
 #IPA vars
 
 ### gen pwd's
-HOWLONG=30 ## the number of characters
-DIR_PWD=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+DIR_PWD=$(generate_random_pwd)
 echo $DIR_PWD > /root/directory_pwd
 
-ADMIN_PWD=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+ADMIN_PWD=$(generate_random_pwd)
 echo $ADMIN_PWD > /root/admin_pwd
 ##############
 

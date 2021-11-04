@@ -104,8 +104,7 @@ function load_libs() {
 }
 
 function add_stack_user() {
-  HOWLONG=15 ## the number of characters
-  NEWPW=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+  NEWPW=$(generate_random_pwd)
 
   runuser -l root -c  'mkdir /opt/stack'
   runuser -l root -c  'useradd -s /bin/bash -d /opt/stack -m stack -G openstack'
@@ -411,4 +410,9 @@ function remove_ip_from_adapter() {
   sed -i '/^DNS1/d' /etc/sysconfig/network-scripts/ifcfg-$adapter_name
   sed -i '/^NETMASK/d' /etc/sysconfig/network-scripts/ifcfg-$adapter_name
   sed -i '/^GATEWAY/d' /etc/sysconfig/network-scripts/ifcfg-$adapter_name
+}
+
+function generate_random_pwd() {
+  RANDOM_PWD=`date +%s | sha256sum | base64 | head -c 32 ; echo`
+  echo $RANDOM_PWD
 }

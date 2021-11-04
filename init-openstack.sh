@@ -83,8 +83,7 @@ CERT_DIR="/root/.ssh"
 runuser -l root -c  "mkdir $CERT_DIR"
 
 ### CA key pass
-HOWLONG=15 ## the number of characters
-NEWPW=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+NEWPW=$(generate_random_pwd)
 echo $NEWPW > $CERT_DIR/ca_pwd
 ###
 
