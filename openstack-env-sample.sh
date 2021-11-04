@@ -1,9 +1,5 @@
 #!/bin/sh
 
-#################
-#  Encrypt these passwords using some sort of hardware specific key (TPM maybe?) so they are not unencrypted in the iso.
-###############
-
 ## domain name
 export DOMAIN_NAME=<internal cloud domain name>;
 export EXTERNAL_DOMAIN_NAME=<domain name on external requests>
