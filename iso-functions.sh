@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source /tmp/openstack-scripts/network-functions.sh
+source /tmp/openstack-scripts/vm_functions.sh
 source /tmp/project_config.sh
 
 LINUX_OS="https://$GATEWAY_ROUTER_IP/isos/linux.iso"
