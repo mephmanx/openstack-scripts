@@ -43,7 +43,6 @@ yum install -y perl \
                 mysql-devel \
                 nodejs \
                 mysql-server \
-                cockpit-podman \
                 cockpit-machines \
                 cockpit-networkmanager \
                 cockpit-packagekit \
