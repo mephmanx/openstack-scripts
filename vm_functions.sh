@@ -274,15 +274,15 @@ function create_ca_cert() {
   ca_pwd=$1
   cert_dir=$2
 
-  runuser -l root -c  "touch $CERT_DIR/ca_pwd"
-  runuser -l root -c  "touch $CERT_DIR/id_rsa"
-  runuser -l root -c  "touch $CERT_DIR/id_rsa.pub"
-  runuser -l root -c  "touch $CERT_DIR/id_rsa.crt"
+  runuser -l root -c  "touch $cert_dir/ca_pwd"
+  runuser -l root -c  "touch $cert_dir/id_rsa"
+  runuser -l root -c  "touch $cert_dir/id_rsa.pub"
+  runuser -l root -c  "touch $cert_dir/id_rsa.crt"
 
   IP=`hostname -I | awk '{print $1}'`
   source /tmp/openstack-scripts/project_config.sh
 
-cat > $CERT_DIR/ca_conf.cnf <<EOF
+cat > $cert_dir/ca_conf.cnf <<EOF
 ##Required
 [ req ]
 default_bits                                         = 4096
