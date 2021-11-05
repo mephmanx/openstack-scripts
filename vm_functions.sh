@@ -51,10 +51,6 @@ function load_libs() {
   case "${option}" in
     "kolla")
           # Kolla Openstack setup VM
-          yum install -y yum-utils
-          yum update -y
-          yum -y install epel-release
-          yum update -y
           dnf module enable idm:DL1 -y
           dnf distro-sync -y
           dnf update -y
@@ -94,10 +90,6 @@ function load_libs() {
     ;;
       *)
         # All other Openstack VM's
-        yum install -y yum-utils
-        yum update -y
-        yum -y install epel-release
-        yum update -y
         dnf module enable idm:DL1 -y
         dnf distro-sync -y
         dnf update -y
@@ -106,7 +98,6 @@ function load_libs() {
         #One time machine setup
         #install yum libs here
         yum install -y wget \
-            perl \
             unzip \
             epel-release \
             gcc \
@@ -162,6 +153,7 @@ function common_second_boot_setup() {
 
   ADMIN_PWD=`cat /root/env_admin_pwd`
   systemctl restart docker
+  docker login -u admin -p $ADMIN_PWD $SUPPORT_HOST.$DOMAIN_NAME
 
   mkdir /root/.ssh
   ## this allows openstack vm's to ssh to each other without password
@@ -264,9 +256,15 @@ function post_install_cleanup() {
   rm -rf /tmp/type
   runuser -l root -c  'rm -rf /root/*.log'
   runuser -l root -c  'rm -rf /tmp/*.log'
+  sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
+  sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
+  /usr/sbin/service sshd restart
   #### cleanup nodes
   file=/tmp/host_list
 cat > /tmp/server_cleanup.sh <<EOF
+sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
+sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
+/usr/sbin/service sshd restart
 rm -rf /tmp/host-trust.sh
 rm -rf /tmp/openstack-env.sh
 rm -rf /tmp/project_config.sh

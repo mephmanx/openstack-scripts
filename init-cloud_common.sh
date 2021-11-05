@@ -32,25 +32,12 @@ grow_fs
 
 ## enable auto updates if selected
 if [[ $LINUX_AUTOUPDATE == 1 ]]; then
-  dnf install -y dnf-automatic
-
-  cat > /etc/dnf/automatic.conf <<EOF
-[commands]
-upgrade_type = default
-random_sleep = 0
-network_online_timeout = 60
-download_updates = yes
-apply_updates = yes
-EOF
-
   systemctl enable --now dnf-automatic.timer
 fi
 
 # load libraries for this VM "type"
 load_libs "${TYPE}"
 
-systemctl enable docker
-systemctl start docker
 #### Centos8 to Centos 8 Stream
 if [[ $NAME == "CentOS Linux" ]]; then
   dnf swap centos-linux-repos centos-stream-repos -y

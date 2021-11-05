@@ -18,28 +18,14 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
-yum update -y
-yum -y install epel-release
-yum update -y
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup."
 
-yum install -y perl tpm-tools yum-utils cockpit git python3-devel python38 make ruby ruby-devel gcc-c++ mysql-devel nodejs mysql-server cockpit-machines cockpit-networkmanager cockpit-packagekit cockpit-storaged openvpn wget
+### cleanup from previous boot
+rm -rf /tmp/eth*
+########
 
-systemctl status tcsd
-systemctl enable tcsd
-
-# If autoupdate is enabled
+## enable auto updates if selected
 if [[ $LINUX_AUTOUPDATE == 1 ]]; then
-  dnf install -y dnf-automatic
-
-  cat > /etc/dnf/automatic.conf <<EOF
-[commands]
-upgrade_type = default
-random_sleep = 0
-network_online_timeout = 60
-download_updates = yes
-apply_updates = yes
-EOF
-
   systemctl enable --now dnf-automatic.timer
 fi
 
@@ -47,9 +33,10 @@ fi
 cp /tmp/openstack-scripts/openstack.sh /tmp
 prep_next_script "openstack"
 
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor core network setup in progress....."
+
 ### enable nested virtualization
-touch /etc/modprobe.d/kvm.conf
-runuser -l root -c  'echo "options kvm_intel nested=1" >> /etc/modprobe.d/kvm.conf;'
+sed -i "s/#options kvm_intel nested=1/options kvm_intel nested=1/g" /etc/modprobe.d/kvm.conf
 runuser -l root -c  'echo "options kvm-intel enable_shadow_vmcs=1" >> /etc/modprobe.d/kvm.conf;'
 runuser -l root -c  'echo "options kvm-intel enable_apicv=1" >> /etc/modprobe.d/kvm.conf;'
 runuser -l root -c  'echo "options kvm-intel ept=1" >> /etc/modprobe.d/kvm.conf;'
