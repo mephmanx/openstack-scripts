@@ -292,6 +292,10 @@ req_extensions                                   = v3_ca
 ##About the system for the request. Ensure the CN = FQDN
 [ req_distinguished_name ]
 commonName                                    = ca.$INTERNAL_DOMAIN_NAME
+countryName                 = $COUNTRY
+stateOrProvinceName         = $STATE
+localityName               = $LOCATION
+organizationName           = $ORGANIZATION
 
 ##Extensions to add to a certificate request for how it will be used
 [ v3_ca ]
@@ -299,7 +303,7 @@ basicConstraints        = critical, CA:TRUE
 subjectKeyIdentifier    = hash
 authorityKeyIdentifier  = keyid:always, issuer:always
 keyUsage                = critical, cRLSign, digitalSignature, keyCertSign
-subjectAltName          = email:administrator@$INTERNAL_DOMAIN_NAME
+subjectAltName          = @alt_names
 
 ##The other names your server may be connected to as
 [alt_names]
@@ -316,7 +320,7 @@ EOF
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
   runuser -l root -c  "openssl req -new -x509 -days 7300 \
                         -key $cert_dir/id_rsa.key -out $cert_dir/id_rsa.crt \
-                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=ca.' \
+                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=ca.$INTERNAL_DOMAIN_NAME' \
                         -config $cert_dir/ca_conf.cnf"
 }
 
@@ -347,7 +351,6 @@ countryName                 = $COUNTRY
 stateOrProvinceName         = $STATE
 localityName               = $LOCATION
 organizationName           = $ORGANIZATION
-commonName                 = $host_name.$INTERNAL_DOMAIN_NAME
 
 ##Extensions to add to a certificate request for how it will be used
 [ v3_vpn_server ]
@@ -368,6 +371,7 @@ EOF
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/$cert_name.pass.key -out $cert_dir/$cert_name.key"
   runuser -l root -c  "openssl req -new -key $cert_dir/$cert_name.key \
                           -out $cert_dir/$cert_name.csr \
+                          -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$host_name.$INTERNAL_DOMAIN_NAME' \
                           -config $cert_dir/$cert_name.cnf"
 
   runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
