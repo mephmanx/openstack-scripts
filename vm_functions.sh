@@ -288,6 +288,7 @@ cat > $CERT_DIR/ca_conf.cnf <<EOF
 default_bits                                         = 4096
 distinguished_name                           = req_distinguished_name
 req_extensions                                   = v3_ca
+prompt = no
 
 ##About the system for the request. Ensure the CN = FQDN
 [ req_distinguished_name ]
@@ -320,7 +321,6 @@ EOF
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
   runuser -l root -c  "openssl req -new -x509 -days 7300 \
                         -key $cert_dir/id_rsa.key -out $cert_dir/id_rsa.crt \
-                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=ca.$INTERNAL_DOMAIN_NAME' \
                         -config $cert_dir/ca_conf.cnf"
 }
 
@@ -343,6 +343,7 @@ cat > $cert_dir/$cert_name.cnf <<EOF
 default_bits                                         = 4096
 distinguished_name                           = req_distinguished_name
 req_extensions                                   = v3_vpn_server
+prompt = no
 
 ##About the system for the request. Ensure the CN = FQDN
 [ req_distinguished_name ]
