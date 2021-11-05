@@ -405,7 +405,7 @@ function create_user_cert() {
 
   runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
                         -in $cert_dir/$user_name.csr -CA $cert_dir/id_rsa.crt \
-                        -CAkey $cert_dir/id_rsa.key -passin pass:$ca_pwd \
+                        -key $cert_dir/id_rsa.key -passin pass:$ca_pwd \
                         -out $cert_dir/$user_name.crt"
   ##########
 }
