@@ -74,6 +74,7 @@ else
   DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
 fi
 
+ADMIN_PWD=`cat /root/env_admin_pwd`
 ##### replace PFSense template vars
 sed -i 's/{CF_TCP_START_PORT}/'$CF_TCP_START_PORT'/g' /tmp/usb/config.xml
 sed -i 's/{CF_TCP_END_PORT}/'$CF_TCP_END_PORT'/g' /tmp/usb/config.xml
