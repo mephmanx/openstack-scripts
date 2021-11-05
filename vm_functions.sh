@@ -52,6 +52,9 @@ function load_libs() {
     "kolla")
           # Kolla Openstack setup VM
           yum install -y yum-utils
+          yum update -y
+          yum -y install epel-release
+          yum update -y
           dnf module enable idm:DL1 -y
           dnf distro-sync -y
           dnf update -y
@@ -92,6 +95,9 @@ function load_libs() {
       *)
         # All other Openstack VM's
         yum install -y yum-utils
+        yum update -y
+        yum -y install epel-release
+        yum update -y
         dnf module enable idm:DL1 -y
         dnf distro-sync -y
         dnf update -y
