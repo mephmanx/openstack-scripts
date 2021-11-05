@@ -316,6 +316,7 @@ EOF
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
   runuser -l root -c  "openssl req -new -x509 -days 7300 \
                         -key $cert_dir/id_rsa.key -out $cert_dir/id_rsa.crt \
+                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=ca.' \
                         -config $cert_dir/ca_conf.cnf"
 }
 
@@ -342,6 +343,11 @@ req_extensions                                   = v3_vpn_server
 ##About the system for the request. Ensure the CN = FQDN
 [ req_distinguished_name ]
 commonName                                    = $host_name.$INTERNAL_DOMAIN_NAME
+countryName                 = $COUNTRY
+stateOrProvinceName         = $STATE
+localityName               = $LOCATION
+organizationName           = $ORGANIZATION
+commonName                 = $host_name.$INTERNAL_DOMAIN_NAME
 
 ##Extensions to add to a certificate request for how it will be used
 [ v3_vpn_server ]
