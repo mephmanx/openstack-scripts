@@ -400,6 +400,7 @@ function create_user_cert() {
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/$user_name.pass.key -out $cert_dir/$user_name.key"
   runuser -l root -c  "openssl req -new -key $cert_dir/$user_name.key \
                         -config $cert_dir/ca_conf.cnf \
+                        -subj '/CN=$user_name.$INTERNAL_DOMAIN_NAME' \
                         -out $cert_dir/$user_name.csr"
 
   runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
