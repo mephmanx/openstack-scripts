@@ -89,6 +89,7 @@ function load_libs() {
         #One time machine setup
         #install yum libs here
         yum install -y wget \
+            perl \
             unzip \
             epel-release \
             gcc \
