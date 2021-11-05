@@ -90,6 +90,7 @@ function load_libs() {
         #install yum libs here
         yum install -y wget \
             perl \
+            yum-utils \
             unzip \
             epel-release \
             gcc \
