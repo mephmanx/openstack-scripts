@@ -49,6 +49,8 @@ fi
 # load libraries for this VM "type"
 load_libs "${TYPE}"
 
+systemctl enable docker
+systemctl start docker
 #### Centos8 to Centos 8 Stream
 if [[ $NAME == "CentOS Linux" ]]; then
   dnf swap centos-linux-repos centos-stream-repos -y
