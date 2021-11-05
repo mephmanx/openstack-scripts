@@ -1,5 +1,8 @@
 #!/bin/bash
 
+. /tmp/project_config.sh
+. /tmp/openstack-env.sh
+
 function get_drive_name() {
   dir_name=`find /dev/mapper -maxdepth 1 -type l -name '*cl*' -print -quit`
   DRIVE_NAME=`grep -oP '(?<=_).*?(?=-)' <<< "$dir_name"`
@@ -429,7 +432,6 @@ function generate_random_pwd() {
 }
 
 function join_machine_to_domain() {
-  source /tmp/project_config.sh
   IP_ADDRESS=`hostname -I | awk '{print $1}'`
   IPA_SERVER=$IDENTITY_HOST.$INTERNAL_DOMAIN_NAME
   ADMIN_PASSWORD=$1
