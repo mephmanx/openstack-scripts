@@ -7,15 +7,8 @@ source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 
 IFS=
-HOWLONG=5 ## the number of characters
-UNIQUE_SUFFIX=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
 
-#### store suffix for future use
-cat > /tmp/suffix <<EOF
-$UNIQUE_SUFFIX
-EOF
-
-ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup-${UNIQUE_SUFFIX}.key <<<y 2>&1 >/dev/null
+UNIQUE_SUFFIX=`cat /tmp/suffix`
 ##################### Prep
 runuser -l root -c 'rm -rf /tmp/additional_hosts'
 touch /tmp/additional_hosts

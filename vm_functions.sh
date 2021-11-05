@@ -153,7 +153,6 @@ function common_second_boot_setup() {
 
   ADMIN_PWD=`cat /root/env_admin_pwd`
   systemctl restart docker
-  docker login -u admin -p $ADMIN_PWD $SUPPORT_HOST.$DOMAIN_NAME
 
   mkdir /root/.ssh
   ## this allows openstack vm's to ssh to each other without password

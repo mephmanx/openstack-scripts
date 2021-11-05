@@ -41,6 +41,7 @@ embed_files=('/tmp/harbor.tgz'
               '/tmp/openstack-scripts/init-cloudsupport.sh'
               '/tmp/openstack-scripts/vm_functions.sh')
 
+commonItems ${kickstart_file}
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport" $embed_files_string
 
