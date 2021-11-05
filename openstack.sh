@@ -23,46 +23,6 @@ sleep 30
 
 yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup.  Installing packages..."
-
-yum -y install epel-release
-yum update -y
-dnf module install -y virt
-
-yum install -y perl \
-                tpm-tools \
-                yum-utils \
-                cockpit \
-                git \
-                python3-devel \
-                python38 \
-                make \
-                ruby \
-                ruby-devel \
-                gcc-c++ \
-                mysql-devel \
-                nodejs \
-                mysql-server \
-                cockpit-machines \
-                cockpit-networkmanager \
-                cockpit-packagekit \
-                cockpit-storaged \
-                openvpn \
-                wget
-
-dnf install -y cockpit-machines \
-                virt-install \
-                virt-viewer \
-                bridge-utils \
-                swtpm \
-                libtpms \
-                telnet \
-                bridge-utils
-
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Package install complete, continuing install..."
-
-systemctl status tcsd
-systemctl enable tcsd
 systemctl stop firewalld
 systemctl disable firewalld
 systemctl mask firewalld
@@ -77,6 +37,8 @@ load_system_info
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Cloud System: $SYSTEM_INFO"
 
 ################# setup KVM and kick off openstack cloud create
+dnf module install -y virt
+dnf install -y cockpit-machines virt-install virt-viewer bridge-utils swtpm libtpms telnet bridge-utils
 systemctl restart libvirtd
 
 cat > /etc/cockpit/cockpit.conf <<EOF

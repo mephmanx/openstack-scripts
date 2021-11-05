@@ -18,11 +18,16 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
-### cleanup from previous boot
-rm -rf /tmp/eth*
-########
+yum update -y
+yum -y install epel-release
+yum update -y
 
-## enable auto updates if selected
+yum install -y perl tpm-tools yum-utils cockpit git python3-devel python38 make ruby ruby-devel gcc-c++ mysql-devel nodejs mysql-server cockpit-machines cockpit-networkmanager cockpit-packagekit cockpit-storaged openvpn wget
+
+systemctl status tcsd
+systemctl enable tcsd
+
+# If autoupdate is enabled
 if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   dnf install -y dnf-automatic
 
