@@ -388,24 +388,23 @@ function create_user_cert() {
   cert_dir=$2
   user_name=$3
 
-  runuser -l root -c  "touch $CERT_DIR/$user_name.csr"
-  runuser -l root -c  "touch $CERT_DIR/$user_name.pass.key"
-  runuser -l root -c  "touch $CERT_DIR/$user_name.crt"
-  runuser -l root -c  "touch $CERT_DIR/$user_name.key"
+  runuser -l root -c  "touch $cert_dir/$user_name.csr"
+  runuser -l root -c  "touch $cert_dir/$user_name.pass.key"
+  runuser -l root -c  "touch $cert_dir/$user_name.crt"
+  runuser -l root -c  "touch $cert_dir/$user_name.key"
 
   source /tmp/openstack-scripts/project_config.sh
 
   ### generate osuser cert and key
-  runuser -l root -c  "openssl genrsa -aes256 -passout pass:$NEWPW -out $CERT_DIR/$user_name.pass.key 4096 "
-  runuser -l root -c  "openssl rsa -passin pass:$NEWPW -in $CERT_DIR/$user_name.pass.key -out $CERT_DIR/$user_name.key"
-  runuser -l root -c  "openssl req -new -key $CERT_DIR/$user_name.key \
-                        -out $CERT_DIR/$user_name.csr \
-                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$user_name.$INTERNAL_DOMAIN_NAME'"
+  runuser -l root -c  "openssl genrsa -aes256 -passout pass:$NEWPW -out $cert_dir/$user_name.pass.key 4096 "
+  runuser -l root -c  "openssl rsa -passin pass:$NEWPW -in $cert_dir/$user_name.pass.key -out $cert_dir/$user_name.key"
+  runuser -l root -c  "openssl req -new -key $cert_dir/$user_name.key \
+                        -out $cert_dir/$user_name.csr"
 
   runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
-                        -in $CERT_DIR/$user_name.csr -CA $CERT_DIR/id_rsa.crt \
-                        -CAkey $CERT_DIR/id_rsa -passin pass:$NEWPW \
-                        -out $CERT_DIR/$user_name.crt"
+                        -in $cert_dir/$user_name.csr -CA $cert_dir/id_rsa.crt \
+                        -CAkey $cert_dir/id_rsa -passin pass:$NEWPW \
+                        -out $cert_dir/$user_name.crt"
   ##########
 }
 
