@@ -48,6 +48,7 @@ function load_libs() {
   case "${option}" in
     "kolla")
           # Kolla Openstack setup VM
+          yum install -y yum-utils
           yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
           yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
           yum install -y wget \
@@ -84,13 +85,13 @@ function load_libs() {
     ;;
       *)
         # All other Openstack VM's
+        yum install -y yum-utils
         yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
         yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
         #One time machine setup
         #install yum libs here
         yum install -y wget \
             perl \
-            yum-utils \
             unzip \
             epel-release \
             gcc \
