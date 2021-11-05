@@ -396,14 +396,14 @@ function create_user_cert() {
   source /tmp/openstack-scripts/project_config.sh
 
   ### generate osuser cert and key
-  runuser -l root -c  "openssl genrsa -aes256 -passout pass:$NEWPW -out $cert_dir/$user_name.pass.key 4096 "
-  runuser -l root -c  "openssl rsa -passin pass:$NEWPW -in $cert_dir/$user_name.pass.key -out $cert_dir/$user_name.key"
+  runuser -l root -c  "openssl genrsa -aes256 -passout pass:$ca_pwd -out $cert_dir/$user_name.pass.key 4096 "
+  runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/$user_name.pass.key -out $cert_dir/$user_name.key"
   runuser -l root -c  "openssl req -new -key $cert_dir/$user_name.key \
                         -out $cert_dir/$user_name.csr"
 
   runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
                         -in $cert_dir/$user_name.csr -CA $cert_dir/id_rsa.crt \
-                        -CAkey $cert_dir/id_rsa -passin pass:$NEWPW \
+                        -CAkey $cert_dir/id_rsa -passin pass:$ca_pwd \
                         -out $cert_dir/$user_name.crt"
   ##########
 }
