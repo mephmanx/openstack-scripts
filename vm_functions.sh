@@ -316,7 +316,6 @@ EOF
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
   runuser -l root -c  "openssl req -new -x509 -days 7300 \
                         -key $cert_dir/id_rsa.key -out $cert_dir/id_rsa.crt \
-                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=ca.$INTERNAL_DOMAIN_NAME' \
                         -config $cert_dir/ca_conf.cnf"
 }
 
@@ -357,14 +356,12 @@ subjectAltName          = @alt_vpn_server
 DNS.1                                                 = $host_name
 DNS.2                                                 = $host_name.$INTERNAL_DOMAIN_NAME
 DNS.3                                                 = *.$INTERNAL_DOMAIN_NAME
-DNS.4                                                 = $IP
 EOF
 
   runuser -l root -c  "openssl genrsa -aes256 -passout pass:$ca_pwd -out $cert_dir/$cert_name.pass.key 4096"
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/$cert_name.pass.key -out $cert_dir/$cert_name.key"
   runuser -l root -c  "openssl req -new -key $cert_dir/$cert_name.key \
                           -out $cert_dir/$cert_name.csr \
-                          -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$host_name.$INTERNAL_DOMAIN_NAME' \
                           -config $cert_dir/$cert_name.cnf"
 
   runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
