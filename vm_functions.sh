@@ -439,5 +439,5 @@ function join_machine_to_domain() {
   REALM_NAME=$(echo "$INTERNAL_DOMAIN_NAME" | tr '[:lower:]' '[:upper:]')
   HOSTNAME=`hostname`.$INTERNAL_DOMAIN_NAME
 
-  ipa-client-install -p admin@$INTERNAL_DOMAIN_NAME --ip-address=$IP_ADDRESS --domain=$INTERNAL_DOMAIN_NAME --realm=$REALM_NAME --hostname=$HOSTNAME --server=$IPA_SERVER --mkhomedir -w $ADMIN_PASSWORD -U -q
+  ipa-client-install -p admin --ip-address=$IP_ADDRESS --domain=$INTERNAL_DOMAIN_NAME --realm=$REALM_NAME --hostname=$HOSTNAME --server=$IPA_SERVER --mkhomedir -w $ADMIN_PASSWORD -U -q
 }

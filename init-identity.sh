@@ -77,8 +77,7 @@ runuser -l root -c 'chmod 600 /root/.ssh/authorized_keys'
 DIR_PWD=$(generate_random_pwd)
 echo $DIR_PWD > /root/directory_pwd
 
-ADMIN_PWD=$(generate_random_pwd)
-echo $ADMIN_PWD > /root/admin_pwd
+ADMIN_PWD=`cat /root/env_admin_pwd`
 ##############
 
 DIRECTORY_MANAGER_PASSWORD=$DIR_PWD
