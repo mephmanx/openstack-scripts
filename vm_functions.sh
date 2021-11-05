@@ -330,9 +330,9 @@ function create_server_cert() {
     cert_name=$3
     host_name=$4
 
-    runuser -l root -c  "touch $CERT_DIR/$cert_name.pass.key"
-    runuser -l root -c  "touch $CERT_DIR/$cert_name.key"
-    runuser -l root -c  "touch $CERT_DIR/$cert_name.crt"
+    runuser -l root -c  "touch $cert_name/$cert_name.pass.key"
+    runuser -l root -c  "touch $cert_name/$cert_name.key"
+    runuser -l root -c  "touch $cert_name/$cert_name.crt"
 
     IP=`hostname -I | awk '{print $1}'`
     source /tmp/openstack-scripts/project_config.sh
