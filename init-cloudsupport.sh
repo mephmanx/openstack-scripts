@@ -47,6 +47,10 @@ yum install -y perl \
               cockpit-networkmanager \
               cockpit-packagekit \
               cockpit-storaged
+
+dnf module enable idm:DL1 -y
+dnf distro-sync -y
+dnf update -y
 #####
 
 ## enable auto updates if selected

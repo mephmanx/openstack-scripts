@@ -49,6 +49,9 @@ function load_libs() {
     "kolla")
           # Kolla Openstack setup VM
           yum install -y yum-utils
+          dnf module enable idm:DL1 -y
+          dnf distro-sync -y
+          dnf update -y
           yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
           yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
           yum install -y wget \
@@ -86,6 +89,9 @@ function load_libs() {
       *)
         # All other Openstack VM's
         yum install -y yum-utils
+        dnf module enable idm:DL1 -y
+        dnf distro-sync -y
+        dnf update -y
         yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
         yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
         #One time machine setup
@@ -420,4 +426,16 @@ function remove_ip_from_adapter() {
 function generate_random_pwd() {
   RANDOM_PWD=`date +%s | sha256sum | base64 | head -c 32 ; echo`
   echo $RANDOM_PWD
+}
+
+function join_machine_to_domain() {
+  source /tmp/project_config.sh
+  IP_ADDRESS=`hostname -I | awk '{print $1}'`
+  IPA_SERVER=$IDENTITY_HOST.$INTERNAL_DOMAIN_NAME
+  ADMIN_PASSWORD=$1
+  DOMAIN_NAME=$INTERNAL_DOMAIN_NAME
+  REALM_NAME=$(echo "$INTERNAL_DOMAIN_NAME" | tr '[:lower:]' '[:upper:]')
+  HOSTNAME=`hostname`.$INTERNAL_DOMAIN_NAME
+
+  ipa-client-install -p admin@$INTERNAL_DOMAIN_NAME --ip-address=$IP_ADDRESS --domain=$DOMAIN_NAME --realm=$REALM_NAME --hostname=$HOSTNAME --server=$IPA_SERVER --mkhomedir -w $ADMIN_PASSWORD -U -q
 }

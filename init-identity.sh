@@ -91,9 +91,7 @@ runuser -l root -c "echo $HOSTNAME > /etc/hostname"
 runuser -l root -c "sysctl kernel.hostname=$HOSTNAME"
 
 dnf module enable idm:DL1 -y
-
 dnf distro-sync -y
-
 dnf update -y
 
 dnf install -y cyrus-sasl-devel make libtool autoconf libtool-ltdl-devel openssl-devel libdb-devel tar gcc perl perl-devel wget vim rsyslog ipa-server ipa-server-dns
