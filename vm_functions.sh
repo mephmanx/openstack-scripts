@@ -326,6 +326,7 @@ DNS.1                                                 = ca
 DNS.2                                                 = ca.$INTERNAL_DOMAIN_NAME
 DNS.3                                                 = *.$INTERNAL_DOMAIN_NAME
 DNS.4                                                 = $IP
+IP                                                    = $IP
 EOF
 
   runuser -l root -c  "chmod 600 $cert_dir/*"
@@ -381,6 +382,12 @@ DNS.1                                                 = $host_name
 DNS.2                                                 = $host_name.$INTERNAL_DOMAIN_NAME
 DNS.3                                                 = *.$INTERNAL_DOMAIN_NAME
 EOF
+
+node_ct=255
+while [ $node_ct -gt 1 ]; do
+  echo "IP = $NETWORK_PREFIX.$node_ct" >> $cert_dir/$cert_name.cnf
+  ((node_ct--))
+done
 
   runuser -l root -c  "openssl genrsa -aes256 -passout pass:$ca_pwd -out $cert_dir/$cert_name.pass.key 4096"
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/$cert_name.pass.key -out $cert_dir/$cert_name.key"
