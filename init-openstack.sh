@@ -82,7 +82,7 @@ echo $NEWPW > $CERT_DIR/ca_pwd
 create_ca_cert $NEWPW $CERT_DIR
 
 # create vpn server key and cert
-create_server_cert $NEWPW $CERT_DIR "cloud-vpn"
+create_server_cert $NEWPW $CERT_DIR "cloud-vpn" "cloud-vpn"
 
 ### initial wildcard cert
 create_server_cert $NEWPW $CERT_DIR "wildcard" "*"
