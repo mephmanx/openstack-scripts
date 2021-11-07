@@ -21,12 +21,6 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
-yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
-
-systemctl stop firewalld
-systemctl disable firewalld
-systemctl mask firewalld
-
 ## trust generated ca
 cp /root/.ssh/id_rsa.crt /etc/pki/ca-trust/source/anchors
 runuser -l root -c  'update-ca-trust extract'
@@ -37,7 +31,7 @@ load_system_info
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Cloud System: $SYSTEM_INFO"
 #### Notify admin pwd in debug mode
 ADMIN_PWD=`cat /root/env_admin_pwd`
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor admin account pw: $ADMIN_PWD"
+telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor admin account pw: $ADMIN_PWD"
 
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
