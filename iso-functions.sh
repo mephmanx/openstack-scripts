@@ -21,12 +21,6 @@ function commonItems {
   echo 'cat > /tmp/openstack-setup.key <<EOF' >> ${kickstart_file}
   cat /tmp/openstack-setup-$UNIQUE_SUFFIX.key >> ${kickstart_file}
   echo 'EOF' >> ${kickstart_file}
-
-  ###### hypervisor key
-  echo 'cat > /tmp/hypervisor.key <<EOF' >> ${kickstart_file}
-  cat ~/.ssh/id_rsa.pub >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  #####
   ###############################
 }
 
@@ -150,6 +144,7 @@ function buildAndPushVMTypeISO {
   embed_files=('/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/project_config.sh'
                 '/root/.ssh/id_rsa.crt'
+                '/root/.ssh/id_rsa.pub'
                 '/root/.ssh/wildcard.crt'
                 '/tmp/libtpms.zip'
                 '/tmp/swtpm.zip'
@@ -215,6 +210,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/terraform_cf.zip'
                 '/tmp/host_list'
                 '/root/.ssh/id_rsa.crt'
+                '/root/.ssh/id_rsa.pub'
                 '/root/.ssh/wildcard.crt'
                 '/tmp/storage_hosts'
                 '/tmp/amphora-x64-haproxy.qcow2'

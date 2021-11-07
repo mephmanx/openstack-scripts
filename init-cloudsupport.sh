@@ -74,7 +74,7 @@ mkdir /root/.ssh
 runuser -l root -c 'cp /tmp/openstack-setup.key.pub /root/.ssh/authorized_keys'
 #### add hypervisor host key to authorized keys
 ## this allows the hypervisor to ssh without password to openstack vms
-runuser -l root -c 'cat /tmp/hypervisor.key >> /root/.ssh/authorized_keys'
+runuser -l root -c 'cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys'
 ######
 mv /tmp/openstack-setup.key.pub /root/.ssh/id_rsa.pub
 mv /tmp/openstack-setup.key /root/.ssh/id_rsa
