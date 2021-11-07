@@ -327,7 +327,7 @@ DNS.1                                                 = ca
 DNS.2                                                 = ca.$INTERNAL_DOMAIN_NAME
 DNS.3                                                 = *.$INTERNAL_DOMAIN_NAME
 DNS.4                                                 = $IP
-IP                                                    = $IP
+IP.1                                                  = $IP
 EOF
 
   runuser -l root -c  "chmod 600 $cert_dir/*"
@@ -386,7 +386,7 @@ EOF
 
 node_ct=255
 while [ $node_ct -gt 1 ]; do
-  echo "IP = $NETWORK_PREFIX.$node_ct" >> $cert_dir/$cert_name.cnf
+  echo "IP.$node_ct = $NETWORK_PREFIX.$node_ct" >> $cert_dir/$cert_name.cnf
   ((node_ct--))
 done
 
