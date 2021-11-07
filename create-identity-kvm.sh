@@ -32,7 +32,6 @@ sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd)'/g' ${kickstart_file}
 ###########################
 
 embed_files=('/root/.ssh/id_rsa.crt'
-              '/root/.ssh/id_rsa.key'
               '/root/.ssh/id_rsa.pub'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'

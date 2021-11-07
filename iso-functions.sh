@@ -151,7 +151,6 @@ function buildAndPushVMTypeISO {
                 '/tmp/project_config.sh'
                 '/root/.ssh/id_rsa.crt'
                 '/root/.ssh/wildcard.crt'
-                '/root/.ssh/wildcard.key'
                 '/tmp/libtpms.zip'
                 '/tmp/swtpm.zip'
                 "/tmp/openstack-scripts/$vm_type.sh"
@@ -216,9 +215,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/terraform_cf.zip'
                 '/tmp/host_list'
                 '/root/.ssh/id_rsa.crt'
-                '/root/.ssh/id_rsa.key'
                 '/root/.ssh/wildcard.crt'
-                '/root/.ssh/wildcard.key'
                 '/tmp/storage_hosts'
                 '/tmp/amphora-x64-haproxy.qcow2'
                 '/tmp/openstack-scripts/kolla.sh'
