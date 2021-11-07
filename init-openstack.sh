@@ -67,22 +67,6 @@ done
 nmcli connection down ext-con && nmcli connection up ext-con
 #########################
 
-#### generate ssh keys
-
-
-# create vpn server key and cert
-create_server_cert $NEWPW $CERT_DIR "cloud-vpn" "cloud-vpn"
-
-### initial wildcard cert
-create_server_cert $NEWPW $CERT_DIR "wildcard" "*"
-
-### generate osuser cert and key
-create_user_cert $NEWPW $CERT_DIR "osuser"
-##########
-
-## setup public key as other systems use it for cross system passwordless ssh
-runuser -l root -c 'cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys'
-
 ### use CA cert for cockpit
 cp $CERT_DIR/wildcard.crt /etc/cockpit/ws-certs.d/certificate.cert
 cp $CERT_DIR/wildcard.key /etc/cockpit/ws-certs.d/certificate.key
