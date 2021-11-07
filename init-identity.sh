@@ -41,12 +41,7 @@ yum install -y perl \
               gcc-c++ \
               mysql-devel \
               nodejs \
-              mysql-server \
-              open-vm-tools \
-              cockpit-machines \
-              cockpit-networkmanager \
-              cockpit-packagekit \
-              cockpit-storaged
+              mysql-server
 #########
 
 ## enable auto updates if selected
