@@ -19,6 +19,9 @@ sleep 30
 ###########################
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup, core network setup in progress....."
+#### Notify admin pwd in debug mode
+ADMIN_PWD=`cat /root/env_admin_pwd`
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor admin account pw: $ADMIN_PWD"
 
 ## do not perform anything that would need internet access after the below command is executed.
 ##  the network is being reconfigured, the call will fail, and it might kill all future scripts

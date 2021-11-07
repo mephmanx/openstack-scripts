@@ -154,10 +154,6 @@ cd $pwd
 ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
 ###########
 
-#### Notify admin pwd in debug mode
-ADMIN_PWD=`cat /root/env_admin_pwd`
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor admin account pw: $ADMIN_PWD"
-
 runuser -l root -c  'cd /tmp/openstack-scripts; ./create-pfsense-kvm.sh'
 
 #remove so as to not run again
