@@ -18,14 +18,7 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup."
-
-## enable auto updates if selected
-if [[ $LINUX_AUTOUPDATE == 1 ]]; then
-  systemctl enable --now dnf-automatic.timer
-fi
-
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor core network setup in progress....."
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup, core network setup in progress....."
 
 ## do not perform anything that would need internet access after the below command is executed.
 ##  the network is being reconfigured, the call will fail, and it might kill all future scripts
