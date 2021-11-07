@@ -132,7 +132,7 @@ function closeOutAndBuildKickstartAndISO {
 
   cd /var/tmp/
   sudo implantisomd5 ${vm_name}-iso.iso
-#  sudo rm -rf /var/tmp/${vm_name}
+  sudo rm -rf /var/tmp/${vm_name}
   cd $working_dir
 }
 
