@@ -327,6 +327,7 @@ DNS.2                                                 = ca.$INTERNAL_DOMAIN_NAME
 DNS.3                                                 = *.$INTERNAL_DOMAIN_NAME
 DNS.4                                                 = $IP
 IP.1                                                  = $IP
+IP.2                                                  = $LAN_CENTOS_IP
 EOF
 
   runuser -l root -c  "chmod 600 $cert_dir/*"
