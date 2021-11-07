@@ -46,19 +46,6 @@ modprobe kvm_intel enable_apicv=1
 modprobe kvm_intel ept=1
 ##############
 
-## setup cert directory
-CERT_DIR="/root/.ssh"
-
-runuser -l root -c  "mkdir $CERT_DIR"
-
-### CA key pass
-NEWPW=$(generate_random_pwd)
-echo $NEWPW > $CERT_DIR/ca_pwd
-###
-
-# create CA cert before the network goes down to add ip to SAN
-create_ca_cert $NEWPW $CERT_DIR
-
 ## do not perform anything that would need internet access after the below command is executed.
 ##  the network is being reconfigured, the call will fail, and it might kill all future scripts
 ##### create bond ext-con
