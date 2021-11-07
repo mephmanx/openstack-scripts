@@ -68,7 +68,7 @@ function closeOutAndBuildKickstartAndISO {
   rm -rf /centos
 
   cp ${kickstart_file} /var/tmp/${vm_name}/ks.cfg
-  cp ${KICKSTART_DIR}/isolinux.cfg /var/tmp/${vm_name}/isolinux/isolinux.cfg
+  cp ${kickstart_file}/isolinux.cfg /var/tmp/${vm_name}/isolinux/isolinux.cfg
 
   #### add embedded files to iso
   ## file must exist on filesystem
