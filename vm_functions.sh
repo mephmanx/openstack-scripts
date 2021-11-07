@@ -287,7 +287,7 @@ EOF
 function create_ca_cert() {
   ca_pwd=$1
   cert_dir=$2
-  IP=10.0.200.1
+  IP=`hostname -I | awk '{print $1}'`
 
   runuser -l root -c  "touch $cert_dir/ca_pwd"
   runuser -l root -c  "touch $cert_dir/id_rsa"
