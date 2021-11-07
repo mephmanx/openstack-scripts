@@ -8,7 +8,6 @@ source /tmp/project_config.sh
 
 IFS=
 
-UNIQUE_SUFFIX=`cat /tmp/suffix`
 ##################### Prep
 runuser -l root -c 'rm -rf /tmp/additional_hosts'
 touch /tmp/additional_hosts
@@ -160,7 +159,7 @@ if [[ $HYPERVISOR_DEBUG == 0 ]]; then
   runuser -l root -c  'rm -rf /tmp/additional_hosts'
   runuser -l root -c  'rm -rf /tmp/dns_hosts'
   runuser -l root -c  'rm -rf /tmp/host_list'
-  runuser -l root -c  "rm -rf /tmp/openstack-setup-$UNIQUE_SUFFIX.key*"
+  runuser -l root -c  "rm -rf /tmp/openstack-setup.key*"
   runuser -l root -c  'rm -rf /tmp/storage_hosts'
   runuser -l root -c  'rm -rf /tmp/additional_hosts'
   runuser -l root -c  'rm -rf /tmp/suffix'

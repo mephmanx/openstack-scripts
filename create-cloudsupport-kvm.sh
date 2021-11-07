@@ -34,6 +34,8 @@ sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd)'/g' ${kickstart_file}
 embed_files=('/tmp/harbor.tgz'
               '/root/.ssh/wildcard.crt'
               '/root/.ssh/id_rsa.pub'
+              '/tmp/openstack-setup.key'
+              '/tmp/openstack-setup.pub'
               '/tmp/openstack-scripts/harbor.yml'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
@@ -41,7 +43,6 @@ embed_files=('/tmp/harbor.tgz'
               '/tmp/openstack-scripts/init-cloudsupport.sh'
               '/tmp/openstack-scripts/vm_functions.sh')
 
-commonItems ${kickstart_file}
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport" $embed_files_string
 

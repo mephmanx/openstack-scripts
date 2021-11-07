@@ -151,15 +151,7 @@ echo $web_pid > /tmp/web_pid
 cd $pwd
 
 ##### build openstack vm keys
-HOWLONG=5 ## the number of characters
-UNIQUE_SUFFIX=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
-
-#### store suffix for future use
-cat > /tmp/suffix <<EOF
-$UNIQUE_SUFFIX
-EOF
-
-ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup-${UNIQUE_SUFFIX}.key <<<y 2>&1 >/dev/null
+ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
 ###########
 
 #### Notify admin pwd in debug mode

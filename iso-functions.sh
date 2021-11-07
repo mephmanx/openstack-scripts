@@ -9,21 +9,6 @@ KICKSTART_DIR=/tmp/openstack-scripts
 
 IFS=
 
-function commonItems {
-  kickstart_file=$1
-
-  UNIQUE_SUFFIX=`cat /tmp/suffix`
-  ############## passwordless ssh
-  echo 'cat > /tmp/openstack-setup.key.pub <<EOF' >> ${kickstart_file}
-  cat /tmp/openstack-setup-$UNIQUE_SUFFIX.key.pub >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-
-  echo 'cat > /tmp/openstack-setup.key <<EOF' >> ${kickstart_file}
-  cat /tmp/openstack-setup-$UNIQUE_SUFFIX.key >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
-  ###############################
-}
-
 function initialKickstartSetup {
   vm=$1
   printf -v vm_type_n '%s\n' "${vm//[[:digit:]]/}"
@@ -136,16 +121,14 @@ function buildAndPushVMTypeISO {
   initialKickstartSetup ${vm_name}
   ###########################
 
-  ############## common misc items
-  commonItems ${kickstart_file}
-  ##########################
-
   #####################################
   embed_files=('/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/project_config.sh'
                 '/root/.ssh/id_rsa.crt'
                 '/root/.ssh/id_rsa.pub'
                 '/root/.ssh/wildcard.crt'
+                '/tmp/openstack-setup.key'
+                '/tmp/openstack-setup.pub'
                 '/tmp/libtpms.zip'
                 '/tmp/swtpm.zip'
                 "/tmp/openstack-scripts/$vm_type.sh"
@@ -161,10 +144,6 @@ function buildAndPushOpenstackSetupISO {
   ############### kickstart init
   initialKickstartSetup "kolla"
   ###########################
-
-  ############## common misc items
-  commonItems ${kickstart_file}
-  ##########################
 
   ############ certs to enable SSL on VNC
   echo 'cat > /tmp/haproxy.pem <<EOF' >> ${kickstart_file}
@@ -212,6 +191,8 @@ function buildAndPushOpenstackSetupISO {
                 '/root/.ssh/id_rsa.crt'
                 '/root/.ssh/id_rsa.pub'
                 '/root/.ssh/wildcard.crt'
+                '/tmp/openstack-setup.key'
+                '/tmp/openstack-setup.pub'
                 '/tmp/storage_hosts'
                 '/tmp/amphora-x64-haproxy.qcow2'
                 '/tmp/openstack-scripts/kolla.sh'
