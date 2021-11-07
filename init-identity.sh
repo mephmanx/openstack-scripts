@@ -19,10 +19,6 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
-### cleanup from previous boot
-rm -rf /tmp/eth*
-########
-
 ### initial libs
 yum update -y
 yum -y install epel-release
