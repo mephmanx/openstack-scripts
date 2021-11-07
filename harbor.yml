@@ -14,8 +14,8 @@ https:
   # https port for harbor, default is 443
   port: 443
   # The path of cert and key files for nginx
-  certificate: /etc/cockpit/ws-certs.d/certificate.cert
-  private_key: /etc/cockpit/ws-certs.d/certificate.key
+  certificate: /tmp/wildcard.crt
+  private_key: /tmp/wildcard.key
 
 # Uncomment external_url if you want to enable external proxy
 # And when it enabled the hostname will no longer used
