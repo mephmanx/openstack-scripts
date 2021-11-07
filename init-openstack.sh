@@ -31,17 +31,6 @@ fi
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor core network setup in progress....."
 
-### enable nested virtualization
-sed -i "s/#options kvm_intel nested=1/options kvm_intel nested=1/g" /etc/modprobe.d/kvm.conf
-runuser -l root -c  'echo "options kvm-intel enable_shadow_vmcs=1" >> /etc/modprobe.d/kvm.conf;'
-runuser -l root -c  'echo "options kvm-intel enable_apicv=1" >> /etc/modprobe.d/kvm.conf;'
-runuser -l root -c  'echo "options kvm-intel ept=1" >> /etc/modprobe.d/kvm.conf;'
-modprobe kvm_intel nested=1
-modprobe kvm_intel enable_shadow_vmcs=1
-modprobe kvm_intel enable_apicv=1
-modprobe kvm_intel ept=1
-##############
-
 ## do not perform anything that would need internet access after the below command is executed.
 ##  the network is being reconfigured, the call will fail, and it might kill all future scripts
 ##### create bond ext-con
