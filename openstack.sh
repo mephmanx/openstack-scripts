@@ -113,7 +113,6 @@ while [ $node_ct -gt 10 ]; do
 done
 #############
 
-virsh net-destroy default
 virsh net-undefine default
 ###########################
 
