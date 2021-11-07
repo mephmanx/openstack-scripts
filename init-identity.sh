@@ -27,8 +27,6 @@ yum update -y
 yum install -y perl \
               yum-utils \
               cockpit \
-              wget \
-              git \
               python3-devel \
               python38 \
               make \
