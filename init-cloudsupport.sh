@@ -105,6 +105,9 @@ chmod 700 *.sh
 
 runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --with-chartmuseum"
 
+echo "$IDENTITY_VIP $IDENTITY_HOST.$INTERNAL_DOMAIN_NAME" >> /etc/hosts
+join_machine_to_domain $ADMIN_PWD
+
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudsupport VM ready for use"
 ##########################
 #remove so as to not run again
