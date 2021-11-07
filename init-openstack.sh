@@ -20,10 +20,6 @@ sleep 30
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup."
 
-### cleanup from previous boot
-rm -rf /tmp/eth*
-########
-
 ## enable auto updates if selected
 if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   systemctl enable --now dnf-automatic.timer
