@@ -54,6 +54,7 @@ function load_libs() {
           dnf module enable idm:DL1 -y
           dnf distro-sync -y
           dnf update -y
+          yum install -y yum-utils
           yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
           yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
           yum install -y wget \
@@ -94,6 +95,7 @@ function load_libs() {
         dnf module enable idm:DL1 -y
         dnf distro-sync -y
         dnf update -y
+        yum install -y yum-utils
         yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
         yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
         #One time machine setup

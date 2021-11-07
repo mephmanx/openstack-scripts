@@ -121,7 +121,7 @@ function buildAndPushVMTypeISO {
                 '/root/.ssh/id_rsa.crt'
                 '/root/.ssh/id_rsa.pub'
                 '/tmp/openstack-setup.key'
-                '/tmp/openstack-setup.pub'
+                '/tmp/openstack-setup.key.pub'
                 '/tmp/libtpms.zip'
                 '/tmp/swtpm.zip'
                 "/tmp/openstack-scripts/$vm_type.sh"
@@ -187,7 +187,7 @@ function buildAndPushOpenstackSetupISO {
                 '/root/.ssh/id_rsa.crt'
                 '/root/.ssh/id_rsa.pub'
                 '/tmp/openstack-setup.key'
-                '/tmp/openstack-setup.pub'
+                '/tmp/openstack-setup.key.pub'
                 '/tmp/storage_hosts'
                 '/tmp/amphora-x64-haproxy.qcow2'
                 '/tmp/openstack-scripts/kolla.sh'
