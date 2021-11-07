@@ -50,10 +50,6 @@ add_stack_user
 # set up net script to be called after reboot
 prep_next_script "${TYPE}"
 
-## join to domain
-ADMIN_PWD=`cat /root/env_admin_pwd`
-join_machine_to_domain $ADMIN_PWD
-
 host=`hostname`
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloud VM $host starting second reboot..."
 

@@ -227,6 +227,9 @@ do
   echo "$i"
   scp /tmp/host-trust.sh root@$i:/tmp
   runuser -l root -c "ssh root@$i '/tmp/host-trust.sh'"
+  ## join to domain
+  ADMIN_PWD=`cat /root/env_admin_pwd`
+  runuser -l root -c "ssh root@$i 'source /tmp/vm_functions.sh; join_machine_to_domain $ADMIN_PWD;'"
 done
 rm -rf /tmp/host_trust
 #####################
@@ -352,6 +355,14 @@ chmod +x /tmp/control-trust.sh
 runuser -l root -c  'cd /tmp; ./control-trust.sh'
 cd $working_dir
 rm -rf /tmp/control-trust.sh
+
+### add cloud origin to horizon
+#control_ct=3
+#while [[ $control_ct -gt 0 ]]; then
+#  runuser -l root -c "ssh root@control0$control_ct 'echo 'CSRF_TRUSTED_ORIGINS=[openstack.$EXTERNAL_DOMAIN_NAME]' >> /etc/kolla/horizon/local_settings; docker restart horizon;'"
+#  ((control_ct--))
+#done
+###
 
 #load setup for validator
 cd /etc/kolla
