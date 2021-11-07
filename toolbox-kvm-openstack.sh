@@ -36,9 +36,10 @@ cp centos-8-kickstart-openstack.cfg ./tmp
 
 IFS=
 kickstart_file=./tmp/centos-8-kickstart-openstack.cfg
-
+NEWPWD=$(generate_random_pwd)
+echo $NEWPWD > /tmp/current_pwd
 ########### replace variables in project_config
-sed -i 's/{CENTOS_ADMIN_PWD}/'$(generate_random_pwd)'/g' ${kickstart_file}
+sed -i 's/{CENTOS_ADMIN_PWD}/'$NEWPWD'/g' ${kickstart_file}
 sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
 ###########################
 
