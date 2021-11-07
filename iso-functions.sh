@@ -53,12 +53,6 @@ function closeOutAndBuildKickstartAndISO {
   ########
   prepareEnv
 
-  ###Close out cfg file
-  echo '%end' >> ${kickstart_file}
-  echo 'eula --agreed' >> ${kickstart_file}
-  echo 'reboot --eject' >> ${kickstart_file}
-  #########
-
   sudo rm -rf /var/tmp/${vm_name}
   mkdir /centos
   sudo mount -t iso9660 -o loop /tmp/linux.iso /centos
@@ -145,47 +139,47 @@ function buildAndPushOpenstackSetupISO {
   ###########################
 
   ############ certs to enable SSL on VNC
-  echo 'cat > /tmp/haproxy.pem <<EOF' >> ${kickstart_file}
-  cat /root/.ssh/wildcard.key >> ${kickstart_file}
-  cat /root/.ssh/wildcard.crt >> ${kickstart_file}
-  cat /root/.ssh/id_rsa.crt >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
+  touch  /tmp/haproxy.pem
+  cat /root/.ssh/wildcard.key >> /tmp/haproxy.pem
+  cat /root/.ssh/wildcard.crt >> /tmp/haproxy.pem
+  cat /root/.ssh/id_rsa.crt >> /tmp/haproxy.pem
 
-  echo 'cat > /tmp/haproxy-internal.pem <<EOF' >> ${kickstart_file}
-  cat /root/.ssh/wildcard.key >> ${kickstart_file}
-  cat /root/.ssh/wildcard.crt >> ${kickstart_file}
-  cat /root/.ssh/id_rsa.crt >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
+  touch /tmp/haproxy-internal.pem
+  cat /root/.ssh/wildcard.key >> /tmp/haproxy-internal.pem
+  cat /root/.ssh/wildcard.crt >> /tmp/haproxy-internal.pem
+  cat /root/.ssh/id_rsa.crt >> /tmp/haproxy-internal.pem
 
-  echo 'cat > /tmp/internal-ca.pem <<EOF' >> ${kickstart_file}
-  cat /root/.ssh/wildcard.key >> ${kickstart_file}
-  cat /root/.ssh/wildcard.crt >> ${kickstart_file}
-  cat /root/.ssh/id_rsa.crt >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
+  touch /tmp/internal-ca.pem
+  cat /root/.ssh/wildcard.key >> /tmp/internal-ca.pem
+  cat /root/.ssh/wildcard.crt >> /tmp/internal-ca.pem
+  cat /root/.ssh/id_rsa.crt >> /tmp/internal-ca.pem
   #################################
 
   ########## add host trust script
-  echo 'cat > /tmp/host-trust.sh <<EOF' >> ${kickstart_file}
-  cat /tmp/dns_hosts >> ${kickstart_file}
-  echo  $1 >> ${kickstart_file}
-  cat /tmp/additional_hosts >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
+  touch /tmp/host-trust.sh
+  cat /tmp/dns_hosts >> /tmp/host-trust.sh
+  echo  $1 >> /tmp/host-trust.sh
+  cat /tmp/additional_hosts >> /tmp/host-trust.sh
   #####################
 
   ############ control hack script
-  echo 'cat > /tmp/control-trust.sh <<EOF' >> ${kickstart_file}
-  echo  $2 >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
+  touch /tmp/control-trust.sh
+  echo  $2 >> /tmp/control-trust.sh
   #################################
 
   ############## host count
-  echo 'cat > /tmp/host_count <<EOF' >> ${kickstart_file}
-  echo  $3 >> ${kickstart_file}
-  echo 'EOF' >> ${kickstart_file}
+  touch /tmp/host_count
+  echo  $3 >> /tmp/host_count
   #########################
 
   #####################################
   embed_files=('/tmp/magnum.qcow2'
+                '/tmp/haproxy.pem'
+                '/tmp/haproxy-internal.pem'
+                '/tmp/internal-ca.pem'
+                '/tmp/host-trust.sh'
+                '/tmp/control-trust.sh'
+                '/tmp/host_count'
                 '/tmp/trove_instance.img'
                 '/tmp/trove_db.img'
                 '/tmp/terraform_cf.zip'
