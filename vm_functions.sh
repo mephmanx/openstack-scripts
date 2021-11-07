@@ -294,7 +294,7 @@ function create_ca_cert() {
   runuser -l root -c  "touch $cert_dir/id_rsa.crt"
 
   IP=`hostname -I | awk '{print $1}'`
-  source /tmp/openstack-scripts/project_config.sh
+  source /tmp/project_config.sh
 
 cat > $cert_dir/ca_conf.cnf <<EOF
 ##Required
