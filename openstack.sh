@@ -35,6 +35,9 @@ runuser -l root -c  'update-ca-trust extract'
 ## Send System info
 load_system_info
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Cloud System: $SYSTEM_INFO"
+#### Notify admin pwd in debug mode
+ADMIN_PWD=`cat /root/env_admin_pwd`
+telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor admin account pw: $ADMIN_PWD"
 
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
