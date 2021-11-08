@@ -75,6 +75,7 @@ else
 fi
 
 ADMIN_PWD=`cat /root/env_admin_pwd`
+DIRECTORY_MGR_PWD=`cat /root/directory_mgr_pwd`
 ##### replace PFSense template vars
 sed -i 's/{CF_TCP_START_PORT}/'$CF_TCP_START_PORT'/g' /tmp/usb/config.xml
 sed -i 's/{CF_TCP_END_PORT}/'$CF_TCP_END_PORT'/g' /tmp/usb/config.xml
@@ -111,6 +112,7 @@ sed -i 's/{OPEN_VPN_TLS_KEY}/'$OPEN_VPN_TLS_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{CLOUDFOUNDRY_VIP}/'$CLOUDFOUNDRY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{IDENTITY_VIP}/'$IDENTITY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' /tmp/usb/config.xml
+sed -i 's/{DIRECTORY_MGR_PWD}/'$DIRECTORY_MGR_PWD'/g' /tmp/usb/config.xml
 sed -i 's/{CACHE_SIZE}/'$(($DRIVE_SIZE * 75/100 * 1024))'/g' /tmp/usb/config.xml
 #######
 

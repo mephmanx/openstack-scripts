@@ -63,9 +63,7 @@ runuser -l root -c 'chmod 600 /root/.ssh/authorized_keys'
 #IPA vars
 
 ### gen pwd's
-DIR_PWD=$(generate_random_pwd)
-echo $DIR_PWD > /root/directory_pwd
-
+DIR_PWD=`cat /root/directory_manager_pwd`
 ADMIN_PWD=`cat /root/env_admin_pwd`
 ##############
 

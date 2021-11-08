@@ -19,6 +19,8 @@ kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-ld.cfg
 echo "kickstart file -> ${kickstart_file}"
 kickstart_file=centos-8-kickstart-ld.cfg
 ADMIN_PWD=`cat /root/env_admin_pwd`
+DIRECTORY_MGR_PWD=$(generate_random_pwd)
+echo "$DIRECTORY_MGR_PWD" >> /root/directory_mgr_pwd
 
 ########### add passwords in
 sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
@@ -28,6 +30,7 @@ sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
 sed -i 's/{GATEWAY_ROUTER_IP}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
 sed -i 's/{NETMASK}/'$NETMASK'/g' ${kickstart_file}
 sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
+sed -i 's/{DIRECTORY_MGR_PWD}/'$DIRECTORY_MGR_PWD'/g' ${kickstart_file}
 sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd)'/g' ${kickstart_file}
 ###########################
 
