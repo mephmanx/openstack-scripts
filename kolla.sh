@@ -741,9 +741,10 @@ EOF
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Executing env prep script..."
 
 runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init;"
+sleep 60;
 runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /tmp/terraf-bbl.out;"
 ################
-
+sleep 120;
 ### update cf-lb to preconfigured address
 LB_FIXED_IP="$CLOUDFOUNDRY_VIP"
 LB_PROJECT_ID=`openstack loadbalancer show cf-lb -f value -c project_id`
@@ -799,26 +800,14 @@ runuser -l stack -c  "source /opt/stack/.bash_profile"
 ## currently bionic, trusty, xenial
 
 ## pull latest bionic image
-runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                      chmod +x /tmp/bbl_env.sh; \
-                      source /tmp/bbl_env.sh; \
-                      bosh upload-stemcell https://storage.googleapis.com/bosh-core-stemcells/1.31/bosh-stemcell-1.31-openstack-kvm-ubuntu-bionic-go_agent.tgz"
-
-## pull latest trusty imge
-
-runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                      chmod +x /tmp/bbl_env.sh; \
-                      source /tmp/bbl_env.sh; \
-                      bosh upload-stemcell https://s3.amazonaws.com/bosh-core-stemcells/3586.100/bosh-stemcell-3586.100-openstack-kvm-ubuntu-trusty-go_agent.tgz"
-
-## cloudfoundry uses xenial, pull version it is requesting
-runuser -l stack -c  "bosh interpolate /tmp/cf-deployment/cf-deployment.yml --path=/stemcells/alias=default/version > /opt/stack/stemcell_version"
-runuser -l stack -c  "bosh interpolate /tmp/cf-deployment/cf-deployment.yml --path=/stemcells/alias=default/os > /opt/stack/stemcell_os"
-
-runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                      chmod +x /tmp/bbl_env.sh; \
-                      source /tmp/bbl_env.sh; \
-                      bosh upload-stemcell https://bosh-core-stemcells.s3-accelerate.amazonaws.com/`cat /opt/stack/stemcell_version`/bosh-stemcell-`cat /opt/stack/stemcell_version`-openstack-kvm-`cat /opt/stack/stemcell_os`-go_agent.tgz"
+stemcell_path="/tmp/stemcell-*.tgz"
+for stemcell in $stemcell_path;
+do
+  runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                        chmod +x /tmp/bbl_env.sh; \
+                        source /tmp/bbl_env.sh; \
+                        bosh upload-stemcell $stemcell"
+done
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stemcell installed, finalizing environment for CF install..."
 ## add cf and cf-deployment-for-bosh security groups to bosh director

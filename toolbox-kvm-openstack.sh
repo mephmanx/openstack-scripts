@@ -103,7 +103,7 @@ fi
 if [ ! -f "/tmp/docker-compose" ]; then
   wget -O /tmp/docker-compose ${DOCKER_COMPOSE}
 fi
-####
+
 rm -rf /tmp/repo.zip
 zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*" -x "toolbox*" -x "*openstack.cfg"
 
@@ -123,6 +123,14 @@ embed_files=('/tmp/magnum.qcow2'
               '/tmp/cf_deployment.zip'
               '/tmp/docker-compose'
               '/tmp/project_config.sh')
+
+ct=1
+for stemcell in "${CF_STEMCELLS[@]}";
+do
+  wget -O /tmp/stemcell-$ct.tgz ${stemcell}
+  embed_files+=("/tmp/stemcell-$ct.tgz")
+done
+####
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_string
