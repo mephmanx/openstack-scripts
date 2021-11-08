@@ -62,7 +62,11 @@ function closeOutAndBuildKickstartAndISO {
   rm -rf /centos
 
   cp ${kickstart_file} /var/tmp/${vm_name}/ks.cfg
-  cp ${KICKSTART_DIR}/isolinux.cfg /var/tmp/${vm_name}/isolinux/isolinux.cfg
+  if [[ $vm_name == "openstack" ]]; then
+    cp ${KICKSTART_DIR}/isolinux.cfg /var/tmp/${vm_name}/isolinux/isolinux-openstack.cfg
+  else
+    cp ${KICKSTART_DIR}/isolinux.cfg /var/tmp/${vm_name}/isolinux/isolinux.cfg
+  fi
 
   #### add embedded files to iso
   ## file must exist on filesystem
