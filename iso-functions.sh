@@ -63,7 +63,7 @@ function closeOutAndBuildKickstartAndISO {
 
   cp ${kickstart_file} /var/tmp/${vm_name}/ks.cfg
   if [[ $vm_name == "openstack" ]]; then
-    cp ${KICKSTART_DIR}/isolinux.cfg /var/tmp/${vm_name}/isolinux/isolinux-openstack.cfg
+    cp ${KICKSTART_DIR}/isolinux-openstack.cfg /var/tmp/${vm_name}/isolinux/isolinux.cfg
   else
     cp ${KICKSTART_DIR}/isolinux.cfg /var/tmp/${vm_name}/isolinux/isolinux.cfg
   fi
