@@ -213,8 +213,8 @@ function buildAndPushOpenstackSetupISO {
   rm -rf /tmp/host_count
   rm -rf /tmp/control-trust.sh
   rm -rf /tmp/host-trust.sh
-  rm -rf /tmp/dns_hosts
-  rm -rf /tmp/additional_hosts
+  rm -rf /tmp/host_list
+  rm -rf /tmp/storage_hosts
 }
 
 function networkInformation {

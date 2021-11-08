@@ -154,15 +154,11 @@ echo $host_trust_script >> /tmp/additional_hosts
 runuser -l root -c  'rm -rf /root/.ssh/known_hosts; touch /root/.ssh/known_hosts'
 runuser -l root -c  'cd /tmp; ./dns_hosts'
 runuser -l root -c  'cd /tmp; ./additional_hosts'
+rm -rf /tmp/dns_hosts
+rm -rf /tmp/additional_hosts
 ### cleanup
 if [[ $HYPERVISOR_DEBUG == 0 ]]; then
-  runuser -l root -c  'rm -rf /tmp/additional_hosts'
-  runuser -l root -c  'rm -rf /tmp/dns_hosts'
-  runuser -l root -c  'rm -rf /tmp/host_list'
   runuser -l root -c  "rm -rf /tmp/openstack-setup.key*"
-  runuser -l root -c  'rm -rf /tmp/storage_hosts'
-  runuser -l root -c  'rm -rf /tmp/additional_hosts'
-  runuser -l root -c  'rm -rf /tmp/suffix'
   runuser -l root -c  'rm -rf /root/*.log'
   runuser -l root -c  'rm -rf /tmp/*.log'
   runuser -l root -c  'rm -rf /tmp/openstack-scripts'
