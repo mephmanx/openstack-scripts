@@ -209,6 +209,12 @@ function buildAndPushOpenstackSetupISO {
 
   printf -v embed_files_string '%s ' "${embed_files[@]}"
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla" $embed_files_string
+
+  rm -rf /tmp/host_count
+  rm -rf /tmp/control-trust.sh
+  rm -rf /tmp/host-trust.sh
+  rm -rf /tmp/dns_hosts
+  rm -rf /tmp/additional_hosts
 }
 
 function networkInformation {
