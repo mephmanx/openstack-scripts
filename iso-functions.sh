@@ -207,6 +207,15 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/cf_deployment.zip'
                 '/tmp/project_config.sh')
 
+  ct=1
+  for stemcell in "${CF_STEMCELLS[@]}";
+  do
+    wget -O /tmp/stemcell-$ct.tgz ${stemcell}
+    embed_files+=("/tmp/stemcell-$ct.tgz")
+    ((ct++))
+  done
+  ####
+
   printf -v embed_files_string '%s ' "${embed_files[@]}"
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla" $embed_files_string
 
