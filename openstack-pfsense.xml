@@ -64,19 +64,7 @@
 		</user>
 		<user>
 			<scope>user</scope>
-			<bcrypt-hash>$2y$10$6hVB.inbGoG2MoxCfKNDTe3r6GTsEwrmwQaRrbrB3xuuIUlB1aCzm</bcrypt-hash>
-			<descr></descr>
-			<name>identity</name>
-			<expires></expires>
-			<dashboardcolumns>2</dashboardcolumns>
-			<authorizedkeys></authorizedkeys>
-			<ipsecpsk></ipsecpsk>
-			<webguicss>pfSense.css</webguicss>
-			<uid>2003</uid>
-		</user>
-		<user>
-			<scope>user</scope>
-			<bcrypt-hash>$2y$10$GzS/hnXVB0AojyQIPlRQ9e5SWRgU0Z3JNQaZzNfUmE/gdLqIBrl8a</bcrypt-hash>
+			<bcrypt-hash></bcrypt-hash>
 			<descr><![CDATA[Openstack Admin]]></descr>
 			<name>osuser</name>
 			<expires></expires>
