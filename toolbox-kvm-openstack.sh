@@ -105,7 +105,7 @@ if [ ! -f "/tmp/docker-compose" ]; then
 fi
 ####
 rm -rf /tmp/repo.zip
-zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*"
+zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*" -x "toolbox*" -x "*openstack.cfg"
 
 embed_files=('/tmp/magnum.qcow2'
               '/tmp/pfSense-CE-memstick-ADI.img'
