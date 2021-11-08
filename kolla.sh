@@ -756,7 +756,7 @@ openstack floating ip create --subnet ${LB_FIP_SUBNET} \
 ###
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Env prep script complete, pulling CF deployment repo...."
-unzip cf_deployment.zip -d /tmp/cf-deployment
+unzip /tmp/cf_deployment.zip -d /tmp/cf-deployment
 mv /tmp/cf-deployment/cf-deployment-main/* /tmp/cf-deployment
 chown -R stack /tmp/cf-deployment
 
