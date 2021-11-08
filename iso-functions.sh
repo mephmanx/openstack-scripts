@@ -210,7 +210,6 @@ function buildAndPushOpenstackSetupISO {
   ct=1
   for stemcell in "${CF_STEMCELLS[@]}";
   do
-    wget -O /tmp/stemcell-$ct.tgz ${stemcell}
     embed_files+=("/tmp/stemcell-$ct.tgz")
     ((ct++))
   done
