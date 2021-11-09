@@ -127,7 +127,9 @@ embed_files=('/tmp/magnum.qcow2'
 ct=1
 for stemcell in "${CF_STEMCELLS[@]}";
 do
-  wget -O /tmp/stemcell-$ct.tgz ${stemcell}
+  if [ ! -f "/tmp/stemcell-$ct.tgz" ]; then
+    wget -O /tmp/stemcell-$ct.tgz ${stemcell}
+  fi
   embed_files+=("/tmp/stemcell-$ct.tgz")
   ((ct++))
 done
