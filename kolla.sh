@@ -608,7 +608,7 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Amphora image install complete"
 
 #download and configure homebrew to run bbl install
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting Homebrew install...."
-if [ -f "/tmp/homebrew.tgz" ]; then
+if [ -f "/tmp/homebrew.tar" ]; then
   telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Found Homebrew cache, using cache for install...."
   runuser -l stack -c  'mkdir -p /home/linuxbrew'
   runuser -l stack -c  'tar -xf /tmp/homebrew.tar -C /home/.linuxbrew'

@@ -136,8 +136,8 @@ done
 ####
 
 #### if homebrew cache is available
-if [ -f "/tmp/homebrew.tgz" ]; then
-  embed_files+=("/tmp/homebrew.tgz")
+if [ -f "/tmp/homebrew.tar" ]; then
+  embed_files+=("/tmp/homebrew.tar")
 fi
 ####
 
