@@ -739,10 +739,14 @@ insecure = "true"
 EOF
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Executing env prep script..."
+runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init; ./terraform plan;"
 
-runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init;"
-sleep 60;
-runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /tmp/terraf-bbl.out;"
+ct=3
+while [[ $ct -gt 0 ]]; do
+  runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /tmp/terraf-bbl.out;"
+  ((ct--))
+  sleep 30;
+done
 ################
 sleep 120;
 ### update cf-lb to preconfigured address
