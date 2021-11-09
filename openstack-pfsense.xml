@@ -150,7 +150,7 @@
 			<ldap_urltype>Standard TCP</ldap_urltype>
 			<ldap_protver>3</ldap_protver>
 			<ldap_scope>subtree</ldap_scope>
-			<ldap_basedn><![CDATA[dc=lyonsgroup,dc=local]]></ldap_basedn>
+			<ldap_basedn><![CDATA[{BASE_DN}]]></ldap_basedn>
 			<ldap_authcn><![CDATA[cn=accounts]]></ldap_authcn>
 			<ldap_extended_enabled></ldap_extended_enabled>
 			<ldap_extended_query></ldap_extended_query>

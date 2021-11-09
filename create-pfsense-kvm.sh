@@ -114,6 +114,7 @@ sed -i 's/{IDENTITY_VIP}/'$IDENTITY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{DIRECTORY_MGR_PWD}/'$DIRECTORY_MGR_PWD'/g' /tmp/usb/config.xml
 sed -i 's/{CACHE_SIZE}/'$(($DRIVE_SIZE * 75/100 * 1024))'/g' /tmp/usb/config.xml
+sed -i 's/{BASE_DN}/dc=lyonsgroup,dc=local/g' /tmp/usb/config.xml
 #######
 
 runuser -l root -c  'umount /tmp/usb'
