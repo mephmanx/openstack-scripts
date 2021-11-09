@@ -401,7 +401,7 @@ openstack image create trove-master-guest-ubuntu --private --disk-format qcow2 -
 
 openstack image create trove-base --disk-format qcow2 --container-format bare --file /tmp/trove_instance.img
 openstack network create trove-net
-openstack subnet create --subnet-range $TROVE_CIDR  --gateway $TROVE_GATEWAY --network trove-net --allocation-pool $TROVE_RANGE --dns-nameserver $GATEWAY_ROUTER_IP trove-subnet0
+openstack subnet create --subnet-range $TROVE_CIDR  --gateway $TROVE_GATEWAY --network trove-net --allocation-pool $TROVE_RANGE --dns-nameserver $IDENTITY_VIP trove-subnet0
 
 openstack router create trove-router
 openstack router set --external-gateway public1 trove-router
@@ -427,7 +427,7 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Magnum image installed, continu
 openstack coe cluster template create swarm-cluster-template \
           --image fedora-atomic-latest \
           --external-network public1 \
-          --dns-nameserver $GATEWAY_ROUTER_IP \
+          --dns-nameserver $IDENTITY_VIP \
           --network-driver docker \
           --docker-storage-driver overlay2 \
           --docker-volume-size 10 \
@@ -644,7 +644,7 @@ runuser -l stack -c  "echo 'export BBL_OPENSTACK_USERNAME=$OPENSTACK_CLOUDFOUNDR
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_PROJECT=cloudfoundry' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_DOMAIN=default' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_REGION=us-east' >> /opt/stack/.bash_profile"
-runuser -l stack -c  "echo 'export BBL_OPENSTACK_DNS_NAME_SERVERS=$GATEWAY_ROUTER_IP' >> /opt/stack/.bash_profile"
+runuser -l stack -c  "echo 'export BBL_OPENSTACK_DNS_NAME_SERVERS=$IDENTITY_VIP' >> /opt/stack/.bash_profile"
 
 runuser -l stack -c  "echo 'export OS_PROJECT_DOMAIN_NAME=$OS_PROJECT_DOMAIN_NAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_USER_DOMAIN_NAME=$OS_USER_DOMAIN_NAME' >> /opt/stack/.bash_profile"
@@ -661,10 +661,10 @@ runuser -l stack -c  "echo 'export OS_AUTH_PLUGIN=$OS_AUTH_PLUGIN' >> /opt/stack
 runuser -l stack -c  'bbl plan'
 
 sed -i "s/~> 1.16/$CF_BBL_OPENSTACK_CPI_VERSION/g" /opt/stack/terraform/bbl-template.tf
-sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/terraform/bbl-template.tf
-sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/jumpbox-deployment/jumpbox.yml
-sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/bosh-deployment/bosh.yml
-sed -i "s/8.8.8.8/$GATEWAY_ROUTER_IP/g" /opt/stack/cloud-config/ops.yml
+sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/terraform/bbl-template.tf
+sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/jumpbox-deployment/jumpbox.yml
+sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/bosh-deployment/bosh.yml
+sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/cloud-config/ops.yml
 
 runuser -l stack -c  "cat > /opt/stack/trusted-certs.vars.yml <<EOF
 trusted_certs: |-
@@ -737,7 +737,7 @@ ext_net_name = "public1"
 bosh_router_id = "`openstack router list --project cloudfoundry | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }'`"
 
 # in case Openstack has its own DNS servers
-dns_nameservers = ["$GATEWAY_ROUTER_IP"]
+dns_nameservers = ["$IDENTITY_VIP"]
 
 # does BOSH use a local blobstore? Set to 'false', if your BOSH Director uses e.g. S3 to store its blobs
 use_local_blobstore = "true" #default is true

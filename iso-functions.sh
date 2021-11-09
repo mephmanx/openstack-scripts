@@ -273,10 +273,10 @@ function networkInformation {
 
       if [[ $default_flag == "0" ]]; then
         default_set=""
-        network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$GATEWAY_ROUTER_IP --netmask=$NETMASK --nameserver=$GATEWAY_ROUTER_IP ${default_set}\n")
+        network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$GATEWAY_ROUTER_IP --netmask=$NETMASK --nameserver=$IDENTITY_VIP ${default_set}\n")
         default_flag="1"
       else
-        network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$GATEWAY_ROUTER_IP --netmask=$NETMASK --nameserver=$GATEWAY_ROUTER_IP ${default_set}\n")
+        network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$GATEWAY_ROUTER_IP --netmask=$NETMASK --nameserver=$IDENTITY_VIP ${default_set}\n")
       fi
 
       ((CORE_VM_START_IP++))

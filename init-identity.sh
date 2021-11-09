@@ -86,6 +86,8 @@ runuser -l root -c 'cp /tmp/id_rsa.crt /etc/ipa/ca.crt'
 runuser -l root -c 'chown -R pkiuser /etc/ipa/ca.crt'
 # Configure freeipa
 runuser -l root -c "ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD -a $ADMIN_PASSWORD -n $INTERNAL_DOMAIN_NAME -r $REALM_NAME --ip-address $IDENTITY_VIP --mkhomedir --setup-dns --auto-reverse --auto-forwarders --no-dnssec-validation --ntp-server=$GATEWAY_ROUTER_IP -U -q"
+runuser -l root -c "ipa-dns-install --auto-forwarders --no-reverse --no-dnssec-validation -U"
+runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '*' --a-ip-address=$GATEWAY_ROUTER_IP"
 #Create user on ipa WITHOUT A PASSWORD - we don't need one since we'll be using ssh key
 #Kinit session
 echo $ADMIN_PWD | kinit admin

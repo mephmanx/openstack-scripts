@@ -229,7 +229,7 @@
 			<domain></domain>
 			<domainsearchlist></domainsearchlist>
 			<ddnsdomain></ddnsdomain>
-			<ddnsdomainprimary></ddnsdomainprimary>
+			<ddnsdomainprimary>$IDENTITY_VIP</ddnsdomainprimary>
 			<ddnsdomainsecondary></ddnsdomainsecondary>
 			<ddnsdomainkeyname></ddnsdomainkeyname>
 			<ddnsdomainkeyalgorithm>hmac-md5</ddnsdomainkeyalgorithm>
@@ -263,7 +263,7 @@
 			<domain></domain>
 			<domainsearchlist></domainsearchlist>
 			<ddnsdomain></ddnsdomain>
-			<ddnsdomainprimary></ddnsdomainprimary>
+			<ddnsdomainprimary>$IDENTITY_VIP</ddnsdomainprimary>
 			<ddnsdomainsecondary></ddnsdomainsecondary>
 			<ddnsdomainkeyname></ddnsdomainkeyname>
 			<ddnsdomainkeyalgorithm>hmac-md5</ddnsdomainkeyalgorithm>
