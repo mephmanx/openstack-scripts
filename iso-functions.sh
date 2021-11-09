@@ -215,6 +215,12 @@ function buildAndPushOpenstackSetupISO {
   done
   ####
 
+  ##### if homebrew cache is available
+  if [ -f "/tmp/homebrew.tar" ]; then
+    embed_files+=('/tmp/homebrew.tar')
+  fi
+  #####
+
   printf -v embed_files_string '%s ' "${embed_files[@]}"
   closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla" $embed_files_string
 
