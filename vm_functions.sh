@@ -88,7 +88,9 @@ function load_libs() {
                 containerd.io \
                 tar \
                 tpm-tools \
-                ipa-client
+                ipa-client \
+                freeipa-client \
+                ipa-admintools
     ;;
       *)
         # All other Openstack VM's
@@ -111,7 +113,9 @@ function load_libs() {
             containerd.io \
             tar \
             tpm-tools \
-            ipa-client
+            ipa-client \
+            freeipa-client \
+            ipa-admintools
     ;;
   esac
 }
