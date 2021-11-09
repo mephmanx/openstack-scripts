@@ -325,6 +325,8 @@ subjectKeyIdentifier    = hash
 authorityKeyIdentifier  = keyid:always, issuer:always
 keyUsage                = critical, cRLSign, digitalSignature, keyCertSign
 subjectAltName          = @alt_names
+nsCertType              = server
+nsComment               = "$INTERNAL_DOMAIN_NAME CA Certificate"
 
 ##The other names your server may be connected to as
 [alt_names]
@@ -382,6 +384,8 @@ subjectKeyIdentifier    = hash
 keyUsage                = critical, nonRepudiation, digitalSignature, keyEncipherment, keyAgreement
 extendedKeyUsage        = critical, serverAuth
 subjectAltName          = @alt_vpn_server
+nsCertType              = server
+nsComment               = "Certificate for host -> $host_name.$INTERNAL_DOMAIN_NAME"
 
 ##The other names your server may be connected to as
 [alt_vpn_server]
