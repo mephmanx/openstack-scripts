@@ -604,21 +604,30 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Amphora image install complete"
 
 #download and configure homebrew to run bbl install
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting Homebrew install...."
-curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh -o /tmp/homebrew.sh > /dev/null
-chown -R stack /tmp/homebrew.sh
-chmod +x /tmp/homebrew.sh
+if [ -f "/tmp/homebrew.tgz" ]; then
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Found Homebrew cache, using cache for install...."
+  runuser -l stack -c  'mkdir -p /home/linuxbrew'
+  runuser -l stack -c  'tar -xf /tmp/homebrew.tar -C /home/.linuxbrew'
+  runuser -l stack -c  'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> /opt/stack/.bash_profile'
+  runuser -l stack -c  'brew update'
+  runuser -l stack -c  'brew upgrade'
+  runuser -l stack -c  'cd /opt/stack; source .bash_profile;'
+else
+  curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh -o /tmp/homebrew.sh > /dev/null
+  chown -R stack /tmp/homebrew.sh
+  chmod +x /tmp/homebrew.sh
 
+  runuser -l stack -c  '/tmp/homebrew.sh </dev/null'
+  runuser -l stack -c  'echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> /opt/stack/.bash_profile'
+  runuser -l stack -c  'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)'
+  runuser -l stack -c  'brew install cloudfoundry/tap/bosh-cli'
+  runuser -l stack -c  'brew install bbl'
+  runuser -l stack -c  'brew unlink terraform'
+  runuser -l stack -c  'brew install tfenv'
+  runuser -l stack -c  "tfenv install $CF_BBL_INSTALL_TERRAFORM_VERSION"
+  runuser -l stack -c  "tfenv use $CF_BBL_INSTALL_TERRAFORM_VERSION"
+fi
 PUBLIC_NETWORK_ID="$(openstack network list --name public1 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')"
-
-runuser -l stack -c  '/tmp/homebrew.sh </dev/null'
-runuser -l stack -c  'echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> /opt/stack/.bash_profile'
-runuser -l stack -c  'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)'
-runuser -l stack -c  'brew install cloudfoundry/tap/bosh-cli'
-runuser -l stack -c  'brew install bbl'
-runuser -l stack -c  'brew unlink terraform'
-runuser -l stack -c  'brew install tfenv'
-runuser -l stack -c  "tfenv install $CF_BBL_INSTALL_TERRAFORM_VERSION"
-runuser -l stack -c  "tfenv use $CF_BBL_INSTALL_TERRAFORM_VERSION"
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting BOSH infrastructure install...."
 runuser -l stack -c  "echo 'export BBL_IAAS=openstack' >> /opt/stack/.bash_profile"
