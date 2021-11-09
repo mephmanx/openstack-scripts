@@ -133,6 +133,12 @@ do
 done
 ####
 
+#### if homebrew cache is available
+if [ -f "/tmp/homebrew.tgz" ]; then
+  embed_files+=("/tmp/homebrew.tgz")
+fi
+####
+
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_string
 
