@@ -136,8 +136,8 @@ done
 ####
 
 #### if homebrew cache is available
-if [ -f "/tmp/homebrew.tar" ]; then
-  embed_files+=("/tmp/homebrew.tar")
+if [ -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
+  embed_files+=("/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar")
 fi
 ####
 
