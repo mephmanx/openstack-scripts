@@ -89,7 +89,6 @@
 			<logincss>1e3f75;</logincss>
 			<loginshowhost></loginshowhost>
 			<nohttpreferercheck></nohttpreferercheck>
-			<authmode>ipa-ldap</authmode>
 		</webgui>
 		<disablesegmentationoffloading></disablesegmentationoffloading>
 		<disablelargereceiveoffloading></disablelargereceiveoffloading>
@@ -140,30 +139,6 @@
 		<mds_disable>0</mds_disable>
 		<use_mfs_tmp_size></use_mfs_tmp_size>
 		<use_mfs_var_size></use_mfs_var_size>
-		<authserver>
-			<refid>6185196782b09</refid>
-			<type>ldap</type>
-			<name>ipa-ldap</name>
-			<ldap_caref>60ed826b68fa7</ldap_caref>
-			<host>{IDENTITY_VIP}</host>
-			<ldap_port>389</ldap_port>
-			<ldap_urltype>Standard TCP</ldap_urltype>
-			<ldap_protver>3</ldap_protver>
-			<ldap_scope>subtree</ldap_scope>
-			<ldap_basedn><![CDATA[{BASE_DN}]]></ldap_basedn>
-			<ldap_authcn><![CDATA[cn=accounts]]></ldap_authcn>
-			<ldap_extended_enabled></ldap_extended_enabled>
-			<ldap_extended_query></ldap_extended_query>
-			<ldap_attr_user><![CDATA[uid]]></ldap_attr_user>
-			<ldap_attr_group><![CDATA[cn]]></ldap_attr_group>
-			<ldap_attr_member><![CDATA[memberOf]]></ldap_attr_member>
-			<ldap_attr_groupobj><![CDATA[posixGroup]]></ldap_attr_groupobj>
-			<ldap_pam_groupdn></ldap_pam_groupdn>
-			<ldap_allow_unauthenticated></ldap_allow_unauthenticated>
-			<ldap_timeout>25</ldap_timeout>
-			<ldap_binddn><![CDATA[cn=Directory Manager]]></ldap_binddn>
-			<ldap_bindpw><![CDATA[{DIRECTORY_MGR_PWD}]]></ldap_bindpw>
-		</authserver>
 	</system>
 	<interfaces>
 		<wan>
