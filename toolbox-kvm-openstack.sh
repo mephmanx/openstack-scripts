@@ -126,7 +126,7 @@ embed_files=('/tmp/magnum.qcow2'
 
 ct=1
 IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
-for stemcell in "$stemcell_array";
+for stemcell in "${stemcell_array[@]}";
 do
   if [ ! -f "/tmp/stemcell-$ct.tgz" ]; then
     wget -O /tmp/stemcell-$ct.tgz ${stemcell}
