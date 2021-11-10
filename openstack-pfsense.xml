@@ -229,7 +229,7 @@
 			<domain></domain>
 			<domainsearchlist></domainsearchlist>
 			<ddnsdomain></ddnsdomain>
-			<ddnsdomainprimary>{IDENTITY_VIP}</ddnsdomainprimary>
+			<ddnsdomainprimary></ddnsdomainprimary>
 			<ddnsdomainsecondary></ddnsdomainsecondary>
 			<ddnsdomainkeyname></ddnsdomainkeyname>
 			<ddnsdomainkeyalgorithm>hmac-md5</ddnsdomainkeyalgorithm>
@@ -247,6 +247,7 @@
 			<filename64arm></filename64arm>
 			<rootpath></rootpath>
 			<numberoptions></numberoptions>
+			<dnsserver>{IDENTITY_VIP}</dnsserver>
 		</lan>
 		<opt1>
 			<range>
@@ -263,7 +264,7 @@
 			<domain></domain>
 			<domainsearchlist></domainsearchlist>
 			<ddnsdomain></ddnsdomain>
-			<ddnsdomainprimary>{IDENTITY_VIP}</ddnsdomainprimary>
+			<ddnsdomainprimary></ddnsdomainprimary>
 			<ddnsdomainsecondary></ddnsdomainsecondary>
 			<ddnsdomainkeyname></ddnsdomainkeyname>
 			<ddnsdomainkeyalgorithm>hmac-md5</ddnsdomainkeyalgorithm>
@@ -281,6 +282,7 @@
 			<filename64arm></filename64arm>
 			<rootpath></rootpath>
 			<numberoptions></numberoptions>
+			<dnsserver>{IDENTITY_VIP}</dnsserver>
 		</opt1>
 	</dhcpd>
 	<dhcpdv6>
