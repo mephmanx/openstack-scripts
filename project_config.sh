@@ -101,11 +101,7 @@ export CF_BBL_OS_CONF_HASH=386293038ae3d00813eaa475b4acf63f8da226ef
 ## how much available memory (after operating system, vm overhead, openstack overhead, and other misc resources are allocated) is allocated to cloudfoundry
 export CF_MEMORY_ALLOCATION_PCT=90
 export CF_DISK_ALLOCATION=80
-export CF_STEMCELLS=(
-  "https://storage.googleapis.com/bosh-core-stemcells/1.31/bosh-stemcell-1.31-openstack-kvm-ubuntu-bionic-go_agent.tgz"
-  "https://s3.amazonaws.com/bosh-core-stemcells/3586.100/bosh-stemcell-3586.100-openstack-kvm-ubuntu-trusty-go_agent.tgz"
-  "https://bosh-core-stemcells.s3-accelerate.amazonaws.com/621.125/bosh-stemcell-621.125-openstack-kvm-ubuntu-xenial-go_agent.tgz"
-);
+export CF_STEMCELLS="https://storage.googleapis.com/bosh-core-stemcells/1.31/bosh-stemcell-1.31-openstack-kvm-ubuntu-bionic-go_agent.tgz https://s3.amazonaws.com/bosh-core-stemcells/3586.100/bosh-stemcell-3586.100-openstack-kvm-ubuntu-trusty-go_agent.tgz"
 
 ## openstack vm counts
 ### these counts can be adjusted if larger than 1 server
