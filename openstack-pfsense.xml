@@ -229,7 +229,7 @@
 			<domain></domain>
 			<domainsearchlist></domainsearchlist>
 			<ddnsdomain></ddnsdomain>
-			<ddnsdomainprimary>$IDENTITY_VIP</ddnsdomainprimary>
+			<ddnsdomainprimary>{IDENTITY_VIP}</ddnsdomainprimary>
 			<ddnsdomainsecondary></ddnsdomainsecondary>
 			<ddnsdomainkeyname></ddnsdomainkeyname>
 			<ddnsdomainkeyalgorithm>hmac-md5</ddnsdomainkeyalgorithm>
@@ -263,7 +263,7 @@
 			<domain></domain>
 			<domainsearchlist></domainsearchlist>
 			<ddnsdomain></ddnsdomain>
-			<ddnsdomainprimary>$IDENTITY_VIP</ddnsdomainprimary>
+			<ddnsdomainprimary>{IDENTITY_VIP}</ddnsdomainprimary>
 			<ddnsdomainsecondary></ddnsdomainsecondary>
 			<ddnsdomainkeyname></ddnsdomainkeyname>
 			<ddnsdomainkeyalgorithm>hmac-md5</ddnsdomainkeyalgorithm>
@@ -1066,20 +1066,6 @@
 		<dns64></dns64>
 		<dns64prefix></dns64prefix>
 		<dns64netbits>96</dns64netbits>
-		<hosts>
-			<host>{APP_EXTERNAL_HOSTNAME}</host>
-			<domain>{INTERNAL_DOMAIN_NAME}</domain>
-			<ip>{GATEWAY_ROUTER_IP}</ip>
-			<descr><![CDATA[{APP_EXTERNAL_HOSTNAME}]]></descr>
-			<aliases></aliases>
-		</hosts>
-		<hosts>
-			<host>{APP_INTERNAL_HOSTNAME}</host>
-			<domain>{INTERNAL_DOMAIN_NAME}</domain>
-			<ip>{INTERNAL_VIP}</ip>
-			<descr><![CDATA[{APP_INTERNAL_HOSTNAME}]]></descr>
-			<aliases></aliases>
-		</hosts>
 	</unbound>
 	<revision>
 		<time>1636116023</time>
