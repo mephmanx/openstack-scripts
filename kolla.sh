@@ -610,8 +610,9 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Amphora image install complete"
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting Homebrew install...."
 if [ -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
   telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Found Homebrew cache, using cache for install...."
-  runuser -l stack -c  'mkdir -p /home/linuxbrew'
-  runuser -l stack -c  "tar -xf /tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar -C /home/.linuxbrew"
+  runuser -l root -c  'mkdir -p /home/linuxbrew'
+  runuser -l root -c  "tar -xf /tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar -C /home/linuxbrew"
+  runuser -l stack -c  "echo 'PATH=$PATH:/home/linuxbrew/.linuxbrew/bin' >> /opt/stack/.bash_profile"
   runuser -l stack -c  'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> /opt/stack/.bash_profile'
   runuser -l stack -c  'brew update'
   runuser -l stack -c  'brew upgrade'
