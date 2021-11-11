@@ -199,12 +199,6 @@ telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_p
   sleep 10;
   echo "$root_pw";
   sleep 10;
-  echo "pfSsh.php playback changepassword osuser";
-  sleep 10;
-  echo "$ADMIN_PWD";
-  sleep 10;
-  echo "$ADMIN_PWD";
-  sleep 10;
   echo "yes | pkg install git &";
   sleep 120;
   echo "yes | pkg install bash &";

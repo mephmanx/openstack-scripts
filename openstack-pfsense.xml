@@ -7,12 +7,10 @@
 		<hostname>pfsense</hostname>
 		<domain>{INTERNAL_DOMAIN_NAME}</domain>
 		<group>
-			<name>CloudAccess</name>
+			<name>openstack-admins</name>
 			<description><![CDATA[Infrastructure Access]]></description>
 			<scope>local</scope>
 			<gid>2000</gid>
-			<member>2000</member>
-			<member>2004</member>
 			<priv>page-dashboard-all</priv>
 			<priv>page-openvpn-client-export</priv>
 			<priv>page-openvpn-client</priv>
@@ -61,19 +59,6 @@
 			<authorizedkeys></authorizedkeys>
 			<ipsecpsk></ipsecpsk>
 			<webguicss>pfSense.css</webguicss>
-		</user>
-		<user>
-			<scope>user</scope>
-			<bcrypt-hash></bcrypt-hash>
-			<descr><![CDATA[Openstack Admin]]></descr>
-			<name>osuser</name>
-			<expires></expires>
-			<dashboardcolumns>2</dashboardcolumns>
-			<authorizedkeys></authorizedkeys>
-			<ipsecpsk></ipsecpsk>
-			<webguicss>pfSense.css</webguicss>
-			<cert>60ed87a168aec</cert>
-			<uid>2000</uid>
 		</user>
 		<nextuid>2005</nextuid>
 		<nextgid>2001</nextgid>
