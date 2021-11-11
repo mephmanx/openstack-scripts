@@ -267,10 +267,6 @@ done
 rm -rf /opt/stack/cache_out
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cache pull/prime complete!  Install continuing.."
 
-#### horizon custom_local_settings ###
-echo "CSRF_TRUSTED_ORIGINS=['openstack.$EXTERNAL_DOMAIN_NAME']" >> /etc/kolla/config/horizon/custom_local_settings
-####
-
 ### nova.conf options
 echo "[libvirt]" >> /etc/kolla/config/nova.conf
 echo "swtpm_enabled=true" >> /etc/kolla/config/nova.conf
@@ -361,17 +357,17 @@ cd $working_dir
 rm -rf /tmp/control-trust.sh
 
 #### add cloud origin to horizon
-#control_ct=3
-#while [[ $control_ct -gt 0 ]]; do
-#
-#cat > /tmp/script.sh <<EOF
-#echo 'CSRF_TRUSTED_ORIGINS=["openstack.$EXTERNAL_DOMAIN_NAME"]' >> /etc/kolla/horizon/local_settings; docker restart horizon;
-#EOF
-#
-#  scp /tmp/script.sh root@control0$control_ct:/tmp
-#  runuser -l root -c "ssh root@control0$control_ct 'cd /tmp; chmod 777 script.sh; ./script.sh'"
-#  ((control_ct--))
-#done
+control_ct=3
+while [[ $control_ct -gt 0 ]]; do
+
+cat > /tmp/script.sh <<EOF
+echo 'CSRF_TRUSTED_ORIGINS=["openstack.$EXTERNAL_DOMAIN_NAME"]' >> /etc/kolla/horizon/local_settings; docker restart horizon;
+EOF
+
+  scp /tmp/script.sh root@control0$control_ct:/tmp
+  runuser -l root -c "ssh root@control0$control_ct 'cd /tmp; chmod 777 script.sh; ./script.sh'"
+  ((control_ct--))
+done
 ####
 
 #load setup for validator
