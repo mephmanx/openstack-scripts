@@ -816,7 +816,7 @@ runuser -l stack -c  "source /opt/stack/.bash_profile"
 stemcell_path="/tmp/stemcell-*.tgz"
 chown -R stack /tmp/stemcell-*.tgz
 ct=3
-for [[ $ct -gt 0 ]]; do
+while [[ $ct -gt 0 ]]; do
   for stemcell in $stemcell_path;
   do
     runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
