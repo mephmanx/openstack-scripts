@@ -758,7 +758,7 @@ while [[ $ct -gt 0 ]]; do
   sleep 30;
 done
 ################
-sleep 120;
+sleep 30;
 ### update cf-lb to preconfigured address
 LB_FIXED_IP="$CLOUDFOUNDRY_VIP"
 LB_PROJECT_ID=`openstack loadbalancer show cf-lb -f value -c project_id`
@@ -870,8 +870,8 @@ runuser -l stack -c  "cd /opt/stack; \
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Executing Cloudfoundry install.  Should take about 30 - 45 min..."
 
 ## pull logging repo
-git clone https://github.com/bosh-prometheus/prometheus-boshrelease /tmp/prometheus-boshrelease
-chown -R stack /tmp/prometheus-boshrelease
+#git clone https://github.com/bosh-prometheus/prometheus-boshrelease /tmp/prometheus-boshrelease
+#chown -R stack /tmp/prometheus-boshrelease
 
 ### prepare google SAML config and include it in deploy
 
