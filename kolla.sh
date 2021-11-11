@@ -357,7 +357,7 @@ cd $working_dir
 rm -rf /tmp/control-trust.sh
 
 #### add cloud origin to horizon
-control_ct=3
+control_ct=$CONTROL_COUNT
 while [[ $control_ct -gt 0 ]]; do
 
 cat > /tmp/script.sh <<EOF
