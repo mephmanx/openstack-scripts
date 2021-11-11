@@ -818,12 +818,12 @@ chown -R stack /tmp/stemcell-*.tgz
 ct=3
 while [[ $ct -gt 0 ]]; do
   for stemcell in $stemcell_path;
-  do
-    runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                          chmod +x /tmp/bbl_env.sh; \
-                          source /tmp/bbl_env.sh; \
-                          bosh upload-stemcell $stemcell"
-  done
+    do
+      runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                            chmod +x /tmp/bbl_env.sh; \
+                            source /tmp/bbl_env.sh; \
+                            bosh upload-stemcell $stemcell"
+    done
   ((ct--))
 done
 
