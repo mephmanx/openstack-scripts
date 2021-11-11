@@ -696,7 +696,6 @@ fi
 
 ### modify director / jumpbox  here
 runuser -l stack -c  'echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml" >> /opt/stack/create-director.sh'
-
 ####
 
 ### deploy bosh!
