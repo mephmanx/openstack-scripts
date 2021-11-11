@@ -40,5 +40,4 @@ export OINKMASTER=<oinkmaster key>
 ###### Maxmind key
 export MAXMIND_KEY=<maxmind key>
 ##########
-
 ### always leave extra blank line at the bottom
