@@ -29,8 +29,6 @@ export DOCKER_HUB_PWD=<dokcer hub access token>
 ### telegram
 export TELEGRAM_API=<telegram api key>
 export TELEGRAM_CHAT_ID=<telegram chat id>
-#  -549260306  -  group chat id (the minus is important!)
-#  1861939024 - original chat id
 #########
 
 #### Snort key
