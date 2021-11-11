@@ -816,12 +816,16 @@ runuser -l stack -c  "source /opt/stack/.bash_profile"
 ## pull latest bionic image
 stemcell_path="/tmp/stemcell-*.tgz"
 chown -R stack /tmp/stemcell-*.tgz
-for stemcell in $stemcell_path;
-do
-  runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                        chmod +x /tmp/bbl_env.sh; \
-                        source /tmp/bbl_env.sh; \
-                        bosh upload-stemcell $stemcell"
+ct=3
+for [[ $ct -gt 0 ]]; do
+  for stemcell in $stemcell_path;
+  do
+    runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                          chmod +x /tmp/bbl_env.sh; \
+                          source /tmp/bbl_env.sh; \
+                          bosh upload-stemcell $stemcell"
+  done
+  ((ct--))
 done
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stemcell installed, finalizing environment for CF install..."
