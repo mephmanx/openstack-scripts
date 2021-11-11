@@ -95,7 +95,7 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '*' --a-ip-address=
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_INTERNAL_HOSTNAME' --a-ip-address=$INTERNAL_VIP"
 
 /usr/bin/ipa group-add openstack-admins
-/usr/bin/ipa user-add --first=Firstname --last=Lastname ipauser
+/usr/bin/ipa user-add --first=Firstname --last=Lastname ipauser --random
 SSH_KEY=`cat /root/.ssh/id_rsa.pub`
 /usr/bin/ipa user-mod ipauser --sshpubkey="$SSH_KEY"
 
