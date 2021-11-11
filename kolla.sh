@@ -815,6 +815,7 @@ runuser -l stack -c  "source /opt/stack/.bash_profile"
 
 ## pull latest bionic image
 stemcell_path="/tmp/stemcell-*.tgz"
+chown -R stack /tmp/stemcell-*.tgz
 for stemcell in $stemcell_path;
 do
   runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
