@@ -193,7 +193,7 @@
 			<if>vtnet2</if>
 			<enable></enable>
 			<spoofmac></spoofmac>
-			<ipaddr>10.1.0.3</ipaddr>
+			<ipaddr>{LB_ROUTER_IP}</ipaddr>
 			<subnet>24</subnet>
 		</opt1>
 	</interfaces>
@@ -236,8 +236,8 @@
 		</lan>
 		<opt1>
 			<range>
-				<from>10.1.0.10</from>
-				<to>10.1.0.254</to>
+				<from>{LB_DHCP_START}</from>
+				<to>{LB_DHCP_END}</to>
 			</range>
 			<enable></enable>
 			<failover_peerip></failover_peerip>
