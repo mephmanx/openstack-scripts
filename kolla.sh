@@ -720,7 +720,7 @@ sed -i "/use_octavia   = true/a version = \"$CF_BBL_OPENSTACK_CPI_VERSION\"" ./c
 
 ## add availability zones to the list below for a full HA deploy
 cat > terraform.tfvars <<EOF
-auth_url = "https://$INTERNAL_VIP_DNS:5000/v3"
+auth_url = "http://$INTERNAL_VIP_DNS:5000/v3"
 domain_name = "default"
 user_name = "$OPENSTACK_CLOUDFOUNDRY_USERNAME"
 password = "$OPENSTACK_CLOUDFOUNDRY_PWD"
