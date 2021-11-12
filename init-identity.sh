@@ -80,12 +80,38 @@ dnf module enable idm:DL1 -y
 dnf distro-sync -y
 dnf update -y
 
-dnf install -y cyrus-sasl-devel make libtool autoconf libtool-ltdl-devel openssl-devel libdb-devel tar gcc perl perl-devel wget vim rsyslog ipa-server ipa-server-dns
+dnf install -y cyrus-sasl-devel \
+                make \
+                libtool \
+                autoconf \
+                libtool-ltdl-devel \
+                openssl-devel \
+                libdb-devel \
+                tar \
+                gcc \
+                perl \
+                perl-devel \
+                wget \
+                vim \
+                rsyslog \
+                ipa-server \
+                ipa-server-dns
 
 runuser -l root -c 'cp /tmp/id_rsa.crt /etc/ipa/ca.crt'
 runuser -l root -c 'chown -R pkiuser /etc/ipa/ca.crt'
 # Configure freeipa
-runuser -l root -c "ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD -a $ADMIN_PASSWORD -n $INTERNAL_DOMAIN_NAME -r $REALM_NAME --ip-address $IDENTITY_VIP --mkhomedir --setup-dns --auto-reverse --auto-forwarders --no-dnssec-validation --ntp-server=$GATEWAY_ROUTER_IP -U -q"
+runuser -l root -c "ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD \
+                                        -a $ADMIN_PASSWORD \
+                                        -n $INTERNAL_DOMAIN_NAME \
+                                        -r $REALM_NAME \
+                                        --ip-address $IDENTITY_VIP \
+                                        --mkhomedir \
+                                        --setup-dns \
+                                        --auto-reverse \
+                                        --auto-forwarders \
+                                        --no-dnssec-validation \
+                                        --ntp-server=$GATEWAY_ROUTER_IP -U -q"
+
 runuser -l root -c "ipa-dns-install --auto-forwarders --no-reverse --no-dnssec-validation -U"
 #Create user on ipa WITHOUT A PASSWORD - we don't need one since we'll be using ssh key
 #Kinit session
