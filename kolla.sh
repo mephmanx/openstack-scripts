@@ -911,7 +911,7 @@ if [[ $error_count -gt 0 ]]; then
                       -o /tmp/cf-deployment/operations/use-trusted-ca-cert-for-apps.yml \
                       -l /opt/stack/trusted-certs-cf.vars.yml \
                       -v system_domain=$INTERNAL_DOMAIN_NAME \
-                      -v auth_url=http://$INTERNAL_VIP_DNS:5000/v3 \
+                      -v auth_url=https://$EXTERNAL_VIP_DNS:5000/v3 \
                       -v openstack_project=cloudfoundry \
                       -v openstack_domain=default \
                       -v openstack_username=$OPENSTACK_CLOUDFOUNDRY_USERNAME \
