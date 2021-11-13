@@ -117,7 +117,7 @@ runuser -l root -c "ipa-dns-install --auto-forwarders --no-reverse --no-dnssec-v
 #Kinit session
 echo $ADMIN_PWD | kinit admin
 ## run record adds here after kinint for auth
-runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '*' --a-ip-address=$GATEWAY_ROUTER_IP"
+runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '*' --a-ip-address=$LB_ROUTER_IP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_EXTERNAL_HOSTNAME' --a-ip-address=$LB_ROUTER_IP"
 
 /usr/bin/ipa group-add openstack-admins
