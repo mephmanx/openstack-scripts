@@ -9,7 +9,7 @@
 		<group>
 			<name>openstack-admins</name>
 			<description><![CDATA[Infrastructure Access]]></description>
-			<scope>local</scope>
+			<scope>remote</scope>
 			<gid>2000</gid>
 			<priv>page-dashboard-all</priv>
 			<priv>page-openvpn-client-export</priv>
@@ -129,6 +129,30 @@
 			<refid>6185196782b09</refid>
 			<type>ldap</type>
 			<name>ipa-ldap</name>
+			<ldap_caref>60ed826b68fa7</ldap_caref>
+			<host>{IDENTITY_VIP}</host>
+			<ldap_port>389</ldap_port>
+			<ldap_urltype>Standard TCP</ldap_urltype>
+			<ldap_protver>3</ldap_protver>
+			<ldap_scope>subtree</ldap_scope>
+			<ldap_basedn><![CDATA[{BASE_DN}]]></ldap_basedn>
+			<ldap_authcn><![CDATA[cn=accounts]]></ldap_authcn>
+			<ldap_extended_enabled></ldap_extended_enabled>
+			<ldap_extended_query></ldap_extended_query>
+			<ldap_attr_user><![CDATA[uid]]></ldap_attr_user>
+			<ldap_attr_group><![CDATA[cn]]></ldap_attr_group>
+			<ldap_attr_member><![CDATA[memberOf]]></ldap_attr_member>
+			<ldap_attr_groupobj><![CDATA[posixGroup]]></ldap_attr_groupobj>
+			<ldap_pam_groupdn></ldap_pam_groupdn>
+			<ldap_allow_unauthenticated></ldap_allow_unauthenticated>
+			<ldap_timeout>25</ldap_timeout>
+			<ldap_binddn><![CDATA[cn=Directory Manager]]></ldap_binddn>
+			<ldap_bindpw><![CDATA[{DIRECTORY_MGR_PWD}]]></ldap_bindpw>
+		</authserver>
+		<authserver>
+			<refid>618f2cae9a9e6</refid>
+			<type>ldap</type>
+			<name>ipa-vpn</name>
 			<ldap_caref>60ed826b68fa7</ldap_caref>
 			<host>{IDENTITY_VIP}</host>
 			<ldap_port>389</ldap_port>
@@ -374,11 +398,11 @@
 			</destination>
 			<log></log>
 			<created>
-				<time>1636038171</time>
+				<time>1636560146</time>
 				<username><![CDATA[Auto]]></username>
 			</created>
 			<interface>wan</interface>
-			<tracker>1770009879</tracker>
+			<tracker>1770009784</tracker>
 		</rule>
 		<rule>
 			<quick>yes</quick>
@@ -395,7 +419,7 @@
 			</destination>
 			<log></log>
 			<created>
-				<time>1636038171</time>
+				<time>1636560146</time>
 				<username><![CDATA[Auto]]></username>
 			</created>
 			<interface>lan</interface>
@@ -449,11 +473,13 @@
 			<statetimeout></statetimeout>
 			<statetype><![CDATA[keep state]]></statetype>
 			<os></os>
+			<protocol>tcp/udp</protocol>
 			<source>
 				<any></any>
 			</source>
 			<destination>
 				<network>wanip</network>
+				<port>443</port>
 			</destination>
 			<descr><![CDATA[allow pfsense access on wan]]></descr>
 			<created>
@@ -461,9 +487,47 @@
 				<username><![CDATA[admin@10.0.20.53 (Local Database)]]></username>
 			</created>
 			<updated>
-				<time>1626890185</time>
-				<username><![CDATA[admin@10.0.20.3[192.168.0.133] (Local Database)]]></username>
+				<time>1636652418</time>
+				<username><![CDATA[admin@10.0.200.3[45.56.119.204] (Local Database Fallback)]]></username>
 			</updated>
+		</rule>
+		<rule>
+			<source>
+				<any></any>
+			</source>
+			<interface>wan</interface>
+			<ipprotocol>inet</ipprotocol>
+			<protocol>tcp</protocol>
+			<destination>
+				<address>{CLOUDFOUNDRY_VIP}</address>
+				<port>{CF_TCP_START_PORT}-{CF_TCP_END_PORT}</port>
+			</destination>
+			<descr><![CDATA[NAT Cloudfoundry TCP ports]]></descr>
+			<associated-rule-id>nat_61408bd1843bd8.26304973</associated-rule-id>
+			<tracker>1631620049</tracker>
+			<created>
+				<time>1631620049</time>
+				<username><![CDATA[NAT Port Forward]]></username>
+			</created>
+		</rule>
+		<rule>
+			<source>
+				<any></any>
+			</source>
+			<interface>wan</interface>
+			<ipprotocol>inet</ipprotocol>
+			<protocol>tcp</protocol>
+			<destination>
+				<address>identity</address>
+				<port>22</port>
+			</destination>
+			<descr><![CDATA[NAT SSH to kolla]]></descr>
+			<associated-rule-id>nat_6159ad88d67aa1.00024133</associated-rule-id>
+			<tracker>1633267080</tracker>
+			<created>
+				<time>1633267080</time>
+				<username><![CDATA[NAT Port Forward]]></username>
+			</created>
 		</rule>
 		<rule>
 			<id></id>
@@ -649,44 +713,6 @@
 			<created>
 				<time>1628686501</time>
 				<username><![CDATA[osuser@10.0.9.2 (Local Database)]]></username>
-			</created>
-		</rule>
-		<rule>
-			<source>
-				<any></any>
-			</source>
-			<interface>wan</interface>
-			<ipprotocol>inet</ipprotocol>
-			<protocol>tcp</protocol>
-			<destination>
-				<address>{CLOUDFOUNDRY_VIP}</address>
-				<port>{CF_TCP_START_PORT}-{CF_TCP_END_PORT}</port>
-			</destination>
-			<descr><![CDATA[NAT Cloudfoundry TCP ports]]></descr>
-			<associated-rule-id>nat_61408bd1843bd8.26304973</associated-rule-id>
-			<tracker>1631620049</tracker>
-			<created>
-				<time>1631620049</time>
-				<username><![CDATA[NAT Port Forward]]></username>
-			</created>
-		</rule>
-		<rule>
-			<source>
-				<any></any>
-			</source>
-			<interface>wan</interface>
-			<ipprotocol>inet</ipprotocol>
-			<protocol>tcp</protocol>
-			<destination>
-				<address>identity</address>
-				<port>22</port>
-			</destination>
-			<descr><![CDATA[NAT SSH to kolla]]></descr>
-			<associated-rule-id>nat_6159ad88d67aa1.00024133</associated-rule-id>
-			<tracker>1633267080</tracker>
-			<created>
-				<time>1633267080</time>
-				<username><![CDATA[NAT Port Forward]]></username>
 			</created>
 		</rule>
 		<separator>
@@ -881,6 +907,15 @@
 			<command>/usr/local/pkg/swapstate_check.php</command>
 		</item>
 		<item>
+			<minute>*/5</minute>
+			<hour>*</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/bin/nice -n20 /sbin/pfctl -q -t snort2c -T expire 3600</command>
+		</item>
+		<item>
 			<minute>*/60</minute>
 			<hour>*</hour>
 			<mday>*</mday>
@@ -898,15 +933,6 @@
 			<who>root</who>
 			<command>/usr/local/bin/perl /usr/local/www/lightsquid/lightparser.pl yesterday</command>
 		</item>
-		<item>
-			<minute>*/5</minute>
-			<hour>*</hour>
-			<mday>*</mday>
-			<month>*</month>
-			<wday>*</wday>
-			<who>root</who>
-			<command>/usr/bin/nice -n20 /sbin/pfctl -q -t snort2c -T expire 3600</command>
-		</item>
 	</cron>
 	<wol></wol>
 	<rrd>
@@ -923,7 +949,7 @@
 		<openvpn-server>
 			<vpnid>1</vpnid>
 			<mode>server_tls_user</mode>
-			<authmode>Local Database</authmode>
+			<authmode>ipa-ldap</authmode>
 			<protocol>TCP4</protocol>
 			<dev_mode>tun</dev_mode>
 			<interface>wan</interface>
@@ -1055,9 +1081,9 @@
 		<dns64netbits>96</dns64netbits>
 	</unbound>
 	<revision>
-		<time>1636116023</time>
-		<description><![CDATA[identity@95.168.120.94 (Local Database): User Manager Settings saved]]></description>
-		<username><![CDATA[identity@95.168.120.94 (Local Database)]]></username>
+		<time>1636806622</time>
+		<description><![CDATA[admin@10.0.200.3[45.56.119.204] (Local Database Fallback): Services: HAProxy: Backend server pool:  modified pool: 'murano']]></description>
+		<username><![CDATA[admin@10.0.200.3[45.56.119.204] (Local Database Fallback)]]></username>
 	</revision>
 	<ppps></ppps>
 	<gateways>
@@ -1170,7 +1196,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8082</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8082</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8082</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1181,6 +1218,7 @@
 					<forwardfor>yes</forwardfor>
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<backend_serverpool>murano</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>cinder</name>
@@ -1195,7 +1233,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8776</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8776</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8776</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1206,6 +1255,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>cinder</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>senlin</name>
@@ -1220,7 +1270,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8778</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8778</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8778</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1231,6 +1292,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>senlin</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>compute</name>
@@ -1245,7 +1307,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8774</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8774</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8774</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1256,6 +1329,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>nova</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>compute-api-1</name>
@@ -1270,7 +1344,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8773</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8773</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8773</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1281,6 +1366,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>nova-compute-1</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>compute-api-2</name>
@@ -1295,7 +1381,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8775</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8775</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8775</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1306,6 +1403,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>nova-compute-2</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>compute-vnc</name>
@@ -1320,7 +1418,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>6080</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>6080</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>6080</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1332,6 +1441,7 @@
 					<forwardfor>yes</forwardfor>
 					<client_timeout>2147483647</client_timeout>
 					<backend_serverpool>nova-compute-vnc</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>compute-vnc-2</name>
@@ -1346,7 +1456,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>6081</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>6081</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>6081</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1357,6 +1478,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>nova-compute-vnc-2</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>compute-vnc-html5</name>
@@ -1371,7 +1493,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>6082</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>6082</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>6082</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1382,6 +1515,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>nova-compute-html5</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>sahara</name>
@@ -1396,7 +1530,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8386</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8386</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8386</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1407,6 +1552,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>sahara</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>keystone</name>
@@ -1421,7 +1567,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>5000</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>5000</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>5000</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1432,6 +1589,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>keystone</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>glance</name>
@@ -1446,7 +1604,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>9292</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>9292</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>9292</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1457,6 +1626,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>glance</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>neutron</name>
@@ -1470,6 +1640,7 @@
 							<name>lbaas</name>
 							<expression>path_contains</expression>
 							<value>lbaas</value>
+							<backendservercountbackend>ceilometer</backendservercountbackend>
 							<_index></_index>
 						</item>
 					</ha_acls>
@@ -1478,7 +1649,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>9696</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>9696</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>9696</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1497,6 +1679,7 @@
 					<forwardfor>yes</forwardfor>
 					<client_timeout>600000</client_timeout>
 					<backend_serverpool>neutron</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>heat</name>
@@ -1511,7 +1694,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8004</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8004</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8004</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1522,6 +1716,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>heat</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>heat-os</name>
@@ -1536,7 +1731,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8000</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8000</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8000</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1547,6 +1753,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>heat-ows</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>vitrage</name>
@@ -1561,7 +1768,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8999</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8999</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8999</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1572,6 +1790,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>vitrage</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>ceilometer</name>
@@ -1586,7 +1805,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8777</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8777</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8777</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1597,6 +1827,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>ceilometer</backend_serverpool>
+					<primary_frontend>cinder</primary_frontend>
 				</item>
 				<item>
 					<name>mistral</name>
@@ -1611,7 +1842,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8989</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8989</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8989</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1622,42 +1864,7 @@
 					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<forwardfor>yes</forwardfor>
 					<backend_serverpool>mistral</backend_serverpool>
-				</item>
-				<item>
-					<name>http-redirect</name>
-					<status>active</status>
-					<type>http</type>
-					<httpclose>http-keep-alive</httpclose>
-					<ssloffloadcert>60ed87a168aec</ssloffloadcert>
-					<ssloffloadacl_an>yes</ssloffloadacl_an>
-					<advanced>b3B0aW9uIGh0dHBsb2c=</advanced>
-					<ha_acls>
-						<item>
-							<name>redirect</name>
-							<expression>host_contains</expression>
-							<value>{INTERNAL_DOMAIN_NAME}</value>
-							<backendservercountbackend>ceilometer</backendservercountbackend>
-							<_index></_index>
-						</item>
-					</ha_acls>
-					<ha_certificates></ha_certificates>
-					<clientcert_ca></clientcert_ca>
-					<clientcert_crl></clientcert_crl>
-					<a_extaddr>
-						<item>
-							<extaddr>lan_ipv4</extaddr>
-							<extaddr_port>80</extaddr_port>
-							<_index></_index>
-						</item>
-					</a_extaddr>
-					<a_actionitems>
-						<item>
-							<action>http-request_redirect</action>
-							<http-request_redirectrule>scheme https</http-request_redirectrule>
-							<_index></_index>
-						</item>
-					</a_actionitems>
-					<a_errorfiles></a_errorfiles>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>swift-4</name>
@@ -1674,7 +1881,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8080</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8080</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8080</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1683,6 +1901,7 @@
 					<a_actionitems></a_actionitems>
 					<a_errorfiles></a_errorfiles>
 					<backend_serverpool>swift-4</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>octavia</name>
@@ -1699,7 +1918,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>9876</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>9876</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>9876</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1709,6 +1939,7 @@
 					<a_errorfiles></a_errorfiles>
 					<client_timeout>600000</client_timeout>
 					<backend_serverpool>octavia</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>magnum</name>
@@ -1725,7 +1956,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>9511</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>9511</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>9511</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1734,6 +1976,7 @@
 					<a_actionitems></a_actionitems>
 					<a_errorfiles></a_errorfiles>
 					<backend_serverpool>magnum</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>placement</name>
@@ -1750,7 +1993,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8780</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8780</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8780</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1759,6 +2013,7 @@
 					<a_actionitems></a_actionitems>
 					<a_errorfiles></a_errorfiles>
 					<backend_serverpool>placement</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>key-manager</name>
@@ -1775,7 +2030,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>9311</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>9311</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>9311</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1784,6 +2050,7 @@
 					<a_actionitems></a_actionitems>
 					<a_errorfiles></a_errorfiles>
 					<backend_serverpool>key-manager</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>metric</name>
@@ -1800,7 +2067,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8041</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8041</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8041</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1809,6 +2087,7 @@
 					<a_actionitems></a_actionitems>
 					<a_errorfiles></a_errorfiles>
 					<backend_serverpool>metric</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>trove</name>
@@ -1825,7 +2104,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8779</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8779</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8779</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1834,6 +2124,7 @@
 					<a_actionitems></a_actionitems>
 					<a_errorfiles></a_errorfiles>
 					<backend_serverpool>trove</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>designate</name>
@@ -1850,7 +2141,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>9001</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>9001</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>9001</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1859,6 +2161,7 @@
 					<a_actionitems></a_actionitems>
 					<a_errorfiles></a_errorfiles>
 					<backend_serverpool>designate</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>https</name>
@@ -1874,6 +2177,7 @@
 							<name>pfsense</name>
 							<expression>host_contains</expression>
 							<value>pfsense</value>
+							<backendservercountbackend>ceilometer</backendservercountbackend>
 							<_index></_index>
 						</item>
 						<item>
@@ -1886,30 +2190,35 @@
 							<name>kibana</name>
 							<expression>host_contains</expression>
 							<value>kibana</value>
+							<backendservercountbackend>ceilometer</backendservercountbackend>
 							<_index></_index>
 						</item>
 						<item>
 							<name>grafana</name>
 							<expression>host_contains</expression>
 							<value>grafana</value>
+							<backendservercountbackend>ceilometer</backendservercountbackend>
 							<_index></_index>
 						</item>
 						<item>
 							<name>cockpit</name>
 							<expression>host_contains</expression>
 							<value>cockpit</value>
+							<backendservercountbackend>ceilometer</backendservercountbackend>
 							<_index></_index>
 						</item>
 						<item>
 							<name>harbor</name>
 							<expression>host_contains</expression>
 							<value>harbor</value>
+							<backendservercountbackend>ceilometer</backendservercountbackend>
 							<_index></_index>
 						</item>
 						<item>
 							<name>identity</name>
 							<expression>host_contains</expression>
 							<value>identity</value>
+							<backendservercountbackend>ceilometer</backendservercountbackend>
 							<_index></_index>
 						</item>
 					</ha_acls>
@@ -1919,6 +2228,17 @@
 					<a_extaddr>
 						<item>
 							<extaddr>any_ipv4</extaddr>
+							<extaddr_port>443</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>80</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>443</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -1973,6 +2293,7 @@
 					<ssloffloadacl>yes</ssloffloadacl>
 					<client_timeout>2147483647</client_timeout>
 					<backend_serverpool>cloudfoundry</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>cloudfoundry-ssh</name>
@@ -1990,7 +2311,17 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>2222</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>2222</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>2222</extaddr_port>
 							<_index></_index>
 						</item>
@@ -1998,6 +2329,7 @@
 					<a_actionitems></a_actionitems>
 					<a_errorfiles></a_errorfiles>
 					<ssloffloadacl>yes</ssloffloadacl>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>manilla</name>
@@ -2014,7 +2346,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>8786</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>8786</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>8786</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -2023,6 +2366,7 @@
 					<a_actionitems></a_actionitems>
 					<a_errorfiles></a_errorfiles>
 					<backend_serverpool>manilla</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 				<item>
 					<name>magnum-infra</name>
@@ -2039,7 +2383,18 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>any_ipv4</extaddr>
+							<extaddr>wan_ipv4</extaddr>
+							<extaddr_port>9517</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>lan_ipv4</extaddr>
+							<extaddr_port>9517</extaddr_port>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>9517</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -2048,6 +2403,7 @@
 					<a_actionitems></a_actionitems>
 					<a_errorfiles></a_errorfiles>
 					<backend_serverpool>magnum-infra</backend_serverpool>
+					<primary_frontend>ceilometer</primary_frontend>
 				</item>
 			</ha_backends>
 			<ha_pools>
@@ -2062,9 +2418,12 @@
 							<_index></_index>
 						</item>
 					</ha_servers>
-					<a_acl></a_acl>
-					<a_actionitems></a_actionitems>
-					<errorfiles></errorfiles>
+					<a_acl>
+					</a_acl>
+					<a_actionitems>
+					</a_actionitems>
+					<errorfiles>
+					</errorfiles>
 					<advanced></advanced>
 					<advanced_backend></advanced_backend>
 					<name>murano</name>
@@ -4248,7 +4607,6 @@
 							<name>cloudfoundry-lb</name>
 							<address>{CLOUDFOUNDRY_VIP}</address>
 							<port>443</port>
-							<ssl>yes</ssl>
 							<id>214</id>
 							<_index></_index>
 						</item>
@@ -4688,7 +5046,8 @@
 			<resolver_holdvalid></resolver_holdvalid>
 			<config></config>
 			<localstatsport>2200</localstatsport>
-			<files></files>
+			<files>
+			</files>
 			<enable></enable>
 			<advanced>c3NsLWRlZmF1bHQtYmluZC1vcHRpb25zIHNzbC1taW4tdmVyIFRMU3YxLjINCnR1bmUuc3NsLmRlZmF1bHQtZGgtcGFyYW0gMjA0OA0Kc3NsLWRlZmF1bHQtYmluZC1jaXBoZXJzIEVDREhFLVJTQS1BRVMxMjgtR0NNLVNIQTI1NjpFQ0RIRS1FQ0RTQS1BRVMxMjgtR0NNLVNIQTI1NjpFQ0RIRS1SU0EtQUVTMjU2LUdDTS1TSEEzODQ6RUNESEUtRUNEU0EtQUVTMjU2LUdDTS1TSEEzODQ6REhFLVJTQS1BRVMxMjgtR0NNLVNIQTI1NjpESEUtRFNTLUFFUzEyOC1HQ00tU0hBMjU2OmtFREgrQUVTR0NNOkVDREhFLVJTQS1BRVMxMjgtU0hBMjU2OkVDREhFLUVDRFNBLUFFUzEyOC1TSEEyNTY6RUNESEUtUlNBLUFFUzEyOC1TSEE6RUNESEUtRUNEU0EtQUVTMTI4LVNIQTpFQ0RIRS1SU0EtQUVTMjU2LVNIQTM4NDpFQ0RIRS1FQ0RTQS1BRVMyNTYtU0hBMzg0OkVDREhFLVJTQS1BRVMyNTYtU0hBOkVDREhFLUVDRFNBLUFFUzI1Ni1TSEE6REhFLVJTQS1BRVMxMjgtU0hBMjU2OkRIRS1SU0EtQUVTMTI4LVNIQTpESEUtRFNTLUFFUzEyOC1TSEEyNTY6REhFLVJTQS1BRVMyNTYtU0hBMjU2OkRIRS1EU1MtQUVTMjU2LVNIQTpESEUtUlNBLUFFUzI1Ni1TSEE6IWFOVUxMOiFlTlVMTDohRVhQT1JUOiFERVM6IVJDNDohM0RFUzohTUQ1OiFQU0s=</advanced>
 			<remotesyslog></remotesyslog>
