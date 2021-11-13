@@ -425,7 +425,6 @@ function create_user_cert() {
 
   source /tmp/openstack-scripts/project_config.sh
 
-  ### generate osuser cert and key
   runuser -l root -c  "openssl genrsa -aes256 -passout pass:$ca_pwd -out $cert_dir/$user_name.pass.key 4096 "
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/$user_name.pass.key -out $cert_dir/$user_name.key"
   runuser -l root -c  "openssl req -new -key $cert_dir/$user_name.key \

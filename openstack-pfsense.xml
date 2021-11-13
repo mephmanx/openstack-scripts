@@ -1086,14 +1086,6 @@
 		<prv>{VPN_KEY}</prv>
 		<caref>60ed826b68fa7</caref>
 	</cert>
-	<cert>
-		<refid>60ed87a168aec</refid>
-		<descr><![CDATA[osuser]]></descr>
-		<type>user</type>
-		<caref>60ed826b68fa7</caref>
-		<crt>{OSUSER_CRT}</crt>
-		<prv>{OSUSER_KEY}</prv>
-	</cert>
 	<installedpackages>
 		<menu>
 			<name>Cron</name>
@@ -5404,7 +5396,7 @@
 			<config>
 				<lighttpd_ls_port>7445</lighttpd_ls_port>
 				<lighttpd_ls_ssl>on</lighttpd_ls_ssl>
-				<lighttpd_ls_user>osuser</lighttpd_ls_user>
+				<lighttpd_ls_user>admin</lighttpd_ls_user>
 				<lighttpd_ls_password>{OPENSTACK_ADMIN_PWD}</lighttpd_ls_password>
 				<lightsquid_lang>eng</lightsquid_lang>
 				<lightsquid_template>base</lightsquid_template>

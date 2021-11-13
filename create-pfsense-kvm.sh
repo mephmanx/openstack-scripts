@@ -52,9 +52,6 @@ CA_CRT=`cat /root/.ssh/id_rsa.crt | base64 | tr -d '\n\r'`
 VPN_CRT=`cat /root/.ssh/cloud-vpn.crt | base64 | tr -d '\n\r'`
 VPN_KEY=`cat /root/.ssh/cloud-vpn.key | base64 | tr -d '\n\r'`
 
-OSUSER_CRT=`cat /root/.ssh/osuser.crt | base64 | tr -d '\n\r'`
-OSUSER_KEY=`cat /root/.ssh/osuser.key | base64 | tr -d '\n\r'`
-
 INITIAL_WILDCARD_CRT=`cat /root/.ssh/wildcard.crt | base64 | tr -d '\n\r'`
 INITIAL_WILDCARD_KEY=`cat /root/.ssh/wildcard.key | base64 | tr -d '\n\r'`
 
@@ -104,8 +101,6 @@ sed -i 's/{CA_CRT}/'$CA_CRT'/g' /tmp/usb/config.xml
 sed -i 's/{CA_KEY}/'$CA_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{VPN_CRT}/'$VPN_CRT'/g' /tmp/usb/config.xml
 sed -i 's/{VPN_KEY}/'$VPN_KEY'/g' /tmp/usb/config.xml
-sed -i 's/{OSUSER_CRT}/'$OSUSER_CRT'/g' /tmp/usb/config.xml
-sed -i 's/{OSUSER_KEY}/'$OSUSER_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{INITIAL_WILDCARD_CRT}/'$INITIAL_WILDCARD_CRT'/g' /tmp/usb/config.xml
 sed -i 's/{INITIAL_WILDCARD_KEY}/'$INITIAL_WILDCARD_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{OPEN_VPN_TLS_KEY}/'$OPEN_VPN_TLS_KEY'/g' /tmp/usb/config.xml
