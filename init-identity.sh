@@ -116,13 +116,16 @@ runuser -l root -c "ipa-dns-install --auto-forwarders --no-reverse --no-dnssec-v
 #Create user on ipa WITHOUT A PASSWORD - we don't need one since we'll be using ssh key
 #Kinit session
 echo $ADMIN_PWD | kinit admin
+
 ## run record adds here after kinint for auth
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '*' --a-ip-address=$LB_ROUTER_IP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_EXTERNAL_HOSTNAME' --a-ip-address=$LB_ROUTER_IP"
 
+#### groups
 /usr/bin/ipa group-add openstack-admins
 /usr/bin/ipa group-add vpn-users
 
+#### users
 /usr/bin/ipa user-add --first=Firstname --last=Lastname ipauser --random
 SSH_KEY=`cat /root/.ssh/id_rsa.pub`
 /usr/bin/ipa user-mod ipauser --sshpubkey="$SSH_KEY"
@@ -137,8 +140,11 @@ SSH_KEY=`cat /root/.ssh/id_rsa.pub`
 /usr/bin/ipa sudorule-add defaults
 /usr/bin/ipa sudorule-add-option defaults --sudooption '!authenticate'
 
+##### group memberships
 /usr/bin/ipa group-add-member openstack-admins --users=ipauser
 /usr/bin/ipa group-add-member vpn-users --users=ipauser
+
+#### Continue cloud init
 ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;
 ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-cloudsupport-kvm.sh;' &
 ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-cloud-kvm.sh;' &
