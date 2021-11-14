@@ -112,7 +112,7 @@ runuser -l root -c "ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD \
                                         --no-dnssec-validation \
                                         --ntp-server=$GATEWAY_ROUTER_IP -U -q"
 
-runuser -l root -c "ipa-dns-install --auto-forwarders --no-reverse --no-dnssec-validation -U"
+runuser -l root -c "ipa-dns-install --auto-forwarders --auto-reverse --no-dnssec-validation -U"
 #Create user on ipa WITHOUT A PASSWORD - we don't need one since we'll be using ssh key
 #Kinit session
 echo $ADMIN_PWD | kinit admin
