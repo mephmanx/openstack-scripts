@@ -691,7 +691,12 @@ runuser -l stack -c  'echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.
 ####
 
 ### deploy bosh!
-runuser -l stack -c  'bbl up --debug'
+ct=3
+while [[ $ct -gt 0 ]]; do
+  runuser -l stack -c  'bbl up --debug'
+  ((ct--))
+  sleep 30;
+done
 #####
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed, loading terraform cf for prepare script..."
