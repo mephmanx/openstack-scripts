@@ -27,22 +27,6 @@
 			<scope>remote</scope>
 			<gid>2000</gid>
 			<priv>page-dashboard-all</priv>
-			<priv>page-openvpn-client-export</priv>
-			<priv>page-openvpn-client</priv>
-			<priv>user-ssh-tunnel</priv>
-			<priv>page-status-openvpn</priv>
-			<priv>page-vpn-ipsec</priv>
-			<priv>page-vpn-ipsec-editphase1</priv>
-			<priv>page-vpn-ipsec-editphase2</priv>
-			<priv>page-vpn-ipsec-editkeys</priv>
-			<priv>page-vpn-ipsec-mobile</priv>
-			<priv>page-vpn-ipsec-listkeys</priv>
-			<priv>page-vpn-ipsec-settings</priv>
-			<priv>page-openvpn-csc</priv>
-			<priv>page-openvpn-csc-advanced</priv>
-			<priv>page-openvpn-server-advanced</priv>
-			<priv>page-openvpn-client-advanced</priv>
-			<priv>page-openvpn-server</priv>
 			<priv>page-firewall-pfblockerng</priv>
 			<priv>page-services-snort</priv>
 		</group>
