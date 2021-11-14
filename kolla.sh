@@ -796,7 +796,7 @@ $SWIFT_KEY
 EOF
 
 swift post -m "Temp-URL-Key:$SWIFT_KEY" \
-            -A http://$INTERNAL_VIP_DNS:5000/v3 \
+            -A https://$EXTERNAL_VIP_DNS:5000/v3 \
             -U $OPENSTACK_CLOUDFOUNDRY_USERNAME \
             -K $OPENSTACK_CLOUDFOUNDRY_PWD \
             -V 3 \
