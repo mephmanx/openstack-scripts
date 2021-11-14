@@ -29,6 +29,7 @@
 			<priv>page-dashboard-all</priv>
 			<priv>page-firewall-pfblockerng</priv>
 			<priv>page-services-snort</priv>
+			<priv>page-status-openvpn</priv>
 		</group>
 		<user>
 			<name>admin</name>
