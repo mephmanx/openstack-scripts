@@ -672,14 +672,6 @@ runuser -l stack -c  'cat /opt/stack/id_rsa.crt >> /opt/stack/trusted-certs.vars
 
 runuser -l stack -c  "cat > /opt/stack/add-trusted-certs-to-director-vm.ops.yml <<EOF
 - type: replace
-  path: /releases/name=os-conf?
-  value:
-    name: os-conf
-    version: $CF_BBL_OS_CONF_RELEASE
-    url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=$CF_BBL_OS_CONF_RELEASE
-    sha1: $CF_BBL_OS_CONF_HASH
-
-- type: replace
   path: /instance_groups/name=bosh/jobs/-
   value:
     name: ca_certs
