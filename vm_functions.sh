@@ -455,11 +455,16 @@ function generate_random_pwd() {
 
 function join_machine_to_domain() {
   IP_ADDRESS=`hostname -I | awk '{print $1}'`
+  HOSTNAME=`hostname`.$INTERNAL_DOMAIN_NAME
+
+  runuser -l root -c "echo '$IP_ADDRESS $HOSTNAME' > /etc/hosts"
+  runuser -l root -c "echo $HOSTNAME > /etc/hostname"
+  runuser -l root -c "sysctl kernel.hostname=$HOSTNAME"
+
   IPA_SERVER=$IDENTITY_HOST.$INTERNAL_DOMAIN_NAME
   ADMIN_PASSWORD=$1
   DOMAIN_NAME=$INTERNAL_DOMAIN_NAME
   REALM_NAME=$(echo "$INTERNAL_DOMAIN_NAME" | tr '[:lower:]' '[:upper:]')
-  HOSTNAME=`hostname`.$INTERNAL_DOMAIN_NAME
 
   ipa-client-install -p admin \
                       --ip-address=$IP_ADDRESS \
