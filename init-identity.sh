@@ -127,6 +127,11 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_INTERNAL_HOST
 
 #### users
 /usr/bin/ipa user-add --first=Firstname --last=Lastname ipauser --random
+
+####  send random pwd over telegram
+RANDOM_PWD=`cat userinfo | grep 'Random password' | awk -F': ' '{print $2}'`
+telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "ipauser random password is $RANDOM_PWD"
+
 SSH_KEY=`cat /root/.ssh/id_rsa.pub`
 /usr/bin/ipa user-mod ipauser --sshpubkey="$SSH_KEY"
 
