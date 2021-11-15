@@ -306,6 +306,7 @@ cat > $cert_dir/ca_conf.cnf <<EOF
 [ req ]
 default_bits                                         = 4096
 distinguished_name                           = req_distinguished_name
+x509_extensions                                  = user_crt
 req_extensions                                   = v3_ca
 prompt = no
 
@@ -317,13 +318,21 @@ stateOrProvinceName         = $STATE
 localityName               = $LOCATION
 organizationName           = $ORGANIZATION
 
+### X509 extensions
+[ user_crt ]
+nsCertType              = client, server, email
+nsComment               = "OpenSSL Generated Certificate"
+subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid,issuer
+dNSName                 = $host_name.$INTERNAL_DOMAIN_NAME
+
 ##Extensions to add to a certificate request for how it will be used
 [ v3_ca ]
 basicConstraints        = critical, CA:TRUE
 subjectKeyIdentifier    = hash
 authorityKeyIdentifier  = keyid:always, issuer:always
 keyUsage                = critical, cRLSign, digitalSignature, keyCertSign
-subjectAltName          = dNSName = ca.$INTERNAL_DOMAIN_NAME
+subjectAltName          = @alt_names
 nsCertType              = server
 nsComment               = "$INTERNAL_DOMAIN_NAME CA Certificate"
 
@@ -364,6 +373,7 @@ cat > $cert_dir/$cert_name.cnf <<EOF
 [ req ]
 default_bits                                         = 4096
 distinguished_name                           = req_distinguished_name
+x509_extensions                                  = user_crt
 req_extensions                                   = v3_vpn_server
 prompt = no
 
@@ -374,6 +384,14 @@ countryName                 = $COUNTRY
 stateOrProvinceName         = $STATE
 localityName               = $LOCATION
 organizationName           = $ORGANIZATION
+
+### X509 extensions
+[ user_crt ]
+nsCertType              = client, server, email
+nsComment               = "OpenSSL Generated Certificate"
+subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid,issuer
+dNSName                 = $host_name.$INTERNAL_DOMAIN_NAME
 
 ##Extensions to add to a certificate request for how it will be used
 [ v3_vpn_server ]
@@ -387,7 +405,6 @@ nsComment               = "Certificate for host -> $host_name.$INTERNAL_DOMAIN_N
 
 ##The other names your server may be connected to as
 [alt_vpn_server]
-dNSName                                               = $host_name.$INTERNAL_DOMAIN_NAME
 DNS.1                                                 = $host_name.$INTERNAL_DOMAIN_NAME
 EOF
 
