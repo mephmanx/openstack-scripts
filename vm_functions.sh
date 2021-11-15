@@ -323,7 +323,7 @@ basicConstraints        = critical, CA:TRUE
 subjectKeyIdentifier    = hash
 authorityKeyIdentifier  = keyid:always, issuer:always
 keyUsage                = critical, cRLSign, digitalSignature, keyCertSign
-subjectAltName          = @alt_names
+subjectAltName          = @alt_names, dNSName=ca.$INTERNAL_DOMAIN_NAME
 nsCertType              = server
 nsComment               = "$INTERNAL_DOMAIN_NAME CA Certificate"
 
@@ -381,7 +381,7 @@ basicConstraints        = critical, CA:FALSE
 subjectKeyIdentifier    = hash
 keyUsage                = critical, nonRepudiation, digitalSignature, keyEncipherment, keyAgreement
 extendedKeyUsage        = critical, serverAuth
-subjectAltName          = @alt_vpn_server
+subjectAltName          = @alt_vpn_server, dNSName=$host_name.$INTERNAL_DOMAIN_NAME
 nsCertType              = server
 nsComment               = "Certificate for host -> $host_name.$INTERNAL_DOMAIN_NAME"
 
