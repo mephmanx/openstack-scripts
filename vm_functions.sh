@@ -323,13 +323,12 @@ basicConstraints        = critical, CA:TRUE
 subjectKeyIdentifier    = hash
 authorityKeyIdentifier  = keyid:always, issuer:always
 keyUsage                = critical, cRLSign, digitalSignature, keyCertSign
-subjectAltName          = @alt_names
+subjectAltName          = dNSName = ca.$INTERNAL_DOMAIN_NAME
 nsCertType              = server
 nsComment               = "$INTERNAL_DOMAIN_NAME CA Certificate"
 
 ##The other names your server may be connected to as
 [alt_names]
-dNSName                                               = ca.$INTERNAL_DOMAIN_NAME
 DNS.1                                                 = ca
 DNS.2                                                 = ca.$INTERNAL_DOMAIN_NAME
 DNS.3                                                 = $IP
