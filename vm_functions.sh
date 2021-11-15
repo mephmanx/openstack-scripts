@@ -306,7 +306,6 @@ cat > $cert_dir/ca_conf.cnf <<EOF
 [ req ]
 default_bits                                         = 4096
 distinguished_name                           = req_distinguished_name
-x509_extensions                                  = v3_ca
 req_extensions                                   = v3_ca
 prompt = no
 
@@ -337,6 +336,7 @@ IP.1                                                  = $IP
 IP.2                                                  = $LAN_CENTOS_IP
 EOF
 
+  extFile=$(gen_extfile ca.$INTERNAL_DOMAIN_NAME)
   runuser -l root -c  "chmod 600 $cert_dir/*"
   runuser -l root -c  "openssl genrsa -aes256 -passout pass:$ca_pwd -out $cert_dir/id_rsa 4096"
   # create CA key and cert
@@ -345,6 +345,7 @@ EOF
   runuser -l root -c  "openssl req -new -x509 -days 7300 \
                         -key $cert_dir/id_rsa.key -out $cert_dir/id_rsa.crt \
                         -sha256 \
+                        -extfile <(printf \"$extFile\") \
                         -config $cert_dir/ca_conf.cnf"
 }
 
