@@ -344,6 +344,7 @@ EOF
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
   runuser -l root -c  "openssl req -new -x509 -days 7300 \
                         -key $cert_dir/id_rsa.key -out $cert_dir/id_rsa.crt \
+                        -sha256 \
                         -config $cert_dir/ca_conf.cnf"
 }
 
@@ -379,6 +380,8 @@ organizationName           = $ORGANIZATION
 
 ###x509
 [ server_cert ]
+subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid,issuer
 dNSName                 = $host_name.$INTERNAL_DOMAIN_NAME
 
 ##Extensions to add to a certificate request for how it will be used
@@ -402,6 +405,7 @@ while [ $node_ct -gt 0 ]; do
   ((node_ct--))
 done
 
+  extFile=$(gen_extfile $host_name.$INTERNAL_DOMAIN_NAME)
   runuser -l root -c  "openssl genrsa -aes256 -passout pass:$ca_pwd -out $cert_dir/$cert_name.pass.key 4096"
   runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/$cert_name.pass.key -out $cert_dir/$cert_name.key"
   runuser -l root -c  "openssl req -new -key $cert_dir/$cert_name.key \
@@ -413,7 +417,22 @@ done
                           -CA $cert_dir/id_rsa.crt \
                           -CAkey $cert_dir/id_rsa \
                           -passin pass:$ca_pwd \
+                          -sha256 \
+                          -extfile <(printf "$extFile") \
                           -out $cert_dir/$cert_name.crt"
+}
+
+function gen_extfile()
+{
+    domain=$1
+    cat << EOF
+        authorityKeyIdentifier=keyid,issuer\n
+    basicConstraints=CA:FALSE\n
+        keyUsage=digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment\n
+    subjectAltName = @alt_names\n
+    [alt_names]\n
+        DNS.1 = $domain
+EOF
 }
 
 function create_user_cert() {
