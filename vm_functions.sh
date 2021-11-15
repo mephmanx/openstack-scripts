@@ -306,7 +306,7 @@ cat > $cert_dir/ca_conf.cnf <<EOF
 [ req ]
 default_bits                                         = 4096
 distinguished_name                           = req_distinguished_name
-x509_extensions                                  = user_crt
+x509_extensions                                  = v3_ca
 req_extensions                                   = v3_ca
 prompt = no
 
@@ -317,14 +317,6 @@ countryName                 = $COUNTRY
 stateOrProvinceName         = $STATE
 localityName               = $LOCATION
 organizationName           = $ORGANIZATION
-
-### X509 extensions
-[ user_crt ]
-nsCertType              = client, server, email
-nsComment               = "OpenSSL Generated Certificate"
-subjectKeyIdentifier    = hash
-authorityKeyIdentifier  = keyid,issuer
-dNSName                 = $host_name.$INTERNAL_DOMAIN_NAME
 
 ##Extensions to add to a certificate request for how it will be used
 [ v3_ca ]
@@ -373,7 +365,7 @@ cat > $cert_dir/$cert_name.cnf <<EOF
 [ req ]
 default_bits                                         = 4096
 distinguished_name                           = req_distinguished_name
-x509_extensions                                  = user_crt
+x509_extensions                                  = v3_vpn_server
 req_extensions                                   = v3_vpn_server
 prompt = no
 
@@ -384,14 +376,6 @@ countryName                 = $COUNTRY
 stateOrProvinceName         = $STATE
 localityName               = $LOCATION
 organizationName           = $ORGANIZATION
-
-### X509 extensions
-[ user_crt ]
-nsCertType              = client, server, email
-nsComment               = "OpenSSL Generated Certificate"
-subjectKeyIdentifier    = hash
-authorityKeyIdentifier  = keyid,issuer
-dNSName                 = $host_name.$INTERNAL_DOMAIN_NAME
 
 ##Extensions to add to a certificate request for how it will be used
 [ v3_vpn_server ]
