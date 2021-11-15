@@ -366,7 +366,6 @@ cat > $cert_dir/$cert_name.cnf <<EOF
 [ req ]
 default_bits                                         = 4096
 distinguished_name                           = req_distinguished_name
-x509_extensions                                  = server_cert
 req_extensions                                   = v3_vpn_server
 prompt = no
 
@@ -377,12 +376,6 @@ countryName                 = $COUNTRY
 stateOrProvinceName         = $STATE
 localityName               = $LOCATION
 organizationName           = $ORGANIZATION
-
-###x509
-[ server_cert ]
-subjectKeyIdentifier    = hash
-authorityKeyIdentifier  = keyid,issuer
-dNSName                 = $host_name.$INTERNAL_DOMAIN_NAME
 
 ##Extensions to add to a certificate request for how it will be used
 [ v3_vpn_server ]
