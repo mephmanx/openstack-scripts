@@ -418,20 +418,20 @@ done
                           -CAkey $cert_dir/id_rsa \
                           -passin pass:$ca_pwd \
                           -sha256 \
-                          -extfile <(printf "$extFile") \
+                          -extfile <(printf \"$extFile\") \
                           -out $cert_dir/$cert_name.crt"
 }
 
 function gen_extfile()
 {
     domain=$1
-    cat << EOF
-        authorityKeyIdentifier=keyid,issuer\n
-    basicConstraints=CA:FALSE\n
-        keyUsage=digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment\n
-    subjectAltName = @alt_names\n
-    [alt_names]\n
-        DNS.1 = $domain
+cat << EOF
+authorityKeyIdentifier=keyid,issuer\n
+basicConstraints=CA:FALSE\n
+keyUsage=digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment\n
+subjectAltName = @alt_names\n
+[alt_names]\n
+DNS.1 = $domain
 EOF
 }
 
