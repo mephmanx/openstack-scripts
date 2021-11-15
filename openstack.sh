@@ -146,6 +146,9 @@ web_pid=$!
 echo $web_pid > /tmp/web_pid
 cd $pwd
 
+firewall-cmd --zone=public --add-port=8000/tcp
+firewall-cmd --permanent --zone=public --add-port=8000/tcp
+
 ##### build openstack vm keys
 ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
 ###########
