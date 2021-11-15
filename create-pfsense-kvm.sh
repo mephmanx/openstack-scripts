@@ -71,6 +71,8 @@ else
   DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
 fi
 
+DIRECTORY_MGR_PWD=$(generate_random_pwd)
+echo "$DIRECTORY_MGR_PWD" >> /root/directory_mgr_pwd
 ADMIN_PWD=`cat /root/env_admin_pwd`
 DIRECTORY_MGR_PWD=`cat /root/directory_mgr_pwd`
 ##### replace PFSense template vars
