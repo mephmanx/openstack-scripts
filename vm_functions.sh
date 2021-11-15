@@ -388,13 +388,11 @@ nsComment               = "Certificate for host -> $host_name.$INTERNAL_DOMAIN_N
 
 ##The other names your server may be connected to as
 [alt_vpn_server]
-DNS.1                                                 = $host_name
-DNS.2                                                 = $host_name.$INTERNAL_DOMAIN_NAME
-DNS.3                                                 = *.$INTERNAL_DOMAIN_NAME
+DNS.1                                                 = $host_name.$INTERNAL_DOMAIN_NAME
 EOF
 
 node_ct=255
-while [ $node_ct -gt 1 ]; do
+while [ $node_ct -gt 0 ]; do
   echo "IP.$node_ct = $NETWORK_PREFIX.$node_ct" >> $cert_dir/$cert_name.cnf
   ((node_ct--))
 done
