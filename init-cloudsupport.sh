@@ -44,10 +44,6 @@ yum install -y perl \
               cockpit-packagekit \
               cockpit-storaged
 
-dnf module enable idm:DL1 -y
-dnf distro-sync -y
-dnf update -y
-#####
 
 ## enable auto updates if selected
 if [[ $LINUX_AUTOUPDATE == 1 ]]; then
