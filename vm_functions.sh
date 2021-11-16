@@ -51,9 +51,6 @@ function load_libs() {
   case "${option}" in
     "kolla")
           # Kolla Openstack setup VM
-          dnf module enable idm:DL1 -y
-          dnf distro-sync -y
-          dnf update -y
           yum install -y yum-utils
           yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
           yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
@@ -87,16 +84,10 @@ function load_libs() {
                 docker-ce-cli \
                 containerd.io \
                 tar \
-                tpm-tools \
-                ipa-client \
-                freeipa-client \
-                ipa-admintools
+                tpm-tools
     ;;
       *)
         # All other Openstack VM's
-        dnf module enable idm:DL1 -y
-        dnf distro-sync -y
-        dnf update -y
         yum install -y yum-utils
         yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
         yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
@@ -112,10 +103,7 @@ function load_libs() {
             docker-ce-cli \
             containerd.io \
             tar \
-            tpm-tools \
-            ipa-client \
-            freeipa-client \
-            ipa-admintools
+            tpm-tools
     ;;
   esac
 }
