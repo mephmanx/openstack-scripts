@@ -79,9 +79,10 @@ DIRECTORY_MGR_PWD=`cat /root/directory_mgr_pwd`
 ## generate random hostname suffix
 HOWLONG=5 ## the number of characters
 HOSTNAME_SUFFIX=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+HOSTNAME="$APP_INTERNAL_HOSTNAME-$HOSTNAME_SUFFIX"
 ###
 ##### replace PFSense template vars
-sed -i 's/{HOSTNAME_SUFFIX}/'$HOSTNAME_SUFFIX'/g' /tmp/usb/config.xml
+sed -i 's/{HOSTNAME}/'$HOSTNAME'/g' /tmp/usb/config.xml
 sed -i 's/{CF_TCP_START_PORT}/'$CF_TCP_START_PORT'/g' /tmp/usb/config.xml
 sed -i 's/{CF_TCP_END_PORT}/'$CF_TCP_END_PORT'/g' /tmp/usb/config.xml
 sed -i 's/{INTERNAL_VIP}/'$INTERNAL_VIP'/g' /tmp/usb/config.xml
