@@ -731,7 +731,7 @@ cp /tmp/id_rsa.crt /opt/stack/ca.crt
 chown -R stack /opt/stack/ca.crt
 ## add availability zones to the list below for a full HA deploy
 cat > terraform.tfvars <<EOF
-auth_url = "https://$EXTERNAL_VIP_DNS:5000/v3"
+auth_url = "http://$INTERNAL_VIP_DNS:5000/v3"
 domain_name = "default"
 user_name = "$OPENSTACK_CLOUDFOUNDRY_USERNAME"
 password = "$OPENSTACK_CLOUDFOUNDRY_PWD"
@@ -754,8 +754,8 @@ use_tcp_router = "true" #default is true
 num_tcp_ports = $CF_TCP_PORT_COUNT #default is 100, needs to be > 0
 
 # in case of self signed certificate select one of the following options
-cacert_file = "/opt/stack/ca.crt"
-#insecure = "true"
+#cacert_file = "/opt/stack/ca.crt"
+insecure = "true"
 EOF
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Executing env prep script..."
