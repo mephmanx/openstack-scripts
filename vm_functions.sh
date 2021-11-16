@@ -468,7 +468,9 @@ function generate_random_pwd() {
 }
 
 function join_machine_to_domain() {
+  ## kill selinux to join domain
   runuser -l root -c "sed -i 's/\(SELINUX\=\).*/\1disabled/' /etc/selinux/config"
+
   IP_ADDRESS=`hostname -I | awk '{print $1}'`
   HOSTNAME=`hostname`.$INTERNAL_DOMAIN_NAME
 
@@ -490,4 +492,7 @@ function join_machine_to_domain() {
                       --mkhomedir \
                       --force \
                       -w $ADMIN_PASSWORD -U -q > /tmp/ipa-join
+
+   ### if possible, restart selinux
+
 }
