@@ -81,6 +81,21 @@ HOWLONG=5 ## the number of characters
 HOSTNAME_SUFFIX=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
 HOSTNAME="$APP_INTERNAL_HOSTNAME-$HOSTNAME_SUFFIX"
 ###
+
+### BaseDN
+BASE_DN=""
+IFS='.' read -ra ADDR <<< "$INTERNAL_DOMAIN_NAME"
+LEN="${#ADDR[@]}"
+CT=1
+for i in "${ADDR[@]}"; do
+  BASE_DN+="dc=$i"
+  if [[ $CT -lt $LEN ]]; then
+    BASE_DN+=","
+    ((CT++))
+  fi
+done
+####
+
 ##### replace PFSense template vars
 sed -i 's/{HOSTNAME}/'$HOSTNAME'/g' /tmp/usb/config.xml
 sed -i 's/{CF_TCP_START_PORT}/'$CF_TCP_START_PORT'/g' /tmp/usb/config.xml
@@ -118,7 +133,7 @@ sed -i 's/{IDENTITY_VIP}/'$IDENTITY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{DIRECTORY_MGR_PWD}/'$DIRECTORY_MGR_PWD'/g' /tmp/usb/config.xml
 sed -i 's/{CACHE_SIZE}/'$(($DRIVE_SIZE * 75/100 * 1024))'/g' /tmp/usb/config.xml
-sed -i 's/{BASE_DN}/dc=lyonsgroup,dc=local/g' /tmp/usb/config.xml
+sed -i 's/{BASE_DN}/'$BASE_DN'/g' /tmp/usb/config.xml
 sed -i 's/{LB_ROUTER_IP}/'$LB_ROUTER_IP'/g' /tmp/usb/config.xml
 sed -i 's/{LB_DHCP_START}/'$LB_DHCP_START'/g' /tmp/usb/config.xml
 sed -i 's/{LB_DHCP_END}/'$LB_DHCP_END'/g' /tmp/usb/config.xml
