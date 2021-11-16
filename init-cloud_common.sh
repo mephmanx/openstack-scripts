@@ -38,6 +38,10 @@ fi
 # load libraries for this VM "type"
 load_libs "${TYPE}"
 
+#### join to domin
+ADMIN_PWD=`cat /root/env_admin_pwd`
+join_machine_to_domain $ADMIN_PWD
+
 #### Centos8 to Centos 8 Stream
 if [[ $NAME == "CentOS Linux" ]]; then
   dnf swap centos-linux-repos centos-stream-repos -y
