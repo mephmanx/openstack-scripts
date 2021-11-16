@@ -722,8 +722,7 @@ chown -R stack terraform
 
 sed -i '/provider "openstack" {/a use_octavia   = true' ./cf.tf
 sed -i "/use_octavia   = true/a version = \"$CF_BBL_OPENSTACK_CPI_VERSION\"" ./cf.tf
-cp /tmp/id_rsa.crt
-cp /opt/stack/ca.crt
+cp /tmp/id_rsa.crt /opt/stack/ca.crt
 chown -R stack /opt/stack/ca.crt
 ## add availability zones to the list below for a full HA deploy
 cat > terraform.tfvars <<EOF
