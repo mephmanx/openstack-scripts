@@ -4,7 +4,6 @@ source /tmp/openstack-scripts/vm-configurations.sh
 source /tmp/openstack-scripts/vm_functions.sh
 source /tmp/project_config.sh
 
-NETMASK="255.255.255.0"
 LINUX_OS="https://$GATEWAY_ROUTER_IP/isos/linux.iso"
 KICKSTART_DIR=/tmp/openstack-scripts
 
