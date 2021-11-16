@@ -468,6 +468,7 @@ function generate_random_pwd() {
 }
 
 function join_machine_to_domain() {
+  runuser -l root -c "sed -i 's/\(SELINUX\=\).*/\1disabled/' /etc/selinux/config"
   IP_ADDRESS=`hostname -I | awk '{print $1}'`
   HOSTNAME=`hostname`.$INTERNAL_DOMAIN_NAME
 
