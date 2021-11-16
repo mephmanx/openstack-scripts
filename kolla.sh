@@ -395,7 +395,12 @@ export TROVE_GATEWAY="$TROVE_NETWORK.1"
 
 openstack image create trove-master-guest-ubuntu --private --disk-format qcow2 --container-format bare --tag trove --tag mysql --tag mariadb --tag postgresql --file /tmp/trove_db.img
 
-openstack image create trove-base --disk-format qcow2 --container-format bare --file /tmp/trove_instance.img
+ct=3
+while [[ $ct -gt 0 ]]; do
+  openstack image create trove-base --disk-format qcow2 --container-format bare --file /tmp/trove_instance.img
+  ((ct--))
+done
+
 openstack network create trove-net
 openstack subnet create --subnet-range $TROVE_CIDR  --gateway $TROVE_GATEWAY --network trove-net --allocation-pool $TROVE_RANGE --dns-nameserver $IDENTITY_VIP trove-subnet0
 
