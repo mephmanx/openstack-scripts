@@ -637,7 +637,7 @@ PUBLIC_NETWORK_ID="$(openstack network list --name public1 | awk -F'|' ' NR > 3 
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting BOSH infrastructure install...."
 runuser -l stack -c  "echo 'export BBL_IAAS=openstack' >> /opt/stack/.bash_profile"
-runuser -l stack -c  "echo 'export BBL_OPENSTACK_AUTH_URL=https://$EXTERNAL_VIP_DNS:5000/v3' >> /opt/stack/.bash_profile"
+runuser -l stack -c  "echo 'export BBL_OPENSTACK_AUTH_URL=http://$INTERNAL_VIP_DNS:5000/v3' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_AZ=nova' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_NETWORK_ID=$PUBLIC_NETWORK_ID' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_NETWORK_NAME=public1' >> /opt/stack/.bash_profile"
@@ -654,7 +654,7 @@ runuser -l stack -c  "echo 'export OS_PROJECT_NAME=$OS_PROJECT_NAME' >> /opt/sta
 runuser -l stack -c  "echo 'export OS_TENANT_NAME=$OS_TENANT_NAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_USERNAME=$OS_USERNAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_PASSWORD=$OS_PASSWORD' >> /opt/stack/.bash_profile"
-runuser -l stack -c  "echo 'export OS_AUTH_URL=https://$EXTERNAL_VIP_DNS:5000/v3' >> /opt/stack/.bash_profile"
+runuser -l stack -c  "echo 'export OS_AUTH_URL=http://$INTERNAL_VIP_DNS:5000/v3' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_INTERFACE=$OS_INTERFACE' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_ENDPOINT_TYPE=$OS_ENDPOINT_TYPE' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_IDENTITY_API_VERSION=$OS_IDENTITY_API_VERSION' >> /opt/stack/.bash_profile"
