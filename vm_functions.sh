@@ -493,6 +493,6 @@ function join_machine_to_domain() {
                       --force \
                       -w $ADMIN_PASSWORD -U -q > /tmp/ipa-join
 
-   ### if possible, restart selinux
-
+  ### if possible, restart selinux
+  runuser -l root -c "sed -i 's/\(SELINUX\=\).*/\1enabled/' /etc/selinux/config"
 }
