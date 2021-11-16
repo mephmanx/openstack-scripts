@@ -4,7 +4,7 @@
 	<lastchange></lastchange>
 	<system>
 		<optimization>normal</optimization>
-		<hostname>pfsense</hostname>
+		<hostname>pfsense-{HOSTNAME_SUFFIX}</hostname>
 		<domain>{INTERNAL_DOMAIN_NAME}</domain>
 		<group>
 			<name>admins</name>
