@@ -464,7 +464,7 @@ function join_machine_to_domain() {
   IP_ADDRESS=`hostname -I | awk '{print $1}'`
   HOSTNAME=`hostname`.$INTERNAL_DOMAIN_NAME
 
-  runuser -l root -c "echo '$IP_ADDRESS $HOSTNAME' > /etc/hosts"
+  runuser -l root -c "echo '$IP_ADDRESS $HOSTNAME' >> /etc/hosts"
   runuser -l root -c "echo $HOSTNAME > /etc/hostname"
   runuser -l root -c "sysctl kernel.hostname=$HOSTNAME"
 

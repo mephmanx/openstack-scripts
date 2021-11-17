@@ -72,7 +72,7 @@ ADMIN_PASSWORD=$ADMIN_PWD
 REALM_NAME=$(echo "$INTERNAL_DOMAIN_NAME" | tr '[:lower:]' '[:upper:]')
 HOSTNAME=identity.$INTERNAL_DOMAIN_NAME
 
-runuser -l root -c "echo '$IDENTITY_VIP $HOSTNAME' > /etc/hosts"
+runuser -l root -c "echo '$IDENTITY_VIP $HOSTNAME' >> /etc/hosts"
 runuser -l root -c "echo $HOSTNAME > /etc/hostname"
 runuser -l root -c "sysctl kernel.hostname=$HOSTNAME"
 
