@@ -803,14 +803,14 @@ octavia_amp_network:
   shared: false
   subnet:
     name: lb-mgmt-subnet
-    cidr: "10.1.0.0/24"
-    allocation_pool_start: "10.1.0.100"
-    allocation_pool_end: "10.1.0.200"
-    gateway_ip: "10.1.0.1"
+    cidr: "{LB_NETWORK}.0/24"
+    allocation_pool_start: "{LB_DHCP_START}"
+    allocation_pool_end: "{LB_DHCP_END}"
+    gateway_ip: "{LB_ROUTER_IP}"
     enable_dhcp: yes
 
 # Octavia management network subnet CIDR.
-octavia_amp_network_cidr: "10.1.0.0/24"
+octavia_amp_network_cidr: "{LB_NETWORK}.0/24"
 
 #octavia_amp_image_tag: "amphora"
 
