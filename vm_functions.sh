@@ -295,7 +295,7 @@ cat > $cert_dir/ca_conf.cnf <<EOF
 [ req ]
 default_bits                                         = 4096
 distinguished_name                           = req_distinguished_name
-req_extensions                                   = v3_ca
+x509_extensions                                   = v3_ca
 prompt = no
 
 ##About the system for the request. Ensure the CN = FQDN
@@ -334,7 +334,6 @@ EOF
   runuser -l root -c  "openssl req -new -x509 -days 7300 \
                         -key $cert_dir/id_rsa.key -out $cert_dir/id_rsa.crt \
                         -sha256 \
-                        -extfile <(printf \"$extFile\") \
                         -config $cert_dir/ca_conf.cnf"
 }
 
@@ -403,14 +402,6 @@ done
                           -sha256 \
                           -extfile <(printf \"$extFile\") \
                           -out $cert_dir/$cert_name.crt"
-}
-
-function gen_ca_extfile() {
-cat << EOF
-basicConstraints        = critical, CA:TRUE
-authorityKeyIdentifier  = keyid:always, issuer:always
-keyUsage                = critical, cRLSign, digitalSignature, keyCertSign
-EOF
 }
 
 function gen_extfile()
