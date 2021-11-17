@@ -59,7 +59,6 @@ function load_libs() {
                 unzip \
                 virt-install \
                 qemu-kvm \
-                epel-release \
                 libffi-devel \
                 gcc \
                 openssl-devel \
@@ -94,10 +93,8 @@ function load_libs() {
         #One time machine setup
         #install yum libs here
         yum install -y unzip \
-            epel-release \
             gcc \
             openssl-devel \
-            git \
             docker-ce \
             docker-ce-cli \
             containerd.io \

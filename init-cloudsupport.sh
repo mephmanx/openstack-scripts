@@ -26,7 +26,6 @@ yum update -y
 
 yum install -y perl \
               yum-utils \
-              git \
               python3-devel \
               python38 \
               make \
