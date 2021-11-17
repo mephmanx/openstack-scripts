@@ -156,9 +156,6 @@ function common_second_boot_setup() {
   chmod 600 /root/.ssh/id_rsa
   chmod 600 /root/.ssh/authorized_keys
 
-  systemctl stop firewalld
-  systemctl mask firewalld
-
   pip3 install --upgrade  --trusted-host pypi.org --trusted-host files.pythonhosted.org pip
   ### module recommended on openstack.org
   modprobe vhost_net
