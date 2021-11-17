@@ -26,7 +26,6 @@ yum update -y
 
 yum install -y perl \
               yum-utils \
-              cockpit \
               git \
               python3-devel \
               python38 \
@@ -36,12 +35,7 @@ yum install -y perl \
               gcc-c++ \
               mysql-devel \
               nodejs \
-              mysql-server \
-              open-vm-tools \
-              cockpit-machines \
-              cockpit-networkmanager \
-              cockpit-packagekit \
-              cockpit-storaged
+              mysql-server
 
 
 ## enable auto updates if selected

@@ -120,8 +120,6 @@ function add_stack_user() {
 
 function prep_next_script() {
   vm_type=$1
-  systemctl start cockpit.socket
-  systemctl enable --now cockpit.socket
 
   ## Prep OpenStack install
   rm -rf /etc/rc.d/rc.local
