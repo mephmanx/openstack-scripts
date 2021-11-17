@@ -79,7 +79,9 @@ DIRECTORY_MGR_PWD=`cat /root/directory_mgr_pwd`
 ## generate random hostname suffix
 HOWLONG=5 ## the number of characters
 HOSTNAME_SUFFIX=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
-HOSTNAME="$APP_INTERNAL_HOSTNAME-$HOSTNAME_SUFFIX"
+#HOSTNAME="$APP_INTERNAL_HOSTNAME-$HOSTNAME_SUFFIX"
+## make pfsense for now until dns rebind is disabled
+HOSTNAME="pfsense"
 ###
 
 ### BaseDN

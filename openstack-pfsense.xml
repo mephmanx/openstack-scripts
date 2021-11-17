@@ -2154,9 +2154,9 @@
 					<advanced>b3B0aW9uIGh0dHBsb2c=</advanced>
 					<ha_acls>
 						<item>
-							<name>pfsense</name>
+							<name>{HOSTNAME}</name>
 							<expression>host_contains</expression>
-							<value>pfsense</value>
+							<value>{HOSTNAME}</value>
 							<backendservercountbackend>ceilometer</backendservercountbackend>
 							<_index></_index>
 						</item>
@@ -2230,8 +2230,8 @@
 					<a_actionitems>
 						<item>
 							<action>use_backend</action>
-							<acl>pfsense</acl>
-							<use_backendbackend>pfsense</use_backendbackend>
+							<acl>{HOSTNAME}</acl>
+							<use_backendbackend>{HOSTNAME}</use_backendbackend>
 							<_index></_index>
 						</item>
 						<item>
@@ -4366,7 +4366,7 @@
 					<ha_servers>
 						<item>
 							<status>active</status>
-							<name>pfsense</name>
+							<name>{HOSTNAME}</name>
 							<address>{GATEWAY_ROUTER_IP}</address>
 							<port>444</port>
 							<ssl>yes</ssl>
@@ -4379,7 +4379,7 @@
 					<errorfiles></errorfiles>
 					<advanced></advanced>
 					<advanced_backend></advanced_backend>
-					<name>pfsense</name>
+					<name>{HOSTNAME}</name>
 					<balance></balance>
 					<balance_urilen></balance_urilen>
 					<balance_uridepth></balance_uridepth>
@@ -4394,7 +4394,7 @@
 					<monitor_httpversion></monitor_httpversion>
 					<monitor_username></monitor_username>
 					<monitor_domain></monitor_domain>
-					<monitor_agentport>pfsense</monitor_agentport>
+					<monitor_agentport>{HOSTNAME}</monitor_agentport>
 					<agent_check></agent_check>
 					<agent_port></agent_port>
 					<agent_inter></agent_inter>
