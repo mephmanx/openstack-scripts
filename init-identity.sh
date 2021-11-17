@@ -121,7 +121,6 @@ echo $ADMIN_PWD | kinit admin
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '*' --a-ip-address=$LB_ROUTER_IP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_INTERNAL_HOSTNAME' --a-ip-address=$INTERNAL_VIP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_EXTERNAL_HOSTNAME' --a-ip-address=$EXTERNAL_VIP"
-runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. 'pfsense' --a-ip-address=$GATEWAY_ROUTER_IP"
 
 #### groups
 /usr/bin/ipa group-add openstack-admins
@@ -141,7 +140,6 @@ SSH_KEY=`cat /root/.ssh/id_rsa.pub`
 /usr/bin/ipa sudorule-add su
 /usr/bin/ipa sudocmd-add /usr/bin/su
 /usr/bin/ipa sudorule-add-allow-command su --sudocmds /usr/bin/su
-/usr/bin/ipa sudorule-add-host su --hosts pfsense.$INTERNAL_DOMAIN_NAME
 /usr/bin/ipa sudorule-add-host su --hosts harbor.$INTERNAL_DOMAIN_NAME
 /usr/bin/ipa sudorule-add-user su --users ipauser
 /usr/bin/ipa sudorule-add defaults
