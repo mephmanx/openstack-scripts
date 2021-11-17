@@ -91,7 +91,6 @@ dnf install -y cyrus-sasl-devel \
                 gcc \
                 perl \
                 perl-devel \
-                wget \
                 vim \
                 rsyslog \
                 ipa-server \

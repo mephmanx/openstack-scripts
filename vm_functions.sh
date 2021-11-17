@@ -93,8 +93,7 @@ function load_libs() {
         yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
         #One time machine setup
         #install yum libs here
-        yum install -y wget \
-            unzip \
+        yum install -y unzip \
             epel-release \
             gcc \
             openssl-devel \
