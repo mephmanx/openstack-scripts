@@ -34,7 +34,7 @@ IDENTITY_VIP_DNS="$IDENTITY_HOST.$INTERNAL_DOMAIN_NAME"
 ##############################################
 
 #### setup static network local DNS entries
-echo "runuser -l root -c  'echo "$INTERNAL_VIP $INTERNAL_VIP_DNS" >> /etc/hosts;'" >> /tmp/dns_hosts
+#echo "runuser -l root -c  'echo "$INTERNAL_VIP $INTERNAL_VIP_DNS" >> /etc/hosts;'" >> /tmp/dns_hosts
 #echo "runuser -l root -c  'echo "$EXTERNAL_VIP $EXTERNAL_VIP_DNS" >> /etc/hosts;'" >> /tmp/dns_hosts
 ####  make sure to use an in-memory network for docker pull through cache otherwise 500's occur
 echo "runuser -l root -c  'echo "$SUPPORT_VIP $SUPPORT_VIP_DNS" >> /etc/hosts;'" >> /tmp/dns_hosts
