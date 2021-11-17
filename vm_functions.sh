@@ -320,7 +320,6 @@ nsComment               = "$INTERNAL_DOMAIN_NAME CA Certificate"
 [alt_names]
 DNS.1                                                 = ca
 DNS.2                                                 = ca.$INTERNAL_DOMAIN_NAME
-DNS.3                                                 = $IP
 IP.1                                                  = $IP
 IP.2                                                  = $LAN_CENTOS_IP
 IP.3                                                  = $LB_CENTOS_IP
