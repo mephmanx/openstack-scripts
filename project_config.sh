@@ -66,6 +66,7 @@ export LAN_CENTOS_IP="$NETWORK_PREFIX.1";
 export LAN_BRIDGE_IP="$NETWORK_PREFIX.2";
 export GATEWAY_ROUTER_IP="$NETWORK_PREFIX.3";
 export LB_ROUTER_IP="$LB_NETWORK.3";
+export LB_CENTOS_IP="$LB_NETWORK.1";
 export NETMASK="255.255.255.0";
 ## Openstack core VM static IP start address
 export CORE_VM_START_IP=20;
