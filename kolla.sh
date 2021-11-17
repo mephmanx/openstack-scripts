@@ -224,17 +224,14 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "All Openstack VM's came up prop
 #############
 
 #### run host trust on all nodes
-#file=/tmp/host_list
-#for i in `cat $file`
-#do
-#  echo "$i"
-#  scp /tmp/host-trust.sh root@$i:/tmp
-#  runuser -l root -c "ssh root@$i '/tmp/host-trust.sh'"
-#  ## join to domain
-#  ADMIN_PWD=`cat /root/env_admin_pwd`
-#  runuser -l root -c "ssh root@$i 'source /tmp/vm_functions.sh; join_machine_to_domain $ADMIN_PWD;'"
-#done
-#rm -rf /tmp/host_trust
+file=/tmp/host_list
+for i in `cat $file`
+do
+  echo "$i"
+  scp /tmp/host-trust.sh root@$i:/tmp
+  runuser -l root -c "ssh root@$i '/tmp/host-trust.sh'"
+done
+rm -rf /tmp/host_trust
 #####################
 
 ## generate octavia certs
