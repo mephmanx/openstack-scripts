@@ -54,8 +54,7 @@ function load_libs() {
           yum install -y yum-utils
           yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
           yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
-          yum install -y wget \
-                ruby \
+          yum install -y ruby \
                 unzip \
                 virt-install \
                 qemu-kvm \
