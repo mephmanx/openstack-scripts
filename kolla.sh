@@ -105,6 +105,7 @@ sed -i "s/{LB_NETWORK}/${LB_NETWORK}/g" /etc/kolla/globals.yml
 sed -i "s/{LB_ROUTER_IP}/${LB_ROUTER_IP}/g" /etc/kolla/globals.yml
 sed -i "s/{LB_DHCP_START}/${LB_DHCP_START}/g" /etc/kolla/globals.yml
 sed -i "s/{LB_DHCP_END}/${LB_DHCP_END}/g" /etc/kolla/globals.yml
+sed -i "s/{INTERNAL_DOMAIN_NAME}/${INTERNAL_DOMAIN_NAME}/g" /etc/kolla/globals.yml
 
 kolla-genpwd
 
