@@ -372,6 +372,7 @@ done
 ####
 
 #load setup for validator
+export REQUESTS_CA_BUNDLE=/tmp/id_rsa.crt
 cd /etc/kolla
 . ./admin-openrc.sh
 sleep 180
@@ -647,6 +648,7 @@ runuser -l stack -c  "echo 'export OS_ENDPOINT_TYPE=$OS_ENDPOINT_TYPE' >> /opt/s
 runuser -l stack -c  "echo 'export OS_IDENTITY_API_VERSION=$OS_IDENTITY_API_VERSION' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_REGION_NAME=$OS_REGION_NAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_AUTH_PLUGIN=$OS_AUTH_PLUGIN' >> /opt/stack/.bash_profile"
+runuser -l stack -c  "echo 'export REQUESTS_CA_BUNDLE=/tmp/id_rsa.crt' >> /opt/stack/.bash_profile"
 runuser -l stack -c  'bbl plan'
 
 sed -i "s/~> 1.16/$CF_BBL_OPENSTACK_CPI_VERSION/g" /opt/stack/terraform/bbl-template.tf
