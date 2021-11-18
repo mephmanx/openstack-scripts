@@ -901,6 +901,12 @@ expect "bosh/0"
 send -- "echo '$LB_ROUTER_IP $EXTERNAL_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; exit;\r"
 expect eof
 FILEEND
+
+chmod +x /opt/stack/expect.sh
+pwd=`pwd`
+cd /opt/stack
+./expect.sh
+cd $pwd
 #########
 
 ### deploy cloudfoundry
