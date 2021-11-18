@@ -385,7 +385,7 @@ done
                           -out $cert_dir/$cert_name.csr \
                           -config $cert_dir/$cert_name.cnf"
 
-  runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
+  runuser -l root -c  "openssl x509 -CAcreateserial -req -days 7300 \
                           -in $cert_dir/$cert_name.csr \
                           -CA $cert_dir/id_rsa.crt \
                           -CAkey $cert_dir/id_rsa \
