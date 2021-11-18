@@ -889,6 +889,20 @@ sed -i 's/^/  /' /opt/stack/id_rsa.crt
 runuser -l stack -c  'cat /opt/stack/id_rsa.crt >> /opt/stack/trusted-certs-cf.vars.yml'
 ######
 
+### add internal override to director
+cat > /opt/stack/expect.sh <<FILEEND
+#!/usr/bin/expect -f
+
+set timeout -1
+spawn bbl ssh --director
+expect "yes/no"
+send -- "yes\r"
+expect "bosh/0"
+send -- "sudo echo '$LB_ROUTER_IP $EXTERNAL_VIP_DNS' >> /etc/hosts; exit;\r"
+expect eof
+FILEEND
+#########
+
 ### deploy cloudfoundry
 #this is to make the CF install fall into the below loop as it seems to need 2 deployments to fully deploy
 ## would be good to fix but was suggested by community so....

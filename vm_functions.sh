@@ -82,7 +82,8 @@ function load_libs() {
                 docker-ce-cli \
                 containerd.io \
                 tar \
-                tpm-tools
+                tpm-tools \
+                expect
     ;;
       *)
         # All other Openstack VM's
