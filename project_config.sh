@@ -51,22 +51,22 @@ export APP_EXTERNAL_HOSTNAME=openstack;
 ### Network prefix, used for all networks below
 #MariaDB seems to have a problem with 172 addresses.  Dont use!
 export NETWORK_PREFIX="10.0.200";
-export TROVE_NETWORK="10.2.0";
 export LB_NETWORK="10.1.0";
+export TROVE_NETWORK="10.2.0";
 
 ## vips for openstack
-export INTERNAL_VIP="$NETWORK_PREFIX.254";
-export EXTERNAL_VIP="$NETWORK_PREFIX.253";
-export CLOUDFOUNDRY_VIP="$NETWORK_PREFIX.252";
 export SUPPORT_VIP="$NETWORK_PREFIX.10";
 export IDENTITY_VIP="$NETWORK_PREFIX.11";
+export CLOUDFOUNDRY_VIP="$NETWORK_PREFIX.252";
+export EXTERNAL_VIP="$NETWORK_PREFIX.253";
+export INTERNAL_VIP="$NETWORK_PREFIX.254";
 
 ### Internal IP config
 export LAN_CENTOS_IP="$NETWORK_PREFIX.1";
 export LAN_BRIDGE_IP="$NETWORK_PREFIX.2";
 export GATEWAY_ROUTER_IP="$NETWORK_PREFIX.3";
-export LB_ROUTER_IP="$LB_NETWORK.3";
 export LB_CENTOS_IP="$LB_NETWORK.1";
+export LB_ROUTER_IP="$LB_NETWORK.3";
 export NETMASK="255.255.255.0";
 ## Openstack core VM static IP start address
 export CORE_VM_START_IP=20;
@@ -81,7 +81,6 @@ export OPENSTACK_DHCP_END="$NETWORK_PREFIX.200";
 ### LB network DHCP range
 export LB_DHCP_START="$LB_NETWORK.100";
 export LB_DHCP_END="$LB_NETWORK.200";
-
 ### Trove network settings
 export TROVE_DHCP_START="$TROVE_NETWORK.100";
 export TROVE_DHCP_END="$TROVE_NETWORK.200";
