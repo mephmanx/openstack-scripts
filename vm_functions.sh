@@ -316,7 +316,6 @@ IP.2                                                  = $LAN_CENTOS_IP
 IP.3                                                  = $LB_CENTOS_IP
 EOF
 
-  extFile=$(gen_ca_extfile)
   runuser -l root -c  "chmod 600 $cert_dir/*"
   runuser -l root -c  "openssl genrsa -aes256 -passout pass:$ca_pwd -out $cert_dir/id_rsa 4096"
   # create CA key and cert
