@@ -898,7 +898,7 @@ spawn bbl ssh --director
 expect "yes/no"
 send -- "yes\r"
 expect "bosh/0"
-send -- "sudo echo '$LB_ROUTER_IP $EXTERNAL_VIP_DNS' >> /etc/hosts; exit;\r"
+send -- "echo '$LB_ROUTER_IP $EXTERNAL_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; exit;\r"
 expect eof
 FILEEND
 #########
