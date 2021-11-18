@@ -119,8 +119,6 @@ echo $ADMIN_PWD | kinit admin
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '*' --a-ip-address=$LB_ROUTER_IP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_INTERNAL_HOSTNAME' --a-ip-address=$INTERNAL_VIP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_EXTERNAL_HOSTNAME' --a-ip-address=$EXTERNAL_VIP"
-runuser -l root -c "ipa dnszone-add $EXTERNAL_DOMAIN_NAME."
-runuser -l root -c "ipa dnsrecord-add $EXTERNAL_DOMAIN_NAME. '$LB_ROUTER_IP' --a-ip-address=$"
 
 #### groups
 /usr/bin/ipa group-add openstack-admins
