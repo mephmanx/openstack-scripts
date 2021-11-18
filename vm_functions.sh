@@ -391,6 +391,7 @@ done
                           -CAkey $cert_dir/id_rsa \
                           -passin pass:$ca_pwd \
                           -sha256 \
+                          -purpose server \
                           -extfile <(printf \"$extFile\") \
                           -out $cert_dir/$cert_name.crt"
 }
