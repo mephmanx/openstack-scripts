@@ -73,13 +73,13 @@ ip link add amp-net type bridge
 ip link set tapm1 master amp-net
 ip link set vm3 master amp-net
 
-ip addr add  ${LB_NETWORK}.1/24 dev amp-net
-ip addr add  ${LB_NETWORK}.2/24 dev vm4
+ip addr add  ${LB_CENTOS_IP}/24 dev amp-net
+ip addr add  ${LB_BRIDGE_IP}/24 dev vm4
 
 ip link set amp-net up
 ip link set vm4 up
 
-nmcli connection modify amp-net ipv4.addresses ${LB_NETWORK}.1/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
+nmcli connection modify amp-net ipv4.addresses ${LB_CENTOS_IP}/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
 
 ## build vif devices and pair them for the bridge, 10 for each network created above
 node_ct=20
