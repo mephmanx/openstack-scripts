@@ -43,6 +43,10 @@ systemctl restart libvirtd
 tuned-adm profile virtual-host
 #############
 
+#### restart cockpit to make sure it is up
+systemctl restart cockpit
+####################
+
 ########## configure and start networks
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Configuring networks on hypervisor...."
 #### private net 1
