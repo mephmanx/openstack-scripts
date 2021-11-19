@@ -892,9 +892,12 @@ runuser -l stack -c  'cat /opt/stack/id_rsa.crt >> /opt/stack/trusted-certs-cf.v
 ### add internal override to director
 cat > /opt/stack/expect.sh <<FILEEND
 #!/usr/bin/expect -f
-
 set timeout -1
-spawn bbl ssh --director
+spawn /bin/bash
+send "source /opt/stack/.bash_profile\r"
+send "source /tmp/bbl_env.sh\r"
+
+send "bbl ssh --director\r"
 expect "yes/no"
 send -- "yes\r"
 expect "bosh/0"
