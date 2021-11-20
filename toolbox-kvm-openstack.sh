@@ -134,7 +134,8 @@ IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
 for stemcell in "${stemcell_array[@]}";
 do
   if [ ! -f "/tmp/stemcell-$ct.tgz" ]; then
-    wget -O /tmp/stemcell-$ct.tgz ${stemcell}
+    curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-$stemcell-go_agent --output /tmp/stemcell-$ct.tgz
+#    wget -O /tmp/stemcell-$ct.tgz ${stemcell}
   fi
   embed_files+=("/tmp/stemcell-$ct.tgz")
   ((ct++))
