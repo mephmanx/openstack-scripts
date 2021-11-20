@@ -123,7 +123,7 @@
 			<ldap_basedn><![CDATA[{BASE_DN}]]></ldap_basedn>
 			<ldap_authcn><![CDATA[cn=accounts]]></ldap_authcn>
 			<ldap_extended_enabled>yes</ldap_extended_enabled>
-			<ldap_extended_query><![CDATA[memberof=cn=openstack-admins,cn=groups,cn=accounts,dc=lyonsgroup,dc=local]]></ldap_extended_query>
+			<ldap_extended_query><![CDATA[memberof=cn=openstack-admins,cn=groups,cn=accounts,{BASE_DN}]]></ldap_extended_query>
 			<ldap_attr_user><![CDATA[uid]]></ldap_attr_user>
 			<ldap_attr_group><![CDATA[cn]]></ldap_attr_group>
 			<ldap_attr_member><![CDATA[memberOf]]></ldap_attr_member>
@@ -146,7 +146,7 @@
 			<ldap_basedn><![CDATA[{BASE_DN}]]></ldap_basedn>
 			<ldap_authcn><![CDATA[cn=accounts]]></ldap_authcn>
 			<ldap_extended_enabled>yes</ldap_extended_enabled>
-			<ldap_extended_query><![CDATA[memberof=cn=vpn-users,cn=groups,cn=accounts,dc=lyonsgroup,dc=local]]></ldap_extended_query>
+			<ldap_extended_query><![CDATA[memberof=cn=vpn-users,cn=groups,cn=accounts,{BASE_DN}]]></ldap_extended_query>
 			<ldap_attr_user><![CDATA[uid]]></ldap_attr_user>
 			<ldap_attr_group><![CDATA[cn]]></ldap_attr_group>
 			<ldap_attr_member><![CDATA[memberOf]]></ldap_attr_member>
