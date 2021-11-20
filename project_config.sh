@@ -109,7 +109,7 @@ export CF_MEMORY_ALLOCATION_PCT=90
 export CF_DISK_ALLOCATION=80
 ### this must be in FreeBSD compatible array format or will break the pfsense init!
 ## stemcells to cache, will be pulled from https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-$stemcell-go_agent
-export CF_STEMCELLS="trusty bionic xenial"
+export CF_STEMCELLS="ubuntu-trusty ubuntu-bionic ubuntu-xenial centos-7"
 ## openstack vm counts
 ### these counts can be adjusted if larger than 1 server
 ### below counts are based on single server
