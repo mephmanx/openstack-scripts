@@ -60,6 +60,7 @@
 			<loginshowhost></loginshowhost>
 			<nohttpreferercheck></nohttpreferercheck>
 			<authmode>ipa-ldap</authmode>
+			<althostnames>pfsense</althostnames>
 		</webgui>
 		<disablesegmentationoffloading></disablesegmentationoffloading>
 		<disablelargereceiveoffloading></disablelargereceiveoffloading>
