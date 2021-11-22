@@ -312,6 +312,8 @@ echo "group_member_attribute = member" >> /etc/kolla/config/keystone.conf
 echo "group_desc_attribute   = description" >> /etc/kolla/config/keystone.conf
 echo "group_additional_attribute_mapping =" >> /etc/kolla/config/keystone.conf
 
+echo "[cors]" >> /etc/kolla/config/keystone.conf
+echo "allowed_origin = https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:3000" >> /etc/kolla/config/keystone.conf
 ######
 
 ### configure OIDC config
@@ -697,6 +699,11 @@ sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/terraform/bbl-template.tf
 sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/jumpbox-deployment/jumpbox.yml
 sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/bosh-deployment/bosh.yml
 sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/cloud-config/ops.yml
+
+#### bosh director keep unresponsive vm's
+sed -i '/generate_vm_passwords: true/a    debug: ' /opt/stack/bosh-deployment/bosh.yml
+sed -i '/debug: /a      keep_unreachable_vms: true ' /opt/stack/bosh-deployment/bosh.yml
+########
 
 runuser -l stack -c  "cat > /opt/stack/trusted-certs.vars.yml <<EOF
 trusted_certs: |-
