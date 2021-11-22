@@ -312,8 +312,8 @@ echo "novncproxy_base_url=https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:6
 #echo "group_desc_attribute   = description" >> /etc/kolla/config/keystone.conf
 #echo "group_additional_attribute_mapping =" >> /etc/kolla/config/keystone.conf
 #
-#echo "[cors]" >> /etc/kolla/config/keystone.conf
-#echo "allowed_origin = https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:3000" >> /etc/kolla/config/keystone.conf
+echo "[cors]" >> /etc/kolla/config/keystone.conf
+echo "allowed_origin = https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:3000" >> /etc/kolla/config/keystone.conf
 ######
 
 ### configure OIDC config
