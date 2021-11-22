@@ -207,8 +207,8 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/project_config.sh')
 
   ct=1
-  IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
-  for stemcell in "${stemcell_array[@]}";
+  stemcell_path="/tmp/stemcell-*.tgz"
+  for stemcell in $stemcell_path;
   do
     embed_files+=("/tmp/stemcell-$ct.tgz")
     ((ct++))
