@@ -277,41 +277,6 @@ echo "novncproxy_base_url=https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:6
 ####
 
 #### keystone.conf options
-#DIRECTORY_MGR_PWD=`cat /tmp/directory_mgr_pwd`
-#
-#echo "[identity]" >> /etc/kolla/config/keystone.conf
-#echo "driver = ldap" >> /etc/kolla/config/keystone.conf
-#
-#echo "[ldap]" >> /etc/kolla/config/keystone.conf
-#echo "url = ldap://$IDENTITY_VIP" >> /etc/kolla/config/keystone.conf
-#echo "user = cn=Directory Manager" >> /etc/kolla/config/keystone.conf
-#echo "password = $DIRECTORY_MGR_PWD" >> /etc/kolla/config/keystone.conf
-#echo "suffix = $(baseDN)" >> /etc/kolla/config/keystone.conf
-#
-#echo "user_tree_dn = cn=accounts,$(baseDN)" >> /etc/kolla/config/keystone.conf
-#echo "user_objectclass = inetOrgPerson" >> /etc/kolla/config/keystone.conf
-#echo "group_tree_dn = cn=groups,$(baseDN)" >> /etc/kolla/config/keystone.conf
-#echo "group_objectclass = groupOfNames" >> /etc/kolla/config/keystone.conf
-#echo "user_filter = (memberof=cn=openstack-admins,cn=groups,cn=accounts,$(baseDN))" >> /etc/kolla/config/keystone.conf
-#
-#### user mapping
-#echo "user_id_attribute      = cn" >> /etc/kolla/config/keystone.conf
-#echo "user_name_attribute    = sn" >> /etc/kolla/config/keystone.conf
-#echo "user_mail_attribute    = mail" >> /etc/kolla/config/keystone.conf
-#echo "user_pass_attribute    = userPassword" >> /etc/kolla/config/keystone.conf
-#echo "user_enabled_attribute = userAccountControl" >> /etc/kolla/config/keystone.conf
-#echo "user_enabled_mask      = 2" >> /etc/kolla/config/keystone.conf
-#echo "user_enabled_invert    = false" >> /etc/kolla/config/keystone.conf
-#echo "user_enabled_default   = 512" >> /etc/kolla/config/keystone.conf
-#echo "user_default_project_id_attribute =" >> /etc/kolla/config/keystone.conf
-#echo "user_additional_attribute_mapping =" >> /etc/kolla/config/keystone.conf
-#
-#echo "group_id_attribute     = cn" >> /etc/kolla/config/keystone.conf
-#echo "group_name_attribute   = ou" >> /etc/kolla/config/keystone.conf
-#echo "group_member_attribute = member" >> /etc/kolla/config/keystone.conf
-#echo "group_desc_attribute   = description" >> /etc/kolla/config/keystone.conf
-#echo "group_additional_attribute_mapping =" >> /etc/kolla/config/keystone.conf
-#
 echo "[cors]" >> /etc/kolla/config/keystone.conf
 echo "allowed_origin = https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:3000" >> /etc/kolla/config/keystone.conf
 ######
@@ -413,6 +378,42 @@ EOF
   ((control_ct--))
 done
 ####
+
+#### update keystone for ldap
+DIRECTORY_MGR_PWD=`cat /tmp/directory_mgr_pwd`
+#echo "[identity]" >> /etc/kolla/config/keystone.conf
+#echo "driver = ldap" >> /etc/kolla/config/keystone.conf
+#
+#echo "[ldap]" >> /etc/kolla/config/keystone.conf
+#echo "url = ldap://$IDENTITY_VIP" >> /etc/kolla/config/keystone.conf
+#echo "user = cn=Directory Manager" >> /etc/kolla/config/keystone.conf
+#echo "password = $DIRECTORY_MGR_PWD" >> /etc/kolla/config/keystone.conf
+#echo "suffix = $(baseDN)" >> /etc/kolla/config/keystone.conf
+#
+#echo "user_tree_dn = cn=accounts,$(baseDN)" >> /etc/kolla/config/keystone.conf
+#echo "user_objectclass = inetOrgPerson" >> /etc/kolla/config/keystone.conf
+#echo "group_tree_dn = cn=groups,$(baseDN)" >> /etc/kolla/config/keystone.conf
+#echo "group_objectclass = groupOfNames" >> /etc/kolla/config/keystone.conf
+#echo "user_filter = (memberof=cn=openstack-admins,cn=groups,cn=accounts,$(baseDN))" >> /etc/kolla/config/keystone.conf
+#
+#### user mapping
+#echo "user_id_attribute      = cn" >> /etc/kolla/config/keystone.conf
+#echo "user_name_attribute    = sn" >> /etc/kolla/config/keystone.conf
+#echo "user_mail_attribute    = mail" >> /etc/kolla/config/keystone.conf
+#echo "user_pass_attribute    = userPassword" >> /etc/kolla/config/keystone.conf
+#echo "user_enabled_attribute = userAccountControl" >> /etc/kolla/config/keystone.conf
+#echo "user_enabled_mask      = 2" >> /etc/kolla/config/keystone.conf
+#echo "user_enabled_invert    = false" >> /etc/kolla/config/keystone.conf
+#echo "user_enabled_default   = 512" >> /etc/kolla/config/keystone.conf
+#echo "user_default_project_id_attribute =" >> /etc/kolla/config/keystone.conf
+#echo "user_additional_attribute_mapping =" >> /etc/kolla/config/keystone.conf
+#
+#echo "group_id_attribute     = cn" >> /etc/kolla/config/keystone.conf
+#echo "group_name_attribute   = ou" >> /etc/kolla/config/keystone.conf
+#echo "group_member_attribute = member" >> /etc/kolla/config/keystone.conf
+#echo "group_desc_attribute   = description" >> /etc/kolla/config/keystone.conf
+#echo "group_additional_attribute_mapping =" >> /etc/kolla/config/keystone.conf
+#####
 
 #load setup for validator
 export REQUESTS_CA_BUNDLE=/tmp/id_rsa.crt
@@ -745,10 +746,10 @@ fi
 ### modify director / jumpbox  here
 ### create-director changes
 runuser -l stack -c  'echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml" >> /opt/stack/create-director.sh'
-runuser -l stack -c  'echo " -o /tmp/cf-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh.tgz " >> /opt/stack/create-director.sh'
+runuser -l stack -c  'echo " -o /opt/stack/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh.tgz " >> /opt/stack/create-director.sh'
 
 ## create-jumpbox changes
-runuser -l stack -c  'echo " -o /tmp/cf-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh.tgz " >> /opt/stack/create-jumpbox.sh'
+runuser -l stack -c  'echo " -o /opt/stack/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh.tgz " >> /opt/stack/create-jumpbox.sh'
 ####
 
 ### deploy bosh!
