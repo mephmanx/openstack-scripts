@@ -275,6 +275,15 @@ echo "[vnc]" >> /etc/kolla/config/nova.conf
 echo "novncproxy_base_url=https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:6080/vnc_auto.html" >> /etc/kolla/config/nova.conf
 ####
 
+#### keystone.conf options
+DIRECTORY_MGR_PWD=`cat /tmp/directory_mgr_pwd`
+echo "[ldap]" >> /etc/kolla/config/nova.conf
+echo "url = ldap://$IDENTITY_VIP" >> /etc/kolla/config/nova.conf
+echo "user = cn=Directory Manager" >> /etc/kolla/config/nova.conf
+echo "password = $DIRECTORY_MGR_PWD" >> /etc/kolla/config/nova.conf
+echo "suffix = $(baseDN)" >> /etc/kolla/config/nova.conf
+######
+
 ### configure OIDC config
 mkdir /etc/kolla/config/idp
 curl -o /etc/kolla/config/idp/google.provider https://accounts.google.com/.well-known/openid-configuration
