@@ -144,6 +144,7 @@ function common_second_boot_setup() {
   ADMIN_PWD=`cat /root/env_admin_pwd`
   systemctl restart docker
 
+  runuser -l root -c 'setsebool -P authlogin_nsswitch_use_ldap on'
   mkdir /root/.ssh
   ## this allows openstack vm's to ssh to each other without password
   runuser -l root -c 'cp /tmp/openstack-setup.key.pub /root/.ssh/authorized_keys'
@@ -203,7 +204,6 @@ function telegram_notify() {
 }
 
 function telegram_debug_msg() {
-  source /tmp/project_config.sh
   if [[ $HYPERVISOR_DEBUG == 0 ]]; then
     return
   fi
