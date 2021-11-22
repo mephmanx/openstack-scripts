@@ -489,5 +489,6 @@ function baseDN() {
       ((CT++))
     fi
   done
+  echo $BASE_DN
   ####
 }
