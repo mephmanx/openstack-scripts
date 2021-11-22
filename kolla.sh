@@ -367,53 +367,15 @@ rm -rf /tmp/control-trust.sh
 
 #### add cloud origin to horizon
 control_ct=$CONTROL_COUNT
-while [[ $control_ct -gt 0 ]]; do
-
 cat > /tmp/script.sh <<EOF
 echo 'CSRF_TRUSTED_ORIGINS=["openstack.$EXTERNAL_DOMAIN_NAME"]' >> /etc/kolla/horizon/local_settings; docker restart horizon;
 EOF
-
+while [[ $control_ct -gt 0 ]]; do
   scp /tmp/script.sh root@control0$control_ct:/tmp
   runuser -l root -c "ssh root@control0$control_ct 'cd /tmp; chmod 777 script.sh; ./script.sh'"
   ((control_ct--))
 done
 ####
-
-#### update keystone for ldap
-DIRECTORY_MGR_PWD=`cat /tmp/directory_mgr_pwd`
-#echo "[identity]" >> /etc/kolla/config/keystone.conf
-#echo "driver = ldap" >> /etc/kolla/config/keystone.conf
-#
-#echo "[ldap]" >> /etc/kolla/config/keystone.conf
-#echo "url = ldap://$IDENTITY_VIP" >> /etc/kolla/config/keystone.conf
-#echo "user = cn=Directory Manager" >> /etc/kolla/config/keystone.conf
-#echo "password = $DIRECTORY_MGR_PWD" >> /etc/kolla/config/keystone.conf
-#echo "suffix = $(baseDN)" >> /etc/kolla/config/keystone.conf
-#
-#echo "user_tree_dn = cn=accounts,$(baseDN)" >> /etc/kolla/config/keystone.conf
-#echo "user_objectclass = inetOrgPerson" >> /etc/kolla/config/keystone.conf
-#echo "group_tree_dn = cn=groups,$(baseDN)" >> /etc/kolla/config/keystone.conf
-#echo "group_objectclass = groupOfNames" >> /etc/kolla/config/keystone.conf
-#echo "user_filter = (memberof=cn=openstack-admins,cn=groups,cn=accounts,$(baseDN))" >> /etc/kolla/config/keystone.conf
-#
-#### user mapping
-#echo "user_id_attribute      = cn" >> /etc/kolla/config/keystone.conf
-#echo "user_name_attribute    = sn" >> /etc/kolla/config/keystone.conf
-#echo "user_mail_attribute    = mail" >> /etc/kolla/config/keystone.conf
-#echo "user_pass_attribute    = userPassword" >> /etc/kolla/config/keystone.conf
-#echo "user_enabled_attribute = userAccountControl" >> /etc/kolla/config/keystone.conf
-#echo "user_enabled_mask      = 2" >> /etc/kolla/config/keystone.conf
-#echo "user_enabled_invert    = false" >> /etc/kolla/config/keystone.conf
-#echo "user_enabled_default   = 512" >> /etc/kolla/config/keystone.conf
-#echo "user_default_project_id_attribute =" >> /etc/kolla/config/keystone.conf
-#echo "user_additional_attribute_mapping =" >> /etc/kolla/config/keystone.conf
-#
-#echo "group_id_attribute     = cn" >> /etc/kolla/config/keystone.conf
-#echo "group_name_attribute   = ou" >> /etc/kolla/config/keystone.conf
-#echo "group_member_attribute = member" >> /etc/kolla/config/keystone.conf
-#echo "group_desc_attribute   = description" >> /etc/kolla/config/keystone.conf
-#echo "group_additional_attribute_mapping =" >> /etc/kolla/config/keystone.conf
-#####
 
 #load setup for validator
 export REQUESTS_CA_BUNDLE=/tmp/id_rsa.crt
@@ -702,8 +664,8 @@ sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/bosh-deployment/bosh.yml
 sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/cloud-config/ops.yml
 
 #### bosh director keep unresponsive vm's
-sed -i '/generate_vm_passwords: true/a    debug: ' /opt/stack/bosh-deployment/bosh.yml
-sed -i '/debug: /a      keep_unreachable_vms: true ' /opt/stack/bosh-deployment/bosh.yml
+sed -i '/generate_vm_passwords: true/a\ \ \ \ debug: ' /opt/stack/bosh-deployment/bosh.yml
+sed -i '/debug: /a\ \ \ \ \ \ keep_unreachable_vms: true ' /opt/stack/bosh-deployment/bosh.yml
 ########
 
 runuser -l stack -c  "cat > /opt/stack/trusted-certs.vars.yml <<EOF
@@ -1166,6 +1128,51 @@ cf scale console -i 2
 
 ## Stratos complete!
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stratos deployment complete!  access at console.$INTERNAL_DOMAIN_NAME user -> admin , pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
+
+#### update keystone for ldap, run at the very end as it disables keystone db auth.  disables admin and osuser accounts!
+DIRECTORY_MGR_PWD=`cat /tmp/directory_mgr_pwd`
+control_ct=$CONTROL_COUNT
+cat > /tmp/ldap.sh <<EOF
+echo "[identity]" >> /etc/kolla/keystone/keystone.conf
+echo "driver = ldap" >> /etc/kolla/keystone/keystone.conf
+
+echo "[ldap]" >> /etc/kolla/keystone/keystone.conf
+echo "url = ldap://$IDENTITY_VIP" >> /etc/kolla/keystone/keystone.conf
+echo "user = cn=Directory Manager" >> /etc/kolla/keystone/keystone.conf
+echo "password = $DIRECTORY_MGR_PWD" >> /etc/kolla/keystone/keystone.conf
+echo "suffix = $(baseDN)" >> /etc/kolla/keystone/keystone.conf
+
+echo "user_tree_dn = cn=accounts,$(baseDN)" >> /etc/kolla/keystone/keystone.conf
+echo "user_objectclass = inetOrgPerson" >> /etc/kolla/keystone/keystone.conf
+echo "group_tree_dn = cn=groups,$(baseDN)" >> /etc/kolla/keystone/keystone.conf
+echo "group_objectclass = groupOfNames" >> /etc/kolla/keystone/keystone.conf
+echo "user_filter = (memberof=cn=openstack-admins,cn=groups,cn=accounts,$(baseDN))" >> /etc/kolla/keystone/keystone.conf
+
+### user mapping
+echo "user_id_attribute      = cn" >> /etc/kolla/keystone/keystone.conf
+echo "user_name_attribute    = sn" >> /etc/kolla/keystone/keystone.conf
+echo "user_mail_attribute    = mail" >> /etc/kolla/keystone/keystone.conf
+echo "user_pass_attribute    = userPassword" >> /etc/kolla/keystone/keystone.conf
+echo "user_enabled_attribute = userAccountControl" >> /etc/kolla/keystone/keystone.conf
+echo "user_enabled_mask      = 2" >> /etc/kolla/keystone/keystone.conf
+echo "user_enabled_invert    = false" >> /etc/kolla/keystone/keystone.conf
+echo "user_enabled_default   = 512" >> /etc/kolla/keystone/keystone.conf
+echo "user_default_project_id_attribute =" >> /etc/kolla/keystone/keystone.conf
+echo "user_additional_attribute_mapping =" >> /etc/kolla/keystone/keystone.conf
+
+echo "group_id_attribute     = cn" >> /etc/kolla/keystone/keystone.conf
+echo "group_name_attribute   = ou" >> /etc/kolla/keystone/keystone.conf
+echo "group_member_attribute = member" >> /etc/kolla/keystone/keystone.conf
+echo "group_desc_attribute   = description" >> /etc/kolla/keystone/keystone.conf
+echo "group_additional_attribute_mapping =" >> /etc/kolla/keystone/keystone.conf
+docker restart keystone;
+EOF
+while [[ $control_ct -gt 0 ]]; do
+  scp /tmp/ldap.sh root@control0$control_ct:/tmp
+  runuser -l root -c "ssh root@control0$control_ct 'cd /tmp; chmod 777 ldap.sh; ./ldap.sh'"
+  ((control_ct--))
+done
+#####
 
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
