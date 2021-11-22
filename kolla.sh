@@ -1132,46 +1132,46 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stratos deployment complete!  a
 #### update keystone for ldap, run at the very end as it disables keystone db auth.  disables admin and osuser accounts!
 DIRECTORY_MGR_PWD=`cat /tmp/directory_mgr_pwd`
 control_ct=$CONTROL_COUNT
-cat > /tmp/ldap.sh <<EOF
-echo "[identity]" >> /etc/kolla/keystone/keystone.conf
-echo "driver = ldap" >> /etc/kolla/keystone/keystone.conf
-
-echo "[ldap]" >> /etc/kolla/keystone/keystone.conf
-echo "url = ldap://$IDENTITY_VIP" >> /etc/kolla/keystone/keystone.conf
-echo "user = cn=Directory Manager" >> /etc/kolla/keystone/keystone.conf
-echo "password = $DIRECTORY_MGR_PWD" >> /etc/kolla/keystone/keystone.conf
-echo "suffix = $(baseDN)" >> /etc/kolla/keystone/keystone.conf
-
-echo "user_tree_dn = cn=accounts,$(baseDN)" >> /etc/kolla/keystone/keystone.conf
-echo "user_objectclass = inetOrgPerson" >> /etc/kolla/keystone/keystone.conf
-echo "group_tree_dn = cn=groups,$(baseDN)" >> /etc/kolla/keystone/keystone.conf
-echo "group_objectclass = groupOfNames" >> /etc/kolla/keystone/keystone.conf
-echo "user_filter = (memberof=cn=openstack-admins,cn=groups,cn=accounts,$(baseDN))" >> /etc/kolla/keystone/keystone.conf
-
-### user mapping
-echo "user_id_attribute      = cn" >> /etc/kolla/keystone/keystone.conf
-echo "user_name_attribute    = sn" >> /etc/kolla/keystone/keystone.conf
-echo "user_mail_attribute    = mail" >> /etc/kolla/keystone/keystone.conf
-echo "user_pass_attribute    = userPassword" >> /etc/kolla/keystone/keystone.conf
-echo "user_enabled_attribute = userAccountControl" >> /etc/kolla/keystone/keystone.conf
-echo "user_enabled_mask      = 2" >> /etc/kolla/keystone/keystone.conf
-echo "user_enabled_invert    = false" >> /etc/kolla/keystone/keystone.conf
-echo "user_enabled_default   = 512" >> /etc/kolla/keystone/keystone.conf
-echo "user_default_project_id_attribute =" >> /etc/kolla/keystone/keystone.conf
-echo "user_additional_attribute_mapping =" >> /etc/kolla/keystone/keystone.conf
-
-echo "group_id_attribute     = cn" >> /etc/kolla/keystone/keystone.conf
-echo "group_name_attribute   = ou" >> /etc/kolla/keystone/keystone.conf
-echo "group_member_attribute = member" >> /etc/kolla/keystone/keystone.conf
-echo "group_desc_attribute   = description" >> /etc/kolla/keystone/keystone.conf
-echo "group_additional_attribute_mapping =" >> /etc/kolla/keystone/keystone.conf
-docker restart keystone;
-EOF
-while [[ $control_ct -gt 0 ]]; do
-  scp /tmp/ldap.sh root@control0$control_ct:/tmp
-  runuser -l root -c "ssh root@control0$control_ct 'cd /tmp; chmod 777 ldap.sh; ./ldap.sh'"
-  ((control_ct--))
-done
+#cat > /tmp/ldap.sh <<EOF
+#echo "[identity]" >> /etc/kolla/keystone/keystone.conf
+#echo "driver = ldap" >> /etc/kolla/keystone/keystone.conf
+#
+#echo "[ldap]" >> /etc/kolla/keystone/keystone.conf
+#echo "url = ldap://$IDENTITY_VIP" >> /etc/kolla/keystone/keystone.conf
+#echo "user = cn=Directory Manager" >> /etc/kolla/keystone/keystone.conf
+#echo "password = $DIRECTORY_MGR_PWD" >> /etc/kolla/keystone/keystone.conf
+#echo "suffix = $(baseDN)" >> /etc/kolla/keystone/keystone.conf
+#
+#echo "user_tree_dn = cn=users,cn=accounts,$(baseDN)" >> /etc/kolla/keystone/keystone.conf
+#echo "user_objectclass = inetOrgPerson" >> /etc/kolla/keystone/keystone.conf
+#echo "group_tree_dn = cn=groups,cn=accounts,$(baseDN)" >> /etc/kolla/keystone/keystone.conf
+#echo "group_objectclass = groupOfNames" >> /etc/kolla/keystone/keystone.conf
+#echo "user_filter = (memberof=cn=openstack-admins,cn=groups,cn=accounts,$(baseDN))" >> /etc/kolla/keystone/keystone.conf
+#
+#### user mapping
+#echo "user_id_attribute      = cn" >> /etc/kolla/keystone/keystone.conf
+#echo "user_name_attribute    = sn" >> /etc/kolla/keystone/keystone.conf
+#echo "user_mail_attribute    = mail" >> /etc/kolla/keystone/keystone.conf
+#echo "user_pass_attribute    = userPassword" >> /etc/kolla/keystone/keystone.conf
+#echo "user_enabled_attribute = userAccountControl" >> /etc/kolla/keystone/keystone.conf
+#echo "user_enabled_mask      = 2" >> /etc/kolla/keystone/keystone.conf
+#echo "user_enabled_invert    = false" >> /etc/kolla/keystone/keystone.conf
+#echo "user_enabled_default   = 512" >> /etc/kolla/keystone/keystone.conf
+#echo "user_default_project_id_attribute =" >> /etc/kolla/keystone/keystone.conf
+#echo "user_additional_attribute_mapping =" >> /etc/kolla/keystone/keystone.conf
+#
+#echo "group_id_attribute     = cn" >> /etc/kolla/keystone/keystone.conf
+#echo "group_name_attribute   = ou" >> /etc/kolla/keystone/keystone.conf
+#echo "group_member_attribute = member" >> /etc/kolla/keystone/keystone.conf
+#echo "group_desc_attribute   = description" >> /etc/kolla/keystone/keystone.conf
+#echo "group_additional_attribute_mapping =" >> /etc/kolla/keystone/keystone.conf
+#docker restart keystone;
+#EOF
+#while [[ $control_ct -gt 0 ]]; do
+#  scp /tmp/ldap.sh root@control0$control_ct:/tmp
+#  runuser -l root -c "ssh root@control0$control_ct 'cd /tmp; chmod 777 ldap.sh; ./ldap.sh'"
+#  ((control_ct--))
+#done
 #####
 
 #remove so as to not run again
