@@ -736,8 +736,19 @@ if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-director.sh)" ];
   dd if=/dev/null of=/opt/stack/create-director.sh obs="$((length-1))" seek=1
 fi
 
+length=$(wc -c </opt/stack/create-jumpbox.sh)
+if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-jumpbox.sh)" ]; then
+  # The file ends with a newline or null
+  dd if=/dev/null of=/opt/stack/create-jumpbox.sh obs="$((length-1))" seek=1
+fi
+
 ### modify director / jumpbox  here
+### create-director changes
 runuser -l stack -c  'echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml" >> /opt/stack/create-director.sh'
+runuser -l stack -c  'echo " -o /tmp/cf-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh.tgz " >> /opt/stack/create-director.sh'
+
+## create-jumpbox changes
+runuser -l stack -c  'echo " -o /tmp/cf-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh.tgz " >> /opt/stack/create-jumpbox.sh'
 ####
 
 ### deploy bosh!
