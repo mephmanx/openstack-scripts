@@ -141,6 +141,8 @@ do
 done
 ####
 
+curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$JUMPBOX_STEMCELL-go_agent --output /tmp/jumpbox.tgz
+curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$DIRECTOR_STEMCELL-go_agent --output /tmp/director.tgz
 #### if homebrew cache is available
 if [ -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
   embed_files+=("/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar")
