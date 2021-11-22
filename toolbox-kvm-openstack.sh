@@ -113,8 +113,7 @@ rm -rf /tmp/repo.zip
 zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*" -x "toolbox*" -x "*openstack.cfg"
 
 ### download director & jumpbox stemcell
-curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$JUMPBOX_STEMCELL-go_agent --output /tmp/jumpbox.tgz > /dev/null
-curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$DIRECTOR_STEMCELL-go_agent --output /tmp/director.tgz > /dev/null
+curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$BOSH_STEMCELL-go_agent --output /tmp/bosh.tgz > /dev/null
 
 embed_files=('/tmp/magnum.qcow2'
               '/tmp/pfSense-CE-memstick-ADI.img'
@@ -132,8 +131,7 @@ embed_files=('/tmp/magnum.qcow2'
               '/tmp/cf_deployment.zip'
               '/tmp/docker-compose'
               '/tmp/project_config.sh'
-              '/tmp/jumpbox.tgz'
-              '/tmp/director.tgz')
+              '/tmp/bosh.tgz')
 
 ct=1
 IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"

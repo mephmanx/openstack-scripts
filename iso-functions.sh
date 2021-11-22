@@ -205,8 +205,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/cf-templates.zip'
                 '/tmp/cf_deployment.zip'
                 '/tmp/project_config.sh'
-                '/tmp/jumpbox.tgz'
-                '/tmp/director.tgz')
+                '/tmp/bosh.tgz')
 
   ct=1
   stemcell_path="/tmp/stemcell-*.tgz"
