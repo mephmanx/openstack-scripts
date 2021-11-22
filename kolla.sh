@@ -746,10 +746,10 @@ fi
 ### modify director / jumpbox  here
 ### create-director changes
 runuser -l stack -c  'echo " -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml" >> /opt/stack/create-director.sh'
-runuser -l stack -c  'echo " -o /opt/stack/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh.tgz " >> /opt/stack/create-director.sh'
+runuser -l stack -c  'echo " -o /opt/stack/bosh-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh.tgz " >> /opt/stack/create-director.sh'
 
 ## create-jumpbox changes
-runuser -l stack -c  'echo " -o /opt/stack/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh.tgz " >> /opt/stack/create-jumpbox.sh'
+runuser -l stack -c  'echo " -o /opt/stack/bosh-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh.tgz " >> /opt/stack/create-jumpbox.sh'
 ####
 
 ### deploy bosh!
