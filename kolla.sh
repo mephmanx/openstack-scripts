@@ -1135,6 +1135,8 @@ control_ct=$CONTROL_COUNT
 #cat > /tmp/ldap.sh <<EOF
 #echo "[identity]" >> /etc/kolla/keystone/keystone.conf
 #echo "driver = ldap" >> /etc/kolla/keystone/keystone.conf
+#echo "[assignment]" >> /etc/kolla/keystone/keystone.conf
+#echo "driver = sql" >> /etc/kolla/keystone/keystone.conf
 #
 #echo "[ldap]" >> /etc/kolla/keystone/keystone.conf
 #echo "url = ldap://$IDENTITY_VIP" >> /etc/kolla/keystone/keystone.conf
