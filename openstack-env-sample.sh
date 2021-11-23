@@ -1,6 +1,7 @@
 #!/bin/sh
 
 ## domain name
+## generate internal domain name
 export INTERNAL_DOMAIN_NAME=<internal cloud domain name>;
 export EXTERNAL_DOMAIN_NAME=<domain name on external requests>
 
