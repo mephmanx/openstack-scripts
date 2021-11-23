@@ -3,6 +3,14 @@
 . /tmp/project_config.sh
 . /tmp/openstack-env.sh
 
+## Cert params
+# these parameters will be used to generate CSR for all certificates
+COUNTRY="US"
+STATE="PA"
+LOCATION="Scranton"
+ORGANIZATION="IronSky-Platform-Internal-CA"
+OU="IronSky"
+
 function get_drive_name() {
   dir_name=`find /dev/mapper -maxdepth 1 -type l -name '*cl*' -print -quit`
   DRIVE_NAME=`grep -oP '(?<=_).*?(?=-)' <<< "$dir_name"`
