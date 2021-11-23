@@ -31,7 +31,7 @@
 #kolla_base_distro: "centos"
 
 # Valid options are [ binary, source ]
-#kolla_install_type: "binary"
+kolla_install_type: "binary"
 
 # Do not override this unless you know what you are doing.
 #openstack_release: "master"
@@ -350,7 +350,7 @@ enable_influxdb: "yes"
 #enable_ironic_ipxe: "no"
 #enable_ironic_neutron_agent: "{{ enable_neutron | bool and enable_ironic | bool }}"
 #enable_ironic_pxe_uefi: "no"
-#enable_iscsid: "{{ (enable_cinder | bool and enable_cinder_backend_iscsi | bool) or enable_ironic | bool }}"
+#enable_iscsid: "{{ enable_cinder | bool and enable_cinder_backend_iscsi | bool }}"
 enable_kafka: "yes"
 #enable_kibana: "{{ 'yes' if enable_central_logging | bool or enable_monasca | bool else 'no' }}"
 enable_kuryr: "yes"
@@ -363,10 +363,10 @@ enable_manila_backend_generic: "yes"
 #enable_manila_backend_glusterfs_nfs: "no"
 #enable_mariabackup: "no"
 #enable_masakari: "no"
-#enable_mistral: "yes"
+#enable_mistral: "no"
 #enable_monasca: "no"
 #enable_multipathd: "no"
-#enable_murano: "yes"
+#enable_murano: "no"
 enable_neutron_vpnaas: "yes"
 #enable_neutron_sriov: "no"
 #enable_neutron_dvr: "no"
@@ -421,8 +421,8 @@ enable_zun: "yes"
 # https://www.rabbitmq.com/runtime.html#scheduling
 # https://www.rabbitmq.com/runtime.html#busy-waiting
 # The default tells RabbitMQ to always use two cores (+S 2:2),
-# and not to busy wait (+sbwt none):
-#rabbitmq_server_additional_erl_args: "+S 2:2 +sbwt none"
+# and not to busy wait (+sbwt none +sbwtdcpu none +sbwtdio none):
+#rabbitmq_server_additional_erl_args: "+S 2:2 +sbwt none +sbwtdcpu none +sbwtdio none"
 # Whether to enable TLS encryption for RabbitMQ client-server communication.
 #rabbitmq_enable_tls: "no"
 # CA certificate bundle in RabbitMQ container.
@@ -598,8 +598,8 @@ designate_ns_record: "{INTERNAL_DOMAIN_NAME}"
 #############################
 # dnsmasq bind interface for Ironic Inspector, by default is network_interface
 #ironic_dnsmasq_interface: "{{ network_interface }}"
-# The following value must be set when enabling ironic,
-# the value format is "192.168.0.10,192.168.0.100".
+# The following value must be set when enabling ironic, the value format is
+# "192.168.0.10,192.168.0.100,255.255.255.0" the last being an optional netmask.
 #ironic_dnsmasq_dhcp_range:
 # PXE bootloader file for Ironic Inspector, relative to /tftpboot.
 #ironic_dnsmasq_boot_file: "pxelinux.0"
@@ -624,6 +624,11 @@ designate_ns_record: "{INTERNAL_DOMAIN_NAME}"
 #hnas_evs_id:
 #hnas_evs_ip:
 #hnas_file_system_name:
+
+# CephFS backend configuration.
+# External Ceph FS name.
+# By default this is empty to allow Manila to auto-find the first FS available.
+#manila_cephfs_filesystem_name:
 
 # Gluster backend configuration
 # The option of glusterfs share layout can be directory or volume
@@ -699,6 +704,7 @@ designate_ns_record: "{INTERNAL_DOMAIN_NAME}"
 #enable_prometheus_mysqld_exporter: "{{ enable_mariadb | bool }}"
 #enable_prometheus_node_exporter: "{{ enable_prometheus | bool }}"
 #enable_prometheus_cadvisor: "{{ enable_prometheus | bool }}"
+#enable_prometheus_fluentd_integration: "{{ enable_prometheus | bool and enable fluentd | bool }}"
 #enable_prometheus_memcached: "{{ enable_prometheus | bool }}"
 #enable_prometheus_alertmanager: "{{ enable_prometheus | bool }}"
 #enable_prometheus_ceph_mgr_exporter: "no"
@@ -829,19 +835,3 @@ octavia_amp_network_cidr: "{LB_NETWORK}.0/24"
 
 # this is UDP port
 #hacluster_corosync_port: 5405
-
-# ### Keystone federation
-# keystone_identity_providers:
-#   - name: "google"
-#     openstack_domain: "default"
-#     protocol: "openid"
-#     identifier: "https://accounts.google.com"
-#     public_name: "Authenticate via Google"
-#     attribute_mapping: "mappingId1"
-#     metadata_folder: "/etc/kolla/config/idp"
-#     certificate_file: "{OIDC_CERTIFICATE_FILE}"
-
-# keystone_identity_mappings:
-#   - name: "mappingId1"
-#     file: "{OIDC_MAPPING_FILE}"
-
