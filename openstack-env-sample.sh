@@ -4,10 +4,6 @@
 export INTERNAL_DOMAIN_NAME=<internal cloud domain name>;
 export EXTERNAL_DOMAIN_NAME=<domain name on external requests>
 
-###timezone
-## escape the separator otherwise sed will have an error and nothing will be built
-export TIMEZONE="America\/New_York";
-
 ### Enable auto-update
 ## This enables the centos/stream auto update function on install.
 ## Auto update can be enabled later if not enabled here, this just sets it up and enables it for you.

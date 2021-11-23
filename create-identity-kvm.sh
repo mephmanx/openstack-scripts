@@ -20,7 +20,8 @@ echo "kickstart file -> ${kickstart_file}"
 kickstart_file=centos-8-kickstart-ld.cfg
 ADMIN_PWD=`cat /root/env_admin_pwd`
 DIRECTORY_MGR_PWD=`cat /root/directory_mgr_pwd`
-
+TZ=`timedatectl | awk '/Time zone:/ {print $3}'`
+TIMEZONE=`echo $TZ | sed 's/\//\\\\\//g'`
 ########### add passwords in
 sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
 sed -i 's/{IDENTITY_VIP}/'$IDENTITY_VIP'/g' ${kickstart_file}

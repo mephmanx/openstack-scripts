@@ -45,7 +45,6 @@ HOSTNAME_SUFFIX=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($
 sed -i 's/{HOSTNAME_SUFFIX}/'$HOSTNAME_SUFFIX'/g' ${kickstart_file}
 ###
 sed -i 's/{CENTOS_ADMIN_PWD}/'$NEWPWD'/g' ${kickstart_file}
-sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
 ###########################
 
 ## download files to be embedded

@@ -83,7 +83,8 @@ HOSTNAME_SUFFIX=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($
 ## make pfsense for now until dns rebind is disabled
 HOSTNAME="pfsense"
 ###
-
+TZ=`timedatectl | awk '/Time zone:/ {print $3}'`
+TIMEZONE=`echo $TZ | sed 's/\//\\\\\//g'`
 ##### replace PFSense template vars
 sed -i 's/{HOSTNAME}/'$HOSTNAME'/g' /tmp/usb/config.xml
 sed -i 's/{CF_TCP_START_PORT}/'$CF_TCP_START_PORT'/g' /tmp/usb/config.xml
