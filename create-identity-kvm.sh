@@ -1,5 +1,9 @@
 #!/bin/bash
 
+rm -rf /tmp/identity-install.log
+exec 1>/root/identity-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+set -x
+
 source /tmp/openstack-scripts/iso-functions.sh
 source /tmp/openstack-scripts/vm_functions.sh
 source /tmp/openstack-env.sh
