@@ -389,7 +389,7 @@ enable_octavia: "yes"
 #enable_ovs_dpdk: "no"
 #enable_osprofiler: "no"
 #enable_placement: "{{ enable_nova | bool or enable_zun | bool }}"
-enable_prometheus: "yes"
+enable_prometheus: "no"
 #enable_qdrouterd: "{{ 'yes' if om_rpc_transport == 'amqp' else 'no' }}"
 enable_redis: "yes"
 #enable_sahara: "no"
@@ -422,7 +422,7 @@ enable_zun: "yes"
 # https://www.rabbitmq.com/runtime.html#busy-waiting
 # The default tells RabbitMQ to always use two cores (+S 2:2),
 # and not to busy wait (+sbwt none +sbwtdcpu none +sbwtdio none):
-#rabbitmq_server_additional_erl_args: "+S 2:2 +sbwt none "
+rabbitmq_server_additional_erl_args: "+S 2:2 +sbwt none "
 # Whether to enable TLS encryption for RabbitMQ client-server communication.
 #rabbitmq_enable_tls: "no"
 # CA certificate bundle in RabbitMQ container.
