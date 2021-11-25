@@ -77,7 +77,7 @@ python3 -m venv /opt/stack/venv
 source /opt/stack/venv/bin/activate
 pip3 install selinux
 pip3 install --upgrade  --trusted-host pypi.org --trusted-host files.pythonhosted.org pip
-pip3 install  --ignore-installed --trusted-host pypi.org --trusted-host files.pythonhosted.org 'ansible==2.9.10'
+pip3 install  --ignore-installed --trusted-host pypi.org --trusted-host files.pythonhosted.org 'ansible==2.10'
 pip3 install  --ignore-installed --trusted-host pypi.org --trusted-host files.pythonhosted.org kolla-ansible
 ####
 
