@@ -105,10 +105,7 @@ runuser -l root -c "ipa-dns-install --auto-forwarders --auto-reverse --no-dnssec
 echo $ADMIN_PWD | kinit admin
 
 ## run record adds here after kinint for auth
-runuser -l root -c "ipa dnszone-mod $INTERNAL_DOMAIN_NAME. --dynamic-update=TRUE"
-runuser -l root -c "ipa dnszone-mod $INTERNAL_DOMAIN_NAME. --update-policy='grant $REALM_NAME krb5-self * A; grant $REALM_NAME krb5-self * AAAA; grant $REALM_NAME krb5-self * SSHFP;'"
 runuser -l root -c "ipa dnszone-mod $INTERNAL_DOMAIN_NAME. --allow-sync-ptr=TRUE"
-runuser -l root -c "ipa dnszone-mod 200.0.10.in-addr.arpa. --dynamic-update=TRUE"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '*' --a-ip-address=$LB_ROUTER_IP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_INTERNAL_HOSTNAME' --a-ip-address=$INTERNAL_VIP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_EXTERNAL_HOSTNAME' --a-ip-address=$EXTERNAL_VIP"
