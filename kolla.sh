@@ -965,9 +965,9 @@ if [[ $error_count -gt 0 ]]; then
                       -o /tmp/cf-deployment/operations/use-swift-blobstore.yml \
                       -o /tmp/cf-deployment/operations/openstack.yml \
                       -o /tmp/cf-deployment/operations/scale-to-one-az.yml \
-                      -o /tmp/cf-deployment/operations/use-compiled-releases.yml \
                       -o /tmp/cf-deployment/operations/use-trusted-ca-cert-for-apps.yml \
                       -o /tmp/cf-deployment/operations/use-latest-stemcell.yml \
+                      -o /tmp/cf-deployment/operations/experimental/use-bionic-stemcell.yml \
                       -l /opt/stack/trusted-certs-cf.vars.yml \
                       -v system_domain=$INTERNAL_DOMAIN_NAME \
                       -v auth_url=https://$EXTERNAL_VIP_DNS:5000/v3 \
