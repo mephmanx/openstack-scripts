@@ -817,7 +817,7 @@ $SWIFT_KEY
 EOF
 
 swift post -m "Temp-URL-Key:$SWIFT_KEY" \
-            -A https://$EXTERNAL_VIP_DNS:5000/v3 \
+            -A http://$INTERNAL_VIP_DNS:5000/v3 \
             -U $OPENSTACK_CLOUDFOUNDRY_USERNAME \
             -K $OPENSTACK_CLOUDFOUNDRY_PWD \
             -V 3 \
@@ -978,7 +978,7 @@ if [[ $error_count -gt 0 ]]; then
                       -o /tmp/cf-deployment/operations/scale-to-one-az.yml \
                       -o /tmp/cf-deployment/operations/use-trusted-ca-cert-for-apps.yml \
                       -o /tmp/cf-deployment/operations/use-latest-stemcell.yml \
-                      -o /tmp/cf-deployment/operations/experimental/use-bionic-stemcell.yml \
+                      -o /tmp/cf-deployment/operations/use-compiled-releases.yml \
                       -l /opt/stack/trusted-certs-cf.vars.yml \
                       -v system_domain=$INTERNAL_DOMAIN_NAME \
                       -v auth_url=http://$INTERNAL_VIP_DNS:5000/v3 \
