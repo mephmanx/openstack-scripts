@@ -927,7 +927,7 @@ send "bbl ssh --director\r"
 expect "yes/no"
 send -- "yes\r"
 expect "bosh/0"
-send -- "echo '$LB_ROUTER_IP $EXTERNAL_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; exit;\r"
+send -- "echo '$GATEWAY_ROUTER_IP $INTERNAL_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; exit;\r"
 expect "closed."
 exit;
 expect eof
@@ -971,7 +971,7 @@ if [[ $error_count -gt 0 ]]; then
                       -o /tmp/cf-deployment/operations/experimental/use-bionic-stemcell.yml \
                       -l /opt/stack/trusted-certs-cf.vars.yml \
                       -v system_domain=$INTERNAL_DOMAIN_NAME \
-                      -v auth_url=https://$EXTERNAL_VIP_DNS:5000/v3 \
+                      -v auth_url=http://$INTERNAL_VIP_DNS:5000/v3 \
                       -v openstack_project=cloudfoundry \
                       -v openstack_domain=default \
                       -v openstack_username=$OPENSTACK_CLOUDFOUNDRY_USERNAME \
