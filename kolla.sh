@@ -863,14 +863,24 @@ export OS_USERNAME=$OPENSTACK_CLOUDFOUNDRY_USERNAME
 export OS_PASSWORD=$OPENSTACK_CLOUDFOUNDRY_PWD
 
 ## execute server security group changes
-openstack server add security group bosh/0 cf
-openstack server add security group bosh/0 cf-lb
-openstack server add security group bosh/0 cf-deployment-for-bosh
-openstack server add security group bosh/0 cf-lb-ssh-diego-brain
-openstack server add security group bosh/0 cf-lb-tcp-router
-openstack server add security group bosh/0 cf-lb-https-router
-openstack server add security group bosh/0 default
+#openstack security group rule create --proto udp --dst-port 68:68 cf
+#openstack security group rule create --proto udp --dst-port 3457:3457 cf
+#openstack security group rule create --proto icmp cf
+#openstack security group rule create --proto tcp --dst-port 22:22 cf
+#openstack security group rule create --proto tcp --dst-port 80:80 cf
+#openstack security group rule create --proto tcp --dst-port 443:443 cf
+#openstack security group rule create --proto tcp --dst-port 4443:4443 cf
+#openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group $(openstack security group show cf | grep id | head -n 1 | cut -d"|" -f3) cf
 
+openstack security group create bosh
+openstack security group rule create --proto tcp --dst-port 22:22 bosh
+openstack security group rule create --proto tcp --dst-port 6868:6868 bosh
+openstack security group rule create --proto tcp --dst-port 25555:25555 bosh
+openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group $(openstack security group show bosh | grep id | head -n 1 | cut -d"|" -f3) bosh
+openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group $(openstack security group show cf | grep id | head -n 1 | cut -d"|" -f3) bosh
+openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group $(openstack security group show bosh | grep id | head -n 1 | cut -d"|" -f3) cf
+
+openstack server add security group bosh/0 bosh
 ## switch back to admin
 source /etc/kolla/admin-openrc.sh
 
