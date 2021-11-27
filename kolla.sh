@@ -879,8 +879,8 @@ openstack security group rule create --proto tcp --dst-port 25555:25555 bosh
 openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group $(openstack security group show bosh | grep id | head -n 1 | cut -d"|" -f3) bosh
 openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group $(openstack security group show cf | grep id | head -n 1 | cut -d"|" -f3) bosh
 openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group $(openstack security group show bosh | grep id | head -n 1 | cut -d"|" -f3) cf
-
 openstack server add security group bosh/0 bosh
+
 ## switch back to admin
 source /etc/kolla/admin-openrc.sh
 
