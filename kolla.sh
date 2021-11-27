@@ -993,6 +993,7 @@ if [[ $error_count -gt 0 ]]; then
       break
     fi
     telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install failed, retrying $retry_count more times..."
+    sleep 30
     ((retry_count--))
   done
 fi
