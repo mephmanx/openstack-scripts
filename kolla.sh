@@ -849,7 +849,7 @@ while [[ $ct -gt 0 ]]; do
                             chmod +x /tmp/bbl_env.sh; \
                             source /tmp/bbl_env.sh; \
                             bosh upload-stemcell $stemcell"
-      sleep 20;
+      sleep 30;
     done
   ((ct--))
 done
