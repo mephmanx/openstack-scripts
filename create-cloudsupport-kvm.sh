@@ -13,10 +13,8 @@ KICKSTART_DIR=/tmp/openstack-scripts
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Removing existing cloudsupport vm and building image for new one...."
 ADMIN_PWD=`cat /root/env_admin_pwd`
-if (virsh list --name | grep -q "cloudsupport")
+if (virsh list --name | grep -q "cloudsupport"); then
   return
-else
-  ssh root@$SUPPORT_VIP "source /tmp/vm_functions.sh; join_machine_to_domain $ADMIN_PWD" &
 fi
 
 IFS=
