@@ -12,10 +12,13 @@ source /tmp/project_config.sh
 KICKSTART_DIR=/tmp/openstack-scripts
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Removing existing cloudsupport vm and building image for new one...."
-
+ADMIN_PWD=`cat /root/env_admin_pwd`
 if (virsh list --name | grep -q "cloudsupport")
   return
+else
+  ssh root@$SUPPORT_VIP "source /tmp/vm_functions.sh; join_machine_to_domain $ADMIN_PWD" &
 fi
+
 IFS=
 rm -rf ${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
 cp ${KICKSTART_DIR}/centos-8-kickstart-cloudsupport.cfg ${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
@@ -23,7 +26,7 @@ echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg t
 kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
 echo "kickstart file -> ${kickstart_file}"
 kickstart_file=centos-8-kickstart-cs.cfg
-ADMIN_PWD=`cat /root/env_admin_pwd`
+
 TZ=`timedatectl | awk '/Time zone:/ {print $3}'`
 TIMEZONE=`echo $TZ | sed 's/\//\\\\\//g'`
 ########### add passwords in
