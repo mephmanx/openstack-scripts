@@ -13,8 +13,9 @@ KICKSTART_DIR=/tmp/openstack-scripts
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Removing existing cloudsupport vm and building image for new one...."
 
-removeVM_kvm "cloudsupport"
-
+if (virsh list --name | grep -q "cloudsupport")
+  return
+fi
 IFS=
 rm -rf ${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
 cp ${KICKSTART_DIR}/centos-8-kickstart-cloudsupport.cfg ${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
