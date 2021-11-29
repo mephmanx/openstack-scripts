@@ -21,6 +21,11 @@ INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
 EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
 ###################
 
+#### stop script
+#remove so as to not run again
+rm -rf /etc/rc.d/rc.local
+return
+
 ############ add keys
 working_dir=`pwd`
 chmod +x /tmp/host-trust.sh
@@ -93,11 +98,6 @@ cp /tmp/id_rsa.crt /opt/stack
 chown -R stack /opt/stack/id_rsa.crt
 
 mkdir -p /var/lib/kolla/config_files
-
-#### stop script
-#remove so as to not run again
-rm -rf /etc/rc.d/rc.local
-return
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Loading Openstack Kolla deployment playbook and performing env customization...."
 cp /tmp/globals.yml /etc/kolla/globals.yml
