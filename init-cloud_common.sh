@@ -27,9 +27,6 @@ rm -rf /tmp/eth*
 # set VM type for future use
 TYPE=`cat /tmp/type`
 
-# adjust main volumes to allocate most size to root volume
-grow_fs
-
 ## enable auto updates if selected
 if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   systemctl enable --now dnf-automatic.timer
