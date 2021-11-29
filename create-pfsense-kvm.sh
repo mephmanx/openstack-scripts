@@ -79,10 +79,7 @@ DIRECTORY_MGR_PWD=$(generate_random_pwd)
 echo "$DIRECTORY_MGR_PWD" >> /root/directory_mgr_pwd
 ADMIN_PWD=`cat /root/env_admin_pwd`
 DIRECTORY_MGR_PWD=`cat /root/directory_mgr_pwd`
-
 HOSTNAME="$APP_INTERNAL_HOSTNAME-$(generate_random_word)"
-## make pfsense for now until dns rebind is disabled
-#HOSTNAME="pfsense"
 ###
 TZ=`timedatectl | awk '/Time zone:/ {print $3}'`
 TIMEZONE=`echo $TZ | sed 's/\//\\\\\//g'`
