@@ -94,6 +94,9 @@ chown -R stack /opt/stack/id_rsa.crt
 
 mkdir -p /var/lib/kolla/config_files
 
+#### stop script
+return
+
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Loading Openstack Kolla deployment playbook and performing env customization...."
 cp /tmp/globals.yml /etc/kolla/globals.yml
 
