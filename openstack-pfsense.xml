@@ -57,6 +57,7 @@
 			<ssl-certref>60ec35a6053df</ssl-certref>
 			<webguicss>pfSense.css</webguicss>
 			<logincss>1e3f75;</logincss>
+			<nodnsrebindcheck></nodnsrebindcheck>
 			<loginshowhost></loginshowhost>
 			<nohttpreferercheck></nohttpreferercheck>
 			<authmode>ipa-ldap</authmode>
