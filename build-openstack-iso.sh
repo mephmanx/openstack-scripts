@@ -132,26 +132,21 @@ embed_files=('/tmp/magnum.qcow2'
               '/tmp/project_config.sh'
               '/tmp/bosh.tgz')
 
-ct=1
 IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
 for stemcell in "${stemcell_array[@]}";
 do
-  if [ ! -f "/tmp/stemcell-$ct.tgz" ]; then
-    curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$stemcell-go_agent --output /tmp/stemcell-$ct.tgz > /dev/null
+  if [ ! -f "/tmp/stemcell-$stemcell.tgz" ]; then
+    curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$stemcell-go_agent --output /tmp/stemcell-$stemcell.tgz > /dev/null
   fi
-  embed_files+=("/tmp/stemcell-$ct.tgz")
-  ((ct++))
+  embed_files+=("/tmp/stemcell-$stemcell.tgz")
 done
 ####
 
 #### if homebrew cache is available
-if [ -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
-  embed_files+=("/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar")
-else
-  docker run --rm -v /tmp/homebrew-cache:/tmp/export mephmanx/homebrew-cache $CF_BBL_INSTALL_TERRAFORM_VERSION
-  cp /tmp/homebrew-cache/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar /tmp
-  embed_files+=("/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar")
+if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
+  docker run --rm -v /tmp:/tmp/export mephmanx/homebrew-cache $CF_BBL_INSTALL_TERRAFORM_VERSION
 fi
+embed_files+=("/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar")
 ####
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"
