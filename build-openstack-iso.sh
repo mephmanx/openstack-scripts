@@ -148,7 +148,7 @@ done
 if [ -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
   embed_files+=("/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar")
 else
-  docker run --rm -v /tmp/homebrew-cache:/tmp/export mephmanx/homebrew-cache -e CF_BBL_INSTALL_TERRAFORM_VERSION=$CF_BBL_INSTALL_TERRAFORM_VERSION
+  docker run --rm -v /tmp/homebrew-cache:/tmp/export mephmanx/homebrew-cache $CF_BBL_INSTALL_TERRAFORM_VERSION
   cp /tmp/homebrew-cache/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar /tmp
   embed_files+=("/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar")
 fi
