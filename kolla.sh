@@ -15,16 +15,16 @@ start() {
 common_second_boot_setup
 #################
 
+#### stop script
+#remove so as to not run again
+rm -rf /etc/rc.d/rc.local
+exit
+
 #####  setup global VIPs
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
 EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
 ###################
-
-#### stop script
-#remove so as to not run again
-rm -rf /etc/rc.d/rc.local
-return
 
 ############ add keys
 working_dir=`pwd`
