@@ -946,7 +946,7 @@
 			<caref>60ed826b68fa7</caref>
 			<crlref></crlref>
 			<ocspurl></ocspurl>
-			<certref>60ed830f42e09</certref>
+			<certref>60ec35a6053df</certref>
 			<dh_length>4096</dh_length>
 			<ecdh_curve>none</ecdh_curve>
 			<cert_depth>1</cert_depth>
@@ -1086,13 +1086,6 @@
 		<descr><![CDATA[{INTERNAL_DOMAIN_NAME}-external-wildcard]]></descr>
 		<prv>{INITIAL_WILDCARD_KEY}</prv>
 		<crt>{INITIAL_WILDCARD_CRT}</crt>
-	</cert>
-	<cert>
-		<refid>60ed830f42e09</refid>
-		<descr><![CDATA[{INTERNAL_DOMAIN_NAME} VPN Server]]></descr>
-		<crt>{VPN_CRT}</crt>
-		<prv>{VPN_KEY}</prv>
-		<caref>60ed826b68fa7</caref>
 	</cert>
 	<installedpackages>
 		<menu>
