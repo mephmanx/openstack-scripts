@@ -53,6 +53,13 @@ install_pkg "pfsense-pkg-snort" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-cron" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-Telegraf" $TELEGRAM_API $TELEGRAM_CHAT_ID
 
+### start services after install/reboot
+# start bandwidthd
+# start lightsquid_web
+# start snort
+# start telegraf
+####
+
 ## perform any cleanup here
 
 ####
