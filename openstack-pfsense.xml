@@ -5373,8 +5373,7 @@
 					<pass>{OPENVPN_CERT_PWD}</pass>
 					<proxypass></proxypass>
 					<server>1</server>
-					<useaddr>other</useaddr>
-					<useaddr_hostname>cloud-vpn.{EXTERNAL_DOMAIN_NAME}</useaddr_hostname>
+					<useaddr>serveraddr</useaddr>
 					<verifyservercn>auto</verifyservercn>
 					<blockoutsidedns>yes</blockoutsidedns>
 					<legacy></legacy>
