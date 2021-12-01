@@ -106,8 +106,6 @@ sed -i 's/{MAXMIND_KEY}/'$MAXMIND_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{LETSENCRYPT_KEY}/'$LETS_ENCRYPT_ACCOUNT_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{CA_CRT}/'$CA_CRT'/g' /tmp/usb/config.xml
 sed -i 's/{CA_KEY}/'$CA_KEY'/g' /tmp/usb/config.xml
-sed -i 's/{VPN_CRT}/'$VPN_CRT'/g' /tmp/usb/config.xml
-sed -i 's/{VPN_KEY}/'$VPN_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{INITIAL_WILDCARD_CRT}/'$INITIAL_WILDCARD_CRT'/g' /tmp/usb/config.xml
 sed -i 's/{INITIAL_WILDCARD_KEY}/'$INITIAL_WILDCARD_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{OPEN_VPN_TLS_KEY}/'$OPEN_VPN_TLS_KEY'/g' /tmp/usb/config.xml
