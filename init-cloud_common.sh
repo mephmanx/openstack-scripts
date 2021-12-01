@@ -47,6 +47,9 @@ add_stack_user
 # set up net script to be called after reboot
 prep_next_script "${TYPE}"
 
+### module recommended on openstack.org
+modprobe vhost_net
+
 host=`hostname`
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloud VM $host starting second reboot..."
 
