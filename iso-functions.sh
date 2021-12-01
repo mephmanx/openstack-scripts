@@ -155,8 +155,7 @@ function buildAndPushOpenstackSetupISO {
   cat /root/.ssh/id_rsa.crt >> /tmp/haproxy-internal.pem
 
   touch /tmp/internal-ca.pem
-  cat /root/.ssh/wildcard.key >> /tmp/internal-ca.pem
-  cat /root/.ssh/wildcard.crt >> /tmp/internal-ca.pem
+  cat /root/.ssh/id_rsa.key >> /tmp/internal-ca.pem
   cat /root/.ssh/id_rsa.crt >> /tmp/internal-ca.pem
   #################################
 
