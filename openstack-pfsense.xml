@@ -2225,7 +2225,7 @@
 					<a_actionitems>
 						<item>
 							<action>use_backend</action>
-							<acl>{HOSTNAME}</acl>
+							<acl>pfsense</acl>
 							<use_backendbackend>pfsense</use_backendbackend>
 							<_index></_index>
 						</item>

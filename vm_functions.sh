@@ -372,6 +372,9 @@ nsComment               = "Certificate for host -> $host_name.$INTERNAL_DOMAIN_N
 ##The other names your server may be connected to as
 [alt_vpn_server]
 DNS.1                                                 = $host_name.$INTERNAL_DOMAIN_NAME
+IP.1                                                  = $IP
+IP.2                                                  = $LAN_CENTOS_IP
+IP.3                                                  = $LB_CENTOS_IP
 EOF
 
 node_ct=255
