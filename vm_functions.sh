@@ -9,7 +9,7 @@ COUNTRY="US"
 STATE="PA"
 LOCATION="Scranton"
 ORGANIZATION="IronSky-Platform-Internal-CA"
-OU="HQ"
+OU="IronSky"
 
 function get_drive_name() {
   dir_name=`find /dev/mapper -maxdepth 1 -type l -name '*cl*' -print -quit`
@@ -372,9 +372,6 @@ nsComment               = "Certificate for host -> $host_name.$INTERNAL_DOMAIN_N
 ##The other names your server may be connected to as
 [alt_vpn_server]
 DNS.1                                                 = $host_name.$INTERNAL_DOMAIN_NAME
-IP.1                                                  = $IP
-IP.2                                                  = $LAN_CENTOS_IP
-IP.3                                                  = $LB_CENTOS_IP
 EOF
 
 node_ct=255
