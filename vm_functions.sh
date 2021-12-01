@@ -9,7 +9,7 @@ COUNTRY="US"
 STATE="PA"
 LOCATION="Scranton"
 ORGANIZATION="IronSky-Platform-Internal-CA"
-OU="IronSky"
+OU="HQ"
 
 function get_drive_name() {
   dir_name=`find /dev/mapper -maxdepth 1 -type l -name '*cl*' -print -quit`
