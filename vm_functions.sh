@@ -149,20 +149,7 @@ function common_second_boot_setup() {
   sleep 30
   ###########################
 
-  ADMIN_PWD=`cat /root/env_admin_pwd`
   systemctl restart docker
-
-  mkdir /root/.ssh
-  ## this allows openstack vm's to ssh to each other without password
-  runuser -l root -c 'cp /tmp/openstack-setup.key.pub /root/.ssh/authorized_keys'
-  #### add hypervisor host key to authorized keys
-  ## this allows the hypervisor to ssh without password to openstack vms
-  runuser -l root -c 'cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys'
-  ######
-  mv /tmp/openstack-setup.key.pub /root/.ssh/id_rsa.pub
-  mv /tmp/openstack-setup.key /root/.ssh/id_rsa
-  chmod 600 /root/.ssh/id_rsa
-  chmod 600 /root/.ssh/authorized_keys
 
   ### module recommended on openstack.org
   modprobe vhost_net

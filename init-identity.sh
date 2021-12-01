@@ -42,14 +42,6 @@ if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   systemctl enable --now dnf-automatic.timer
 fi
 
-#### add hypervisor host key to authorized keys
-## this allows the hypervisor to ssh without password to openstack vms
-runuser -l root -c 'cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys'
-runuser -l root -c 'chmod 600 /root/.ssh/authorized_keys'
-######
-
-#IPA vars
-
 ### gen pwd's
 DIR_PWD=`cat /root/directory_manager_pwd`
 ADMIN_PWD=`cat /root/env_admin_pwd`
