@@ -202,11 +202,9 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/project_config.sh'
                 '/tmp/bosh.tgz')
 
-  stemcell_path="/tmp/stemcell-*.tgz"
-  for stemcell in $stemcell_path;
+  for stemcell in $(ls /tmp/stemcell-*.tzg);
   do
-    embed_files+=("/tmp/stemcell-$stemcell.tgz")
-    ((ct++))
+    embed_files+=($stemcell)
   done
   ####
 
