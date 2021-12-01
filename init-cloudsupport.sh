@@ -34,15 +34,20 @@ yum install -y perl \
               gcc-c++ \
               mysql-devel \
               nodejs \
-              mysql-server
+              mysql-server \
+              unzip \
+              gcc \
+              openssl-devel \
+              docker-ce \
+              docker-ce-cli \
+              containerd.io \
+              tar \
+              tpm-tools
 
 ## enable auto updates if selected
 if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   systemctl enable --now dnf-automatic.timer
 fi
-
-# load libraries for this VM "type"
-load_libs "cloudsupport"
 
 systemctl start docker
 systemctl enable docker
