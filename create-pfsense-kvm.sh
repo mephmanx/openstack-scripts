@@ -53,9 +53,6 @@ runuser -l root -c  'openvpn --genkey --secret /root/.ssh/openvpn-secret.key'
 CA_KEY=`cat /root/.ssh/id_rsa.key | base64 | tr -d '\n\r'`
 CA_CRT=`cat /root/.ssh/id_rsa.crt | base64 | tr -d '\n\r'`
 
-VPN_CRT=`cat /root/.ssh/cloud-vpn.crt | base64 | tr -d '\n\r'`
-VPN_KEY=`cat /root/.ssh/cloud-vpn.key | base64 | tr -d '\n\r'`
-
 INITIAL_WILDCARD_CRT=`cat /root/.ssh/wildcard.crt | base64 | tr -d '\n\r'`
 INITIAL_WILDCARD_KEY=`cat /root/.ssh/wildcard.key | base64 | tr -d '\n\r'`
 
