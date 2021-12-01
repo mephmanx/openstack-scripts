@@ -92,6 +92,10 @@ function load_libs() {
                 tar \
                 tpm-tools \
                 expect
+
+            systemctl start docker
+            systemctl enable docker
+            chkconfig docker on
             systemctl restart docker
     ;;
       *)
@@ -109,6 +113,10 @@ function load_libs() {
             containerd.io \
             tar \
             tpm-tools
+
+        systemctl start docker
+        systemctl enable docker
+        chkconfig docker on
         systemctl restart docker
     ;;
   esac
