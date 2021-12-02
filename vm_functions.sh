@@ -345,8 +345,8 @@ organizationName           = $ORGANIZATION
 [ v3_vpn_server ]
 basicConstraints        = critical, CA:FALSE
 subjectKeyIdentifier    = hash
-keyUsage                = critical, nonRepudiation, digitalSignature, keyEncipherment, keyAgreement
-extendedKeyUsage        = critical, serverAuth
+keyUsage                = digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment,keyAgreement
+extendedKeyUsage        = critical, serverAuth, clientAuth, codeSigning, emailProtection
 subjectAltName          = @alt_vpn_server
 nsCertType              = server
 nsComment               = "Certificate for host -> $host_name.$INTERNAL_DOMAIN_NAME"
@@ -388,7 +388,9 @@ function gen_extfile()
 cat << EOF
 authorityKeyIdentifier=keyid,issuer\n
 basicConstraints=CA:FALSE\n
-keyUsage=digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment\n
+keyUsage=digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment,keyAgreement\n
+extendedKeyUsage        = critical, serverAuth, clientAuth, codeSigning, emailProtection\n
+subjectKeyIdentifier=hash\n
 subjectAltName = @alt_names\n
 [alt_names]\n
 DNS.1 = $domain
