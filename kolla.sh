@@ -846,6 +846,8 @@ ct=3
 while [[ $ct -gt 0 ]]; do
   for stemcell in $stemcell_path;
     do
+      ## for each stemcell attempt upload then check if successful
+      ## success seems to be "is an upload queued".  if it is, delete it and reattempt until it works then move to next one
       runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
                             chmod +x /tmp/bbl_env.sh; \
                             source /tmp/bbl_env.sh; \
@@ -938,7 +940,7 @@ send "bbl ssh --director\r"
 expect "yes/no"
 send -- "yes\r"
 expect "bosh/0"
-send -- "echo '$GATEWAY_ROUTER_IP $INTERNAL_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; exit;\r"
+send -- "echo '$GATEWAY_ROUTER_IP $INTERNAL_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; echo '$LB_ROUTER_IP $EXTERNAL_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; exit;\r"
 expect "closed."
 exit;
 expect eof
