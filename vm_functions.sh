@@ -389,7 +389,7 @@ cat << EOF
 authorityKeyIdentifier=keyid,issuer\n
 basicConstraints=CA:FALSE\n
 keyUsage=digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment,keyAgreement\n
-extendedKeyUsage        = critical, serverAuth, clientAuth, codeSigning, emailProtection, server\n
+extendedKeyUsage        = critical, serverAuth, clientAuth, codeSigning, emailProtection\n
 subjectKeyIdentifier=hash\n
 subjectAltName = @alt_names\n
 [alt_names]\n
