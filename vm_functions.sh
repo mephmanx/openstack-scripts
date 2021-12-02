@@ -266,6 +266,9 @@ function create_ca_cert() {
   runuser -l root -c  "touch $cert_dir/id_rsa.pub"
   runuser -l root -c  "touch $cert_dir/id_rsa.crt"
 
+  ### record password to dir
+  echo $NEWPW > $cert_dir/ca_pwd
+
   IP=`hostname -I | awk '{print $1}'`
   source /tmp/project_config.sh
 
