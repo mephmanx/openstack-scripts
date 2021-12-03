@@ -125,6 +125,7 @@ function load_libs() {
 function add_stack_user() {
   NEWPW=$(generate_random_pwd)
 
+  runuser -l root -c  'useradd stack'
   runuser -l root -c  'mkdir /opt/stack'
   runuser -l root -c  'echo "stack ALL=(ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/stack'
   runuser -l root -c  'chown -R stack /opt/stack'
