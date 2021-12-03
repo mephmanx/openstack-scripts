@@ -837,26 +837,27 @@ runuser -l stack -c  "source /opt/stack/.bash_profile"
 
 #### prep variables
 
-### download latest stemcell
-##  also pull latest stemcell for all ubuntu releases
-## currently bionic, trusty, xenial
-
-## pull latest bionic image
+### push cached stemcells to cloud
 stemcell_path="/tmp/stemcell-*.tgz"
 chown -R stack /tmp/stemcell-*.tgz
-ct=3
-while [[ $ct -gt 0 ]]; do
-  for stemcell in $stemcell_path;
-    do
-      ## for each stemcell attempt upload then check if successful
-      ## success seems to be "is an upload queued".  if it is, delete it and reattempt until it works then move to next one
-      runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
-                            chmod +x /tmp/bbl_env.sh; \
-                            source /tmp/bbl_env.sh; \
-                            bosh upload-stemcell $stemcell"
-      sleep 30;
+
+for stemcell in $stemcell_path; do
+  echo "queued" > /tmp/stemcell-upload.log
+  queued_count=`grep -i "queued" /tmp/stemcell-upload.log | wc -l`
+  while [ $queued_count -gt 0 ]; do
+    rm -rf /tmp/stemcell-upload.log
+    IFS=$'\n'
+    for image in $(openstack image list | grep 'queued' | awk -F'|' '{ print $2 }' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }'); do
+      openstack image delete $image
     done
-  ((ct--))
+    runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
+                              chmod +x /tmp/bbl_env.sh; \
+                              source /tmp/bbl_env.sh; \
+                              bosh upload-stemcell $stemcell"
+    runuser -l stack -c "openstack image list | grep 'queued'" > /tmp/stemcell-upload.log
+    queued_count=`grep -i "queued" /tmp/stemcell-upload.log | wc -l`
+  done
+  rm -rf /tmp/stemcell-upload.log
 done
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stemcell installed, finalizing environment for CF install..."
