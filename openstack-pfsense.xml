@@ -1093,6 +1093,7 @@
 		<descr><![CDATA[{INTERNAL_DOMAIN_NAME}-external-wildcard]]></descr>
 		<prv>{INITIAL_WILDCARD_KEY}</prv>
 		<crt>{INITIAL_WILDCARD_CRT}</crt>
+		<caref>60ed826b68fa7</caref>
 	</cert>
 	<installedpackages>
 		<menu>
