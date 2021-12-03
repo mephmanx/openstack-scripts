@@ -856,8 +856,10 @@ for stemcell in $stemcell_path; do
                               bosh upload-stemcell $stemcell"
     runuser -l stack -c "openstack image list | grep 'queued'" > /tmp/stemcell-upload.log
     queued_count=`grep -i "queued" /tmp/stemcell-upload.log | wc -l`
+    sleep 30
   done
   rm -rf /tmp/stemcell-upload.log
+  sleep 30
 done
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stemcell installed, finalizing environment for CF install..."
