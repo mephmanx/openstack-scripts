@@ -30,6 +30,13 @@
 			<priv>page-firewall-pfblockerng</priv>
 			<priv>page-services-snort</priv>
 			<priv>page-status-openvpn</priv>
+			<priv>page-openvpn-csc</priv>
+			<priv>page-openvpn-csc-advanced</priv>
+			<priv>page-openvpn-client</priv>
+			<priv>page-openvpn-server-advanced</priv>
+			<priv>page-openvpn-server</priv>
+			<priv>page-openvpn-client-advanced</priv>
+			<priv>page-openvpn-client-export</priv>
 		</group>
 		<user>
 			<name>admin</name>
