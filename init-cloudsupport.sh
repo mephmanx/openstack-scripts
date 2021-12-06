@@ -21,11 +21,10 @@ sleep 30
 
 ### libs
 yum update -y
-yum -y install epel-release
+yum -y install epel-release yum-utils
 yum update -y
-
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 yum install -y perl \
-              yum-utils \
               python3-devel \
               python38 \
               make \
