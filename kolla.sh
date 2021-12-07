@@ -880,6 +880,7 @@ export OS_PASSWORD=$OPENSTACK_CLOUDFOUNDRY_PWD
 #openstack security group rule create --proto tcp --dst-port 4443:4443 cf
 #openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group $(openstack security group show cf | grep id | head -n 1 | cut -d"|" -f3) cf
 
+openstack server add security group bosh/0 cf-deployment-for-bosh
 openstack security group create bosh
 openstack security group rule create --proto tcp --dst-port 22:22 bosh
 openstack security group rule create --proto tcp --dst-port 6868:6868 bosh
