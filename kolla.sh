@@ -959,11 +959,11 @@ cd /opt/stack
 cd $pwd
 #########
 
-PUB_KEY=`cat /root/.ssh/id_rsa.pub`
+#PUB_KEY=`cat /root/.ssh/id_rsa.pub`
 ### add ssh key into the manifest to hopefully allow ssh into the cloudfoundry vms
-sed -i '/stemcell: default/a\ \ env: ' /tmp/cf-deployment/cf-deployment.yml
-sed -i '/env: /a\ \ \ \ bosh: ' /tmp/cf-deployment/cf-deployment.yml
-sed -i "/bosh: /a\ \ \ \ \ \ authorized_keys: '$PUB_KEY'" /tmp/cf-deployment/cf-deployment.yml
+#sed -i '/stemcell: default/a\ \ env: ' /tmp/cf-deployment/cf-deployment.yml
+#sed -i '/env: /a\ \ \ \ bosh: ' /tmp/cf-deployment/cf-deployment.yml
+#sed -i "/bosh: /a\ \ \ \ \ \ authorized_keys: '$PUB_KEY'" /tmp/cf-deployment/cf-deployment.yml
 #####
 
 ### deploy cloudfoundry

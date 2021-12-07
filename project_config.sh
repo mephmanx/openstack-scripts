@@ -53,6 +53,7 @@ export APP_EXTERNAL_HOSTNAME=openstack;
 export NETWORK_PREFIX="10.0.200";
 export LB_NETWORK="10.1.0";
 export TROVE_NETWORK="10.2.0";
+export VPN_NETWORK="10.0.9";
 
 ## vips for openstack
 export SUPPORT_VIP="$NETWORK_PREFIX.10";
