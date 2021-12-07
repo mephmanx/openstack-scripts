@@ -13,8 +13,9 @@ KICKSTART_DIR=/tmp/openstack-scripts
 ADMIN_PWD=`cat /root/env_admin_pwd`
 if (virsh list --name | grep -q "cloudsupport"); then
   return
+else
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Removing existing cloudsupport vm and building image for new one...."
 fi
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Removing existing cloudsupport vm and building image for new one...."
 
 IFS=
 rm -rf ${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
