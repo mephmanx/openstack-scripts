@@ -1064,6 +1064,27 @@ memGB=$((mem / 1024 / 1024 - 32 * (CF_MEMORY_ALLOCATION_PCT / 100)))
 cf create-quota $INTERNAL_DOMAIN_NAME -i 8096M -m "$memGBG" -r 1000 -s 1000 -a 1000 --allow-paid-service-plans --reserved-route-ports $CF_TCP_PORT_COUNT
 cf set-quota $INTERNAL_DOMAIN_NAME $INTERNAL_DOMAIN_NAME
 
+### install security group
+cat > /opt/stack/asg.json <<EOF
+[
+  {
+    "protocol": "icmp",
+    "destination": "0.0.0.0/0",
+    "type": 0,
+    "code": 0
+  },
+  {
+    "protocol": "tcp",
+    "destination": "10.1.0.0/24",
+    "ports": "80,443",
+    "log": true,
+    "description": "Allow http and https traffic to ZoneA"
+  }
+]
+EOF
+
+cf create-security-group ASG /opt/stack/asg.json
+cf bind-running-security-group ASG
 ## push logging
 # get latest stemcell
 #runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
