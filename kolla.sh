@@ -1052,7 +1052,7 @@ cf create-space -o $INTERNAL_DOMAIN_NAME uat
 
 # enable docker support
 cf enable-feature-flag diego_docker
-cf enable-service-access nfs -o $INTERNAL_DOMAIN_NAME
+#cf enable-service-access nfs -o $INTERNAL_DOMAIN_NAME
 
 ## change to prod dir for deploy
 cf target -o "system" -s "system"
@@ -1153,8 +1153,8 @@ cf scale console -i 2
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stratos deployment complete!  access at console.$INTERNAL_DOMAIN_NAME user -> admin , pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
 
 #### update keystone for ldap, run at the very end as it disables keystone db auth.  disables admin and osuser accounts!
-DIRECTORY_MGR_PWD=`cat /tmp/directory_mgr_pwd`
-control_ct=$CONTROL_COUNT
+#DIRECTORY_MGR_PWD=`cat /tmp/directory_mgr_pwd`
+#control_ct=$CONTROL_COUNT
 #cat > /tmp/ldap.sh <<EOF
 #echo "[identity]" >> /etc/kolla/keystone/keystone.conf
 #echo "driver = ldap" >> /etc/kolla/keystone/keystone.conf
