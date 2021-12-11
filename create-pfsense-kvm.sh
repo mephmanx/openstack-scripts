@@ -77,6 +77,9 @@ echo "$DIRECTORY_MGR_PWD" >> /root/directory_mgr_pwd
 ADMIN_PWD=`cat /root/env_admin_pwd`
 DIRECTORY_MGR_PWD=`cat /root/directory_mgr_pwd`
 
+#### backend to change host header from whatever it comes in as to internal domain
+ADVANCED_BACKEND=`echo "http-request replace-value Host ^(.*)(\.[^\.]+){2}$ \1.$INTERNAL_DOMAIN_NAME" | base64`
+
 ## generate random hostname suffix so that if multiple instances are run on the same network there are no issues
 HOWLONG=5 ## the number of characters
 HOSTNAME_SUFFIX=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
@@ -122,6 +125,7 @@ sed -i 's/{BASE_DN}/'$(baseDN)'/g' /tmp/usb/config.xml
 sed -i 's/{LB_ROUTER_IP}/'$LB_ROUTER_IP'/g' /tmp/usb/config.xml
 sed -i 's/{LB_DHCP_START}/'$LB_DHCP_START'/g' /tmp/usb/config.xml
 sed -i 's/{LB_DHCP_END}/'$LB_DHCP_END'/g' /tmp/usb/config.xml
+sed -i 's/{ADVANCED_BACKEND}/'$ADVANCED_BACKEND'/g' /tmp/usb/config.xml
 #######
 
 runuser -l root -c  'umount /tmp/usb'

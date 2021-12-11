@@ -113,7 +113,6 @@
 		<nologdefaultblock></nologdefaultblock>
 		<nologbogons></nologbogons>
 		<nologprivatenets></nologprivatenets>
-		<disablenatreflection>yes</disablenatreflection>
 		<dnsallowoverride></dnsallowoverride>
 		<crypto_hardware>aesni_cryptodev</crypto_hardware>
 		<mds_disable>0</mds_disable>
@@ -388,11 +387,11 @@
 			</destination>
 			<log></log>
 			<created>
-				<time>1637021016</time>
+				<time>1638831748</time>
 				<username><![CDATA[Auto]]></username>
 			</created>
 			<interface>wan</interface>
-			<tracker>1770009567</tracker>
+			<tracker>1770009775</tracker>
 		</rule>
 		<rule>
 			<quick>yes</quick>
@@ -409,7 +408,7 @@
 			</destination>
 			<log></log>
 			<created>
-				<time>1637021016</time>
+				<time>1638831748</time>
 				<username><![CDATA[Auto]]></username>
 			</created>
 			<interface>lan</interface>
@@ -897,6 +896,15 @@
 			<command>/usr/local/pkg/swapstate_check.php</command>
 		</item>
 		<item>
+			<minute>*/5</minute>
+			<hour>*</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/bin/nice -n20 /sbin/pfctl -q -t snort2c -T expire 3600</command>
+		</item>
+		<item>
 			<minute>*/60</minute>
 			<hour>*</hour>
 			<mday>*</mday>
@@ -913,15 +921,6 @@
 			<wday>*</wday>
 			<who>root</who>
 			<command>/usr/local/bin/perl /usr/local/www/lightsquid/lightparser.pl yesterday</command>
-		</item>
-		<item>
-			<minute>*/5</minute>
-			<hour>*</hour>
-			<mday>*</mday>
-			<month>*</month>
-			<wday>*</wday>
-			<who>root</who>
-			<command>/usr/bin/nice -n20 /sbin/pfctl -q -t snort2c -T expire 3600</command>
 		</item>
 	</cron>
 	<wol></wol>
@@ -1070,8 +1069,8 @@
 		<dns64netbits>96</dns64netbits>
 	</unbound>
 	<revision>
-		<time>1637080268</time>
-		<description><![CDATA[admin@10.0.200.3[45.56.119.204] (Local Database Fallback): Services: HAProxy: Frontend modified 'https' pool:]]></description>
+		<time>1639234296</time>
+		<description><![CDATA[admin@10.0.200.3[45.56.119.204] (Local Database Fallback): Admin Access Advanced Settings saved]]></description>
 		<username><![CDATA[admin@10.0.200.3[45.56.119.204] (Local Database Fallback)]]></username>
 	</revision>
 	<ppps></ppps>
@@ -1179,12 +1178,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8082</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8082</extaddr_port>
 							<_index></_index>
@@ -1215,12 +1208,6 @@
 					<clientcert_ca></clientcert_ca>
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8776</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8776</extaddr_port>
@@ -1253,12 +1240,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8778</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8778</extaddr_port>
 							<_index></_index>
@@ -1289,12 +1270,6 @@
 					<clientcert_ca></clientcert_ca>
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8774</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8774</extaddr_port>
@@ -1327,12 +1302,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8773</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8773</extaddr_port>
 							<_index></_index>
@@ -1363,12 +1332,6 @@
 					<clientcert_ca></clientcert_ca>
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8775</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8775</extaddr_port>
@@ -1439,12 +1402,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>6081</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>6081</extaddr_port>
 							<_index></_index>
@@ -1476,12 +1433,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>6082</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>6082</extaddr_port>
 							<_index></_index>
@@ -1512,12 +1463,6 @@
 					<clientcert_ca></clientcert_ca>
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8386</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8386</extaddr_port>
@@ -1587,12 +1532,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>9292</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>9292</extaddr_port>
 							<_index></_index>
@@ -1631,12 +1570,6 @@
 					<clientcert_ca></clientcert_ca>
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>9696</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>9696</extaddr_port>
@@ -1677,12 +1610,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8004</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8004</extaddr_port>
 							<_index></_index>
@@ -1713,12 +1640,6 @@
 					<clientcert_ca></clientcert_ca>
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8000</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8000</extaddr_port>
@@ -1751,12 +1672,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8999</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8999</extaddr_port>
 							<_index></_index>
@@ -1788,12 +1703,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8777</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8777</extaddr_port>
 							<_index></_index>
@@ -1824,12 +1733,6 @@
 					<clientcert_ca></clientcert_ca>
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8989</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8989</extaddr_port>
@@ -1864,12 +1767,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8080</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8080</extaddr_port>
 							<_index></_index>
@@ -1900,12 +1797,6 @@
 					<clientcert_ca></clientcert_ca>
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>9876</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>9876</extaddr_port>
@@ -1939,12 +1830,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>9511</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>9511</extaddr_port>
 							<_index></_index>
@@ -1975,12 +1860,6 @@
 					<clientcert_ca></clientcert_ca>
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8780</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8780</extaddr_port>
@@ -2013,12 +1892,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>9311</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>9311</extaddr_port>
 							<_index></_index>
@@ -2049,12 +1922,6 @@
 					<clientcert_ca></clientcert_ca>
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8041</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8041</extaddr_port>
@@ -2087,12 +1954,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8779</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8779</extaddr_port>
 							<_index></_index>
@@ -2124,12 +1985,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>9001</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>9001</extaddr_port>
 							<_index></_index>
@@ -2153,7 +2008,6 @@
 					<type>http</type>
 					<httpclose>http-keep-alive</httpclose>
 					<ssloffloadcert>60ec35a6053df</ssloffloadcert>
-					<ssloffloadacl_an>yes</ssloffloadacl_an>
 					<advanced>b3B0aW9uIGh0dHBsb2c=</advanced>
 					<ha_acls>
 						<item>
@@ -2277,7 +2131,6 @@
 					<a_errorfiles>
 					</a_errorfiles>
 					<forwardfor>yes</forwardfor>
-					<ssloffloadacl>yes</ssloffloadacl>
 					<client_timeout>2147483647</client_timeout>
 					<backend_serverpool>cloudfoundry</backend_serverpool>
 					<primary_frontend>ceilometer</primary_frontend>
@@ -2333,12 +2186,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>8786</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>8786</extaddr_port>
 							<_index></_index>
@@ -2369,12 +2216,6 @@
 					<clientcert_ca></clientcert_ca>
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>9517</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>9517</extaddr_port>
@@ -2408,12 +2249,6 @@
 					<clientcert_ca></clientcert_ca>
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>35357</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>35357</extaddr_port>
@@ -2896,7 +2731,7 @@
 					<a_actionitems></a_actionitems>
 					<errorfiles></errorfiles>
 					<advanced></advanced>
-					<advanced_backend></advanced_backend>
+					<advanced_backend>{ADVANCED_BACKEND}</advanced_backend>
 					<name>nova-compute-vnc</name>
 					<balance></balance>
 					<balance_urilen></balance_urilen>
@@ -3672,7 +3507,7 @@
 					<a_actionitems></a_actionitems>
 					<errorfiles></errorfiles>
 					<advanced></advanced>
-					<advanced_backend></advanced_backend>
+					<advanced_backend>{ADVANCED_BACKEND}</advanced_backend>
 					<name>horizon</name>
 					<balance></balance>
 					<balance_urilen></balance_urilen>
@@ -4381,7 +4216,7 @@
 					<a_actionitems></a_actionitems>
 					<errorfiles></errorfiles>
 					<advanced></advanced>
-					<advanced_backend></advanced_backend>
+					<advanced_backend>{ADVANCED_BACKEND}</advanced_backend>
 					<name>pfsense</name>
 					<balance></balance>
 					<balance_urilen></balance_urilen>
@@ -4451,7 +4286,7 @@
 					<a_actionitems></a_actionitems>
 					<errorfiles></errorfiles>
 					<advanced></advanced>
-					<advanced_backend></advanced_backend>
+					<advanced_backend>{ADVANCED_BACKEND}</advanced_backend>
 					<name>kibana</name>
 					<balance></balance>
 					<balance_urilen></balance_urilen>
@@ -4521,7 +4356,7 @@
 					<a_actionitems></a_actionitems>
 					<errorfiles></errorfiles>
 					<advanced></advanced>
-					<advanced_backend></advanced_backend>
+					<advanced_backend>{ADVANCED_BACKEND}</advanced_backend>
 					<name>grafana</name>
 					<balance></balance>
 					<balance_urilen></balance_urilen>
@@ -4663,7 +4498,7 @@
 					<a_actionitems></a_actionitems>
 					<errorfiles></errorfiles>
 					<advanced></advanced>
-					<advanced_backend></advanced_backend>
+					<advanced_backend>{ADVANCED_BACKEND}</advanced_backend>
 					<name>cloudfoundry</name>
 					<balance></balance>
 					<balance_urilen></balance_urilen>
@@ -4733,7 +4568,7 @@
 					<a_actionitems></a_actionitems>
 					<errorfiles></errorfiles>
 					<advanced></advanced>
-					<advanced_backend></advanced_backend>
+					<advanced_backend>{ADVANCED_BACKEND}</advanced_backend>
 					<name>cloudfoundry-ssh</name>
 					<balance></balance>
 					<balance_urilen></balance_urilen>
