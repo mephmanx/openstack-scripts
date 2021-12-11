@@ -276,14 +276,14 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cache pull/prime complete!  Ins
 echo "[libvirt]" >> /etc/kolla/config/nova.conf
 echo "swtpm_enabled=true" >> /etc/kolla/config/nova.conf
 
-echo "[vnc]" >> /etc/kolla/config/nova.conf
-echo "novncproxy_base_url=https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:6080/vnc_auto.html" >> /etc/kolla/config/nova.conf
-####
-
-#### keystone.conf options
-echo "[cors]" >> /etc/kolla/config/keystone.conf
-echo "allowed_origin = https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:3000" >> /etc/kolla/config/keystone.conf
-######
+#echo "[vnc]" >> /etc/kolla/config/nova.conf
+#echo "novncproxy_base_url=https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:6080/vnc_auto.html" >> /etc/kolla/config/nova.conf
+#####
+#
+##### keystone.conf options
+#echo "[cors]" >> /etc/kolla/config/keystone.conf
+#echo "allowed_origin = https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:3000" >> /etc/kolla/config/keystone.conf
+#######
 
 ### configure OIDC config
 mkdir /etc/kolla/config/idp
@@ -369,17 +369,17 @@ runuser -l root -c  'cd /tmp; ./control-trust.sh'
 cd $working_dir
 rm -rf /tmp/control-trust.sh
 
-#### add cloud origin to horizon
-control_ct=$CONTROL_COUNT
-cat > /tmp/script.sh <<EOF
-echo 'CSRF_TRUSTED_ORIGINS=["openstack.$EXTERNAL_DOMAIN_NAME"]' >> /etc/kolla/horizon/local_settings; docker restart horizon;
-EOF
-while [[ $control_ct -gt 0 ]]; do
-  scp /tmp/script.sh root@control0$control_ct:/tmp
-  runuser -l root -c "ssh root@control0$control_ct 'cd /tmp; chmod 777 script.sh; ./script.sh'"
-  ((control_ct--))
-done
-####
+##### add cloud origin to horizon
+#control_ct=$CONTROL_COUNT
+#cat > /tmp/script.sh <<EOF
+#echo 'CSRF_TRUSTED_ORIGINS=["openstack.$EXTERNAL_DOMAIN_NAME"]' >> /etc/kolla/horizon/local_settings; docker restart horizon;
+#EOF
+#while [[ $control_ct -gt 0 ]]; do
+#  scp /tmp/script.sh root@control0$control_ct:/tmp
+#  runuser -l root -c "ssh root@control0$control_ct 'cd /tmp; chmod 777 script.sh; ./script.sh'"
+#  ((control_ct--))
+#done
+#####
 
 #load setup for validator
 export REQUESTS_CA_BUNDLE=/tmp/id_rsa.crt
