@@ -78,7 +78,7 @@ ADMIN_PWD=`cat /root/env_admin_pwd`
 DIRECTORY_MGR_PWD=`cat /root/directory_mgr_pwd`
 
 #### backend to change host header from whatever it comes in as to internal domain
-ADVANCED_BACKEND=`echo "http-request replace-value Host ^(.*)(\.[^\.]+){2}$ \1.$INTERNAL_DOMAIN_NAME" | base64`
+ADVANCED_BACKEND=`echo "http-request replace-value Host ^(.*)(\.[^\.]+){2}$ \1.$INTERNAL_DOMAIN_NAME" | base64 | tr -d '\n\r'`
 
 ## generate random hostname suffix so that if multiple instances are run on the same network there are no issues
 HOWLONG=5 ## the number of characters
