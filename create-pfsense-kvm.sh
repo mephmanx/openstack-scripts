@@ -201,7 +201,7 @@ root_pw=$(generate_random_pwd)
 telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_pw"
 
 (echo open 127.0.0.1 4568;
-  sleep 120;
+  sleep 60;
   echo "pfSsh.php playback changepassword admin";
   sleep 10;
   echo "$root_pw";
