@@ -401,33 +401,6 @@ DNS.1 = $domain
 EOF
 }
 
-function create_user_cert() {
-  ca_pwd=$1
-  cert_dir=$2
-  user_name=$3
-
-  runuser -l root -c  "touch $cert_dir/$user_name.csr"
-  runuser -l root -c  "touch $cert_dir/$user_name.pass.key"
-  runuser -l root -c  "touch $cert_dir/$user_name.crt"
-  runuser -l root -c  "touch $cert_dir/$user_name.key"
-
-  source /tmp/openstack-scripts/project_config.sh
-
-  runuser -l root -c  "openssl genrsa -aes256 -passout pass:$ca_pwd -out $cert_dir/$user_name.pass.key 4096 "
-  runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/$user_name.pass.key -out $cert_dir/$user_name.key"
-  runuser -l root -c  "openssl req -new -key $cert_dir/$user_name.key \
-                        -subj '/C=$COUNTRY/ST=$STATE/L=$LOCATION/O=$ORGANIZATION/OU=$OU/CN=$user_name.$INTERNAL_DOMAIN_NAME' \
-                        -out $cert_dir/$user_name.csr"
-
-  runuser -l root -c  "openssl x509 -CAcreateserial -req -days 3650 \
-                        -in $cert_dir/$user_name.csr \
-                        -CA $cert_dir/id_rsa.crt \
-                        -CAkey $cert_dir/id_rsa \
-                        -passin pass:$ca_pwd \
-                        -out $cert_dir/$user_name.crt"
-  ##########
-}
-
 function remove_ip_from_adapter() {
   adapter_name=$1
   sed -i '/^IPADDR/d' /etc/sysconfig/network-scripts/ifcfg-$adapter_name
