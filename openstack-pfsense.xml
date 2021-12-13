@@ -4852,7 +4852,7 @@
 					<a_actionitems></a_actionitems>
 					<errorfiles></errorfiles>
 					<advanced></advanced>
-					<advanced_backend></advanced_backend>
+					<advanced_backend>{ADVANCED_BACKEND}</advanced_backend>
 					<name>identity</name>
 					<balance></balance>
 					<balance_urilen></balance_urilen>
