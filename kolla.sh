@@ -667,13 +667,6 @@ sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/jumpbox-deployment/jumpbox.yml
 sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/bosh-deployment/bosh.yml
 sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/cloud-config/ops.yml
 
-#### bosh director keep unresponsive vm's
-sed -i '/generate_vm_passwords: true/a\ \ \ \ \ \ debug: ' /opt/stack/bosh-deployment/bosh.yml
-sed -i '/debug: /a\ \ \ \ \ \ \ \ keep_unreachable_vms: true ' /opt/stack/bosh-deployment/bosh.yml
-sed -i 's/generate_vm_passwords: true/generate_vm_passwords: false/g' /opt/stack/bosh-deployment/bosh.yml
-#sed -i '/keep_unreachable_vms: true /a\ \ \ \ \ \ \ \ password:  ' /opt/stack/bosh-deployment/bosh.yml
-########
-
 runuser -l stack -c  "cat > /opt/stack/trusted-certs.vars.yml <<EOF
 trusted_certs: |-
 EOF"
