@@ -64,7 +64,6 @@ export TROVE_DB_VERSION="xena"
 export CF_DEPLOY_VERSION="v17.0.0"
 export SWTPM_VERSION="1.0.0"
 
-
 ### hostnames for infra vms
 export SUPPORT_HOST=harbor;
 export IDENTITY_HOST=identity;
