@@ -48,7 +48,7 @@ sed -i 's/{CENTOS_ADMIN_PWD}/'$NEWPWD'/g' ${kickstart_file}
 ###########################
 
 ## download files to be embedded
-if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERION.qcow2" ]; then
+if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2" ]; then
   ############# build octavia image
   yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils
   git clone https://opendev.org/openstack/octavia -b master /tmp/octavia
@@ -58,7 +58,7 @@ if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERION.qcow2" ]; then
   cd /tmp/octavia/diskimage-create;
   ./diskimage-create.sh;
   cd $pwd
-  cp /tmp/octavia/diskimage-create/amphora-x64-haproxy.qcow2 /tmp/amphora-x64-haproxy-$AMPHORA_VERION.qcow2
+  cp /tmp/octavia/diskimage-create/amphora-x64-haproxy.qcow2 /tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2
 fi
 
 if [ ! -f "/tmp/pfSense-$PFSENSE_VERSION.gz" ]; then
@@ -118,7 +118,7 @@ fi
 embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
               '/tmp/pfSense-CE-memstick-ADI.img'
               "/tmp/harbor-$HARBOR_VERSION.tgz"
-              "/tmp/amphora-x64-haproxy-$AMPHORA_VERION.qcow2"
+              "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2"
               "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
               '/tmp/repo.zip'
               '/tmp/openstack-env.sh'
