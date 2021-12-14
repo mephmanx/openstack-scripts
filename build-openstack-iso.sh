@@ -108,7 +108,7 @@ if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
 fi
 
 rm -rf /tmp/repo.zip
-zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*" -x "toolbox*" -x "*openstack.cfg"
+zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*" -x "build*" -x "*openstack.cfg" -x "toolbox*"
 
 ### download director & jumpbox stemcell
 if [ ! -f "/tmp/bosh.tgz" ]; then
