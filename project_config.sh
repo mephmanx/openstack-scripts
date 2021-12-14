@@ -5,7 +5,7 @@
 
 ### Harbor version
 # Be careful changing this as API's DO change so errors could result from breaking changes
-export HARBOR=https://github.com/goharbor/harbor/releases/download/v2.4.0/harbor-offline-installer-v2.4.0.tgz;
+export HARBOR=https://github.com/goharbor/harbor/releases/download/$HARBOR_VERSION/harbor-offline-installer-$HARBOR_VERSION.tgz;
 
 ## SWTPM libs
 export LIBTPMS_GIT=https://github.com/stefanberger/libtpms/archive/master/libtpms.zip;
@@ -13,7 +13,7 @@ export SWTPM_GIT=https://github.com/stefanberger/swtpm/archive/master/swtpm.zip;
 
 ###  PFSense installer
 ## fat32 offset is added but logic NEEDS to be validated on update
-export PFSENSE=https://nyifiles.netgate.com/mirror/downloads/pfSense-CE-memstick-ADI-2.5.2-RELEASE-amd64.img.gz;
+export PFSENSE=https://nyifiles.netgate.com/mirror/downloads/pfSense-CE-memstick-ADI-$PFSENSE_VERSION-RELEASE-amd64.img.gz;
 
 ## Linux iso
 ## This is cached on PFSense to be used as the base image by all other systems.
@@ -24,13 +24,13 @@ export LINUX_ISO=https://vault.centos.org/8.3.2011/isos/x86_64/CentOS-8.3.2011-x
 #export CENTOS_BASE=http://isoredirect.centos.org/centos/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-20210916-dvd1.iso
 
 ### Magnum docker image
-export MAGNUM_IMAGE=https://download.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180419.0/CloudImages/x86_64/images/Fedora-Atomic-27-20180419.0.x86_64.qcow2
+export MAGNUM_IMAGE=https://download.fedoraproject.org/pub/alt/atomic/stable/$MAGNUM_IMAGE_VERSION/CloudImages/x86_64/images/$MAGNUM_IMAGE_VERSION.x86_64.qcow2
 
 ### cloudfoundry attic terraform
-export CF_ATTIC_TERRAFORM=https://releases.hashicorp.com/terraform/0.11.15/terraform_0.11.15_linux_amd64.zip
+export CF_ATTIC_TERRAFORM=https://releases.hashicorp.com/terraform/$CF_ATTIC_TERRAFORM_VERSION/terraform_$CF_ATTIC_TERRAFORM_VERSION_linux_amd64.zip
 
 ### image for trove instances
-export TROVE_INSTANCE_IMAGE=https://cloud-images.ubuntu.com/releases/bionic/release-20210928/ubuntu-18.04-server-cloudimg-amd64.img
+export TROVE_INSTANCE_IMAGE=https://cloud-images.ubuntu.com/releases/$UBUNTU_VERSION/releases/ubuntu-$UBUNTU_VERSION-server-cloudimg-amd64.img
 
 ### image for trove DB's
 export TROVE_DB_IMAGE=https://tarballs.opendev.org/openstack/trove/images/trove-master-guest-ubuntu-bionic.qcow2
@@ -40,11 +40,20 @@ export BOSH_OPENSTACK_ENVIRONMENT_TEMPLATES=https://github.com/cloudfoundry-atti
 export CF_DEPLOYMENT=https://github.com/cloudfoundry/cf-deployment/archive/main/cf_deployment.zip
 
 ## docker compose
-export DOCKER_COMPOSE=https://github.com/docker/compose/releases/download/1.29.2/docker-compose-linux-x86_64
+export DOCKER_COMPOSE=https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-linux-x86_64
 
 ## domain name
 ## generate internal domain name
 export INTERNAL_DOMAIN_NAME=$INT_DOM_NAME;
+
+## library versions
+## this will force cache update if changed
+export HARBOR_VERSION="v2.4.0"
+export PFSENSE_VERSION="2.5.2"
+export MAGNUM_IMAGE_VERSION="Fedora-Atomic-27-20180419.0"
+export CF_ATTIC_TERRAFORM_VERSION="0.11.15"
+export DOCKER_COMPOSE_VERSION="1.29.2"
+export UBUNTU_VERSION="18.04"
 
 ### hostnames for infra vms
 export SUPPORT_HOST=harbor;
