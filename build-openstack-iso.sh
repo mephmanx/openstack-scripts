@@ -145,6 +145,7 @@ done
 
 #### if homebrew cache is available
 if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
+  docker pull mephmanx/homebrew-cache:latest
   docker run --rm -v /tmp:/tmp/export mephmanx/homebrew-cache $CF_BBL_INSTALL_TERRAFORM_VERSION
 fi
 embed_files+=("/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar")
