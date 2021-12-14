@@ -406,7 +406,7 @@ export TROVE_RANGE="start=$TROVE_DHCP_START,end=$TROVE_DHCP_END"
 export TROVE_GATEWAY="$TROVE_NETWORK.1"
 
 openstack image create trove-master-guest-ubuntu --private --disk-format qcow2 --container-format bare --tag trove --tag mysql --tag mariadb --tag postgresql --file /tmp/trove_db.img
-openstack image create trove-base --disk-format qcow2 --container-format bare --file /tmp/trove_instance.img
+openstack image create trove-base --disk-format qcow2 --container-format bare --file /tmp/trove_instance-$UBUNTU_VERSION.img
 
 test=`openstack image show 'trove-base'`
 if [[ "No Image found" == *"$test"* ]]; then
@@ -431,7 +431,7 @@ openstack router add subnet trove-router trove-subnet0
 openstack image create \
                       --disk-format=qcow2 \
                       --container-format=bare \
-                      --file=/tmp/magnum.qcow2 \
+                      --file=/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2 \
                       --property os_distro='fedora-atomic' \
                       fedora-atomic-latest
 
@@ -602,7 +602,7 @@ openstack image create amphora-x64-haproxy \
   --disk-format qcow2 \
   --tag amphora \
   --private \
-  --file /tmp/amphora-x64-haproxy.qcow2 \
+  --file /tmp/amphora-x64-haproxy-$AMPHORA_VERIONS.qcow2 \
   --property hw_architecture='x86_64' \
   --property hw_rng_model=virtio
 
@@ -738,7 +738,7 @@ mv /tmp/bosh-openstack-environment-templates/bosh-openstack-environment-template
 cd /tmp/bosh-openstack-environment-templates
 chown -R stack cf-deployment-tf/
 cd cf-deployment-tf
-cp /tmp/terraform_cf.zip ./
+cp /tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip ./
 
 unzip terraform_cf.zip
 chmod +x terraform

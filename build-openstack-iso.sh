@@ -48,7 +48,7 @@ sed -i 's/{CENTOS_ADMIN_PWD}/'$NEWPWD'/g' ${kickstart_file}
 ###########################
 
 ## download files to be embedded
-if [ ! -f "/tmp/amphora-x64-haproxy.qcow2" ]; then
+if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERIONS.qcow2" ]; then
   ############# build octavia image
   yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils
   git clone https://opendev.org/openstack/octavia -b master /tmp/octavia
@@ -59,29 +59,29 @@ if [ ! -f "/tmp/amphora-x64-haproxy.qcow2" ]; then
   cd /tmp/octavia/diskimage-create;
   ./diskimage-create.sh;
   cd $pwd
-  cp /tmp/octavia/diskimage-create/amphora-x64-haproxy.qcow2 /tmp/amphora-x64-haproxy.qcow2
+  cp /tmp/octavia/diskimage-create/amphora-x64-haproxy.qcow2 /tmp/amphora-x64-haproxy-$AMPHORA_VERIONS.qcow2
 fi
 
-if [ ! -f "/tmp/pfSense.gz" ]; then
-  wget -O /tmp/pfSense.gz ${PFSENSE}
+if [ ! -f "/tmp/pfSense-$PFSENSE_VERSION.gz" ]; then
+  wget -O /tmp/pfSense-$PFSENSE_VERSION.gz ${PFSENSE}
 fi
-cp /tmp/pfSense.gz /tmp/pfSense-CE-memstick-ADI.img.gz
+cp /tmp/pfSense-$PFSENSE_VERSION.gz /tmp/pfSense-CE-memstick-ADI.img.gz
 gunzip -f /tmp/pfSense-CE-memstick-ADI.img.gz
 
-if [ ! -f "/tmp/harbor.tgz" ]; then
-  wget -O /tmp/harbor.tgz ${HARBOR}
+if [ ! -f "/tmp/harbor-$HARBOR_VERSION.tgz" ]; then
+  wget -O /tmp/harbor-$HARBOR_VERSION.tgz ${HARBOR}
 fi
 
-if [ ! -f "/tmp/magnum.qcow2" ]; then
-  wget -O /tmp/magnum.qcow2 ${MAGNUM_IMAGE}
+if [ ! -f "/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2" ]; then
+  wget -O /tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2 ${MAGNUM_IMAGE}
 fi
 
-if [ ! -f "/tmp/terraform_cf.zip" ]; then
-  wget -O /tmp/terraform_cf.zip ${CF_ATTIC_TERRAFORM}
+if [ ! -f "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip" ]; then
+  wget -O /tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip ${CF_ATTIC_TERRAFORM}
 fi
 
-if [ ! -f "/tmp/trove_instance.img" ]; then
-  wget -O /tmp/trove_instance.img ${TROVE_INSTANCE_IMAGE}
+if [ ! -f "/tmp/trove_instance-$UBUNTU_VERSION.img" ]; then
+  wget -O /tmp/trove_instance-$UBUNTU_VERSION.img ${TROVE_INSTANCE_IMAGE}
 fi
 
 if [ ! -f "/tmp/trove_db.img" ]; then
@@ -104,8 +104,8 @@ if [ ! -f "/tmp/cf_deployment.zip" ]; then
   wget -O /tmp/cf_deployment.zip ${CF_DEPLOYMENT}
 fi
 
-if [ ! -f "/tmp/docker-compose" ]; then
-  wget -O /tmp/docker-compose ${DOCKER_COMPOSE}
+if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
+  wget -O /tmp/docker-compose-$DOCKER_COMPOSE_VERSION ${DOCKER_COMPOSE}
 fi
 
 rm -rf /tmp/repo.zip
@@ -116,21 +116,21 @@ if [ ! -f "/tmp/bosh.tgz" ]; then
   curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$BOSH_STEMCELL-go_agent --output /tmp/bosh.tgz > /dev/null
 fi
 
-embed_files=('/tmp/magnum.qcow2'
+embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
               '/tmp/pfSense-CE-memstick-ADI.img'
-              '/tmp/harbor.tgz'
-              '/tmp/amphora-x64-haproxy.qcow2'
-              '/tmp/terraform_cf.zip'
+              "/tmp/harbor-$HARBOR_VERSION.tgz"
+              "/tmp/amphora-x64-haproxy-$AMPHORA_VERIONS.qcow2"
+              "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
               '/tmp/repo.zip'
               '/tmp/openstack-env.sh'
               '/tmp/linux.iso'
-              '/tmp/trove_instance.img'
+              "/tmp/trove_instance-$UBUNTU_VERSION.img"
               '/tmp/trove_db.img'
               '/tmp/libtpms.zip'
               '/tmp/swtpm.zip'
               '/tmp/cf-templates.zip'
               '/tmp/cf_deployment.zip'
-              '/tmp/docker-compose'
+              "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION"
               '/tmp/project_config.sh'
               '/tmp/bosh.tgz')
 

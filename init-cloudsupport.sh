@@ -55,11 +55,11 @@ chkconfig docker on
 systemctl restart docker
 docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD
 
-cp /tmp/docker-compose /usr/local/bin/docker-compose
+cp /tmp/docker-compose-$DOCKER_COMPOSE_VERSION /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
 cd /root
-tar xzvf /tmp/harbor.tgz
+tar xzvf /tmp/harbor-$HARBOR_VERSION.tgz
 
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 ADMIN_PWD=`cat /root/env_admin_pwd`

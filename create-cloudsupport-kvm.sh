@@ -39,7 +39,7 @@ sed -i 's/{NETMASK}/'$NETMASK'/g' ${kickstart_file}
 sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd)'/g' ${kickstart_file}
 ###########################
 
-embed_files=('/tmp/harbor.tgz'
+embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
               '/root/.ssh/id_rsa.pub'
               '/tmp/openstack-setup.key'
               '/tmp/openstack-setup.key.pub'
@@ -48,7 +48,7 @@ embed_files=('/tmp/harbor.tgz'
               '/tmp/openstack-scripts/harbor.yml'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
-              '/tmp/docker-compose'
+              "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION"
               '/tmp/openstack-scripts/init-cloudsupport.sh'
               '/tmp/openstack-scripts/vm_functions.sh')
 

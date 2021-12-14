@@ -173,15 +173,15 @@ function buildAndPushOpenstackSetupISO {
   #########################
 
   #####################################
-  embed_files=('/tmp/magnum.qcow2'
+  embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
                 '/tmp/haproxy.pem'
                 '/tmp/haproxy-internal.pem'
                 '/tmp/host-trust.sh'
                 '/tmp/control-trust.sh'
                 '/tmp/host_count'
-                '/tmp/trove_instance.img'
+                "/tmp/trove_instance-$UBUNTU_VERSION.img"
                 '/tmp/trove_db.img'
-                '/tmp/terraform_cf.zip'
+                "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
                 '/tmp/host_list'
                 '/root/.ssh/id_rsa.crt'
                 '/root/.ssh/id_rsa.pub'
@@ -189,7 +189,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/openstack-setup.key.pub'
                 '/tmp/storage_hosts'
                 '/root/directory_mgr_pwd'
-                '/tmp/amphora-x64-haproxy.qcow2'
+                "/tmp/amphora-x64-haproxy-$AMPHORA_VERIONS.qcow2"
                 '/tmp/openstack-scripts/kolla.sh'
                 '/tmp/openstack-scripts/globals.yml'
                 '/tmp/openstack-scripts/vm_functions.sh'
