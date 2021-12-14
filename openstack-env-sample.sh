@@ -1,10 +1,5 @@
 #!/bin/sh
 
-## domain name
-## generate internal domain name
-export INTERNAL_DOMAIN_NAME=<internal cloud domain name>;
-
-
 ### Enable auto-update
 ## This enables the centos/stream auto update function on install.
 ## Auto update can be enabled later if not enabled here, this just sets it up and enables it for you.

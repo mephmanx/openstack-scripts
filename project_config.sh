@@ -42,6 +42,10 @@ export CF_DEPLOYMENT=https://github.com/cloudfoundry/cf-deployment/archive/main/
 ## docker compose
 export DOCKER_COMPOSE=https://github.com/docker/compose/releases/download/1.29.2/docker-compose-linux-x86_64
 
+## domain name
+## generate internal domain name
+export INTERNAL_DOMAIN_NAME=$INT_DOM_NAME;
+
 ### hostnames for infra vms
 export SUPPORT_HOST=harbor;
 export IDENTITY_HOST=identity;
