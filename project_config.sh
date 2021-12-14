@@ -113,7 +113,7 @@ export RAM_PCT_AVAIL_CLOUD=96
 
 ### Cloudfoundry variables
 export CF_TCP_PORT_COUNT=10
-export CF_BBL_INSTALL_TERRAFORM_VERSION=1.0.2
+export CF_BBL_INSTALL_TERRAFORM_VERSION=1.0.4
 export CF_BBL_OPENSTACK_CPI_VERSION=1.40
 export CF_BBL_OS_CONF_RELEASE=22.1.2
 ### be careful about changing the version of os-conf as the hash below is REQUIRED to match!
