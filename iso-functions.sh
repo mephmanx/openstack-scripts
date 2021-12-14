@@ -189,7 +189,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/openstack-setup.key.pub'
                 '/tmp/storage_hosts'
                 '/root/directory_mgr_pwd'
-                "/tmp/amphora-x64-haproxy-$AMPHORA_VERIONS.qcow2"
+                "/tmp/amphora-x64-haproxy-$AMPHORA_VERION.qcow2"
                 '/tmp/openstack-scripts/kolla.sh'
                 '/tmp/openstack-scripts/globals.yml'
                 '/tmp/openstack-scripts/vm_functions.sh'

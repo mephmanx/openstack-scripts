@@ -118,7 +118,7 @@ fi
 embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
               '/tmp/pfSense-CE-memstick-ADI.img'
               "/tmp/harbor-$HARBOR_VERSION.tgz"
-              "/tmp/amphora-x64-haproxy-$AMPHORA_VERIONS.qcow2"
+              "/tmp/amphora-x64-haproxy-$AMPHORA_VERION.qcow2"
               "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
               '/tmp/repo.zip'
               '/tmp/openstack-env.sh'
