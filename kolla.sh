@@ -602,7 +602,7 @@ openstack image create amphora-x64-haproxy \
   --disk-format qcow2 \
   --tag amphora \
   --private \
-  --file /tmp/amphora-x64-haproxy-$AMPHORA_VERIONS.qcow2 \
+  --file /tmp/amphora-x64-haproxy-$AMPHORA_VERION.qcow2 \
   --property hw_architecture='x86_64' \
   --property hw_rng_model=virtio
 

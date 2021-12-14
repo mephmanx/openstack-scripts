@@ -54,7 +54,7 @@ export MAGNUM_IMAGE_VERSION="Fedora-Atomic-27-20180419.0"
 export CF_ATTIC_TERRAFORM_VERSION="0.11.15"
 export DOCKER_COMPOSE_VERSION="1.29.2"
 export UBUNTU_VERSION="18.04"
-export AMPHORA_VERIONS="1.0.1"
+export AMPHORA_VERION="1.0.1"
 
 ### hostnames for infra vms
 export SUPPORT_HOST=harbor;
