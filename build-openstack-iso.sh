@@ -83,24 +83,24 @@ if [ ! -f "/tmp/trove_instance-$UBUNTU_VERSION.img" ]; then
   wget -O /tmp/trove_instance-$UBUNTU_VERSION.img ${TROVE_INSTANCE_IMAGE}
 fi
 
-if [ ! -f "/tmp/trove_db.img" ]; then
-  wget -O /tmp/trove_db.img ${TROVE_DB_IMAGE}
+if [ ! -f "/tmp/trove_db-$TROVE_DB_VERSION.img" ]; then
+  wget -O /tmp/trove_db-$TROVE_DB_VERSION.img ${TROVE_DB_IMAGE}
 fi
 
-if [ ! -f "/tmp/libtpms.zip" ]; then
-  wget -O /tmp/libtpms.zip ${LIBTPMS_GIT}
+if [ ! -f "/tmp/libtpms-$SWTPM_VERSION.zip" ]; then
+  wget -O /tmp/libtpms-$SWTPM_VERSION.zip ${LIBTPMS_GIT}
 fi
 
-if [ ! -f "/tmp/swtpm.zip" ]; then
-  wget -O /tmp/swtpm.zip ${SWTPM_GIT}
+if [ ! -f "/tmp/swtpm-$SWTPM_VERSION.zip" ]; then
+  wget -O /tmp/swtpm-$SWTPM_VERSION.zip ${SWTPM_GIT}
 fi
 
 if [ ! -f "/tmp/cf-templates.zip" ]; then
   wget -O /tmp/cf-templates.zip ${BOSH_OPENSTACK_ENVIRONMENT_TEMPLATES}
 fi
 
-if [ ! -f "/tmp/cf_deployment.zip" ]; then
-  wget -O /tmp/cf_deployment.zip ${CF_DEPLOYMENT}
+if [ ! -f "/tmp/cf_deployment-$CF_DEPLOY_VERSION.zip" ]; then
+  wget -O /tmp/cf_deployment-$CF_DEPLOY_VERSION.zip ${CF_DEPLOYMENT}
 fi
 
 if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
@@ -124,11 +124,11 @@ embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
               '/tmp/openstack-env.sh'
               '/tmp/linux.iso'
               "/tmp/trove_instance-$UBUNTU_VERSION.img"
-              '/tmp/trove_db.img'
-              '/tmp/libtpms.zip'
-              '/tmp/swtpm.zip'
+              "/tmp/trove_db-$TROVE_DB_VERSION.img"
+              "/tmp/libtpms-$SWTPM_VERSION.zip"
+              "/tmp/swtpm-$SWTPM_VERSION.zip"
               '/tmp/cf-templates.zip'
-              '/tmp/cf_deployment.zip'
+              "/tmp/cf_deployment-$CF_DEPLOY_VERSION.zip"
               "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION"
               '/tmp/project_config.sh'
               '/tmp/bosh.tgz')

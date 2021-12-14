@@ -60,6 +60,10 @@ export CF_ATTIC_TERRAFORM_VERSION="0.11.15"
 export DOCKER_COMPOSE_VERSION="1.29.2"
 export UBUNTU_VERSION="18.04"
 export AMPHORA_VERION="1.0.1"
+export TROVE_DB_VERSION="xena"
+export CF_DEPLOY_VERSION="v17.0.0"
+export SWTPM_VERSION="1.0.0"
+
 
 ### hostnames for infra vms
 export SUPPORT_HOST=harbor;

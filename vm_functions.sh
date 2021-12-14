@@ -151,8 +151,8 @@ function restrict_to_root() {
 }
 
 function vtpm() {
-  unzip /tmp/libtpms.zip -d /root/libtpms
-  unzip /tmp/swtpm.zip -d /root/swtpm
+  unzip /tmp/libtpms-$SWTPM_VERSION.zip -d /root/libtpms
+  unzip /tmp/swtpm-$SWTPM_VERSION.zip -d /root/swtpm
   mv /root/libtpms/libtpms-master/* /root/libtpms
   mv /root/swtpm/swtpm-master/* /root/swtpm
   ###### vTPM setup #####

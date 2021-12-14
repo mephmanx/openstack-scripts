@@ -127,8 +127,8 @@ function buildAndPushVMTypeISO {
                 '/root/.ssh/id_rsa.pub'
                 '/tmp/openstack-setup.key'
                 '/tmp/openstack-setup.key.pub'
-                '/tmp/libtpms.zip'
-                '/tmp/swtpm.zip'
+                "/tmp/libtpms-$SWTPM_VERSION.zip"
+                "/tmp/swtpm-$SWTPM_VERSION.zip"
                 "/tmp/openstack-scripts/$vm_type.sh"
                 '/tmp/openstack-scripts/init-cloud_common.sh'
                 '/tmp/openstack-env.sh')
@@ -180,7 +180,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/control-trust.sh'
                 '/tmp/host_count'
                 "/tmp/trove_instance-$UBUNTU_VERSION.img"
-                '/tmp/trove_db.img'
+                "/tmp/trove_db-$TROVE_DB_VERSION.img"
                 "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
                 '/tmp/host_list'
                 '/root/.ssh/id_rsa.crt'
@@ -195,10 +195,10 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/openstack-env.sh'
                 '/tmp/openstack-scripts/init-cloud_common.sh'
-                '/tmp/libtpms.zip'
-                '/tmp/swtpm.zip'
+                "/tmp/libtpms-$SWTPM_VERSION.zip"
+                "/tmp/swtpm-$SWTPM_VERSION.zip"
                 '/tmp/cf-templates.zip'
-                '/tmp/cf_deployment.zip'
+                "/tmp/cf_deployment-$CF_DEPLOY_VERSION.zip"
                 '/tmp/project_config.sh'
                 '/tmp/bosh.tgz')
 

@@ -405,7 +405,7 @@ export TROVE_CIDR="$TROVE_NETWORK.0/24"
 export TROVE_RANGE="start=$TROVE_DHCP_START,end=$TROVE_DHCP_END"
 export TROVE_GATEWAY="$TROVE_NETWORK.1"
 
-openstack image create trove-master-guest-ubuntu --private --disk-format qcow2 --container-format bare --tag trove --tag mysql --tag mariadb --tag postgresql --file /tmp/trove_db.img
+openstack image create trove-master-guest-ubuntu --private --disk-format qcow2 --container-format bare --tag trove --tag mysql --tag mariadb --tag postgresql --file /tmp/trove_db-$TROVE_DB_VERSION.img
 openstack image create trove-base --disk-format qcow2 --container-format bare --file /tmp/trove_instance-$UBUNTU_VERSION.img
 
 test=`openstack image show 'trove-base'`
@@ -799,7 +799,7 @@ openstack floating ip create --subnet ${LB_FIP_SUBNET} \
 ###
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Env prep script complete, pulling CF deployment repo...."
-unzip /tmp/cf_deployment.zip -d /tmp/cf-deployment
+unzip /tmp/cf_deployment-$CF_DEPLOY_VERSION.zip -d /tmp/cf-deployment
 mv /tmp/cf-deployment/cf-deployment-main/* /tmp/cf-deployment
 chown -R stack /tmp/cf-deployment
 
