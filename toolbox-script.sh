@@ -6,8 +6,5 @@ set -x
 
 source /tmp/openstack-env.sh
 source ./vm_functions.sh
-## prep project config by replacing nested vars]
-prep_project_config
-#########
 
 ./create-$1-kvm.sh &
