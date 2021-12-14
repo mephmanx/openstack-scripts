@@ -46,6 +46,11 @@ export DOCKER_COMPOSE=https://github.com/docker/compose/releases/download/$DOCKE
 ## generate internal domain name
 export INTERNAL_DOMAIN_NAME=$INT_DOM_NAME;
 
+### Enable auto-update
+## This enables the centos/stream auto update function on install.
+## Auto update can be enabled later if not enabled here, this just sets it up and enables it for you.
+export LINUX_AUTOUPDATE=1
+
 ## library versions
 ## this will force cache update if changed
 export HARBOR_VERSION="v2.4.0"
