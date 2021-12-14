@@ -54,7 +54,6 @@ if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERIONS.qcow2" ]; then
   git clone https://opendev.org/openstack/octavia -b master /tmp/octavia
   pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org diskimage-builder
   chmod +x /tmp/octavia/diskimage-create/diskimage-create.sh
-  chown -R stack /tmp/octavia/diskimage-create/diskimage-create.sh
   pwd=`pwd`
   cd /tmp/octavia/diskimage-create;
   ./diskimage-create.sh;
