@@ -111,8 +111,8 @@ rm -rf /tmp/repo.zip
 zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*" -x "build*" -x "*openstack.cfg" -x "toolbox*"
 
 ### download director & jumpbox stemcell
-if [ ! -f "/tmp/bosh.tgz" ]; then
-  curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$BOSH_STEMCELL-go_agent --output /tmp/bosh.tgz > /dev/null
+if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
+  curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$BOSH_STEMCELL-go_agent --output /tmp/bosh-$STEMCELL_STAMP.tgz > /dev/null
 fi
 
 embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
@@ -131,15 +131,15 @@ embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
               "/tmp/cf_deployment-$CF_DEPLOY_VERSION.zip"
               "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION"
               '/tmp/project_config.sh'
-              '/tmp/bosh.tgz')
+              "/tmp/bosh-$STEMCELL_STAMP.tgz")
 
 IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
 for stemcell in "${stemcell_array[@]}";
 do
-  if [ ! -f "/tmp/stemcell-$stemcell.tgz" ]; then
-    curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$stemcell-go_agent --output /tmp/stemcell-$stemcell.tgz > /dev/null
+  if [ ! -f "/tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz" ]; then
+    curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$stemcell-go_agent --output /tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz > /dev/null
   fi
-  embed_files+=("/tmp/stemcell-$stemcell.tgz")
+  embed_files+=("/tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz")
 done
 ####
 

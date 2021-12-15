@@ -200,10 +200,10 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/cf-templates.zip'
                 "/tmp/cf_deployment-$CF_DEPLOY_VERSION.zip"
                 '/tmp/project_config.sh'
-                '/tmp/bosh.tgz')
+                "/tmp/bosh-$STEMCELL_STAMP.tgz")
 
   IFS=$'\n'
-  for stemcell in $(ls /tmp/stemcell-*.tgz);
+  for stemcell in $(ls /tmp/stemcell-*-$STEMCELL_STAMP.tgz);
   do
     embed_files+=("$stemcell")
   done

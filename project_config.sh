@@ -63,6 +63,7 @@ export AMPHORA_VERSION="1.0.1"
 export TROVE_DB_VERSION="xena"
 export CF_DEPLOY_VERSION="v17.0.0"
 export SWTPM_VERSION="1.0.0"
+export STEMCELL_STAMP="12-14-2021"
 
 ### hostnames for infra vms
 export SUPPORT_HOST=harbor;

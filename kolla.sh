@@ -707,12 +707,12 @@ fi
 ### modify director / jumpbox  here
 ### create-director changes
 chown -R stack /tmp/bosh.tgz
-runuser -l stack -c  'echo "-o /opt/stack/bosh-deployment/misc/trusted-certs.yml --var-file=trusted_ca_cert=/opt/stack/id_rsa.crt \
+runuser -l stack -c  "echo '-o /opt/stack/bosh-deployment/misc/trusted-certs.yml --var-file=trusted_ca_cert=/opt/stack/id_rsa.crt \
                             -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml  \
-                            -o /opt/stack/bosh-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh.tgz" >> /opt/stack/create-director.sh'
+                            -o /opt/stack/bosh-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh-$STEMCELL_STAMP.tgz' >> /opt/stack/create-director.sh"
 
 ## create-jumpbox changes
-runuser -l stack -c  'echo " -o /opt/stack/bosh-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh.tgz " >> /opt/stack/create-jumpbox.sh'
+runuser -l stack -c  "echo ' -o /opt/stack/bosh-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh-$STEMCELL_STAMP.tgz ' >> /opt/stack/create-jumpbox.sh"
 ####
 
 ### deploy bosh!
@@ -832,8 +832,8 @@ runuser -l stack -c  "source /opt/stack/.bash_profile"
 #### prep variables
 
 ### push cached stemcells to cloud
-stemcell_path="/tmp/stemcell-*.tgz"
-chown -R stack /tmp/stemcell-*.tgz
+stemcell_path="/tmp/stemcell-*-$STEMCELL_STAMP.tgz"
+chown -R stack /tmp/stemcell-*-$STEMCELL_STAMP.tgz
 
 for stemcell in $stemcell_path; do
   echo "queued" > /tmp/stemcell-upload.log
