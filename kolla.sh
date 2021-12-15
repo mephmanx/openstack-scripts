@@ -864,16 +864,6 @@ export OS_PROJECT_NAME=cloudfoundry
 export OS_USERNAME=$OPENSTACK_CLOUDFOUNDRY_USERNAME
 export OS_PASSWORD=$OPENSTACK_CLOUDFOUNDRY_PWD
 
-## execute server security group changes
-#openstack security group rule create --proto udp --dst-port 68:68 cf
-#openstack security group rule create --proto udp --dst-port 3457:3457 cf
-#openstack security group rule create --proto icmp cf
-#openstack security group rule create --proto tcp --dst-port 22:22 cf
-#openstack security group rule create --proto tcp --dst-port 80:80 cf
-#openstack security group rule create --proto tcp --dst-port 443:443 cf
-#openstack security group rule create --proto tcp --dst-port 4443:4443 cf
-#openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group $(openstack security group show cf | grep id | head -n 1 | cut -d"|" -f3) cf
-
 openstack server add security group bosh/0 cf-deployment-for-bosh
 openstack security group create bosh
 openstack security group rule create --proto tcp --dst-port 22:22 bosh
@@ -953,13 +943,6 @@ cd /opt/stack
 ./expect.sh
 cd $pwd
 #########
-
-#PUB_KEY=`cat /root/.ssh/id_rsa.pub`
-### add ssh key into the manifest to hopefully allow ssh into the cloudfoundry vms
-#sed -i '/stemcell: default/a\ \ env: ' /tmp/cf-deployment/cf-deployment.yml
-#sed -i '/env: /a\ \ \ \ bosh: ' /tmp/cf-deployment/cf-deployment.yml
-#sed -i "/bosh: /a\ \ \ \ \ \ authorized_keys: '$PUB_KEY'" /tmp/cf-deployment/cf-deployment.yml
-#####
 
 ### deploy cloudfoundry
 #this is to make the CF install fall into the below loop as it seems to need 2 deployments to fully deploy
