@@ -103,12 +103,6 @@ while [ $node_ct -gt 0 ]; do
   ((node_ct--))
 done
 
-node_ct=20
-while [ $node_ct -gt 0 ]; do
-  ip link set Node${node_ct}s up
-  ((node_ct--))
-done
-
 node_ct=10
 while [ $node_ct -gt 0 ]; do
   brctl addif loc-static Node${node_ct}s
