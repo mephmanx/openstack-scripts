@@ -267,11 +267,6 @@ function create_vm_kvm {
   printf -v virt_disk_string '%s ' "${virt_disk_list[@]}"
   printf -v virt_network_string '%s ' "${virt_network_list[@]}"
 
-  autostart=""
-  if [[ $option != "kolla" ]]; then
-    autostart=" --autostart"
-  fi
-
   #### kvm cpu topology
   threads=2
   if [[ $cpu_ct > 4 ]]; then
@@ -305,7 +300,7 @@ function create_vm_kvm {
   create_line+="$virt_network_string"
   create_line+="--os-variant=centos8 "
   create_line+="--graphics=vnc "
-  create_line+="$autostart"
+  create_line+=" --autostart"
 
   echo $create_line
   eval $create_line &
