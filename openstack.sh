@@ -49,6 +49,7 @@ tuned-adm profile virtual-host
 #############
 
 #### restart cockpit to make sure it is up
+systemctl enable --now cockpit.socket
 systemctl restart cockpit
 ####################
 
