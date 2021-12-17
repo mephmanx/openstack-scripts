@@ -78,6 +78,11 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudsupport VM ready for use"
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 
+cat > /etc/rc.d/rc.local <<EOF
+docker-compose down
+docker-compose up -d
+EOF
+chmod +x /etc/rc.d/rc.local
 }
 
 stop() {
