@@ -213,7 +213,6 @@ function prep_project_config() {
   sed -i 's/$NETWORK_PREFIX/'$NETWORK_PREFIX'/g' /tmp/project_config.sh
   sed -i 's/$TROVE_NETWORK/'$TROVE_NETWORK'/g' /tmp/project_config.sh
   sed -i 's/$LB_NETWORK/'$LB_NETWORK'/g' /tmp/project_config.sh
-  sed -i 's/$INT_DOM_NAME/'$(generate_random_word)'.local/g' /tmp/project_config.sh
   sed -i 's/$HARBOR_VERSION/'$HARBOR_VERSION'/g' /tmp/project_config.sh
   sed -i 's/$PFSENSE_VERSION/'$PFSENSE_VERSION'/g' /tmp/project_config.sh
   sed -i 's/$MAGNUM_IMAGE_VERSION/'$MAGNUM_IMAGE_VERSION'/g' /tmp/project_config.sh
