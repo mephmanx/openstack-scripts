@@ -62,7 +62,7 @@ cd /usr/local/etc/rc.d
 # start snort
 ./snort.sh start
 # start telegraf
-./telegraf.sh start
+./telegraf.sh start &
 ####
 
 ## perform any cleanup here
