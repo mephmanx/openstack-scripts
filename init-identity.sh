@@ -97,7 +97,6 @@ runuser -l root -c "ipa-dns-install --auto-forwarders --auto-reverse --no-dnssec
 echo $ADMIN_PWD | kinit admin
 
 ## run record adds here after kinint for auth
-runuser -l root -c "ipa dnszone-mod $INTERNAL_DOMAIN_NAME. --allow-query=$NETWORK_PREFIX.0/24\;$LB_NETWORK.0/24\;$TROVE_NETWORK.0\;$VPN_NETWORK.0/24\;10.0.16.0/24"
 runuser -l root -c "ipa dnszone-mod $INTERNAL_DOMAIN_NAME. --allow-sync-ptr=TRUE"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '*' --a-ip-address=$LB_ROUTER_IP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_INTERNAL_HOSTNAME' --a-ip-address=$INTERNAL_VIP"
