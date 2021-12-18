@@ -75,6 +75,7 @@ ip link set vm2 up
 
 nmcli connection modify loc-static ipv4.addresses ${LAN_CENTOS_IP}/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
 
+sleep 20
 ### amp-net
 ip link add dev vm3 type veth peer name vm4
 ip link set dev vm3 up
