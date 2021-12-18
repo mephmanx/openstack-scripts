@@ -49,7 +49,7 @@ tuned-adm profile virtual-host
 #############
 
 #### restart cockpit to make sure it is up
-if [[ $HYPERVISOR_DEBUG == 0 ]]; then
+if [[ $HYPERVISOR_DEBUG == 1 ]]; then
   systemctl enable --now cockpit.socket
   systemctl restart cockpit
 fi
@@ -75,7 +75,6 @@ ip link set vm2 up
 
 nmcli connection modify loc-static ipv4.addresses ${LAN_CENTOS_IP}/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
 
-sleep 20
 ### amp-net
 ip link add dev vm3 type veth peer name vm4
 ip link set dev vm3 up
