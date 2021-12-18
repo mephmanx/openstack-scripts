@@ -49,8 +49,10 @@ tuned-adm profile virtual-host
 #############
 
 #### restart cockpit to make sure it is up
-systemctl enable --now cockpit.socket
-systemctl restart cockpit
+if [[ $HYPERVISOR_DEBUG == 0 ]]; then
+  systemctl enable --now cockpit.socket
+  systemctl restart cockpit
+fi
 ####################
 
 ########## configure and start networks
