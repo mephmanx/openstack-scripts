@@ -734,7 +734,7 @@ chown -R stack cf-deployment-tf/
 cd cf-deployment-tf
 cp /tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip ./
 
-unzip terraform_cf--$CF_ATTIC_TERRAFORM_VERSION.zip
+unzip terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip
 chmod +x terraform
 chown -R stack terraform
 
