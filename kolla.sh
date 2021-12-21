@@ -1206,25 +1206,6 @@ post_install_cleanup
 
 restrict_to_root
 
-cat > /etc/rc.d/rc.local <<EOF
-cd /opt/stack
-source .bash_profile
-
-## start amphora first
-source /etc/kolla/octavia-openrc.sh
-openstack server start `openstack server list | awk -F'|' ' NR > 3 && !/^+--/ { print $3} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }'`
-
-## log on as osuser to start bosh and jumpserver
-source .bash_profile
-export OS_PROJECT_NAME=cloudfoundry
-export OS_USERNAME=$OPENSTACK_CLOUDFOUNDRY_USERNAME
-export OS_PASSWORD=$OPENSTACK_CLOUDFOUNDRY_PWD
-openstack server start jumpbox/0
-openstack server start bosh/0
-sleep 60;
-bosh cloud-check -e 10.0.1.6 -d cf
-EOF
-chmod +x /etc/rc.d/rc.local
 }
 
 stop() {
