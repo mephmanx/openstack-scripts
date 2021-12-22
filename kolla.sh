@@ -275,6 +275,7 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cache pull/prime complete!  Ins
 ### nova.conf options
 echo "[libvirt]" >> /etc/kolla/config/nova.conf
 echo "swtpm_enabled=true" >> /etc/kolla/config/nova.conf
+echo "[DEFAULT]" >> /etc/kolla/config/nova.conf
 echo "resume_guests_state_on_host_boot=true" >> /etc/kolla/config/nova.conf
 
 #echo "[vnc]" >> /etc/kolla/config/nova.conf
