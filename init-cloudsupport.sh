@@ -79,8 +79,17 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudsupport VM ready for use"
 rm -rf /etc/rc.d/rc.local
 
 cat > /etc/rc.d/rc.local <<EOF
-docker-compose down
-docker-compose up -d
+export etext=`echo -n "admin:$ADMIN_PWD" | base64`
+status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
+
+while [ "$status_code" -ne 200 ] ; do
+  docker-compose down
+  sleep 20;
+  docker-compose up -d
+  sleep 30;
+  status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
+done
+
 EOF
 chmod +x /etc/rc.d/rc.local
 }
