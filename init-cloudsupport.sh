@@ -88,14 +88,14 @@ set -x                             # tell sh to display commands before executio
 
 sleep 30
 export etext=`echo -n "admin:$ADMIN_PWD" | base64`
-status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
+status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/projects/2 --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
 cd /root/harbor
 while [ "$status_code" -ne 200 ] ; do
   docker-compose down
   sleep 20;
   docker-compose up -d
   sleep 30;
-  status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
+  status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/projects/2 --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
 done
 }
 
