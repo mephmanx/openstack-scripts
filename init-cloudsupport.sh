@@ -79,6 +79,14 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudsupport VM ready for use"
 rm -rf /etc/rc.d/rc.local
 
 cat > /etc/rc.d/rc.local <<EOF
+#!/bin/bash
+
+start() {
+rm -rf /root/harbor-boot.log
+exec 1>/root/harbor-boot.log 2>&1 # send stdout and stderr from rc.local to a log file
+set -x                             # tell sh to display commands before execution
+
+sleep 30
 export etext=`echo -n "admin:$ADMIN_PWD" | base64`
 status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
 cd /root/harbor
@@ -89,7 +97,36 @@ while [ "$status_code" -ne 200 ] ; do
   sleep 30;
   status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
 done
+}
 
+stop() {
+    # code to stop app comes here
+    # example: killproc program_name
+    /bin/true
+}
+
+case "$1" in
+    start)
+       start
+       ;;
+    stop)
+        /bin/true
+       stop
+       ;;
+    restart)
+       stop
+       start
+       ;;
+    status)
+        /bin/true
+       # code to check status of app comes here
+       # example: status program_name
+       ;;
+    *)
+       echo "Usage: $0 {start|stop|status|restart}"
+esac
+
+exit 0
 EOF
 chmod +x /etc/rc.d/rc.local
 }
