@@ -82,8 +82,8 @@ cat > /etc/rc.d/rc.local <<EOF
 #!/bin/bash
 
 start() {
-rm -rf /root/harbor-boot.log
-exec 1>/root/harbor-boot.log 2>&1 # send stdout and stderr from rc.local to a log file
+rm -rf /tmp/harbor-boot.log
+exec 1>/tmp/harbor-boot.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
 sleep 30
