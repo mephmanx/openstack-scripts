@@ -1055,7 +1055,7 @@ cat > /opt/stack/asg.json <<EOF
   {
     "protocol": "tcp",
     "destination": "10.1.0.0/24",
-    "ports": "80,443",
+    "ports": "80,443,2222",
     "log": true,
     "description": "Allow http and https traffic to ZoneA"
   }
