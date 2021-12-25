@@ -1044,6 +1044,14 @@ cf create-quota $INTERNAL_DOMAIN_NAME -i 8096M -m "$memGB"G -r 1000 -s 1000 -a 1
 cf set-quota $INTERNAL_DOMAIN_NAME $INTERNAL_DOMAIN_NAME
 
 ### install security group
+export PT_CT="$CF_TCP_PORT_COUNT"
+export PORTS=()
+while [ $PT_CT -gt -1 ]; do
+  PORTS+=($((1024 + $PT_CT)))
+  ((PT_CT--))
+done
+printf -v cf_tcp_ports '%s, ' "${PORTS[@]}"
+echo $cf_tcp_ports
 cat > /opt/stack/asg.json <<EOF
 [
   {
@@ -1055,7 +1063,7 @@ cat > /opt/stack/asg.json <<EOF
   {
     "protocol": "tcp",
     "destination": "10.1.0.0/24",
-    "ports": "80,443,2222",
+    "ports": "$cf_tcp_ports 80,443,2222",
     "log": true,
     "description": "Allow http and https traffic to ZoneA"
   }
