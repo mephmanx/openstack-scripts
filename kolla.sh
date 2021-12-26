@@ -1050,7 +1050,7 @@ while [ $PT_CT -gt -1 ]; do
   PORTS+=($((1024 + $PT_CT)))
   ((PT_CT--))
 done
-printf -v cf_tcp_ports '%s, ' "${PORTS[@]}"
+printf -v cf_tcp_ports '%s,' "${PORTS[@]}"
 echo $cf_tcp_ports
 cat > /opt/stack/asg.json <<EOF
 [
