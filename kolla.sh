@@ -1037,8 +1037,11 @@ while [ $PT_CT -gt -1 ]; do
   PORTS+=($((1024 + $PT_CT)))
   ((PT_CT--))
 done
+PORTS+=("80")
+PORTS+=("443")
+PORTS+=("2222")
 printf -v cf_tcp_ports '%s,' "${PORTS[@]}"
-echo $cf_tcp_ports
+cf_tcp_ports=`echo $cf_tcp_ports | rev | cut -c 2- | rev`
 cat > /opt/stack/asg.json <<EOF
 [
   {
@@ -1050,7 +1053,7 @@ cat > /opt/stack/asg.json <<EOF
   {
     "protocol": "tcp",
     "destination": "10.1.0.0/24",
-    "ports": "$cf_tcp_ports 80,443,2222",
+    "ports": "$cf_tcp_ports",
     "log": true,
     "description": "Allow http and https traffic to ZoneA"
   }
