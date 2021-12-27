@@ -1005,19 +1005,6 @@ LOG_TAIL=`tail -25 /tmp/cloudfoundry-install.log`
 telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install tail -> $LOG_TAIL"
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install complete!  Beginning Stratos UI deploy"
 
-## install cf cli
-cat > /tmp/cloudfoundry-cli.repo <<EOF
-[cloudfoundry-cli]
-name=Cloud Foundry CLI
-baseurl=https://packages.cloudfoundry.org/fedora
-enabled=1
-gpgcheck=1
-gpgkey=https://packages.cloudfoundry.org/fedora/cli.cloudfoundry.org.key
-EOF
-
-runuser -l root -c  "cp /tmp/cloudfoundry-cli.repo /etc/yum.repos.d/cloudfoundry-cli.repo"
-runuser -l root -c  "yum install -y cf7-cli"
-
 # cf api login
 cf login -a api.$INTERNAL_DOMAIN_NAME -u admin -p $OPENSTACK_CLOUDFOUNDRY_PWD
 
