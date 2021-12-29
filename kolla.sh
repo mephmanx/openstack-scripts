@@ -275,8 +275,8 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cache pull/prime complete!  Ins
 ### nova.conf options
 echo "[libvirt]" >> /etc/kolla/config/nova.conf
 echo "swtpm_enabled=true" >> /etc/kolla/config/nova.conf
-echo "[DEFAULT]" >> /etc/kolla/config/nova.conf
-echo "resume_guests_state_on_host_boot=true" >> /etc/kolla/config/nova.conf
+#echo "[DEFAULT]" >> /etc/kolla/config/nova.conf
+#echo "resume_guests_state_on_host_boot=true" >> /etc/kolla/config/nova.conf
 
 #echo "[vnc]" >> /etc/kolla/config/nova.conf
 #echo "novncproxy_base_url=https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:6080/vnc_auto.html" >> /etc/kolla/config/nova.conf
@@ -1025,8 +1025,9 @@ cf target -o "system" -s "system"
 cf update-quota default -i 2G -m 4G
 
 ### determine quota formula.  this is memory on compute server to be made available for cloudfoundry org.
-## Remember, other VM's run on compute (amphora, DBaas, BOSH, docker/kube clusters, etc) so make sure to leave enough for them!
-memGB=$((mem / 1024 / 1024 - 32 * (CF_MEMORY_ALLOCATION_PCT / 100)))
+memStrFree=`runuser -l root -c "ssh root@compute01 'cat /proc/meminfo | grep MemFree'"`
+memFree=`echo $memStrFree | awk -F' ' '{ print $2 }'`
+memGB=$((memFree / 1024 / 1024 * CF_MEMORY_ALLOCATION_PCT / 100))
 cf create-quota $INTERNAL_DOMAIN_NAME -i 8096M -m "$memGB"G -r 1000 -s 1000 -a 1000 --allow-paid-service-plans --reserved-route-ports $CF_TCP_PORT_COUNT
 cf set-quota $INTERNAL_DOMAIN_NAME $INTERNAL_DOMAIN_NAME
 
@@ -1205,6 +1206,26 @@ post_install_cleanup
 
 restrict_to_root
 
+cat > /etc/rc.d/rc.local <<EOF
+cd /opt/stack
+source .bash_profile
+source /tmp/bbl_env.sh
+
+## start amphora first
+source /etc/kolla/octavia-openrc.sh
+openstack server start `openstack server list | awk -F'|' ' NR > 3 && !/^+--/ { print $3} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }'`
+
+## log on as osuser to start bosh and jumpserver
+source .bash_profile
+export OS_PROJECT_NAME=cloudfoundry
+export OS_USERNAME=$OPENSTACK_CLOUDFOUNDRY_USERNAME
+export OS_PASSWORD=$OPENSTACK_CLOUDFOUNDRY_PWD
+openstack server start jumpbox/0
+openstack server start bosh/0
+sleep 60;
+
+EOF
+chmod +x /etc/rc.d/rc.local
 }
 
 stop() {
