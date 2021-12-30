@@ -34,9 +34,9 @@ sed -i 's/{DIRECTORY_MGR_PWD}/'$DIRECTORY_MGR_PWD'/g' ${kickstart_file}
 sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd)'/g' ${kickstart_file}
 ###########################
 
-embed_files=('/root/.ssh/id_rsa.crt'
-              '/root/.ssh/id_rsa.pub'
-              '/root/.ssh/id_rsa.key'
+embed_files=('/tmp/ssh/id_rsa.crt'
+              '/tmp/ssh/id_rsa.pub'
+              '/tmp/ssh/id_rsa.key'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
               '/tmp/openstack-scripts/init-identity.sh'

@@ -32,17 +32,17 @@ EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
 ###################
 
 ## generate OpenVPN TLS secret key
-runuser -l root -c  'openvpn --genkey --secret /root/.ssh/openvpn-secret.key'
+runuser -l root -c  'openvpn --genkey --secret /tmp/ssh/openvpn-secret.key'
 
 ### replace variables
 ## load generated cert variables
-CA_KEY=`cat /root/.ssh/id_rsa.key | base64 | tr -d '\n\r'`
-CA_CRT=`cat /root/.ssh/id_rsa.crt | base64 | tr -d '\n\r'`
+CA_KEY=`cat /tmp/ssh/id_rsa.key | base64 | tr -d '\n\r'`
+CA_CRT=`cat /tmp/ssh/id_rsa.crt | base64 | tr -d '\n\r'`
 
-INITIAL_WILDCARD_CRT=`cat /root/.ssh/wildcard.crt | base64 | tr -d '\n\r'`
-INITIAL_WILDCARD_KEY=`cat /root/.ssh/wildcard.key | base64 | tr -d '\n\r'`
+INITIAL_WILDCARD_CRT=`cat /tmp/ssh/wildcard.crt | base64 | tr -d '\n\r'`
+INITIAL_WILDCARD_KEY=`cat /tmp/ssh/wildcard.key | base64 | tr -d '\n\r'`
 
-OPEN_VPN_TLS_KEY=`cat /root/.ssh/openvpn-secret.key | base64 | tr -d '\n\r'`
+OPEN_VPN_TLS_KEY=`cat /tmp/ssh/openvpn-secret.key | base64 | tr -d '\n\r'`
 #########
 
 ### cloudfoundry TCP ports
