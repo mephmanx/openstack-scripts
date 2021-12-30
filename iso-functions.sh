@@ -97,6 +97,7 @@ function closeOutAndBuildKickstartAndISO {
   cd $pwd2
   sudo ksvalidator /var/tmp/${vm_name}/ks.cfg
   cd /var/tmp/${vm_name}
+  rm -rf ${vm_name}-iso.iso
   sudo genisoimage -o ../${vm_name}-iso.iso \
     -b isolinux/isolinux.bin \
     -c isolinux/boot.cat \
