@@ -148,12 +148,7 @@ function buildAndPushOpenstackSetupISO {
   cat /root/.ssh/wildcard.key >> /tmp/haproxy.pem
   cat /root/.ssh/wildcard.crt >> /tmp/haproxy.pem
   cat /root/.ssh/id_rsa.crt >> /tmp/haproxy.pem
-
-  touch /tmp/haproxy-internal.pem
-  cat /root/.ssh/wildcard.key >> /tmp/haproxy-internal.pem
-  cat /root/.ssh/wildcard.crt >> /tmp/haproxy-internal.pem
-  cat /root/.ssh/id_rsa.crt >> /tmp/haproxy-internal.pem
-  #################################
+  #####################
 
   ########## add host trust script
   touch /tmp/host-trust.sh
@@ -175,7 +170,6 @@ function buildAndPushOpenstackSetupISO {
   #####################################
   embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
                 '/tmp/haproxy.pem'
-                '/tmp/haproxy-internal.pem'
                 '/tmp/host-trust.sh'
                 '/tmp/control-trust.sh'
                 '/tmp/host_count'
