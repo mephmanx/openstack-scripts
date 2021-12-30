@@ -57,15 +57,6 @@ OPEN_VPN_TLS_KEY=`cat /root/.ssh/openvpn-secret.key | base64 | tr -d '\n\r'`
 CF_TCP_START_PORT=1024
 CF_TCP_END_PORT=$(($CF_TCP_START_PORT + $CF_TCP_PORT_COUNT))
 
-DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
-if [[ $DISK_COUNT -lt 2 ]]; then
-  size_avail=`df /VM-VOL-ALL | awk '{print $2}' | sed 1d`
-  DRIVE_SIZE=$(($((size_avail * 5/100)) / 1024 / 1024))
-else
-  size_avail=`df /VM-VOL-MISC | awk '{print $2}' | sed 1d`
-  DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
-fi
-
 DIRECTORY_MGR_PWD=$(generate_random_pwd)
 echo "$DIRECTORY_MGR_PWD" >> /root/directory_mgr_pwd
 ADMIN_PWD=`cat /root/env_admin_pwd`
