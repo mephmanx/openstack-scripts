@@ -65,6 +65,7 @@ if [ ! -f "/tmp/pfSense-$PFSENSE_VERSION.gz" ]; then
   wget -O /tmp/pfSense-$PFSENSE_VERSION.gz ${PFSENSE}
 fi
 cp /tmp/pfSense-$PFSENSE_VERSION.gz /tmp/pfSense-CE-memstick-ADI.img.gz
+rm -rf /tmp/pfSense-CE-memstick-ADI.img
 gunzip -f /tmp/pfSense-CE-memstick-ADI.img.gz
 
 if [ ! -f "/tmp/harbor-$HARBOR_VERSION.tgz" ]; then
@@ -119,6 +120,24 @@ fi
 ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
 ###########
 
+## setup cert directory
+rm -rf /tmp/ssh
+mkdir /tmp/ssh
+CERT_DIR="/tmp/ssh"
+runuser -l root -c  "mkdir $CERT_DIR"
+
+### CA key pass
+NEWPW=$(generate_random_pwd)
+###
+
+#### generate ssh keys
+# create CA cert before the network goes down to add ip to SAN
+create_ca_cert $NEWPW $CERT_DIR
+
+### initial wildcard cert
+create_server_cert $NEWPW $CERT_DIR "wildcard" "*"
+#############
+
 embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
               '/tmp/pfSense-CE-memstick-ADI.img'
               "/tmp/harbor-$HARBOR_VERSION.tgz"
@@ -126,6 +145,12 @@ embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
               "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
               '/tmp/openstack-setup.key'
               '/tmp/openstack-setup.key.pub'
+              '/tmp/ssh/id_rsa.pub'
+              '/tmp/ssh/id_rsa.key'
+              '/tmp/ssh/id_rsa.crt'
+              '/tmp/ssh/id_rsa'
+              '/tmp/ssh/wildcard.crt'
+              '/tmp/ssh/wildcard.key'
               '/tmp/repo.zip'
               '/tmp/openstack-env.sh'
               '/tmp/linux.iso'
