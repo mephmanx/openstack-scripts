@@ -137,6 +137,8 @@ create_ca_cert $NEWPW $CERT_DIR
 create_server_cert $NEWPW $CERT_DIR "wildcard" "*"
 #############
 
+
+
 embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
               '/tmp/pfSense-CE-memstick-ADI.img'
               "/tmp/harbor-$HARBOR_VERSION.tgz"

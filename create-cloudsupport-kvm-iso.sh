@@ -35,11 +35,11 @@ sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd)'/g' ${kickstart_file}
 ###########################
 
 embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
-              '/tmp/ssh/id_rsa.pub'
+              '/tmp/id_rsa.pub'
               '/tmp/openstack-setup.key'
               '/tmp/openstack-setup.key.pub'
-              '/tmp/ssh/wildcard.crt'
-              '/tmp/ssh/wildcard.key'
+              '/tmp/wildcard.crt'
+              '/tmp/wildcard.key'
               '/tmp/openstack-scripts/harbor.yml'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
