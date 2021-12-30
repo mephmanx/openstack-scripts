@@ -10,6 +10,8 @@ exec 1>/root/init-install.log 2>&1 # send stdout and stderr from rc.local to a l
 set -x                             # tell sh to display commands before execution
 
 IP_DATA=`ifconfig vtnet0 | grep inet`
+DRIVE_SIZE=`geom disk list | grep Mediasize | sed 2d | awk '{ print $2 }'`
+sed -i 's/{CACHE_SIZE}/'$(($DRIVE_SIZE / 1024 / 1024 * 75/100))'/g' /conf/config.xml
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense initialization script beginning... \n\nCloud DMZ IP: $IP_DATA"
 
 ### perform downloads first so that VM installs can continue

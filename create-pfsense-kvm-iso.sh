@@ -114,7 +114,7 @@ sed -i 's/{CLOUDFOUNDRY_VIP}/'$CLOUDFOUNDRY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{IDENTITY_VIP}/'$IDENTITY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{DIRECTORY_MGR_PWD}/'$DIRECTORY_MGR_PWD'/g' /tmp/usb/config.xml
-sed -i 's/{CACHE_SIZE}/'$(($DRIVE_SIZE * 75/100 * 1024))'/g' /tmp/usb/config.xml
+#sed -i 's/{CACHE_SIZE}/'$(($DRIVE_SIZE * 75/100 * 1024))'/g' /tmp/usb/config.xml
 sed -i 's/{BASE_DN}/'$(baseDN)'/g' /tmp/usb/config.xml
 sed -i 's/{LB_ROUTER_IP}/'$LB_ROUTER_IP'/g' /tmp/usb/config.xml
 sed -i 's/{LB_DHCP_START}/'$LB_DHCP_START'/g' /tmp/usb/config.xml
