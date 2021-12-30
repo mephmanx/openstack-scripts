@@ -155,10 +155,6 @@ cd $pwd
 firewall-cmd --zone=internal --change-interface=loc-static --permanent
 firewall-cmd --permanent --zone=internal --add-port=8000/tcp
 
-##### build openstack vm keys
-ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
-###########
-
 runuser -l root -c  'cd /tmp/openstack-scripts; ./create-pfsense-kvm.sh'
 
 #remove so as to not run again

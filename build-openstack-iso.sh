@@ -115,11 +115,17 @@ if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
   curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$BOSH_STEMCELL-go_agent --output /tmp/bosh-$STEMCELL_STAMP.tgz > /dev/null
 fi
 
+##### build openstack vm keys
+ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
+###########
+
 embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
               '/tmp/pfSense-CE-memstick-ADI.img'
               "/tmp/harbor-$HARBOR_VERSION.tgz"
               "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2"
               "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
+              '/tmp/openstack-setup.key'
+              '/tmp/openstack-setup.key.pub'
               '/tmp/repo.zip'
               '/tmp/openstack-env.sh'
               '/tmp/linux.iso'
