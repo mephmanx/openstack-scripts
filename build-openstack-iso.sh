@@ -124,7 +124,6 @@ ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key
 rm -rf /tmp/id_rsa*
 rm -rf /tmp/wildcard.*
 CERT_DIR="/tmp"
-runuser -l root -c  "mkdir $CERT_DIR"
 
 ### CA key pass
 NEWPW=$(generate_random_pwd)
