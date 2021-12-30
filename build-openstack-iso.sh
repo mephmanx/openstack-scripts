@@ -121,9 +121,9 @@ ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key
 ###########
 
 ## setup cert directory
-rm -rf /tmp/ssh
-mkdir /tmp/ssh
-CERT_DIR="/tmp/ssh"
+rm -rf /tmp/id_rsa*
+rm -rf /tmp/wildcard.*
+CERT_DIR="/tmp"
 runuser -l root -c  "mkdir $CERT_DIR"
 
 ### CA key pass
@@ -145,12 +145,12 @@ embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
               "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
               '/tmp/openstack-setup.key'
               '/tmp/openstack-setup.key.pub'
-              '/tmp/ssh/id_rsa.pub'
-              '/tmp/ssh/id_rsa.key'
-              '/tmp/ssh/id_rsa.crt'
-              '/tmp/ssh/id_rsa'
-              '/tmp/ssh/wildcard.crt'
-              '/tmp/ssh/wildcard.key'
+              '/tmp/id_rsa.pub'
+              '/tmp/id_rsa.key'
+              '/tmp/id_rsa.crt'
+              '/tmp/id_rsa'
+              '/tmp/wildcard.crt'
+              '/tmp/wildcard.key'
               '/tmp/repo.zip'
               '/tmp/openstack-env.sh'
               '/tmp/linux.iso'
