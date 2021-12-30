@@ -11,10 +11,6 @@ source /tmp/project_config.sh
 
 KICKSTART_DIR=/tmp/openstack-scripts
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Removing existing identity vm and building image for new one...."
-
-removeVM_kvm "identity"
-
 IFS=
 rm -rf ${KICKSTART_DIR}/centos-8-kickstart-ld.cfg
 cp ${KICKSTART_DIR}/centos-8-kickstart-identity.cfg ${KICKSTART_DIR}/centos-8-kickstart-ld.cfg

@@ -11,12 +11,6 @@ source /tmp/project_config.sh
 
 KICKSTART_DIR=/tmp/openstack-scripts
 
-### if pfsense" images exists, skip this file
-removeVM_kvm "pfsense"
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Building PFSense VM"
-
-########## build router
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Fetching PFSense image....."
 ### make sure to get offset of fat32 partition to put config.xml file on stick to reload!
 
 ## watch this logic on update and make sure it gets the last fat32 partition
