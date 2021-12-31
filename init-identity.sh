@@ -104,6 +104,7 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_EXTERNAL_HOST
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$SUPPORT_HOST' --a-ip-address=$SUPPORT_VIP"
 
 #### groups
+/usr/bin/ipa group-add cloud-admins
 /usr/bin/ipa group-add openstack-admins
 /usr/bin/ipa group-add vpn-users
 
@@ -118,17 +119,13 @@ SSH_KEY=`cat /root/.ssh/id_rsa.pub`
 /usr/bin/ipa user-mod ipauser --sshpubkey="$SSH_KEY"
 
 #Add sudo rules
-/usr/bin/ipa sudorule-add su
-/usr/bin/ipa sudocmd-add /usr/bin/su
-/usr/bin/ipa sudorule-add-allow-command su --sudocmds /usr/bin/su
-/usr/bin/ipa sudorule-add-host su --hosts harbor.$INTERNAL_DOMAIN_NAME
-/usr/bin/ipa sudorule-add-user su --users ipauser
-/usr/bin/ipa sudorule-add defaults
-/usr/bin/ipa sudorule-add-option defaults --sudooption '!authenticate'
+/usr/bin/ipa sudorule-add sysadmin_sudo --hostcat=all --runasusercat=all --runasgroupcat=all --cmdcat=all
+/usr/bin/ipa sudorule-add-user sysadmin_sudo --group cloud-admins
 
 ##### group memberships
 /usr/bin/ipa group-add-member openstack-admins --users=ipauser
 /usr/bin/ipa group-add-member vpn-users --users=ipauser
+/usr/bin/ipa group-add-member cloud-admins --users=ipauser
 
 #### Continue cloud init
 ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;
