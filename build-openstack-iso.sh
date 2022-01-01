@@ -117,7 +117,7 @@ if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
 fi
 
 ./create-pfsense-kvm-iso.sh
-./create-identiy-kvm-iso.sh
+./create-identity-kvm-iso.sh
 ./create-cloud-kvm-iso.sh
 
 embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
