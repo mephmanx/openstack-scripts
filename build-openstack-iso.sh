@@ -116,6 +116,27 @@ if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
   curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$BOSH_STEMCELL-go_agent --output /tmp/bosh-$STEMCELL_STAMP.tgz > /dev/null
 fi
 
+##### build openstack vm keys
+ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
+###########
+
+## setup cert directory
+rm -rf /tmp/id_rsa*
+rm -rf /tmp/wildcard.*
+CERT_DIR="/tmp"
+
+### CA key pass
+NEWPW=$(generate_random_pwd 31)
+###
+
+#### generate ssh keys
+# create CA cert before the network goes down to add ip to SAN
+create_ca_cert $NEWPW $CERT_DIR
+
+### initial wildcard cert
+create_server_cert $NEWPW $CERT_DIR "wildcard" "*"
+#############
+
 ./create-pfsense-kvm-iso.sh
 ./create-identity-kvm-iso.sh
 ./create-cloud-kvm-iso.sh
