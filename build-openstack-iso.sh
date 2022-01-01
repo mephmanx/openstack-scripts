@@ -141,8 +141,7 @@ create_server_cert $NEWPW $CERT_DIR "wildcard" "*"
 ./create-identity-kvm-iso.sh
 ./create-cloud-kvm-iso.sh
 
-embed_files=('/tmp/pfSense-CE-memstick-ADI.img'
-              '/tmp/repo.zip'
+embed_files=('/tmp/repo.zip'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh')
 
