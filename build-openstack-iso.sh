@@ -141,23 +141,17 @@ create_server_cert $NEWPW $CERT_DIR "wildcard" "*"
 ./create-identity-kvm-iso.sh
 ./create-cloud-kvm-iso.sh
 
-embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
-              '/tmp/pfSense-CE-memstick-ADI.img'
-              "/tmp/harbor-$HARBOR_VERSION.tgz"
-              "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2"
-              "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
+embed_files=('/tmp/pfSense-CE-memstick-ADI.img'
               '/tmp/repo.zip'
               '/tmp/openstack-env.sh'
-              '/tmp/linux.iso'
-              "/tmp/trove_instance-$UBUNTU_VERSION.img"
-              "/tmp/trove_db-$TROVE_DB_VERSION.img"
-              "/tmp/libtpms-$SWTPM_VERSION.zip"
-              "/tmp/swtpm-$SWTPM_VERSION.zip"
-              '/tmp/cf-templates.zip'
-              "/tmp/cf_deployment-$CF_DEPLOY_VERSION.zip"
-              "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION"
-              '/tmp/project_config.sh'
-              "/tmp/bosh-$STEMCELL_STAMP.tgz")
+              '/tmp/project_config.sh')
+
+iso_images="/var/tmp/*.iso"
+for img in $iso_images; do
+  embed_files+=($img)
+done
+
+embed_files+=("/var/tmp/pfSense-CE-memstick-ADI.img")
 
 IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
 for stemcell in "${stemcell_array[@]}";
