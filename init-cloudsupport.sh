@@ -67,7 +67,7 @@ ADMIN_PWD=`cat /root/env_admin_pwd`
 cp /tmp/harbor.yml /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_HOST}/${SUPPORT_VIP_DNS}/g" /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_PASSWORD}/${ADMIN_PWD}/g" /root/harbor/harbor.yml
-sed -i "s/{DATABASE_PASSWORD}/$(generate_random_pwd)/g" /root/harbor/harbor.yml
+sed -i "s/{DATABASE_PASSWORD}/$(generate_random_pwd 31)/g" /root/harbor/harbor.yml
 cd /root/harbor
 chmod 700 *.sh
 

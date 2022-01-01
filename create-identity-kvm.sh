@@ -27,14 +27,14 @@ DIRECTORY_MGR_PWD=`cat /root/directory_mgr_pwd`
 TZ=`timedatectl | awk '/Time zone:/ {print $3}'`
 TIMEZONE=`echo $TZ | sed 's/\//\\\\\//g'`
 ########### add passwords in
-sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
+sed -i 's/{CENTOS_ADMIN_PWD_123456789012}/'$ADMIN_PWD'/g' ${kickstart_file}
 sed -i 's/{IDENTITY_VIP}/'$IDENTITY_VIP'/g' ${kickstart_file}
 sed -i 's/{HOST}/'$IDENTITY_HOST'/g' ${kickstart_file}
 sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
 sed -i 's/{GATEWAY_ROUTER_IP}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
 sed -i 's/{NETMASK}/'$NETMASK'/g' ${kickstart_file}
 sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
-sed -i 's/{DIRECTORY_MGR_PWD}/'$DIRECTORY_MGR_PWD'/g' ${kickstart_file}
+sed -i 's/{DIRECTORY_MGR_PWD_12345678901}/'$DIRECTORY_MGR_PWD'/g' ${kickstart_file}
 sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd)'/g' ${kickstart_file}
 ###########################
 

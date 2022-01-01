@@ -36,7 +36,7 @@ cp centos-8-kickstart-openstack.cfg ./tmp
 
 IFS=
 kickstart_file=./tmp/centos-8-kickstart-openstack.cfg
-NEWPWD=$(generate_random_pwd)
+NEWPWD=$(generate_random_pwd 31)
 echo $NEWPWD > /tmp/current_pwd
 ########### replace variables in project_config
 ## generate random hostname suffix
@@ -44,7 +44,7 @@ HOWLONG=5 ## the number of characters
 HOSTNAME_SUFFIX=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
 sed -i 's/{HOSTNAME_SUFFIX}/'$HOSTNAME_SUFFIX'/g' ${kickstart_file}
 ###
-sed -i 's/{CENTOS_ADMIN_PWD}/'$NEWPWD'/g' ${kickstart_file}
+sed -i 's/{CENTOS_ADMIN_PWD_123456789012}/'$NEWPWD'/g' ${kickstart_file}
 ###########################
 
 ## download files to be embedded
@@ -116,42 +116,15 @@ if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
   curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$BOSH_STEMCELL-go_agent --output /tmp/bosh-$STEMCELL_STAMP.tgz > /dev/null
 fi
 
-##### build openstack vm keys
-ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
-###########
-
-## setup cert directory
-rm -rf /tmp/id_rsa*
-rm -rf /tmp/wildcard.*
-CERT_DIR="/tmp"
-
-### CA key pass
-NEWPW=$(generate_random_pwd)
-###
-
-#### generate ssh keys
-# create CA cert before the network goes down to add ip to SAN
-create_ca_cert $NEWPW $CERT_DIR
-
-### initial wildcard cert
-create_server_cert $NEWPW $CERT_DIR "wildcard" "*"
-#############
-
-
+./create-pfsense-kvm-iso.sh
+./create-identiy-kvm-iso.sh
+./create-cloud-kvm-iso.sh
 
 embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
               '/tmp/pfSense-CE-memstick-ADI.img'
               "/tmp/harbor-$HARBOR_VERSION.tgz"
               "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2"
               "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
-              '/tmp/openstack-setup.key'
-              '/tmp/openstack-setup.key.pub'
-              '/tmp/id_rsa.pub'
-              '/tmp/id_rsa.key'
-              '/tmp/id_rsa.crt'
-              '/tmp/id_rsa'
-              '/tmp/wildcard.crt'
-              '/tmp/wildcard.key'
               '/tmp/repo.zip'
               '/tmp/openstack-env.sh'
               '/tmp/linux.iso'

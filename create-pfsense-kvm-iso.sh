@@ -49,11 +49,6 @@ OPEN_VPN_TLS_KEY=`cat /tmp/openvpn-secret.key | base64 | tr -d '\n\r'`
 CF_TCP_START_PORT=1024
 CF_TCP_END_PORT=$(($CF_TCP_START_PORT + $CF_TCP_PORT_COUNT))
 
-DIRECTORY_MGR_PWD=$(generate_random_pwd)
-echo "$DIRECTORY_MGR_PWD" >> /root/directory_mgr_pwd
-ADMIN_PWD=`cat /root/env_admin_pwd`
-DIRECTORY_MGR_PWD=`cat /root/directory_mgr_pwd`
-
 #### backend to change host header from whatever it comes in as to internal domain
 ADVANCED_BACKEND=`echo "http-request replace-value Host ^(.*)(\.[^\.]+){2}$ \1.$INTERNAL_DOMAIN_NAME" | base64 | tr -d '\n\r'`
 
@@ -77,12 +72,11 @@ sed -i 's/{GATEWAY_ROUTER_DHCP_END}/'$GATEWAY_ROUTER_DHCP_END'/g' /tmp/usb/confi
 sed -i 's/{INTERNAL_DOMAIN_NAME}/'$INTERNAL_DOMAIN_NAME'/g' /tmp/usb/config.xml
 sed -i 's/{EXTERNAL_VIP_DNS}/'$EXTERNAL_VIP_DNS'/g' /tmp/usb/config.xml
 sed -i 's/{INTERNAL_VIP_DNS}/'$INTERNAL_VIP_DNS'/g' /tmp/usb/config.xml
-sed -i 's/{OPENSTACK_ADMIN_PWD}/'$ADMIN_PWD'/g' /tmp/usb/config.xml
 sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' /tmp/usb/config.xml
 sed -i 's/{APP_INTERNAL_HOSTNAME}/'$APP_INTERNAL_HOSTNAME'/g' /tmp/usb/config.xml
 sed -i 's/{APP_EXTERNAL_HOSTNAME}/'$APP_EXTERNAL_HOSTNAME'/g' /tmp/usb/config.xml
 sed -i 's/{NETWORK_PREFIX}/'$NETWORK_PREFIX'/g' /tmp/usb/config.xml
-sed -i 's/{OPENVPN_CERT_PWD}/'$ADMIN_PWD'/g' /tmp/usb/config.xml
+sed -i 's/{OPENVPN_CERT_PWD}/'$(generate_random_pwd 31)'/g' /tmp/usb/config.xml
 sed -i 's/{TELEGRAM_API}/'$TELEGRAM_API'/g' /tmp/usb/config.xml
 sed -i 's/{TELEGRAM_CHAT_ID}/'$TELEGRAM_CHAT_ID'/g' /tmp/usb/config.xml
 sed -i 's/{OINKMASTER}/'$OINKMASTER'/g' /tmp/usb/config.xml
@@ -96,7 +90,7 @@ sed -i 's/{OPEN_VPN_TLS_KEY}/'$OPEN_VPN_TLS_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{CLOUDFOUNDRY_VIP}/'$CLOUDFOUNDRY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{IDENTITY_VIP}/'$IDENTITY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' /tmp/usb/config.xml
-sed -i 's/{DIRECTORY_MGR_PWD}/'$DIRECTORY_MGR_PWD'/g' /tmp/usb/config.xml
+#sed -i 's/{DIRECTORY_MGR_PWD_12345678901}/'$DIRECTORY_MGR_PWD'/g' /tmp/usb/config.xml
 sed -i 's/{BASE_DN}/'$(baseDN)'/g' /tmp/usb/config.xml
 sed -i 's/{LB_ROUTER_IP}/'$LB_ROUTER_IP'/g' /tmp/usb/config.xml
 sed -i 's/{LB_DHCP_START}/'$LB_DHCP_START'/g' /tmp/usb/config.xml
@@ -106,3 +100,5 @@ sed -i 's/{VPN_NETWORK}/'$VPN_NETWORK'/g' /tmp/usb/config.xml
 #######
 
 runuser -l root -c  'umount /tmp/usb'
+
+cp /tmp/pfSense-CE-memstick-ADI.img /var/tmp

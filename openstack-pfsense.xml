@@ -139,7 +139,7 @@
 			<ldap_pam_groupdn></ldap_pam_groupdn>
 			<ldap_timeout>25</ldap_timeout>
 			<ldap_binddn><![CDATA[cn=Directory Manager]]></ldap_binddn>
-			<ldap_bindpw><![CDATA[{DIRECTORY_MGR_PWD}]]></ldap_bindpw>
+			<ldap_bindpw><![CDATA[{DIRECTORY_MGR_PWD_12345678901}]]></ldap_bindpw>
 		</authserver>
 		<authserver>
 			<refid>618f2cae9a9e6</refid>
@@ -162,7 +162,7 @@
 			<ldap_pam_groupdn></ldap_pam_groupdn>
 			<ldap_timeout>25</ldap_timeout>
 			<ldap_binddn><![CDATA[cn=Directory Manager]]></ldap_binddn>
-			<ldap_bindpw><![CDATA[{DIRECTORY_MGR_PWD}]]></ldap_bindpw>
+			<ldap_bindpw><![CDATA[{DIRECTORY_MGR_PWD_12345678901}]]></ldap_bindpw>
 		</authserver>
 	</system>
 	<interfaces>
@@ -904,24 +904,6 @@
 			<who>root</who>
 			<command>/usr/bin/nice -n20 /sbin/pfctl -q -t snort2c -T expire 3600</command>
 		</item>
-		<item>
-			<minute>*/60</minute>
-			<hour>*</hour>
-			<mday>*</mday>
-			<month>*</month>
-			<wday>*</wday>
-			<who>root</who>
-			<command>/usr/local/bin/perl /usr/local/www/lightsquid/lightparser.pl today</command>
-		</item>
-		<item>
-			<minute>15</minute>
-			<hour>0</hour>
-			<mday>*</mday>
-			<month>*</month>
-			<wday>*</wday>
-			<who>root</who>
-			<command>/usr/local/bin/perl /usr/local/www/lightsquid/lightparser.pl yesterday</command>
-		</item>
 	</cron>
 	<wol></wol>
 	<rrd>
@@ -1139,11 +1121,6 @@
 			<tooltiptext>Set up snort specific settings</tooltiptext>
 			<section>Services</section>
 			<url>/snort/snort_interfaces.php</url>
-		</menu>
-		<menu>
-			<name>Squid Proxy Reports</name>
-			<section>Status</section>
-			<url>/pkg_edit.php?xml=lightsquid.xml</url>
 		</menu>
 		<menu>
 			<name>Squid Proxy Server</name>
@@ -5113,12 +5090,6 @@
 			<description><![CDATA[Snort IDS/IPS Daemon]]></description>
 		</service>
 		<service>
-			<name>lightsquid_web</name>
-			<rcfile>lighttpd_ls.sh</rcfile>
-			<executable>lighttpd_ls</executable>
-			<description><![CDATA[Lightsquid Web Server]]></description>
-		</service>
-		<service>
 			<name>squid</name>
 			<rcfile>squid.sh</rcfile>
 			<executable>squid</executable>
@@ -5774,20 +5745,6 @@
 				<aliaslog>enabled</aliaslog>
 			</config>
 		</pfblockerngproxyandsatellite>
-		<lightsquid>
-			<config>
-				<lighttpd_ls_port>7445</lighttpd_ls_port>
-				<lighttpd_ls_ssl>on</lighttpd_ls_ssl>
-				<lighttpd_ls_user>admin</lighttpd_ls_user>
-				<lighttpd_ls_password>{OPENSTACK_ADMIN_PWD}</lighttpd_ls_password>
-				<lightsquid_lang>eng</lightsquid_lang>
-				<lightsquid_template>base</lightsquid_template>
-				<lightsquid_barcolor>orange</lightsquid_barcolor>
-				<lightsquid_ip2name>dns</lightsquid_ip2name>
-				<lightsquid_skipurl></lightsquid_skipurl>
-				<lightsquid_refreshsheduler_time>lhp_60m</lightsquid_refreshsheduler_time>
-			</config>
-		</lightsquid>
 		<bandwidthd>
 			<config>
 				<enable>on</enable>
@@ -5916,15 +5873,6 @@
 				</tab>
 			</tabs>
 			<include_file>/usr/local/pkg/bandwidthd.inc</include_file>
-		</package>
-		<package>
-			<name>Lightsquid</name>
-			<descr><![CDATA[LightSquid is a high performance web proxy reporting tool. Includes proxy realtime statistics (SQStat).
-			&lt;strong&gt;Requires Squid package.&lt;/strong&gt;]]></descr>
-			<website>http://lightsquid.sf.net/</website>
-			<version>3.0.6_8</version>
-			<configurationfile>lightsquid.xml</configurationfile>
-			<noembedded>true</noembedded>
 		</package>
 		<package>
 			<name>pfBlockerNG-devel</name>

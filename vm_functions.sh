@@ -416,7 +416,8 @@ function remove_ip_from_adapter() {
 }
 
 function generate_random_pwd() {
-  RANDOM_PWD=`date +%s | sha256sum | base64 | head -c 32 ; echo`
+  length=$1
+  RANDOM_PWD=`date +%s | sha256sum | base64 | head -c $length ; echo`
   echo $RANDOM_PWD
 }
 

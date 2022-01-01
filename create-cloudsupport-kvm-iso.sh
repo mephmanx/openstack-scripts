@@ -23,7 +23,7 @@ kickstart_file=centos-8-kickstart-cs.cfg
 TZ=`timedatectl | awk '/Time zone:/ {print $3}'`
 TIMEZONE=`echo $TZ | sed 's/\//\\\\\//g'`
 ########### add passwords in
-sed -i 's/{CENTOS_ADMIN_PWD}/'$ADMIN_PWD'/g' ${kickstart_file}
+#sed -i 's/{CENTOS_ADMIN_PWD_123456789012}/'$ADMIN_PWD'/g' ${kickstart_file}
 sed -i 's/{HOST}/'$SUPPORT_HOST'/g' ${kickstart_file}
 sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
 sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}

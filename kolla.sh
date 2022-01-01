@@ -465,7 +465,7 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack installed and accepti
 #prepare openstack env for CF
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Preparing Openstack environment for BOSH install...."
 ## generate cloudfoundry admin pwd
-OPENSTACK_CLOUDFOUNDRY_PWD=$(generate_random_pwd)
+OPENSTACK_CLOUDFOUNDRY_PWD=$(generate_random_pwd 31)
 
 export OPENSTACK_CLOUDFOUNDRY_USERNAME=osuser
 
@@ -809,7 +809,7 @@ chown -R stack /tmp/cf-deployment
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Setting up swift blobstore key..."
 
 ### generate swift container key
-SWIFT_KEY=$(generate_random_pwd)
+SWIFT_KEY=$(generate_random_pwd 31)
 
 cat > /tmp/swift.key <<EOF
 $SWIFT_KEY

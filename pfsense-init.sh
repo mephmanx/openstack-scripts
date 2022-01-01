@@ -49,7 +49,6 @@ ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-identity-kvm.sh;' &
 ### install remaining packages here
 install_pkg "pfsense-pkg-openvpn-client-export" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-bandwidthd" $TELEGRAM_API $TELEGRAM_CHAT_ID
-install_pkg "pfsense-pkg-Lightsquid" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-pfBlockerNG-devel" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-snort" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-cron" $TELEGRAM_API $TELEGRAM_CHAT_ID
