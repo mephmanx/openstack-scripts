@@ -146,9 +146,9 @@ function buildAndPushOpenstackSetupISO {
 
   ############ certs to enable SSL on VNC
   touch  /tmp/haproxy.pem
-  cat /root/.ssh/wildcard.key >> /tmp/haproxy.pem
-  cat /root/.ssh/wildcard.crt >> /tmp/haproxy.pem
-  cat /root/.ssh/id_rsa.crt >> /tmp/haproxy.pem
+  cat /tmp/wildcard.key >> /tmp/haproxy.pem
+  cat /tmp/wildcard.crt >> /tmp/haproxy.pem
+  cat /tmp/id_rsa.crt >> /tmp/haproxy.pem
   #####################
 
   ########## add host trust script
