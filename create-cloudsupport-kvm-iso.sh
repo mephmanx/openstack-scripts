@@ -10,7 +10,6 @@ source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 
 KICKSTART_DIR=/tmp/openstack-scripts
-ADMIN_PWD=`cat /root/env_admin_pwd`
 
 IFS=
 rm -rf ${KICKSTART_DIR}/centos-8-kickstart-cs.cfg

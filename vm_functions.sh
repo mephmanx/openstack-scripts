@@ -481,3 +481,8 @@ function generate_random_word() {
   random_number=`od -N3 -An -i /dev/urandom | awk -v f=0 -v r="$non_random_words" '{printf "%i\n", f + r * $1 / 16777216}'`
   sed `echo $random_number`"q;d" $ALL_NON_RANDOM_WORDS
 }
+
+
+function embed_secrets_in_iso() {
+
+}

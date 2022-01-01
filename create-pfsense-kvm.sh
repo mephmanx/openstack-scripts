@@ -72,10 +72,6 @@ else
   DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
 fi
 
-DIRECTORY_MGR_PWD=$(generate_random_pwd 31)
-echo "$DIRECTORY_MGR_PWD" >> /root/directory_mgr_pwd
-ADMIN_PWD=`cat /root/env_admin_pwd`
-
 #### backend to change host header from whatever it comes in as to internal domain
 ADVANCED_BACKEND=`echo "http-request replace-value Host ^(.*)(\.[^\.]+){2}$ \1.$INTERNAL_DOMAIN_NAME" | base64 | tr -d '\n\r'`
 
@@ -117,7 +113,7 @@ sed -i 's/{OPEN_VPN_TLS_KEY}/'$OPEN_VPN_TLS_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{CLOUDFOUNDRY_VIP}/'$CLOUDFOUNDRY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{IDENTITY_VIP}/'$IDENTITY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' /tmp/usb/config.xml
-sed -i 's/{DIRECTORY_MGR_PWD_12345678901}/'$DIRECTORY_MGR_PWD'/g' /tmp/usb/config.xml
+#sed -i 's/{DIRECTORY_MGR_PWD_12345678901}/'$DIRECTORY_MGR_PWD'/g' /tmp/usb/config.xml
 sed -i 's/{BASE_DN}/'$(baseDN)'/g' /tmp/usb/config.xml
 sed -i 's/{LB_ROUTER_IP}/'$LB_ROUTER_IP'/g' /tmp/usb/config.xml
 sed -i 's/{LB_DHCP_START}/'$LB_DHCP_START'/g' /tmp/usb/config.xml

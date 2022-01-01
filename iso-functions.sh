@@ -13,7 +13,6 @@ function initialKickstartSetup {
   vm=$1
   printf -v vm_type_n '%s\n' "${vm//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-  ADMIN_PWD=`cat /root/env_admin_pwd`
   TZ=`timedatectl | awk '/Time zone:/ {print $3}'`
   TIMEZONE=`echo $TZ | sed 's/\//\\\\\//g'`
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
@@ -24,7 +23,7 @@ function initialKickstartSetup {
   sed -i 's/{HOST}/'$vm'/g' ${kickstart_file}
   sed -i 's/{TYPE}/'$vm_type'/g' ${kickstart_file}
   sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd 31)'/g' ${kickstart_file}
-  sed -i 's/{CENTOS_ADMIN_PWD_123456789012}/'$ADMIN_PWD'/g' ${kickstart_file}
+#  sed -i 's/{CENTOS_ADMIN_PWD_123456789012}/'$ADMIN_PWD'/g' ${kickstart_file}
   sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
   sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
   networkInformation ${kickstart_file} ${vm_type} ${vm}

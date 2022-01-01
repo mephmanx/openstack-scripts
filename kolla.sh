@@ -30,7 +30,7 @@ chmod +x /tmp/host-trust.sh
 runuser -l root -c  'cd /tmp; ./host-trust.sh'
 cd $working_dir
 
-ADMIN_PWD=`cat /root/env_admin_pwd`
+ADMIN_PWD={CENTOS_ADMIN_PWD_123456789012}
 
 ########### set up registry connection to docker hub
 export etext=`echo -n "admin:$ADMIN_PWD" | base64`
