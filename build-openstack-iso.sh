@@ -137,6 +137,20 @@ create_ca_cert $NEWPW $CERT_DIR
 create_server_cert $NEWPW $CERT_DIR "wildcard" "*"
 #############
 
+if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
+  docker pull mephmanx/homebrew-cache:latest
+  docker run --rm -v /tmp:/tmp/export mephmanx/homebrew-cache $CF_BBL_INSTALL_TERRAFORM_VERSION
+fi
+
+IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
+for stemcell in "${stemcell_array[@]}";
+do
+  if [ ! -f "/tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz" ]; then
+    curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$stemcell-go_agent --output /tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz > /dev/null
+  fi
+done
+####
+
 ./create-pfsense-kvm-iso.sh
 ./create-identity-kvm-iso.sh
 ./create-cloud-kvm-iso.sh
@@ -151,24 +165,6 @@ for img in $iso_images; do
 done
 
 embed_files+=("/var/tmp/pfSense-CE-memstick-ADI.img")
-
-IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
-for stemcell in "${stemcell_array[@]}";
-do
-  if [ ! -f "/tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz" ]; then
-    curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$stemcell-go_agent --output /tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz > /dev/null
-  fi
-  embed_files+=("/tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz")
-done
-####
-
-#### if homebrew cache is available
-if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
-  docker pull mephmanx/homebrew-cache:latest
-  docker run --rm -v /tmp:/tmp/export mephmanx/homebrew-cache $CF_BBL_INSTALL_TERRAFORM_VERSION
-fi
-embed_files+=("/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar")
-####
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_string
