@@ -484,5 +484,5 @@ function generate_random_word() {
 
 
 function embed_secrets_in_iso() {
-
+ echo 'test'
 }
