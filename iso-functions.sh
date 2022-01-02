@@ -108,7 +108,7 @@ function closeOutAndBuildKickstartAndISO {
     -quiet \
     -allow-limited-size \
     -iso-level 3 \
-    -no-emul-boot -J -R -v -T -V 'CentOS 8 x86_64' .
+    -no-emul-boot -J -R -v -T -V 'CentOS-8-x86_64' .
 
   cd /var/tmp/
   sudo implantisomd5 ${vm_name}-iso.iso
