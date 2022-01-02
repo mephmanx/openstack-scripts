@@ -48,7 +48,6 @@ ADMIN_PWD={CENTOS_ADMIN_PWD_123456789012}
 ##############
 
 DIRECTORY_MANAGER_PASSWORD=$DIR_PWD
-ADMIN_PASSWORD={CENTOS_ADMIN_PWD_123456789012}
 REALM_NAME=$(echo "$INTERNAL_DOMAIN_NAME" | tr '[:lower:]' '[:upper:]')
 HOSTNAME=identity.$INTERNAL_DOMAIN_NAME
 
@@ -80,7 +79,7 @@ runuser -l root -c 'cp /tmp/id_rsa.crt /etc/ipa/ca.crt'
 runuser -l root -c 'chown -R pkiuser /etc/ipa/ca.crt'
 # Configure freeipa
 runuser -l root -c "ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD \
-                                        -a $ADMIN_PASSWORD \
+                                        -a $ADMIN_PWD \
                                         -n $INTERNAL_DOMAIN_NAME \
                                         -r $REALM_NAME \
                                         --ip-address $IDENTITY_VIP \
