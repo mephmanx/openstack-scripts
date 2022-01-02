@@ -108,9 +108,6 @@ if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
   wget -O /tmp/docker-compose-$DOCKER_COMPOSE_VERSION ${DOCKER_COMPOSE}
 fi
 
-rm -rf /tmp/repo.zip
-zip -r /tmp/repo.zip ./* -x "*.git" -x "tmp/*" -x "build*" -x "*openstack.cfg"
-
 ### download director & jumpbox stemcell
 if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
   curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$BOSH_STEMCELL-go_agent --output /tmp/bosh-$STEMCELL_STAMP.tgz > /dev/null
@@ -155,9 +152,11 @@ done
 ./create-identity-kvm-iso.sh
 ./create-cloud-kvm-iso.sh
 
-embed_files=('/tmp/repo.zip'
-              '/tmp/openstack-env.sh'
-              '/tmp/project_config.sh')
+embed_files=('/tmp/openstack-env.sh'
+              '/tmp/project_config.sh'
+              '/tmp/openstack-scripts/init-openstack.sh'
+              '/tmp/openstack-scripts/openstack.sh'
+              '/tmp/openstack-scripts/vm_functions.sh')
 
 iso_images="/var/tmp/*.iso"
 for img in $iso_images; do
