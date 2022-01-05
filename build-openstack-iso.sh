@@ -168,6 +168,6 @@ embed_files+=("/var/tmp/pfSense-CE-memstick-ADI.img")
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_string
 
-#isohybrid /var/tmp/openstack-iso.iso
+isohybrid /var/tmp/openstack-iso.iso
 ## cleanup work dir
 rm -rf ./tmp
