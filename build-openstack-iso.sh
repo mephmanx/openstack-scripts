@@ -154,6 +154,14 @@ done
 
 embed_files=('/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
+              '/tmp/openstack-setup.key'
+              '/tmp/openstack-setup.key.pub'
+              '/tmp/id_rsa.pub'
+              '/tmp/id_rsa.key'
+              '/tmp/id_rsa.crt'
+              '/tmp/id_rsa'
+              '/tmp/wildcard.crt'
+              '/tmp/wildcard.key'
               '/tmp/openstack-scripts/init-openstack.sh'
               '/tmp/openstack-scripts/openstack.sh'
               '/tmp/openstack-scripts/vm_functions.sh')
