@@ -106,7 +106,6 @@ function closeOutAndBuildKickstartAndISO {
     -eltorito-alt-boot \
     -e images/efiboot.img \
     -quiet \
-    -allow-limited-size \
     -J -R -v -T -V 'CentOS-8-x86_64' .
 
   cd /var/tmp/
