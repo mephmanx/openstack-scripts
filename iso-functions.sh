@@ -97,7 +97,7 @@ function closeOutAndBuildKickstartAndISO {
   sudo ksvalidator /var/tmp/${vm_name}/ks.cfg
   cd /var/tmp/${vm_name}
   rm -rf ${vm_name}-iso.iso
-  sudo genisoimage -o ../${vm_name}-iso.iso \
+  sudo mkisofs -o ../${vm_name}-iso.iso \
     -b isolinux/isolinux.bin \
     -c isolinux/boot.cat \
     -no-emul-boot \
@@ -107,7 +107,7 @@ function closeOutAndBuildKickstartAndISO {
     -e images/efiboot.img \
     -quiet \
     -allow-limited-size \
-    -no-emul-boot -J -R -v -T -V 'CentOS-8-x86_64' .
+    -J -R -v -T -V 'CentOS-8-x86_64' .
 
   cd /var/tmp/
   sudo implantisomd5 ${vm_name}-iso.iso
