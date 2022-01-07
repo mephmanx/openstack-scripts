@@ -104,6 +104,7 @@ function closeOutAndBuildKickstartAndISO {
     -boot-load-size 4 \
     -boot-info-table \
     -quiet \
+    -iso-level 3 \
     -J -R -V 'CentOS-8-x86_64' .
 
   cd /var/tmp/
