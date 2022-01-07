@@ -31,7 +31,7 @@
 #kolla_base_distro: "centos"
 
 # Valid options are [ binary, source ]
-#kolla_install_type: "source"
+kolla_install_type: "binary"
 
 # Do not override this unless you know what you are doing.
 openstack_release: "wallaby"
@@ -86,7 +86,7 @@ docker_registry_username: "admin"
 #docker_registry_password is set in the passwords.yml file.
 
 # Namespace of images:
-docker_namespace: "library/kolla"
+docker_namespace: "kolla"
 
 # Docker client timeout in seconds.
 #docker_client_timeout: 120
@@ -353,7 +353,7 @@ enable_influxdb: "yes"
 #enable_iscsid: "{{ enable_cinder | bool and enable_cinder_backend_iscsi | bool }}"
 #enable_kafka: "no"
 #enable_kibana: "{{ 'yes' if enable_central_logging | bool or enable_monasca | bool else 'no' }}"
-enable_kuryr: "yes"
+enable_kuryr: "no"
 enable_magnum: "yes"
 enable_manila: "yes"
 enable_manila_backend_generic: "yes"
@@ -407,7 +407,7 @@ enable_trove: "yes"
 #enable_vmtp: "no"
 #enable_watcher: "no"
 #enable_zookeeper: "{{ enable_kafka | bool or enable_storm | bool }}"
-enable_zun: "yes"
+enable_zun: "no"
 
 ##################
 # RabbitMQ options
