@@ -108,7 +108,6 @@ function closeOutAndBuildKickstartAndISO {
     -quiet \
     -allow-limited-size \
     -iso-level 3 \
-    -udf \
     -no-emul-boot -J -R -v -T -V 'CentOS-8-x86_64' .
 
   cd /var/tmp/
