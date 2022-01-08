@@ -44,8 +44,8 @@ export DOCKER_COMPOSE=https://github.com/docker/compose/releases/download/$DOCKE
 
 ## domain name
 ## generate internal domain name
-export INTERNAL_DOMAIN_NAME=$INT_DOM_NAME;
-#export INTERNAL_DOMAIN_NAME="cloud.local";
+#export INTERNAL_DOMAIN_NAME=$INT_DOM_NAME;
+export INTERNAL_DOMAIN_NAME="cloud.local";
 
 ### Enable auto-update
 ## This enables the centos/stream auto update function on install.
