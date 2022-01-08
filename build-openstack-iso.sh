@@ -164,7 +164,8 @@ embed_files=('/tmp/openstack-env.sh'
               '/tmp/wildcard.key'
               '/tmp/openstack-scripts/init-openstack.sh'
               '/tmp/openstack-scripts/openstack.sh'
-              '/tmp/openstack-scripts/vm_functions.sh')
+              '/tmp/openstack-scripts/vm_functions.sh'
+              '/tmp/openstack-scripts/vm-configurations.sh')
 
 iso_images="/var/tmp/*.iso"
 for img in $iso_images; do
