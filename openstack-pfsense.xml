@@ -920,7 +920,7 @@
 		<openvpn-server>
 			<vpnid>1</vpnid>
 			<mode>server_user</mode>
-			<authmode>ipa-ldap</authmode>
+			<authmode>ipa-vpn</authmode>
 			<protocol>TCP4</protocol>
 			<dev_mode>tun</dev_mode>
 			<interface>wan</interface>
