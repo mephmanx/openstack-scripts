@@ -506,4 +506,7 @@ function replace_file_in_iso() {
   replacement_file=$2
   replace_with=$3
 
+  start_index=`grep -oba -f $2 $1 -m1 | awk -F':' '{ print $1 }'`
+  file_length=`wc -c $3 | awk -F' ' '{ print $1 }'`
+  dd if=$3 of=$iso_file conv=notrunc bs=1 seek=$start_index count=$file_length
 }
