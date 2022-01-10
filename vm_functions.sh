@@ -482,7 +482,9 @@ function generate_random_word() {
   sed `echo $random_number`"q;d" $ALL_NON_RANDOM_WORDS
 }
 
+function replace_file_in_iso() {
+  iso_file=$1
+  replacement_file=$2
 
-function embed_secrets_in_iso() {
- echo 'test'
+
 }
