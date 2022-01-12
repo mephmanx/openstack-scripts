@@ -40,7 +40,7 @@ telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor admin account pw:
 
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
-dnf install -y cockpit-machines virt-install virt-viewer bridge-utils swtpm libtpms telnet bridge-utils
+dnf install -y virt-install virt-viewer bridge-utils swtpm libtpms telnet bridge-utils
 systemctl restart libvirtd
 ############################
 
