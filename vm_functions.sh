@@ -499,6 +499,8 @@ EOF
     start_index=`echo ${entries[$occur]} | awk -F':' '{ print $1 }'`
     dd if=$tmp_file of=$iso_file conv=notrunc bs=1 seek=$start_index count=${#replacement_string}
   done
+
+  rm -rf /tmp/out-*
 }
 
 function replace_file_in_iso() {
@@ -509,4 +511,6 @@ function replace_file_in_iso() {
   start_index=`grep -oba -f $2 $1 -m1 | awk -F':' '{ print $1 }'`
   file_length=`wc -c $3 | awk -F' ' '{ print $1 }'`
   dd if=$3 of=$iso_file conv=notrunc bs=1 seek=$start_index count=$file_length
+
+  rm -rf /tmp/out-*
 }

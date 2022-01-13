@@ -169,6 +169,7 @@ function buildAndPushOpenstackSetupISO {
   #####################################
   embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
                 '/tmp/haproxy.pem'
+                '/tmp/haproxy-internal.pem'
                 '/tmp/host-trust.sh'
                 '/tmp/control-trust.sh'
                 '/tmp/host_count'
