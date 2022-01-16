@@ -126,6 +126,11 @@ SSH_KEY=`cat /root/.ssh/id_rsa.pub`
 /usr/bin/ipa group-add-member vpn-users --users=ipauser
 /usr/bin/ipa group-add-member cloud-admins --users=ipauser
 
+/usr/bin/ipa user-add --first=Firstname --last=Lastname upwork1 --random
+/usr/bin/ipa group-add-member openstack-admins --users=upwork1
+/usr/bin/ipa group-add-member vpn-users --users=upwork1
+/usr/bin/ipa group-add-member cloud-admins --users=upwork1
+
 #### Continue cloud init
 ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;
 ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-cloudsupport-kvm.sh;' &
