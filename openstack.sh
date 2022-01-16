@@ -75,6 +75,8 @@ ip link set vm2 up
 
 nmcli connection modify loc-static ipv4.addresses ${LAN_CENTOS_IP}/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
 
+nmcli connection reload
+
 ### amp-net
 ip link add dev vm3 type veth peer name vm4
 ip link set dev vm3 up
@@ -85,8 +87,8 @@ ip link add amp-net type bridge
 ip link set tapm1 master amp-net
 ip link set vm3 master amp-net
 
-ip addr add  ${LB_CENTOS_IP}/24 dev amp-net
-ip addr add  ${LB_BRIDGE_IP}/24 dev vm4
+ip addr add ${LB_CENTOS_IP}/24 dev amp-net
+ip addr add ${LB_BRIDGE_IP}/24 dev vm4
 
 ip link set amp-net up
 ip link set vm4 up
