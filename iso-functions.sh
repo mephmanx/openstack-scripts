@@ -142,13 +142,6 @@ function buildAndPushOpenstackSetupISO {
   initialKickstartSetup "kolla"
   ###########################
 
-  ############ certs to enable SSL on VNC
-  touch  /tmp/haproxy.pem
-  cat /tmp/wildcard.key >> /tmp/haproxy.pem
-  cat /tmp/wildcard.crt >> /tmp/haproxy.pem
-  cat /tmp/id_rsa.crt >> /tmp/haproxy.pem
-  #####################
-
   ########## add host trust script
   touch /tmp/host-trust.sh
   cat /tmp/dns_hosts >> /tmp/host-trust.sh
@@ -168,8 +161,6 @@ function buildAndPushOpenstackSetupISO {
 
   #####################################
   embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
-                '/tmp/haproxy.pem'
-                '/tmp/haproxy-internal.pem'
                 '/tmp/host-trust.sh'
                 '/tmp/control-trust.sh'
                 '/tmp/host_count'
