@@ -964,7 +964,7 @@
 			<serverbridge_dhcp_end></serverbridge_dhcp_end>
 			<dns_domain>{INTERNAL_DOMAIN_NAME}</dns_domain>
 			<dns_server1>{IDENTITY_VIP}</dns_server1>
-			<dns_server2></dns_server2>
+			<dns_server2>{GATEWAY_ROUTER_IP}</dns_server2>
 			<dns_server3></dns_server3>
 			<dns_server4></dns_server4>
 			<push_blockoutsidedns>yes</push_blockoutsidedns>
