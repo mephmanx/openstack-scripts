@@ -387,11 +387,11 @@
 			</destination>
 			<log></log>
 			<created>
-				<time>1638831748</time>
+				<time>1639850594</time>
 				<username><![CDATA[Auto]]></username>
 			</created>
 			<interface>wan</interface>
-			<tracker>1770009775</tracker>
+			<tracker>1770009861</tracker>
 		</rule>
 		<rule>
 			<quick>yes</quick>
@@ -408,7 +408,7 @@
 			</destination>
 			<log></log>
 			<created>
-				<time>1638831748</time>
+				<time>1639850594</time>
 				<username><![CDATA[Auto]]></username>
 			</created>
 			<interface>lan</interface>
@@ -920,7 +920,7 @@
 		<openvpn-server>
 			<vpnid>1</vpnid>
 			<mode>server_user</mode>
-			<authmode>ipa-vpn</authmode>
+			<authmode>ipa-ldap</authmode>
 			<protocol>TCP4</protocol>
 			<dev_mode>tun</dev_mode>
 			<interface>wan</interface>
@@ -1051,9 +1051,9 @@
 		<dns64netbits>96</dns64netbits>
 	</unbound>
 	<revision>
-		<time>1639234296</time>
-		<description><![CDATA[admin@10.0.200.3[45.56.119.204] (Local Database Fallback): Admin Access Advanced Settings saved]]></description>
-		<username><![CDATA[admin@10.0.200.3[45.56.119.204] (Local Database Fallback)]]></username>
+		<time>1640740004</time>
+		<description><![CDATA[(system): Installed cron job for /usr/local/bin/perl /usr/local/www/lightsquid/lightparser.pl yesterday]]></description>
+		<username><![CDATA[(system)]]></username>
 	</revision>
 	<ppps></ppps>
 	<gateways>
@@ -1341,12 +1341,6 @@
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
 						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>6080</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
-						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>6080</extaddr_port>
 							<_index></_index>
@@ -1471,12 +1465,6 @@
 					<clientcert_ca></clientcert_ca>
 					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>5000</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>5000</extaddr_port>
@@ -2036,19 +2024,10 @@
 							<_index></_index>
 						</item>
 					</ha_acls>
-					<ha_certificates>
-					</ha_certificates>
-					<clientcert_ca>
-					</clientcert_ca>
-					<clientcert_crl>
-					</clientcert_crl>
+					<ha_certificates></ha_certificates>
+					<clientcert_ca></clientcert_ca>
+					<clientcert_crl></clientcert_crl>
 					<a_extaddr>
-						<item>
-							<extaddr>wan_ipv4</extaddr>
-							<extaddr_port>443</extaddr_port>
-							<extaddr_ssl>yes</extaddr_ssl>
-							<_index></_index>
-						</item>
 						<item>
 							<extaddr>lan_ipv4</extaddr>
 							<extaddr_port>80</extaddr_port>
@@ -2056,6 +2035,12 @@
 						</item>
 						<item>
 							<extaddr>opt1_ipv4</extaddr>
+							<extaddr_port>443</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
+							<_index></_index>
+						</item>
+						<item>
+							<extaddr>wan_ipv4</extaddr>
 							<extaddr_port>443</extaddr_port>
 							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
@@ -2105,8 +2090,7 @@
 							<_index></_index>
 						</item>
 					</a_actionitems>
-					<a_errorfiles>
-					</a_errorfiles>
+					<a_errorfiles></a_errorfiles>
 					<forwardfor>yes</forwardfor>
 					<client_timeout>2147483647</client_timeout>
 					<backend_serverpool>cloudfoundry</backend_serverpool>
@@ -4404,7 +4388,7 @@
 					<a_actionitems></a_actionitems>
 					<errorfiles></errorfiles>
 					<advanced></advanced>
-					<advanced_backend></advanced_backend>
+					<advanced_backend>{ADVANCED_BACKEND}</advanced_backend>
 					<name>cockpit</name>
 					<balance></balance>
 					<balance_urilen></balance_urilen>
@@ -5046,8 +5030,7 @@
 			<resolver_holdvalid></resolver_holdvalid>
 			<config></config>
 			<localstatsport>2200</localstatsport>
-			<files>
-			</files>
+			<files></files>
 			<enable></enable>
 			<advanced>c3NsLWRlZmF1bHQtYmluZC1vcHRpb25zIHNzbC1taW4tdmVyIFRMU3YxLjINCnR1bmUuc3NsLmRlZmF1bHQtZGgtcGFyYW0gMjA0OA0Kc3NsLWRlZmF1bHQtYmluZC1jaXBoZXJzIEVDREhFLVJTQS1BRVMxMjgtR0NNLVNIQTI1NjpFQ0RIRS1FQ0RTQS1BRVMxMjgtR0NNLVNIQTI1NjpFQ0RIRS1SU0EtQUVTMjU2LUdDTS1TSEEzODQ6RUNESEUtRUNEU0EtQUVTMjU2LUdDTS1TSEEzODQ6REhFLVJTQS1BRVMxMjgtR0NNLVNIQTI1NjpESEUtRFNTLUFFUzEyOC1HQ00tU0hBMjU2OmtFREgrQUVTR0NNOkVDREhFLVJTQS1BRVMxMjgtU0hBMjU2OkVDREhFLUVDRFNBLUFFUzEyOC1TSEEyNTY6RUNESEUtUlNBLUFFUzEyOC1TSEE6RUNESEUtRUNEU0EtQUVTMTI4LVNIQTpFQ0RIRS1SU0EtQUVTMjU2LVNIQTM4NDpFQ0RIRS1FQ0RTQS1BRVMyNTYtU0hBMzg0OkVDREhFLVJTQS1BRVMyNTYtU0hBOkVDREhFLUVDRFNBLUFFUzI1Ni1TSEE6REhFLVJTQS1BRVMxMjgtU0hBMjU2OkRIRS1SU0EtQUVTMTI4LVNIQTpESEUtRFNTLUFFUzEyOC1TSEEyNTY6REhFLVJTQS1BRVMyNTYtU0hBMjU2OkRIRS1EU1MtQUVTMjU2LVNIQTpESEUtUlNBLUFFUzI1Ni1TSEE6IWFOVUxMOiFlTlVMTDohRVhQT1JUOiFERVM6IVJDNDohM0RFUzohTUQ1OiFQU0s=</advanced>
 			<remotesyslog>/var/run/log</remotesyslog>
@@ -5210,7 +5193,7 @@
 			<defaultsettings></defaultsettings>
 		</vpn_openvpn_export>
 		<snortglobal>
-			<snort_config_ver>4.1.4_3</snort_config_ver>
+			<snort_config_ver>4.1.5</snort_config_ver>
 			<snortdownload>on</snortdownload>
 			<snortcommunityrules>on</snortcommunityrules>
 			<emergingthreats>on</emergingthreats>
@@ -5892,7 +5875,7 @@
 			<pkginfolink>https://docs.netgate.com/pfsense/en/latest/packages/snort/index.html</pkginfolink>
 			<website>http://www.snort.org</website>
 			<descr><![CDATA[Snort is an open source network intrusion prevention and detection system (IDS/IPS). Combining the benefits of signature, protocol, and anomaly-based inspection.]]></descr>
-			<version>4.1.4_3</version>
+			<version>4.1.5</version>
 			<configurationfile>/snort.xml</configurationfile>
 			<after_install_info>Please visit Services - Snort - Interfaces tab first and select your desired rules. Afterwards visit the Updates tab to download your configured rulesets.</after_install_info>
 		</package>
@@ -5906,7 +5889,7 @@
 		<package>
 			<name>Telegraf</name>
 			<descr><![CDATA[Telegraf is an agent written in Go for collecting, processing, aggregating, and writing metrics.]]></descr>
-			<version>0.9_5</version>
+			<version>0.9_6</version>
 			<configurationfile>telegraf.xml</configurationfile>
 			<include_file>/usr/local/pkg/telegraf.inc</include_file>
 		</package>
