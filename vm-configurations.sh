@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source /tmp/project_config.sh
-source /tmp/openstack-scripts/vm_functions.sh
+source /tmp/vm_functions.sh
 
 function parse_json()
 {
