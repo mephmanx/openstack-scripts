@@ -48,7 +48,6 @@ ssh root@$LAN_CENTOS_IP 'cd /tmp/openstack-scripts; ./create-identity-kvm.sh;' &
 
 ### install remaining packages here
 install_pkg "pfsense-pkg-openvpn-client-export" $TELEGRAM_API $TELEGRAM_CHAT_ID
-install_pkg "pfsense-pkg-bandwidthd" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-pfBlockerNG-devel" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-snort" $TELEGRAM_API $TELEGRAM_CHAT_ID
 install_pkg "pfsense-pkg-cron" $TELEGRAM_API $TELEGRAM_CHAT_ID
@@ -56,10 +55,6 @@ install_pkg "pfsense-pkg-Telegraf" $TELEGRAM_API $TELEGRAM_CHAT_ID
 
 ### start services after install/reboot
 cd /usr/local/etc/rc.d
-# start bandwidthd
-./bandwidthd.sh start
-# start lightsquid_web
-./lighttpd_ls.sh start
 # start snort
 ./snort.sh start
 # start telegraf

@@ -1102,16 +1102,6 @@
 			<url>/pkg_edit.php?xml=telegraf.xml</url>
 		</menu>
 		<menu>
-			<name>BandwidthD</name>
-			<section>Diagnostics</section>
-			<url>/diag_bandwidthd.php</url>
-		</menu>
-		<menu>
-			<name>BandwidthD Settings</name>
-			<section>Diagnostics</section>
-			<url>/pkg_edit.php?xml=bandwidthd.xml</url>
-		</menu>
-		<menu>
 			<name>pfBlockerNG</name>
 			<section>Firewall</section>
 			<url>/pfblockerng/pfblockerng_general.php</url>
@@ -5049,12 +5039,6 @@
 			<description><![CDATA[Telegraf daemon]]></description>
 		</service>
 		<service>
-			<name>bandwidthd</name>
-			<rcfile>bandwidthd.sh</rcfile>
-			<executable>bandwidthd</executable>
-			<description><![CDATA[BandwidthD bandwidth monitoring daemon]]></description>
-		</service>
-		<service>
 			<name>pfb_dnsbl</name>
 			<rcfile>pfb_dnsbl.sh</rcfile>
 			<executable>lighttpd_pfb</executable>
@@ -5728,25 +5712,6 @@
 				<aliaslog>enabled</aliaslog>
 			</config>
 		</pfblockerngproxyandsatellite>
-		<bandwidthd>
-			<config>
-				<enable>on</enable>
-				<active_interface>lan</active_interface>
-				<interface_array>lan</interface_array>
-				<interface_array>wan</interface_array>
-				<subnets_extra></subnets_extra>
-				<promiscuous></promiscuous>
-				<sensorid></sensorid>
-				<drawgraphs>on</drawgraphs>
-				<meta_refresh></meta_refresh>
-				<skipintervals></skipintervals>
-				<graphcutoff></graphcutoff>
-				<outputcdf></outputcdf>
-				<recovercdf></recovercdf>
-				<graph_log_info></graph_log_info>
-				<advfilter></advfilter>
-			</config>
-		</bandwidthd>
 		<pfblockerngreputation>
 			<config>
 				<enable_rep>on</enable_rep>
@@ -5835,27 +5800,6 @@
 				</tab>
 			</tabs>
 			<include_file>/usr/local/pkg/openvpn-client-export.inc</include_file>
-		</package>
-		<package>
-			<name>bandwidthd</name>
-			<website>http://bandwidthd.sourceforge.net/</website>
-			<descr><![CDATA[BandwidthD tracks usage of TCP/IP network subnets and builds html files with graphs to display utilization.&lt;br/&gt;
-			Charts are built by individual IPs, and by default display utilization over 2 day, 8 day, 40 day, and 400 day periods. Furthermore, each IP address's utilization can be logged out in CDF format, or to a backend database server.&lt;br/&gt;
-			HTTP, TCP, UDP, ICMP, VPN, and P2P traffic are color coded.]]></descr>
-			<version>0.7.4_5</version>
-			<configurationfile>bandwidthd.xml</configurationfile>
-			<tabs>
-				<tab>
-					<text><![CDATA[Access BandwidthD]]></text>
-					<url>/diag_bandwidthd.php</url>
-				</tab>
-				<tab>
-					<text><![CDATA[Settings]]></text>
-					<url>/pkg_edit.php?xml=bandwidthd.xml</url>
-					<active></active>
-				</tab>
-			</tabs>
-			<include_file>/usr/local/pkg/bandwidthd.inc</include_file>
 		</package>
 		<package>
 			<name>pfBlockerNG-devel</name>
