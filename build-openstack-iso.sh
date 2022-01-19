@@ -149,6 +149,7 @@ done
 ####
 
 ./create-pfsense-kvm-iso.sh
+./create-cloudsupport-iso.sh
 ./create-identity-kvm-iso.sh
 ./create-cloud-kvm-iso.sh
 
