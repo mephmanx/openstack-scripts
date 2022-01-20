@@ -60,6 +60,8 @@ else
   DRIVE_SIZE=$(($((size_avail * 40/100)) / 1024 / 1024))
 fi
 
+## find minimum drive size and test for that
+
 create_line="virt-install "
 create_line+="--hvm "
 create_line+="--virt-type=kvm "

@@ -718,12 +718,21 @@ runuser -l stack -c  "echo ' -o /opt/stack/bosh-deployment/misc/no-internet-acce
 ####
 
 ### deploy bosh!
-ct=3
-while [[ $ct -gt 0 ]]; do
-  runuser -l stack -c  'bbl up --debug'
-  ((ct--))
-  sleep 30;
-done
+echo "error" > /tmp/bbl_up.log
+bbl_error_count=`grep -i "error" /tmp/bbl_up.log | wc -l`
+bbl_retry_count=5
+if [[ $bbl_error_count -gt 0 ]]; then
+  while [ $bbl_retry_count -gt 0 ]; do
+    rm -rf /tmp/bbl_up.log
+    runuser -l stack -c  'bbl up --debug > /tmp/bbl_up.log'
+    bbl_error_count=`grep -i "error" /tmp/bbl_up.log | wc -l`
+    if [[ $bbl_error_count == 0 ]]; then
+      break
+    fi
+    sleep 30
+    ((bbl_retry_count--))
+  done
+fi
 #####
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed, loading terraform cf for prepare script..."
