@@ -8,6 +8,12 @@ source /tmp/vm_functions.sh
 source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 
+if (virsh list --name | grep -q "cloudsupport"); then
+  return
+else
+  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Removing existing cloudsupport vm and building image for new one...."
+fi
+
 DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
 if [[ $DISK_COUNT -lt 2 ]]; then
   size_avail=`df /VM-VOL-ALL | awk '{print $2}' | sed 1d`
