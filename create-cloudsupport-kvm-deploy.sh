@@ -7,6 +7,7 @@ set -x
 source /tmp/vm_functions.sh
 source /tmp/openstack-env.sh
 source /tmp/project_config.sh
+source /tmp/vm-configuration.sh
 
 if (virsh list --name | grep -q "cloudsupport"); then
   return
