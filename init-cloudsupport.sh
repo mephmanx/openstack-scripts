@@ -41,7 +41,8 @@ yum install -y perl \
               docker-ce-cli \
               containerd.io \
               tar \
-              tpm-tools
+              tpm-tools \
+              httpd
 
 ## enable auto updates if selected
 if [[ $LINUX_AUTOUPDATE == 1 ]]; then

@@ -11,7 +11,7 @@ source iso-functions.sh
 rm -rf /var/tmp/openstack-iso.iso
 
 ## make sure libs are installed
-yum install -y wget zip httpd
+yum install -y wget zip
 
 ## prep project config by replacing nested vars
 prep_project_config
