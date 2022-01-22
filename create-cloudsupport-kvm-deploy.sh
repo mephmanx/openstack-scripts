@@ -5,7 +5,6 @@ exec 1>/root/cloudsupport-deploy.log 2>&1 # send stdout and stderr from rc.local
 set -x
 
 source /tmp/vm_functions.sh
-source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 source /tmp/vm-configurations.sh
 
