@@ -41,11 +41,10 @@ embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
               '/tmp/project_config.sh'
               "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION"
               "/tmp/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz"
-              "/tmp/local.repo"
               '/tmp/openstack-scripts/init-cloudsupport.sh'
               '/tmp/openstack-scripts/vm_functions.sh')
 
-harbor_images="/tmp/centos-*.tar"
+harbor_images="/tmp/harbor/*"
 for img in $harbor_images; do
   embed_files+=($img)
 done
