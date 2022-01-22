@@ -40,7 +40,7 @@ embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
               "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION"
-              "/tmp/kolla_$OPENSTACK_VERSION_rpm_repo.tar.gz"
+              "/tmp/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz"
               "/tmp/local.repo"
               '/tmp/openstack-scripts/init-cloudsupport.sh'
               '/tmp/openstack-scripts/vm_functions.sh')
