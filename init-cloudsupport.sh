@@ -81,13 +81,16 @@ rm -rf /etc/rc.d/rc.local
 cat > /etc/rc.d/rc.local <<EOF
 #!/bin/bash
 
+. /tmp/project_config.sh
+
 start() {
+SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 rm -rf /tmp/harbor-boot.log
 exec 1>/tmp/harbor-boot.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
 
 sleep 30
-export etext=`echo -n "admin:NmU1OTFlMGRmMTZhZmYzYThiYWM5ZDU" | base64`
+export etext=`echo -n "admin:{CENTOS_ADMIN_PWD_123456789012}" | base64`
 status_code=`curl https://$SUPPORT_VIP_DNS/api/v2.0/projects/2 --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" `
 cd /root/harbor
 while [ "$status_code" -ne 200 ] ; do
