@@ -87,15 +87,15 @@ exec 1>/tmp/harbor-boot.log 2>&1 # send stdout and stderr from rc.local to a log
 set -x                             # tell sh to display commands before execution
 
 sleep 30
-export etext=`echo -n "admin:{CENTOS_ADMIN_PWD_123456789012}" | base64`
-status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/projects/2 --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
+export etext=`echo -n "admin:NmU1OTFlMGRmMTZhZmYzYThiYWM5ZDU" | base64`
+status_code=`curl https://$SUPPORT_VIP_DNS/api/v2.0/projects/2 --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" `
 cd /root/harbor
 while [ "$status_code" -ne 200 ] ; do
   docker-compose down
   sleep 20;
   docker-compose up -d
   sleep 30;
-  status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/projects/2 --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
+  status_code=`curl https://$SUPPORT_VIP_DNS/api/v2.0/projects/2 --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" `
 done
 }
 
