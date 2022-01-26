@@ -75,6 +75,96 @@ runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --
 
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudsupport VM ready for use"
 ##########################
+
+#### populate harbor with openstack images
+#grafana fluentd zun not build
+source /tmp/project_config.sh
+
+cat > /etc/docker/daemon.json << EOF
+{
+ "insecure-registries": ["SUPPORT_VIP_DNS"]
+}
+
+EOF
+
+sleep 3
+echo -n $ADMIN_PWD | docker login $SUPPORT_VIP_DNS --username admin --password-stdin
+
+#setup repo server
+sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
+systemctl restart httpd
+
+#setup kolla docker rpm repo for build
+mv /tmp/kolla_w_rpm_repo.tar.gz /var/www/html/
+cd /var/www/html && tar xf /var/www/html/kolla_w_rpm_repo.tar.gz
+echo 'local rpm repo server setup finish!'
+
+docker load < /tmp/centos-binary-base-w.tar
+docker load < /tmp/centos-source-kolla-toolbox.tar
+docker load < /tmp/centos-source-zun-compute.tar
+docker load < /tmp/centos-source-zun-wsproxy.tar
+docker load < /tmp/centos-source-zun-api.tar
+docker load < /tmp/centos-source-zun-cni-daemon.tar
+docker load < /tmp/centos-source-kuryr-libnetwork.tar
+docker load < /tmp/centos-binary-fluentd.tar
+docker load < /tmp/centos-binary-grafana.tar
+docker load < /tmp/centos-binary-elasticsearch-curator.tar
+
+docker tag `docker images |grep centos-source-kolla-toolbox|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-binary-kolla-toolbox:wallaby
+
+docker tag `docker images |grep centos-binary-fluentd|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-binary-fluentd:wallaby
+
+docker tag `docker images |grep centos-binary-elasticsearch-curator|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-binary-elasticsearch-curator:wallaby
+
+docker tag `docker images |grep centos-binary-grafana|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-binary-grafana:wallaby
+
+docker tag `docker images |grep centos-source-zun-api|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-source-zun-api:wallaby
+
+docker tag `docker images |grep centos-source-zun-compute|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-source-zun-compute:wallaby
+
+docker tag `docker images |grep centos-source-zun-wsproxy|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-source-zun-wsproxy:wallaby
+
+docker tag `docker images |grep centos-source-zun-cni-daemon|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-source-zun-cni-daemon:wallaby
+
+docker tag `docker images |grep centos-source-kuryr-libnetwork|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-source-kuryr-libnetwork:wallaby
+
+#setup local repo
+cp /tmp/local.repo /etc/yum.repos.d/
+yum install -y openstack-kolla
+echo 'install openstack-kolla on local server finish!'
+
+#fix openstack-kolla issue for offline build
+sed -i 's/version=.*, //' /usr/lib/python3.6/site-packages/kolla/image/build.py
+
+#kolla docker file custom for offline build
+
+# keystone image
+sed -i 's/RUN dnf module/#RUN dnf module/' /usr/share/kolla/docker/keystone/keystone-base/Dockerfile.j2
+#neutron image
+sed -i 's#kolla_neutron_sudoers #kolla_neutron_sudoers \&\& cp /usr/share/neutron/api-paste.ini /etc/neutron #' /usr/share/kolla/docker/neutron/neutron-base/Dockerfile.j2
+
+#fluentd image
+sed -i '105,121s/^/#/' /usr/share/kolla/docker/fluentd/Dockerfile.j2
+#grafana image
+
+docker tag localhost/kolla/centos-binary-base:wallaby $SUPPORT_VIP_DNS/kolla/centos-binary-base:wallaby
+
+#kolla build config
+kolla-build --base-image localhost/kolla/centos-binary-base --base-tag wallaby -t binary --openstack-release wallaby  --tag wallaby --cache --skip-existing --nopull --registry $SUPPORT_VIP_DNS barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openvswitch placement qdrouterd redis rabbitmq swift telegraf trove
+
+cat > /tmp/harbor.json << EOF
+{"project_name": "kolla","metadata": {"public": "true"}}
+EOF
+
+harbor_api_password=`echo -n admin:$ADMIN_PWD|base64`
+cd /tmp
+curl -k -H  "authorization: Basic $harbor_api_password" -X POST -H "Content-Type: application/json" "https://$SUPPORT_VIP_DNS/api/v2.0/projects" -d @harbor.json
+
+#push images to harbor
+for i in `docker images |grep $SUPPORT_VIP_DNS|awk '{print $1}'`;do docker push $i:wallaby ;done
+
+######
+
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 

@@ -34,28 +34,28 @@ ADMIN_PWD={CENTOS_ADMIN_PWD_123456789012}
 
 ########### set up registry connection to docker hub
 export etext=`echo -n "admin:$ADMIN_PWD" | base64`
-curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/registries" \
-  --header "authorization: Basic $etext" \
-  --header 'content-type: application/json' \
-  --header "host: $SUPPORT_VIP_DNS" \
-  -H 'Accept-Language: en-us' \
-  -H 'Accept-Encoding: gzip, deflate, br' \
-  -H "Referer: https://$SUPPORT_VIP_DNS/harbor/registries" \
-  -H "Origin: https://$SUPPORT_VIP_DNS" \
-  -H 'Connection: keep-alive' \
-  --data-binary "{\"credential\":{\"access_key\":\"$DOCKER_HUB_USER\",\"access_secret\":\"$DOCKER_HUB_PWD\",\"type\":\"basic\"},\"description\":\"\",\"insecure\":false,\"name\":\"docker-hub\",\"type\":\"docker-hub\",\"url\":\"https://hub.docker.com\"}"
-
-###########################
-
-###########  remove default "library" project and create new proxy-cache library project
-curl -k --location --request DELETE "https://$SUPPORT_VIP_DNS/api/v2.0/projects/1" \
-  --header "authorization: Basic $etext"
-
-curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/projects" \
-  --header "authorization: Basic $etext" \
-  --header 'content-type: application/json' \
-  --header "host: $SUPPORT_VIP_DNS" \
-  --data-binary "{\"project_name\":\"library\",\"registry_id\":1,\"metadata\":{\"public\":\"true\"},\"storage_limit\":-1}"
+#curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/registries" \
+#  --header "authorization: Basic $etext" \
+#  --header 'content-type: application/json' \
+#  --header "host: $SUPPORT_VIP_DNS" \
+#  -H 'Accept-Language: en-us' \
+#  -H 'Accept-Encoding: gzip, deflate, br' \
+#  -H "Referer: https://$SUPPORT_VIP_DNS/harbor/registries" \
+#  -H "Origin: https://$SUPPORT_VIP_DNS" \
+#  -H 'Connection: keep-alive' \
+#  --data-binary "{\"credential\":{\"access_key\":\"$DOCKER_HUB_USER\",\"access_secret\":\"$DOCKER_HUB_PWD\",\"type\":\"basic\"},\"description\":\"\",\"insecure\":false,\"name\":\"docker-hub\",\"type\":\"docker-hub\",\"url\":\"https://hub.docker.com\"}"
+#
+############################
+#
+############  remove default "library" project and create new proxy-cache library project
+#curl -k --location --request DELETE "https://$SUPPORT_VIP_DNS/api/v2.0/projects/1" \
+#  --header "authorization: Basic $etext"
+#
+#curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/projects" \
+#  --header "authorization: Basic $etext" \
+#  --header 'content-type: application/json' \
+#  --header "host: $SUPPORT_VIP_DNS" \
+#  --data-binary "{\"project_name\":\"library\",\"registry_id\":1,\"metadata\":{\"public\":\"true\"},\"storage_limit\":-1}"
 
 status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
 
@@ -784,12 +784,23 @@ EOF
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Executing env prep script..."
 runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init; ./terraform plan;"
 
-ct=3
-while [[ $ct -gt 0 ]]; do
-  runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /tmp/terraf-bbl.out;"
-  ((ct--))
-  sleep 30;
-done
+echo "error" > /tmp/terraf-bbl.out
+tf_error_count=`grep -i "error" /tmp/terraf-bbl.out | wc -l`
+tf_retry_count=5
+if [[ $tf_error_count -gt 0 ]]; then
+  while [ $tf_retry_count -gt 0 ]; do
+    rm -rf /tmp/terraf-bbl.out
+    runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve" > /tmp/terraf-bbl.out
+    tf_error_count=`grep -i "error" /tmp/terraf-bbl.out | wc -l`
+    if [[ $tf_error_count == 0 ]]; then
+      break
+    else
+      runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform destroy -auto-approve"
+    fi
+    sleep 30
+    ((tf_retry_count--))
+  done
+fi
 ################
 sleep 30;
 ### update cf-lb to preconfigured address
@@ -1015,30 +1026,32 @@ telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install tail ->
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install complete!  Beginning Stratos UI deploy"
 
 # cf api login
-cf login -a api.$INTERNAL_DOMAIN_NAME -u admin -p $OPENSTACK_CLOUDFOUNDRY_PWD
+## use folder for auth token
+CF_HOME=$(mktemp -d /tmp/cfhome.9999)
+runuser -l stack -c "cf login -a api.$INTERNAL_DOMAIN_NAME -u admin -p $OPENSTACK_CLOUDFOUNDRY_PWD"
 
 ## create org
-cf create-org $INTERNAL_DOMAIN_NAME
+runuser -l stack -c "cf create-org $INTERNAL_DOMAIN_NAME"
 
 # create cf spaces
-cf create-space -o system system
-cf create-space -o $INTERNAL_DOMAIN_NAME prod
-cf create-space -o $INTERNAL_DOMAIN_NAME uat
+runuser -l stack -c "cf create-space -o system system"
+runuser -l stack -c "cf create-space -o $INTERNAL_DOMAIN_NAME prod"
+runuser -l stack -c "cf create-space -o $INTERNAL_DOMAIN_NAME uat"
 
 # enable docker support
-cf enable-feature-flag diego_docker
+runuser -l stack -c "cf enable-feature-flag diego_docker"
 #cf enable-service-access nfs -o $INTERNAL_DOMAIN_NAME
 
 ## change to prod dir for deploy
-cf target -o "system" -s "system"
-cf update-quota default -i 2G -m 4G
+runuser -l stack -c "cf target -o 'system' -s 'system'"
+runuser -l stack -c "cf update-quota default -i 2G -m 4G"
 
 ### determine quota formula.  this is memory on compute server to be made available for cloudfoundry org.
 memStrFree=`runuser -l root -c "ssh root@compute01 'cat /proc/meminfo | grep MemFree'"`
 memFree=`echo $memStrFree | awk -F' ' '{ print $2 }'`
 memGB=$((memFree / 1024 / 1024 * CF_MEMORY_ALLOCATION_PCT / 100))
-cf create-quota $INTERNAL_DOMAIN_NAME -i 8096M -m "$memGB"G -r 1000 -s 1000 -a 1000 --allow-paid-service-plans --reserved-route-ports $CF_TCP_PORT_COUNT
-cf set-quota $INTERNAL_DOMAIN_NAME $INTERNAL_DOMAIN_NAME
+runuser -l stack -c "cf create-quota $INTERNAL_DOMAIN_NAME -i 8096M -m "$memGB"G -r 1000 -s 1000 -a 1000 --allow-paid-service-plans --reserved-route-ports $CF_TCP_PORT_COUNT"
+runuser -l stack -c "cf set-quota $INTERNAL_DOMAIN_NAME $INTERNAL_DOMAIN_NAME"
 
 ### install security group
 export PT_CT="$CF_TCP_PORT_COUNT"
@@ -1051,7 +1064,7 @@ PORTS+=("80")
 PORTS+=("443")
 PORTS+=("2222")
 printf -v cf_tcp_ports '%s,' "${PORTS[@]}"
-cf_tcp_ports=`echo $cf_tcp_ports | rev | cut -c 2- | rev`
+runuser -l stack -c "cf_tcp_ports=`echo $cf_tcp_ports | rev | cut -c 2- | rev`"
 cat > /opt/stack/asg.json <<EOF
 [
   {
@@ -1070,8 +1083,8 @@ cat > /opt/stack/asg.json <<EOF
 ]
 EOF
 
-cf create-security-group ASG /opt/stack/asg.json
-cf bind-running-security-group ASG
+runuser -l stack -c "cf create-security-group ASG /opt/stack/asg.json"
+runuser -l stack -c "cf bind-running-security-group ASG"
 ## push logging
 # get latest stemcell
 #runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
@@ -1154,10 +1167,11 @@ cf bind-running-security-group ASG
 
 #push stratos
 git clone https://github.com/cloudfoundry/stratos /tmp/stratos
-cf push console -f /tmp/stratos/manifest-docker.yml -k 2G
-cf scale console -i 2
+runuser -l stack -c "cf push console -f /tmp/stratos/manifest-docker.yml -k 2G"
+runuser -l stack -c "cf scale console -i 2"
 
 ## Stratos complete!
+rm -rf $CF_HOME
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stratos deployment complete!  access at console.$INTERNAL_DOMAIN_NAME user -> admin , pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
 
 #### update keystone for ldap, run at the very end as it disables keystone db auth.  disables admin and osuser accounts!
