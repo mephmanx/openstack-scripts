@@ -1064,7 +1064,7 @@ PORTS+=("80")
 PORTS+=("443")
 PORTS+=("2222")
 printf -v cf_tcp_ports '%s,' "${PORTS[@]}"
-runuser -l stack -c "cf_tcp_ports=`echo $cf_tcp_ports | rev | cut -c 2- | rev`"
+cf_tcp_ports=`echo $cf_tcp_ports | rev | cut -c 2- | rev`
 cat > /opt/stack/asg.json <<EOF
 [
   {
