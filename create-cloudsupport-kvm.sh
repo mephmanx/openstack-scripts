@@ -39,6 +39,7 @@ sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd)'/g' ${kickstart_file}
 ###########################
 
 embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
+              '/root/.ssh/id_rsa.crt'
               '/root/.ssh/wildcard.crt'
               '/root/.ssh/wildcard.key'
               '/tmp/openstack-scripts/harbor.yml'
