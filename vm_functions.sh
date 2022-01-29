@@ -123,7 +123,7 @@ function load_libs() {
 }
 
 function add_stack_user() {
-  NEWPW=$(generate_random_pwd)
+  NEWPW=$(generate_random_pwd 31)
 
   runuser -l root -c  'mkdir /opt/stack'
   runuser -l root -c  'useradd -s /bin/bash -d /opt/stack -m stack'

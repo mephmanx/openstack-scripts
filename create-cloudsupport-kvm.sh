@@ -35,7 +35,7 @@ sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' ${kickstart_file}
 sed -i 's/{GATEWAY_ROUTER_IP}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
 sed -i 's/{IDENTITY_VIP}/'$IDENTITY_VIP'/g' ${kickstart_file}
 sed -i 's/{NETMASK}/'$NETMASK'/g' ${kickstart_file}
-sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd)'/g' ${kickstart_file}
+sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd 31)'/g' ${kickstart_file}
 ###########################
 
 embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"

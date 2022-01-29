@@ -33,7 +33,7 @@ sed -i 's/{GATEWAY_ROUTER_IP}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
 sed -i 's/{NETMASK}/'$NETMASK'/g' ${kickstart_file}
 sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
 #sed -i 's/{DIRECTORY_MGR_PWD_12345678901}/'$DIRECTORY_MGR_PWD'/g' ${kickstart_file}
-sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd)'/g' ${kickstart_file}
+sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd 31)'/g' ${kickstart_file}
 ###########################
 
 embed_files=('/root/.ssh/id_rsa.crt'
