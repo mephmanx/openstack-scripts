@@ -36,6 +36,7 @@ yum install -y wget zip
 #  cd $pwd
 #fi
 
+rm -rf ./tmp
 mkdir ./tmp
 cp centos-8-kickstart-openstack.cfg ./tmp
 
@@ -160,7 +161,7 @@ if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f 
     rm -rf /out
     mkdir /out
     docker pull mephmanx/os-airgap:latest
-    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out os-airgap:latest
+    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out mephmanx/os-airgap:latest
 fi
 
 if [ ! -f "/tmp/harbor" ]; then
