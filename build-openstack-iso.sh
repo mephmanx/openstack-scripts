@@ -5,6 +5,7 @@
 rm -rf /tmp/openstack-env.sh
 cp $1 /tmp/openstack-env.sh
 source /tmp/openstack-env.sh
+cp project_config /tmp
 source vm_functions.sh
 ## prep project config by replacing nested vars
 prep_project_config
