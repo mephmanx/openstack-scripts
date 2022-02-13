@@ -64,6 +64,7 @@ if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2" ]; then
   ./diskimage-create.sh;
   cd $pwd
   cp /tmp/octavia/diskimage-create/amphora-x64-haproxy.qcow2 /tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2
+  rm -rf /tmp/octavia
 fi
 
 if [ ! -f "/tmp/pfSense-$PFSENSE_VERSION.gz" ]; then
