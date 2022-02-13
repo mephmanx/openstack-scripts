@@ -158,7 +158,9 @@ else
   fi
 fi
 
-mkdir /tmp/harbor
+if [ ! -f "/tmp/harbor" ]; then
+  mkdir /tmp/harbor
+fi
 #### add build images
 mv /out/centos-binary-base-$OPENSTACK_VERSION.tar /tmp/harbor
 mv /out/kolla_$OPENSTACK_VERSION_rpm_repo.tar.gz /tmp/harbor
