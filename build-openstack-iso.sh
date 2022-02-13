@@ -173,6 +173,7 @@ fi
 #### add build images
 mv /out/centos-binary-base-${OPENSTACK_VERSION}.tar /tmp/harbor
 mv /out/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz /tmp/harbor
+rm -rf /out
 ### add copied images
 docker pull kolla/centos-source-kuryr-libnetwork:wallaby && docker save kolla/centos-source-kuryr-libnetwork:wallaby >/tmp/harbor/centos-source-kuryr-libnetwork.tar
 docker pull kolla/centos-source-kolla-toolbox:wallaby && docker save kolla/centos-source-kolla-toolbox:wallaby >/tmp/harbor/centos-source-kolla-toolbox.tar
