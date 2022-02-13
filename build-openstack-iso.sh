@@ -154,17 +154,13 @@ do
 done
 ####
 
-if [ ! -f "/out" ]; then
-  mkdir /out
-  docker pull mephmanx/os-airgap:latest
-  docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out mephmanx/os-airgap:latest
-else
-  if [ ! -f "/out/centos-binary-base-${OPENSTACK_VERSION}.tar" && ! -f "/out/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz" ]; then
+if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" && ! -f "/tmp/harbor/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz" ]; then
+    rm -rf /tmp/harbor
+    mkdir /tmp/harbor
     rm -rf /out
     mkdir /out
     docker pull mephmanx/os-airgap:latest
     docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out os-airgap:latest
-  fi
 fi
 
 if [ ! -f "/tmp/harbor" ]; then
