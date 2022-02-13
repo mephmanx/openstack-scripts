@@ -148,7 +148,7 @@ fi
 if [ ! -f "/out" ]; then
   mkdir /out
   docker pull mephmanx/os-airgap:latest
-  docker run -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out os-airgap:latest
+  docker run -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out mephmanx/os-airgap:latest
 else
   if [ ! -f "/out/centos-binary-base-$OPENSTACK_VERSION.tar" && ! -f "/out/kolla_$OPENSTACK_VERSION_rpm_repo.tar.gz" ]; then
     rm -rf /out
