@@ -129,6 +129,14 @@ docker tag `docker images |grep centos-source-zun-cni-daemon|awk '{print $3}'` $
 docker tag `docker images |grep centos-source-kuryr-libnetwork|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-source-kuryr-libnetwork:wallaby
 
 #setup local repo
+cat > /tmp/local.repo <<EOF
+[kolla_local]
+name=kolla_local
+baseurl=http://localhost:8080/kolla_wallaby
+enabled=1
+gpgcheck=0
+EOF
+
 cp /tmp/local.repo /etc/yum.repos.d/
 yum install -y openstack-kolla
 echo 'install openstack-kolla on local server finish!'
