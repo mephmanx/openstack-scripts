@@ -139,6 +139,34 @@ if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
   docker run --rm -v /tmp:/tmp/export mephmanx/homebrew-cache $CF_BBL_INSTALL_TERRAFORM_VERSION
 fi
 
+if [ ! -f "/out" ]; then
+  mkdir /out
+  docker pull mephmanx/os-airgap:latest
+  docker run -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out os-airgap:latest
+else
+  if [ ! -f "/out/centos-binary-base-$OPENSTACK_VERSION.tar" && ! -f "/out/kolla_$OPENSTACK_VERSION_rpm_repo.tar.gz" ]; then
+    rm -rf /out
+    mkdir /out
+    docker pull mephmanx/os-airgap:latest
+    docker run -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out os-airgap:latest
+  fi
+fi
+
+mkdir /tmp/harbor
+#### add build images
+mv /out/centos-binary-base-$OPENSTACK_VERSION.tar /tmp/harbor
+mv /out/kolla_$OPENSTACK_VERSION_rpm_repo.tar.gz /tmp/harbor
+### add copied images
+docker pull kolla/centos-source-kuryr-libnetwork:wallaby && docker save kolla/centos-source-kuryr-libnetwork:wallaby >/tmp/harbor/centos-source-kuryr-libnetwork.tar
+docker pull kolla/centos-source-kolla-toolbox:wallaby && docker save kolla/centos-source-kolla-toolbox:wallaby >/tmp/harbor/centos-source-kolla-toolbox.tar
+docker pull kolla/centos-source-zun-compute:wallaby && docker save kolla/centos-source-zun-compute:wallaby >/tmp/harbor/centos-source-zun-compute.tar
+docker pull kolla/centos-source-zun-wsproxy:wallaby && docker save kolla/centos-source-zun-wsproxy:wallaby >/tmp/harbor/centos-source-zun-wsproxy.tar
+docker pull kolla/centos-source-zun-api:wallaby && docker save kolla/centos-source-zun-api:wallaby >/tmp/harbor/centos-source-zun-api.tar
+docker pull kolla/centos-source-zun-cni-daemon:wallaby && docker save kolla/centos-source-zun-cni-daemon:wallaby >/tmp/harbor/centos-source-zun-cni-daemon.tar
+docker pull kolla/centos-binary-fluentd:wallaby && docker save kolla/centos-binary-fluentd:wallaby >/tmp/harbor/centos-binary-fluentd.tar
+docker pull kolla/centos-binary-grafana:wallaby && docker save kolla/centos-binary-grafana:wallaby >/tmp/harbor/centos-binary-grafana.tar
+docker pull kolla/centos-binary-elasticsearch-curator:wallaby && docker save kolla/centos-binary-elasticsearch-curator:wallaby >/tmp/harbor/centos-binary-elasticsearch-curator.tar
+
 IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
 for stemcell in "${stemcell_array[@]}";
 do
@@ -185,3 +213,4 @@ closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_str
 isohybrid /var/tmp/openstack-iso.iso
 ## cleanup work dir
 rm -rf ./tmp
+rm -rf /tmp/harbor
