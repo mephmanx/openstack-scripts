@@ -5,6 +5,12 @@
 rm -rf /tmp/openstack-env.sh
 cp $1 /tmp/openstack-env.sh
 source /tmp/openstack-env.sh
+
+## prep project config by replacing nested vars
+prep_project_config
+source /tmp/project_config.sh
+#########
+
 source vm_functions.sh
 source iso-functions.sh
 
@@ -13,10 +19,7 @@ rm -rf /var/tmp/openstack-iso.iso
 ## make sure libs are installed
 yum install -y wget zip
 
-## prep project config by replacing nested vars
-prep_project_config
-source /tmp/project_config.sh
-#########
+
 
 ### build centos iso if not exist
 #if [ ! -f "/tmp/linux.iso" ]; then
