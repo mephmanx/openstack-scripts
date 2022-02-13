@@ -222,4 +222,3 @@ closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_str
 isohybrid /var/tmp/openstack-iso.iso
 ## cleanup work dir
 rm -rf ./tmp
-rm -rf /tmp/harbor
