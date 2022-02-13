@@ -145,6 +145,15 @@ if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
   docker run --rm -v /tmp:/tmp/export mephmanx/homebrew-cache $CF_BBL_INSTALL_TERRAFORM_VERSION
 fi
 
+IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
+for stemcell in "${stemcell_array[@]}";
+do
+  if [ ! -f "/tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz" ]; then
+    curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$stemcell-go_agent --output /tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz > /dev/null
+  fi
+done
+####
+
 if [ ! -f "/out" ]; then
   mkdir /out
   docker pull mephmanx/os-airgap:latest
@@ -174,15 +183,6 @@ docker pull kolla/centos-source-zun-cni-daemon:wallaby && docker save kolla/cent
 docker pull kolla/centos-binary-fluentd:wallaby && docker save kolla/centos-binary-fluentd:wallaby >/tmp/harbor/centos-binary-fluentd.tar
 docker pull kolla/centos-binary-grafana:wallaby && docker save kolla/centos-binary-grafana:wallaby >/tmp/harbor/centos-binary-grafana.tar
 docker pull kolla/centos-binary-elasticsearch-curator:wallaby && docker save kolla/centos-binary-elasticsearch-curator:wallaby >/tmp/harbor/centos-binary-elasticsearch-curator.tar
-
-IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
-for stemcell in "${stemcell_array[@]}";
-do
-  if [ ! -f "/tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz" ]; then
-    curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$stemcell-go_agent --output /tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz > /dev/null
-  fi
-done
-####
 
 ./create-pfsense-kvm-iso.sh
 ./create-cloudsupport-kvm-iso.sh
