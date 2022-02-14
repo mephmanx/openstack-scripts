@@ -164,9 +164,6 @@ if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f 
     docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out mephmanx/os-airgap:latest
 fi
 
-if [ ! -f "/tmp/harbor" ]; then
-  mkdir /tmp/harbor
-fi
 #### add build images
 mv /out/centos-binary-base-${OPENSTACK_VERSION}.tar /tmp/harbor
 mv /out/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz /tmp/harbor
