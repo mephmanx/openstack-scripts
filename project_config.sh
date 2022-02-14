@@ -30,7 +30,7 @@ export MAGNUM_IMAGE=https://download.fedoraproject.org/pub/alt/atomic/stable/$MA
 export CF_ATTIC_TERRAFORM=https://releases.hashicorp.com/terraform/$CF_ATTIC_TERRAFORM_VERSION/terraform_$CF_ATTIC_TERRAFORM_VERSION_linux_amd64.zip
 
 ### image for trove instances
-export TROVE_INSTANCE_IMAGE=https://cloud-images.ubuntu.com/releases/$UBUNTU_VERSION/releases/ubuntu-$UBUNTU_VERSION-server-cloudimg-amd64.img
+export TROVE_INSTANCE_IMAGE=https://cloud-images.ubuntu.com/releases/$UBUNTU_RELEASE_NAME/release/ubuntu-$UBUNTU_VERSION-server-cloudimg-amd64.img
 
 ### image for trove DB's
 export TROVE_DB_IMAGE=https://tarballs.opendev.org/openstack/trove/images/trove-master-guest-ubuntu-bionic.qcow2
@@ -60,6 +60,7 @@ export MAGNUM_IMAGE_VERSION="Fedora-Atomic-27-20180419.0"
 export CF_ATTIC_TERRAFORM_VERSION="0.11.15"
 export DOCKER_COMPOSE_VERSION="1.29.2"
 export UBUNTU_VERSION="18.04"
+export UBUNTU_RELEASE_NAME="bionic"
 export AMPHORA_VERSION="1.0.1"
 export TROVE_DB_VERSION="xena"
 export CF_DEPLOY_VERSION="v17.1.0"
