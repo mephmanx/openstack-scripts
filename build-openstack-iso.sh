@@ -201,14 +201,13 @@ embed_files=('/tmp/openstack-env.sh'
               '/tmp/openstack-scripts/pfsense-init.sh'
               '/tmp/openstack-scripts/openstack.sh'
               '/tmp/openstack-scripts/vm_functions.sh'
-              '/tmp/openstack-scripts/vm-configurations.sh')
+              '/tmp/openstack-scripts/vm-configurations.sh'
+              "/var/tmp/pfSense-CE-memstick-ADI.img")
 
 iso_images="/var/tmp/*.iso"
 for img in $iso_images; do
   embed_files+=($img)
 done
-
-embed_files+=("/var/tmp/pfSense-CE-memstick-ADI.img")
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_string
