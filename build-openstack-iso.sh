@@ -37,8 +37,7 @@ yum install -y wget zip
 #fi
 
 docker pull mephmanx/centos-stream-airgap-build:latest
-docker run -v $PWD:/opt/mount --rm -ti mephmanx/centos-stream-airgap-build:latest bash -c "cp CentOS-x86_64-minimal.iso /opt/mount/"
-mv ./CentOS-x86_64-minimal.iso /tmp/linux.iso
+docker run -v $PWD:/opt/mount --rm -ti mephmanx/centos-stream-airgap-build:latest bash -c "cp linux.iso /opt/mount/"
 
 rm -rf ./tmp
 mkdir ./tmp
