@@ -36,6 +36,10 @@ yum install -y wget zip
 #  cd $pwd
 #fi
 
+docker pull mephmanx/centos-stream-airgap-build:latest
+docker run -v $PWD:/opt/mount --rm -ti mephmanx/centos-stream-airgap-build:latest bash -c "cp CentOS-x86_64-minimal.iso /opt/mount/"
+mv ./CentOS-x86_64-minimal.iso /tmp/linux.iso
+
 rm -rf ./tmp
 mkdir ./tmp
 cp centos-8-kickstart-openstack.cfg ./tmp
