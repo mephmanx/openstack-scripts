@@ -21,21 +21,6 @@ rm -rf /var/tmp/openstack-iso.iso
 ## make sure libs are installed
 yum install -y wget zip
 
-
-
-### build centos iso if not exist
-#if [ ! -f "/tmp/linux.iso" ]; then
-#  pwd=`pwd`
-#  git clone https://github.com/mephmanx/centos-8-minimal.git /tmp/centos-8-minimal
-#  if [ ! -f "/tmp/CentOS-Stream.iso" ]; then
-#    curl -o /tmp/CentOS-Stream.iso $CENTOS_BASE -L
-#  fi
-#  cd /tmp/centos-8-minimal
-#  ./create_iso_in_container.sh "/tmp/CentOS-Stream.iso"
-#  mv /tmp/centos-8-minimal/CentOS-x86_64-minimal.iso /tmp/linux.iso
-#  cd $pwd
-#fi
-
 docker pull mephmanx/centos-stream-airgap-build:latest
 docker run -v $PWD:/opt/mount --rm -ti mephmanx/centos-stream-airgap-build:latest bash -c "cp linux.iso /opt/mount/"
 
