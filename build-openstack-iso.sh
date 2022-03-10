@@ -12,8 +12,6 @@ source vm_functions.sh
 prep_project_config
 source /tmp/project_config.sh
 #########
-
-
 source iso-functions.sh
 
 rm -rf /var/tmp/openstack-iso.iso
@@ -22,7 +20,8 @@ rm -rf /var/tmp/openstack-iso.iso
 yum install -y wget zip
 
 docker pull mephmanx/centos-stream-airgap-build:latest
-docker run -v $PWD:/opt/mount --rm -ti mephmanx/centos-stream-airgap-build:latest bash -c "cp linux.iso /opt/mount/"
+docker run -v $PWD:/opt/mount --rm -ti mephmanx/centos-stream-airgap-build:latest bash -c "cp CentOS-x86_64-minimal.iso /opt/mount/"
+docker cp CentOS-x86_64-minimal.iso /tmp/linux.iso
 
 rm -rf ./tmp
 mkdir ./tmp
