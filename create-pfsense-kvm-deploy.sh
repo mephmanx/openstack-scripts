@@ -18,6 +18,14 @@ else
   DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
 fi
 
+### copy pfsense files to folder for host
+rm -rf /tmp/pftransfer/*.sh
+cp -nf /tmp/openstack-env.sh /tmp/pftransfer
+cp -nf /tmp/pf_functions.sh /tmp/pftransfer
+cp -nf /tmp/project_config.sh /tmp/pftransfer
+cp -nf /tmp/pfsense-init.sh /tmp/pftransfer
+##################
+
 create_line="virt-install "
 create_line+="--hvm "
 create_line+="--virt-type=kvm "
