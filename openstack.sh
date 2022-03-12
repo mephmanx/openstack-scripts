@@ -158,6 +158,7 @@ cd $pwd
 
 firewall-cmd --zone=internal --change-interface=loc-static --permanent
 firewall-cmd --permanent --zone=internal --add-port=8000/tcp
+firewall-cmd --reload
 
 runuser -l root -c  'cd /tmp/openstack-scripts; ./create-pfsense-kvm.sh'
 
