@@ -39,5 +39,7 @@ while [ $begin -le $thread_ct ]; do
   ((begin++))
 done
 
+## add integrity check in future or prod versions of image
+
 wait
 exit 0

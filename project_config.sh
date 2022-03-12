@@ -15,14 +15,6 @@ export SWTPM_GIT=https://github.com/stefanberger/swtpm/archive/master/swtpm.zip;
 ## fat32 offset is added but logic NEEDS to be validated on update
 export PFSENSE=https://nyifiles.netgate.com/mirror/downloads/pfSense-CE-memstick-ADI-$PFSENSE_VERSION-RELEASE-amd64.img.gz;
 
-## Linux iso
-## This is cached on PFSense to be used as the base image by all other systems.
-export LINUX_ISO=https://vault.centos.org/8.3.2011/isos/x86_64/CentOS-8.3.2011-x86_64-minimal.iso
-
-### centos base image
-## figure out how to build centos stream
-#export CENTOS_BASE=http://isoredirect.centos.org/centos/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-20210916-dvd1.iso
-
 ### Magnum docker image
 export MAGNUM_IMAGE=https://download.fedoraproject.org/pub/alt/atomic/stable/$MAGNUM_IMAGE_VERSION/CloudImages/x86_64/images/$MAGNUM_IMAGE_VERSION.x86_64.qcow2
 
