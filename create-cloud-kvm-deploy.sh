@@ -137,7 +137,7 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "All cloud VM's installed.  Open
 ##########
 
 ### delete isos when done as they have private info
-rm -rf /var/tmp/*.iso
+rm -rf /tmp/*.iso
 ### run host trust to add keys to hypervisor
 host_trust_script+=("runuser -l root -c  'ssh-keyscan -H kolla >> ~/.ssh/known_hosts';")
 echo $host_trust_script >> /tmp/additional_hosts

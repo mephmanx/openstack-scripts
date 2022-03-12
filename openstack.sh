@@ -150,7 +150,6 @@ runuser -l root -c "cat /tmp/pftransfer/pf_key.pub >> /root/.ssh/authorized_keys
 
 ### start image hosting
 pwd=`pwd`
-cp /tmp/linux.iso /tmp/pftransfer
 cd /tmp/pftransfer
 python3 -m http.server &
 web_pid=$!

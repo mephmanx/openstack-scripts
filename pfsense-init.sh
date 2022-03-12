@@ -14,16 +14,6 @@ DRIVE_SIZE=`geom disk list | grep Mediasize | sed 2d | awk '{ print $2 }'`
 sed -i 's/{CACHE_SIZE}/'$(($DRIVE_SIZE / 1024 / 1024 * 75/100))'/g' /conf/config.xml
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense initialization script beginning... \n\nCloud DMZ IP: $IP_DATA"
 
-### perform downloads first so that VM installs can continue
-#mkdir /usr/local/www/isos
-#
-#if [ ! -f "/usr/local/www/isos/linux.iso" ]; then
-#  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: pulling linux image"
-#  rm -rf /usr/local/www/isos/linux.iso
-#  curl -o /usr/local/www/isos/linux.iso http://$LAN_CENTOS_IP:8000/linux.iso -s --retry 10
-#fi
-################
-
 ## preparing next reboot
 ## build next reboot script to start cloud build.  overwrite contents of this file so it is executed on next reboot
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: Building second init script to kick off cloud build."

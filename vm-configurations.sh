@@ -296,7 +296,7 @@ function create_vm_kvm {
   create_line+="--memorybacking hugepages=yes "
   create_line+="--controller type=scsi,model=virtio-scsi "
   create_line+="$virt_disk_string"
-  create_line+="--cdrom=/var/tmp/$2-iso.iso "
+  create_line+="--cdrom=/tmp/$2-iso.iso "
   create_line+="$virt_network_string"
   create_line+="--os-variant=centos8 "
   create_line+="--graphics=vnc "
