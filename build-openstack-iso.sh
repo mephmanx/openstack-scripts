@@ -22,7 +22,7 @@ yum install -y wget zip
 rm -rf /tmp/linux.iso
 docker pull $DOCKER_LINUX_BUILD_IMAGE
 docker run -v $PWD:/opt/mount --rm -ti $DOCKER_LINUX_BUILD_IMAGE bash -c "cp CentOS-x86_64-minimal.iso /opt/mount/"
-docker cp CentOS-x86_64-minimal.iso $DOCKER_LINUX_BUILD_IMAGE:/tmp/linux.iso
+docker cp /tmp/CentOS-x86_64-minimal.iso $DOCKER_LINUX_BUILD_IMAGE:/tmp/linux.iso
 
 rm -rf ./tmp
 mkdir ./tmp
