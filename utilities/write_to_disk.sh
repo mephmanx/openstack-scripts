@@ -15,7 +15,7 @@ sz=$(($((`ls -al $out_file | awk '{ print $5 }'`)) / 1024 / 1024 ))
 
 # use to adjust number of threads used when writing disk
 ## this is in megabytes as are all other calculations done in this file
-write_per_thread=512
+write_per_thread=128
 ######
 
 thread_ct=$(($((`ls -al $out_file | awk '{ print $5 }'`)) / 1024 / 1024 / $write_per_thread ))
