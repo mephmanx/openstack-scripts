@@ -14,7 +14,7 @@ source /tmp/project_config.sh
 #########
 source iso-functions.sh
 
-rm -rf /var/tmp/openstack-iso.iso
+rm -rf /var/tmp/*
 
 ## make sure libs are installed
 yum install -y wget zip
