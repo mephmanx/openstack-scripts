@@ -189,6 +189,10 @@ embed_files=('/tmp/openstack-env.sh'
               '/tmp/openstack-scripts/openstack.sh'
               '/tmp/openstack-scripts/vm_functions.sh'
               '/tmp/openstack-scripts/vm-configurations.sh'
+              '/tmp/openstack-scripts/create-cloud-kvm-deploy.sh'
+              '/tmp/openstack-scripts/create-cloudsupport-kvm-deploy.sh'
+              '/tmp/openstack-scripts/create-identity-kvm-deploy.sh'
+              '/tmp/openstack-scripts/create-pfsense-kvm-deploy.sh'
               "/var/tmp/pfSense-CE-memstick-ADI.img")
 
 iso_images="/var/tmp/*.iso"
