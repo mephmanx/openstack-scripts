@@ -132,6 +132,12 @@ telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Installing VTPM"
 vtpm
 ######
 
+## firewall rules
+firewall-cmd --zone=internal --change-interface=loc-static --permanent
+firewall-cmd --permanent --zone=internal --add-port=8000/tcp
+firewall-cmd --reload
+### firewall rules
+
 ############ Create and init storage pools
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Build storage pools"
 for part in `df | grep "VM-VOL" | awk '{print $6, " " }' | tr -d '/' | tr -d '\n'`; do

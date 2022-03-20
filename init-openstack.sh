@@ -18,10 +18,6 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
-firewall-cmd --zone=internal --change-interface=loc-static --permanent
-firewall-cmd --permanent --zone=internal --add-port=8000/tcp
-firewall-cmd --reload
-
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup, core network setup in progress....."
 
 ## do not perform anything that would need internet access after the below command is executed.
