@@ -7,6 +7,7 @@ set -x
 source /tmp/iso-functions.sh
 source /tmp/vm_functions.sh
 source /tmp/project_config.sh
+source /tmp/vm-configurations.sh
 
 KICKSTART_DIR=/tmp/openstack-scripts
 
