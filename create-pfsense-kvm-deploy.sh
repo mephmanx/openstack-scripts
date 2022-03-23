@@ -4,10 +4,10 @@ rm -rf /tmp/pfsense-install.log
 exec 1>/root/pfsense-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x
 
-source /tmp/iso-functions.sh
 source /tmp/vm_functions.sh
 source /tmp/openstack-env.sh
 source /tmp/project_config.sh
+source /tmp/vm-configuration.sh
 
 DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
 if [[ $DISK_COUNT -lt 2 ]]; then
@@ -47,14 +47,13 @@ create_line+="--network type=bridge,source=loc-static,model=virtio "
 create_line+="--network type=bridge,source=amp-net,model=virtio "
 create_line+="--os-variant=freebsd11.0 "
 create_line+="--graphics=vnc "
-create_line+="--autostart"
+create_line+="--autostart --wait 0"
 
 echo $create_line
 telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense install beginning...."
 eval $create_line &
 
 sleep 30;
-
 (echo open 127.0.0.1 4568;
   sleep 60;
   echo "ansi";
@@ -79,6 +78,10 @@ sleep 30;
   sleep 160;
   echo 'N';
   sleep 5;
+  echo 'S';
+  sleep 5;
+  echo 'shutdown -p now';
+  sleep 20;
 ) | telnet
 
 ## remove install disk from pfsense
