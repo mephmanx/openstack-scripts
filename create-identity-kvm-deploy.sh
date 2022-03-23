@@ -4,7 +4,6 @@ rm -rf /tmp/identity-install.log
 exec 1>/root/identity-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x
 
-source /tmp/iso-functions.sh
 source /tmp/vm_functions.sh
 source /tmp/project_config.sh
 source /tmp/vm-configurations.sh
