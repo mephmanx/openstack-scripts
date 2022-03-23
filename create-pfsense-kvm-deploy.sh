@@ -1,8 +1,8 @@
 #!/bin/bash
 
-rm -rf /tmp/pfsense-install.log
-exec 1>/root/pfsense-install.log 2>&1 # send stdout and stderr from rc.local to a log file
-set -x
+#rm -rf /tmp/pfsense-install.log
+#exec 1>/root/pfsense-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+#set -x
 
 source /tmp/vm_functions.sh
 source /tmp/project_config.sh
@@ -48,9 +48,7 @@ create_line+="--os-variant=freebsd11.0 "
 create_line+="--graphics=vnc "
 create_line+="--autostart --wait 0"
 
-echo $create_line
-telegram_notify "PFSense install beginning...."
-eval $create_line &
+eval $create_line
 
 sleep 30;
 (echo open 127.0.0.1 4568;
@@ -99,11 +97,11 @@ telegram_debug_msg  "PFSense admin pwd is $root_pw"
 (echo open 127.0.0.1 4568;
   sleep 120;
   echo "pfSsh.php playback changepassword admin";
-  sleep 10;
+  sleep 20;
   echo "$root_pw";
-  sleep 10;
+  sleep 20;
   echo "$root_pw";
-  sleep 10;
+  sleep 20;
   echo "yes | pkg install git &";
   sleep 120;
   echo "yes | pkg install bash &";
@@ -136,8 +134,7 @@ telegram_debug_msg  "PFSense admin pwd is $root_pw"
   sleep 10;
 ) | telnet
 
-telegram_notify  \
-        "PFSense rebooting after package install, pfsense-init script should begin after reboot."
+telegram_notify  "PFSense rebooting after package install, pfsense-init script should begin after reboot."
 
 virsh reboot pfsense
 
