@@ -34,12 +34,6 @@ fi
 # load libraries for this VM "type"
 load_libs "${TYPE}"
 
-#### Centos8 to Centos 8 Stream
-if [[ $NAME == "CentOS Linux" ]]; then
-  dnf swap centos-linux-repos centos-stream-repos -y
-  dnf distro-sync -y
-fi
-
 # add stack user with passwordless sudo privs
 add_stack_user
 
