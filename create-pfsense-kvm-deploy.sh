@@ -80,8 +80,6 @@ sleep 30;
   sleep 5;
   echo 'S';
   sleep 5;
-  echo 'shutdown -p now';
-  sleep 20;
 ) | telnet
 
 ## remove install disk from pfsense
