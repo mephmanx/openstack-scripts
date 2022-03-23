@@ -6,7 +6,7 @@ set -x
 
 source /tmp/vm_functions.sh
 source /tmp/project_config.sh
-source /tmp/vm-configuration.sh
+source /tmp/vm-configurations.sh
 
 DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
 if [[ $DISK_COUNT -lt 2 ]]; then
