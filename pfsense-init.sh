@@ -12,11 +12,11 @@ set -x                             # tell sh to display commands before executio
 IP_DATA=`ifconfig vtnet0 | grep inet`
 DRIVE_SIZE=`geom disk list | grep Mediasize | sed 2d | awk '{ print $2 }'`
 sed -i 's/{CACHE_SIZE}/'$(($DRIVE_SIZE / 1024 / 1024 * 75/100))'/g' /conf/config.xml
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense initialization script beginning... \n\nCloud DMZ IP: $IP_DATA"
+telegram_notify  "PFSense initialization script beginning... \n\nCloud DMZ IP: $IP_DATA"
 
 ## preparing next reboot
 ## build next reboot script to start cloud build.  overwrite contents of this file so it is executed on next reboot
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: Building second init script to kick off cloud build."
+telegram_notify  "PFSense init: Building second init script to kick off cloud build."
 
 cat <<EOF >/usr/local/etc/rc.d/pfsense-init-2.sh
 #!/bin/sh
@@ -31,17 +31,17 @@ set -x                             # tell sh to display commands before executio
 . /root/openstack-env.sh
 . /root/openstack-scripts/pf_functions.sh
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: Second init script running"
+telegram_notify  "PFSense init: Second init script running"
 
 ## kickoff cloud build
 ssh root@$LAN_CENTOS_IP 'cd /tmp; ./create-identity-kvm.sh;' &
 
 ### install remaining packages here
-install_pkg "pfsense-pkg-openvpn-client-export" $TELEGRAM_API $TELEGRAM_CHAT_ID
-install_pkg "pfsense-pkg-pfBlockerNG-devel" $TELEGRAM_API $TELEGRAM_CHAT_ID
-install_pkg "pfsense-pkg-snort" $TELEGRAM_API $TELEGRAM_CHAT_ID
-install_pkg "pfsense-pkg-cron" $TELEGRAM_API $TELEGRAM_CHAT_ID
-install_pkg "pfsense-pkg-Telegraf" $TELEGRAM_API $TELEGRAM_CHAT_ID
+install_pkg "pfsense-pkg-openvpn-client-export"
+install_pkg "pfsense-pkg-pfBlockerNG-devel"
+install_pkg "pfsense-pkg-snort"
+install_pkg "pfsense-pkg-cron"
+install_pkg "pfsense-pkg-Telegraf"
 
 ### start services after install/reboot
 cd /usr/local/etc/rc.d
@@ -64,12 +64,12 @@ chmod a+rx /usr/local/etc/rc.d/pfsense-init-2.sh
 #########
 
 ## additional packages
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: Installing packages..."
+telegram_notify  "PFSense init: Installing packages..."
 
-install_pkg "pfsense-pkg-squid" $TELEGRAM_API $TELEGRAM_CHAT_ID
-install_pkg "pfsense-pkg-haproxy-devel" $TELEGRAM_API $TELEGRAM_CHAT_ID
+install_pkg "pfsense-pkg-squid"
+install_pkg "pfsense-pkg-haproxy-devel"
 
 rm -rf /root/openstack-scripts/pfsense-init.sh
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense init: init complete! removing script and rebooting.."
+telegram_notify  "PFSense init: init complete! removing script and rebooting.."
 reboot

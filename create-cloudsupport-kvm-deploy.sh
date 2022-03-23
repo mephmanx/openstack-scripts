@@ -11,7 +11,7 @@ source /tmp/vm-configurations.sh
 if (virsh list --name | grep -q "cloudsupport"); then
   return
 else
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Removing existing cloudsupport vm and building image for new one...."
+  telegram_notify"Removing existing cloudsupport vm and building image for new one...."
 fi
 
 DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
@@ -41,7 +41,7 @@ create_line+="--os-variant=centos8 "
 create_line+="--graphics=vnc "
 create_line+="--autostart"
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Creating cloudsupport vm"
+telegram_notify  "Creating cloudsupport vm"
 
 echo $create_line
 eval $create_line &

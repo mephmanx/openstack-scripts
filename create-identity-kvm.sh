@@ -6,12 +6,11 @@ set -x
 
 source /tmp/openstack-scripts/iso-functions.sh
 source /tmp/openstack-scripts/vm_functions.sh
-source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 
 KICKSTART_DIR=/tmp/openstack-scripts
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Removing existing identity vm and building image for new one...."
+telegram_notify "Removing existing identity vm and building image for new one...."
 
 removeVM_kvm "identity"
 
@@ -74,7 +73,7 @@ create_line+="--os-variant=centos8 "
 create_line+="--graphics=vnc "
 create_line+="--autostart"
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Creating identity vm"
+telegram_notify  "Creating identity vm"
 
 echo $create_line
 eval $create_line

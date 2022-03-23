@@ -7,7 +7,6 @@
 . /etc/init.d/functions
 . /tmp/vm_functions.sh
 . /tmp/project_config.sh
-. /tmp/openstack-env.sh
 . /etc/os-release
 
 start() {
@@ -51,7 +50,7 @@ prep_next_script "${TYPE}"
 modprobe vhost_net
 
 host=`hostname`
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloud VM $host starting second reboot..."
+telegram_notify  "Cloud VM $host starting second reboot..."
 
 reboot
 

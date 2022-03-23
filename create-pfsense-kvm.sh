@@ -6,17 +6,16 @@ set -x
 
 source /tmp/openstack-scripts/iso-functions.sh
 source /tmp/openstack-scripts/vm_functions.sh
-source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 
 KICKSTART_DIR=/tmp/openstack-scripts
 
 ### if pfsense" images exists, skip this file
 removeVM_kvm "pfsense"
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Building PFSense VM"
+telegram_notify "Building PFSense VM"
 
 ########## build router
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Fetching PFSense image....."
+telegram_notify "Fetching PFSense image....."
 ### make sure to get offset of fat32 partition to put config.xml file on stick to reload!
 
 ## watch this logic on update and make sure it gets the last fat32 partition
@@ -30,7 +29,7 @@ rm -rf /tmp/usb/config.xml
 cp /tmp/openstack-scripts/openstack-pfsense.xml /tmp/usb
 mv /tmp/usb/openstack-pfsense.xml /tmp/usb/config.xml
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Preparing PFSense configuration...."
+telegram_notify "Preparing PFSense configuration...."
 #####  setup global VIPs
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
@@ -148,7 +147,7 @@ create_line+="--graphics=vnc "
 create_line+="--autostart"
 
 echo $create_line
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense install beginning...."
+telegram_notify  "PFSense install beginning...."
 eval $create_line &
 
 sleep 30;
@@ -184,7 +183,7 @@ virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI.img --persistent
 virsh reboot pfsense
 
 sleep 120;
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense first reboot in progress, continuing to package install...."
+telegram_notify "PFSense first reboot in progress, continuing to package install...."
 
 ### cleanup
 runuser -l root -c  "rm -rf /tmp/usb"
@@ -192,7 +191,7 @@ runuser -l root -c  "rm -rf /tmp/usb"
 
 root_pw=$(generate_random_pwd 31)
 
-telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_pw"
+telegram_debug_msg "PFSense admin pwd is $root_pw"
 
 (echo open 127.0.0.1 4568;
   sleep 120;
@@ -234,8 +233,7 @@ telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_p
   sleep 10;
 ) | telnet
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID \
-        "PFSense rebooting after package install, pfsense-init script should begin after reboot."
+telegram_notify "PFSense rebooting after package install, pfsense-init script should begin after reboot."
 
 virsh reboot pfsense
 

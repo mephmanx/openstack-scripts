@@ -7,7 +7,6 @@ set -x
 source /tmp/openstack-scripts/vm_functions.sh
 source /tmp/openstack-scripts/iso-functions.sh
 source /tmp/openstack-scripts/vm-configurations.sh
-source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 
 IFS=
@@ -30,7 +29,7 @@ touch /tmp/host_list
 chmod +x /tmp/host_list
 ####################
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Building cloud install data structures...."
+telegram_notify  "Building cloud install data structures...."
 ######### Openstack VM types
 
 ######### VM Counts
@@ -85,7 +84,7 @@ while [ $storage_count -gt 0 ]; do
   storage_count=$[$storage_count - 1]
 done
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Deleting any existing cloud vm's....."
+telegram_notify  "Deleting any existing cloud vm's....."
 
 echo "VM's to be created"
 echo "${vms[@]}"
@@ -113,7 +112,7 @@ for d in "${vms[@]}"; do
   printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
   echo "creating vm of type -> $vm_type"
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Creating cloud vm: $d"
+  telegram_notify  "Creating cloud vm: $d"
   create_vm_kvm $vm_type $d
   sleep 30
   ((index++))
@@ -126,14 +125,14 @@ printf -v control_hack_string '%s ' "${control_hack_script[@]}"
 echo "creating openstack setup vm"
 
 buildAndPushOpenstackSetupISO "$host_trust_string" "$control_hack_string" "$(($(getVMCount "control") + $(getVMCount "network") + $(getVMCount "compute") + $(getVMCount "monitoring") + $(getVMCount "storage")))"
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Creating cloud vm: kolla"
+telegram_notify  "Creating cloud vm: kolla"
 create_vm_kvm "kolla" "kolla"
 ########################
 
 ###wait until jobs complete and servers come up
 wait
 sleep 300
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "All cloud VM's installed.  Openstack install will begin if VM's came up correctly."
+telegram_notify  "All cloud VM's installed.  Openstack install will begin if VM's came up correctly."
 ##########
 
 ### delete isos when done as they have private info
@@ -154,4 +153,4 @@ if [[ $HYPERVISOR_DEBUG == 0 ]]; then
   runuser -l root -c  'rm -rf /tmp/openstack-scripts'
 fi
 ######
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Host trust and cleanup scripts run.  Cloud create script is complete."
+telegram_notify  "Host trust and cleanup scripts run.  Cloud create script is complete."

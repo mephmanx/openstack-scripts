@@ -6,7 +6,6 @@
 # Source function library.
 . /etc/init.d/functions
 . /tmp/vm_functions.sh
-. /tmp/openstack-env.sh
 . /tmp/project_config.sh
 
 start() {
@@ -18,7 +17,7 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Beginning hypervisor cloud setup, core network setup in progress....."
+telegram_notify  "Beginning hypervisor cloud setup, core network setup in progress....."
 
 ## do not perform anything that would need internet access after the below command is executed.
 ##  the network is being reconfigured, the call will fail, and it might kill all future scripts

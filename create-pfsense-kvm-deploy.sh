@@ -5,7 +5,6 @@ exec 1>/root/pfsense-install.log 2>&1 # send stdout and stderr from rc.local to 
 set -x
 
 source /tmp/vm_functions.sh
-source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 source /tmp/vm-configuration.sh
 
@@ -50,7 +49,7 @@ create_line+="--graphics=vnc "
 create_line+="--autostart --wait 0"
 
 echo $create_line
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense install beginning...."
+telegram_notify "PFSense install beginning...."
 eval $create_line &
 
 sleep 30;
@@ -87,7 +86,7 @@ virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI.img --persistent
 virsh reboot pfsense
 
 sleep 120;
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense first reboot in progress, continuing to package install...."
+telegram_notify  "PFSense first reboot in progress, continuing to package install...."
 
 ### cleanup
 runuser -l root -c  "rm -rf /tmp/usb"
@@ -95,7 +94,7 @@ runuser -l root -c  "rm -rf /tmp/usb"
 
 root_pw=$(generate_random_pwd 31)
 
-telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_pw"
+telegram_debug_msg  "PFSense admin pwd is $root_pw"
 
 (echo open 127.0.0.1 4568;
   sleep 120;
@@ -137,7 +136,7 @@ telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "PFSense admin pwd is $root_p
   sleep 10;
 ) | telnet
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID \
+telegram_notify  \
         "PFSense rebooting after package install, pfsense-init script should begin after reboot."
 
 virsh reboot pfsense

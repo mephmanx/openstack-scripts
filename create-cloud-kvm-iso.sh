@@ -7,7 +7,6 @@ set -x
 source /tmp/openstack-scripts/vm_functions.sh
 source /tmp/openstack-scripts/iso-functions.sh
 source /tmp/openstack-scripts/vm-configurations.sh
-source /tmp/openstack-env.sh
 source /tmp/project_config.sh
 
 IFS=
@@ -30,7 +29,7 @@ touch /tmp/host_list
 chmod +x /tmp/host_list
 ####################
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Building cloud install data structures...."
+telegram_notify  "Building cloud install data structures...."
 ######### Openstack VM types
 
 ######### VM Counts
@@ -85,7 +84,7 @@ while [ $storage_count -gt 0 ]; do
   storage_count=$[$storage_count - 1]
 done
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Deleting any existing cloud vm's....."
+telegram_notify  "Deleting any existing cloud vm's....."
 
 ############  Build and push custom iso's for VM types
 for d in "${vms[@]}"; do

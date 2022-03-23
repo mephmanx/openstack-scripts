@@ -1,9 +1,11 @@
 #!/bin/sh
 
+. /tmp/openstack-env.sh
+
 telegram_notify()
 {
-  token=$1
-  chat_id=$2
+  token=$TELEGRAM_API
+  chat_id=$TELEGRAM_CHAT_ID
   msg_text=$3
   curl -X POST  \
         -H 'Content-Type: application/json' -d "{\"chat_id\": \"$chat_id\", \"text\":\"$msg_text\", \"disable_notification\":false}"  \
@@ -18,5 +20,5 @@ install_pkg()
   telegram_chat_id=$3
 
   yes | pkg install $pkg_name
-  telegram_notify $telegram_api $telegram_chat_id "PFSense init: installed pkg -> $pkg_name"
+  telegram_notify  "PFSense init: installed pkg -> $pkg_name"
 }

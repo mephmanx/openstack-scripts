@@ -182,8 +182,8 @@ function vtpm() {
 }
 
 function telegram_notify() {
-  token=$1
-  chat_id=$2
+  token=$TELEGRAM_API
+  chat_id=$TELEGRAM_CHAT_ID
   msg_text=$3
   curl -X POST  \
         -H 'Content-Type: application/json' -d "{\"chat_id\": \"$chat_id\", \"text\":\"$msg_text\", \"disable_notification\":false}"  \
@@ -195,8 +195,8 @@ function telegram_debug_msg() {
   if [[ $HYPERVISOR_DEBUG == 0 ]]; then
     return
   fi
-  token=$1
-  chat_id=$2
+  token=$TELEGRAM_API
+  chat_id=$TELEGRAM_CHAT_ID
   msg_text=$3
   curl -X POST  \
         -H 'Content-Type: application/json' -d "{\"chat_id\": \"$chat_id\", \"text\":\"$msg_text\", \"disable_notification\":false}"  \

@@ -7,7 +7,6 @@
 . /etc/init.d/functions
 . /tmp/vm_functions.sh
 . /tmp/project_config.sh
-. /tmp/openstack-env.sh
 
 start() {
 # code to start app comes here
@@ -112,7 +111,7 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$SUPPORT_HOST' --a
 
 ####  send random pwd over telegram
 RANDOM_PWD=`cat /root/start-install.log | grep 'Random password' | awk -F': ' '{print $2}'`
-telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "ipauser random password is $RANDOM_PWD"
+telegram_debug_msg  "ipauser random password is $RANDOM_PWD"
 
 SSH_KEY=`cat /root/.ssh/id_rsa.pub`
 /usr/bin/ipa user-mod ipauser --sshpubkey="$SSH_KEY"
@@ -131,7 +130,7 @@ ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;
 ssh root@$LAN_CENTOS_IP 'cd /tmp; ./create-cloudsupport-kvm.sh;' &
 ssh root@$LAN_CENTOS_IP 'cd /tmp; ./create-cloud-kvm.sh;' &
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Identity VM ready for use"
+telegram_notify  "Identity VM ready for use"
 ##########################
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local

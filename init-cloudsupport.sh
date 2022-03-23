@@ -7,7 +7,6 @@
 . /etc/init.d/functions
 . /tmp/vm_functions.sh
 . /tmp/project_config.sh
-. /tmp/openstack-env.sh
 
 start() {
 # code to start app comes here
@@ -73,7 +72,7 @@ chmod 700 *.sh
 
 runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --with-chartmuseum"
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudsupport VM ready for use"
+telegram_notify  "Cloudsupport VM ready for use"
 ##########################
 
 #### populate harbor with openstack images

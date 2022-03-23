@@ -60,10 +60,10 @@ export etext=`echo -n "admin:$ADMIN_PWD" | base64`
 status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
 
 if [[ "$status_code" -ne 200 ]] ; then
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Harbor install failed!"
+  telegram_notify  "Harbor install failed!"
   exit -1
 else
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Harbor install successful. Hypervisor SSH keys added to VM's. continuing install..."
+  telegram_notify  "Harbor install successful. Hypervisor SSH keys added to VM's. continuing install..."
 fi
 
 unset HOME
@@ -97,7 +97,7 @@ chown -R stack /opt/stack/id_rsa.crt
 
 mkdir -p /var/lib/kolla/config_files
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Loading Openstack Kolla deployment playbook and performing env customization...."
+telegram_notify  "Loading Openstack Kolla deployment playbook and performing env customization...."
 cp /tmp/globals.yml /etc/kolla/globals.yml
 
 sed -i "s/{INTERNAL_VIP}/${INTERNAL_VIP}/g" /etc/kolla/globals.yml
@@ -216,7 +216,7 @@ while [ "$ct" != $host_count ]; do
   ((test_loop_count++))
 
   if [[ $test_loop_count -gt 10 ]]; then
-    telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Not all Openstack VM's successfully came up, install ending.  Please check logs!"
+    telegram_notify  "Not all Openstack VM's successfully came up, install ending.  Please check logs!"
     exit -1
   fi
 done
@@ -225,7 +225,7 @@ rm -rf /tmp/host_count
 #####################################
 
 ### host ping successful, all hosts came up properly
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "All Openstack VM's came up properly and are ready for install. continuing..."
+telegram_notify  "All Openstack VM's came up properly and are ready for install. continuing..."
 #############
 
 #### run host trust on all nodes
@@ -253,7 +253,7 @@ export EXT_NET_RANGE="start=$OPENSTACK_DHCP_START,end=$OPENSTACK_DHCP_END"
 export EXT_NET_GATEWAY=$GATEWAY_ROUTER_IP
 
 ### pull docker images
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Analyzing Kolla Openstack configuration and pull docker images for cache priming...."
+telegram_notify  "Analyzing Kolla Openstack configuration and pull docker images for cache priming...."
 
 ## look for any failures and run again if any fail.   continue until cache is full or 10 tries are made
 cache_ct=10
@@ -263,14 +263,14 @@ while [ $failure_occur -gt 0 ]; do
   cache_out=`kolla-ansible -i /etc/kolla/multinode pull`
   failure_occur=`echo $cache_out | grep -o 'FAILED' | wc -l`
   if [[ $cache_ct == 0 ]]; then
-    telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cache prime failed after 10 retries, failing.  Check logs to resolve issue."
+    telegram_notify  "Cache prime failed after 10 retries, failing.  Check logs to resolve issue."
     exit -1
   fi
   ((cache_ct--))
 done
 
 rm -rf /opt/stack/cache_out
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cache pull/prime complete!  Install continuing.."
+telegram_notify  "Cache pull/prime complete!  Install continuing.."
 
 ### nova.conf options
 echo "[libvirt]" >> /etc/kolla/config/nova.conf
@@ -345,7 +345,7 @@ sed -i "s/{OIDC_CERTIFICATE_FILE}/$OIDC_CERTIFICATE_FILE/g" /etc/kolla/globals.y
 sed -i "s/{OIDC_MAPPING_FILE}/\/etc\/kolla\/config\/idp\/google.mapping/g" /etc/kolla/globals.yml
 #####
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Kolla Ansible deploy task execution begun....."
+telegram_notify  "Openstack Kolla Ansible deploy task execution begun....."
 kolla-ansible -i /etc/kolla/multinode deploy
 
 ### grab last set of lines from log to send
@@ -362,8 +362,8 @@ pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org pyth
 
 kolla-ansible post-deploy
 
-telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "End of Openstack Install log -> $LOG_TAIL"
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Kolla Ansible deploy task execution complete.  Performing post install tasks....."
+telegram_debug_msg  "End of Openstack Install log -> $LOG_TAIL"
+telegram_notify  "Openstack Kolla Ansible deploy task execution complete.  Performing post install tasks....."
 #stupid hack
 working_dir=`pwd`
 chmod +x /tmp/control-trust.sh
@@ -412,7 +412,7 @@ openstack image create trove-base --disk-format qcow2 --container-format bare --
 
 test=`openstack image show 'trove-base'`
 if [[ "No Image found" == *"$test"* ]]; then
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Trove base image install failed! Please review!"
+  telegram_notify  "Trove base image install failed! Please review!"
   exit -1
 fi
 
@@ -437,7 +437,7 @@ openstack image create \
                       --property os_distro='fedora-atomic' \
                       fedora-atomic-latest
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Magnum image installed, continuing install..."
+telegram_notify  "Magnum image installed, continuing install..."
 
 ## create network, subnet, and loadbalancer
 openstack coe cluster template create swarm-cluster-template \
@@ -451,7 +451,7 @@ openstack coe cluster template create swarm-cluster-template \
           --flavor m1.small \
           --coe swarm-mode
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Created magnum cluster..."
+telegram_notify  "Created magnum cluster..."
 
 openstack coe cluster create gocd-cluster \
                         --cluster-template swarm-cluster-template \
@@ -459,11 +459,11 @@ openstack coe cluster create gocd-cluster \
                         --node-count 2 \
                         --keypair mykey
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack installed and accepting images, continuing install..."
+telegram_notify  "Openstack installed and accepting images, continuing install..."
 ##############
 
 #prepare openstack env for CF
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Preparing Openstack environment for BOSH install...."
+telegram_notify  "Preparing Openstack environment for BOSH install...."
 ## generate cloudfoundry admin pwd
 OPENSTACK_CLOUDFOUNDRY_PWD=$(generate_random_pwd 31)
 
@@ -530,8 +530,8 @@ for f in "${flavors[@]}"; do
 done
 ###########
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry Openstack project ready.  user -> $OPENSTACK_CLOUDFOUNDRY_USERNAME pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
-telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack admin pwd is $ADMIN_PWD"
+telegram_notify  "Cloudfoundry Openstack project ready.  user -> $OPENSTACK_CLOUDFOUNDRY_USERNAME pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
+telegram_debug_msg  "Openstack admin pwd is $ADMIN_PWD"
 
 #### start logstash container on monitoring01
 
@@ -610,7 +610,7 @@ openstack image create amphora-x64-haproxy \
 
 test=`openstack image show 'amphora-x64-haproxy'`
 if [[ "No Image found" == *"$test"* ]]; then
-  telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Amphora image install failed! Please review!"
+  telegram_notify  "Amphora image install failed! Please review!"
   exit -1
 fi
 #########################
@@ -619,13 +619,13 @@ fi
 source /etc/kolla/admin-openrc.sh
 ######
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Amphora image install complete"
+telegram_notify  "Amphora image install complete"
 ####
 
 #download and configure homebrew to run bbl install
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting Homebrew install...."
+telegram_notify  "Starting Homebrew install...."
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Found Homebrew cache, using cache for install...."
+telegram_notify  "Found Homebrew cache, using cache for install...."
 runuser -l root -c  'mkdir -p /home/linuxbrew'
 runuser -l root -c  "tar -xf /tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar -C /home/linuxbrew"
 runuser -l stack -c  "echo 'PATH=$PATH:/home/linuxbrew/.linuxbrew/bin' >> /opt/stack/.bash_profile"
@@ -636,7 +636,7 @@ runuser -l stack -c  'cd /opt/stack; source .bash_profile;'
 
 PUBLIC_NETWORK_ID="$(openstack network list --name public1 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')"
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Starting BOSH infrastructure install...."
+telegram_notify  "Starting BOSH infrastructure install...."
 runuser -l stack -c  "echo 'export BBL_IAAS=openstack' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_AUTH_URL=http://$INTERNAL_VIP_DNS:5000/v3' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export BBL_OPENSTACK_AZ=nova' >> /opt/stack/.bash_profile"
@@ -735,7 +735,7 @@ if [[ $bbl_error_count -gt 0 ]]; then
 fi
 #####
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "BOSH jumpbox and director installed, loading terraform cf for prepare script..."
+telegram_notify  "BOSH jumpbox and director installed, loading terraform cf for prepare script..."
 #### prepare env for cloudfoundry
 unzip /tmp/cf-templates.zip -d /tmp/bosh-openstack-environment-templates
 mv /tmp/bosh-openstack-environment-templates/bosh-openstack-environment-templates-master/* /tmp/bosh-openstack-environment-templates
@@ -781,7 +781,7 @@ num_tcp_ports = $CF_TCP_PORT_COUNT #default is 100, needs to be > 0
 insecure = "false"
 EOF
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Executing env prep script..."
+telegram_notify  "Executing env prep script..."
 runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init; ./terraform plan;"
 
 echo "error" > /tmp/terraf-bbl.out
@@ -820,13 +820,13 @@ openstack floating ip create --subnet ${LB_FIP_SUBNET} \
                               --floating-ip-address ${LB_FIXED_IP} ${LB_FIP_NETWORK_ID}
 ###
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Env prep script complete, pulling CF deployment repo...."
+telegram_notify  "Env prep script complete, pulling CF deployment repo...."
 unzip /tmp/cf_deployment-$CF_DEPLOY_VERSION.zip -d /tmp/cf-deployment
 mv /tmp/cf-deployment/cf-deployment-main/* /tmp/cf-deployment
 chown -R stack /tmp/cf-deployment
 
 ###  build swift tmp url key to use below
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Setting up swift blobstore key..."
+telegram_notify  "Setting up swift blobstore key..."
 
 ### generate swift container key
 SWIFT_KEY=$(generate_random_pwd 31)
@@ -843,7 +843,7 @@ swift post -m "Temp-URL-Key:$SWIFT_KEY" \
             --os-project-name cloudfoundry \
             --os-project-domain-name default
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Swift blobstores key ready, pulling latest CF stemcell..."
+telegram_notify  "Swift blobstores key ready, pulling latest CF stemcell..."
 
 ### load bbl/bosh env
 cp /etc/kolla/admin-openrc.sh /opt/stack/admin-openrc.sh
@@ -878,7 +878,7 @@ for stemcell in $stemcell_path; do
   sleep 30
 done
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stemcell installed, finalizing environment for CF install..."
+telegram_notify  "Stemcell installed, finalizing environment for CF install..."
 ## add cf and cf-deployment-for-bosh security groups to bosh director
 ## very important!
 ## change to cloudfoundry account
@@ -923,7 +923,7 @@ runuser -l stack -c  "cd /opt/stack; \
                           -v network_id3=$CF_NET_ID_1 \
                           /tmp/cf-deployment/iaas-support/openstack/cloud-config.yml -n"
 
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Executing Cloudfoundry install.  Should take about 30 - 45 min..."
+telegram_notify  "Executing Cloudfoundry install.  Should take about 30 - 45 min..."
 
 ## pull logging repo
 #git clone https://github.com/bosh-prometheus/prometheus-boshrelease /tmp/prometheus-boshrelease
@@ -1009,7 +1009,7 @@ if [[ $error_count -gt 0 ]]; then
     if [[ $error_count == 0 ]]; then
       break
     fi
-    telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install failed, retrying $retry_count more times..."
+    telegram_debug_msg  "Cloudfoundry install failed, retrying $retry_count more times..."
     sleep 30
     ((retry_count--))
   done
@@ -1022,8 +1022,8 @@ LOG_TAIL=`tail -25 /tmp/cloudfoundry-install.log`
 ## run volume errand
 #runuser -l stack -c "bosh -d cf run-errand nfs-broker-push"
 
-telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install tail -> $LOG_TAIL"
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Cloudfoundry install complete!  Beginning Stratos UI deploy"
+telegram_debug_msg  "Cloudfoundry install tail -> $LOG_TAIL"
+telegram_notify  "Cloudfoundry install complete!  Beginning Stratos UI deploy"
 
 # cf api login
 ## use folder for auth token
@@ -1172,7 +1172,7 @@ runuser -l stack -c "cf scale console -i 2"
 
 ## Stratos complete!
 rm -rf $CF_HOME
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Stratos deployment complete!  access at console.$INTERNAL_DOMAIN_NAME user -> admin , pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
+telegram_notify  "Stratos deployment complete!  access at console.$INTERNAL_DOMAIN_NAME user -> admin , pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
 
 #### update keystone for ldap, run at the very end as it disables keystone db auth.  disables admin and osuser accounts!
 #DIRECTORY_MGR_PWD=`cat /tmp/directory_mgr_pwd`

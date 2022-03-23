@@ -7,7 +7,6 @@
 . /etc/init.d/functions
 . /tmp/vm_functions.sh
 . /tmp/vm-configurations.sh
-. /tmp/openstack-env.sh
 . /tmp/project_config.sh
 
 start() {
@@ -33,10 +32,10 @@ fi
 
 ## Send System info
 load_system_info
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Openstack Cloud System: $SYSTEM_INFO"
+telegram_notify  "Openstack Cloud System: $SYSTEM_INFO"
 #### Notify admin pwd in debug mode
 ADMIN_PWD={CENTOS_ADMIN_PWD_123456789012}
-telegram_debug_msg $TELEGRAM_API $TELEGRAM_CHAT_ID "Hypervisor admin account pw: $ADMIN_PWD"
+telegram_debug_msg  "Hypervisor admin account pw: $ADMIN_PWD"
 
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
@@ -56,7 +55,7 @@ fi
 ####################
 
 ########## configure and start networks
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Configuring networks on hypervisor...."
+telegram_notify  "Configuring networks on hypervisor...."
 
 while [ ! -f /etc/sysconfig/network-scripts/*loc-static* ]; do
   #### private net 1
@@ -128,7 +127,7 @@ virsh net-undefine default
 ###########################
 
 #### vtpm
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Installing VTPM"
+telegram_notify  "Installing VTPM"
 vtpm
 ######
 
@@ -139,7 +138,7 @@ firewall-cmd --reload
 ### firewall rules
 
 ############ Create and init storage pools
-telegram_notify $TELEGRAM_API $TELEGRAM_CHAT_ID "Build storage pools"
+telegram_notify  "Build storage pools"
 for part in `df | grep "VM-VOL" | awk '{print $6, " " }' | tr -d '/' | tr -d '\n'`; do
   virsh pool-define-as "$part" dir - - - - "/$part"
   virsh pool-build "$part"
