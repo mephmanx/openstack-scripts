@@ -161,7 +161,7 @@ web_pid=$!
 echo $web_pid > /tmp/web_pid
 cd $pwd
 
-runuser -l root -c  'cd /tmp; ./create-pfsense-kvm.sh'
+runuser -l root -c  'cd /tmp; ./create-pfsense-kvm-deploy.sh'
 
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
