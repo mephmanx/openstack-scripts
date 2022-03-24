@@ -131,12 +131,6 @@ telegram_notify  "Installing VTPM"
 vtpm
 ######
 
-## firewall rules
-firewall-cmd --zone=internal --change-interface=loc-static --permanent
-firewall-cmd --permanent --zone=internal --add-port=8000/tcp
-firewall-cmd --reload
-### firewall rules
-
 ############ Create and init storage pools
 telegram_notify  "Build storage pools"
 for part in `df | grep "VM-VOL" | awk '{print $6, " " }' | tr -d '/' | tr -d '\n'`; do
@@ -152,14 +146,6 @@ mkdir /tmp/pftransfer
 ssh-keygen -t rsa -b 4096 -C "pfsense" -N "" -f /tmp/pftransfer/pf_key <<<y 2>&1 >/dev/null
 runuser -l root -c "cat /tmp/pftransfer/pf_key.pub >> /root/.ssh/authorized_keys"
 #####
-
-### start image hosting
-pwd=`pwd`
-cd /tmp/pftransfer
-python3 -m http.server &
-web_pid=$!
-echo $web_pid > /tmp/web_pid
-cd $pwd
 
 runuser -l root -c  'cd /tmp; ./create-pfsense-kvm-deploy.sh'
 
