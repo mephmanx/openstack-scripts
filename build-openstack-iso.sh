@@ -43,6 +43,7 @@ sed -i 's/{CENTOS_ADMIN_PWD_123456789012}/'$NEWPWD'/g' ${kickstart_file}
 ## download files to be embedded
 if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2" ]; then
   ############# build octavia image
+  yum -y install epel-release
   yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils
   git clone https://opendev.org/openstack/octavia -b master /tmp/octavia
   pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org diskimage-builder
