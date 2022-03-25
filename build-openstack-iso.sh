@@ -208,4 +208,6 @@ closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_str
 ## https://www.berlios.de/software/cdrtools/
 isohybrid /var/tmp/openstack-iso.iso
 ## cleanup work dir
+# Use to write to disk
+# dd if=/var/tmp/openstack-iso.iso of=/dev/sdb bs=8M status=progress
 rm -rf ./tmp
