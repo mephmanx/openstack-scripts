@@ -14,7 +14,7 @@ else
   telegram_notify"Removing existing cloudsupport vm and building image for new one...."
 fi
 
-DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+DISK_COUNT=$(get_disk_count)
 if [[ $DISK_COUNT -lt 2 ]]; then
   size_avail=`df /VM-VOL-ALL | awk '{print $2}' | sed 1d`
   DRIVE_SIZE=$(($((size_avail * 5/100)) / 1024 / 1024))

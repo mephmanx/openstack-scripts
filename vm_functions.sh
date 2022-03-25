@@ -21,7 +21,7 @@ function load_system_info() {
   export INSTALLED_RAM=`runuser -l root -c  'dmidecode -t memory | grep  Size: | grep -v "No Module Installed"' | awk '{sum+=$2}END{print sum}'`
   export RESERVED_RAM=$(( $INSTALLED_RAM * $RAM_PCT_AVAIL_CLOUD/100 ))
   export CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
-  export DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+  export DISK_COUNT=$(get_disk_count)
   export IP_ADDR=`ip -f inet addr show ext-con | grep inet`
 #  ct=0
 #  while [ $ct -lt $DISK_COUNT ]; do
@@ -513,4 +513,8 @@ function replace_file_in_iso() {
   dd if=$3 of=$iso_file conv=notrunc bs=1 seek=$start_index count=$file_length
 
   rm -rf /tmp/out-*
+}
+
+function get_disk_count() {
+  echo `lsblk -S -n | grep -v usb | wc -l`
 }

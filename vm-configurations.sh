@@ -32,7 +32,7 @@ function getVMCount {
 function getVMVolSize() {
       disk_type="${1}"
       vm_count=$2
-      DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+      DISK_COUNT=$(get_disk_count)
       if [[ $DISK_COUNT -lt 2 ]]; then
         size_avail=`df /VM-VOL-ALL | awk '{print $2}' | sed 1d`
         case $disk_type in
@@ -96,7 +96,7 @@ function getDiskMapping() {
   vm_type=$1
   vm_count=$2
   ### this is the drive request from below config, REG for regular speed drive, HIGH for high speed drive
-  DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+  DISK_COUNT=$(get_disk_count)
   if [[ $DISK_COUNT -lt 2 ]]; then
     ## only 1 disk, return only storage pool
     option="${1}"
@@ -322,7 +322,7 @@ function removeVM_kvm {
   virsh undefine "$vm_name"
 
   ########### Delete volumes in storage pools
-  DISK_COUNT=`lshw -json -class disk | grep -o -i disk: | wc -l`
+  DISK_COUNT=$(get_disk_count)
   if [[ $DISK_COUNT -lt 2 ]]; then
     VM_TYPE="ALL"
     deleteVMVol $vm_name "ALL"
