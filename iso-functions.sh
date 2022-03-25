@@ -4,7 +4,6 @@ source /tmp/openstack-scripts/vm-configurations.sh
 source /tmp/openstack-scripts/vm_functions.sh
 source /tmp/project_config.sh
 
-LINUX_OS="https://$GATEWAY_ROUTER_IP/isos/linux.iso"
 KICKSTART_DIR=/tmp/openstack-scripts
 
 IFS=
@@ -29,20 +28,6 @@ function initialKickstartSetup {
   networkInformation ${kickstart_file} ${vm_type} ${vm}
 }
 
-function prepareEnv {
-
-  dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-  sudo yum install epel-release -y
-  sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
-
-  if [ -f "/tmp/linux.iso" ]; then
-    return;
-  fi
-
-  echo "Linux ISO not found, downloading..."
-  curl -o /tmp/linux.iso $LINUX_OS -k -s
-}
-
 function closeOutAndBuildKickstartAndISO {
   kickstart_file=$1
   vm_name=$2
@@ -51,7 +36,6 @@ function closeOutAndBuildKickstartAndISO {
   #### to allow certs to print right
   IFS=
   ########
-  prepareEnv
 
   sudo rm -rf /var/tmp/${vm_name}
   mkdir /centos
