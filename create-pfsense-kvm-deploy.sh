@@ -87,8 +87,8 @@ root_pw=$(generate_random_pwd 31)
 telegram_debug_msg  "PFSense admin pwd is $root_pw"
 
 ### base64 files
-HYPERVISOR_KEY=`cat /tmp/pf_key.key | base64 | tr -d '\n\r'`
-HYPERVISOR_PUB_KEY=`cat /tmp/pf_key.key.pub | base64 | tr -d '\n\r'`
+HYPERVISOR_KEY=`cat /tmp/pf_key | base64 | tr -d '\n\r'`
+HYPERVISOR_PUB_KEY=`cat /tmp/pf_key.pub | base64 | tr -d '\n\r'`
 OPENSTACK_ENV=`cat /tmp/openstack-env.sh | base64 | tr -d '\n\r'`
 PF_FUNCTIONS=`cat /tmp/pf_functions.sh | base64 | tr -d '\n\r'`
 PROJECT_CONFIG=`cat /tmp/project_config.sh | base64 | tr -d '\n\r'`
