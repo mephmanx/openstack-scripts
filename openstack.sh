@@ -142,9 +142,8 @@ done
 ############################
 
 #### build pfsense ssh key
-mkdir /tmp/pftransfer
-ssh-keygen -t rsa -b 4096 -C "pfsense" -N "" -f /tmp/pftransfer/pf_key <<<y 2>&1 >/dev/null
-runuser -l root -c "cat /tmp/pftransfer/pf_key.pub >> /root/.ssh/authorized_keys"
+ssh-keygen -t rsa -b 4096 -C "pfsense" -N "" -f /tmp/pf_key <<<y 2>&1 >/dev/null
+runuser -l root -c "cat /tmp/pf_key.pub >> /root/.ssh/authorized_keys"
 #####
 
 runuser -l root -c  'cd /tmp; ./create-pfsense-kvm-deploy.sh'
