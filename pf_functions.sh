@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. /tmp/openstack-env.sh
+. /root/openstack-env.sh
 
 telegram_notify()
 {
