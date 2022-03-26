@@ -300,7 +300,7 @@ function create_vm_kvm {
   create_line+="$virt_network_string"
   create_line+="--os-variant=centos8 "
   create_line+="--graphics=vnc "
-  create_line+=" --autostart "
+  create_line+=" --autostart --wait 0"
 
   echo $create_line
   eval $create_line &

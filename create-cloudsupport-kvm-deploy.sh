@@ -2,7 +2,7 @@
 
 rm -rf /tmp/cloudsupport-deploy.log
 exec 1>/root/cloudsupport-deploy.log 2>&1 # send stdout and stderr from rc.local to a log file
-set -x
+#set -x
 
 source /tmp/vm_functions.sh
 source /tmp/project_config.sh
@@ -39,7 +39,7 @@ create_line+="--cdrom=/var/tmp/cloudsupport-iso.iso "
 create_line+="--network type=bridge,source=loc-static,model=virtio "
 create_line+="--os-variant=centos8 "
 create_line+="--graphics=vnc "
-create_line+="--autostart"
+create_line+="--autostart --wait 0"
 
 telegram_notify  "Creating cloudsupport vm"
 
