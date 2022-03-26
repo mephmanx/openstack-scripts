@@ -209,5 +209,5 @@ closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_str
 isohybrid /var/tmp/openstack-iso.iso
 ## cleanup work dir
 # Use to write to disk
-# dd if=/var/tmp/openstack-iso.iso of=/dev/sdb bs=8M status=progress
+# dd if=/var/tmp/openstack-iso.iso of=/dev/sdb bs=16M status=progress
 rm -rf ./tmp
