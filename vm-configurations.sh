@@ -290,7 +290,6 @@ function create_vm_kvm {
   create_line+="--name=$2 "
   create_line+="--memory=${memory_ct}000 "
   create_line+="--cpu=host-passthrough,cache.mode=passthrough "
-  create_line+="--cpuset=auto "
   create_line+="--vcpus=$cpu_topology "
   create_line+="--tpm emulator,model=tpm-tis,version=2.0 "
   create_line+="--memorybacking hugepages=yes "
