@@ -12,7 +12,7 @@ ORGANIZATION="IronSky-Platform-Internal-CA"
 OU="IronSky"
 
 function get_drive_name() {
-  dir_name=`find /dev/mapper -maxdepth 1 -type l -name '*cl*' -print -quit`
+  dir_name=`find /dev/mapper -maxdepth 1 -type l -name '*cs*' -print -quit`
   DRIVE_NAME=`grep -oP '(?<=_).*?(?=-)' <<< "$dir_name"`
 }
 
@@ -46,11 +46,11 @@ function grow_fs() {
   xfsdump -f /tmp/home.dump /home
 
   umount /home
-  lvreduce -L 20G -f /dev/mapper/cl_$DRIVE_NAME-home
-  mkfs.xfs -f /dev/mapper/cl_$DRIVE_NAME-home
-  lvextend -l +100%FREE /dev/mapper/cl_$DRIVE_NAME-root
-  xfs_growfs /dev/mapper/cl_$DRIVE_NAME-root
-  mount /dev/mapper/cl_$DRIVE_NAME-home /home
+  lvreduce -L 4G -f /dev/mapper/cs_$DRIVE_NAME-home
+  mkfs.xfs -f /dev/mapper/cs_$DRIVE_NAME-home
+  lvextend -l +100%FREE /dev/mapper/cs_$DRIVE_NAME-root
+  xfs_growfs /dev/mapper/cs_$DRIVE_NAME-root
+  mount /dev/mapper/cs_$DRIVE_NAME-home /home
   xfsrestore -f /tmp/home.dump /home
 }
 
