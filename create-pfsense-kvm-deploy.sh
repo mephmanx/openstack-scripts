@@ -123,12 +123,12 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
   for element in "${hypervisor_pub_array[@]}"
   do
     echo "echo '$element' >> /root/.ssh/id_rsa.pub.enc";
-    sleep 10;
+    sleep 5;
   done
   for element in "${hypervisor_key_array[@]}"
   do
     echo "echo '$element' >> /root/.ssh/id_rsa.enc";
-    sleep 10;
+    sleep 5;
   done
   echo "openssl base64 -d -in /root/.ssh/id_rsa.pub.enc -out /root/.ssh/id_rsa.pub;";
   sleep 30;
@@ -146,7 +146,7 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
   for element in "${openstack_env_array[@]}"
   do
     echo "echo '$element' >> /root/openstack-env.sh.enc";
-    sleep 10;
+    sleep 5;
   done
   echo "openssl base64 -d -in /root/openstack-env.sh.enc -out /root/openstack-env.sh;";
   sleep 30;
@@ -156,7 +156,7 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
   for element in "${pf_functions_array[@]}"
   do
     echo "echo '$element' >> /root/openstack-scripts/pf_functions.sh.enc";
-    sleep 10;
+    sleep 5;
   done
   echo "openssl base64 -d -in /root/openstack-scripts/pf_functions.sh.enc -out /root/openstack-scripts/pf_functions.sh;";
   sleep 30;
@@ -166,7 +166,7 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
   for element in "${project_config_array[@]}"
   do
     echo "echo '$element' >> /root/project_config.sh.enc";
-    sleep 10;
+    sleep 5;
   done
   echo "openssl base64 -d -in /root/project_config.sh.enc -out /root/project_config.sh;";
   sleep 30;
@@ -176,7 +176,7 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
   for element in "${pfsense_init_array[@]}"
   do
     echo "echo '$element' >> /root/openstack-scripts/pfsense-init.sh.enc";
-    sleep 10;
+    sleep 5;
   done
   echo "openssl base64 -d -in /root/openstack-scripts/pfsense-init.sh.enc -out /root/openstack-scripts/pfsense-init.sh;";
   sleep 30;
