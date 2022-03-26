@@ -29,9 +29,6 @@ touch /tmp/host_list
 chmod +x /tmp/host_list
 ####################
 
-telegram_notify  "Building cloud install data structures...."
-######### Openstack VM types
-
 ######### VM Counts
 control_count=$(getVMCount "control")
 network_count=$(getVMCount "network")
@@ -83,8 +80,6 @@ while [ $storage_count -gt 0 ]; do
   host_trust_script+=("runuser -l root -c  'ssh-keyscan -H storage$storage_count_format >> ~/.ssh/known_hosts';")
   storage_count=$[$storage_count - 1]
 done
-
-telegram_notify  "Deleting any existing cloud vm's....."
 
 ############  Build and push custom iso's for VM types
 for d in "${vms[@]}"; do

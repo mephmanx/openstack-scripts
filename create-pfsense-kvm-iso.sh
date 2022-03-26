@@ -23,7 +23,6 @@ rm -rf /tmp/usb/config.xml
 cp /tmp/openstack-scripts/openstack-pfsense.xml /tmp/usb
 mv /tmp/usb/openstack-pfsense.xml /tmp/usb/config.xml
 
-telegram_notify "Preparing PFSense configuration...."
 #####  setup global VIPs
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
