@@ -35,7 +35,7 @@ create_line+="--cdrom=/tmp/identity-iso.iso "
 create_line+="--network type=bridge,source=loc-static,model=virtio "
 create_line+="--os-variant=centos8 "
 create_line+="--graphics=vnc "
-create_line+="--autostart --wait 0"
+create_line+="--autostart"
 
 telegram_notify "Creating identity vm"
 
