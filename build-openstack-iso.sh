@@ -205,7 +205,8 @@ printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_string
 
 ## this requires the original version of cdrtools
-## https://www.berlios.de/software/cdrtools/
+## https://www.berlios.de/software/cdrtools/ or
+#  https://negativo17.org/cdrtools/
 isohybrid /var/tmp/openstack-iso.iso
 ## cleanup work dir
 # Use to write to disk
