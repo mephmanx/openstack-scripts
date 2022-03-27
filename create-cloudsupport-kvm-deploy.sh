@@ -43,4 +43,6 @@ create_line+="--autostart --wait 0"
 telegram_notify  "Creating cloudsupport vm"
 
 echo $create_line
-eval $create_line &
+eval $create_line
+
+virsh reboot cloudsupport
