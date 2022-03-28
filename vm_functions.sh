@@ -46,11 +46,11 @@ function grow_fs() {
   xfsdump -f /tmp/home.dump /home
 
   umount /home
-  lvreduce -L 4G -f /dev/mapper/cs_$DRIVE_NAME-home
-  mkfs.xfs -f /dev/mapper/cs_$DRIVE_NAME-home
-  lvextend -l +100%FREE /dev/mapper/cs_$DRIVE_NAME-root
-  xfs_growfs /dev/mapper/cs_$DRIVE_NAME-root
-  mount /dev/mapper/cs_$DRIVE_NAME-home /home
+  lvreduce -L 4G -f /dev/mapper/cs_${DRIVE_NAME}-home
+  mkfs.xfs -f /dev/mapper/cs_${DRIVE_NAME}-home
+  lvextend -l +100%FREE /dev/mapper/cs_${DRIVE_NAME}-root
+  xfs_growfs /dev/mapper/cs_${DRIVE_NAME}-root
+  mount /dev/mapper/cs_${DRIVE_NAME}-home /home
   xfsrestore -f /tmp/home.dump /home
 }
 
@@ -492,8 +492,8 @@ cat > $tmp_file <<EOF
 $replace_with
 EOF
 
-  occur=`grep -oba "$2" $1 | wc -l`
-  entries=($(grep -oba "$2" $1))
+  occur=`grep -oba "$replacement_string" $iso_file | wc -l`
+  entries=($(grep -oba "$replacement_string" $iso_file))
   while [ $occur -gt 0 ]; do
     ((occur--))
     start_index=`echo ${entries[$occur]} | awk -F':' '{ print $1 }'`
@@ -508,11 +508,9 @@ function replace_file_in_iso() {
   replacement_file=$2
   replace_with=$3
 
-  start_index=`grep -oba -f $2 $1 -m1 | awk -F':' '{ print $1 }'`
-  file_length=`wc -c $3 | awk -F' ' '{ print $1 }'`
-  dd if=$3 of=$iso_file conv=notrunc bs=1 seek=$start_index count=$file_length
-
-  rm -rf /tmp/out-*
+  start_index=`grep -oba -f $replacement_file $iso_file -m1 | awk -F':' '{ print $1 }'`
+  file_length=`wc -c $replace_with | awk -F' ' '{ print $1 }'`
+  dd if=$replace_with of=$iso_file conv=notrunc bs=1 seek=$start_index count=$file_length
 }
 
 function get_disk_count() {
