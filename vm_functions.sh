@@ -46,11 +46,11 @@ function grow_fs() {
   xfsdump -f /tmp/home.dump /home
 
   umount /home
-  lvreduce -L 4G -f /dev/mapper/cs_${DRIVE_NAME}-home
-  mkfs.xfs -f /dev/mapper/cs_${DRIVE_NAME}-home
-  lvextend -l +100%FREE /dev/mapper/cs_${DRIVE_NAME}-root
-  xfs_growfs /dev/mapper/cs_${DRIVE_NAME}-root
-  mount /dev/mapper/cs_${DRIVE_NAME}-home /home
+  lvreduce -L 4G -f /dev/mapper/cs_${DRIVE_NAME}/home
+  mkfs.xfs -f /dev/mapper/cs_${DRIVE_NAME}/home
+  lvextend -l +100%FREE /dev/mapper/cs_${DRIVE_NAME}/root
+  xfs_growfs /dev/mapper/cs_${DRIVE_NAME}/root
+  mount /dev/mapper/cs_${DRIVE_NAME}/home /home
   xfsrestore -f /tmp/home.dump /home
 }
 
