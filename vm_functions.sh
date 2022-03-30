@@ -516,3 +516,25 @@ function replace_file_in_iso() {
 function get_disk_count() {
   echo `lsblk -S -n | grep -v usb | wc -l`
 }
+
+function grub_update() {
+  runuser -l root -c  'rm -rf /etc/default/grub'
+  runuser -l root -c  'touch /etc/default/grub'
+  runuser -l root -c  'chmod +x /etc/default/grub'
+
+  cat > /tmp/grub <<EOF
+  GRUB_TIMEOUT=1
+  GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
+  GRUB_DEFAULT=saved
+  GRUB_DISABLE_SUBMENU=true
+  GRUB_TERMINAL_OUTPUT="console"
+  GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cs_$DRIVE_NAME-swap rd.lvm.lv=cs_$DRIVE_NAME/root rd.lvm.lv=cs_$DRIVE_NAME/swap net.ifnames=0 intel_iommu=on rhgb quiet"
+  GRUB_DISABLE_RECOVERY="true"
+  GRUB_ENABLE_BLSCFG=true
+  EOF
+
+  runuser -l root -c  'cat /tmp/grub > /etc/default/grub'
+  runuser -l root -c  'grub2-mkconfig  -o /boot/grub2/grub.cfg'
+
+  rm -rf /tmp/grub
+}
