@@ -102,7 +102,7 @@ removeVM_kvm "kolla"
 ############  Build and push custom iso's for VM types
 for d in "${vms[@]}"; do
   echo "building and pushing ISO for $d"
-  buildAndPushVMTypeISO $d
+  create_vm_kvm $vm_type $d
 done
 #############################
 

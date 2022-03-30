@@ -49,10 +49,10 @@ function getVMVolSize() {
             echo $(($((size_avail * 5/100)) / 1024 / 1024))
           ;;
           "cinder")
-            echo $(($((size_avail * 20/100)) / 1024 / 1024))
+            echo $(($((size_avail * 15/100)) / 1024 / 1024))
           ;;
           "swift")
-            echo $(($((size_avail * 20/100)) / 1024 / 1024))
+            echo $(($((size_avail * 15/100)) / 1024 / 1024))
           ;;
           "kolla")
             echo $(($((size_avail * 5/100)) / 1024 / 1024))
