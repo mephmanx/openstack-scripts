@@ -518,6 +518,7 @@ function get_disk_count() {
 }
 
 function grub_update() {
+  DRIVE_NAME=$1
   runuser -l root -c  'rm -rf /etc/default/grub'
   runuser -l root -c  'touch /etc/default/grub'
   runuser -l root -c  'chmod +x /etc/default/grub'
@@ -537,4 +538,5 @@ function grub_update() {
   runuser -l root -c  'grub2-mkconfig  -o /boot/grub2/grub.cfg'
 
   rm -rf /tmp/grub
+}
 }
