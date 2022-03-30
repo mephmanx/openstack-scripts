@@ -179,7 +179,6 @@ embed_files=('/tmp/openstack-env.sh'
               '/tmp/id_rsa.pub'
               '/tmp/id_rsa.key'
               '/tmp/id_rsa.crt'
-              '/tmp/id_rsa'
               '/tmp/wildcard.crt'
               '/tmp/wildcard.key'
               "/tmp/libtpms-$SWTPM_VERSION.zip"
