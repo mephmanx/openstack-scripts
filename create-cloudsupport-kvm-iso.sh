@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -rf /tmp/cloudsupport-install.log
+rm -rf /root/cloudsupport-install.log
 exec 1>/root/cloudsupport-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 #set -x
 
