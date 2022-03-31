@@ -10,8 +10,6 @@ source /tmp/vm-configurations.sh
 
 if (virsh list --name | grep -q "cloudsupport"); then
   return
-else
-  telegram_notify "Removing existing cloudsupport vm and building image for new one...."
 fi
 
 DISK_COUNT=$(get_disk_count)
