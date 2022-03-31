@@ -516,19 +516,19 @@ function get_disk_count() {
 }
 
 function grub_update() {
-  DRIVE_NAME=$1
+  DRIVE_NAME_UPDATE=$1
 
   runuser -l root -c  'rm -rf /etc/default/grub'
   runuser -l root -c  'touch /etc/default/grub'
   runuser -l root -c  'chmod +x /etc/default/grub'
 
-  cat > /tmp/grub <<EOF
+cat > /tmp/grub <<EOF
 GRUB_TIMEOUT=1
 GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
 GRUB_DEFAULT=saved
 GRUB_DISABLE_SUBMENU=true
 GRUB_TERMINAL_OUTPUT="console"
-GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cs_$DRIVE_NAME-swap rd.lvm.lv=cs_$DRIVE_NAME/root rd.lvm.lv=cs_$DRIVE_NAME/swap net.ifnames=0 intel_iommu=on rhgb quiet"
+GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cs_${DRIVE_NAME_UPDATE}-swap rd.lvm.lv=cs_${DRIVE_NAME_UPDATE/root rd.lvm.lv=cs_${DRIVE_NAME_UPDATE/swap net.ifnames=0 intel_iommu=on rhgb quiet"
 GRUB_DISABLE_RECOVERY="true"
 GRUB_ENABLE_BLSCFG=true
 EOF
@@ -603,9 +603,14 @@ EOF
   fi
 }
 
-function replace_values_in_root_iso() {
+function replace_values_in_root_isos() {
   ### replace values in isos for certs and pwds ########
   ## cert list
+  DIRECTORY_MGR_PWD=$(generate_random_pwd 31)
+  ADMIN_PWD=$(generate_random_pwd 31)
+
+  echo $ADMIN_PWD > /root/env_admin_pwd
+  echo $DIRECTORY_MGR_PWD > /tmp/directory_mgr_pwd
 
   iso_images="/tmp/*.iso"
   for img in $iso_images; do

@@ -53,7 +53,6 @@ systemctl enable docker
 chkconfig docker on
 
 systemctl restart docker
-docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD
 
 cp /tmp/docker-compose-$DOCKER_COMPOSE_VERSION /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
@@ -87,7 +86,7 @@ cat > /etc/docker/daemon.json << EOF
 EOF
 
 sleep 3
-echo -n $ADMIN_PWD | docker login $SUPPORT_VIP_DNS --username admin --password-stdin
+docker login -u admin -p $ADMIN_PWD $SUPPORT_VIP_DNS
 
 #setup repo server
 sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
@@ -174,7 +173,7 @@ curl -k -H  "authorization: Basic $harbor_api_password" -X POST -H "Content-Type
 for i in `docker images |grep $SUPPORT_VIP_DNS|awk '{print $1}'`;do docker push $i:wallaby ;done
 
 ######
-
+export etext=`echo -n "admin:{CENTOS_ADMIN_PWD_123456789012}" | base64`
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 
@@ -190,10 +189,10 @@ exec 1>/tmp/harbor-boot.log 2>&1 # send stdout and stderr from rc.local to a log
 set -x                             # tell sh to display commands before execution
 
 sleep 30
-export etext=`echo -n "admin:{CENTOS_ADMIN_PWD_123456789012}" | base64`
+
 status_code=\$(curl https://$SUPPORT_VIP_DNS/api/v2.0/projects/2 --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext")
 cd /root/harbor
-while [ "$status_code" -ne 200 ] ; do
+while [ "\$status_code" -ne 200 ] ; do
   docker-compose down
   sleep 20;
   docker-compose up -d
@@ -208,7 +207,7 @@ stop() {
     /bin/true
 }
 
-case "$1" in
+case "\$1" in
     start)
        start
        ;;
