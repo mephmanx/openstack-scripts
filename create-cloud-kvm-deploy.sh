@@ -83,8 +83,6 @@ while [ $storage_count -gt 0 ]; do
   storage_count=$[$storage_count - 1]
 done
 
-telegram_notify  "Deleting any existing cloud vm's....."
-
 echo "VM's to be created"
 echo "${vms[@]}"
 ############## remove vm's
