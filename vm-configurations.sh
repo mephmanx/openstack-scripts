@@ -52,7 +52,7 @@ function getVMVolSize() {
             echo $(($((size_avail * 15/100)) / 1024 / 1024))
           ;;
           "swift")
-            echo $(($((size_avail * 15/100)) / 1024 / 1024))
+            echo $(($((size_avail * 15/100)) / 1024 / 1024 / vm_count))
           ;;
           "kolla")
             echo $(($((size_avail * 5/100)) / 1024 / 1024))
@@ -102,8 +102,11 @@ function getDiskMapping() {
     option="${1}"
     case $option in
       "misc")
-          echo "VM-VOL-ALL"
-        ;;
+        echo "VM-VOL-ALL"
+      ;;
+      "storage")
+        echo "VM-VOL-ALL:100,VM-VOL-ALL:$(getVMVolSize "cinder" $vm_count),VM-VOL-ALL:$(getVMVolSize "swift" 3),VM-VOL-ALL:$(getVMVolSize "swift" 3),VM-VOL-ALL:$(getVMVolSize "swift" 3)"
+      ;;
       *)
         echo "VM-VOL-ALL:$(getVMVolSize $vm_type $vm_count)"
       ;;
