@@ -604,3 +604,70 @@ apply_updates = yes
 EOF
   fi
 }
+
+function replace_values_in_root_iso() {
+  ### replace values in isos for certs and pwds ########
+  ## cert list
+
+  iso_images="/tmp/*.iso"
+  for img in $iso_images; do
+      echo "replacing centos admin in $img"
+      replace_string_in_iso $img {CENTOS_ADMIN_PWD_123456789012} $ADMIN_PWD
+
+      echo "replacing id_rsa.crt  in $img"
+      replace_file_in_iso $img /tmp/id_rsa.crt /root/.ssh/id_rsa.crt
+      echo "replacing id_rsa.pub  in $img"
+      replace_file_in_iso $img /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
+      echo "replacing id_rsa.key  in $img"
+      replace_file_in_iso $img /tmp/id_rsa.key /root/.ssh/id_rsa.key
+
+      echo "replacing openstack-setup.key  in $img"
+      replace_file_in_iso $img /tmp/key-bak/openstack-setup.key /tmp/openstack-setup.key
+      echo "replacing openstack-setup.key.pub  in $img"
+      replace_file_in_iso $img /tmp/key-bak/openstack-setup.key.pub /tmp/openstack-setup.key.pub
+  done
+
+  iso_images="/tmp/*.img"
+  for img in $iso_images; do
+      echo "replacing centos admin in $img"
+      replace_string_in_iso $img {CENTOS_ADMIN_PWD_123456789012} $ADMIN_PWD
+      echo "replacing directory mgr admin in $img"
+      replace_string_in_iso $img {DIRECTORY_MGR_PWD_12345678901} $DIRECTORY_MGR_PWD
+  done
+  ##############
+}
+
+function hypervisor_debug() {
+  #Disable root login in ssh and disable password login
+  if [[ $HYPERVISOR_DEBUG == 0 ]]; then
+      echo "$(generate_random_pwd 31)" |  passwd --stdin  root
+      sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
+      sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
+  fi
+}
+
+function enable_kvm_module() {
+  ### enable nested virtualization
+  is_intel=`cat /proc/cpuinfo | grep vendor | uniq | grep 'Intel' | wc -l`
+  if [[ $is_intel -gt 0 ]]; then
+      if [[ -f /etc/modprobe.d/kvm.conf ]]; then
+          sed -i "s/#options kvm_intel nested=1/options kvm_intel nested=1/g" /etc/modprobe.d/kvm.conf
+      else
+          runuser -l root -c  'echo "options kvm_intel nested=1" >> /etc/modprobe.d/kvm.conf;'
+      fi
+      runuser -l root -c  'echo "options kvm-intel enable_shadow_vmcs=1" >> /etc/modprobe.d/kvm.conf;'
+      runuser -l root -c  'echo "options kvm-intel enable_apicv=1" >> /etc/modprobe.d/kvm.conf;'
+      runuser -l root -c  'echo "options kvm-intel ept=1" >> /etc/modprobe.d/kvm.conf;'
+  else
+      if [[ -f /etc/modprobe.d/kvm.conf ]]; then
+          sed -i "s/#options kvm_amd nested=1/options kvm_amd nested=1/g" /etc/modprobe.d/kvm.conf
+      else
+          runuser -l root -c  'echo "options kvm_amd nested=1" >> /etc/modprobe.d/kvm.conf;'
+      fi
+      runuser -l root -c  'echo "options kvm-amd enable_shadow_vmcs=1" >> /etc/modprobe.d/kvm.conf;'
+      runuser -l root -c  'echo "options kvm-amd enable_apicv=1" >> /etc/modprobe.d/kvm.conf;'
+      runuser -l root -c  'echo "options kvm-amd ept=1" >> /etc/modprobe.d/kvm.conf;'
+  fi
+
+  ##############
+}
