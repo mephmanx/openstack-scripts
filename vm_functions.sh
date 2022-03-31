@@ -589,3 +589,21 @@ done
 
 rm -rf /tmp/eth*
 }
+
+function auto_update() {
+  # If autoupdate is enabled
+  if [[ $LINUX_AUTOUPDATE == 1 ]]; then
+      dnf install -y dnf-automatic
+
+      cat > /etc/dnf/automatic.conf <<EOF
+      [commands]
+      upgrade_type = default
+      random_sleep = 0
+      network_online_timeout = 60
+      download_updates = yes
+      apply_updates = yes
+      EOF
+  fi
+}
+
+}
