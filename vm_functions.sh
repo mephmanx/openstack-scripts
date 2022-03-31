@@ -229,7 +229,6 @@ function post_install_cleanup() {
     return
   fi
   rm -rf /tmp/host-trust.sh
-  rm -rf /tmp/openstack-env.sh
   rm -rf /tmp/project_config.sh
   rm -rf /tmp/swift.key
   rm -rf /tmp/type
@@ -245,7 +244,6 @@ sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
 sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
 /usr/sbin/service sshd restart
 rm -rf /tmp/host-trust.sh
-rm -rf /tmp/openstack-env.sh
 rm -rf /tmp/project_config.sh
 rm -rf /tmp/vm_functions.sh
 rm -rf /tmp/type

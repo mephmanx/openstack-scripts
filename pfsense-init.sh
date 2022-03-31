@@ -3,7 +3,6 @@
 ## this script is run on a FreeBSD system, not centos, not bash.  Makes some things slightly different
 
 . /root/project_config.sh
-. /root/openstack-env.sh
 . /root/openstack-scripts/pf_functions.sh
 
 exec 1>/root/init-install.log 2>&1 # send stdout and stderr from rc.local to a log file
@@ -28,7 +27,6 @@ set -x                             # tell sh to display commands before executio
 ## this script is run on a FreeBSD system, not centos, not bash.  Makes some things slightly different
 
 . /root/project_config.sh
-. /root/openstack-env.sh
 . /root/openstack-scripts/pf_functions.sh
 
 telegram_notify  "PFSense init: Second init script running"
