@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -rf /tmp/cloudsupport-deploy.log
+rm -rf /root/cloudsupport-deploy.log
 exec 1>/root/cloudsupport-deploy.log 2>&1 # send stdout and stderr from rc.local to a log file
 #set -x
 
@@ -11,7 +11,7 @@ source /tmp/vm-configurations.sh
 if (virsh list --name | grep -q "cloudsupport"); then
   return
 else
-  telegram_notify"Removing existing cloudsupport vm and building image for new one...."
+  telegram_notify "Removing existing cloudsupport vm and building image for new one...."
 fi
 
 DISK_COUNT=$(get_disk_count)
