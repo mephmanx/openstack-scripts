@@ -19,10 +19,6 @@ exec 1>/root/start-install.log 2>&1 # send stdout and stderr from rc.local to a 
 sleep 30
 ###########################
 
-### cleanup from previous boot
-rm -rf /tmp/eth*
-########
-
 # set VM type for future use
 TYPE=`cat /tmp/type`
 
