@@ -551,7 +551,7 @@ GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
 GRUB_DEFAULT=saved
 GRUB_DISABLE_SUBMENU=true
 GRUB_TERMINAL_OUTPUT="console"
-GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cs_${DRIVE_NAME_UPDATE}-swap rd.lvm.lv=cs_${DRIVE_NAME_UPDATE/root rd.lvm.lv=cs_${DRIVE_NAME_UPDATE/swap net.ifnames=0 intel_iommu=on rhgb quiet"
+GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cs_${DRIVE_NAME_UPDATE}-swap rd.lvm.lv=cs_${DRIVE_NAME_UPDATE}/root rd.lvm.lv=cs_${DRIVE_NAME_UPDATE}/swap net.ifnames=0 intel_iommu=on rhgb quiet"
 GRUB_DISABLE_RECOVERY="true"
 GRUB_ENABLE_BLSCFG=true
 EOF
