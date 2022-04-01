@@ -22,7 +22,7 @@ function load_system_info() {
   export RESERVED_RAM=$(( $INSTALLED_RAM * $RAM_PCT_AVAIL_CLOUD/100 ))
   export CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
   export DISK_COUNT=$(get_disk_count)
-  export IP_ADDR=`ip -f inet addr show ext-con | grep inet`
+  export IP_ADDR=`ip -f inet addr show ext-con | grep inet | awk -F' ' '{ print $2 }' | cut -d '/' -f1`
 
   ## build system output to send via telegram
   CPU_INFO="CPU Count: $CPU_COUNT"
