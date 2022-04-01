@@ -24,7 +24,7 @@ function export_cert_info() {
   ## Cert params
   # these parameters will be used to generate CSR for all certificates
   export IP=`curl --silent $EXTERNAL_IP_SERVICE`
-  export INFO=`curl --silent EXTERNAL_IP_INFO_SERVICE$IP`
+  export INFO=`curl --silent $EXTERNAL_IP_INFO_SERVICE$IP`
 
   export COUNTRY=$(parse_json "$INFO" "country")
   export STATE=$(parse_json "$INFO" "region")
