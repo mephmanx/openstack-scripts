@@ -51,6 +51,7 @@ function export_cert_info() {
 function get_drive_name() {
   dir_name=`find /dev/mapper -maxdepth 1 -type l -name '*cs*' -print -quit`
   DRIVE_NAME=`grep -oP '(?<=_).*?(?=-)' <<< "$dir_name"`
+  echo $DRIVE_NAME
 }
 
 function load_system_info() {
@@ -77,17 +78,17 @@ function load_system_info() {
 }
 
 function grow_fs() {
-  get_drive_name
+  DRIVE_NAME_UPDATE=$(get_drive_name)
 
   #One time machine setup
   xfsdump -f /tmp/home.dump /home
 
   umount /home
-  lvreduce -L 4G -f /dev/mapper/cs_${DRIVE_NAME}-home
-  mkfs.xfs -f /dev/mapper/cs_${DRIVE_NAME}-home
-  lvextend -l +100%FREE /dev/mapper/cs_${DRIVE_NAME}-root
-  xfs_growfs /dev/mapper/cs_${DRIVE_NAME}-root
-  mount /dev/mapper/cs_${DRIVE_NAME}-home /home
+  lvreduce -L 4G -f /dev/mapper/cs_${DRIVE_NAME_UPDATE}-home
+  mkfs.xfs -f /dev/mapper/cs_${DRIVE_NAME_UPDATE}-home
+  lvextend -l +100%FREE /dev/mapper/cs_${DRIVE_NAME_UPDATE}-root
+  xfs_growfs /dev/mapper/cs_${DRIVE_NAME_UPDATE}-root
+  mount /dev/mapper/cs_${DRIVE_NAME_UPDATE}-home /home
   xfsrestore -f /tmp/home.dump /home
 }
 

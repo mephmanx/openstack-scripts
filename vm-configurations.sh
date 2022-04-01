@@ -7,7 +7,7 @@ function getVMCount {
   option="${1}"
 
   vmstr=$(vm_definitions "$option")
-  vm_str=${vmstr//[$'\t\r\n ']/}
+  vm_str=${vmstr//[$'\t\r\n ']}
   vm_ct=$(parse_json "$vm_str" "count")
   echo $vm_ct
 }
@@ -169,7 +169,7 @@ function create_vm_kvm {
   option="${1}"
 
   vmstr=$(vm_definitions "$option")
-  vm_str=${vmstr//[$'\t\r\n ']/}
+  vm_str=${vmstr//[$'\t\r\n ']}
 
   ## CPU ct per VM needs to be computed based on how much load a VM of this type handles and total number of physical CPU's on hypervisor
   cpu_ct=$(parse_json "$vm_str" "cpu")
