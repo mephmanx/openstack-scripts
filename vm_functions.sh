@@ -32,6 +32,12 @@ function export_cert_info() {
   export ORGANIZATION="Platform-Internal-Placeholder-CA"
   export OU="CloudStick"
 
+  echo "Country: $COUNTRY"
+  echo "State: $STATE"
+  echo "Location: $LOCATION"
+  echo "Organization: $ORGANIZATION"
+  echo "OU: $OU"
+
   ####  stamp into ISO
   sed -i 's/{COUNTRY}/'$COUNTRY'/g' ${kickstart_file}
   sed -i 's/{STATE}/'$STATE'/g' ${kickstart_file}
