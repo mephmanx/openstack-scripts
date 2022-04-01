@@ -516,7 +516,7 @@ function get_disk_count() {
 }
 
 function grub_update() {
-  DRIVE_NAME_UPDATE=$1
+  DRIVE_NAME_UPDATE=$(get_drive_name)
 
   runuser -l root -c  'rm -rf /etc/default/grub'
   runuser -l root -c  'touch /etc/default/grub'
