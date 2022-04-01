@@ -123,6 +123,14 @@ NEWPW=$(generate_random_pwd 31)
 
 #### generate ssh keys
 # create CA cert before the network goes down to add ip to SAN
+export_cert_info
+
+####  stamp into ISO
+sed -i 's/{COUNTRY}/'$COUNTRY'/g' ${kickstart_file}
+sed -i 's/{STATE}/'$STATE'/g' ${kickstart_file}
+sed -i 's/{LOCATION}/'$LOCATION'/g' ${kickstart_file}
+sed -i 's/{ORGANIZATION}/'$ORGANIZATION'/g' ${kickstart_file}
+sed -i 's/{OU}/'$OU'/g' ${kickstart_file}
 create_ca_cert $NEWPW $CERT_DIR
 
 ### initial wildcard cert
