@@ -43,6 +43,9 @@ function export_cert_info() {
   sed -i 's/{LOCATION}/'$LOCATION'/g' ${kickstart_file}
   sed -i 's/{ORGANIZATION}/'$ORGANIZATION'/g' ${kickstart_file}
   sed -i 's/{OU}/'$OU'/g' ${kickstart_file}
+
+  rm -rf /tmp/ip_out_update
+  rm -rf /tmp/ip_out
 }
 
 function get_drive_name() {
