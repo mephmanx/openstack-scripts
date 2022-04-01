@@ -349,13 +349,12 @@ IP.1                                                  = $IDENTITY_VIP
 EOF
 
   runuser -l root -c  "chmod 600 $cert_dir/*"
-  runuser -l root -c  "openssl genrsa -aes256 -out $cert_dir/id_rsa 4096"
+  runuser -l root -c  "openssl genrsa -out $cert_dir/id_rsa 4096"
   # create CA key and cert
   runuser -l root -c  "ssh-keygen -f $cert_dir/id_rsa -y > $cert_dir/id_rsa.pub"
 #  runuser -l root -c  "openssl rsa -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
   runuser -l root -c  "openssl req -new -x509 -days 7300 \
                         -key $cert_dir/id_rsa -out $cert_dir/id_rsa.crt \
-                        -nodes \
                         -sha256 \
                         -config $cert_dir/ca_conf.cnf"
 }
@@ -413,7 +412,7 @@ while [ $node_ct -gt 0 ]; do
 done
 
   extFile=$(gen_extfile $host_name.$INTERNAL_DOMAIN_NAME)
-  runuser -l root -c  "openssl genrsa -aes256 -out $cert_dir/$cert_name.pass.key 4096"
+  runuser -l root -c  "openssl genrsa -out $cert_dir/$cert_name.pass.key 4096"
   runuser -l root -c  "openssl rsa -in $cert_dir/$cert_name.pass.key -out $cert_dir/$cert_name.key"
   runuser -l root -c  "openssl req -new -key $cert_dir/$cert_name.key \
                           -out $cert_dir/$cert_name.csr \
