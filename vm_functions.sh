@@ -26,9 +26,9 @@ function export_cert_info() {
   export IP=`curl --silent $EXTERNAL_IP_SERVICE`
   export INFO=`curl --silent $EXTERNAL_IP_INFO_SERVICE$IP`
 
-  export COUNTRY=$(parse_json "{$INFO}" "country")
-  export STATE=$(parse_json "{$INFO}" "region")
-  export LOCATION=$(parse_json "{$INFO}" "city")
+  export COUNTRY=$(parse_json "$INFO" "country")
+  export STATE=$(parse_json "$INFO" "region")
+  export LOCATION=$(parse_json "$INFO" "city")
   export ORGANIZATION="Platform-Internal-Placeholder-CA"
   export OU="CloudStick"
 
