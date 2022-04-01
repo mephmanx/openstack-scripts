@@ -68,7 +68,7 @@ function load_system_info() {
   ## build system output to send via telegram
   CPU_INFO="CPU Count: $CPU_COUNT"
   RAM_INFO="Installed RAM: $INSTALLED_RAM GB \r\nReserved RAM: $RESERVED_RAM GB"
-  DISK_INFO="Disk Count: $DISK_COUNT \r\n Disk Info: $DISK_INFO"
+  DISK_INFO="Disk Count: $DISK_COUNT \r\n $DISK_INFO"
   IP_INFO="Hypervisor IP: $IP_ADDR"
   DMI_DECODE=`runuser -l root -c  "dmidecode -t system"`
   source /etc/os-release
