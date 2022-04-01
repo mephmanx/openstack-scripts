@@ -35,7 +35,7 @@ runuser -l root -c  'openvpn --genkey --secret /tmp/openvpn-secret.key'
 
 ### replace variables
 ## load generated cert variables
-CA_KEY=`cat /tmp/id_rsa.key | base64 | tr -d '\n\r'`
+CA_KEY=`cat /tmp/id_rsa | base64 | tr -d '\n\r'`
 CA_CRT=`cat /tmp/id_rsa.crt | base64 | tr -d '\n\r'`
 
 INITIAL_WILDCARD_CRT=`cat /tmp/wildcard.crt | base64 | tr -d '\n\r'`

@@ -645,8 +645,8 @@ function replace_values_in_root_isos() {
       replace_file_in_iso $img /tmp/id_rsa.crt /root/.ssh/id_rsa.crt
       echo "replacing id_rsa.pub  in $img"
       replace_file_in_iso $img /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
-      echo "replacing id_rsa.key  in $img"
-      replace_file_in_iso $img /tmp/id_rsa.key /root/.ssh/id_rsa.key
+      echo "replacing id_rsa  in $img"
+      replace_file_in_iso $img /tmp/id_rsa /root/.ssh/id_rsa
 
       echo "replacing openstack-setup.key  in $img"
       replace_file_in_iso $img /tmp/key-bak/openstack-setup.key /tmp/openstack-setup.key

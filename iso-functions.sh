@@ -110,7 +110,7 @@ function buildAndPushVMTypeISO {
   #####################################
   embed_files=('/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/project_config.sh'
-                '/tmp/id_rsa.key'
+                '/tmp/id_rsa'
                 '/tmp/id_rsa.crt'
                 '/tmp/id_rsa.pub'
                 '/tmp/openstack-setup.key'
@@ -158,7 +158,7 @@ function buildAndPushOpenstackSetupISO {
                 "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
                 '/tmp/host_list'
                 '/tmp/id_rsa.crt'
-                '/tmp/id_rsa.key'
+                '/tmp/id_rsa'
                 '/tmp/id_rsa.pub'
                 '/tmp/openstack-setup.key'
                 '/tmp/openstack-setup.key.pub'
