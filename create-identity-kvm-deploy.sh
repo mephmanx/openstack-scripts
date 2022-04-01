@@ -10,14 +10,8 @@ source /tmp/vm-configurations.sh
 
 KICKSTART_DIR=/tmp/openstack-scripts
 
-DISK_COUNT=$(get_disk_count)
-if [[ $DISK_COUNT -lt 2 ]]; then
-  size_avail=`df /VM-VOL-ALL | awk '{print $2}' | sed 1d`
-  DRIVE_SIZE=$(($((size_avail * 2/100)) / 1024 / 1024))
-else
-  size_avail=`df /VM-VOL-MISC | awk '{print $2}' | sed 1d`
-  DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
-fi
+size_avail=`df /VM-VOL-MISC | awk '{print $2}' | sed 1d`
+DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
 
 create_line="virt-install "
 create_line+="--hvm "

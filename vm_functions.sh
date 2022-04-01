@@ -23,10 +23,6 @@ function load_system_info() {
   export CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
   export DISK_COUNT=$(get_disk_count)
   export IP_ADDR=`ip -f inet addr show ext-con | grep inet`
-#  ct=0
-#  while [ $ct -lt $DISK_COUNT ]; do
-#    export DISK_$ct=
-#  done
 
   ## build system output to send via telegram
   CPU_INFO="CPU Count: $CPU_COUNT"
