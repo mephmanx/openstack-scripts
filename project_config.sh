@@ -39,6 +39,10 @@ export DOCKER_COMPOSE=https://github.com/docker/compose/releases/download/$DOCKE
 export EXTERNAL_IP_SERVICE="ipinfo.io/ip"
 export EXTERNAL_IP_INFO_SERVICE="ipinfo.io/"
 
+###  Cert constants
+export ORGANIZATION="Cloud.local-Platform-CA"
+export OU="CloudStick"
+
 ## domain name
 ## generate internal domain name
 #export INTERNAL_DOMAIN_NAME=$INT_DOM_NAME;
