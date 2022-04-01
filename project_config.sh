@@ -34,6 +34,11 @@ export CF_DEPLOYMENT=https://github.com/cloudfoundry/cf-deployment/archive/main/
 ## docker compose
 export DOCKER_COMPOSE=https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-linux-x86_64
 
+## IP Info services
+##  Test before changing!  Output is different for every one
+export EXTERNAL_IP_SERVICE="ipinfo.io/ip"
+export EXTERNAL_IP_INFO_SERVICE="ipinfo.io/"
+
 ## domain name
 ## generate internal domain name
 #export INTERNAL_DOMAIN_NAME=$INT_DOM_NAME;

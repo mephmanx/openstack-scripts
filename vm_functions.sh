@@ -23,8 +23,8 @@ function export_cert_info() {
   kickstart_file=$1
   ## Cert params
   # these parameters will be used to generate CSR for all certificates
-  export IP=`curl ipinfo.io/ip`
-  export INFO=`curl ipinfo.io/$IP`
+  export IP=`curl --silent $EXTERNAL_IP_SERVICE`
+  export INFO=`curl --silent EXTERNAL_IP_INFO_SERVICE$IP`
 
   export COUNTRY=$(parse_json "$INFO" "country")
   export STATE=$(parse_json "$INFO" "region")
