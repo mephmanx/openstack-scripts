@@ -51,6 +51,9 @@ export INTERNAL_DOMAIN_NAME="cloud.local";
 ##  Docker linux build name
 export DOCKER_LINUX_BUILD_IMAGE="mephmanx/centos-stream-airgap-build:latest";
 
+## Docker Openstack offilne resources
+export DOCKER_OPENSTACK_OFFLINE_IMAGE="mephmanx/os-airgap:latest";
+
 ### Enable auto-update
 ## This enables the centos/stream auto update function on install.
 ## Auto update can be enabled later if not enabled here, this just sets it up and enables it for you.

@@ -147,10 +147,12 @@ if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f 
     rm -rf /out
     mkdir /out
     docker pull mephmanx/os-airgap:latest
-    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out mephmanx/os-airgap:latest
+    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out $DOCKER_OPENSTACK_OFFLINE_IMAGE
+
     #### add build images
     mv /out/centos-binary-base-${OPENSTACK_VERSION}.tar /tmp/harbor
     mv /out/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz /tmp/harbor
+    mv /out/globals.yml ./globals.yml
     rm -rf /out
     ### add copied images
     docker pull kolla/centos-source-kuryr-libnetwork:wallaby && docker save kolla/centos-source-kuryr-libnetwork:wallaby >/tmp/harbor/centos-source-kuryr-libnetwork.tar
