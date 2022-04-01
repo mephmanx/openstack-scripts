@@ -302,17 +302,12 @@ EOF
 }
 
 function create_ca_cert() {
-  ca_pwd=$1
-  cert_dir=$2
+  cert_dir=$1
   IP=`hostname -I | awk '{print $1}'`
 
-  runuser -l root -c  "touch $cert_dir/ca_pwd"
   runuser -l root -c  "touch $cert_dir/id_rsa"
   runuser -l root -c  "touch $cert_dir/id_rsa.pub"
   runuser -l root -c  "touch $cert_dir/id_rsa.crt"
-
-  ### record password to dir
-  echo $ca_pwd > $cert_dir/ca_pwd
 
   IP=`hostname -I | awk '{print $1}'`
   source /tmp/project_config.sh
@@ -350,21 +345,20 @@ IP.1                                                  = $IDENTITY_VIP
 EOF
 
   runuser -l root -c  "chmod 600 $cert_dir/*"
-  runuser -l root -c  "openssl genrsa -aes256 -passout pass:$ca_pwd -out $cert_dir/id_rsa 4096"
+  runuser -l root -c  "openssl genrsa -aes256 -out $cert_dir/id_rsa 4096"
   # create CA key and cert
-  runuser -l root -c  "ssh-keygen -P $ca_pwd -f $cert_dir/id_rsa -y > $cert_dir/id_rsa.pub"
-  runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
+  runuser -l root -c  "ssh-keygen -f $cert_dir/id_rsa -y > $cert_dir/id_rsa.pub"
+#  runuser -l root -c  "openssl rsa -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
   runuser -l root -c  "openssl req -new -x509 -days 7300 \
-                        -key $cert_dir/id_rsa.key -out $cert_dir/id_rsa.crt \
+                        -key $cert_dir/id_rsa -out $cert_dir/id_rsa.crt \
                         -sha256 \
                         -config $cert_dir/ca_conf.cnf"
 }
 
 function create_server_cert() {
-    ca_pwd=$1
-    cert_dir=$2
-    cert_name=$3
-    host_name=$4
+    cert_dir=$1
+    cert_name=$2
+    host_name=$3
 
     runuser -l root -c  "touch $cert_dir/$cert_name.pass.key"
     runuser -l root -c  "touch $cert_dir/$cert_name.key"
@@ -414,8 +408,8 @@ while [ $node_ct -gt 0 ]; do
 done
 
   extFile=$(gen_extfile $host_name.$INTERNAL_DOMAIN_NAME)
-  runuser -l root -c  "openssl genrsa -aes256 -passout pass:$ca_pwd -out $cert_dir/$cert_name.pass.key 4096"
-  runuser -l root -c  "openssl rsa -passin pass:$ca_pwd -in $cert_dir/$cert_name.pass.key -out $cert_dir/$cert_name.key"
+  runuser -l root -c  "openssl genrsa -aes256 -out $cert_dir/$cert_name.pass.key 4096"
+  runuser -l root -c  "openssl rsa -in $cert_dir/$cert_name.pass.key -out $cert_dir/$cert_name.key"
   runuser -l root -c  "openssl req -new -key $cert_dir/$cert_name.key \
                           -out $cert_dir/$cert_name.csr \
                           -config $cert_dir/$cert_name.cnf"
@@ -424,7 +418,6 @@ done
                           -in $cert_dir/$cert_name.csr \
                           -CA $cert_dir/id_rsa.crt \
                           -CAkey $cert_dir/id_rsa \
-                          -passin pass:$ca_pwd \
                           -sha256 \
                           -extfile <(printf \"$extFile\") \
                           -out $cert_dir/$cert_name.crt"
@@ -504,21 +497,6 @@ function baseDN() {
   done
   echo $BASE_DN
   ####
-}
-
-function generate_random_word() {
-  # Constants
-  X=0
-  ALL_NON_RANDOM_WORDS=/usr/share/dict/words
-
-  # total number of non-random words available
-  non_random_words=`cat $ALL_NON_RANDOM_WORDS | wc -l`
-
-  # while loop to generate random words
-  # number of random generated words depends on supplied argument
-
-  random_number=`od -N3 -An -i /dev/urandom | awk -v f=0 -v r="$non_random_words" '{printf "%i\n", f + r * $1 / 16777216}'`
-  sed `echo $random_number`"q;d" $ALL_NON_RANDOM_WORDS
 }
 
 function replace_string_in_iso() {

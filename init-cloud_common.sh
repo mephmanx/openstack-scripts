@@ -7,7 +7,6 @@
 . /etc/init.d/functions
 . /tmp/vm_functions.sh
 . /tmp/project_config.sh
-. /etc/os-release
 
 start() {
 # code to start app comes here

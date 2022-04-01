@@ -117,18 +117,14 @@ rm -rf /tmp/id_rsa*
 rm -rf /tmp/wildcard.*
 CERT_DIR="/tmp"
 
-### CA key pass
-NEWPW=$(generate_random_pwd 31)
-###
-
 #### generate ssh keys
 # create CA cert before the network goes down to add ip to SAN
 export_cert_info ${kickstart_file}
 
-create_ca_cert $NEWPW $CERT_DIR
+create_ca_cert $CERT_DIR
 
 ### initial wildcard cert
-create_server_cert $NEWPW $CERT_DIR "wildcard" "*"
+create_server_cert $CERT_DIR "wildcard" "*"
 #############
 
 if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
