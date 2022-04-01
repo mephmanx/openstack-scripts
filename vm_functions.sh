@@ -3,13 +3,34 @@
 . /tmp/project_config.sh
 . /tmp/openstack-env.sh
 
-## Cert params
-# these parameters will be used to generate CSR for all certificates
-COUNTRY="US"
-STATE="PA"
-LOCATION="Scranton"
-ORGANIZATION="IronSky-Platform-Internal-CA"
-OU="IronSky"
+function parse_json() {
+  echo $1 |
+    sed -e 's/[{}]/''/g' |
+    sed -e 's/", "/'\",\"'/g' |
+    sed -e 's/" ,"/'\",\"'/g' |
+    sed -e 's/" , "/'\",\"'/g' |
+    sed -e 's/","/'\"---SEPERATOR---\"'/g' |
+    awk -F=':' -v RS='---SEPERATOR---' "\$1~/\"$2\"/ {print}" |
+    sed -e "s/\"$2\"://" |
+    tr -d "\n\t" |
+    sed -e 's/\\"/"/g' |
+    sed -e 's/\\\\/\\/g' |
+    sed -e 's/^[ \t]*//g' |
+    sed -e 's/^"//' -e 's/"$//'
+}
+
+function export_cert_info() {
+  ## Cert params
+  # these parameters will be used to generate CSR for all certificates
+  export IP=`curl ipinfo.io/ip`
+  export INFO=`curl ipinfo.io/$IP`
+
+  export COUNTRY=$(parse_json "$INFO" "country")
+  export STATE=$(parse_json "$INFO" "region")
+  export LOCATION=$(parse_json "$INFO" "city")
+  export ORGANIZATION="Platform-Internal-Placeholder-CA"
+  export OU="CloudStick"
+}
 
 function get_drive_name() {
   dir_name=`find /dev/mapper -maxdepth 1 -type l -name '*cs*' -print -quit`
