@@ -20,6 +20,7 @@ function parse_json() {
 }
 
 function export_cert_info() {
+  kickstart_file=$1
   ## Cert params
   # these parameters will be used to generate CSR for all certificates
   export IP=`curl ipinfo.io/ip`
@@ -30,6 +31,13 @@ function export_cert_info() {
   export LOCATION=$(parse_json "$INFO" "city")
   export ORGANIZATION="Platform-Internal-Placeholder-CA"
   export OU="CloudStick"
+
+  ####  stamp into ISO
+  sed -i 's/{COUNTRY}/'$COUNTRY'/g' ${kickstart_file}
+  sed -i 's/{STATE}/'$STATE'/g' ${kickstart_file}
+  sed -i 's/{LOCATION}/'$LOCATION'/g' ${kickstart_file}
+  sed -i 's/{ORGANIZATION}/'$ORGANIZATION'/g' ${kickstart_file}
+  sed -i 's/{OU}/'$OU'/g' ${kickstart_file}
 }
 
 function get_drive_name() {
