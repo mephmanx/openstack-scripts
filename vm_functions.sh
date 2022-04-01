@@ -60,11 +60,15 @@ function load_system_info() {
   export CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
   export DISK_COUNT=$(get_disk_count)
   export IP_ADDR=`ip -f inet addr show ext-con | grep inet | awk -F' ' '{ print $2 }' | cut -d '/' -f1`
-
+  if [ $DISK_COUNT -lt 2 ]; then
+    export DISK_INFO=`fdisk -l | head -n 1 | awk -F',' '{ print $1 }'`
+  else
+    export DISK_INFO="unknown yet"
+  fi
   ## build system output to send via telegram
   CPU_INFO="CPU Count: $CPU_COUNT"
-  RAM_INFO="Installed RAM: $INSTALLED_RAM GB \r\n Reserved RAM: $RESERVED_RAM GB"
-  DISK_INFO="Disk Count: $DISK_COUNT"
+  RAM_INFO="Installed RAM: $INSTALLED_RAM GB \r\nReserved RAM: $RESERVED_RAM GB"
+  DISK_INFO="Disk Count: $DISK_COUNT \r\n Disk Info: $DISK_INFO"
   IP_INFO="Hypervisor IP: $IP_ADDR"
   DMI_DECODE=`runuser -l root -c  "dmidecode -t system"`
   source /etc/os-release
