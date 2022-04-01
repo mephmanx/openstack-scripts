@@ -78,7 +78,7 @@ curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/projects" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
   --header "host: $SUPPORT_VIP_DNS" \
-  --data-binary "{\"project_name\":\"kolla\",\"registry_id\":1,\"metadata\":{\"public\":\"true\"},\"storage_limit\":-1}"
+  --data-binary "{\"project_name\":\"kolla\",\"metadata\":{\"public\":\"true\"},\"storage_limit\":-1}"
 
 #### populate harbor with openstack images
 #grafana fluentd zun not build
