@@ -231,6 +231,14 @@ function post_install_cleanup() {
   rm -rf /tmp/host-trust.sh
   rm -rf /tmp/project_config.sh
   rm -rf /tmp/swift.key
+
+  ### cleanup
+  runuser -l root -c  "rm -rf /tmp/openstack-setup.key*"
+  runuser -l root -c  'rm -rf /root/*.log'
+  runuser -l root -c  'rm -rf /tmp/*.log'
+  runuser -l root -c  'rm -rf /tmp/openstack-scripts'
+  ######
+
   rm -rf /tmp/type
   runuser -l root -c  'rm -rf /root/*.log'
   runuser -l root -c  'rm -rf /tmp/*.log'

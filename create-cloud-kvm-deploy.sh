@@ -85,23 +85,6 @@ done
 
 echo "VM's to be created"
 echo "${vms[@]}"
-############## remove vm's
-for d in "${vms[@]}"; do
-  echo "removing vm -> $d"
-  removeVM_kvm "$d"
-  sleep 15
-done
-
-########## remove kolla
-removeVM_kvm "kolla"
-####################
-
-############  Build and push custom iso's for VM types
-for d in "${vms[@]}"; do
-  echo "building and pushing ISO for $d"
-  create_vm_kvm $vm_type $d
-done
-#############################
 
 ########### create vm's
 index=0
@@ -131,8 +114,6 @@ sleep 300
 telegram_notify  "All cloud VM's installed.  Openstack install will begin if VM's came up correctly."
 ##########
 
-### delete isos when done as they have private info
-rm -rf /tmp/*.iso
 ### run host trust to add keys to hypervisor
 host_trust_script+=("runuser -l root -c  'ssh-keyscan -H kolla >> ~/.ssh/known_hosts';")
 echo $host_trust_script >> /tmp/additional_hosts
@@ -141,12 +122,7 @@ runuser -l root -c  'cd /tmp; ./dns_hosts'
 runuser -l root -c  'cd /tmp; ./additional_hosts'
 rm -rf /tmp/dns_hosts
 rm -rf /tmp/additional_hosts
-### cleanup
-if [[ $HYPERVISOR_DEBUG == 0 ]]; then
-  runuser -l root -c  "rm -rf /tmp/openstack-setup.key*"
-  runuser -l root -c  'rm -rf /root/*.log'
-  runuser -l root -c  'rm -rf /tmp/*.log'
-  runuser -l root -c  'rm -rf /tmp/openstack-scripts'
-fi
-######
+
+post_install_cleanup
+
 telegram_notify  "Host trust and cleanup scripts run.  Cloud create script is complete."
