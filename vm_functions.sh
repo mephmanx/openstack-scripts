@@ -454,8 +454,12 @@ function remove_ip_from_adapter() {
 
 function generate_random_pwd() {
   length=$1
-  RANDOM_PWD=`date +%s | sha256sum | base64 | head -c $length ; echo`
-  echo $RANDOM_PWD
+  RANDOM_PWD=$(date +%s | sha256sum | base64 | head -c "$length" ; echo)
+  echo "$RANDOM_PWD"
+}
+
+function generate_specific_pwd() {
+  echo $(head -c $1 < /dev/zero | tr '\0' 'x')
 }
 
 function join_machine_to_domain() {
@@ -632,8 +636,9 @@ function replace_values_in_root_isos() {
   ## cert list
 #  DIRECTORY_MGR_PWD=$(generate_random_pwd 31)
 #  ADMIN_PWD=$(generate_random_pwd 31)
-  DIRECTORY_MGR_PWD=none
-  ADMIN_PWD=none
+  DIRECTORY_MGR_PWD=$(generate_specific_pwd 31)
+  ADMIN_PWD=$(generate_specific_pwd 31)
+  GEN_PWD=$(generate_specific_pwd 31)
 
   echo $ADMIN_PWD > /root/env_admin_pwd
   echo $DIRECTORY_MGR_PWD > /tmp/directory_mgr_pwd
@@ -644,6 +649,9 @@ function replace_values_in_root_isos() {
   for img in $iso_images; do
       echo "replacing centos admin in $img"
       replace_string_in_iso $img {CENTOS_ADMIN_PWD_123456789012} $ADMIN_PWD
+
+      echo "replace generated pwd in $img"
+      replace_string_in_iso $img {GENERATED_PWD} $GEN_PWD
 
       echo "replacing id_rsa.crt  in $img"
       replace_file_in_iso $img /tmp/id_rsa.crt /root/.ssh/id_rsa.crt
