@@ -459,15 +459,15 @@ function generate_random_pwd() {
 }
 
 function generate_specific_pwd() {
-  echo $(head -c $1 < /dev/zero | tr '\0' 'x')
+  head -c $1 < /dev/zero | tr '\0' 'x'
 }
 
 function join_machine_to_domain() {
   ## kill selinux to join domain
   runuser -l root -c "sed -i 's/\(SELINUX\=\).*/\1disabled/' /etc/selinux/config"
 
-  IP_ADDRESS=`hostname -I | awk '{print $1}'`
-  HOSTNAME=`hostname`.$INTERNAL_DOMAIN_NAME
+  IP_ADDRESS=$(hostname -I | awk '{print $1}')
+  HOSTNAME=$(hostname).$INTERNAL_DOMAIN_NAME
 
   runuser -l root -c "echo '$IP_ADDRESS $HOSTNAME' >> /etc/hosts"
   runuser -l root -c "echo $HOSTNAME > /etc/hostname"
@@ -636,9 +636,10 @@ function replace_values_in_root_isos() {
   ## cert list
 #  DIRECTORY_MGR_PWD=$(generate_random_pwd 31)
 #  ADMIN_PWD=$(generate_random_pwd 31)
+#  GEN_PWD=$(generate_random_pwd 15)
   DIRECTORY_MGR_PWD=$(generate_specific_pwd 31)
   ADMIN_PWD=$(generate_specific_pwd 31)
-  GEN_PWD=$(generate_specific_pwd 31)
+  GEN_PWD=$(generate_specific_pwd 15)
 
   echo $ADMIN_PWD > /root/env_admin_pwd
   echo $DIRECTORY_MGR_PWD > /tmp/directory_mgr_pwd
