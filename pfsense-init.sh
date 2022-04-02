@@ -10,6 +10,7 @@ set -x                             # tell sh to display commands before executio
 
 IP_DATA=`ifconfig vtnet0 | grep inet | awk -F' ' '{ print $2 }' | head -2 | tail -1`
 DRIVE_SIZE=`geom disk list | grep Mediasize | sed 2d | awk '{ print $2 }'`
+###  sed needs the -e in BSD env's.  dont remove it!
 sed -i -e 's/{CACHE_SIZE}/'$(($DRIVE_SIZE / 1024 / 1024 * 75/100))'/g' /conf/config.xml
 telegram_notify  "PFSense initialization script beginning... \n\nCloud DMZ IP: $IP_DATA"
 
