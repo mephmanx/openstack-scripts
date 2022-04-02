@@ -73,12 +73,13 @@ runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --
 
 telegram_notify  "Cloudsupport VM ready for use"
 ##########################
-export etext=`echo -n "admin:{CENTOS_ADMIN_PWD_123456789012}" | base64`
-curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/projects" \
-  --header "authorization: Basic $etext" \
-  --header 'content-type: application/json' \
-  --header "host: $SUPPORT_VIP_DNS" \
-  --data-binary "{\"project_name\":\"kolla\",\"metadata\":{\"public\":\"true\"},\"storage_limit\":-1}"
+cat > /tmp/harbor.json << EOF
+{"project_name": "kolla","metadata": {"public": "true"}}
+EOF
+
+harbor_api_password=`echo -n admin:$ADMIN_PWD|base64`
+cd /tmp
+curl -k -H  "authorization: Basic $harbor_api_password" -X POST -H "Content-Type: application/json" "https://$SUPPORT_VIP_DNS/api/v2.0/projects" -d @harbor.json
 
 #### populate harbor with openstack images
 #grafana fluentd zun not build
@@ -166,14 +167,6 @@ docker tag localhost/kolla/centos-binary-base:wallaby $SUPPORT_VIP_DNS/kolla/cen
 
 #kolla build config
 kolla-build --base-image localhost/kolla/centos-binary-base --base-tag wallaby -t binary --openstack-release wallaby  --tag wallaby --cache --skip-existing --nopull --registry $SUPPORT_VIP_DNS barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openvswitch placement qdrouterd redis rabbitmq swift telegraf trove
-
-cat > /tmp/harbor.json << EOF
-{"project_name": "kolla","metadata": {"public": "true"}}
-EOF
-
-harbor_api_password=`echo -n admin:$ADMIN_PWD|base64`
-cd /tmp
-curl -k -H  "authorization: Basic $harbor_api_password" -X POST -H "Content-Type: application/json" "https://$SUPPORT_VIP_DNS/api/v2.0/projects" -d @harbor.json
 
 #push images to harbor
 for i in `docker images |grep $SUPPORT_VIP_DNS|awk '{print $1}'`;do docker push $i:wallaby ;done
