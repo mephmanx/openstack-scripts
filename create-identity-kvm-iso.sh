@@ -44,3 +44,5 @@ embed_files=('/tmp/id_rsa.crt'
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO "${kickstart_file}" "identity" $embed_files_string
+
+rm -rf ${kickstart_file}
