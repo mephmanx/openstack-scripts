@@ -3,7 +3,7 @@
 
 ### openstack-env needs to be in same directory as this script
 rm -rf /tmp/openstack-env.sh
-cp $1 /tmp/openstack-env.sh
+cp "$1" /tmp/openstack-env.sh
 source /tmp/openstack-env.sh
 cp project_config.sh /tmp
 cp vm_functions.sh /tmp
@@ -21,7 +21,7 @@ yum install -y wget zip
 
 rm -rf /tmp/linux.iso
 docker pull "$DOCKER_LINUX_BUILD_IMAGE"
-docker run -v /tmp:/opt/mount --rm -ti $DOCKER_LINUX_BUILD_IMAGE bash -c "mv CentOS-x86_64-minimal.iso linux.iso; cp linux.iso /opt/mount"
+docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE" bash -c "mv CentOS-x86_64-minimal.iso linux.iso; cp linux.iso /opt/mount"
 
 rm -rf ./tmp
 mkdir ./tmp
@@ -49,63 +49,63 @@ if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2" ]; then
   pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org diskimage-builder
   chmod +x /tmp/octavia/diskimage-create/diskimage-create.sh
   pwd=$(pwd)
-  cd /tmp/octavia/diskimage-create;
+  cd /tmp/octavia/diskimage-create || exit;
   ./diskimage-create.sh;
-  cd $pwd
-  cp /tmp/octavia/diskimage-create/amphora-x64-haproxy.qcow2 /tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2
+  cd "$pwd" || exit
+  cp /tmp/octavia/diskimage-create/amphora-x64-haproxy.qcow2 /tmp/amphora-x64-haproxy-"$AMPHORA_VERSION".qcow2
   rm -rf /tmp/octavia
 fi
 
 if [ ! -f "/tmp/pfSense-$PFSENSE_VERSION.gz" ]; then
-  wget -O /tmp/pfSense-$PFSENSE_VERSION.gz ${PFSENSE}
+  wget -O /tmp/pfSense-"$PFSENSE_VERSION".gz "${PFSENSE}"
 fi
-cp /tmp/pfSense-$PFSENSE_VERSION.gz /tmp/pfSense-CE-memstick-ADI.img.gz
+cp /tmp/pfSense-"$PFSENSE_VERSION".gz /tmp/pfSense-CE-memstick-ADI.img.gz
 rm -rf /tmp/pfSense-CE-memstick-ADI.img
 gunzip -f /tmp/pfSense-CE-memstick-ADI.img.gz
 
 if [ ! -f "/tmp/harbor-$HARBOR_VERSION.tgz" ]; then
-  wget -O /tmp/harbor-$HARBOR_VERSION.tgz ${HARBOR}
+  wget -O /tmp/harbor-"$HARBOR_VERSION".tgz "${HARBOR}"
 fi
 
 if [ ! -f "/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2" ]; then
-  wget -O /tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2 ${MAGNUM_IMAGE}
+  wget -O /tmp/magnum-"$MAGNUM_IMAGE_VERSION".qcow2 "${MAGNUM_IMAGE}"
 fi
 
 if [ ! -f "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip" ]; then
-  wget -O /tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip ${CF_ATTIC_TERRAFORM}
+  wget -O /tmp/terraform_cf-"$CF_ATTIC_TERRAFORM_VERSION".zip "${CF_ATTIC_TERRAFORM}"
 fi
 
 if [ ! -f "/tmp/trove_instance-$UBUNTU_VERSION.img" ]; then
-  wget -O /tmp/trove_instance-$UBUNTU_VERSION.img ${TROVE_INSTANCE_IMAGE}
+  wget -O /tmp/trove_instance-"$UBUNTU_VERSION".img "${TROVE_INSTANCE_IMAGE}"
 fi
 
 if [ ! -f "/tmp/trove_db-$TROVE_DB_VERSION.img" ]; then
-  wget -O /tmp/trove_db-$TROVE_DB_VERSION.img ${TROVE_DB_IMAGE}
+  wget -O /tmp/trove_db-"$TROVE_DB_VERSION".img "${TROVE_DB_IMAGE}"
 fi
 
 if [ ! -f "/tmp/libtpms-$SWTPM_VERSION.zip" ]; then
-  wget -O /tmp/libtpms-$SWTPM_VERSION.zip ${LIBTPMS_GIT}
+  wget -O /tmp/libtpms-"$SWTPM_VERSION".zip "${LIBTPMS_GIT}"
 fi
 
 if [ ! -f "/tmp/swtpm-$SWTPM_VERSION.zip" ]; then
-  wget -O /tmp/swtpm-$SWTPM_VERSION.zip ${SWTPM_GIT}
+  wget -O /tmp/swtpm-"$SWTPM_VERSION".zip "${SWTPM_GIT}"
 fi
 
 if [ ! -f "/tmp/cf-templates.zip" ]; then
-  wget -O /tmp/cf-templates.zip ${BOSH_OPENSTACK_ENVIRONMENT_TEMPLATES}
+  wget -O /tmp/cf-templates.zip "${BOSH_OPENSTACK_ENVIRONMENT_TEMPLATES}"
 fi
 
 if [ ! -f "/tmp/cf_deployment-$CF_DEPLOY_VERSION.zip" ]; then
-  wget -O /tmp/cf_deployment-$CF_DEPLOY_VERSION.zip ${CF_DEPLOYMENT}
+  wget -O /tmp/cf_deployment-"$CF_DEPLOY_VERSION".zip "${CF_DEPLOYMENT}"
 fi
 
 if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
-  wget -O /tmp/docker-compose-$DOCKER_COMPOSE_VERSION ${DOCKER_COMPOSE}
+  wget -O /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" "${DOCKER_COMPOSE}"
 fi
 
 ### download director & jumpbox stemcell
 if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
-  curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$BOSH_STEMCELL-go_agent --output /tmp/bosh-$STEMCELL_STAMP.tgz > /dev/null
+  curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-"$BOSH_STEMCELL"-go_agent --output /tmp/bosh-"$STEMCELL_STAMP".tgz > /dev/null
 fi
 
 ##### build openstack vm keys
@@ -129,14 +129,14 @@ create_server_cert $CERT_DIR "wildcard" "*"
 
 if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
   docker pull mephmanx/homebrew-cache:latest
-  docker run --rm -v /tmp:/tmp/export mephmanx/homebrew-cache $CF_BBL_INSTALL_TERRAFORM_VERSION
+  docker run --rm -v /tmp:/tmp/export mephmanx/homebrew-cache "$CF_BBL_INSTALL_TERRAFORM_VERSION"
 fi
 
 IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
 for stemcell in "${stemcell_array[@]}";
 do
   if [ ! -f "/tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz" ]; then
-    curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-$stemcell-go_agent --output /tmp/stemcell-$stemcell-$STEMCELL_STAMP.tgz > /dev/null
+    curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-"$stemcell"-go_agent --output /tmp/stemcell-"$stemcell"-"$STEMCELL_STAMP".tgz > /dev/null
   fi
 done
 ####
@@ -147,11 +147,11 @@ if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f 
     rm -rf /out
     mkdir /out
     docker pull mephmanx/os-airgap:latest
-    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out $DOCKER_OPENSTACK_OFFLINE_IMAGE
+    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out "$DOCKER_OPENSTACK_OFFLINE_IMAGE"
 
     #### add build images
-    mv /out/centos-binary-base-${OPENSTACK_VERSION}.tar /tmp/harbor
-    mv /out/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz /tmp/harbor
+    mv /out/centos-binary-base-"${OPENSTACK_VERSION}".tar /tmp/harbor
+    mv /out/kolla_"${OPENSTACK_VERSION}"_rpm_repo.tar.gz /tmp/harbor
     mv /out/globals.yml ./globals.yml
     rm -rf /out
     ### add copied images
@@ -197,11 +197,11 @@ embed_files=('/tmp/openstack-env.sh'
 
 iso_images="/var/tmp/*.iso"
 for img in $iso_images; do
-  embed_files+=($img)
+  embed_files+=("$img")
 done
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"
-closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" $embed_files_string
+closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" "$embed_files_string"
 
 ## this requires the original version of cdrtools
 ## https://www.berlios.de/software/cdrtools/ or
