@@ -630,8 +630,10 @@ EOF
 function replace_values_in_root_isos() {
   ### replace values in isos for certs and pwds ########
   ## cert list
-  DIRECTORY_MGR_PWD=$(generate_random_pwd 31)
-  ADMIN_PWD=$(generate_random_pwd 31)
+#  DIRECTORY_MGR_PWD=$(generate_random_pwd 31)
+#  ADMIN_PWD=$(generate_random_pwd 31)
+  DIRECTORY_MGR_PWD=none
+  ADMIN_PWD=none
 
   echo $ADMIN_PWD > /root/env_admin_pwd
   echo $DIRECTORY_MGR_PWD > /tmp/directory_mgr_pwd
