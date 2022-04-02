@@ -20,7 +20,7 @@ rm -rf /var/tmp/*
 yum install -y wget zip
 
 rm -rf /tmp/linux.iso
-docker pull $DOCKER_LINUX_BUILD_IMAGE
+docker pull "$DOCKER_LINUX_BUILD_IMAGE"
 docker run -v /tmp:/opt/mount --rm -ti $DOCKER_LINUX_BUILD_IMAGE bash -c "mv CentOS-x86_64-minimal.iso linux.iso; cp linux.iso /opt/mount"
 
 rm -rf ./tmp
@@ -30,14 +30,14 @@ cp centos-8-kickstart-openstack.cfg ./tmp
 IFS=
 kickstart_file=./tmp/centos-8-kickstart-openstack.cfg
 NEWPWD=$(generate_random_pwd 31)
-echo $NEWPWD > /tmp/current_pwd
+echo "$NEWPWD" > /tmp/current_pwd
 ########### replace variables in project_config
 ## generate random hostname suffix
 HOWLONG=5 ## the number of characters
 HOSTNAME_SUFFIX=$(< /dev/urandom 2>/dev/null tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
-sed -i 's/{HOSTNAME_SUFFIX}/'$HOSTNAME_SUFFIX'/g' ${kickstart_file}
+sed -i 's/{HOSTNAME_SUFFIX}/'"$HOSTNAME_SUFFIX"'/g' ${kickstart_file}
 ###
-sed -i 's/{CENTOS_ADMIN_PWD_123456789012}/'$NEWPWD'/g' ${kickstart_file}
+sed -i 's/{CENTOS_ADMIN_PWD_123456789012}/'"$NEWPWD"'/g' ${kickstart_file}
 ###########################
 
 ## download files to be embedded
@@ -48,7 +48,7 @@ if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2" ]; then
   git clone https://opendev.org/openstack/octavia -b master /tmp/octavia
   pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org diskimage-builder
   chmod +x /tmp/octavia/diskimage-create/diskimage-create.sh
-  pwd=`pwd`
+  pwd=$(pwd)
   cd /tmp/octavia/diskimage-create;
   ./diskimage-create.sh;
   cd $pwd
