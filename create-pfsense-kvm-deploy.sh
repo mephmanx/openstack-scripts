@@ -99,11 +99,11 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
 (echo open 127.0.0.1 4568;
   sleep 120;
   echo "pfSsh.php playback changepassword admin";
-  sleep 20;
+  sleep 10;
   echo "$root_pw";
-  sleep 20;
+  sleep 10;
   echo "$root_pw";
-  sleep 20;
+  sleep 10;
   echo "yes | pkg install git &";
   sleep 120;
   echo "yes | pkg install bash &";
@@ -113,7 +113,7 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
   echo "mkdir /root/.ssh";
   sleep 20;
   echo "touch /root/.ssh/id_rsa; touch /root/.ssh/id_rsa.pub; touch /root/.ssh/id_rsa.pub.enc; touch /root/.ssh/id_rsa.enc;";
-  sleep 30;
+  sleep 10;
   for element in "${hypervisor_pub_array[@]}"
   do
     echo "echo '$element' >> /root/.ssh/id_rsa.pub.enc";
@@ -125,9 +125,9 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
     sleep 5;
   done
   echo "openssl base64 -d -in /root/.ssh/id_rsa.pub.enc -out /root/.ssh/id_rsa.pub;";
-  sleep 30;
+  sleep 10;
   echo "openssl base64 -d -in /root/.ssh/id_rsa.enc -out /root/.ssh/id_rsa;";
-  sleep 30;
+  sleep 10;
   echo "chmod 600 /root/.ssh/*";
   sleep 10;
   echo "ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;";
@@ -143,7 +143,7 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
     sleep 5;
   done
   echo "openssl base64 -d -in /root/openstack-env.sh.enc -out /root/openstack-env.sh;";
-  sleep 30;
+  sleep 10;
 
   echo "touch /root/openstack-scripts/pf_functions.sh; touch /root/openstack-scripts/pf_functions.sh.enc;";
   sleep 10;
@@ -153,7 +153,7 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
     sleep 5;
   done
   echo "openssl base64 -d -in /root/openstack-scripts/pf_functions.sh.enc -out /root/openstack-scripts/pf_functions.sh;";
-  sleep 30;
+  sleep 10;
 
   echo "touch /root/project_config.sh; touch /root/project_config.sh.enc;";
   sleep 10;
@@ -163,7 +163,7 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
     sleep 5;
   done
   echo "openssl base64 -d -in /root/project_config.sh.enc -out /root/project_config.sh;";
-  sleep 30;
+  sleep 10;
 
   echo "touch /root/openstack-scripts/pfsense-init.sh; touch /root/openstack-scripts/pfsense-init.sh.enc;";
   sleep 10;
@@ -173,7 +173,7 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
     sleep 5;
   done
   echo "openssl base64 -d -in /root/openstack-scripts/pfsense-init.sh.enc -out /root/openstack-scripts/pfsense-init.sh;";
-  sleep 30;
+  sleep 10;
 
   echo "chmod 777 /root/openstack-scripts/*.sh"
   sleep 10;
