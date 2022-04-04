@@ -11,11 +11,25 @@ set -x                             # tell sh to display commands before executio
 IP_DATA=$(ifconfig vtnet0 | grep inet | awk -F' ' '{ print $2 }' | head -2 | tail -1)
 
 telegram_notify  "PFSense initialization script beginning... \n\nCloud DMZ IP: $IP_DATA"
+####  initial actions
 
-## preparing next reboot
-## build next reboot script to start cloud build.  overwrite contents of this file so it is executed on next reboot
-telegram_notify  "PFSense init: Building second init script to kick off cloud build."
+install_pkg "pfsense-pkg-squid"
+install_pkg "pfsense-pkg-haproxy-devel"
 
+DRIVE_KB=`geom disk list | grep Mediasize | sed 2d | awk '{ print $2 }'`
+DRIVE_SIZE=$(($DRIVE_KB / 1024 / 1024 * 75/100))
+echo "Setting cache size to $DRIVE_SIZE"
+
+files="/cf/conf/backup/*"
+for file in $files; do
+  echo "Changing contents of file $file"
+  perl -pi.back -e "s/{CACHE_SIZE}/$DRIVE_SIZE/g;" $file
+done
+
+rm -rf /cf/conf/config.xml
+rm -rf /root/openstack-scripts/pfsense-init.sh
+
+####  building second init script
 cat <<EOF >/usr/local/etc/rc.d/pfsense-init-2.sh
 #!/bin/sh
 
@@ -60,24 +74,5 @@ EOF
 chmod a+rx /usr/local/etc/rc.d/pfsense-init-2.sh
 #########
 
-## additional packages
-telegram_notify  "PFSense init: Installing packages..."
-
-install_pkg "pfsense-pkg-squid"
-install_pkg "pfsense-pkg-haproxy-devel"
-
-rm -rf /root/openstack-scripts/pfsense-init.sh
-
-DRIVE_KB=`geom disk list | grep Mediasize | sed 2d | awk '{ print $2 }'`
-DRIVE_SIZE=$(($DRIVE_KB / 1024 / 1024 * 75/100))
-echo "Setting cache size to $DRIVE_SIZE"
-
-files="/cf/conf/backup/*"
-for file in $files; do
-  echo "Changing contents of file $file"
-  perl -pi.back -e "s/{CACHE_SIZE}/$DRIVE_SIZE/g;" $file
-done
-
-rm -rf /cf/conf/config.xml
 telegram_notify  "PFSense init: init complete! removing script and rebooting.."
 reboot
