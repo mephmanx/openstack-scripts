@@ -78,5 +78,6 @@ for file in $files; do
   perl -pi.back -e "s/{CACHE_SIZE}/$DRIVE_SIZE/g;" $file
 done
 
+rm -rf /cf/conf/config.xml
 telegram_notify  "PFSense init: init complete! removing script and rebooting.."
 reboot
