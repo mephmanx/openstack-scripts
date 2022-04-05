@@ -641,9 +641,6 @@ function replace_values_in_root_isos() {
   ADMIN_PWD=$(generate_specific_pwd 31)
   GEN_PWD=$(generate_specific_pwd 15)
 
-  echo $ADMIN_PWD > /root/env_admin_pwd
-  echo $DIRECTORY_MGR_PWD > /tmp/directory_mgr_pwd
-
   ## Files can only be replaced if they can be considered to be on "one line"
   ##  ssh keys are on one line as would most binary files.  text files, scripts, etc have multiple lines and DO NOT work!
   iso_images="/tmp/*.iso"
