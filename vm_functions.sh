@@ -534,13 +534,13 @@ function replace_file_in_iso() {
   replacement_file=$2
   replace_with=$3
 
-  start_index=`grep -oba -f $replacement_file $iso_file -m1 | awk -F':' '{ print $1 }'`
-  file_length=`wc -c $replace_with | awk -F' ' '{ print $1 }'`
-  dd if=$replace_with of=$iso_file conv=notrunc bs=1 seek=$start_index count=$file_length
+  start_index=$(grep -oba -f "$replacement_file" "$iso_file" -m1 | awk -F':' '{ print $1 }')
+  file_length=$(wc -c "$replace_with" | awk -F' ' '{ print $1 }')
+  dd if="$replace_with" of="$iso_file" conv=notrunc bs=1 seek="$start_index" count="$file_length"
 }
 
 function get_disk_count() {
-  echo `lsblk -S -n | grep -v usb | wc -l`
+  echo $(lsblk -S -n | grep -v usb | wc -l)
 }
 
 function grub_update() {
@@ -646,13 +646,13 @@ function replace_values_in_root_isos() {
   iso_images="/tmp/*.iso"
   for img in $iso_images; do
       echo "replacing centos admin in $img"
-      replace_string_in_iso $img {CENTOS_ADMIN_PWD_123456789012} $ADMIN_PWD
+      replace_string_in_iso $img {CENTOS_ADMIN_PWD_123456789012} "$ADMIN_PWD"
 
       echo "replace generated pwd in $img"
-      replace_string_in_iso $img {GENERATED_PWD} $GEN_PWD
+      replace_string_in_iso $img {GENERATED_PWD} "$GEN_PWD"
 
       echo "replacing directory mgr admin in $img"
-      replace_string_in_iso $img {DIRECTORY_MGR_PWD_12345678901} $DIRECTORY_MGR_PWD
+      replace_string_in_iso $img {DIRECTORY_MGR_PWD_12345678901} "$DIRECTORY_MGR_PWD"
 
       echo "replacing id_rsa.crt  in $img"
       replace_file_in_iso $img /tmp/id_rsa.crt /root/.ssh/id_rsa.crt
@@ -670,9 +670,9 @@ function replace_values_in_root_isos() {
   iso_images="/tmp/*.img"
   for img in $iso_images; do
       echo "replacing centos admin in $img"
-      replace_string_in_iso $img {CENTOS_ADMIN_PWD_123456789012} $ADMIN_PWD
+      replace_string_in_iso $img {CENTOS_ADMIN_PWD_123456789012} "$ADMIN_PWD"
       echo "replacing directory mgr admin in $img"
-      replace_string_in_iso $img {DIRECTORY_MGR_PWD_12345678901} $DIRECTORY_MGR_PWD
+      replace_string_in_iso $img {DIRECTORY_MGR_PWD_12345678901} "$DIRECTORY_MGR_PWD"
   done
   ##############
 }
@@ -680,7 +680,7 @@ function replace_values_in_root_isos() {
 function hypervisor_debug() {
   #Disable root login in ssh and disable password login
   if [[ $HYPERVISOR_DEBUG == 0 ]]; then
-      echo "$(generate_random_pwd 31)" |  passwd --stdin  root
+      generate_random_pwd 31 |  passwd --stdin  root
       sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
       sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
   fi
@@ -688,7 +688,7 @@ function hypervisor_debug() {
 
 function enable_kvm_module() {
   ### enable nested virtualization
-  is_intel=`cat /proc/cpuinfo | grep vendor | uniq | grep 'Intel' | wc -l`
+  is_intel=$(cat /proc/cpuinfo | grep vendor | uniq | grep 'Intel' | wc -l)
   if [[ $is_intel -gt 0 ]]; then
       if [[ -f /etc/modprobe.d/kvm.conf ]]; then
           sed -i "s/#options kvm_intel nested=1/options kvm_intel nested=1/g" /etc/modprobe.d/kvm.conf

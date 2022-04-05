@@ -173,7 +173,7 @@ kolla-build --base-image localhost/kolla/centos-binary-base --base-tag wallaby -
 for i in `docker images |grep $SUPPORT_VIP_DNS|awk '{print $1}'`;do docker push $i:wallaby ;done
 
 ######
-export etext=`echo -n "admin:{CENTOS_ADMIN_PWD_123456789012}" | base64`
+etext=$(echo -n "admin:{CENTOS_ADMIN_PWD_123456789012}" | base64)
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 
