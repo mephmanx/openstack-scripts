@@ -654,6 +654,9 @@ function replace_values_in_root_isos() {
       echo "replace generated pwd in $img"
       replace_string_in_iso $img {GENERATED_PWD} $GEN_PWD
 
+      echo "replacing directory mgr admin in $img"
+      replace_string_in_iso $img {DIRECTORY_MGR_PWD_12345678901} $DIRECTORY_MGR_PWD
+
       echo "replacing id_rsa.crt  in $img"
       replace_file_in_iso $img /tmp/id_rsa.crt /root/.ssh/id_rsa.crt
       echo "replacing id_rsa.pub  in $img"

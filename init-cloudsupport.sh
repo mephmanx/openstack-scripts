@@ -71,6 +71,7 @@ chmod 700 *.sh
 
 runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --with-chartmuseum"
 
+sleep 30
 telegram_notify  "Cloudsupport VM ready for use"
 ##########################
 cat > /tmp/harbor.json << EOF
@@ -87,13 +88,13 @@ source /tmp/project_config.sh
 
 cat > /etc/docker/daemon.json << EOF
 {
- "insecure-registries": ["SUPPORT_VIP_DNS"]
+ "insecure-registries": ["$SUPPORT_VIP_DNS"]
 }
 
 EOF
 
 sleep 3
-docker login -u admin -p $ADMIN_PWD $SUPPORT_VIP_DNS
+echo -n $ADMIN_PWD | docker login $SUPPORT_VIP_DNS --username admin --password-stdin
 
 #setup repo server
 sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf

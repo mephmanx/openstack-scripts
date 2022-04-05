@@ -21,7 +21,7 @@ function initialKickstartSetup {
   echo "kickstart file -> ${kickstart_file}"
   sed -i 's/{HOST}/'$vm'/g' ${kickstart_file}
   sed -i 's/{TYPE}/'$vm_type'/g' ${kickstart_file}
-  sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd 31)'/g' ${kickstart_file}
+#  sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd 31)'/g' ${kickstart_file}
 #  sed -i 's/{CENTOS_ADMIN_PWD_123456789012}/'$ADMIN_PWD'/g' ${kickstart_file}
   sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
   sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
