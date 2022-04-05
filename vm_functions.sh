@@ -4,7 +4,7 @@
 . /tmp/openstack-env.sh
 
 function parse_json() {
-  echo $1 |
+  echo "$1" |
     sed -e 's/[{}]/''/g' |
     sed -e 's/", "/'\",\"'/g' |
     sed -e 's/" ,"/'\",\"'/g' |
@@ -23,13 +23,13 @@ function export_cert_info() {
   kickstart_file=$1
   ## Cert params
   # these parameters will be used to generate CSR for all certificates
-  export IP=`curl --silent $EXTERNAL_IP_SERVICE`
-  curl --silent $EXTERNAL_IP_INFO_SERVICE$IP -o /tmp/ip_out
+  IP=$(curl --silent "$EXTERNAL_IP_SERVICE")
+  curl --silent "$EXTERNAL_IP_INFO_SERVICE$IP" -o /tmp/ip_out
   tr -d '\n\r ' < /tmp/ip_out > /tmp/ip_out_update
-  INFO=`cat /tmp/ip_out_update`
-  export COUNTRY=$(parse_json "$INFO" "country")
-  export STATE=$(parse_json "$INFO" "region")
-  export LOCATION=$(parse_json "$INFO" "city")
+  INFO=$(cat /tmp/ip_out_update)
+  COUNTRY=$(parse_json "$INFO" "country")
+  STATE=$(parse_json "$INFO" "region")
+  LOCATION=$(parse_json "$INFO" "city")
 
   echo "Country: $COUNTRY"
   echo "State: $STATE"
@@ -38,40 +38,40 @@ function export_cert_info() {
   echo "OU: $OU"
 
   ####  stamp into ISO
-  sed -i 's/{COUNTRY}/'$COUNTRY'/g' ${kickstart_file}
-  sed -i 's/{STATE}/'$STATE'/g' ${kickstart_file}
-  sed -i 's/{LOCATION}/'$LOCATION'/g' ${kickstart_file}
-  sed -i 's/{ORGANIZATION}/'$ORGANIZATION'/g' ${kickstart_file}
-  sed -i 's/{OU}/'$OU'/g' ${kickstart_file}
+  sed -i "s/{COUNTRY}/$COUNTRY/g" "${kickstart_file}"
+  sed -i "s/{STATE}/$STATE/g" "${kickstart_file}"
+  sed -i "s/{LOCATION}/$LOCATION/g" "${kickstart_file}"
+  sed -i "s/{ORGANIZATION}/$ORGANIZATION/g" "${kickstart_file}"
+  sed -i "s/{OU}/$OU/g" "${kickstart_file}"
 
   rm -rf /tmp/ip_out_update
   rm -rf /tmp/ip_out
 }
 
 function get_drive_name() {
-  dir_name=`find /dev/mapper -maxdepth 1 -type l -name '*cs*' -print -quit`
-  DRIVE_NAME=`grep -oP '(?<=_).*?(?=-)' <<< "$dir_name"`
-  echo $DRIVE_NAME
+  dir_name=$(find /dev/mapper -maxdepth 1 -type l -name '*cs*' -print -quit)
+  DRIVE_NAME=$(grep -oP '(?<=_).*?(?=-)' <<< "$dir_name")
+  echo "$DRIVE_NAME"
 }
 
 function load_system_info() {
   source /tmp/project_config.sh
-  export INSTALLED_RAM=`runuser -l root -c  'dmidecode -t memory | grep  Size: | grep -v "No Module Installed"' | awk '{sum+=$2}END{print sum}'`
-  export RESERVED_RAM=$(( $INSTALLED_RAM * $RAM_PCT_AVAIL_CLOUD/100 ))
-  export CPU_COUNT=`lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }'`
-  export DISK_COUNT=$(get_disk_count)
-  export IP_ADDR=`ip -f inet addr show ext-con | grep inet | awk -F' ' '{ print $2 }' | cut -d '/' -f1`
-  if [ $DISK_COUNT -lt 2 ]; then
-    export DISK_INFO=`fdisk -l | head -n 1 | awk -F',' '{ print $1 }'`
+  INSTALLED_RAM=$(runuser -l root -c  'dmidecode -t memory | grep  Size: | grep -v "No Module Installed"' | awk '{sum+=$2}END{print sum}')
+  RESERVED_RAM=$(( $INSTALLED_RAM * $RAM_PCT_AVAIL_CLOUD/100 ))
+  CPU_COUNT=$(lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }')
+  DISK_COUNT=$(get_disk_count)
+  IP_ADDR=$(ip -f inet addr show ext-con | grep inet | awk -F' ' '{ print $2 }' | cut -d '/' -f1)
+  if [ "$DISK_COUNT" -lt 2 ]; then
+    DISK_INFO=$(fdisk -l | head -n 1 | awk -F',' '{ print $1 }')
   else
-    export DISK_INFO="unknown yet"
+    DISK_INFO="unknown yet"
   fi
   ## build system output to send via telegram
   CPU_INFO="CPU Count: $CPU_COUNT"
   RAM_INFO="Installed RAM: $INSTALLED_RAM GB \r\nReserved RAM: $RESERVED_RAM GB"
   DISK_INFO="Disk Count: $DISK_COUNT \r\n $DISK_INFO"
   IP_INFO="Hypervisor IP: $IP_ADDR"
-  DMI_DECODE=`runuser -l root -c  "dmidecode -t system"`
+  DMI_DECODE=$(runuser -l root -c  "dmidecode -t system")
   source /etc/os-release
   OS_INFO=$PRETTY_NAME
   export SYSTEM_INFO="$DMI_DECODE\n\n$OS_INFO\n\n$CPU_INFO\n\n$RAM_INFO\n\n$DISK_INFO\n\n$IP_INFO"
@@ -84,11 +84,11 @@ function grow_fs() {
   xfsdump -f /tmp/home.dump /home
 
   umount /home
-  lvreduce -L 4G -f /dev/mapper/cs_${DRIVE_NAME_UPDATE}-home
-  mkfs.xfs -f /dev/mapper/cs_${DRIVE_NAME_UPDATE}-home
-  lvextend -l +100%FREE /dev/mapper/cs_${DRIVE_NAME_UPDATE}-root
-  xfs_growfs /dev/mapper/cs_${DRIVE_NAME_UPDATE}-root
-  mount /dev/mapper/cs_${DRIVE_NAME_UPDATE}-home /home
+  lvreduce -L 4G -f /dev/mapper/cs_"${DRIVE_NAME_UPDATE}"-home
+  mkfs.xfs -f /dev/mapper/cs_"${DRIVE_NAME_UPDATE}"-home
+  lvextend -l +100%FREE /dev/mapper/cs_"${DRIVE_NAME_UPDATE}"-root
+  xfs_growfs /dev/mapper/cs_"${DRIVE_NAME_UPDATE}"-root
+  mount /dev/mapper/cs_"${DRIVE_NAME_UPDATE}"-home /home
   xfsrestore -f /tmp/home.dump /home
 }
 
@@ -189,12 +189,12 @@ function restrict_to_root() {
 }
 
 function vtpm() {
-  unzip /tmp/libtpms-$SWTPM_VERSION.zip -d /root/libtpms
-  unzip /tmp/swtpm-$SWTPM_VERSION.zip -d /root/swtpm
+  unzip /tmp/libtpms-"$SWTPM_VERSION".zip -d /root/libtpms
+  unzip /tmp/swtpm-"$SWTPM_VERSION".zip -d /root/swtpm
   mv /root/libtpms/libtpms-master/* /root/libtpms
   mv /root/swtpm/swtpm-master/* /root/swtpm
   ###### vTPM setup #####
-  cd /root
+  cd /root || exit
   dnf -y update \
    && dnf -y install diffutils make file automake autoconf libtool gcc gcc-c++ openssl-devel gawk git \
    && dnf -y install which python3 python3-cryptography python3-pip python3-setuptools expect libtasn1-devel \
@@ -202,7 +202,7 @@ function vtpm() {
    && pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org twisted
 
   cd libtpms \
-   && runuser -l root -c  'echo ${date} > /.date' \
+   && runuser -l root -c  "echo ${date} > /.date" \
    && runuser -l root -c  'cd libtpms; ./autogen.sh --prefix=/usr --with-openssl --with-tpm2;' \
    && make -j$(nproc) V=1 \
    && make -j$(nproc) V=1 check \
@@ -226,7 +226,7 @@ function telegram_notify() {
   curl -X POST  \
         -H 'Content-Type: application/json' -d "{\"chat_id\": \"$chat_id\", \"text\":\"$msg_text\", \"disable_notification\":false}"  \
         -s \
-        https://api.telegram.org/bot$token/sendMessage > /dev/null
+        https://api.telegram.org/bot"$token"/sendMessage > /dev/null
 }
 
 function telegram_debug_msg() {
@@ -239,7 +239,7 @@ function telegram_debug_msg() {
   curl -X POST  \
         -H 'Content-Type: application/json' -d "{\"chat_id\": \"$chat_id\", \"text\":\"$msg_text\", \"disable_notification\":false}"  \
         -s \
-        https://api.telegram.org/bot$token/sendMessage > /dev/null
+        https://api.telegram.org/bot"$token"/sendMessage > /dev/null
 }
 
 function prep_project_config() {
