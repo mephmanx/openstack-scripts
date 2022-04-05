@@ -20,6 +20,9 @@ DRIVE_KB=`geom disk list | grep Mediasize | sed 2d | awk '{ print $2 }'`
 DRIVE_SIZE=$(($DRIVE_KB / 1024 / 1024 * 75/100))
 echo "Setting cache size to $DRIVE_SIZE"
 
+## the pfsense method for changing config via cli is f*ed up:
+##  change all backup files, delete primary file, and let system "restore" a changed backup file
+##  makes a lot of sense, huh?
 files="/cf/conf/backup/*"
 for file in $files; do
   echo "Changing contents of file $file"
