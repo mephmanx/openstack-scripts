@@ -26,11 +26,9 @@ create_line+="--cdrom=/tmp/cloudsupport-iso.iso "
 create_line+="--network type=bridge,source=loc-static,model=virtio "
 create_line+="--os-variant=centos8 "
 create_line+="--graphics=vnc "
-create_line+="--autostart --wait -1; virsh reboot cloudsupport"
+create_line+="--autostart --wait -1; virsh reboot cloudsupport; rm -rf /tmp/cloudsupport-iso.iso"
 
 telegram_notify  "Creating cloudsupport vm"
 
 echo $create_line
 eval $create_line &
-
-rm -rf /tmp/cloudsupport-iso.iso
