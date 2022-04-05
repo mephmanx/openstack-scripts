@@ -68,13 +68,13 @@ while [ ! -f /etc/sysconfig/network-scripts/*loc-static* ]; do
   ip link set tapm master loc-static
   ip link set vm1 master loc-static
 
-  ip addr add ${LAN_CENTOS_IP}/24 dev loc-static
-  ip addr add ${LAN_BRIDGE_IP}/24 dev vm2
+  ip addr add "${LAN_CENTOS_IP}"/24 dev loc-static
+  ip addr add "${LAN_BRIDGE_IP}"/24 dev vm2
 
   ip link set loc-static up
   ip link set vm2 up
 
-  nmcli connection modify loc-static ipv4.addresses ${LAN_CENTOS_IP}/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
+  nmcli connection modify loc-static ipv4.addresses "${LAN_CENTOS_IP}"/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
 done
 
 while [ ! -f /etc/sysconfig/network-scripts/*amp-net* ]; do
@@ -88,13 +88,13 @@ while [ ! -f /etc/sysconfig/network-scripts/*amp-net* ]; do
   ip link set tapn master amp-net
   ip link set vm3 master amp-net
 
-  ip addr add ${LB_CENTOS_IP}/24 dev amp-net
-  ip addr add ${LB_BRIDGE_IP}/24 dev vm4
+  ip addr add "${LB_CENTOS_IP}"/24 dev amp-net
+  ip addr add "${LB_BRIDGE_IP}"/24 dev vm4
 
   ip link set amp-net up
   ip link set vm4 up
 
-  nmcli connection modify amp-net ipv4.addresses ${LB_CENTOS_IP}/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
+  nmcli connection modify amp-net ipv4.addresses "${LB_CENTOS_IP}"/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
 done
 
 ## build vif devices and pair them for the bridge, 10 for each network created above
@@ -133,7 +133,7 @@ vtpm
 
 ############ Create and init storage pools
 telegram_notify  "Build storage pools"
-for part in `df | grep "VM-VOL" | awk '{print $6, " " }' | tr -d '/' | tr -d '\n'`; do
+for part in $(df | grep "VM-VOL" | awk '{print $6, " " }' | tr -d '/' | tr -d '\n'); do
   virsh pool-define-as "$part" dir - - - - "/$part"
   virsh pool-build "$part"
   virsh pool-autostart "$part"

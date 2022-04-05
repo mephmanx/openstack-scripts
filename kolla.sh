@@ -61,7 +61,7 @@ status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/registries --write-out %{ht
 
 if [[ "$status_code" -ne 200 ]] ; then
   telegram_notify  "Harbor install failed!"
-  exit -1
+  exit 1
 else
   telegram_notify  "Harbor install successful. Hypervisor SSH keys added to VM's. continuing install..."
 fi
@@ -217,7 +217,7 @@ while [ "$ct" != $host_count ]; do
 
   if [[ $test_loop_count -gt 10 ]]; then
     telegram_notify  "Not all Openstack VM's successfully came up, install ending.  Please check logs!"
-    exit -1
+    exit 1
   fi
 done
 rm -rf /tmp/ping.txt
@@ -264,7 +264,7 @@ while [ $failure_occur -gt 0 ]; do
   failure_occur=`echo $cache_out | grep -o 'FAILED' | wc -l`
   if [[ $cache_ct == 0 ]]; then
     telegram_notify  "Cache prime failed after 10 retries, failing.  Check logs to resolve issue."
-    exit -1
+    exit 1
   fi
   ((cache_ct--))
 done
@@ -413,7 +413,7 @@ openstack image create trove-base --disk-format qcow2 --container-format bare --
 test=`openstack image show 'trove-base'`
 if [[ "No Image found" == *"$test"* ]]; then
   telegram_notify  "Trove base image install failed! Please review!"
-  exit -1
+  exit 1
 fi
 
 openstack network create trove-net
@@ -611,7 +611,7 @@ openstack image create amphora-x64-haproxy \
 test=`openstack image show 'amphora-x64-haproxy'`
 if [[ "No Image found" == *"$test"* ]]; then
   telegram_notify  "Amphora image install failed! Please review!"
-  exit -1
+  exit 1
 fi
 #########################
 

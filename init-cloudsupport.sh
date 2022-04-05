@@ -94,7 +94,7 @@ cat > /etc/docker/daemon.json << EOF
 EOF
 
 sleep 3
-echo -n "$ADMIN_PWD" | docker login "$SUPPORT_VIP_DNS" --username admin --password-stdin
+docker login -u admin -p {CENTOS_ADMIN_PWD_123456789012} "$SUPPORT_VIP_DNS"
 
 #setup repo server
 sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf

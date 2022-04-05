@@ -26,7 +26,7 @@ echo "Setting cache size to $DRIVE_SIZE"
 files="/cf/conf/backup/*"
 for file in $files; do
   echo "Changing contents of file $file"
-  perl -pi.back -e "s/{CACHE_SIZE}/$DRIVE_SIZE/g;" $file
+  perl -pi.back -e "s/{CACHE_SIZE}/$DRIVE_SIZE/g;" "$file"
 done
 
 rm -rf /cf/conf/config.xml
