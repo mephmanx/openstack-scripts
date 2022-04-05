@@ -58,7 +58,7 @@ cp /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
 cd /root || exit
-tar xzvf /tmp/harbor-$HARBOR_VERSION.tgz
+tar xzvf /tmp/harbor-"$HARBOR_VERSION".tgz
 
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 
@@ -164,13 +164,13 @@ sed -i "s/'python3-sqlalchemy-collectd',//" /usr/share/kolla/docker/openstack-ba
 sed -i '105,121s/^/#/' /usr/share/kolla/docker/fluentd/Dockerfile.j2
 #grafana image
 
-docker tag localhost/kolla/centos-binary-base:wallaby $SUPPORT_VIP_DNS/kolla/centos-binary-base:wallaby
+docker tag localhost/kolla/centos-binary-base:wallaby "$SUPPORT_VIP_DNS"/kolla/centos-binary-base:wallaby
 
 #kolla build config
 kolla-build --base-image localhost/kolla/centos-binary-base --base-tag wallaby -t binary --openstack-release wallaby  --tag wallaby --cache --skip-existing --nopull --registry $SUPPORT_VIP_DNS barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openvswitch placement qdrouterd redis rabbitmq swift telegraf trove
 
 #push images to harbor
-for i in `docker images |grep $SUPPORT_VIP_DNS|awk '{print $1}'`;do docker push $i:wallaby ;done
+for i in `docker images |grep $SUPPORT_VIP_DNS|awk '{print $1}'`;do docker push "$i":wallaby ;done
 
 ######
 
