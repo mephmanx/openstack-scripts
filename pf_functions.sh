@@ -16,9 +16,7 @@ telegram_notify()
 install_pkg()
 {
   pkg_name=$1
-  telegram_api=$2
-  telegram_chat_id=$3
 
-  yes | pkg install $pkg_name
+  yes | pkg install "$pkg_name"
   telegram_notify  "PFSense init: installed pkg -> $pkg_name"
 }

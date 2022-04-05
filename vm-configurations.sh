@@ -52,22 +52,22 @@ function getDiskMapping() {
   vm_count=$2
   case $vm_type in
   "control")
-    echo "VM-VOL-CONTROL:$(getVMVolSize $vm_type $vm_count)"
+    echo "VM-VOL-CONTROL:$(getVMVolSize "$vm_type" "$vm_count")"
     ;;
   "network")
-    echo "VM-VOL-NETWORK:$(getVMVolSize $vm_type $vm_count)"
+    echo "VM-VOL-NETWORK:$(getVMVolSize "$vm_type" "$vm_count")"
     ;;
   "compute")
-    echo "VM-VOL-COMPUTE:$(getVMVolSize $vm_type $vm_count)"
+    echo "VM-VOL-COMPUTE:$(getVMVolSize "$vm_type" "$vm_count")"
     ;;
   "monitoring")
-    echo "VM-VOL-MONITORING:$(getVMVolSize $vm_type $vm_count)"
+    echo "VM-VOL-MONITORING:$(getVMVolSize "$vm_type" "$vm_count")"
     ;;
   "storage")
-    echo "VM-VOL-CINDER:100,VM-VOL-CINDER:$(getVMVolSize "cinder" $vm_count),VM-VOL-SWIFT:$(getVMVolSize "swift" 3),VM-VOL-SWIFT:$(getVMVolSize "swift" 3),VM-VOL-SWIFT:$(getVMVolSize "swift" 3)"
+    echo "VM-VOL-CINDER:100,VM-VOL-CINDER:$(getVMVolSize "cinder" "$vm_count"),VM-VOL-SWIFT:$(getVMVolSize "swift" 3),VM-VOL-SWIFT:$(getVMVolSize "swift" 3),VM-VOL-SWIFT:$(getVMVolSize "swift" 3)"
     ;;
   "kolla")
-    echo "VM-VOL-KOLLA:$(getVMVolSize $vm_type 1)"
+    echo "VM-VOL-KOLLA:$(getVMVolSize "$vm_type" 1)"
     ;;
   "misc")
     echo "VM-VOL-MISC"
@@ -238,8 +238,8 @@ function create_vm_kvm {
   create_line+="--graphics=vnc "
   create_line+=" --autostart --wait -1; virsh reboot $2; rm -rf /tmp/$2-iso.iso"
 
-  echo $create_line
-  eval $create_line &
+  echo "$create_line"
+  eval "$create_line" &
 }
 
 function removeVM_kvm {
@@ -247,7 +247,7 @@ function removeVM_kvm {
   printf -v vm_type_n '%s\n' "${vm_name//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<<"$vm_type_n")
   #### test if vm exists
-  if (virsh list --name | grep -q $vm_name); then
+  if (virsh list --name | grep -q "$vm_name"); then
     echo "Destroying vm $vm_name"
   else
     return
@@ -259,26 +259,26 @@ function removeVM_kvm {
   ########### Delete volumes in storage pools
   case $vm_type in
   "control")
-    deleteVMVol $vm_name "CONTROL"
+    deleteVMVol "$vm_name" "CONTROL"
     ;;
   "network")
-    deleteVMVol $vm_name "NETWORK"
+    deleteVMVol "$vm_name" "NETWORK"
     ;;
   "compute")
-    deleteVMVol $vm_name "COMPUTE"
+    deleteVMVol "$vm_name" "COMPUTE"
     ;;
   "monitoring")
-    deleteVMVol $vm_name "MONITORING"
+    deleteVMVol "$vm_name" "MONITORING"
     ;;
   "storage")
-    deleteVMVol $vm_name "CINDER"
-    deleteVMVol $vm_name "SWIFT"
+    deleteVMVol "$vm_name" "CINDER"
+    deleteVMVol "$vm_name" "SWIFT"
     ;;
   "kolla")
-    deleteVMVol $vm_name "KOLLA"
+    deleteVMVol "$vm_name" "KOLLA"
     ;;
   *)
-    deleteVMVol $vm_name "MISC"
+    deleteVMVol "$vm_name" "MISC"
     ;;
   esac
   ##########################
@@ -287,10 +287,10 @@ function removeVM_kvm {
 function deleteVMVol() {
   vm_name=$1
   VM_TYPE=$2
-  virsh vol-list VM-VOL-$VM_TYPE | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
+  virsh vol-list VM-VOL-"$VM_TYPE" | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
     if [[ ! -z $line ]]; then
       if [[ "$line" =~ .*"$vm_name".* ]]; then
-        virsh vol-delete --pool VM-VOL-$VM_TYPE $line
+        virsh vol-delete --pool VM-VOL-"$VM_TYPE" "$line"
       fi
     fi
   done
