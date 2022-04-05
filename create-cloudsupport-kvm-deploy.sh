@@ -33,4 +33,4 @@ telegram_notify  "Creating cloudsupport vm"
 echo $create_line
 eval $create_line &
 
-
+rm -rf /tmp/cloudsupport-iso.iso

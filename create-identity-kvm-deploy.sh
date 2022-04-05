@@ -35,4 +35,4 @@ telegram_notify "Creating identity vm"
 echo $create_line
 eval $create_line &
 
-
+rm -rf /tmp/identity-iso.iso

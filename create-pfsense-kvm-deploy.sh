@@ -185,3 +185,4 @@ telegram_notify  "PFSense rebooting after package install, pfsense-init script s
 
 virsh reboot pfsense
 
+rm -rf /tmp/pfSense-CE-memstick-ADI.img
