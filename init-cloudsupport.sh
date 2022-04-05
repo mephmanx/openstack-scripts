@@ -78,9 +78,9 @@ cat > /tmp/harbor.json << EOF
 {"project_name": "kolla","metadata": {"public": "true"}}
 EOF
 
-harbor_api_password=$(echo -n admin:"$ADMIN_PWD"|base64)
+etext=$(echo -n "admin:{CENTOS_ADMIN_PWD_123456789012}" | base64)
 cd /tmp || exit
-curl -k -H  "authorization: Basic $harbor_api_password" -X POST -H "Content-Type: application/json" "https://$SUPPORT_VIP_DNS/api/v2.0/projects" -d @harbor.json
+curl -k -H  "authorization: Basic $etext" -X POST -H "Content-Type: application/json" "https://$SUPPORT_VIP_DNS/api/v2.0/projects" -d @harbor.json
 
 #### populate harbor with openstack images
 #grafana fluentd zun not build
@@ -173,7 +173,7 @@ kolla-build --base-image localhost/kolla/centos-binary-base --base-tag wallaby -
 for i in `docker images |grep $SUPPORT_VIP_DNS|awk '{print $1}'`;do docker push $i:wallaby ;done
 
 ######
-etext=$(echo -n "admin:{CENTOS_ADMIN_PWD_123456789012}" | base64)
+
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 
