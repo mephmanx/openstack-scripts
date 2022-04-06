@@ -67,7 +67,7 @@ sed -i "s/{SUPPORT_HOST}/${SUPPORT_VIP_DNS}/g" /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_PASSWORD}/{CENTOS_ADMIN_PWD_123456789012}/g" /root/harbor/harbor.yml
 sed -i "s/{DATABASE_PASSWORD}/$(generate_random_pwd 31)/g" /root/harbor/harbor.yml
 cd /root/harbor || exit
-chmod 700 *.sh
+chmod 700 ./*.sh
 
 runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --with-chartmuseum"
 
@@ -85,13 +85,6 @@ curl -k -H  "authorization: Basic $etext" -X POST -H "Content-Type: application/
 #### populate harbor with openstack images
 #grafana fluentd zun not build
 source /tmp/project_config.sh
-
-cat > /etc/docker/daemon.json << EOF
-{
- "insecure-registries": ["$SUPPORT_VIP_DNS"]
-}
-
-EOF
 
 sleep 3
 docker login -u admin -p {CENTOS_ADMIN_PWD_123456789012} "$SUPPORT_VIP_DNS"
@@ -116,23 +109,23 @@ docker load < /tmp/centos-binary-fluentd.tar
 docker load < /tmp/centos-binary-grafana.tar
 docker load < /tmp/centos-binary-elasticsearch-curator.tar
 
-docker tag `docker images |grep centos-source-kolla-toolbox|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-binary-kolla-toolbox:wallaby
+docker tag "$(docker images |grep centos-source-kolla-toolbox|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-binary-kolla-toolbox:wallaby
 
-docker tag `docker images |grep centos-binary-fluentd|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-binary-fluentd:wallaby
+docker tag "$(docker images |grep centos-binary-fluentd|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-binary-fluentd:wallaby
 
-docker tag `docker images |grep centos-binary-elasticsearch-curator|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-binary-elasticsearch-curator:wallaby
+docker tag "$(docker images |grep centos-binary-elasticsearch-curator|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-binary-elasticsearch-curator:wallaby
 
-docker tag `docker images |grep centos-binary-grafana|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-binary-grafana:wallaby
+docker tag "$(docker images |grep centos-binary-grafana|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-binary-grafana:wallaby
 
-docker tag `docker images |grep centos-source-zun-api|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-source-zun-api:wallaby
+docker tag "$(docker images |grep centos-source-zun-api|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-source-zun-api:wallaby
 
-docker tag `docker images |grep centos-source-zun-compute|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-source-zun-compute:wallaby
+docker tag "$(docker images |grep centos-source-zun-compute|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-source-zun-compute:wallaby
 
-docker tag `docker images |grep centos-source-zun-wsproxy|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-source-zun-wsproxy:wallaby
+docker tag "$(docker images |grep centos-source-zun-wsproxy|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-source-zun-wsproxy:wallaby
 
-docker tag `docker images |grep centos-source-zun-cni-daemon|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-source-zun-cni-daemon:wallaby
+docker tag "$(docker images |grep centos-source-zun-cni-daemon|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-source-zun-cni-daemon:wallaby
 
-docker tag `docker images |grep centos-source-kuryr-libnetwork|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-source-kuryr-libnetwork:wallaby
+docker tag "$(docker images |grep centos-source-kuryr-libnetwork|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-source-kuryr-libnetwork:wallaby
 
 #setup local repo
 cat > /tmp/local.repo <<EOF
@@ -164,13 +157,13 @@ sed -i "s/'python3-sqlalchemy-collectd',//" /usr/share/kolla/docker/openstack-ba
 sed -i '105,121s/^/#/' /usr/share/kolla/docker/fluentd/Dockerfile.j2
 #grafana image
 
-docker tag localhost/kolla/centos-binary-base:wallaby "$SUPPORT_VIP_DNS"/kolla/centos-binary-base:wallaby
+docker tag rpm_repo/kolla/centos-binary-base:wallaby "$SUPPORT_VIP_DNS"/kolla/centos-binary-base:wallaby
 
 #kolla build config
-kolla-build --base-image localhost/kolla/centos-binary-base --base-tag wallaby -t binary --openstack-release wallaby  --tag wallaby --cache --skip-existing --nopull --registry $SUPPORT_VIP_DNS barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openvswitch placement qdrouterd redis rabbitmq swift telegraf trove
+kolla-build --base-image rpm_repo/kolla/centos-binary-base --base-tag wallaby -t binary --openstack-release wallaby  --tag wallaby --cache --skip-existing --nopull --registry "$SUPPORT_VIP_DNS" barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openvswitch placement qdrouterd redis rabbitmq swift telegraf trove
 
 #push images to harbor
-for i in `docker images |grep "$SUPPORT_VIP_DNS" |awk '{print $1}'`;do docker push "$i":wallaby ;done
+for i in $(docker images |grep "$SUPPORT_VIP_DNS" |awk '{print $1}');do docker push "$i":wallaby ;done
 
 ######
 
