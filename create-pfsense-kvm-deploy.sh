@@ -183,6 +183,8 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
 
 telegram_notify  "PFSense rebooting after package install, pfsense-init script should begin after reboot."
 
+rm -rf /tmp/pfSense-CE-memstick-ADI.img
+
 virsh reboot pfsense
 
-rm -rf /tmp/pfSense-CE-memstick-ADI.img
+
