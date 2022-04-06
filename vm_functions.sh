@@ -351,6 +351,12 @@ EOF
 
   runuser -l root -c  "chmod 600 $cert_dir/*"
   runuser -l root -c  "openssl genrsa -out $cert_dir/id_rsa 4096"
+  file_length_pk=$(wc -c "$cert_dir/id_rsa" | awk -F' ' '{ print $1 }')
+  file_length_old=$(wc -c "/tmp/id_rsa" | awk -F' ' '{ print $1 }')
+  while [ $file_length_pk != $file_length_old ]; do
+    runuser -l root -c  "openssl genrsa -out $cert_dir/id_rsa 4096"
+    file_length_pk=$(wc -c "$cert_dir/id_rsa" | awk -F' ' '{ print $1 }')
+  done
   # create CA key and cert
   runuser -l root -c  "ssh-keygen -f $cert_dir/id_rsa -y > $cert_dir/id_rsa.pub"
 #  runuser -l root -c  "openssl rsa -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
