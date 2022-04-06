@@ -18,18 +18,15 @@ kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-ld.cfg
 echo "kickstart file -> ${kickstart_file}"
 kickstart_file=centos-8-kickstart-ld.cfg
 
-TZ=`timedatectl | awk '/Time zone:/ {print $3}'`
-TIMEZONE=`echo $TZ | sed 's/\//\\\\\//g'`
+TZ=$(timedatectl | awk '/Time zone:/ {print $3}')
+TIMEZONE=$(echo "$TZ" | sed 's/\//\\\\\//g')
 ########### add passwords in
-#sed -i 's/{CENTOS_ADMIN_PWD_123456789012}/'$ADMIN_PWD'/g' ${kickstart_file}
-sed -i 's/{IDENTITY_VIP}/'$IDENTITY_VIP'/g' ${kickstart_file}
-sed -i 's/{HOST}/'$IDENTITY_HOST'/g' ${kickstart_file}
-sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
-sed -i 's/{GATEWAY_ROUTER_IP}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
-sed -i 's/{NETMASK}/'$NETMASK'/g' ${kickstart_file}
-sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
-#sed -i 's/{DIRECTORY_MGR_PWD_12345678901}/'$DIRECTORY_MGR_PWD'/g' ${kickstart_file}
-#sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd 31)'/g' ${kickstart_file}
+sed -i "s/{IDENTITY_VIP}/$IDENTITY_VIP/g" ${kickstart_file}
+sed -i "s/{HOST}/$IDENTITY_HOST/g" ${kickstart_file}
+sed -i "s/{NTP_SERVER}/$GATEWAY_ROUTER_IP/g" ${kickstart_file}
+sed -i "s/{GATEWAY_ROUTER_IP}/$GATEWAY_ROUTER_IP/g" ${kickstart_file}
+sed -i "s/{NETMASK}/$NETMASK/g" ${kickstart_file}
+sed -i "s/{TIMEZONE}/$TIMEZONE/g" ${kickstart_file}
 ###########################
 
 embed_files=('/tmp/id_rsa.crt'
@@ -43,6 +40,6 @@ embed_files=('/tmp/id_rsa.crt'
               '/tmp/openstack-scripts/vm_functions.sh')
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"
-closeOutAndBuildKickstartAndISO "${kickstart_file}" "identity" $embed_files_string
+closeOutAndBuildKickstartAndISO "${kickstart_file}" "identity" "$embed_files_string"
 
 rm -rf ${kickstart_file}

@@ -110,10 +110,10 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$SUPPORT_HOST' --a
 /usr/bin/ipa user-add --first=Firstname --last=Lastname ipauser --random
 
 ####  send random pwd over telegram
-RANDOM_PWD=`cat /root/start-install.log | grep 'Random password' | awk -F': ' '{print $2}'`
+RANDOM_PWD=$(cat /root/start-install.log | grep 'Random password' | awk -F': ' '{print $2}')
 telegram_debug_msg  "ipauser random password is $RANDOM_PWD"
 
-SSH_KEY=`cat /root/.ssh/id_rsa.pub`
+SSH_KEY=$(cat /root/.ssh/id_rsa.pub)
 /usr/bin/ipa user-mod ipauser --sshpubkey="$SSH_KEY"
 
 #Add sudo rules
@@ -126,9 +126,9 @@ SSH_KEY=`cat /root/.ssh/id_rsa.pub`
 /usr/bin/ipa group-add-member cloud-admins --users=ipauser
 
 #### Continue cloud init
-ssh-keyscan -H $LAN_CENTOS_IP >> ~/.ssh/known_hosts;
-ssh root@$LAN_CENTOS_IP 'cd /tmp; ./create-cloudsupport-kvm-deploy.sh;' &
-ssh root@$LAN_CENTOS_IP 'cd /tmp; ./create-cloud-kvm-deploy.sh;' &
+ssh-keyscan -H "$LAN_CENTOS_IP" >> ~/.ssh/known_hosts;
+ssh root@"$LAN_CENTOS_IP" 'cd /tmp; ./create-cloudsupport-kvm-deploy.sh;' &
+ssh root@"$LAN_CENTOS_IP" 'cd /tmp; ./create-cloud-kvm-deploy.sh;' &
 
 telegram_notify  "Identity VM ready for use"
 ##########################

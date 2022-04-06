@@ -18,18 +18,16 @@ kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
 echo "kickstart file -> ${kickstart_file}"
 kickstart_file=centos-8-kickstart-cs.cfg
 
-TZ=`timedatectl | awk '/Time zone:/ {print $3}'`
-TIMEZONE=`echo $TZ | sed 's/\//\\\\\//g'`
+TZ=$(timedatectl | awk '/Time zone:/ {print $3}')
+TIMEZONE=$(echo "$TZ" | sed 's/\//\\\\\//g')
 ########### add passwords in
-#sed -i 's/{CENTOS_ADMIN_PWD_123456789012}/'$ADMIN_PWD'/g' ${kickstart_file}
-sed -i 's/{HOST}/'$SUPPORT_HOST'/g' ${kickstart_file}
-sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
-sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
-sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' ${kickstart_file}
-sed -i 's/{GATEWAY_ROUTER_IP}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
-sed -i 's/{IDENTITY_VIP}/'$IDENTITY_VIP'/g' ${kickstart_file}
-sed -i 's/{NETMASK}/'$NETMASK'/g' ${kickstart_file}
-#sed -i 's/{GENERATED_PWD}/'$(generate_random_pwd 31)'/g' ${kickstart_file}
+sed -i "s/{HOST}/$SUPPORT_HOST/g" ${kickstart_file}
+sed -i "s/{NTP_SERVER}/$GATEWAY_ROUTER_IP/g" ${kickstart_file}
+sed -i "s/{TIMEZONE}/$TIMEZONE/g" ${kickstart_file}
+sed -i "s/{SUPPORT_VIP}/$SUPPORT_VIP/g" ${kickstart_file}
+sed -i "s/{GATEWAY_ROUTER_IP}/$GATEWAY_ROUTER_IP/g" ${kickstart_file}
+sed -i "s/{IDENTITY_VIP}/$IDENTITY_VIP/g" ${kickstart_file}
+sed -i "s/{NETMASK}/$NETMASK/g" ${kickstart_file}
 ###########################
 
 embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
@@ -49,10 +47,10 @@ embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
 
 harbor_images="/tmp/harbor/*"
 for img in $harbor_images; do
-  embed_files+=($img)
+  embed_files+=("$img")
 done
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"
-closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport" $embed_files_string
+closeOutAndBuildKickstartAndISO "${kickstart_file}" "cloudsupport" "$embed_files_string"
 
 rm -rf ${kickstart_file}

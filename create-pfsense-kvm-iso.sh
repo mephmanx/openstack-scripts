@@ -9,8 +9,6 @@ source /tmp/openstack-scripts/vm_functions.sh
 source /tmp/project_config.sh
 source /tmp/openstack-env.sh
 
-KICKSTART_DIR=/tmp/openstack-scripts
-
 ### make sure to get offset of fat32 partition to put config.xml file on stick to reload!
 
 ## watch this logic on update and make sure it gets the last fat32 partition

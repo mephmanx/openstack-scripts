@@ -19,7 +19,7 @@ sleep 30
 ###########################
 
 # set VM type for future use
-TYPE=`cat /tmp/type`
+TYPE=$(cat /tmp/type)
 
 ## enable auto updates if selected
 if [[ $LINUX_AUTOUPDATE == 1 ]]; then
@@ -38,7 +38,7 @@ prep_next_script "${TYPE}"
 ### module recommended on openstack.org
 modprobe vhost_net
 
-host=`hostname`
+host=$(hostname)
 telegram_notify  "Cloud VM $host starting second reboot..."
 
 reboot

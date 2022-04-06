@@ -116,23 +116,23 @@ docker load < /tmp/centos-binary-fluentd.tar
 docker load < /tmp/centos-binary-grafana.tar
 docker load < /tmp/centos-binary-elasticsearch-curator.tar
 
-docker tag `docker images |grep centos-source-kolla-toolbox|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-binary-kolla-toolbox:wallaby
+docker tag `docker images |grep centos-source-kolla-toolbox|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-binary-kolla-toolbox:wallaby
 
-docker tag `docker images |grep centos-binary-fluentd|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-binary-fluentd:wallaby
+docker tag `docker images |grep centos-binary-fluentd|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-binary-fluentd:wallaby
 
-docker tag `docker images |grep centos-binary-elasticsearch-curator|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-binary-elasticsearch-curator:wallaby
+docker tag `docker images |grep centos-binary-elasticsearch-curator|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-binary-elasticsearch-curator:wallaby
 
-docker tag `docker images |grep centos-binary-grafana|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-binary-grafana:wallaby
+docker tag `docker images |grep centos-binary-grafana|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-binary-grafana:wallaby
 
-docker tag `docker images |grep centos-source-zun-api|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-source-zun-api:wallaby
+docker tag `docker images |grep centos-source-zun-api|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-source-zun-api:wallaby
 
-docker tag `docker images |grep centos-source-zun-compute|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-source-zun-compute:wallaby
+docker tag `docker images |grep centos-source-zun-compute|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-source-zun-compute:wallaby
 
-docker tag `docker images |grep centos-source-zun-wsproxy|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-source-zun-wsproxy:wallaby
+docker tag `docker images |grep centos-source-zun-wsproxy|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-source-zun-wsproxy:wallaby
 
-docker tag `docker images |grep centos-source-zun-cni-daemon|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-source-zun-cni-daemon:wallaby
+docker tag `docker images |grep centos-source-zun-cni-daemon|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-source-zun-cni-daemon:wallaby
 
-docker tag `docker images |grep centos-source-kuryr-libnetwork|awk '{print $3}'` $SUPPORT_VIP_DNS/kolla/centos-source-kuryr-libnetwork:wallaby
+docker tag `docker images |grep centos-source-kuryr-libnetwork|awk '{print $3}'` "$SUPPORT_VIP_DNS"/kolla/centos-source-kuryr-libnetwork:wallaby
 
 #setup local repo
 cat > /tmp/local.repo <<EOF
@@ -170,7 +170,7 @@ docker tag localhost/kolla/centos-binary-base:wallaby "$SUPPORT_VIP_DNS"/kolla/c
 kolla-build --base-image localhost/kolla/centos-binary-base --base-tag wallaby -t binary --openstack-release wallaby  --tag wallaby --cache --skip-existing --nopull --registry $SUPPORT_VIP_DNS barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openvswitch placement qdrouterd redis rabbitmq swift telegraf trove
 
 #push images to harbor
-for i in `docker images |grep $SUPPORT_VIP_DNS|awk '{print $1}'`;do docker push "$i":wallaby ;done
+for i in `docker images |grep "$SUPPORT_VIP_DNS" |awk '{print $1}'`;do docker push "$i":wallaby ;done
 
 ######
 

@@ -30,10 +30,10 @@ nmcli con mod ext-con ipv6.method auto
 nmcli con mod ext-con connection.autoconnect yes
 
 ct=0
-for DEVICE in `nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'`; do
+for DEVICE in $(nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'); do
     echo "$DEVICE"
-    nmcli connection delete $DEVICE
-    nmcli con add type bond-slave con-name ext-con-slave$ct ifname $DEVICE master ext-con
+    nmcli connection delete "$DEVICE"
+    nmcli con add type bond-slave con-name ext-con-slave$ct ifname "$DEVICE" master ext-con
     ((ct++))
 done
 
