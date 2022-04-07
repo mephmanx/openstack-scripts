@@ -109,23 +109,35 @@ if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
 fi
 
 ##### build openstack vm keys
-ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
-###########
-
-## setup cert directory
-rm -rf /tmp/id_rsa*
-rm -rf /tmp/wildcard.*
 CERT_DIR="/tmp"
 
-#### generate ssh keys
-# create CA cert before the network goes down to add ip to SAN
-export_cert_info ${kickstart_file}
+if [ ! -f "$CERT_DIR/openstack-setup.key" ]; then
+  ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
+fi
 
-create_ca_cert $CERT_DIR
+if [ ! -f "$CERT_DIR/id_rsa" ]; then
+  #### generate ssh keys
+  # create CA cert before the network goes down to add ip to SAN
+  load_cert_loc_info
 
-### initial wildcard cert
-create_server_cert $CERT_DIR "wildcard" "*"
-#############
+  export_cert_info ${kickstart_file}
+
+  create_ca_cert $CERT_DIR
+
+  rm -rf /tmp/ip_out_update
+  rm -rf /tmp/ip_out
+fi
+
+if [ ! -f "$CERT_DIR/wildcard.key" ]; then
+  ### initial wildcard cert
+  load_cert_loc_info
+
+  create_server_cert $CERT_DIR "wildcard" "*"
+
+  rm -rf /tmp/ip_out_update
+  rm -rf /tmp/ip_out
+  #############
+fi
 
 if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
   docker pull mephmanx/homebrew-cache:latest

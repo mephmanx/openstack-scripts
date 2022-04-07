@@ -19,13 +19,16 @@ function parse_json() {
     sed -e 's/^"//' -e 's/"$//'
 }
 
+function load_cert_loc_info() {
+    IP=$(curl --silent "$EXTERNAL_IP_SERVICE")
+    curl --silent "$EXTERNAL_IP_INFO_SERVICE$IP" -o /tmp/ip_out
+    tr -d '\n\r ' < /tmp/ip_out > /tmp/ip_out_update
+}
+
 function export_cert_info() {
   kickstart_file=$1
   ## Cert params
   # these parameters will be used to generate CSR for all certificates
-  IP=$(curl --silent "$EXTERNAL_IP_SERVICE")
-  curl --silent "$EXTERNAL_IP_INFO_SERVICE$IP" -o /tmp/ip_out
-  tr -d '\n\r ' < /tmp/ip_out > /tmp/ip_out_update
   INFO=$(cat /tmp/ip_out_update)
   COUNTRY=$(parse_json "$INFO" "country")
   STATE=$(parse_json "$INFO" "region")
@@ -43,9 +46,6 @@ function export_cert_info() {
   sed -i "s/{LOCATION}/$LOCATION/g" "${kickstart_file}"
   sed -i "s/{ORGANIZATION}/$ORGANIZATION/g" "${kickstart_file}"
   sed -i "s/{OU}/$OU/g" "${kickstart_file}"
-
-  rm -rf /tmp/ip_out_update
-  rm -rf /tmp/ip_out
 }
 
 function get_drive_name() {
@@ -308,6 +308,12 @@ EOF
 
 function create_ca_cert() {
   cert_dir=$1
+
+  INFO=$(cat /tmp/ip_out_update)
+  COUNTRY=$(parse_json "$INFO" "country")
+  STATE=$(parse_json "$INFO" "region")
+  LOCATION=$(parse_json "$INFO" "city")
+
   IP=`hostname -I | awk '{print $1}'`
 
   runuser -l root -c  "touch $cert_dir/id_rsa"
@@ -370,6 +376,11 @@ function create_server_cert() {
     cert_dir=$1
     cert_name=$2
     host_name=$3
+
+    INFO=$(cat /tmp/ip_out_update)
+    COUNTRY=$(parse_json "$INFO" "country")
+    STATE=$(parse_json "$INFO" "region")
+    LOCATION=$(parse_json "$INFO" "city")
 
     runuser -l root -c  "touch $cert_dir/$cert_name.pass.key"
     runuser -l root -c  "touch $cert_dir/$cert_name.key"

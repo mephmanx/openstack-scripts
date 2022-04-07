@@ -72,7 +72,7 @@ chmod 700 ./*.sh
 runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --with-chartmuseum"
 
 sleep 30
-telegram_notify  "Cloudsupport VM ready for use"
+telegram_notify  "Cloudsupport VM starting to process openstack images"
 ##########################
 cat > /tmp/harbor.json << EOF
 {"project_name": "kolla","metadata": {"public": "true"}}
@@ -166,7 +166,7 @@ kolla-build --base-image rpm_repo/kolla/centos-binary-base --base-tag wallaby -t
 for i in $(docker images |grep "$SUPPORT_VIP_DNS" |awk '{print $1}');do docker push "$i":wallaby ;done
 
 ######
-
+telegram_notify  "Cloudsupport VM finished processing openstack images"
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 
