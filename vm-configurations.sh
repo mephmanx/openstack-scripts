@@ -206,7 +206,7 @@ function create_vm_kvm {
 
   #### kvm cpu topology
   threads=2
-  if [[ $cpu_ct > 4 ]]; then
+  if [[ $cpu_ct -gt 4 ]]; then
     sockets=$((cpu_ct / 4))
     cores=2
   else

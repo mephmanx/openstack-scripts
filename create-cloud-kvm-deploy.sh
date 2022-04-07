@@ -10,24 +10,6 @@ source /tmp/project_config.sh
 
 IFS=
 
-##################### Prep
-runuser -l root -c 'rm -rf /tmp/additional_hosts'
-touch /tmp/additional_hosts
-chmod +x /tmp/additional_hosts
-
-runuser -l root -c 'rm -rf /tmp/dns_hosts'
-touch /tmp/dns_hosts
-chmod +x /tmp/dns_hosts
-
-runuser -l root -c 'rm -rf /tmp/storage_hosts'
-touch /tmp/storage_hosts
-chmod +x /tmp/storage_hosts
-
-runuser -l root -c 'rm -rf /tmp/host_list'
-touch /tmp/host_list
-chmod +x /tmp/host_list
-####################
-
 telegram_notify  "Building cloud install data structures...."
 ######### Openstack VM types
 
@@ -100,10 +82,6 @@ done
 
 wait
 #############  create setup vm
-printf -v host_trust_string '%s ' "${host_trust_script[@]}"
-printf -v control_hack_string '%s ' "${control_hack_script[@]}"
-echo "creating openstack setup vm"
-
 telegram_notify  "Creating cloud vm: kolla"
 create_vm_kvm "kolla" "kolla"
 ########################
@@ -113,15 +91,6 @@ wait
 sleep 300
 telegram_notify  "All cloud VM's installed.  Openstack install will begin if VM's came up correctly."
 ##########
-
-### run host trust to add keys to hypervisor
-host_trust_script+=("runuser -l root -c  'ssh-keyscan -H kolla >> ~/.ssh/known_hosts';")
-echo $host_trust_script >> /tmp/additional_hosts
-runuser -l root -c  'rm -rf /root/.ssh/known_hosts; touch /root/.ssh/known_hosts'
-runuser -l root -c  'cd /tmp; ./dns_hosts'
-runuser -l root -c  'cd /tmp; ./additional_hosts'
-rm -rf /tmp/dns_hosts
-rm -rf /tmp/additional_hosts
 
 post_install_cleanup
 
