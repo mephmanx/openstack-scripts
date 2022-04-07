@@ -1,7 +1,7 @@
 #!/bin/bash
 
-rm -rf /root/cloud-install.log
-exec 1>/root/cloud-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+rm -rf /root/kolla-install.log
+exec 1>/root/kolla-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 #set -x
 
 source /tmp/vm_functions.sh
