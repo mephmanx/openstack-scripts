@@ -176,7 +176,7 @@ function prep_next_script() {
 
   ## Prep OpenStack install
   rm -rf /etc/rc.d/rc.local
-  cp /tmp/$vm_type.sh /etc/rc.d/rc.local
+  cp /tmp/"$vm_type".sh /etc/rc.d/rc.local
   chmod +x /etc/rc.d/rc.local
 }
 
@@ -500,7 +500,6 @@ function join_machine_to_domain() {
 
   IPA_SERVER=$IDENTITY_HOST.$INTERNAL_DOMAIN_NAME
   ADMIN_PASSWORD=$1
-  DOMAIN_NAME=$INTERNAL_DOMAIN_NAME
   REALM_NAME=$(echo "$INTERNAL_DOMAIN_NAME" | tr '[:lower:]' '[:upper:]')
 
   ipa-client-install -p admin \
@@ -539,16 +538,16 @@ function replace_string_in_iso() {
   replace_with=$3
 
 tmp_file="/tmp/out-$(generate_random_pwd 10)"
-cat > $tmp_file <<EOF
+cat > "$tmp_file" <<EOF
 $replace_with
 EOF
 
-  occur=`grep -oba "$replacement_string" $iso_file | wc -l`
-  entries=($(grep -oba "$replacement_string" $iso_file))
-  while [ $occur -gt 0 ]; do
+  occur=$(grep -oba "$replacement_string" "$iso_file" | wc -l)
+  entries=($(grep -oba "$replacement_string" "$iso_file"))
+  while [ "$occur" -gt 0 ]; do
     ((occur--))
-    start_index=`echo ${entries[$occur]} | awk -F':' '{ print $1 }'`
-    dd if=$tmp_file of=$iso_file conv=notrunc bs=1 seek=$start_index count=${#replacement_string}
+    start_index=$(echo "${entries[$occur]}" | awk -F':' '{ print $1 }')
+    dd if="$tmp_file" of="$iso_file" conv=notrunc bs=1 seek="$start_index" count="${#replacement_string}"
   done
 
   rm -rf /tmp/out-*
@@ -598,10 +597,10 @@ ct=0
 for FILE in /etc/sysconfig/network-scripts/*;
 do
     echo "$FILE"
-    IP=(`awk -F'=' '$1 == "IPADDR" {print $2}' $FILE`)
-    GATEWAY=(`awk -F'=' '$1 == "GATEWAY" {print $2}' $FILE`)
-    DNS1=(`awk -F'=' '$1 == "DNS1" {print $2}' $FILE`)
-    NETMASK=(`awk -F'=' '$1 == "NETMASK" {print $2}' $FILE`)
+    IP=$(awk -F'=' '$1 == "IPADDR" {print $2}' "$FILE")
+    GATEWAY=$(awk -F'=' '$1 == "GATEWAY" {print $2}' "$FILE")
+    DNS1=$(awk -F'=' '$1 == "DNS1" {print $2}' "$FILE")
+    NETMASK=$(awk -F'=' '$1 == "NETMASK" {print $2}' "$FILE")
     runuser -l root -c  "touch /etc/sysconfig/network-scripts/ifcfg-eth$ct"
 
     if [[ ! -z "$IP" ]]; then
