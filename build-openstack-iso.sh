@@ -120,12 +120,7 @@ if [ ! -f "$CERT_DIR/id_rsa" ]; then
   # create CA cert before the network goes down to add ip to SAN
   load_cert_loc_info
 
-  export_cert_info ${kickstart_file}
-
   create_ca_cert $CERT_DIR
-
-  rm -rf /tmp/ip_out_update
-  rm -rf /tmp/ip_out
 fi
 
 if [ ! -f "$CERT_DIR/wildcard.key" ]; then
@@ -133,9 +128,6 @@ if [ ! -f "$CERT_DIR/wildcard.key" ]; then
   load_cert_loc_info
 
   create_server_cert $CERT_DIR "wildcard" "*"
-
-  rm -rf /tmp/ip_out_update
-  rm -rf /tmp/ip_out
   #############
 fi
 

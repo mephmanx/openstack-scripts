@@ -25,29 +25,6 @@ function load_cert_loc_info() {
     tr -d '\n\r ' < /tmp/ip_out > /tmp/ip_out_update
 }
 
-function export_cert_info() {
-  kickstart_file=$1
-  ## Cert params
-  # these parameters will be used to generate CSR for all certificates
-  INFO=$(cat /tmp/ip_out_update)
-  COUNTRY=$(parse_json "$INFO" "country")
-  STATE=$(parse_json "$INFO" "region")
-  LOCATION=$(parse_json "$INFO" "city")
-
-  echo "Country: $COUNTRY"
-  echo "State: $STATE"
-  echo "Location: $LOCATION"
-  echo "Organization: $ORGANIZATION"
-  echo "OU: $OU"
-
-  ####  stamp into ISO
-  sed -i "s/{COUNTRY}/$COUNTRY/g" "${kickstart_file}"
-  sed -i "s/{STATE}/$STATE/g" "${kickstart_file}"
-  sed -i "s/{LOCATION}/$LOCATION/g" "${kickstart_file}"
-  sed -i "s/{ORGANIZATION}/$ORGANIZATION/g" "${kickstart_file}"
-  sed -i "s/{OU}/$OU/g" "${kickstart_file}"
-}
-
 function get_drive_name() {
   dir_name=$(find /dev/mapper -maxdepth 1 -type l -name '*cs*' -print -quit)
   DRIVE_NAME=$(grep -oP '(?<=_).*?(?=-)' <<< "$dir_name")
