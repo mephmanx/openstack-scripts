@@ -87,6 +87,7 @@ curl -k -H  "authorization: Basic $etext" -X POST -H "Content-Type: application/
 source /tmp/project_config.sh
 
 sleep 3
+docker load < /tmp/centos-binary-base-w.tar
 docker login -u admin -p {CENTOS_ADMIN_PWD_123456789012} "$SUPPORT_VIP_DNS"
 
 #setup repo server
@@ -98,7 +99,7 @@ mv /tmp/kolla_w_rpm_repo.tar.gz /var/www/html/
 cd /var/www/html && tar xf /var/www/html/kolla_w_rpm_repo.tar.gz
 echo 'local rpm repo server setup finish!'
 
-docker load < /tmp/centos-binary-base-w.tar
+#docker load < /tmp/centos-binary-base-w.tar
 docker load < /tmp/centos-source-kolla-toolbox.tar
 docker load < /tmp/centos-source-zun-compute.tar
 docker load < /tmp/centos-source-zun-wsproxy.tar
