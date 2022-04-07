@@ -16,6 +16,7 @@ telegram_notify  "PFSense initialization script beginning... \n\nCloud DMZ IP: $
 install_pkg "pfsense-pkg-squid"
 install_pkg "pfsense-pkg-haproxy-devel"
 
+## DO NOT USE $() notation below!!!   IT WILL NOT WORK ON PFSENSE!!
 DRIVE_KB=`geom disk list | grep Mediasize | sed 2d | awk '{ print $2 }'`
 DRIVE_SIZE=$(($DRIVE_KB / 1024 / 1024 * 75/100))
 echo "Setting cache size to $DRIVE_SIZE"

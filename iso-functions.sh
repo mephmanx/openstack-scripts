@@ -12,8 +12,8 @@ function initialKickstartSetup {
   vm=$1
   printf -v vm_type_n '%s\n' "${vm//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
-  TZ=`timedatectl | awk '/Time zone:/ {print $3}'`
-  TIMEZONE=`echo $TZ | sed 's/\//\\\\\//g'`
+  TZ=$(timedatectl | awk '/Time zone:/ {print $3}')
+  TIMEZONE=$(echo $TZ | sed 's/\//\\\\\//g')
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
   cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
   echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg to -> ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg"
@@ -29,7 +29,7 @@ function initialKickstartSetup {
 function closeOutAndBuildKickstartAndISO {
   kickstart_file=$1
   vm_name=$2
-  working_dir=`pwd`
+  working_dir=$(pwd)
   IFS=' ' read -r -a embedded_files <<< "$3"
   #### to allow certs to print right
   IFS=
@@ -69,19 +69,19 @@ function closeOutAndBuildKickstartAndISO {
     fi
   done
   #####
-  pwd2=`pwd`
-  if [[ "openstack" == $vm_name ]]; then
-    if [[ -z `which convert` ]]; then
+  pwd2=$(pwd)
+  if [[ "openstack" == "$vm_name" ]]; then
+    if [[ -z $(which convert) ]]; then
       git clone https://github.com/ImageMagick/ImageMagick.git /tmp/ImageMagick-7.1.0
-      cd /tmp/ImageMagick-7.1.0
+      cd /tmp/ImageMagick-7.1.0 || exit
       ./configure
       make
     fi
     convert splash.png +dither -colors 16 -depth 4 -resize 640x480\! /var/tmp/${vm_name}/isolinux/splash.png
   fi
-  cd $pwd2
+  cd $pwd2 || exit
   sudo ksvalidator /var/tmp/${vm_name}/ks.cfg
-  cd /var/tmp/${vm_name}
+  cd /var/tmp/${vm_name} || exit
   rm -rf ${vm_name}-iso.iso
   sudo mkisofs -o ../${vm_name}-iso.iso \
     -b isolinux/isolinux.bin \
@@ -93,11 +93,11 @@ function closeOutAndBuildKickstartAndISO {
     -iso-level 3 \
     -J -R -V 'CentOS-8-x86_64' .
 
-  cd /var/tmp/
+  cd /var/tmp/ || exit
   sudo implantisomd5 ${vm_name}-iso.iso
   sudo rm -rf /var/tmp/${vm_name}
   sudo rm -rf ${kickstart_file}
-  cd $working_dir
+  cd $working_dir || exit
 }
 
 function buildAndPushVMTypeISO {
