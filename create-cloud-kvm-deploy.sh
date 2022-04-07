@@ -81,17 +81,3 @@ for d in "${vms[@]}"; do
 done
 
 wait
-#############  create setup vm
-telegram_notify  "Creating cloud vm: kolla"
-create_vm_kvm "kolla" "kolla"
-########################
-
-###wait until jobs complete and servers come up
-wait
-sleep 300
-telegram_notify  "All cloud VM's installed.  Openstack install will begin if VM's came up correctly."
-##########
-
-post_install_cleanup
-
-telegram_notify  "Host trust and cleanup scripts run.  Cloud create script is complete."

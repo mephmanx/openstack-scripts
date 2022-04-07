@@ -167,7 +167,10 @@ kolla-build --base-image rpm_repo/kolla/centos-binary-base --base-tag wallaby -t
 for i in $(docker images |grep "$SUPPORT_VIP_DNS" |awk '{print $1}');do docker push "$i":wallaby ;done
 
 ######
-telegram_notify  "Cloudsupport VM finished processing openstack images"
+telegram_notify  "Cloudsupport VM finished processing openstack images, creating kolla vm"
+#############  create setup vm
+ssh root@$LAN_CENTOS_IP 'cd /tmp; ./create-kolla-kvm-deploy.sh;' &
+########################
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 
