@@ -379,7 +379,7 @@ function create_server_cert() {
     IP=$(hostname -I | awk '{print $1}')
     source /tmp/project_config.sh
 
-cat > "$cert_dir"/"$cert_name.cnf" <<EOF
+cat > "$cert_dir/$cert_name.cnf" <<EOF
 ##Required
 [ req ]
 default_bits                                         = 4096
