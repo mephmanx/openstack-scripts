@@ -30,5 +30,5 @@ create_line+="--autostart --wait -1; virsh reboot identity; rm -rf /tmp/identity
 
 telegram_notify "Creating identity vm"
 
-echo $create_line
-eval $create_line &
+echo "$create_line"
+eval "$create_line" &

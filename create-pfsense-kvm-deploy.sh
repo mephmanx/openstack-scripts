@@ -34,7 +34,7 @@ create_line+="--os-variant=freebsd11.0 "
 create_line+="--graphics=vnc "
 create_line+="--autostart --wait 0"
 
-eval $create_line
+eval "$create_line"
 
 sleep 30;
 (echo open 127.0.0.1 4568;
@@ -81,20 +81,20 @@ root_pw=$(generate_random_pwd 31)
 telegram_debug_msg  "PFSense admin pwd is $root_pw"
 
 ### base64 files
-HYPERVISOR_KEY=`cat /tmp/pf_key | base64 | tr -d '\n\r'`
-HYPERVISOR_PUB_KEY=`cat /tmp/pf_key.pub | base64 | tr -d '\n\r'`
-OPENSTACK_ENV=`cat /tmp/openstack-env.sh | base64 | tr -d '\n\r'`
-PF_FUNCTIONS=`cat /tmp/pf_functions.sh | base64 | tr -d '\n\r'`
-PROJECT_CONFIG=`cat /tmp/project_config.sh | base64 | tr -d '\n\r'`
-PFSENSE_INIT=`cat /tmp/pfsense-init.sh | base64 | tr -d '\n\r'`
+HYPERVISOR_KEY=$(cat /tmp/pf_key | base64 | tr -d '\n\r')
+HYPERVISOR_PUB_KEY=$(cat /tmp/pf_key.pub | base64 | tr -d '\n\r')
+OPENSTACK_ENV=$(cat /tmp/openstack-env.sh | base64 | tr -d '\n\r')
+PF_FUNCTIONS=$(cat /tmp/pf_functions.sh | base64 | tr -d '\n\r')
+PROJECT_CONFIG=$(cat /tmp/project_config.sh | base64 | tr -d '\n\r')
+PFSENSE_INIT=$(cat /tmp/pfsense-init.sh | base64 | tr -d '\n\r')
 
 ### pfsense prep
-hypervisor_key_array=( $(echo $HYPERVISOR_KEY | fold -c250 ))
-hypervisor_pub_array=( $(echo $HYPERVISOR_PUB_KEY | fold -c250 ))
-openstack_env_array=( $(echo $OPENSTACK_ENV | fold -c250 ))
-pf_functions_array=( $(echo $PF_FUNCTIONS | fold -c250 ))
-project_config_array=( $(echo $PROJECT_CONFIG | fold -c250 ))
-pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
+hypervisor_key_array=( $(echo "$HYPERVISOR_KEY" | fold -c250 ))
+hypervisor_pub_array=( $(echo "$HYPERVISOR_PUB_KEY" | fold -c250 ))
+openstack_env_array=( $(echo "$OPENSTACK_ENV" | fold -c250 ))
+pf_functions_array=( $(echo "$PF_FUNCTIONS" | fold -c250 ))
+project_config_array=( $(echo "$PROJECT_CONFIG" | fold -c250 ))
+pfsense_init_array=( $(echo "$PFSENSE_INIT" | fold -c250 ))
 
 (echo open 127.0.0.1 4568;
   sleep 120;
