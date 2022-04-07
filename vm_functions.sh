@@ -290,20 +290,25 @@ EOF
 function create_ca_cert() {
   cert_dir=$1
 
-  if [ ! -f "/tmp/ip_out_update" ]; then
+  if [ -f "/tmp/ip_out_update" ]; then
     INFO=$(cat /tmp/ip_out_update)
     COUNTRY=$(parse_json "$INFO" "country")
     STATE=$(parse_json "$INFO" "region")
     LOCATION=$(parse_json "$INFO" "city")
   fi
 
-  IP=`hostname -I | awk '{print $1}'`
+  echo "Country: $COUNTRY"
+  echo "State: $STATE"
+  echo "Location: $LOCATION"
+  echo "Organization: $ORGANIZATION"
+  echo "OU: $OU"
+
+  IP=$(hostname -I | awk '{print $1}')
 
   runuser -l root -c  "touch $cert_dir/id_rsa"
   runuser -l root -c  "touch $cert_dir/id_rsa.pub"
   runuser -l root -c  "touch $cert_dir/id_rsa.crt"
 
-  IP=`hostname -I | awk '{print $1}'`
   source /tmp/project_config.sh
 
 cat > $cert_dir/ca_conf.cnf <<EOF
@@ -360,7 +365,7 @@ function create_server_cert() {
     cert_name=$2
     host_name=$3
 
-    if [ ! -f "/tmp/ip_out_update" ]; then
+    if [ -f "/tmp/ip_out_update" ]; then
       INFO=$(cat /tmp/ip_out_update)
       COUNTRY=$(parse_json "$INFO" "country")
       STATE=$(parse_json "$INFO" "region")
@@ -371,10 +376,10 @@ function create_server_cert() {
     runuser -l root -c  "touch $cert_dir/$cert_name.key"
     runuser -l root -c  "touch $cert_dir/$cert_name.crt"
 
-    IP=`hostname -I | awk '{print $1}'`
+    IP=$(hostname -I | awk '{print $1}')
     source /tmp/project_config.sh
 
-cat > $cert_dir/$cert_name.cnf <<EOF
+cat > "$cert_dir"/"$cert_name.cnf" <<EOF
 ##Required
 [ req ]
 default_bits                                         = 4096
