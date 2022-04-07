@@ -309,10 +309,12 @@ EOF
 function create_ca_cert() {
   cert_dir=$1
 
-  INFO=$(cat /tmp/ip_out_update)
-  COUNTRY=$(parse_json "$INFO" "country")
-  STATE=$(parse_json "$INFO" "region")
-  LOCATION=$(parse_json "$INFO" "city")
+  if [ ! -f "/tmp/ip_out_update" ]; then
+    INFO=$(cat /tmp/ip_out_update)
+    COUNTRY=$(parse_json "$INFO" "country")
+    STATE=$(parse_json "$INFO" "region")
+    LOCATION=$(parse_json "$INFO" "city")
+  fi
 
   IP=`hostname -I | awk '{print $1}'`
 
@@ -377,10 +379,12 @@ function create_server_cert() {
     cert_name=$2
     host_name=$3
 
-    INFO=$(cat /tmp/ip_out_update)
-    COUNTRY=$(parse_json "$INFO" "country")
-    STATE=$(parse_json "$INFO" "region")
-    LOCATION=$(parse_json "$INFO" "city")
+    if [ ! -f "/tmp/ip_out_update" ]; then
+      INFO=$(cat /tmp/ip_out_update)
+      COUNTRY=$(parse_json "$INFO" "country")
+      STATE=$(parse_json "$INFO" "region")
+      LOCATION=$(parse_json "$INFO" "city")
+    fi
 
     runuser -l root -c  "touch $cert_dir/$cert_name.pass.key"
     runuser -l root -c  "touch $cert_dir/$cert_name.key"
