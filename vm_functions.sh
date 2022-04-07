@@ -277,10 +277,10 @@ rm -rf /tmp/type
 rm -rf /tmp/server_cleanup.sh
 EOF
   chmod +x /tmp/server_cleanup.sh
-  for i in `cat $file`
+  for i in $(cat "$file")
   do
     echo "cleanup server $i"
-    scp /tmp/server_cleanup.sh root@$i:/tmp
+    scp /tmp/server_cleanup.sh root@"$i":/tmp
     runuser -l root -c "ssh root@$i '/tmp/server_cleanup.sh'"
   done
   rm -rf /tmp/host_list
@@ -311,7 +311,7 @@ function create_ca_cert() {
 
   source /tmp/project_config.sh
 
-cat > $cert_dir/ca_conf.cnf <<EOF
+cat > "$cert_dir"/ca_conf.cnf <<EOF
 ##Required
 [ req ]
 default_bits                                         = 4096
@@ -347,13 +347,12 @@ EOF
   runuser -l root -c  "openssl genrsa -out $cert_dir/id_rsa 4096"
   file_length_pk=$(wc -c "$cert_dir/id_rsa" | awk -F' ' '{ print $1 }')
   file_length_old=$(wc -c "/tmp/id_rsa" | awk -F' ' '{ print $1 }')
-  while [ $file_length_pk != $file_length_old ]; do
+  while [ "$file_length_pk" != "$file_length_old" ]; do
     runuser -l root -c  "openssl genrsa -out $cert_dir/id_rsa 4096"
     file_length_pk=$(wc -c "$cert_dir/id_rsa" | awk -F' ' '{ print $1 }')
   done
   # create CA key and cert
   runuser -l root -c  "ssh-keygen -f $cert_dir/id_rsa -y > $cert_dir/id_rsa.pub"
-#  runuser -l root -c  "openssl rsa -in $cert_dir/id_rsa -out $cert_dir/id_rsa.key"
   runuser -l root -c  "openssl req -new -x509 -days 7300 \
                         -key $cert_dir/id_rsa -out $cert_dir/id_rsa.crt \
                         -sha256 \
@@ -415,11 +414,11 @@ EOF
 
 node_ct=255
 while [ $node_ct -gt 0 ]; do
-  echo "IP.$node_ct = $NETWORK_PREFIX.$node_ct" >> $cert_dir/$cert_name.cnf
+  echo "IP.$node_ct = $NETWORK_PREFIX.$node_ct" >> "$cert_dir/$cert_name.cnf"
   ((node_ct--))
 done
 
-  extFile=$(gen_extfile $host_name.$INTERNAL_DOMAIN_NAME)
+  extFile=$(gen_extfile "$host_name.$INTERNAL_DOMAIN_NAME")
   runuser -l root -c  "openssl genrsa -out $cert_dir/$cert_name.pass.key 4096"
   runuser -l root -c  "openssl rsa -in $cert_dir/$cert_name.pass.key -out $cert_dir/$cert_name.key"
   runuser -l root -c  "openssl req -new -key $cert_dir/$cert_name.key \
@@ -453,10 +452,10 @@ EOF
 
 function remove_ip_from_adapter() {
   adapter_name=$1
-  sed -i '/^IPADDR/d' /etc/sysconfig/network-scripts/ifcfg-$adapter_name
-  sed -i '/^DNS1/d' /etc/sysconfig/network-scripts/ifcfg-$adapter_name
-  sed -i '/^NETMASK/d' /etc/sysconfig/network-scripts/ifcfg-$adapter_name
-  sed -i '/^GATEWAY/d' /etc/sysconfig/network-scripts/ifcfg-$adapter_name
+  sed -i '/^IPADDR/d' /etc/sysconfig/network-scripts/ifcfg-"$adapter_name"
+  sed -i '/^DNS1/d' /etc/sysconfig/network-scripts/ifcfg-"$adapter_name"
+  sed -i '/^NETMASK/d' /etc/sysconfig/network-scripts/ifcfg-"$adapter_name"
+  sed -i '/^GATEWAY/d' /etc/sysconfig/network-scripts/ifcfg-"$adapter_name"
 }
 
 function generate_random_pwd() {
@@ -466,7 +465,7 @@ function generate_random_pwd() {
 }
 
 function generate_specific_pwd() {
-  head -c $1 < /dev/zero | tr '\0' 'x'
+  head -c "$1" < /dev/zero | tr '\0' 'x'
 }
 
 function join_machine_to_domain() {
@@ -485,13 +484,13 @@ function join_machine_to_domain() {
   REALM_NAME=$(echo "$INTERNAL_DOMAIN_NAME" | tr '[:lower:]' '[:upper:]')
 
   ipa-client-install -p admin \
-                      --domain=$INTERNAL_DOMAIN_NAME \
-                      --realm=$REALM_NAME \
-                      --hostname=$HOSTNAME \
-                      --server=$IPA_SERVER \
+                      --domain="$INTERNAL_DOMAIN_NAME" \
+                      --realm="$REALM_NAME" \
+                      --hostname="$HOSTNAME" \
+                      --server="$IPA_SERVER" \
                       --mkhomedir \
                       --enable-dns-updates \
-                      -w $ADMIN_PASSWORD -U -q > /tmp/ipa-join
+                      -w "$ADMIN_PASSWORD" -U -q > /tmp/ipa-join
 
   ### if possible, restart selinux
   runuser -l root -c "sed -i 's/\(SELINUX\=\).*/\1enabled/' /etc/selinux/config"
@@ -546,7 +545,7 @@ function replace_file_in_iso() {
 }
 
 function get_disk_count() {
-  echo $(lsblk -S -n | grep -v usb | wc -l)
+  echo "$(lsblk -S -n | grep -v usb | wc -l)"
 }
 
 function grub_update() {
@@ -652,33 +651,33 @@ function replace_values_in_root_isos() {
   iso_images="/tmp/*.iso"
   for img in $iso_images; do
       echo "replacing centos admin in $img"
-      replace_string_in_iso $img {CENTOS_ADMIN_PWD_123456789012} "$ADMIN_PWD"
+      replace_string_in_iso "$img" {CENTOS_ADMIN_PWD_123456789012} "$ADMIN_PWD"
 
       echo "replace generated pwd in $img"
-      replace_string_in_iso $img {GENERATED_PWD} "$GEN_PWD"
+      replace_string_in_iso "$img" {GENERATED_PWD} "$GEN_PWD"
 
       echo "replacing directory mgr admin in $img"
-      replace_string_in_iso $img {DIRECTORY_MGR_PWD_12345678901} "$DIRECTORY_MGR_PWD"
+      replace_string_in_iso "$img" {DIRECTORY_MGR_PWD_12345678901} "$DIRECTORY_MGR_PWD"
 
       echo "replacing id_rsa.crt  in $img"
-      replace_file_in_iso $img /tmp/id_rsa.crt /root/.ssh/id_rsa.crt
+      replace_file_in_iso "$img" /tmp/id_rsa.crt /root/.ssh/id_rsa.crt
       echo "replacing id_rsa.pub  in $img"
-      replace_file_in_iso $img /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
+      replace_file_in_iso "$img" /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
       echo "replacing id_rsa  in $img"
-      replace_file_in_iso $img /tmp/id_rsa /root/.ssh/id_rsa
+      replace_file_in_iso "$img" /tmp/id_rsa /root/.ssh/id_rsa
 
       echo "replacing openstack-setup.key  in $img"
-      replace_file_in_iso $img /tmp/key-bak/openstack-setup.key /tmp/openstack-setup.key
+      replace_file_in_iso "$img" /tmp/key-bak/openstack-setup.key /tmp/openstack-setup.key
       echo "replacing openstack-setup.key.pub  in $img"
-      replace_file_in_iso $img /tmp/key-bak/openstack-setup.key.pub /tmp/openstack-setup.key.pub
+      replace_file_in_iso "$img" /tmp/key-bak/openstack-setup.key.pub /tmp/openstack-setup.key.pub
   done
 
   iso_images="/tmp/*.img"
   for img in $iso_images; do
       echo "replacing centos admin in $img"
-      replace_string_in_iso $img {CENTOS_ADMIN_PWD_123456789012} "$ADMIN_PWD"
+      replace_string_in_iso "$img" {CENTOS_ADMIN_PWD_123456789012} "$ADMIN_PWD"
       echo "replacing directory mgr admin in $img"
-      replace_string_in_iso $img {DIRECTORY_MGR_PWD_12345678901} "$DIRECTORY_MGR_PWD"
+      replace_string_in_iso "$img" {DIRECTORY_MGR_PWD_12345678901} "$DIRECTORY_MGR_PWD"
   done
   ##############
 }
