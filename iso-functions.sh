@@ -14,16 +14,16 @@ function initialKickstartSetup {
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
   TZ=$(timedatectl | awk '/Time zone:/ {print $3}')
   TIMEZONE=$(echo $TZ | sed 's/\//\\\\\//g')
-  rm -rf ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
-  cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg
+  rm -rf ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
+  cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
   echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg to -> ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg"
   kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-${vm}.cfg
   echo "kickstart file -> ${kickstart_file}"
-  sed -i 's/{HOST}/'$vm'/g' ${kickstart_file}
-  sed -i 's/{TYPE}/'$vm_type'/g' ${kickstart_file}
-  sed -i 's/{NTP_SERVER}/'$GATEWAY_ROUTER_IP'/g' ${kickstart_file}
-  sed -i 's/{TIMEZONE}/'$TIMEZONE'/g' ${kickstart_file}
-  networkInformation ${kickstart_file} ${vm_type} ${vm}
+  sed -i "s/{HOST}/$vm/g" "$kickstart_file"
+  sed -i "s/{TYPE}/$vm_type/g" "$kickstart_file"
+  sed -i "s/{NTP_SERVER}/$GATEWAY_ROUTER_IP/g" "$kickstart_file"
+  sed -i "s/{TIMEZONE}/$TIMEZONE/g" "$kickstart_file"
+  networkInformation "$kickstart_file" "$vm_type" "$vm"
 }
 
 function closeOutAndBuildKickstartAndISO {
@@ -39,33 +39,33 @@ function closeOutAndBuildKickstartAndISO {
   sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
 
 
-  sudo rm -rf /var/tmp/${vm_name}
+  sudo rm -rf /var/tmp/"${vm_name}"
   mkdir /centos
   sudo mount -t iso9660 -o loop /tmp/linux.iso /centos
-  sudo mkdir -p /var/tmp/${vm_name}
-  sudo rsync -q -a /centos/ /var/tmp/${vm_name}
+  sudo mkdir -p /var/tmp/"${vm_name}"
+  sudo rsync -q -a /centos/ /var/tmp/"${vm_name}"
   sudo umount /centos
   rm -rf /centos
 
-  cp ${kickstart_file} /var/tmp/${vm_name}/ks.cfg
+  cp "${kickstart_file}" /var/tmp/"${vm_name}"/ks.cfg
   if [[ $vm_name == "openstack" ]]; then
-    cp ${KICKSTART_DIR}/isolinux-openstack.cfg /var/tmp/${vm_name}/isolinux/isolinux.cfg
+    cp ${KICKSTART_DIR}/isolinux-openstack.cfg /var/tmp/"${vm_name}"/isolinux/isolinux.cfg
   else
-    cp ${KICKSTART_DIR}/isolinux.cfg /var/tmp/${vm_name}/isolinux/isolinux.cfg
+    cp ${KICKSTART_DIR}/isolinux.cfg /var/tmp/"${vm_name}"/isolinux/isolinux.cfg
   fi
 
   #### add embedded files to iso
   ## file must exist on filesystem
   ##  It will be added to a /embedded directory.
   ##  Contents of this directory will be copied to the /tmp directory during install
-  mkdir /var/tmp/${vm_name}/embedded
+  mkdir /var/tmp/"${vm_name}"/embedded
   for embed_file in "${embedded_files[@]}";
   do
     if [ -f "$embed_file" ]; then
       IFS='/' read -ra file_parts <<< "$embed_file"
       length=${#file_parts[@]}
       echo "copying file -> $embed_file to /var/tmp/${vm_name}/embedded/${file_parts[length - 1]}"
-      cp $embed_file /var/tmp/${vm_name}/embedded/${file_parts[length - 1]}
+      cp "$embed_file" /var/tmp/"${vm_name}"/embedded/"${file_parts[length - 1]}"
     fi
   done
   #####
@@ -77,13 +77,13 @@ function closeOutAndBuildKickstartAndISO {
       ./configure
       make
     fi
-    convert splash.png +dither -colors 16 -depth 4 -resize 640x480\! /var/tmp/${vm_name}/isolinux/splash.png
+    convert splash.png +dither -colors 16 -depth 4 -resize 640x480\! /var/tmp/"${vm_name}"/isolinux/splash.png
   fi
-  cd $pwd2 || exit
-  sudo ksvalidator /var/tmp/${vm_name}/ks.cfg
-  cd /var/tmp/${vm_name} || exit
-  rm -rf ${vm_name}-iso.iso
-  sudo mkisofs -o ../${vm_name}-iso.iso \
+  cd "$pwd2" || exit
+  sudo ksvalidator /var/tmp/"${vm_name}"/ks.cfg
+  cd /var/tmp/"${vm_name}" || exit
+  rm -rf "${vm_name}"-iso.iso
+  sudo mkisofs -o ../"${vm_name}"-iso.iso \
     -b isolinux/isolinux.bin \
     -c isolinux/boot.cat \
     -no-emul-boot \
@@ -94,16 +94,16 @@ function closeOutAndBuildKickstartAndISO {
     -J -R -V 'CentOS-8-x86_64' .
 
   cd /var/tmp/ || exit
-  sudo implantisomd5 ${vm_name}-iso.iso
-  sudo rm -rf /var/tmp/${vm_name}
-  sudo rm -rf ${kickstart_file}
-  cd $working_dir || exit
+  sudo implantisomd5 "${vm_name}"-iso.iso
+  sudo rm -rf /var/tmp/"${vm_name}"
+  sudo rm -rf "${kickstart_file}"
+  cd "$working_dir" || exit
 }
 
 function buildAndPushVMTypeISO {
   vm_name=$1
   ############### kickstart init
-  initialKickstartSetup ${vm_name}
+  initialKickstartSetup "${vm_name}"
   ###########################
 
   #####################################
@@ -121,7 +121,7 @@ function buildAndPushVMTypeISO {
                 '/tmp/openstack-env.sh')
 
   printf -v embed_files_string '%s ' "${embed_files[@]}"
-  closeOutAndBuildKickstartAndISO ${kickstart_file} ${vm_name} $embed_files_string
+  closeOutAndBuildKickstartAndISO "$kickstart_file" "$vm_name" "$embed_files_string"
 }
 
 function buildAndPushOpenstackSetupISO {
@@ -133,18 +133,18 @@ function buildAndPushOpenstackSetupISO {
   ########## add host trust script
   touch /tmp/host-trust.sh
   cat /tmp/dns_hosts >> /tmp/host-trust.sh
-  echo  $1 >> /tmp/host-trust.sh
+  echo  "$1" >> /tmp/host-trust.sh
   cat /tmp/additional_hosts >> /tmp/host-trust.sh
   #####################
 
   ############ control hack script
   touch /tmp/control-trust.sh
-  echo  $2 >> /tmp/control-trust.sh
+  echo  "$2" >> /tmp/control-trust.sh
   #################################
 
   ############## host count
   touch /tmp/host_count
-  echo  $3 >> /tmp/host_count
+  echo  "$3" >> /tmp/host_count
   #########################
 
   #####################################
@@ -189,7 +189,7 @@ function buildAndPushOpenstackSetupISO {
   #####
 
   printf -v embed_files_string '%s ' "${embed_files[@]}"
-  closeOutAndBuildKickstartAndISO ${kickstart_file} "kolla" $embed_files_string
+  closeOutAndBuildKickstartAndISO "${kickstart_file}" "kolla" "$embed_files_string"
 
   rm -rf /tmp/host_count
   rm -rf /tmp/control-trust.sh
@@ -227,10 +227,10 @@ function networkInformation {
       ##check if internal or external network and set ip/gateway accordingly
       ip_addr="${NETWORK_PREFIX}.${CORE_VM_START_IP}"
 
-      if ! grep -q $host "/tmp/dns_hosts"; then
+      if ! grep -q "$host" "/tmp/dns_hosts"; then
           #add localhost entry
         echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /tmp/dns_hosts
-        addresses+=($ip_addr)
+        addresses+=("$ip_addr")
       fi
 
         # If storage address, add to array to build rings later
@@ -261,5 +261,5 @@ function networkInformation {
   done
 
   printf -v net_line_string '%s ' "${network_lines[@]}"
-  sed -i 's/{NETWORK}/'$net_line_string'/g' ${kickstart_file}
+  sed -i "s/{NETWORK}/$net_line_string/g" "${kickstart_file}"
 }

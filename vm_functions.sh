@@ -534,7 +534,27 @@ EOF
   rm -rf /tmp/out-*
 }
 
-function replace_file_in_iso() {
+function replace_special_in_iso() {
+  iso_file=$1
+  replacement_file=$2
+  replace_with=$3
+  wrap_string=$4
+  ## create duplicate of key to find, remove first line (----BEGIN, etc) so as not to return the index of other keys in iso
+  ## and then replace from that index.  The headers (and footers technically) are the same so should be safe.
+  contents_test=$(grep -m1 "" "$replacement_file")
+  grep_res=$(grep "$wrap_string" <<< "$contents_test")
+  if [ ! -z "$grep_res" ]; then
+    cp "$replacement_file" "$replacement_file".bak
+    sed -i '1d' "$replacement_file"
+    sed -i '$d' "$replacement_file"
+  fi
+
+  start_index=$(grep -oba -f "$replacement_file" "$iso_file" -m1 | awk -F':' '{ print $1 }')
+  file_length=$(wc -c "$replace_with" | awk -F' ' '{ print $1 }')
+  dd if="$replace_with" of="$iso_file" conv=notrunc bs=1 seek="$start_index" count="$file_length"
+}
+
+function replace_oneline_file_in_iso() {
   iso_file=$1
   replacement_file=$2
   replace_with=$3
@@ -545,7 +565,7 @@ function replace_file_in_iso() {
 }
 
 function get_disk_count() {
-  echo "$(lsblk -S -n | grep -v usb | wc -l)"
+  lsblk -S -n | grep -v usb | wc -l
 }
 
 function grub_update() {
@@ -660,16 +680,16 @@ function replace_values_in_root_isos() {
       replace_string_in_iso "$img" {DIRECTORY_MGR_PWD_12345678901} "$DIRECTORY_MGR_PWD"
 
       echo "replacing id_rsa.crt  in $img"
-      replace_file_in_iso "$img" /tmp/id_rsa.crt /root/.ssh/id_rsa.crt
+      replace_special_in_iso "$img" /tmp/id_rsa.crt /root/.ssh/id_rsa.crt "BEGIN CERTIFICATE"
       echo "replacing id_rsa.pub  in $img"
-      replace_file_in_iso "$img" /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
+      replace_oneline_file_in_iso "$img" /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
       echo "replacing id_rsa  in $img"
-      replace_file_in_iso "$img" /tmp/id_rsa /root/.ssh/id_rsa
+      replace_special_in_iso "$img" /tmp/id_rsa /root/.ssh/id_rsa "PRIVATE KEY"
 
       echo "replacing openstack-setup.key  in $img"
-      replace_file_in_iso "$img" /tmp/key-bak/openstack-setup.key /tmp/openstack-setup.key
+      replace_special_in_iso "$img" /tmp/key-bak/openstack-setup.key /tmp/openstack-setup.key "PRIVATE KEY"
       echo "replacing openstack-setup.key.pub  in $img"
-      replace_file_in_iso "$img" /tmp/key-bak/openstack-setup.key.pub /tmp/openstack-setup.key.pub
+      replace_oneline_file_in_iso "$img" /tmp/key-bak/openstack-setup.key.pub /tmp/openstack-setup.key.pub
   done
 
   iso_images="/tmp/*.img"
