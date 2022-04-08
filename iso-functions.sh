@@ -13,7 +13,7 @@ function initialKickstartSetup {
   printf -v vm_type_n '%s\n' "${vm//[[:digit:]]/}"
   vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
   TZ=$(timedatectl | awk '/Time zone:/ {print $3}')
-  TIMEZONE=$(echo $TZ | sed 's/\//\\\\\//g')
+  TIMEZONE=$(echo "$TZ" | sed 's/\//\\\\\//g')
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
   cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
   echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg to -> ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg"
@@ -176,7 +176,7 @@ function buildAndPushOpenstackSetupISO {
                 "/tmp/bosh-$STEMCELL_STAMP.tgz")
 
   IFS=$'\n'
-  for stemcell in $(ls /tmp/stemcell-*-$STEMCELL_STAMP.tgz);
+  for stemcell in /tmp/stemcell-*-"$STEMCELL_STAMP".tgz;
   do
     embed_files+=("$stemcell")
   done

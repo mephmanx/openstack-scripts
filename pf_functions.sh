@@ -10,7 +10,7 @@ telegram_notify()
   curl -X POST  \
         -H 'Content-Type: application/json' -d "{\"chat_id\": \"$chat_id\", \"text\":\"$msg_text\", \"disable_notification\":false}"  \
         -s \
-        https://api.telegram.org/bot$token/sendMessage > /dev/null
+        "https://api.telegram.org/bot$token/sendMessage" > /dev/null
 }
 
 install_pkg()
