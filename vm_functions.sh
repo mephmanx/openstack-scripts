@@ -664,6 +664,12 @@ function replace_values_in_root_isos() {
   ##  Remove first and last tine from each
   prepare_special_file /tmp/id_rsa.crt
   prepare_special_file /tmp/id_rsa
+  prepare_special_file /tmp/openstack-setup.key
+
+  prepare_special_file /root/.ssh/id_rsa.crt
+  prepare_special_file /root/.ssh/id_rsa
+  prepare_special_file /tmp/openstack-setup.key
+  prepare_special_file /tmp/key-bak/openstack-setup.key
   ##########
 
   iso_images="/tmp/*.iso"
@@ -679,18 +685,18 @@ function replace_values_in_root_isos() {
 
       ##########
       echo "replacing id_rsa.crt  in $img"
-      replace_oneline_file_in_iso "$img" /tmp/id_rsa.crt.repl /root/.ssh/id_rsa.crt
+      replace_oneline_file_in_iso "$img" /tmp/id_rsa.crt.repl /root/.ssh/id_rsa.crt.repl
 
       echo "replacing id_rsa  in $img"
-      replace_oneline_file_in_iso "$img" /tmp/id_rsa.repl /root/.ssh/id_rsa
+      replace_oneline_file_in_iso "$img" /tmp/id_rsa.repl /root/.ssh/id_rsa.repl
+
+      echo "replacing openstack-setup.key  in $img"
+      replace_oneline_file_in_iso "$img" /tmp/key-bak/openstack-setup.key.repl /tmp/openstack-setup.key.repl
       ##########
 
       echo "replacing id_rsa.pub  in $img"
       replace_oneline_file_in_iso "$img" /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
 
-
-      echo "replacing openstack-setup.key  in $img"
-      replace_special_in_iso "$img" /tmp/key-bak/openstack-setup.key /tmp/openstack-setup.key "PRIVATE KEY"
       echo "replacing openstack-setup.key.pub  in $img"
       replace_oneline_file_in_iso "$img" /tmp/key-bak/openstack-setup.key.pub /tmp/openstack-setup.key.pub
   done
