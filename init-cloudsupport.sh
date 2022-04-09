@@ -91,6 +91,13 @@ curl -k -H  "authorization: Basic $etext" -X POST -H "Content-Type: application/
 source /tmp/project_config.sh
 
 sleep 3
+
+cat > /etc/docker/daemon.json << EOF
+{
+ "insecure-registries": ["$SUPPORT_VIP_DNS"]
+}
+EOF
+
 docker login -u admin -p {CENTOS_ADMIN_PWD_123456789012} "$SUPPORT_VIP_DNS"
 
 #setup repo server

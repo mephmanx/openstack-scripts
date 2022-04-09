@@ -13,7 +13,7 @@ source /tmp/openstack-env.sh
 
 ## watch this logic on update and make sure it gets the last fat32 partition
 startsector=$(file /tmp/pfSense-CE-memstick-ADI.img | sed -n -e 's/.* startsector *\([0-9]*\),.*/\1/p')
-offset=$(expr $startsector '*' 512)
+offset=$(expr "$startsector" '*' 512)
 
 rm -rf /tmp/usb
 mkdir /tmp/usb
@@ -32,13 +32,13 @@ runuser -l root -c  'openvpn --genkey --secret /tmp/openvpn-secret.key'
 
 ### replace variables
 ## load generated cert variables
-CA_KEY=`cat /tmp/id_rsa | base64 | tr -d '\n\r'`
-CA_CRT=`cat /tmp/id_rsa.crt | base64 | tr -d '\n\r'`
+CA_KEY=$(cat /tmp/id_rsa | base64 | tr -d '\n\r')
+CA_CRT=$(cat /tmp/id_rsa.crt | base64 | tr -d '\n\r')
 
-INITIAL_WILDCARD_CRT=`cat /tmp/wildcard.crt | base64 | tr -d '\n\r'`
-INITIAL_WILDCARD_KEY=`cat /tmp/wildcard.key | base64 | tr -d '\n\r'`
+INITIAL_WILDCARD_CRT=$(cat /tmp/wildcard.crt | base64 | tr -d '\n\r')
+INITIAL_WILDCARD_KEY=$(cat /tmp/wildcard.key | base64 | tr -d '\n\r')
 
-OPEN_VPN_TLS_KEY=`cat /tmp/openvpn-secret.key | base64 | tr -d '\n\r'`
+OPEN_VPN_TLS_KEY=$(cat /tmp/openvpn-secret.key | base64 | tr -d '\n\r')
 #########
 
 ### cloudfoundry TCP ports
@@ -46,15 +46,15 @@ CF_TCP_START_PORT=1024
 CF_TCP_END_PORT=$(($CF_TCP_START_PORT + $CF_TCP_PORT_COUNT))
 
 #### backend to change host header from whatever it comes in as to internal domain
-ADVANCED_BACKEND=`echo "http-request replace-value Host ^(.*)(\.[^\.]+){2}$ \1.$INTERNAL_DOMAIN_NAME" | base64 | tr -d '\n\r'`
+ADVANCED_BACKEND=$(echo "http-request replace-value Host ^(.*)(\.[^\.]+){2}$ \1.$INTERNAL_DOMAIN_NAME" | base64 | tr -d '\n\r')
 
 ## generate random hostname suffix so that if multiple instances are run on the same network there are no issues
 HOWLONG=5 ## the number of characters
 HOSTNAME_SUFFIX=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
 HOSTNAME="$APP_EXTERNAL_HOSTNAME-$HOSTNAME_SUFFIX"
 ###
-TZ=`timedatectl | awk '/Time zone:/ {print $3}'`
-TIMEZONE=`echo $TZ | sed 's/\//\\\\\//g'`
+TZ=$(timedatectl | awk '/Time zone:/ {print $3}')
+TIMEZONE=$(echo "$TZ" | sed 's/\//\\\\\//g')
 ##### replace PFSense template vars
 sed -i 's/{HOSTNAME}/'$HOSTNAME'/g' /tmp/usb/config.xml
 sed -i 's/{CF_TCP_START_PORT}/'$CF_TCP_START_PORT'/g' /tmp/usb/config.xml
@@ -86,7 +86,6 @@ sed -i 's/{OPEN_VPN_TLS_KEY}/'$OPEN_VPN_TLS_KEY'/g' /tmp/usb/config.xml
 sed -i 's/{CLOUDFOUNDRY_VIP}/'$CLOUDFOUNDRY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{IDENTITY_VIP}/'$IDENTITY_VIP'/g' /tmp/usb/config.xml
 sed -i 's/{SUPPORT_VIP}/'$SUPPORT_VIP'/g' /tmp/usb/config.xml
-#sed -i 's/{DIRECTORY_MGR_PWD_12345678901}/'$DIRECTORY_MGR_PWD'/g' /tmp/usb/config.xml
 sed -i 's/{BASE_DN}/'$(baseDN)'/g' /tmp/usb/config.xml
 sed -i 's/{LB_ROUTER_IP}/'$LB_ROUTER_IP'/g' /tmp/usb/config.xml
 sed -i 's/{LB_DHCP_START}/'$LB_DHCP_START'/g' /tmp/usb/config.xml
