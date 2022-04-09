@@ -534,24 +534,15 @@ EOF
   rm -rf /tmp/out-*
 }
 
-function replace_special_in_iso() {
-  iso_file=$1
-  replacement_file=$2
-  replace_with=$3
-  wrap_string=$4
+function prepare_special_file() {
+  in_file=$1
+
   ## create duplicate of key to find, remove first line (----BEGIN, etc) so as not to return the index of other keys in iso
   ## and then replace from that index.  The headers (and footers technically) are the same so should be safe.
-  contents_test=$(grep -m1 "" "$replacement_file")
-  grep_res=$(grep "$wrap_string" <<< "$contents_test")
-  if [ ! -z "$grep_res" ]; then
-    cp "$replacement_file" "$replacement_file".bak
-    sed -i '1d' "$replacement_file"
-    sed -i '$d' "$replacement_file"
-  fi
 
-  start_index=$(grep -oba -f "$replacement_file" "$iso_file" -m1 | awk -F':' '{ print $1 }')
-  file_length=$(wc -c "$replace_with" | awk -F' ' '{ print $1 }')
-  dd if="$replace_with" of="$iso_file" conv=notrunc bs=1 seek="$start_index" count="$file_length"
+  cp "$in_file" "$in_file".repl
+  sed -i '1d' "$in_file".repl
+  sed -i '$d' "$in_file".repl
 }
 
 function replace_oneline_file_in_iso() {
@@ -668,6 +659,13 @@ function replace_values_in_root_isos() {
 
   ## Files can only be replaced if they can be considered to be on "one line"
   ##  ssh keys are on one line as would most binary files.  text files, scripts, etc have multiple lines and DO NOT work!
+
+  ## These files are special due to multiline
+  ##  Remove first and last tine from each
+  prepare_special_file /tmp/id_rsa.crt
+  prepare_special_file /tmp/id_rsa
+  ##########
+
   iso_images="/tmp/*.iso"
   for img in $iso_images; do
       echo "replacing centos admin in $img"
@@ -679,12 +677,17 @@ function replace_values_in_root_isos() {
       echo "replacing directory mgr admin in $img"
       replace_string_in_iso "$img" {DIRECTORY_MGR_PWD_12345678901} "$DIRECTORY_MGR_PWD"
 
+      ##########
       echo "replacing id_rsa.crt  in $img"
-      replace_special_in_iso "$img" /tmp/id_rsa.crt /root/.ssh/id_rsa.crt "BEGIN CERTIFICATE"
+      replace_oneline_file_in_iso "$img" /tmp/id_rsa.crt.repl /root/.ssh/id_rsa.crt
+
+      echo "replacing id_rsa  in $img"
+      replace_oneline_file_in_iso "$img" /tmp/id_rsa.repl /root/.ssh/id_rsa
+      ##########
+
       echo "replacing id_rsa.pub  in $img"
       replace_oneline_file_in_iso "$img" /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
-      echo "replacing id_rsa  in $img"
-      replace_special_in_iso "$img" /tmp/id_rsa /root/.ssh/id_rsa "PRIVATE KEY"
+
 
       echo "replacing openstack-setup.key  in $img"
       replace_special_in_iso "$img" /tmp/key-bak/openstack-setup.key /tmp/openstack-setup.key "PRIVATE KEY"

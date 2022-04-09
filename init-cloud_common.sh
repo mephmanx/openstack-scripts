@@ -18,6 +18,10 @@ exec 1>/root/start-install.log 2>&1 # send stdout and stderr from rc.local to a 
 sleep 30
 ###########################
 
+### system profile
+tuned-adm profile virtual-guest
+#############
+
 # set VM type for future use
 TYPE=$(cat /tmp/type)
 

@@ -18,6 +18,10 @@ exec 1>/root/start-install.log 2>&1 # send stdout and stderr from rc.local to a 
 sleep 30
 ###########################
 
+### system profile
+tuned-adm profile virtual-guest
+#############
+
 ### libs
 yum update -y
 yum -y install epel-release yum-utils

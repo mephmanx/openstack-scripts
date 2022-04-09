@@ -57,7 +57,7 @@ fi
 ########## configure and start networks
 telegram_notify  "Configuring networks on hypervisor...."
 
-while [ ! -f /etc/sysconfig/network-scripts/"*loc-static*" ]; do
+while [ ! -f /etc/sysconfig/network-scripts/ifcfg-loc-static ]; do
   #### private net 1
   ip link add dev vm1 type veth peer name vm2
   ip link set dev vm1 up
@@ -77,7 +77,7 @@ while [ ! -f /etc/sysconfig/network-scripts/"*loc-static*" ]; do
   nmcli connection modify loc-static ipv4.addresses "${LAN_CENTOS_IP}"/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
 done
 
-while [ ! -f /etc/sysconfig/network-scripts/"*amp-net*" ]; do
+while [ ! -f /etc/sysconfig/network-scripts/ifcfg-amp-net ]; do
   ### amp-net
   ip link add dev vm3 type veth peer name vm4
   ip link set dev vm3 up
