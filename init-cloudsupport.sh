@@ -68,8 +68,9 @@ ipa-getcert request \
         -K HTTP/"$SUPPORT_VIP_DNS" \
         -f /tmp/harbor.crt \
         -k /tmp/harbor.key \
-        -n harbor \
+#        -n harbor \
 #        -p /etc/httpd/nssdb/pwdfile.txt \
+#        -d /etc/httpd/nssdb \
         -D "$SUPPORT_VIP_DNS"
 
 #SERIAL_NUMBER=$(certutil -L -d . -n harbor | grep "Serial Number" | awk -F':' '{ print $2 }' | awk -F'(' '{ print $1 }' | sed 's/ //g')
