@@ -540,7 +540,9 @@ function prepare_special_file() {
 
   ## create duplicate of key to find, remove first line (----BEGIN, etc) so as not to return the index of other keys in iso
   ## and then replace from that index.  The headers (and footers technically) are the same so should be safe.
-
+  if [ ! -f "$in_file" ]; then
+    return
+  fi
   cp "$in_file" "$in_file".repl
   sed -i '1d' "$in_file".repl
   sed -i '$d' "$in_file".repl
