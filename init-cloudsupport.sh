@@ -52,22 +52,24 @@ if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   systemctl enable --now dnf-automatic.timer
 fi
 
+SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
+
 echo "{CENTOS_ADMIN_PWD_123456789012}" | kinit admin
 ipa service-add HTTP/"$SUPPORT_VIP_DNS"
-pwd=$(pwd)
-mkdir -p /etc/httpd/nssdb; cd /etc/httpd/nssdb || exit
-certutil -N -d .
-chown :apache ./*.db && chmod g+rw ./*.db
-semanage fcontext -a -t cert_t "/etc/httpd/nssdb(/.*)?"
-restorecon -FvvR /etc/httpd/nssdb/
-echo {CENTOS_ADMIN_PWD_123456789012} > pwdfile.txt
-chmod o-rwx pwdfile.txt
+#pwd=$(pwd)
+#mkdir -p /etc/httpd/nssdb; cd /etc/httpd/nssdb || exit
+#certutil -N -d .
+#chown :apache ./*.db && chmod g+rw ./*.db
+#semanage fcontext -a -t cert_t "/etc/httpd/nssdb(/.*)?"
+#restorecon -FvvR /etc/httpd/nssdb/
+#echo {CENTOS_ADMIN_PWD_123456789012} > pwdfile.txt
+#chmod o-rwx pwdfile.txt
 ipa-getcert request \
         -K HTTP/"$SUPPORT_VIP_DNS" \
         -f /tmp/harbor.crt \
         -k /tmp/harbor.key \
         -n harbor \
-        -p /etc/httpd/nssdb/pwdfile.txt \
+#        -p /etc/httpd/nssdb/pwdfile.txt \
         -D "$SUPPORT_VIP_DNS"
 
 #SERIAL_NUMBER=$(certutil -L -d . -n harbor | grep "Serial Number" | awk -F':' '{ print $2 }' | awk -F'(' '{ print $1 }' | sed 's/ //g')
@@ -87,8 +89,6 @@ chmod +x /usr/local/bin/docker-compose
 
 cd /root || exit
 tar xzvf /tmp/harbor-"$HARBOR_VERSION".tgz
-
-SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 
 cp /tmp/harbor.yml /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_HOST}/${SUPPORT_VIP_DNS}/g" /root/harbor/harbor.yml
