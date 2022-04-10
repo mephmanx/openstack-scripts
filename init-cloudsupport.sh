@@ -57,7 +57,7 @@ ipa service-add HTTP/"$SUPPORT_VIP_DNS"
 pwd=$(pwd)
 mkdir -p /etc/httpd/nssdb; cd /etc/httpd/nssdb || exit
 certutil -N -d .
-chown :apache *.db && chmod g+rw *.db
+chown :apache ./*.db && chmod g+rw ./*.db
 semanage fcontext -a -t cert_t "/etc/httpd/nssdb(/.*)?"
 restorecon -FvvR /etc/httpd/nssdb/
 echo {CENTOS_ADMIN_PWD_123456789012} > pwdfile.txt
