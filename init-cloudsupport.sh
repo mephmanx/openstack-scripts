@@ -56,28 +56,11 @@ SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 
 echo "{CENTOS_ADMIN_PWD_123456789012}" | kinit admin
 ipa service-add HTTP/"$SUPPORT_VIP_DNS"
-#pwd=$(pwd)
-#mkdir -p /etc/httpd/nssdb; cd /etc/httpd/nssdb || exit
-#certutil -N -d .
-#chown :apache ./*.db && chmod g+rw ./*.db
-#semanage fcontext -a -t cert_t "/etc/httpd/nssdb(/.*)?"
-#restorecon -FvvR /etc/httpd/nssdb/
-#echo {CENTOS_ADMIN_PWD_123456789012} > pwdfile.txt
-#chmod o-rwx pwdfile.txt
 ipa-getcert request \
         -K HTTP/"$SUPPORT_VIP_DNS" \
         -f /tmp/harbor.crt \
         -k /tmp/harbor.key \
-#        -n harbor \
-#        -p /etc/httpd/nssdb/pwdfile.txt \
-#        -d /etc/httpd/nssdb \
         -D "$SUPPORT_VIP_DNS"
-
-#SERIAL_NUMBER=$(certutil -L -d . -n harbor | grep "Serial Number" | awk -F':' '{ print $2 }' | awk -F'(' '{ print $1 }' | sed 's/ //g')
-#ipa cert-show "$SERIAL_NUMBER" --out=/tmp/harbor.crt
-#pk12util -o /tmp/key.p12 -n 'harbor' -d . -k pwdfile.txt
-#openssl pkcs12 -in key.p12 -out /tmp/harbor.key -nodes
-cd "$pwd" || exit
 
 systemctl start docker
 systemctl enable docker
