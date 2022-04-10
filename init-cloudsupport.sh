@@ -54,14 +54,6 @@ fi
 
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 
-echo "{CENTOS_ADMIN_PWD_123456789012}" | kinit admin
-ipa service-add HTTP/"$SUPPORT_VIP_DNS"
-ipa-getcert request \
-        -K HTTP/"$SUPPORT_VIP_DNS" \
-        -f /tmp/harbor.crt \
-        -k /tmp/harbor.key \
-        -D "$SUPPORT_VIP_DNS"
-
 systemctl start docker
 systemctl enable docker
 chkconfig docker on
