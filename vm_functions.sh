@@ -490,6 +490,7 @@ function join_machine_to_domain() {
                       --server="$IPA_SERVER" \
                       --mkhomedir \
                       --enable-dns-updates \
+                      --force-join \
                       -w "$ADMIN_PASSWORD" -U -q > /tmp/ipa-join
 
   ### if possible, restart selinux

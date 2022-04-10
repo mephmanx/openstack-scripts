@@ -52,6 +52,23 @@ if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   systemctl enable --now dnf-automatic.timer
 fi
 
+echo "{CENTOS_ADMIN_PWD_123456789012}" | kinit admin
+ipa service-add HTTP/"$SUPPORT_VIP_DNS"
+pwd=$(pwd)
+mkdir -p /etc/httpd/nssdb; cd /etc/httpd/nssdb || exit
+certutil -N -d .
+chown :apache *.db && chmod g+rw *.db
+semanage fcontext -a -t cert_t "/etc/httpd/nssdb(/.*)?"
+restorecon -FvvR /etc/httpd/nssdb/
+echo {CENTOS_ADMIN_PWD_123456789012} > pwdfile.txt
+chmod o-rwx pwdfile.txt
+ipa-getcert request -K HTTP/"$SUPPORT_VIP_DNS" -d /etc/httpd/nssdb/ -n harbor -p /etc/httpd/nssdb/pwdfile.txt -D "$SUPPORT_VIP_DNS"
+SERIAL_NUMBER=$(certutil -L -d . -n harbor | grep "Serial Number" | awk -F':' '{ print $2 }' | awk -F'(' '{ print $1 }' | sed 's/ //g')
+ipa cert-show "$SERIAL_NUMBER" --out=/tmp/harbor.crt
+pk12util -o /tmp/key.p12 -n 'harbor' -d . -k pwdfile.txt
+openssl pkcs12 -in key.p12 -out /tmp/harbor.key -nodes
+cd "$pwd" || exit
+
 systemctl start docker
 systemctl enable docker
 chkconfig docker on
@@ -92,12 +109,7 @@ source /tmp/project_config.sh
 
 sleep 3
 
-cat > /etc/docker/daemon.json << EOF
-{
- "insecure-registries": ["$SUPPORT_VIP_DNS"]
-}
-EOF
-
+systemctl restart docker
 docker login -u admin -p {CENTOS_ADMIN_PWD_123456789012} "$SUPPORT_VIP_DNS"
 
 #setup repo server

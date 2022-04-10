@@ -14,8 +14,8 @@ https:
   # https port for harbor, default is 443
   port: 443
   # The path of cert and key files for nginx
-  certificate: /tmp/wildcard.crt
-  private_key: /tmp/wildcard.key
+  certificate: /tmp/harbor.crt
+  private_key: /tmp/harbor.key
 
 # Uncomment external_url if you want to enable external proxy
 # And when it enabled the hostname will no longer used

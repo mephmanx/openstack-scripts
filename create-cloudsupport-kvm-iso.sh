@@ -36,8 +36,6 @@ embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
               '/tmp/id_rsa.pub'
               '/tmp/openstack-setup.key'
               '/tmp/openstack-setup.key.pub'
-              '/tmp/wildcard.crt'
-              '/tmp/wildcard.key'
               '/tmp/openstack-scripts/harbor.yml'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
