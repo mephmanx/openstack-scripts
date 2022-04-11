@@ -61,7 +61,7 @@ export LINUX_AUTOUPDATE=1
 
 ## library versions
 ## this will force cache update if changed
-export HARBOR_VERSION="v2.4.1"
+export HARBOR_VERSION="v2.5.0-rc4"
 export PFSENSE_VERSION="2.5.2"
 export MAGNUM_IMAGE_VERSION="Fedora-Atomic-27-20180419.0"
 export CF_ATTIC_TERRAFORM_VERSION="0.11.15"

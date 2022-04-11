@@ -495,14 +495,6 @@ function join_machine_to_domain() {
 
   ### if possible, restart selinux
   runuser -l root -c "sed -i 's/\(SELINUX\=\).*/\1enabled/' /etc/selinux/config"
-
-  echo "$ADMIN_PASSWORD" | kinit admin
-  ipa service-add HTTP/"$(hostname)"
-  ipa-getcert request \
-          -K HTTP/"$(hostname)" \
-          -f /tmp/"$(hostname -s)".crt \
-          -k /tmp/"$(hostname -s)".key \
-          -D "$(hostname)"
 }
 
 function baseDN() {

@@ -54,6 +54,14 @@ fi
 
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 
+echo "{CENTOS_ADMIN_PWD_123456789012}" | kinit admin
+ipa service-add HTTP/"$(hostname)"
+ipa-getcert request \
+          -K HTTP/"$(hostname)" \
+          -f /tmp/"$(hostname -s)".crt \
+          -k /tmp/"$(hostname -s)".key \
+          -D "$(hostname)"
+
 systemctl start docker
 systemctl enable docker
 chkconfig docker on
@@ -83,8 +91,7 @@ cat > /tmp/harbor.json << EOF
 EOF
 
 etext=$(echo -n "admin:{CENTOS_ADMIN_PWD_123456789012}" | base64)
-cd /tmp || exit
-curl -k -H  "authorization: Basic $etext" -X POST -H "Content-Type: application/json" "https://$SUPPORT_VIP_DNS/api/v2.0/projects" -d @harbor.json
+curl -k -H  "authorization: Basic $etext" -X POST -H "Content-Type: application/json" "https://$SUPPORT_VIP_DNS/api/v2.0/projects" -d @/tmp/harbor.json
 
 #### populate harbor with openstack images
 #grafana fluentd zun not build
