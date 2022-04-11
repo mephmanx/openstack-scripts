@@ -537,14 +537,13 @@ EOF
 
 function prepare_special_file() {
   in_file=$1
-
   ## create duplicate of key to find, remove first line (----BEGIN, etc) so as not to return the index of other keys in iso
   ## and then replace from that index.  The headers (and footers technically) are the same so should be safe.
   if [ -f "$in_file".repl ]; then
-    echo "replace contents exist, no prep needed"
+    echo "$in_file : replace contents exist, no prep needed"
     return
   fi
-  echo "creating replace contents file"
+  echo "$in_file : creating replace contents file"
   cp "$in_file" "$in_file".repl
   sed -i '1d' "$in_file".repl
   sed -i '$d' "$in_file".repl
