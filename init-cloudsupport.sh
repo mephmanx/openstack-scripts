@@ -84,12 +84,25 @@ chmod 700 ./*.sh
 runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --with-chartmuseum"
 
 sleep 30
+
+### check for docker login success
+## copy loop into startup script to verify start after vm reboot
+
 runuser -l root -c  "cd /root/harbor; docker-compose down"
-sleep 20
+sleep 30
 runuser -l root -c  "cd /root/harbor; ./prepare"
-sleep 20
+sleep 30
 runuser -l root -c  "cd /root/harbor; docker-compose up -d"
-sleep 120
+sleep 30
+
+
+runuser -l root -c  "cd /root/harbor; docker-compose down"
+sleep 30
+runuser -l root -c  "cd /root/harbor; ./prepare"
+sleep 30
+runuser -l root -c  "cd /root/harbor; docker-compose up -d"
+sleep 30
+## continue when docker login succeeds
 telegram_notify  "Cloudsupport VM starting to process openstack images"
 ##########################
 cat > /tmp/harbor.json << EOF
@@ -104,8 +117,6 @@ curl -k -H  "authorization: Basic $etext" -X POST -H "Content-Type: application/
 source /tmp/project_config.sh
 
 sleep 3
-
-systemctl restart docker
 docker login -u admin -p "{CENTOS_ADMIN_PWD_123456789012}" "$SUPPORT_VIP_DNS"
 
 #setup repo server
