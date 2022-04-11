@@ -652,6 +652,8 @@ EOF
 }
 
 function replace_values_in_root_isos() {
+
+  shopt -s nullglob
   ### replace values in isos for certs and pwds ########
   ## cert list
 #  DIRECTORY_MGR_PWD=$(generate_random_pwd 31)
@@ -672,7 +674,6 @@ function replace_values_in_root_isos() {
 
   prepare_special_file /root/.ssh/id_rsa.crt
   prepare_special_file /root/.ssh/id_rsa
-  prepare_special_file /tmp/openstack-setup.key
   prepare_special_file /tmp/key-bak/openstack-setup.key
   ##########
 
