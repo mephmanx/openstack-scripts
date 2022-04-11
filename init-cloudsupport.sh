@@ -84,11 +84,11 @@ chmod 700 ./*.sh
 runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --with-chartmuseum"
 
 sleep 30
-runuser -l root -c  "docker-compose down"
+runuser -l root -c  "cd /root/harbor; docker-compose down"
 sleep 20
-runuser -l root -c  "./prepare"
+runuser -l root -c  "cd /root/harbor; ./prepare"
 sleep 20
-runuser -l root -c  "docker-compose up -d"
+runuser -l root -c  "cd /root/harbor; docker-compose up -d"
 sleep 120
 telegram_notify  "Cloudsupport VM starting to process openstack images"
 ##########################
