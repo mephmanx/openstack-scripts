@@ -81,7 +81,7 @@ sed -i "s/{DATABASE_PASSWORD}/$(generate_random_pwd 31)/g" /root/harbor/harbor.y
 cd /root/harbor || exit
 chmod 700 ./*.sh
 
-runuser -l root -c  "cd /root/harbor; ./install.sh --with-notary --with-trivy --with-chartmuseum"
+runuser -l root -c  "cd /root/harbor; ./prepare ; ./install.sh --with-notary --with-trivy --with-chartmuseum"
 
 sleep 30
 telegram_notify  "Cloudsupport VM starting to process openstack images"

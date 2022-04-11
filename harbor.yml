@@ -18,11 +18,11 @@ https:
   private_key: /tmp/harbor.key
 
 # # Uncomment following will enable tls communication between all harbor components
- internal_tls:
+#internal_tls:
 #   # set enabled to true means internal tls is enabled
-   enabled: true
+#  enabled: true
 #   # put your cert and key files on dir
-   dir: /etc/harbor/tls/internal
+#  dir: /etc/harbor/tls/internal
 
 # Uncomment external_url if you want to enable external proxy
 # And when it enabled the hostname will no longer used
