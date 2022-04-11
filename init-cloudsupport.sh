@@ -100,7 +100,7 @@ source /tmp/project_config.sh
 sleep 3
 
 systemctl restart docker
-docker login -u admin -p {CENTOS_ADMIN_PWD_123456789012} "$SUPPORT_VIP_DNS"
+docker login -u admin -p "{CENTOS_ADMIN_PWD_123456789012}" "$SUPPORT_VIP_DNS"
 
 #setup repo server
 sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
