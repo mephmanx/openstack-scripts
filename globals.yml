@@ -226,7 +226,7 @@ neutron_bridge_name: "br-ex,br-lbaas"
 # TLS can be enabled.  When TLS is enabled, certificates must be provided to
 # allow clients to perform authentication.
 #kolla_enable_tls_internal: "no"
-kolla_enable_tls_external: "yes"
+#kolla_enable_tls_external: "no"
 #kolla_certificates_dir: "{{ node_config }}/certificates"
 #kolla_external_fqdn_cert: "{{ kolla_certificates_dir }}/haproxy.pem"
 #kolla_internal_fqdn_cert: "{{ kolla_certificates_dir }}/haproxy-internal.pem"
