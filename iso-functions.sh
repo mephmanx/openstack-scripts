@@ -164,7 +164,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/storage_hosts'
                 "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2"
                 '/tmp/openstack-scripts/kolla.sh'
-                '/tmp/openstack-scripts/globals.yml'
+                '/tmp/harbor/globals.yml'
                 '/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/openstack-env.sh'
                 '/tmp/openstack-scripts/init-cloud_common.sh'

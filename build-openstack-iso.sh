@@ -156,7 +156,7 @@ if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f 
     #### add build images
     mv /out/centos-binary-base-"${OPENSTACK_VERSION}".tar /tmp/harbor
     mv /out/kolla_"${OPENSTACK_VERSION}"_rpm_repo.tar.gz /tmp/harbor
-    mv /out/globals.yml ./globals.yml
+    mv /out/globals.yml /tmp/harbor
     rm -rf /out
     ### add copied images
     docker pull kolla/centos-source-kuryr-libnetwork:wallaby && docker save kolla/centos-source-kuryr-libnetwork:wallaby >/tmp/harbor/centos-source-kuryr-libnetwork.tar
