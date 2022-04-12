@@ -11,6 +11,13 @@ source /tmp/project_config.sh
 
 IFS=
 
+
+## temporary override until identity/pfsense integration is complete
+## issue is that identity signing cert is different than the cert on pfsense so to remove, pfsense (haproxy) cert needs to come from identity
+SUPPORT_VIP_DNS="$SUPPORT_HOST.$DOMAIN_NAME"
+echo "runuser -l root -c  'echo "$SUPPORT_VIP $SUPPORT_VIP_DNS" >> /etc/hosts;'" >> /tmp/dns_hosts
+####
+
 ##################### Prep
 runuser -l root -c 'rm -rf /tmp/additional_hosts'
 touch /tmp/additional_hosts
