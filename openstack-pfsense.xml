@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <pfsense>
-	<version>21.7</version>
+	<version>22.2</version>
 	<lastchange></lastchange>
 	<system>
 		<optimization>normal</optimization>
@@ -113,7 +113,6 @@
 		<nologdefaultblock></nologdefaultblock>
 		<nologbogons></nologbogons>
 		<nologprivatenets></nologprivatenets>
-		<dnsallowoverride></dnsallowoverride>
 		<crypto_hardware>aesni_cryptodev</crypto_hardware>
 		<mds_disable>0</mds_disable>
 		<use_mfs_tmp_size></use_mfs_tmp_size>
@@ -164,6 +163,8 @@
 			<ldap_binddn><![CDATA[cn=Directory Manager]]></ldap_binddn>
 			<ldap_bindpw><![CDATA[{DIRECTORY_MGR_PWD_12345678901}]]></ldap_bindpw>
 		</authserver>
+		<dnsallowoverride></dnsallowoverride>
+		<acb></acb>
 	</system>
 	<interfaces>
 		<wan>
@@ -387,11 +388,11 @@
 			</destination>
 			<log></log>
 			<created>
-				<time>1639850594</time>
+				<time>1649685812</time>
 				<username><![CDATA[Auto]]></username>
 			</created>
 			<interface>wan</interface>
-			<tracker>1770009861</tracker>
+			<tracker>1770009781</tracker>
 		</rule>
 		<rule>
 			<quick>yes</quick>
@@ -408,7 +409,7 @@
 			</destination>
 			<log></log>
 			<created>
-				<time>1639850594</time>
+				<time>1649685812</time>
 				<username><![CDATA[Auto]]></username>
 			</created>
 			<interface>lan</interface>
@@ -713,7 +714,8 @@
 	</filter>
 	<shaper></shaper>
 	<ipsec>
-		<vtimaps></vtimaps>
+		<vtimaps>
+		</vtimaps>
 	</ipsec>
 	<aliases>
 		<alias>
@@ -851,6 +853,15 @@
 			<command>/usr/local/bin/php /usr/local/www/pfblockerng/pfblockerng.php cron &gt;&gt; /var/log/pfblockerng/pfblockerng.log 2&gt;&amp;1</command>
 		</item>
 		<item>
+			<minute>1</minute>
+			<hour>1</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>cd /root/pfsense-scripts;./pfsense-cloud-backup.sh</command>
+		</item>
+		<item>
 			<minute>*/5</minute>
 			<hour>*</hour>
 			<mday>*</mday>
@@ -860,6 +871,15 @@
 			<command>/usr/bin/nice -n20 /usr/local/bin/php -f /usr/local/pkg/snort/snort_check_cron_misc.inc</command>
 		</item>
 		<item>
+			<minute>*/5</minute>
+			<hour>*</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/bin/nice -n20 /sbin/pfctl -q -t snort2c -T expire 3600</command>
+		</item>
+		<item>
 			<minute>4</minute>
 			<hour>0</hour>
 			<mday>*/1</mday>
@@ -867,15 +887,6 @@
 			<wday>*</wday>
 			<who>root</who>
 			<command>/usr/bin/nice -n20 /usr/local/bin/php -f /usr/local/pkg/snort/snort_check_for_rule_updates.php</command>
-		</item>
-		<item>
-			<minute>1</minute>
-			<hour>1</hour>
-			<mday>*</mday>
-			<month>*</month>
-			<wday>*</wday>
-			<who>root</who>
-			<command>cd /root/pfsense-scripts;./pfsense-cloud-backup.sh</command>
 		</item>
 		<item>
 			<minute>0</minute>
@@ -895,22 +906,13 @@
 			<who>root</who>
 			<command>/usr/local/pkg/swapstate_check.php</command>
 		</item>
-		<item>
-			<minute>*/5</minute>
-			<hour>*</hour>
-			<mday>*</mday>
-			<month>*</month>
-			<wday>*</wday>
-			<who>root</who>
-			<command>/usr/bin/nice -n20 /sbin/pfctl -q -t snort2c -T expire 3600</command>
-		</item>
 	</cron>
 	<wol></wol>
 	<rrd>
 		<enable></enable>
 	</rrd>
 	<widgets>
-		<sequence>system_information:col1:open:0,gateways:col1:open:0,interfaces:col1:open:0,snort_alerts:col2:open:0,log:col2:open:0,pfblockerng:col2:open:0,haproxy:col3:open:0</sequence>
+		<sequence>system_information:col1:open:0,gateways:col1:open:0,interfaces:col1:open:0,log:col2:open:0,haproxy:col3:open:0,pfblockerng:col2:open:0,snort_alerts:col2:open:0</sequence>
 		<period>10</period>
 		<system_information-0>
 			<filter>system,bios,cpu_type,hwcrypto,pti,mds,state_table_size,mbuf_usage,load_average,swap_usage,disk_usage</filter>
@@ -1051,8 +1053,8 @@
 		<dns64netbits>96</dns64netbits>
 	</unbound>
 	<revision>
-		<time>1640740004</time>
-		<description><![CDATA[(system): Installed cron job for /usr/local/bin/perl /usr/local/www/lightsquid/lightparser.pl yesterday]]></description>
+		<time>1649797019</time>
+		<description><![CDATA[(system): Upgraded config version level from 21.7 to 22.2]]></description>
 		<username><![CDATA[(system)]]></username>
 	</revision>
 	<ppps></ppps>
@@ -1084,22 +1086,16 @@
 			<url>/packages/cron/cron.php</url>
 		</menu>
 		<menu>
-			<name>HAProxy</name>
-			<tooltiptext></tooltiptext>
-			<section>Services</section>
-			<url>/haproxy/haproxy_listeners.php</url>
-		</menu>
-		<menu>
-			<name>HAProxy Stats</name>
-			<tooltiptext>Stats of HAProxy</tooltiptext>
-			<section>Status</section>
-			<url>/haproxy/haproxy_stats.php?haproxystats=1</url>
-		</menu>
-		<menu>
 			<name>Telegraf</name>
 			<section>Services</section>
 			<configfile>telegraf.xml</configfile>
 			<url>/pkg_edit.php?xml=telegraf.xml</url>
+		</menu>
+		<menu>
+			<name>Shellcmd</name>
+			<section>Services</section>
+			<configfile>shellcmd.xml</configfile>
+			<url>/pkg.php?xml=shellcmd.xml</url>
 		</menu>
 		<menu>
 			<name>pfBlockerNG</name>
@@ -1125,10 +1121,16 @@
 			<url>/pkg_edit.php?xml=squid_reverse_general.xml&amp;id=0</url>
 		</menu>
 		<menu>
-			<name>Shellcmd</name>
+			<name>HAProxy</name>
+			<tooltiptext></tooltiptext>
 			<section>Services</section>
-			<configfile>shellcmd.xml</configfile>
-			<url>/pkg.php?xml=shellcmd.xml</url>
+			<url>/haproxy/haproxy_listeners.php</url>
+		</menu>
+		<menu>
+			<name>HAProxy Stats</name>
+			<tooltiptext>Stats of HAProxy</tooltiptext>
+			<section>Status</section>
+			<url>/haproxy/haproxy_stats.php?haproxystats=1</url>
 		</menu>
 		<haproxy>
 			<ha_backends>
@@ -1993,13 +1995,6 @@
 							<_index></_index>
 						</item>
 						<item>
-							<name>cockpit</name>
-							<expression>host_contains</expression>
-							<value>cockpit</value>
-							<backendservercountbackend>ceilometer</backendservercountbackend>
-							<_index></_index>
-						</item>
-						<item>
 							<name>harbor</name>
 							<expression>host_contains</expression>
 							<value>harbor</value>
@@ -2059,12 +2054,6 @@
 							<action>use_backend</action>
 							<acl>grafana</acl>
 							<use_backendbackend>grafana</use_backendbackend>
-							<_index></_index>
-						</item>
-						<item>
-							<action>use_backend</action>
-							<acl>cockpit</acl>
-							<use_backendbackend>cockpit</use_backendbackend>
 							<_index></_index>
 						</item>
 						<item>
@@ -2249,7 +2238,6 @@
 							<name>murano-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>8082</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -2320,7 +2308,6 @@
 							<name>cender-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>8776</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -2461,7 +2448,6 @@
 							<name>nova-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>8774</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -2602,7 +2588,6 @@
 							<name>nova-compute-2-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>8775</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -2673,7 +2658,6 @@
 							<name>nova-conpute-vnc-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>6080</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -2884,7 +2868,6 @@
 							<name>keystone-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>5000</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -2955,7 +2938,6 @@
 							<name>glance-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>9292</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -3026,7 +3008,6 @@
 							<name>neutron-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>9696</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -3097,7 +3078,6 @@
 							<name>heat-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>8004</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -3168,7 +3148,6 @@
 							<name>heat-ows-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>8000</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -3449,7 +3428,6 @@
 							<name>horizon-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>443</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -3590,7 +3568,6 @@
 							<name>swift-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>8080</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -3661,7 +3638,6 @@
 							<name>octavia-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>9876</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -3732,7 +3708,6 @@
 							<name>magnum-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>9511</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -3803,7 +3778,6 @@
 							<name>placement-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>8780</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -3874,7 +3848,6 @@
 							<name>key-manager-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>9311</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -3945,7 +3918,6 @@
 							<name>metric-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>8041</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -4016,7 +3988,6 @@
 							<name>trove-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>8779</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -4087,7 +4058,6 @@
 							<name>designate-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>9001</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -4366,77 +4336,6 @@
 					<ha_servers>
 						<item>
 							<status>active</status>
-							<name>cockpit</name>
-							<address>{NETWORK_PREFIX}.2</address>
-							<port>9090</port>
-							<ssl>yes</ssl>
-							<id>214</id>
-							<_index></_index>
-						</item>
-					</ha_servers>
-					<a_acl></a_acl>
-					<a_actionitems></a_actionitems>
-					<errorfiles></errorfiles>
-					<advanced></advanced>
-					<advanced_backend>{ADVANCED_BACKEND}</advanced_backend>
-					<name>cockpit</name>
-					<balance></balance>
-					<balance_urilen></balance_urilen>
-					<balance_uridepth></balance_uridepth>
-					<balance_uriwhole></balance_uriwhole>
-					<transparent_clientip></transparent_clientip>
-					<transparent_interface>lan</transparent_interface>
-					<check_type>none</check_type>
-					<checkinter>30000</checkinter>
-					<log-health-checks></log-health-checks>
-					<httpcheck_method>GET</httpcheck_method>
-					<monitor_uri></monitor_uri>
-					<monitor_httpversion></monitor_httpversion>
-					<monitor_username></monitor_username>
-					<monitor_domain></monitor_domain>
-					<monitor_agentport>cockpit</monitor_agentport>
-					<agent_check></agent_check>
-					<agent_port></agent_port>
-					<agent_inter></agent_inter>
-					<connection_timeout>2147483647</connection_timeout>
-					<server_timeout>2147483647</server_timeout>
-					<retries>5</retries>
-					<stats_enabled></stats_enabled>
-					<stats_username></stats_username>
-					<stats_password></stats_password>
-					<stats_uri></stats_uri>
-					<stats_scope></stats_scope>
-					<stats_realm></stats_realm>
-					<stats_admin></stats_admin>
-					<stats_node></stats_node>
-					<stats_desc></stats_desc>
-					<stats_refresh></stats_refresh>
-					<persist_stick_expire></persist_stick_expire>
-					<persist_stick_tablesize></persist_stick_tablesize>
-					<persist_stick_length></persist_stick_length>
-					<persist_stick_cookiename></persist_stick_cookiename>
-					<persist_sticky_type>none</persist_sticky_type>
-					<persist_cookie_enabled></persist_cookie_enabled>
-					<persist_cookie_name></persist_cookie_name>
-					<persist_cookie_mode>passive</persist_cookie_mode>
-					<persist_cookie_cachable></persist_cookie_cachable>
-					<persist_cookie_postonly></persist_cookie_postonly>
-					<persist_cookie_httponly></persist_cookie_httponly>
-					<persist_cookie_secure></persist_cookie_secure>
-					<haproxy_cookie_maxidle></haproxy_cookie_maxidle>
-					<haproxy_cookie_maxlife></haproxy_cookie_maxlife>
-					<haproxy_cookie_domains></haproxy_cookie_domains>
-					<haproxy_cookie_dynamic_cookie_key></haproxy_cookie_dynamic_cookie_key>
-					<strict_transport_security>31536000</strict_transport_security>
-					<cookie_attribute_secure>yes</cookie_attribute_secure>
-					<email_level></email_level>
-					<email_to></email_to>
-					<id>215</id>
-				</item>
-				<item>
-					<ha_servers>
-						<item>
-							<status>active</status>
 							<name>cloudfoundry-lb</name>
 							<address>{CLOUDFOUNDRY_VIP}</address>
 							<ssl>yes</ssl>
@@ -4652,7 +4551,6 @@
 							<name>manilla-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>8786</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -4723,7 +4621,6 @@
 							<name>magnum-infra-external</name>
 							<address>{EXTERNAL_VIP}</address>
 							<port>9517</port>
-							<ssl>yes</ssl>
 							<id>101</id>
 							<_index></_index>
 						</item>
@@ -5027,12 +4924,6 @@
 			<email_mailers></email_mailers>
 		</haproxy>
 		<service>
-			<name>haproxy</name>
-			<rcfile>haproxy.sh</rcfile>
-			<executable>haproxy</executable>
-			<description><![CDATA[TCP/HTTP(S) Load Balancer]]></description>
-		</service>
-		<service>
 			<name>telegraf</name>
 			<rcfile>telegraf.sh</rcfile>
 			<executable>telegraf</executable>
@@ -5073,6 +4964,12 @@
 			<rcfile>c-icap.sh</rcfile>
 			<executable>c-icap</executable>
 			<description><![CDATA[ICAP Interface for Squid and ClamAV integration]]></description>
+		</service>
+		<service>
+			<name>haproxy</name>
+			<rcfile>haproxy.sh</rcfile>
+			<executable>haproxy</executable>
+			<description><![CDATA[TCP/HTTP(S) Load Balancer]]></description>
 		</service>
 		<squidcache>
 			<config>
@@ -5175,9 +5072,10 @@
 				</item>
 			</serverconfig>
 			<defaultsettings></defaultsettings>
+			<config></config>
 		</vpn_openvpn_export>
 		<snortglobal>
-			<snort_config_ver>4.1.5</snort_config_ver>
+			<snort_config_ver>4.1.5_2</snort_config_ver>
 			<snortdownload>on</snortdownload>
 			<snortcommunityrules>on</snortcommunityrules>
 			<emergingthreats>on</emergingthreats>
@@ -5434,6 +5332,7 @@
 			</sid_mgmt_lists>
 			<sid_list_migration>2</sid_list_migration>
 			<rule_update_starttime>00:04</rule_update_starttime>
+			<dashboard_widget>snort_alerts:col2:open:0</dashboard_widget>
 		</snortglobal>
 		<telegraf>
 			<config>
@@ -5751,7 +5650,7 @@
 			It includes an Exchange-Web-Access (OWA) Assistant, SSL filtering and antivirus integration via C-ICAP.]]></descr>
 			<pkginfolink>https://forum.netgate.com/category/52/cache-proxy</pkginfolink>
 			<website>http://www.squid-cache.org/</website>
-			<version>0.4.45_5</version>
+			<version>0.4.45_8</version>
 			<configurationfile>squid.xml</configurationfile>
 			<filter_rule_function>squid_generate_rules</filter_rule_function>
 			<plugins></plugins>
@@ -5785,7 +5684,7 @@
 			<name>OpenVPN Client Export Utility</name>
 			<internal_name>openvpn-client-export</internal_name>
 			<descr><![CDATA[Allows a pre-configured OpenVPN Windows Client or Mac OS X's Viscosity configuration bundle to be exported directly from pfSense.]]></descr>
-			<version>1.6_2</version>
+			<version>1.6_4</version>
 			<configurationfile>openvpn-client-export.xml</configurationfile>
 			<tabs>
 				<tab>
@@ -5811,7 +5710,7 @@
 			Advanced Integration for Proofpoint ET IQRisk IP Reputation Threat Sources.&lt;br /&gt;
 			Domain Name (DNSBL) blocking via Unbound DNS Resolver.]]></descr>
 			<pkginfolink>https://forum.netgate.com/topic/158592/pfblockerng-devel-v3-0-0-no-longer-bound-by-unbound/43</pkginfolink>
-			<version>3.1.0</version>
+			<version>3.1.0_4</version>
 			<configurationfile>pfblockerng.xml</configurationfile>
 		</package>
 		<package>
@@ -5819,7 +5718,7 @@
 			<pkginfolink>https://docs.netgate.com/pfsense/en/latest/packages/snort/index.html</pkginfolink>
 			<website>http://www.snort.org</website>
 			<descr><![CDATA[Snort is an open source network intrusion prevention and detection system (IDS/IPS). Combining the benefits of signature, protocol, and anomaly-based inspection.]]></descr>
-			<version>4.1.5</version>
+			<version>4.1.5_2</version>
 			<configurationfile>/snort.xml</configurationfile>
 			<after_install_info>Please visit Services - Snort - Interfaces tab first and select your desired rules. Afterwards visit the Updates tab to download your configured rulesets.</after_install_info>
 		</package>
