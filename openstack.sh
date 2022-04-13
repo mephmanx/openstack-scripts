@@ -6,7 +6,6 @@
 # Source function library.
 . /etc/init.d/functions
 . /tmp/vm_functions.sh
-. /tmp/vm-configurations.sh
 . /tmp/project_config.sh
 
 start() {

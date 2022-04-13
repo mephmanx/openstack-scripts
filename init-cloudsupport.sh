@@ -161,7 +161,7 @@ docker tag "$(docker images |grep centos-source-kuryr-libnetwork|awk '{print $3}
 cat > /tmp/local.repo <<EOF
 [kolla_local]
 name=kolla_local
-baseurl=http://localhost:8080/kolla_"$OPENSTACK_VERSION"
+baseurl=http://localhost:8080/kolla_$OPENSTACK_VERSION
 enabled=1
 gpgcheck=0
 EOF
