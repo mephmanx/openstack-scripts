@@ -119,6 +119,8 @@ source /tmp/project_config.sh
 sleep 3
 docker login -u admin -p "{CENTOS_ADMIN_PWD_123456789012}" "$SUPPORT_VIP_DNS"
 
+dnf module enable mod_auth_openidc -y
+yum install -y mod_auth_openidc
 #setup repo server
 sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
 systemctl restart httpd
