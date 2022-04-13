@@ -124,11 +124,11 @@ sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
 systemctl restart httpd
 
 #setup kolla docker rpm repo for build
-mv /tmp/kolla_w_rpm_repo.tar.gz /var/www/html/
-cd /var/www/html && tar xf /var/www/html/kolla_w_rpm_repo.tar.gz
+mv /tmp/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz /var/www/html/
+cd /var/www/html && tar xf /var/www/html/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz
 echo 'local rpm repo server setup finish!'
 
-docker load < /tmp/centos-binary-base-w.tar
+docker load < /tmp/centos-binary-base-"$OPENSTACK_VERSION".tar
 docker load < /tmp/centos-source-kolla-toolbox.tar
 docker load < /tmp/centos-source-zun-compute.tar
 docker load < /tmp/centos-source-zun-wsproxy.tar
