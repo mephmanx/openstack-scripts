@@ -150,7 +150,7 @@ if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f 
     mkdir /tmp/harbor
     rm -rf /out
     mkdir /out
-    docker pull mephmanx/os-airgap:latest
+    docker pull "$DOCKER_OPENSTACK_OFFLINE_IMAGE"
     docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out "$DOCKER_OPENSTACK_OFFLINE_IMAGE"
 
     #### add build images
@@ -159,15 +159,15 @@ if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f 
     mv /out/globals.yml /tmp/harbor
     rm -rf /out
     ### add copied images
-    docker pull kolla/centos-source-kuryr-libnetwork:wallaby && docker save kolla/centos-source-kuryr-libnetwork:wallaby >/tmp/harbor/centos-source-kuryr-libnetwork.tar
-    docker pull kolla/centos-source-kolla-toolbox:wallaby && docker save kolla/centos-source-kolla-toolbox:wallaby >/tmp/harbor/centos-source-kolla-toolbox.tar
-    docker pull kolla/centos-source-zun-compute:wallaby && docker save kolla/centos-source-zun-compute:wallaby >/tmp/harbor/centos-source-zun-compute.tar
-    docker pull kolla/centos-source-zun-wsproxy:wallaby && docker save kolla/centos-source-zun-wsproxy:wallaby >/tmp/harbor/centos-source-zun-wsproxy.tar
-    docker pull kolla/centos-source-zun-api:wallaby && docker save kolla/centos-source-zun-api:wallaby >/tmp/harbor/centos-source-zun-api.tar
-    docker pull kolla/centos-source-zun-cni-daemon:wallaby && docker save kolla/centos-source-zun-cni-daemon:wallaby >/tmp/harbor/centos-source-zun-cni-daemon.tar
-    docker pull kolla/centos-binary-fluentd:wallaby && docker save kolla/centos-binary-fluentd:wallaby >/tmp/harbor/centos-binary-fluentd.tar
-    docker pull kolla/centos-binary-grafana:wallaby && docker save kolla/centos-binary-grafana:wallaby >/tmp/harbor/centos-binary-grafana.tar
-    docker pull kolla/centos-binary-elasticsearch-curator:wallaby && docker save kolla/centos-binary-elasticsearch-curator:wallaby >/tmp/harbor/centos-binary-elasticsearch-curator.tar
+    docker pull kolla/centos-source-kuryr-libnetwork:"$OPENSTACK_VERSION" && docker save kolla/centos-source-kuryr-libnetwork:"$OPENSTACK_VERSION" >/tmp/harbor/centos-source-kuryr-libnetwork.tar
+    docker pull kolla/centos-source-kolla-toolbox:"$OPENSTACK_VERSION" && docker save kolla/centos-source-kolla-toolbox:"$OPENSTACK_VERSION" >/tmp/harbor/centos-source-kolla-toolbox.tar
+    docker pull kolla/centos-source-zun-compute:"$OPENSTACK_VERSION" && docker save kolla/centos-source-zun-compute:"$OPENSTACK_VERSION" >/tmp/harbor/centos-source-zun-compute.tar
+    docker pull kolla/centos-source-zun-wsproxy:"$OPENSTACK_VERSION" && docker save kolla/centos-source-zun-wsproxy:"$OPENSTACK_VERSION" >/tmp/harbor/centos-source-zun-wsproxy.tar
+    docker pull kolla/centos-source-zun-api:"$OPENSTACK_VERSION" && docker save kolla/centos-source-zun-api:"$OPENSTACK_VERSION" >/tmp/harbor/centos-source-zun-api.tar
+    docker pull kolla/centos-source-zun-cni-daemon:"$OPENSTACK_VERSION" && docker save kolla/centos-source-zun-cni-daemon:"$OPENSTACK_VERSION" >/tmp/harbor/centos-source-zun-cni-daemon.tar
+    docker pull kolla/centos-binary-fluentd:"$OPENSTACK_VERSION" && docker save kolla/centos-binary-fluentd:"$OPENSTACK_VERSION" >/tmp/harbor/centos-binary-fluentd.tar
+    docker pull kolla/centos-binary-grafana:"$OPENSTACK_VERSION" && docker save kolla/centos-binary-grafana:"$OPENSTACK_VERSION" >/tmp/harbor/centos-binary-grafana.tar
+    docker pull kolla/centos-binary-elasticsearch-curator:"$OPENSTACK_VERSION" && docker save kolla/centos-binary-elasticsearch-curator:"$OPENSTACK_VERSION" >/tmp/harbor/centos-binary-elasticsearch-curator.tar
 fi
 
 
