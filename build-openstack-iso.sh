@@ -18,6 +18,8 @@ rm -rf /var/tmp/*
 
 ## make sure libs are installed
 yum install -y wget zip
+yum update -y
+dnf update -y
 
 rm -rf /tmp/linux.iso
 docker pull "$DOCKER_LINUX_BUILD_IMAGE"
