@@ -3427,7 +3427,7 @@
 							<status>active</status>
 							<name>horizon-external</name>
 							<address>{EXTERNAL_VIP}</address>
-							<port>443</port>
+							<port>80</port>
 							<id>101</id>
 							<_index></_index>
 						</item>
