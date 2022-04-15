@@ -106,7 +106,7 @@
 		<disablechecksumoffloading></disablechecksumoffloading>
 		<language>en_US</language>
 		<dns1host></dns1host>
-		<shellcmd>/root/openstack-scripts/pfsense-init.sh</shellcmd>
+		<shellcmd>/root/pfsense-init.sh</shellcmd>
 		<afterfilterchangeshellcmd></afterfilterchangeshellcmd>
 		<nologdefaultpass></nologdefaultpass>
 		<logall></logall>
@@ -5630,7 +5630,7 @@
 		</pfblockerngreputation>
 		<shellcmdsettings>
 			<config>
-				<cmd>/root/openstack-scripts/pfsense-init.sh</cmd>
+				<cmd>/root/pfsense-init.sh</cmd>
 				<cmdtype>shellcmd</cmdtype>
 				<description><![CDATA[PFSense init script]]></description>
 			</config>

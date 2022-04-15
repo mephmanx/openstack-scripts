@@ -11,7 +11,7 @@ IFS=
 function initialKickstartSetup {
   vm=$1
   printf -v vm_type_n '%s\n' "${vm//[[:digit:]]/}"
-  vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
+  vm_type=$(tr -dc '[:print:]' <<< "$vm_type_n")
   TZ=$(timedatectl | awk '/Time zone:/ {print $3}')
   TIMEZONE=$(echo "$TZ" | sed 's/\//\\\\\//g')
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
@@ -132,9 +132,8 @@ function buildAndPushOpenstackSetupISO {
 
   ########## add host trust script
   touch /tmp/host-trust.sh
-  cat /tmp/dns_hosts >> /tmp/host-trust.sh
+  { cat /tmp/dns_hosts; cat /tmp/additional_hosts; } >> /tmp/host-trust.sh
   echo  "$1" >> /tmp/host-trust.sh
-  cat /tmp/additional_hosts >> /tmp/host-trust.sh
   #####################
 
   ############ control hack script

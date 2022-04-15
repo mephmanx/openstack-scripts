@@ -138,7 +138,7 @@ docker load < /tmp/centos-source-kuryr-libnetwork.tar
 docker load < /tmp/centos-binary-fluentd.tar
 docker load < /tmp/centos-binary-grafana.tar
 docker load < /tmp/centos-binary-elasticsearch-curator.tar
-docker load < /tmp/centos-centos-binary-swift-base.tar
+docker load < /tmp/centos-binary-swift-base.tar
 
 docker tag "$(docker images |grep centos-binary-swift-base|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-binary-swift-base:"$OPENSTACK_VERSION"
 

@@ -46,8 +46,8 @@ if [[ $LINUX_AUTOUPDATE == 1 ]]; then
 fi
 
 ### gen pwd's
-DIR_PWD={DIRECTORY_MGR_PWD_12345678901}
-ADMIN_PWD={CENTOS_ADMIN_PWD_123456789012}
+DIR_PWD="{DIRECTORY_MGR_PWD_12345678901}"
+ADMIN_PWD="{CENTOS_ADMIN_PWD_123456789012}"
 ##############
 
 DIRECTORY_MANAGER_PASSWORD=$DIR_PWD
@@ -114,7 +114,7 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$SUPPORT_HOST' --a
 /usr/bin/ipa user-add --first=Firstname --last=Lastname admin --random
 
 ####  send random pwd over telegram
-RANDOM_PWD=$(cat /root/start-install.log | grep 'Random password' | awk -F': ' '{print $2}')
+RANDOM_PWD=$(cat </root/start-install.log | grep 'Random password' | awk -F': ' '{print $2}')
 telegram_debug_msg  "admin random password is $RANDOM_PWD"
 
 SSH_KEY=$(cat /root/.ssh/id_rsa.pub)

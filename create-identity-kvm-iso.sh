@@ -5,7 +5,6 @@ exec 1>/root/identity-install.log 2>&1 # send stdout and stderr from rc.local to
 set -x
 
 source /tmp/openstack-scripts/iso-functions.sh
-source /tmp/openstack-scripts/vm_functions.sh
 source /tmp/project_config.sh
 
 KICKSTART_DIR=/tmp/openstack-scripts

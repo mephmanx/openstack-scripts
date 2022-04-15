@@ -3,7 +3,7 @@
 ## this script is run on a FreeBSD system, not centos, not bash.  Makes some things slightly different
 
 . /root/project_config.sh
-. /root/openstack-scripts/pf_functions.sh
+. /root/pf_functions.sh
 
 exec 1>/root/init-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x                             # tell sh to display commands before execution
@@ -32,7 +32,7 @@ for file in $files; do
 done
 
 rm -rf /cf/conf/config.xml
-rm -rf /root/openstack-scripts/pfsense-init.sh
+rm -rf /root/pfsense-init.sh
 
 ####  building second init script
 cat <<EOF >/usr/local/etc/rc.d/pfsense-init-2.sh
@@ -45,7 +45,7 @@ set -x                             # tell sh to display commands before executio
 ## this script is run on a FreeBSD system, not centos, not bash.  Makes some things slightly different
 
 . /root/project_config.sh
-. /root/openstack-scripts/pf_functions.sh
+. /root/pf_functions.sh
 
 telegram_notify  "PFSense init: Second init script running"
 
