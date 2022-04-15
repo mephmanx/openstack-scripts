@@ -524,10 +524,13 @@ cat > "$tmp_file" <<EOF
 $replace_with
 EOF
 
-  while IFS='' read -r line; do
-    start_index=$(echo "$line" | awk -F':' '{ print $1 }')
+  occur=$(grep -oba "$replacement_string" "$iso_file" | wc -l)
+  mapfile entries < <(grep -oba "$replacement_string" "$iso_file")
+  while [ "$occur" -gt 0 ]; do
+    ((occur--))
+    start_index=$(echo "${entries[$occur]}" | awk -F':' '{ print $1 }')
     dd if="$tmp_file" of="$iso_file" conv=notrunc bs=1 seek="$start_index" count="${#replacement_string}"
-  done < <(grep -oba "$replacement_string" "$iso_file")
+  done
 
   rm -rf /tmp/out-*
 }
