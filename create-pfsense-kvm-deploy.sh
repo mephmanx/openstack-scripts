@@ -89,12 +89,13 @@ PROJECT_CONFIG=$(cat </tmp/project_config.sh | base64 | tr -d '\n\r')
 PFSENSE_INIT=$(cat </tmp/pfsense-init.sh | base64 | tr -d '\n\r')
 
 ### pfsense prep
-hypervisor_key_array=("$(echo "$HYPERVISOR_KEY" | fold -c250 )")
-hypervisor_pub_array=("$(echo "$HYPERVISOR_PUB_KEY" | fold -c250 )")
-openstack_env_array=("$(echo "$OPENSTACK_ENV" | fold -c250 )")
-pf_functions_array=("$(echo "$PF_FUNCTIONS" | fold -c250 )")
-project_config_array=("$(echo "$PROJECT_CONFIG" | fold -c250 )")
-pfsense_init_array=("$(echo "$PFSENSE_INIT" | fold -c250 )")
+
+mapfile project_config_array < <(echo "$PROJECT_CONFIG" | fold -c250 )
+mapfile hypervisor_key_array < <(echo "$HYPERVISOR_KEY" | fold -c250 )
+mapfile hypervisor_pub_array < <(echo "$HYPERVISOR_PUB_KEY" | fold -c250 )
+mapfile openstack_env_array < <(echo "$OPENSTACK_ENV" | fold -c250 )
+mapfile pf_functions_array < <(echo "$PF_FUNCTIONS" | fold -c250 )
+mapfile pfsense_init_array < <(echo "$PFSENSE_INIT" | fold -c250 )
 
 (echo open 127.0.0.1 4568;
   sleep 120;
