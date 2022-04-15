@@ -9,7 +9,7 @@ function getVMCount {
   vmstr=$(vm_definitions "$option")
   vm_str=${vmstr//[$'\t\r\n ']}
   vm_ct=$(parse_json "$vm_str" "count")
-  echo $vm_ct
+  echo "$vm_ct"
 }
 
 function getVMVolSize() {
@@ -87,10 +87,10 @@ function vm_definitions {
             "drive_string":"$DRIVE_MAPPING",
             "network_string":"amp-net,loc-static"
           }'
-    STRING="$(echo $STRING | sed 's/$CONTROL_RAM/'$CONTROL_RAM'/g')"
-    STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "control" "$CONTROL_COUNT")'/g')"
-    STRING="$(echo $STRING | sed 's/$CONTROL_COUNT/'$CONTROL_COUNT'/g')"
-    echo $STRING
+    STRING="$(echo $STRING | sed 's/$CONTROL_RAM/'"$CONTROL_RAM"'/g')"
+    STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "control" "$CONTROL_COUNT")"'/g')"
+    STRING="$(echo $STRING | sed 's/$CONTROL_COUNT/'"$CONTROL_COUNT"'/g')"
+    echo "$STRING"
     ;;
   "network")
     STRING='{
@@ -100,10 +100,10 @@ function vm_definitions {
             "drive_string":"$DRIVE_MAPPING",
             "network_string":"amp-net,loc-static,loc-static"
           }'
-    STRING="$(echo $STRING | sed 's/$NETWORK_RAM/'$NETWORK_RAM'/g')"
-    STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "network" "$NETWORK_COUNT")'/g')"
-    STRING="$(echo $STRING | sed 's/$NETWORK_COUNT/'$NETWORK_COUNT'/g')"
-    echo $STRING
+    STRING="$(echo $STRING | sed 's/$NETWORK_RAM/'"$NETWORK_RAM"'/g')"
+    STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "network" "$NETWORK_COUNT")"'/g')"
+    STRING="$(echo $STRING | sed 's/$NETWORK_COUNT/'"$NETWORK_COUNT"'/g')"
+    echo "$STRING"
     ;;
   "compute")
     CPU_COUNT=$(lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }')
@@ -118,11 +118,11 @@ function vm_definitions {
             "drive_string":"$DRIVE_MAPPING",
             "network_string":"amp-net,loc-static,loc-static"
           }'
-    STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "compute" "1")'/g')"
-    STRING="$(echo $STRING | sed 's/$CPU_COUNT/'$CPU_COUNT'/g')"
-    STRING="$(echo $STRING | sed 's/$COMPUTE_RAM/'$COMPUTE_RAM'/g')"
-    STRING="$(echo $STRING | sed 's/$COMPUTE_COUNT/'$COMPUTE_COUNT'/g')"
-    echo $STRING
+    STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "compute" "1")"'/g')"
+    STRING="$(echo $STRING | sed 's/$CPU_COUNT/'"$CPU_COUNT"'/g')"
+    STRING="$(echo $STRING | sed 's/$COMPUTE_RAM/'"$COMPUTE_RAM"'/g')"
+    STRING="$(echo $STRING | sed 's/$COMPUTE_COUNT/'"$COMPUTE_COUNT"'/g')"
+    echo "$STRING"
     ;;
   "monitoring")
     STRING='{
@@ -132,10 +132,10 @@ function vm_definitions {
             "drive_string":"$DRIVE_MAPPING",
             "network_string":"amp-net,loc-static"
           }'
-    STRING="$(echo $STRING | sed 's/$MONITORING_RAM/'$MONITORING_RAM'/g')"
-    STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "monitoring" "$MONITORING_COUNT")'/g')"
-    STRING="$(echo $STRING | sed 's/$MONITORING_COUNT/'$MONITORING_COUNT'/g')"
-    echo $STRING
+    STRING="$(echo $STRING | sed 's/$MONITORING_RAM/'"$MONITORING_RAM"'/g')"
+    STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "monitoring" "$MONITORING_COUNT")"'/g')"
+    STRING="$(echo $STRING | sed 's/$MONITORING_COUNT/'"$MONITORING_COUNT"'/g')"
+    echo "$STRING"
     ;;
   "storage")
     STRING='{
@@ -145,10 +145,10 @@ function vm_definitions {
             "drive_string":"$DRIVE_MAPPING",
             "network_string":"amp-net,loc-static"
           }'
-    STRING="$(echo $STRING | sed 's/$STORAGE_RAM/'$STORAGE_RAM'/g')"
-    STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "storage" "$STORAGE_COUNT")'/g')"
-    STRING="$(echo $STRING | sed 's/$STORAGE_COUNT/'$STORAGE_COUNT'/g')"
-    echo $STRING
+    STRING="$(echo $STRING | sed 's/$STORAGE_RAM/'"$STORAGE_RAM"'/g')"
+    STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "storage" "$STORAGE_COUNT")"'/g')"
+    STRING="$(echo $STRING | sed 's/$STORAGE_COUNT/'"$STORAGE_COUNT"'/g')"
+    echo "$STRING"
     ;;
   "kolla")
     STRING='{
@@ -158,9 +158,9 @@ function vm_definitions {
             "drive_string":"$DRIVE_MAPPING",
             "network_string":"amp-net,loc-static"
           }'
-    STRING="$(echo $STRING | sed 's/$KOLLA_RAM/'$KOLLA_RAM'/g')"
-    STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'$(getDiskMapping "kolla" "1")'/g')"
-    echo $STRING
+    STRING="$(echo $STRING | sed 's/$KOLLA_RAM/'"$KOLLA_RAM"'/g')"
+    STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "kolla" "1")"'/g')"
+    echo "$STRING"
     ;;
   esac
 }
@@ -245,7 +245,7 @@ function create_vm_kvm {
 function removeVM_kvm {
   vm_name=$1
   printf -v vm_type_n '%s\n' "${vm_name//[[:digit:]]/}"
-  vm_type=$(tr -dc '[[:print:]]' <<<"$vm_type_n")
+  vm_type=$(tr -dc '[:print:]' <<<"$vm_type_n")
   #### test if vm exists
   if (virsh list --name | grep -q "$vm_name"); then
     echo "Destroying vm $vm_name"
@@ -287,8 +287,8 @@ function removeVM_kvm {
 function deleteVMVol() {
   vm_name=$1
   VM_TYPE=$2
-  virsh vol-list VM-VOL-"$VM_TYPE" | awk 'NR > 2 && !/^+--/ { print $1 }' | while read line; do
-    if [[ ! -z $line ]]; then
+  virsh vol-list VM-VOL-"$VM_TYPE" | awk 'NR > 2 && !/^+--/ { print $1 }' | while read -r line; do
+    if [[ -n $line ]]; then
       if [[ "$line" =~ .*"$vm_name".* ]]; then
         virsh vol-delete --pool VM-VOL-"$VM_TYPE" "$line"
       fi
