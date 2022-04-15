@@ -281,7 +281,7 @@ EOF
     echo "cleanup server $line"
     scp /tmp/server_cleanup.sh root@"$line":/tmp
     runuser -l root -c "ssh root@$line '/tmp/server_cleanup.sh'"
-  done < <(cat "$file")
+  done < "$file"
 
   rm -rf /tmp/host_list
   rm -rf /tmp/server_cleanup.sh
