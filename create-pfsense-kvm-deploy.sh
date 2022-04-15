@@ -173,6 +173,8 @@ mapfile pfsense_init_array < <(echo "$PFSENSE_INIT" | fold -c250 )
   done
   echo "openssl base64 -d -in /root/pfsense-init.sh.enc -out /root/pfsense-init.sh;";
   sleep 10;
+  echo "rm -rf /root/*.enc";
+  sleep 10;
 
   echo "chmod 777 /root/*.sh"
   sleep 10;
