@@ -50,7 +50,8 @@ set -x                             # tell sh to display commands before executio
 telegram_notify  "PFSense init: Second init script running"
 
 ## kickoff cloud build
-ssh root@$LAN_CENTOS_IP 'cd /tmp; ./create-identity-kvm-deploy.sh;' &
+ssh root@"$LAN_CENTOS_IP" 'cd /tmp; ./create-cloudsupport-kvm-deploy.sh;' &
+ssh root@"$LAN_CENTOS_IP" 'cd /tmp; ./create-cloud-kvm-deploy.sh;' &
 
 ### install remaining packages here
 install_pkg "pfsense-pkg-openvpn-client-export"

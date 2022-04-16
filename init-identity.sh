@@ -131,8 +131,7 @@ SSH_KEY=$(cat /root/.ssh/id_rsa.pub)
 
 #### Continue cloud init
 ssh-keyscan -H "$LAN_CENTOS_IP" >> ~/.ssh/known_hosts;
-ssh root@"$LAN_CENTOS_IP" 'cd /tmp; ./create-cloudsupport-kvm-deploy.sh;' &
-ssh root@"$LAN_CENTOS_IP" 'cd /tmp; ./create-cloud-kvm-deploy.sh;' &
+ssh root@$LAN_CENTOS_IP 'cd /tmp; ./create-pfsense-kvm-deploy.sh;' &
 
 telegram_notify  "Identity VM ready for use"
 ##########################
