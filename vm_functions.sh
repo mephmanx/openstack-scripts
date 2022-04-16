@@ -276,13 +276,12 @@ rm -rf /tmp/type
 rm -rf /tmp/server_cleanup.sh
 EOF
   chmod +x /tmp/server_cleanup.sh
-  while IFS='' read -r line;
+  for i in $(cat "$file")
   do
-    echo "cleanup server $line"
-    scp /tmp/server_cleanup.sh root@"$line":/tmp
-    runuser -l root -c "ssh root@$line '/tmp/server_cleanup.sh'"
-  done < "$file"
-
+    echo "cleanup server $i"
+    scp /tmp/server_cleanup.sh root@"$i":/tmp
+    runuser -l root -c "ssh root@$i '/tmp/server_cleanup.sh'"
+  done
   rm -rf /tmp/host_list
   rm -rf /tmp/server_cleanup.sh
 }
@@ -525,7 +524,7 @@ $replace_with
 EOF
 
   occur=$(grep -oba "$replacement_string" "$iso_file" | wc -l)
-  mapfile entries < <(grep -oba "$replacement_string" "$iso_file")
+  entries=($(grep -oba "$replacement_string" "$iso_file"))
   while [ "$occur" -gt 0 ]; do
     ((occur--))
     start_index=$(echo "${entries[$occur]}" | awk -F':' '{ print $1 }')
