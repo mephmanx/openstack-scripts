@@ -98,7 +98,7 @@ sed -i "s/grafana_admin_password: .*/grafana_admin_password: ${ADMIN_PWD}/g" /et
 #####
 
 ######  prepare storage rings
-export KOLLA_SWIFT_BASE_IMAGE="${SUPPORT_VIP_DNS}/kolla/centos-source-swift-base:$OPENSTACK_VERSION"
+export KOLLA_SWIFT_BASE_IMAGE="${SUPPORT_VIP_DNS}/kolla/centos-binary-swift-base:$OPENSTACK_VERSION"
 mkdir -p /etc/kolla/config/swift
 # 0 based (ie 0=1, so 1=2)
 drive_count=0
