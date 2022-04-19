@@ -32,9 +32,6 @@ fi
 ## Send System info
 load_system_info
 telegram_notify  "Openstack Cloud System: $SYSTEM_INFO"
-#### Notify admin pwd in debug mode
-ADMIN_PWD="{CENTOS_ADMIN_PWD_123456789012}"
-telegram_debug_msg  "Hypervisor admin account pw: $ADMIN_PWD"
 
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
