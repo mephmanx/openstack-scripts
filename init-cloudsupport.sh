@@ -186,6 +186,9 @@ sed -i 's/version=.*, //' /usr/lib/python3.6/site-packages/kolla/image/build.py
 #fix centos 8 install issue
 sed -i "s/'python3-sqlalchemy-collectd',//" /usr/share/kolla/docker/openstack-base/Dockerfile.j2
 
+#fix swift config ring issue
+echo "RUN rm -f /etc/swift/swift.conf" >> /usr/share/kolla/docker/swift/swift-base/Dockerfile.j2
+
 #fluentd image
 sed -i '105,121s/^/#/' /usr/share/kolla/docker/fluentd/Dockerfile.j2
 #grafana image
