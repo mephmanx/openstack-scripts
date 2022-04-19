@@ -78,5 +78,3 @@ for d in "${vms[@]}"; do
   sleep 30
   ((index++))
 done
-
-wait
