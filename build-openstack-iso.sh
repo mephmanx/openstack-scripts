@@ -156,7 +156,8 @@ if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f 
     rm -rf /out
     mkdir /out
     docker pull "$DOCKER_OPENSTACK_OFFLINE_IMAGE"
-    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out "$DOCKER_OPENSTACK_OFFLINE_IMAGE" "$OPENSTACK_VERSION"
+    rm -rf /tmp/openstack-build.log
+    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out "$DOCKER_OPENSTACK_OFFLINE_IMAGE" "$OPENSTACK_VERSION" > /tmp/openstack-build.log
 
     #### add build images
     mv /out/centos-binary-base-"${OPENSTACK_VERSION}".tar /tmp/harbor
