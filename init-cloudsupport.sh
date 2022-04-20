@@ -22,31 +22,6 @@ sleep 30
 tuned-adm profile virtual-guest
 #############
 
-### libs
-yum update -y
-yum -y install epel-release yum-utils
-yum update -y
-yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-yum install -y perl \
-              python3-devel \
-              python38 \
-              make \
-              ruby \
-              ruby-devel \
-              gcc-c++ \
-              mysql-devel \
-              nodejs \
-              mysql-server \
-              unzip \
-              gcc \
-              openssl-devel \
-              docker-ce \
-              docker-ce-cli \
-              containerd.io \
-              tar \
-              tpm-tools \
-              httpd
-
 ## enable auto updates if selected
 if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   systemctl enable --now dnf-automatic.timer

@@ -22,8 +22,11 @@ yum update -y
 dnf update -y
 
 rm -rf /tmp/linux.iso
+rm -rf /tmp/configs/*
+
 docker pull "$DOCKER_LINUX_BUILD_IMAGE"
 docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE" bash -c "mv CentOS-x86_64-minimal.iso linux.iso; cp linux.iso /opt/mount"
+docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE" bash -c "cp /root/ks_configs/* /opt/mount/configs"
 
 rm -rf ./tmp
 mkdir ./tmp
@@ -170,6 +173,7 @@ if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f 
     docker pull kolla/centos-binary-fluentd:"$OPENSTACK_VERSION" && docker save kolla/centos-binary-fluentd:"$OPENSTACK_VERSION" >/tmp/harbor/centos-binary-fluentd.tar
     docker pull kolla/centos-binary-grafana:"$OPENSTACK_VERSION" && docker save kolla/centos-binary-grafana:"$OPENSTACK_VERSION" >/tmp/harbor/centos-binary-grafana.tar
     docker pull kolla/centos-binary-elasticsearch-curator:"$OPENSTACK_VERSION" && docker save kolla/centos-binary-elasticsearch-curator:"$OPENSTACK_VERSION" >/tmp/harbor/centos-binary-elasticsearch-curator.tar
+    docker rmi $(docker images | grep 'kolla')
 fi
 
 

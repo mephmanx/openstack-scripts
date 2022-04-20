@@ -43,11 +43,13 @@ function closeOutAndBuildKickstartAndISO {
   mkdir /centos
   sudo mount -t iso9660 -o loop /tmp/linux.iso /centos
   sudo mkdir -p /var/tmp/"${vm_name}"
+  sudo mkdir -p /var/tmp/"${vm_name}"/ks_configs
   sudo rsync -q -a /centos/ /var/tmp/"${vm_name}"
   sudo umount /centos
   rm -rf /centos
 
   cp "${kickstart_file}" /var/tmp/"${vm_name}"/ks.cfg
+  cp /tmp/configs/*.cfg /var/tmp/"${vm_name}"/ks_configs
   if [[ $vm_name == "openstack" ]]; then
     cp ${KICKSTART_DIR}/isolinux-openstack.cfg /var/tmp/"${vm_name}"/isolinux/isolinux.cfg
   else
