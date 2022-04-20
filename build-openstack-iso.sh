@@ -175,6 +175,7 @@ if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f 
     docker pull kolla/centos-binary-grafana:"$OPENSTACK_VERSION" && docker save kolla/centos-binary-grafana:"$OPENSTACK_VERSION" >/tmp/harbor/centos-binary-grafana.tar
     docker pull kolla/centos-binary-elasticsearch-curator:"$OPENSTACK_VERSION" && docker save kolla/centos-binary-elasticsearch-curator:"$OPENSTACK_VERSION" >/tmp/harbor/centos-binary-elasticsearch-curator.tar
     docker rmi $(docker images | grep 'kolla')
+    docker rmi $(docker images | grep 'rpm_repo')
 fi
 
 
