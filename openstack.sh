@@ -35,7 +35,7 @@ telegram_notify  "Openstack Cloud System: $SYSTEM_INFO"
 
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
-dnf install -y virt-install virt-viewer swtpm libtpms telnet
+dnf install -y virt-install virt-viewer swtpm libtpms telnet bridge-utils
 systemctl restart libvirtd
 ############################
 
@@ -108,13 +108,13 @@ done
 
 node_ct=10
 while [ $node_ct -gt 0 ]; do
-  brctl addif loc-static Node${node_ct}s
+  nmcli conn add type bridge-slave ifname Node${node_ct}s master loc-static
   ((node_ct--))
 done
 
 node_ct=20
 while [ $node_ct -gt 10 ]; do
-  brctl addif amp-net Node${node_ct}s
+  nmcli conn add type bridge-slave ifname Node${node_ct}s master amp-net
   ((node_ct--))
 done
 #############
