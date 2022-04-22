@@ -35,7 +35,7 @@ telegram_notify  "Openstack Cloud System: $SYSTEM_INFO"
 
 ################# setup KVM and kick off openstack cloud create
 dnf module install -y virt
-dnf install -y virt-install virt-viewer bridge-utils swtpm libtpms telnet bridge-utils
+dnf install -y virt-install virt-viewer swtpm libtpms telnet
 systemctl restart libvirtd
 ############################
 
