@@ -755,9 +755,9 @@ function enable_kvm_module() {
 
 function install_python_modules() {
   # update pip to required version
-  pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1
+  pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1
 
   # install rest of the python modules
-  pip3 install --no-index --find-links="/repo/PyRepo" -r /root/python.modules
+  pip3 install --no-index --find-links="/repo/PyRepo#" -r /root/python.modules
 
 }
