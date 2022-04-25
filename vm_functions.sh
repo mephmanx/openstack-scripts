@@ -758,6 +758,6 @@ function install_python_modules() {
   pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1
 
   # install rest of the python modules
-  pip3 install --no-index --find-links="/repo/PyRepo#" -r /root/python.modules
+  pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules
 
 }
