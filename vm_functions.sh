@@ -70,71 +70,12 @@ function grow_fs() {
 }
 
 function load_libs() {
-  option="${1}"
-  case "${option}" in
-    "kolla")
-          # Kolla Openstack setup VM
-          yum install -y yum-utils
-          yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-          yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
-          yum install -y ruby \
-                unzip \
-                virt-install \
-                qemu-kvm \
-                libffi-devel \
-                gcc \
-                openssl-devel \
-                git \
-                python3-devel \
-                python38 \
-                chrony \
-                make \
-                python2 \
-                gcc-c++ \
-                ruby \
-                ruby-devel \
-                mysql-devel \
-                postgresql-devel \
-                postgresql-libs \
-                sqlite-devel \
-                libxslt-devel \
-                libxml2-devel \
-                patch \
-                openssl \
-                docker-ce \
-                docker-ce-cli \
-                containerd.io \
-                tar \
-                tpm-tools \
-                expect
 
-            systemctl start docker
-            systemctl enable docker
-            chkconfig docker on
-            systemctl restart docker
-    ;;
-      *)
-        # All other Openstack VM's
-        yum install -y yum-utils
-        yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-        yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
-        #One time machine setup
-        #install yum libs here
-        yum install -y unzip \
-            gcc \
-            openssl-devel \
-            docker-ce \
-            docker-ce-cli \
-            containerd.io \
-            tar \
-            tpm-tools
+  systemctl start docker
+  systemctl enable docker
+  chkconfig docker on
+  systemctl restart docker
 
-        systemctl start docker
-        systemctl enable docker
-        chkconfig docker on
-        systemctl restart docker
-    ;;
-  esac
 }
 
 function add_stack_user() {
@@ -172,11 +113,6 @@ function vtpm() {
   mv /root/swtpm/swtpm-master/* /root/swtpm
   ###### vTPM setup #####
   cd /root || exit
-  dnf -y update \
-   && dnf -y install diffutils make file automake autoconf libtool gcc gcc-c++ openssl-devel gawk git \
-   && dnf -y install which python3 python3-cryptography python3-pip python3-setuptools expect libtasn1-devel \
-      socat trousers tpm-tools gnutls-devel gnutls-utils net-tools libseccomp-devel json-glib-devel \
-   && pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org twisted
 
   cd libtpms \
    && runuser -l root -c  "echo $(date) > /.date" \
@@ -759,5 +695,17 @@ function install_python_modules() {
 
   # install rest of the python modules
   pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules
+
+  dnf update -y
+
+  echo "Installing httpd server"
+  dnf install -y httpd
+
+  echo "Installing openvpn"
+  dnf install -y openvpn
+
+  dnf install -y docker-ce docker-ce-cli containerd.io
+
+  dnf install -y freeipa-client ipa-admintools
 
 }
