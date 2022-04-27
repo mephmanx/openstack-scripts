@@ -699,6 +699,7 @@ function install_python_modules() {
   dnf module install -y virt
   dnf install -y cockpit-machines virt-install virt-viewer swtpm libtpms telnet
 
+
   dnf update -y
 
   echo "Installing httpd server"

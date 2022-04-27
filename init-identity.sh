@@ -22,24 +22,6 @@ sleep 30
 tuned-adm profile virtual-guest
 #############
 
-### initial libs
-yum update -y
-yum -y install epel-release
-yum update -y
-
-yum install -y perl \
-              yum-utils \
-              python3-devel \
-              python38 \
-              make \
-              ruby \
-              ruby-devel \
-              gcc-c++ \
-              mysql-devel \
-              nodejs \
-              mysql-server
-#########
-
 ## enable auto updates if selected
 if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   systemctl enable --now dnf-automatic.timer
@@ -57,26 +39,6 @@ HOSTNAME=identity.$INTERNAL_DOMAIN_NAME
 runuser -l root -c "echo '$IDENTITY_VIP $HOSTNAME' >> /etc/hosts"
 runuser -l root -c "echo $HOSTNAME > /etc/hostname"
 runuser -l root -c "sysctl kernel.hostname=$HOSTNAME"
-
-dnf module enable idm:DL1 -y
-dnf distro-sync -y
-dnf update -y
-
-dnf install -y cyrus-sasl-devel \
-                make \
-                libtool \
-                autoconf \
-                libtool-ltdl-devel \
-                openssl-devel \
-                libdb-devel \
-                tar \
-                gcc \
-                perl \
-                perl-devel \
-                vim \
-                rsyslog \
-                ipa-server \
-                ipa-server-dns
 
 runuser -l root -c 'cp /tmp/id_rsa.crt /etc/ipa/ca.crt'
 runuser -l root -c 'chown -R pkiuser /etc/ipa/ca.crt'
