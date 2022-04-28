@@ -704,7 +704,7 @@ function install_python_modules() {
   echo "Installing openvpn"
   dnf install -y openvpn
 
-  dnf install -y docker-ce docker-ce-cli containerd.io
+  dnf install -y docker-ce docker-ce-cli containerd.io container-selinux
 
   dnf install -y freeipa-client ipa-admintools
 
