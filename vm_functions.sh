@@ -695,17 +695,18 @@ function install_python_modules() {
 
   # install rest of the python modules
   pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules
+}
 
-  dnf install -y cockpit-machines virt-install virt-viewer swtpm libtpms
+function install_packages() {
+    dnf install -y cockpit-machines virt-install virt-viewer swtpm libtpms
+  #
+  #  echo "Installing httpd server"
+  #  dnf install -y httpd
 
-  echo "Installing httpd server"
-  dnf install -y httpd
+    echo "Installing openvpn"
+    dnf install -y openvpn
 
-  echo "Installing openvpn"
-  dnf install -y openvpn
+    dnf install -y docker-ce docker-ce-cli containerd.io container-selinux
 
-  dnf install -y docker-ce docker-ce-cli containerd.io container-selinux
-
-  dnf install -y freeipa-client ipa-admintools
-
+    dnf install -y freeipa-client ipa-admintools
 }
