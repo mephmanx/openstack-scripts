@@ -696,11 +696,7 @@ function install_python_modules() {
   # install rest of the python modules
   pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules
 
-  dnf module install -y virt
-  dnf install -y cockpit-machines virt-install virt-viewer swtpm libtpms telnet
-
-
-  dnf update -y
+  dnf install -y cockpit-machines virt-install virt-viewer swtpm libtpms
 
   echo "Installing httpd server"
   dnf install -y httpd
