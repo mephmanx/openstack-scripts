@@ -710,15 +710,7 @@ function install_packages() {
                   ipa-admintools \
                   dnf-automatic \
                   perl \
-                  tpm-tools \
-                  yum-utils \
                   cockpit \
-                  python3-devel \
-                  python38 \
-                  make \
-                  ruby \
-                  ruby-devel \
-                  gcc-c++ \
                   cockpit-machines \
                   cockpit-networkmanager \
                   cockpit-packagekit \
@@ -728,30 +720,15 @@ function install_packages() {
                   virt-viewer \
                   swtpm \
                   libtpms \
-                  perl \
-                  python3-devel \
-                  python38 \
-                  make \
-                  ruby \
-                  ruby-devel \
-                  gcc-c++ \
-                  mysql-devel \
-                  nodejs \
-                  mysql-server \
                   unzip \
-                  gcc \
-                  openssl-devel \
                   docker-ce \
                   docker-ce-cli \
                   containerd.io \
-                  tar \
                   tpm-tools \
                   httpd \
-                  perl \
                   yum-utils \
                   python3-devel \
                   python38 \
-                  make \
                   ruby \
                   ruby-devel \
                   gcc-c++ \
@@ -767,36 +744,16 @@ function install_packages() {
                   libdb-devel \
                   tar \
                   gcc \
-                  perl \
                   perl-devel \
                   vim \
                   rsyslog \
                   ipa-server \
                   ipa-server-dns \
-                  virt-install \
-                  virt-viewer \
-                  bridge-utils \
-                  swtpm \
-                  libtpms \
                   telnet \
-                  bridge-utils \
-                  ruby \
-                  unzip \
-                  virt-install \
                   qemu-kvm \
                   libffi-devel \
-                  gcc \
-                  openssl-devel \
                   git \
-                  python3-devel \
-                  python38 \
                   chrony \
-                  make \
-                  python2 \
-                  gcc-c++ \
-                  ruby \
-                  ruby-devel \
-                  mysql-devel \
                   postgresql-devel \
                   postgresql-libs \
                   sqlite-devel \
@@ -804,19 +761,6 @@ function install_packages() {
                   libxml2-devel \
                   patch \
                   openssl \
-                  docker-ce \
-                  docker-ce-cli \
-                  containerd.io \
-                  tar \
-                  tpm-tools \
-                  expect \
-                  unzip \
-                  gcc \
-                  openssl-devel \
-                  docker-ce \
-                  docker-ce-cli \
-                  containerd.io \
-                  tar \
-                  tpm-tools
+                  expect
 
 }
