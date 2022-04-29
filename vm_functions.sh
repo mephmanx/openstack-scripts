@@ -699,8 +699,7 @@ function install_python_modules() {
 
 function install_packages() {
 
-    dnf module enable idm:DL1 -y
-    dnf module install -y virt
+    dnf module enable idm:DL1 virt -y
     dnf distro-sync -y
     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
     yum update -y
@@ -748,7 +747,6 @@ function install_packages() {
                   tar \
                   tpm-tools \
                   httpd \
-                  openstack-kolla \
                   perl \
                   yum-utils \
                   python3-devel \
