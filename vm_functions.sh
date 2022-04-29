@@ -699,144 +699,126 @@ function install_python_modules() {
 
 function install_packages() {
 
-    yum update -y
-    yum -y install epel-release
-    yum update -y
-    dnf install -y dnf-automatic
-
     dnf module enable idm:DL1 -y
-    dnf distro-sync -y
-    dnf update -y
-    yum install -y ipa-client freeipa-client ipa-admintools
-    
-    yum install -y perl tpm-tools yum-utils cockpit python3-devel python38 make ruby ruby-devel gcc-c++ cockpit-machines cockpit-networkmanager cockpit-packagekit cockpit-storaged openvpn
-
-    dnf install -y cockpit-machines virt-install virt-viewer swtpm libtpms
-    
-    ### libs
-    yum update -y
-    yum -y install epel-release yum-utils
-    yum update -y
-    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-    yum install -y perl \
-              python3-devel \
-              python38 \
-              make \
-              ruby \
-              ruby-devel \
-              gcc-c++ \
-              mysql-devel \
-              nodejs \
-              mysql-server \
-              unzip \
-              gcc \
-              openssl-devel \
-              docker-ce \
-              docker-ce-cli \
-              containerd.io \
-              tar \
-              tpm-tools \
-              httpd
-
-    yum install -y openstack-kolla
-    
-    ### initial libs
-    yum update -y
-    yum -y install epel-release
-    yum update -y
-
-    yum install -y perl \
-              yum-utils \
-              python3-devel \
-              python38 \
-              make \
-              ruby \
-              ruby-devel \
-              gcc-c++ \
-              mysql-devel \
-              nodejs \
-              mysql-server
-#########
-
-    dnf module enable idm:DL1 -y
-    dnf distro-sync -y
-    dnf update -y
-
-    dnf install -y cyrus-sasl-devel \
-                make \
-                libtool \
-                autoconf \
-                libtool-ltdl-devel \
-                openssl-devel \
-                libdb-devel \
-                tar \
-                gcc \
-                perl \
-                perl-devel \
-                vim \
-                rsyslog \
-                ipa-server \
-                ipa-server-dns
-                
     dnf module install -y virt
-    dnf install -y virt-install virt-viewer bridge-utils swtpm libtpms telnet bridge-utils    
-    
-     # Kolla Openstack setup VM
-          yum install -y yum-utils
-          yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-          yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
-          yum install -y ruby \
-                unzip \
-                virt-install \
-                qemu-kvm \
-                libffi-devel \
-                gcc \
-                openssl-devel \
-                git \
-                python3-devel \
-                python38 \
-                chrony \
-                make \
-                python2 \
-                gcc-c++ \
-                ruby \
-                ruby-devel \
-                mysql-devel \
-                postgresql-devel \
-                postgresql-libs \
-                sqlite-devel \
-                libxslt-devel \
-                libxml2-devel \
-                patch \
-                openssl \
-                docker-ce \
-                docker-ce-cli \
-                containerd.io \
-                tar \
-                tpm-tools \
-                expect
+    dnf distro-sync -y
+    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    yum update -y
+    yum -y install epel-release
+    yum update -y
+    yum install -y ipa-client \
+                  freeipa-client \
+                  ipa-admintools \
+                  dnf-automatic \
+                  perl \
+                  tpm-tools \
+                  yum-utils \
+                  cockpit \
+                  python3-devel \
+                  python38 \
+                  make \
+                  ruby \
+                  ruby-devel \
+                  gcc-c++ \
+                  cockpit-machines \
+                  cockpit-networkmanager \
+                  cockpit-packagekit \
+                  cockpit-storaged \
+                  openvpn \
+                  virt-install \
+                  virt-viewer \
+                  swtpm \
+                  libtpms \
+                  perl \
+                  python3-devel \
+                  python38 \
+                  make \
+                  ruby \
+                  ruby-devel \
+                  gcc-c++ \
+                  mysql-devel \
+                  nodejs \
+                  mysql-server \
+                  unzip \
+                  gcc \
+                  openssl-devel \
+                  docker-ce \
+                  docker-ce-cli \
+                  containerd.io \
+                  tar \
+                  tpm-tools \
+                  httpd \
+                  openstack-kolla \
+                  perl \
+                  yum-utils \
+                  python3-devel \
+                  python38 \
+                  make \
+                  ruby \
+                  ruby-devel \
+                  gcc-c++ \
+                  mysql-devel \
+                  nodejs \
+                  mysql-server \
+                  cyrus-sasl-devel \
+                  make \
+                  libtool \
+                  autoconf \
+                  libtool-ltdl-devel \
+                  openssl-devel \
+                  libdb-devel \
+                  tar \
+                  gcc \
+                  perl \
+                  perl-devel \
+                  vim \
+                  rsyslog \
+                  ipa-server \
+                  ipa-server-dns \
+                  virt-install \
+                  virt-viewer \
+                  bridge-utils \
+                  swtpm \
+                  libtpms \
+                  telnet \
+                  bridge-utils \
+                  ruby \
+                  unzip \
+                  virt-install \
+                  qemu-kvm \
+                  libffi-devel \
+                  gcc \
+                  openssl-devel \
+                  git \
+                  python3-devel \
+                  python38 \
+                  chrony \
+                  make \
+                  python2 \
+                  gcc-c++ \
+                  ruby \
+                  ruby-devel \
+                  mysql-devel \
+                  postgresql-devel \
+                  postgresql-libs \
+                  sqlite-devel \
+                  libxslt-devel \
+                  libxml2-devel \
+                  patch \
+                  openssl \
+                  docker-ce \
+                  docker-ce-cli \
+                  containerd.io \
+                  tar \
+                  tpm-tools \
+                  expect \
+                  unzip \
+                  gcc \
+                  openssl-devel \
+                  docker-ce \
+                  docker-ce-cli \
+                  containerd.io \
+                  tar \
+                  tpm-tools
 
-            yum install -y yum-utils
-        yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-        yum clean all && yum update -y  #this is only to make the next call work, DONT remove!
-        #One time machine setup
-        #install yum libs here
-        yum install -y unzip \
-            gcc \
-            openssl-devel \
-            docker-ce \
-            docker-ce-cli \
-            containerd.io \
-            tar \
-            tpm-tools
-  #
-  #  echo "Installing httpd server"
-  #  dnf install -y httpd
-
-    echo "Installing openvpn"
-    dnf install -y openvpn
-
-    dnf install -y docker-ce docker-ce-cli containerd.io container-selinux
-
-    dnf install -y freeipa-client ipa-admintools
 }
