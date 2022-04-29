@@ -728,9 +728,6 @@ function install_packages() {
                   httpd \
                   yum-utils \
                   python3-devel \
-                  python38 \
-                  ruby \
-                  ruby-devel \
                   gcc-c++ \
                   mysql-devel \
                   nodejs \
