@@ -648,8 +648,11 @@ function replace_values_in_root_isos() {
   for img in $iso_images; do
       echo "replacing centos admin in $img"
       replace_string_in_iso "$img" "{CENTOS_ADMIN_PWD_123456789012}" "$ADMIN_PWD"
+
       echo "replacing directory mgr admin in $img"
       replace_string_in_iso "$img" "{DIRECTORY_MGR_PWD_12345678901}" "$DIRECTORY_MGR_PWD"
+
+
   done
   ##############
 }

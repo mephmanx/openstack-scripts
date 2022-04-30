@@ -104,8 +104,6 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
   sleep 10;
   echo "yes | pkg install git &";
   sleep 120;
-  echo "yes | pkg install bash &";
-  sleep 120;
   echo "yes | pkg install pfsense-pkg-Shellcmd &";
   sleep 120;
   echo "mkdir /root/.ssh";
