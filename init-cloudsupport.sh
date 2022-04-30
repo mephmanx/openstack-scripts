@@ -143,7 +143,7 @@ gpgcheck=0
 EOF
 
 cp /tmp/local.repo /etc/yum.repos.d/
-#yum install -y openstack-kolla
+yum install -y openstack-kolla
 echo 'install openstack-kolla on local server finish!'
 
 #fix openstack-kolla issue for offline build
