@@ -651,8 +651,6 @@ function replace_values_in_root_isos() {
 
       echo "replacing directory mgr admin in $img"
       replace_string_in_iso "$img" "{DIRECTORY_MGR_PWD_12345678901}" "$DIRECTORY_MGR_PWD"
-
-
   done
   ##############
 }
