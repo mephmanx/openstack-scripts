@@ -52,8 +52,8 @@ HOWLONG=5 ## the number of characters
 HOSTNAME_SUFFIX=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
 HOSTNAME="$APP_EXTERNAL_HOSTNAME-$HOSTNAME_SUFFIX"
 ###
-TZ=$(timedatectl | awk '/Time zone:/ {print $3}')
-TIMEZONE=$(echo "$TZ" | sed 's/\//\\\\\//g')
+#TZ=$(timedatectl | awk '/Time zone:/ {print $3}')
+#TIMEZONE=$(echo "$TZ" | sed 's/\//\\\\\//g')
 ##### replace PFSense template vars
 sed -i "s/{HOSTNAME}/$HOSTNAME/g" /tmp/usb/config.xml
 sed -i "s/{CF_TCP_START_PORT}/$CF_TCP_START_PORT/g" /tmp/usb/config.xml
@@ -67,7 +67,7 @@ sed -i "s/{GATEWAY_ROUTER_DHCP_END}/$GATEWAY_ROUTER_DHCP_END/g" /tmp/usb/config.
 sed -i "s/{INTERNAL_DOMAIN_NAME}/$INTERNAL_DOMAIN_NAME/g" /tmp/usb/config.xml
 sed -i "s/{EXTERNAL_VIP_DNS}/$EXTERNAL_VIP_DNS/g" /tmp/usb/config.xml
 sed -i "s/{INTERNAL_VIP_DNS}/$INTERNAL_VIP_DNS/g" /tmp/usb/config.xml
-sed -i "s/{TIMEZONE}/$TIMEZONE/g" /tmp/usb/config.xml
+#sed -i "s/{TIMEZONE}/$TIMEZONE/g" /tmp/usb/config.xml
 sed -i "s/{APP_INTERNAL_HOSTNAME}/$APP_INTERNAL_HOSTNAME/g" /tmp/usb/config.xml
 sed -i "s/{APP_EXTERNAL_HOSTNAME}/$APP_EXTERNAL_HOSTNAME/g" /tmp/usb/config.xml
 sed -i "s/{NETWORK_PREFIX}/$NETWORK_PREFIX/g" /tmp/usb/config.xml

@@ -95,6 +95,7 @@ sleep 3
 docker login -u admin -p "{CENTOS_ADMIN_PWD_123456789012}" "$SUPPORT_VIP_DNS"
 
 #setup repo server
+rm -rf /etc/httpd/conf.d/ssl.conf
 sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
 systemctl restart httpd
 
