@@ -85,6 +85,7 @@ OPENSTACK_ENV=$(cat </tmp/openstack-env.sh | base64 | tr -d '\n\r')
 PF_FUNCTIONS=$(cat </tmp/pf_functions.sh | base64 | tr -d '\n\r')
 PROJECT_CONFIG=$(cat </tmp/project_config.sh | base64 | tr -d '\n\r')
 PFSENSE_INIT=$(cat </tmp/pfsense-init.sh | base64 | tr -d '\n\r')
+IP_OUT=$(cat </tmp/ip_out_update | base64 | tr -d '\n\r')
 
 ### pfsense prep
 hypervisor_key_array=( $(echo $HYPERVISOR_KEY | fold -c250 ))
@@ -93,6 +94,7 @@ openstack_env_array=( $(echo $OPENSTACK_ENV | fold -c250 ))
 pf_functions_array=( $(echo $PF_FUNCTIONS | fold -c250 ))
 project_config_array=( $(echo $PROJECT_CONFIG | fold -c250 ))
 pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
+ip_out_array=( $(echo $IP_OUT | fold -c250 ))
 
 (echo open 127.0.0.1 4568;
   sleep 120;
@@ -157,6 +159,16 @@ pfsense_init_array=( $(echo $PFSENSE_INIT | fold -c250 ))
     sleep 5;
   done
   echo "openssl base64 -d -in /root/project_config.sh.enc -out /root/project_config.sh;";
+  sleep 10;
+
+  echo "touch /root/ip_out_update; touch /root/ip_out_update.enc;";
+  sleep 10;
+  for element in "${ip_out_array[@]}"
+  do
+    echo "echo '$element' >> /root/ip_out_update.enc";
+    sleep 5;
+  done
+  echo "openssl base64 -d -in /root/ip_out_update.enc -out /root/ip_out_update;";
   sleep 10;
 
   echo "touch /root/pfsense-init.sh; touch /root/pfsense-init.sh.enc;";
