@@ -12,8 +12,6 @@ function initialKickstartSetup {
   vm=$1
   printf -v vm_type_n '%s\n' "${vm//[[:digit:]]/}"
   vm_type=$(tr -dc '[:print:]' <<< "$vm_type_n")
-  TZ=$(timedatectl | awk '/Time zone:/ {print $3}')
-  TIMEZONE=$(echo "$TZ" | sed 's/\//\\\\\//g')
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
   cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
   echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg to -> ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg"
@@ -21,8 +19,6 @@ function initialKickstartSetup {
   echo "kickstart file -> ${kickstart_file}"
   sed -i "s/{HOST}/$vm/g" "$kickstart_file"
   sed -i "s/{TYPE}/$vm_type/g" "$kickstart_file"
-  sed -i "s/{NTP_SERVER}/$GATEWAY_ROUTER_IP/g" "$kickstart_file"
-  sed -i "s/{TIMEZONE}/$TIMEZONE/g" "$kickstart_file"
   networkInformation "$kickstart_file" "$vm_type" "$vm"
 }
 

@@ -17,12 +17,8 @@ kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
 echo "kickstart file -> ${kickstart_file}"
 kickstart_file=centos-8-kickstart-cs.cfg
 
-TZ=$(timedatectl | awk '/Time zone:/ {print $3}')
-TIMEZONE=$(echo "$TZ" | sed 's/\//\\\\\//g')
 ########### add passwords in
 sed -i "s/{HOST}/$SUPPORT_HOST/g" ${kickstart_file}
-sed -i "s/{NTP_SERVER}/$GATEWAY_ROUTER_IP/g" ${kickstart_file}
-sed -i "s/{TIMEZONE}/$TIMEZONE/g" ${kickstart_file}
 sed -i "s/{SUPPORT_VIP}/$SUPPORT_VIP/g" ${kickstart_file}
 sed -i "s/{GATEWAY_ROUTER_IP}/$GATEWAY_ROUTER_IP/g" ${kickstart_file}
 sed -i "s/{IDENTITY_VIP}/$IDENTITY_VIP/g" ${kickstart_file}
