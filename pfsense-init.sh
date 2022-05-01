@@ -25,10 +25,13 @@ echo "Setting cache size to $DRIVE_SIZE"
 ## the pfsense method for changing config via cli is f*ed up:
 ##  change all backup files, delete primary file, and let system "restore" a changed backup file
 ##  makes a lot of sense, huh?
+INFO=$(cat /tmp/ip_out_update)
+TIMEZONE=$(parse_json "$INFO" "timezone")
 files="/cf/conf/backup/*"
 for file in $files; do
   echo "Changing contents of file $file"
   perl -pi.back -e "s/{CACHE_SIZE}/$DRIVE_SIZE/g;" "$file"
+  perl -pi.back -e "s/{TIMEZONE}/$TIMEZONE/g;" "$file"
 done
 
 rm -rf /cf/conf/config.xml
