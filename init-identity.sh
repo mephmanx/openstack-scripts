@@ -66,7 +66,6 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '*' --a-ip-address=
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_INTERNAL_HOSTNAME' --a-ip-address=$INTERNAL_VIP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_EXTERNAL_HOSTNAME' --a-ip-address=$EXTERNAL_VIP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$SUPPORT_HOST' --a-ip-address=$SUPPORT_VIP"
-runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. 'pfsense' --a-ip-address=$GATEWAY_ROUTER_IP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. _ntp._udp --srv-priority=0 --srv-weight=100 --srv-port=123 --srv-target=pfsense.cloud.local."
 
 #### groups
