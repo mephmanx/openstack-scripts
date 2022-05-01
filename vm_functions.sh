@@ -767,6 +767,8 @@ function install_packages() {
                   libxml2-devel \
                   patch \
                   openssl \
-                  expect
+                  expect \
+                  ruby \
+                  ruby-devel
 
 }
