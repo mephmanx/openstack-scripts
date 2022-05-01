@@ -185,12 +185,13 @@ ip_out_array=( $(echo $IP_OUT | fold -c250 ))
 
   echo "chmod 777 /root/*.sh"
   sleep 10;
+  echo "shutdown -r now"
+  sleep 10;
 ) | telnet
 
 telegram_notify  "PFSense rebooting after package install, pfsense-init script should begin after reboot."
 
 rm -rf /tmp/pfSense-CE-memstick-ADI.img
 
-virsh reboot pfsense
 
 
