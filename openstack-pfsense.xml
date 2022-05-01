@@ -247,6 +247,7 @@
 			<filename64arm></filename64arm>
 			<rootpath></rootpath>
 			<numberoptions></numberoptions>
+			<ntpserver>{GATEWAY_ROUTER_IP}</ntpserver>
 		</lan>
 		<opt1>
 			<range>
@@ -282,6 +283,7 @@
 			<rootpath></rootpath>
 			<numberoptions></numberoptions>
 			<dnsserver>{IDENTITY_VIP}</dnsserver>
+			<ntpserver>{LB_ROUTER_IP}</ntpserver>
 		</opt1>
 	</dhcpd>
 	<dhcpdv6>
