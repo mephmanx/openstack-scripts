@@ -113,7 +113,6 @@ function buildAndPushVMTypeISO {
                 "/tmp/libtpms-$SWTPM_VERSION.zip"
                 "/tmp/swtpm-$SWTPM_VERSION.zip"
                 "/tmp/openstack-scripts/$vm_type.sh"
-                '/tmp/openstack-scripts/init-cloud_common.sh'
                 '/tmp/openstack-env.sh')
 
   printf -v embed_files_string '%s ' "${embed_files[@]}"
@@ -160,7 +159,6 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/harbor/globals.yml'
                 '/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/openstack-env.sh'
-                '/tmp/openstack-scripts/init-cloud_common.sh'
                 "/tmp/libtpms-$SWTPM_VERSION.zip"
                 "/tmp/swtpm-$SWTPM_VERSION.zip"
                 '/tmp/cf-templates.zip'
