@@ -42,10 +42,10 @@ prep_next_script "${TYPE}"
 ### module recommended on openstack.org
 modprobe vhost_net
 
-host=$(hostname)
+host=$(hostname -s)
 telegram_notify  "Cloud VM $host starting second reboot..."
 
-ssh root@"$LAN_CENTOS_IP" 'sleep 20;virsh destroy pfsense;sleep 20;virsh start pfsense;' &
+ssh root@"$LAN_CENTOS_IP" "sleep 20;virsh destroy $host;sleep 20;virsh start $host;" &
 reboot
 
 }
