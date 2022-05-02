@@ -45,6 +45,7 @@ modprobe vhost_net
 host=$(hostname)
 telegram_notify  "Cloud VM $host starting second reboot..."
 
+ssh root@"$LAN_CENTOS_IP" 'sleep 20;virsh destroy pfsense;sleep 20;virsh start pfsense;' &
 reboot
 
 }

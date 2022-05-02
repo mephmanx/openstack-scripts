@@ -27,6 +27,7 @@ echo "Setting cache size to $DRIVE_SIZE"
 ##  makes a lot of sense, huh?
 INFO=$(cat /root/ip_out_update)
 TIMEZONE=$(parse_json "$INFO" "timezone")
+TIMEZONE=`echo $TIMEZONE | sed 's/\//\\\//g'`
 files="/cf/conf/backup/*"
 for file in $files; do
   echo "Changing contents of file $file"
@@ -83,4 +84,5 @@ chmod a+rx /usr/local/etc/rc.d/pfsense-init-2.sh
 #########
 
 telegram_notify  "PFSense init: init complete! removing script and rebooting.."
+ssh root@"$LAN_CENTOS_IP" 'sleep 20;virsh destroy pfsense;sleep 20;virsh start pfsense;' &
 reboot
