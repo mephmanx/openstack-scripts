@@ -27,8 +27,6 @@ sed -i "s/{NETMASK}/$NETMASK/g" ${kickstart_file}
 embed_files=('/tmp/id_rsa.crt'
               '/tmp/id_rsa.pub'
               '/tmp/id_rsa'
-              '/tmp/openstack-setup.key'
-              '/tmp/openstack-setup.key.pub'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
               '/tmp/openstack-scripts/init-identity.sh'

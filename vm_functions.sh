@@ -632,16 +632,10 @@ function replace_values_in_root_isos() {
 
       echo "replacing id_rsa  in $img"
       replace_oneline_file_in_iso "$img" /tmp/id_rsa.repl /root/.ssh/id_rsa.repl
-
-      echo "replacing openstack-setup.key  in $img"
-      replace_oneline_file_in_iso "$img" /tmp/key-bak/openstack-setup.key.repl /tmp/openstack-setup.key.repl
       ##########
 
       echo "replacing id_rsa.pub  in $img"
       replace_oneline_file_in_iso "$img" /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
-
-      echo "replacing openstack-setup.key.pub  in $img"
-      replace_oneline_file_in_iso "$img" /tmp/key-bak/openstack-setup.key.pub /tmp/openstack-setup.key.pub
   done
 
   iso_images="/tmp/*.img"
@@ -653,6 +647,23 @@ function replace_values_in_root_isos() {
       replace_string_in_iso "$img" "{DIRECTORY_MGR_PWD_12345678901}" "$DIRECTORY_MGR_PWD"
   done
   ##############
+}
+
+function setup_keys_certs_for_vm() {
+  mkdir -p /root/.ssh
+  rm -rf /root/.ssh/id_rsa*
+  cp /tmp/id_rsa.crt /etc/pki/ca-trust/source/anchors
+  cp /tmp/id_rsa /root/.ssh/id_rsa
+  cp /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
+  chmod 600 /root/.ssh/id_rsa
+  chmod 600 /root/.ssh/id_rsa.pub
+  runuser -l root -c  'update-ca-trust extract'
+
+  #### add hypervisor host key to authorized keys
+  ## this allows the hypervisor to ssh without password to openstack vms
+  runuser -l root -c 'cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys'
+  runuser -l root -c 'chmod 600 /root/.ssh/authorized_keys'
+  ######
 }
 
 function hypervisor_debug() {

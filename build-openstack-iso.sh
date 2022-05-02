@@ -116,10 +116,6 @@ fi
 ##### build openstack vm keys
 CERT_DIR="/tmp"
 
-if [ ! -f "$CERT_DIR/openstack-setup.key" ]; then
-  ssh-keygen -t rsa -b 4096 -C "openstack-setup" -N "" -f /tmp/openstack-setup.key <<<y 2>&1 >/dev/null
-fi
-
 if [ ! -f "$CERT_DIR/id_rsa" ]; then
   #### generate ssh keys
   # create CA cert before the network goes down to add ip to SAN
@@ -184,8 +180,6 @@ fi
 
 embed_files=('/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
-              '/tmp/openstack-setup.key'
-              '/tmp/openstack-setup.key.pub'
               '/tmp/id_rsa.pub'
               '/tmp/id_rsa'
               '/tmp/id_rsa.crt'
