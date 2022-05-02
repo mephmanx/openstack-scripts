@@ -188,7 +188,6 @@ function post_install_cleanup() {
   rm -rf /tmp/swift.key
 
   ### cleanup
-  runuser -l root -c  "rm -rf /tmp/key-bak/openstack-setup.key*"
   runuser -l root -c  'rm -rf /root/*.log'
   runuser -l root -c  'rm -rf /tmp/*.log'
   ######
@@ -608,11 +607,9 @@ function replace_values_in_root_isos() {
   ##  Remove first and last tine from each
   prepare_special_file /tmp/id_rsa.crt
   prepare_special_file /tmp/id_rsa
-  prepare_special_file /tmp/openstack-setup.key
 
   prepare_special_file /root/.ssh/id_rsa.crt
   prepare_special_file /root/.ssh/id_rsa
-  prepare_special_file /tmp/key-bak/openstack-setup.key
   ##########
 
   iso_images="/tmp/*.iso"
