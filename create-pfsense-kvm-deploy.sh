@@ -67,7 +67,9 @@ sleep 30;
 
 ## remove install disk from pfsense
 virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI.img --persistent --config --live
-virsh reboot pfsense
+virsh destroy pfsense
+sleep 20
+virsh start pfsense
 
 sleep 120;
 telegram_notify  "PFSense first reboot in progress, continuing to package install...."
