@@ -27,7 +27,7 @@ echo "Setting cache size to $DRIVE_SIZE"
 ##  makes a lot of sense, huh?
 INFO=$(cat /root/ip_out_update)
 TIMEZONE=$(parse_json "$INFO" "timezone")
-TIMEZONE=`echo $TIMEZONE | sed 's/\//\\\//g'`
+TIMEZONE=`echo $TIMEZONE | sed 's/\//\\\\\//g'`
 files="/cf/conf/backup/*"
 for file in $files; do
   echo "Changing contents of file $file"
