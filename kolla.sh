@@ -18,6 +18,27 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
+### system profile
+tuned-adm profile virtual-guest
+#############
+
+# set VM type for future use
+TYPE=$(cat /tmp/type)
+
+## enable auto updates if selected
+if [[ $LINUX_AUTOUPDATE == 1 ]]; then
+  systemctl enable --now dnf-automatic.timer
+fi
+
+# load libraries for this VM "type"
+load_libs "${TYPE}"
+
+# add stack user with passwordless sudo privs
+add_stack_user
+
+### module recommended on openstack.org
+modprobe vhost_net
+
 #####  setup global VIPs
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
