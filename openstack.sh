@@ -135,11 +135,6 @@ for part in $(df | grep "VM-VOL" | awk '{print $6, " " }' | tr -d '/' | tr -d '\
 done
 ############################
 
-#### build pfsense ssh key
-ssh-keygen -t rsa -b 4096 -C "pfsense" -N "" -f /tmp/pf_key <<<y 2>&1 >/dev/null
-runuser -l root -c "cat /tmp/pf_key.pub >> /root/.ssh/authorized_keys"
-#####
-
 runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;"
 
 #remove so as to not run again

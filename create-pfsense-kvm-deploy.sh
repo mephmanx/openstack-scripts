@@ -187,8 +187,6 @@ ip_out_array=( $(echo $IP_OUT | fold -c250 ))
 
   echo "chmod 777 /root/*.sh"
   sleep 10;
-  echo "shutdown now"
-  sleep 10;
 ) | telnet
 
 virsh destroy pfsense

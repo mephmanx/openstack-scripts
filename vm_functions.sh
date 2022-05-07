@@ -703,6 +703,7 @@ function install_python_modules() {
   sed -i '/export PATH/ i PATH=$PATH:$HOME\/bin:\/usr\/local\/bin' /root/.bash_profile
   export PYTHONIOENCODING=UTF-8
   export LANG=en_US.UTF-8
+  export LC_CTYPE=en_US.UTF-8
   source /root/.bash_profile
   pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1
   pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1
@@ -717,68 +718,13 @@ function install_python_modules() {
 }
 
 function install_packages() {
-
-    dnf module enable idm:DL1 virt -y
+    dnf clean all
+    dnf module enable idm:DL1 -y
     dnf distro-sync -y
-    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-    yum update -y
-    yum -y install epel-release
-    yum update -y
-    yum install -y ipa-client \
-                  freeipa-client \
-                  ipa-admintools \
-                  dnf-automatic \
-                  perl \
-                  cockpit \
-                  cockpit-machines \
-                  cockpit-networkmanager \
-                  cockpit-packagekit \
-                  cockpit-storaged \
-                  openvpn \
-                  virt-install \
-                  virt-viewer \
-                  swtpm \
-                  libtpms \
-                  unzip \
-                  docker-ce \
-                  docker-ce-cli \
-                  containerd.io \
-                  tpm-tools \
-                  httpd \
-                  yum-utils \
-                  python3-devel \
-                  gcc-c++ \
-                  mysql-devel \
-                  nodejs \
-                  mysql-server \
-                  cyrus-sasl-devel \
-                  make \
-                  libtool \
-                  autoconf \
-                  libtool-ltdl-devel \
-                  openssl-devel \
-                  libdb-devel \
-                  tar \
-                  gcc \
-                  perl-devel \
-                  vim \
-                  rsyslog \
-                  ipa-server \
-                  ipa-server-dns \
-                  telnet \
-                  qemu-kvm \
-                  libffi-devel \
-                  git \
-                  chrony \
-                  postgresql-devel \
-                  postgresql-libs \
-                  sqlite-devel \
-                  libxslt-devel \
-                  libxml2-devel \
-                  patch \
-                  openssl \
-                  expect \
-                  ruby \
-                  ruby-devel
+    dnf reposync
+    dnf update -y
 
+    dnf groupinstall -y virtualization-client
+    dnf install -y openvpn ruby-devel nodejs
+    dnf install -y freeipa-server freeipa-server-dns
 }
