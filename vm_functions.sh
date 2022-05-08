@@ -724,4 +724,5 @@ function install_packages() {
     dnf groupinstall -y virtualization-client
     dnf install -y openvpn ruby-devel nodejs
     dnf install -y freeipa-server freeipa-server-dns
+    dnf install -y docker-ce
 }
