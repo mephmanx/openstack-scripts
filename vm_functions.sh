@@ -699,15 +699,14 @@ function install_python_modules() {
   # update pip to required version
   sed -i '/export PATH/ i PATH=$PATH:$HOME\/bin:\/usr\/local\/bin' /root/.bash_profile
   source /root/.bash_profile
-  export PYTHONIOENCODING=UTF-8
-  runuser -l root -c  'pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1'
-  runuser -l root -c  'pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1'
-  runuser -l root -c  'pip3 install --no-index --find-links="/repo/PyRepo/PyRepo" pip==21.3.1'
+  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1'
+  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1'
+  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --no-index --find-links="/repo/PyRepo/PyRepo" pip==21.3.1'
 
   # install rest of the python modules
-  runuser -l root -c  'pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules'
-  runuser -l root -c  'pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo" -r /root/python.modules'
-  runuser -l root -c  'pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo/PyRepo" -r /root/python.modules'
+  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules'
+  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo" -r /root/python.modules'
+  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo/PyRepo" -r /root/python.modules'
 
 
 }
