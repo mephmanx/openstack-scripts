@@ -709,6 +709,6 @@ function install_packages() {
     dnf install -y docker-ce
     systemctl enable docker
     systemclt start docker
-    chkconfig docker
+    chkconfig docker on
     systemctl restart docker
 }
