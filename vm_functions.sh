@@ -692,8 +692,6 @@ function install_python_modules() {
   runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules'
   runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo" -r /root/python.modules'
   runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo/PyRepo" -r /root/python.modules'
-
-
 }
 
 function install_packages_openstack() {
@@ -714,18 +712,10 @@ function install_packages_openstack() {
 }
 
 function install_packages_hypervisor() {
-    dnf clean all
-    dnf module enable idm:DL1 -y
-    dnf distro-sync -y
-    dnf reposync
-    dnf update -y
+  dnf clean all
+  dnf distro-sync -y
+  dnf reposync
+  dnf update -y
 
-    dnf groupinstall -y virtualization-client
-    dnf install -y openvpn ruby-devel nodejs
-    dnf install -y freeipa-server freeipa-server-dns
-    dnf install -y docker-ce
-    systemctl enable docker
-    systemctl start docker
-    chkconfig docker on
-    systemctl restart docker
+  dnf groupinstall -y virtualization-client
 }
