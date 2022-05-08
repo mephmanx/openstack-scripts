@@ -696,7 +696,24 @@ function install_python_modules() {
 
 }
 
-function install_packages() {
+function install_packages_openstack() {
+  dnf clean all
+  dnf module enable idm:DL1 -y
+  dnf distro-sync -y
+  dnf reposync
+  dnf update -y
+
+  dnf groupinstall -y virtualization-client
+  dnf install -y openvpn ruby-devel nodejs
+  dnf install -y freeipa-server freeipa-server-dns
+  dnf install -y docker-ce
+  systemctl enable docker
+  systemctl start docker
+  chkconfig docker on
+  systemctl restart docker
+}
+
+function install_packages_hypervisor() {
     dnf clean all
     dnf module enable idm:DL1 -y
     dnf distro-sync -y
@@ -708,7 +725,7 @@ function install_packages() {
     dnf install -y freeipa-server freeipa-server-dns
     dnf install -y docker-ce
     systemctl enable docker
-    systemclt start docker
+    systemctl start docker
     chkconfig docker on
     systemctl restart docker
 }
