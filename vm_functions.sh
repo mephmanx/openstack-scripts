@@ -700,16 +700,14 @@ function install_python_modules() {
   sed -i '/export PATH/ i PATH=$PATH:$HOME\/bin:\/usr\/local\/bin' /root/.bash_profile
   source /root/.bash_profile
   export PYTHONIOENCODING=UTF-8
-  export LANG=en_US.UTF-8
-  export LC_CTYPE=en_US.UTF-8
-  pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1
-  pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1
-  pip3 install --no-index --find-links="/repo/PyRepo/PyRepo" pip==21.3.1
+  runuser -l root -c  'pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1'
+  runuser -l root -c  'pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1'
+  runuser -l root -c  'pip3 install --no-index --find-links="/repo/PyRepo/PyRepo" pip==21.3.1'
 
   # install rest of the python modules
-  pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules
-  pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo" -r /root/python.modules
-  pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo/PyRepo" -r /root/python.modules
+  runuser -l root -c  'pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules'
+  runuser -l root -c  'pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo" -r /root/python.modules'
+  runuser -l root -c  'pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo/PyRepo" -r /root/python.modules'
 
 
 }
