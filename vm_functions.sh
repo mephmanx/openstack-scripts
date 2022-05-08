@@ -725,4 +725,6 @@ function install_packages() {
     dnf install -y openvpn ruby-devel nodejs
     dnf install -y freeipa-server freeipa-server-dns
     dnf install -y docker-ce
+    systemctl enable docker
+    systemclt start docker
 }
