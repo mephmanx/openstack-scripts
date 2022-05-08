@@ -117,7 +117,7 @@ while [ $node_ct -gt 10 ]; do
 done
 #############
 
-virsh net-undefine default
+virsh net-destroy default
 ###########################
 
 #### vtpm
