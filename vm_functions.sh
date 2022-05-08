@@ -630,9 +630,6 @@ function replace_values_in_root_isos() {
       echo "replacing id_rsa  in $img"
       replace_oneline_file_in_iso "$img" /tmp/id_rsa.repl /root/.ssh/id_rsa.repl
       ##########
-
-      echo "replacing id_rsa.pub  in $img"
-      replace_oneline_file_in_iso "$img" /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
   done
 
   iso_images="/tmp/*.img"
@@ -701,10 +698,10 @@ function enable_kvm_module() {
 function install_python_modules() {
   # update pip to required version
   sed -i '/export PATH/ i PATH=$PATH:$HOME\/bin:\/usr\/local\/bin' /root/.bash_profile
+  source /root/.bash_profile
   export PYTHONIOENCODING=UTF-8
   export LANG=en_US.UTF-8
   export LC_CTYPE=en_US.UTF-8
-  source /root/.bash_profile
   pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1
   pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1
   pip3 install --no-index --find-links="/repo/PyRepo/PyRepo" pip==21.3.1
