@@ -629,6 +629,9 @@ function replace_values_in_root_isos() {
 
       echo "replacing id_rsa  in $img"
       replace_oneline_file_in_iso "$img" /tmp/id_rsa.repl /root/.ssh/id_rsa.repl
+
+      echo "replacing id_rsa.pub  in $img"
+      replace_oneline_file_in_iso "$img" /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
       ##########
   done
 
