@@ -69,15 +69,6 @@ function grow_fs() {
   xfsrestore -f /tmp/home.dump /home
 }
 
-function load_libs() {
-
-  systemctl start docker
-  systemctl enable docker
-  chkconfig docker on
-  systemctl restart docker
-
-}
-
 function add_stack_user() {
   NEWPW=$(generate_random_pwd 31)
 
@@ -87,15 +78,6 @@ function add_stack_user() {
   runuser -l root -c  'chown -R stack /opt/stack'
   runuser -l root -c  'su - stack'
   runuser -l root -c  "echo $NEWPW | passwd stack --stdin"
-}
-
-function prep_next_script() {
-  vm_type=$1
-
-  ## Prep OpenStack install
-  rm -rf /etc/rc.d/rc.local
-  cp /tmp/"$vm_type".sh /etc/rc.d/rc.local
-  chmod +x /etc/rc.d/rc.local
 }
 
 function restrict_to_root() {

@@ -30,9 +30,6 @@ if [[ $LINUX_AUTOUPDATE == 1 ]]; then
   systemctl enable --now dnf-automatic.timer
 fi
 
-# load libraries for this VM "type"
-load_libs "${TYPE}"
-
 # add stack user with passwordless sudo privs
 add_stack_user
 
