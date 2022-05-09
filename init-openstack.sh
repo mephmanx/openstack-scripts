@@ -40,7 +40,9 @@ nmcli connection down ext-con && nmcli connection up ext-con
 #########################
 
 # set up net script to be called after reboot
-prep_next_script "openstack"
+rm -rf /etc/rc.d/rc.local
+cp /tmp/openstack.sh /etc/rc.d/rc.local
+chmod +x /etc/rc.d/rc.local
 
 reboot
 }
