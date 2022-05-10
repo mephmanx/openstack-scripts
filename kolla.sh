@@ -254,7 +254,7 @@ rm -rf /tmp/host_trust
 kolla-ansible octavia-certificates
 ###########
 
-kolla-ansible -i /etc/kolla/multinode bootstrap-servers
+kolla-ansible -i /etc/kolla/multinode bootstrap-servers -vvv
 kolla-ansible -i /etc/kolla/multinode prechecks
 
 export KOLLA_DEBUG=0
