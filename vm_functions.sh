@@ -684,6 +684,12 @@ function install_python_modules() {
   # update pip to required version
   sed -i '/export PATH/ i PATH=$PATH:$HOME\/bin:\/usr\/local\/bin' /root/.bash_profile
   source /root/.bash_profile
+  ### setup python venv
+  python3 -m pip install --user --trusted-host pypi.org --trusted-host files.pythonhosted.org virtualenv
+  python3 -m venv /opt/stack/venv
+  source /opt/stack/venv/bin/activate
+
+  ####
   runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1'
   runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1'
   runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --no-index --find-links="/repo/PyRepo/PyRepo" pip==21.3.1'
