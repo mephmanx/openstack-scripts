@@ -84,6 +84,15 @@ pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo" -r /root/
 pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo/PyRepo" -r /root/python.modules
 python3 -m venv /opt/stack/venv
 source /opt/stack/venv/bin/activate
+
+pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1
+pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1
+pip3 install --no-index --find-links="/repo/PyRepo/PyRepo" pip==21.3.1
+
+# install rest of the python modules
+pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules
+pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo" -r /root/python.modules
+pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo/PyRepo" -r /root/python.modules
 ####
 
 mkdir -p /etc/kolla
