@@ -140,6 +140,7 @@ name=kolla_local
 baseurl=http://localhost:8080/kolla_$OPENSTACK_VERSION
 enabled=1
 gpgcheck=0
+cost=100
 EOF
 
 cp /tmp/kolla_local.repo /etc/yum.repos.d/
