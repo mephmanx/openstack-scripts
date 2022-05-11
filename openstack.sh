@@ -118,6 +118,8 @@ done
 #############
 
 virsh net-destroy default
+virsh net-undefine default
+rm /etc/libvirt/qemu/networks/autostart/default.xml
 ###########################
 
 #### vtpm
