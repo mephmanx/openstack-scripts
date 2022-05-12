@@ -363,14 +363,6 @@ kolla-ansible -i /etc/kolla/multinode deploy
 LOG_TAIL=`tail -25 /tmp/openstack-install.log`
 ###
 
-## install openstack python clients
-pip3 install  --ignore-installed --trusted-host pypi.org --trusted-host files.pythonhosted.org python-openstackclient
-pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-octaviaclient
-pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-troveclient
-pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-magnumclient
-pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org python-swiftclient
-#####
-
 kolla-ansible post-deploy
 
 telegram_debug_msg  "End of Openstack Install log -> $LOG_TAIL"
