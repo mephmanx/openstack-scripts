@@ -394,7 +394,7 @@ sleep 180
 
 ## adding cinder v2 endpoints
 openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
-openstack endpoint create --region us-east volumev2 public https://$EXTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
+openstack endpoint create --region us-east volumev2 public http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
 openstack endpoint create --region us-east volumev2 internal http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
 openstack endpoint create --region us-east volumev2 admin http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
 #############
@@ -663,7 +663,6 @@ runuser -l stack -c  "echo 'export OS_ENDPOINT_TYPE=$OS_ENDPOINT_TYPE' >> /opt/s
 runuser -l stack -c  "echo 'export OS_IDENTITY_API_VERSION=$OS_IDENTITY_API_VERSION' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_REGION_NAME=$OS_REGION_NAME' >> /opt/stack/.bash_profile"
 runuser -l stack -c  "echo 'export OS_AUTH_PLUGIN=$OS_AUTH_PLUGIN' >> /opt/stack/.bash_profile"
-runuser -l stack -c  "echo 'export REQUESTS_CA_BUNDLE=/tmp/id_rsa.crt' >> /opt/stack/.bash_profile"
 runuser -l stack -c  'bbl plan'
 
 sed -i "s/~> 1.16/$CF_BBL_OPENSTACK_CPI_VERSION/g" /opt/stack/terraform/bbl-template.tf
