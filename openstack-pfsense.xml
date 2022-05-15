@@ -503,25 +503,6 @@
 			</created>
 		</rule>
 		<rule>
-			<source>
-				<any></any>
-			</source>
-			<interface>wan</interface>
-			<ipprotocol>inet</ipprotocol>
-			<protocol>tcp</protocol>
-			<destination>
-				<address>identity</address>
-				<port>22</port>
-			</destination>
-			<descr><![CDATA[NAT SSH to kolla]]></descr>
-			<associated-rule-id>nat_6159ad88d67aa1.00024133</associated-rule-id>
-			<tracker>1633267080</tracker>
-			<created>
-				<time>1633267080</time>
-				<username><![CDATA[NAT Port Forward]]></username>
-			</created>
-		</rule>
-		<rule>
 			<id></id>
 			<tracker>1626087011</tracker>
 			<type>pass</type>
