@@ -331,30 +331,6 @@
 			</source>
 			<destination>
 				<network>wanip</network>
-				<port>22</port>
-			</destination>
-			<ipprotocol>inet</ipprotocol>
-			<protocol>tcp</protocol>
-			<target>identity</target>
-			<local-port>22</local-port>
-			<interface>wan</interface>
-			<descr><![CDATA[SSH to kolla]]></descr>
-			<associated-rule-id>nat_6159ad88d67aa1.00024133</associated-rule-id>
-			<created>
-				<time>1633267080</time>
-				<username><![CDATA[admin@10.0.9.1[192.168.1.1] (Local Database)]]></username>
-			</created>
-			<updated>
-				<time>1635629342</time>
-				<username><![CDATA[admin@127.0.0.1[45.56.119.204] (Local Database)]]></username>
-			</updated>
-		</rule>
-		<rule>
-			<source>
-				<any></any>
-			</source>
-			<destination>
-				<network>wanip</network>
 				<port>{CF_TCP_START_PORT}-{CF_TCP_END_PORT}</port>
 			</destination>
 			<ipprotocol>inet</ipprotocol>
@@ -709,20 +685,6 @@
 			<descr><![CDATA[pfBlockerNG  Auto  Alias]]></descr>
 			<type>urltable</type>
 			<detail><![CDATA[DO NOT EDIT THIS ALIAS]]></detail>
-		</alias>
-		<alias>
-			<name>identity</name>
-			<type>host</type>
-			<address>{IDENTITY_VIP}</address>
-			<descr><![CDATA[identity]]></descr>
-			<detail><![CDATA[Entry added Sat, 30 Oct 2021 17:28:40 -0400]]></detail>
-		</alias>
-		<alias>
-			<name>kolla</name>
-			<type>host</type>
-			<address>kolla.lyonsgroup.local</address>
-			<descr></descr>
-			<detail><![CDATA[Entry added Sun, 03 Oct 2021 09:17:53 -0400]]></detail>
 		</alias>
 	</aliases>
 	<proxyarp></proxyarp>

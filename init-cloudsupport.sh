@@ -133,6 +133,8 @@ docker tag "$(docker images |grep centos-source-zun-cni-daemon|awk '{print $3}')
 
 docker tag "$(docker images |grep centos-source-kuryr-libnetwork|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-source-kuryr-libnetwork:"$OPENSTACK_VERSION"
 
+docker tag `docker images |grep centos-binary-base|awk '{print $3}'` habor/centos-binary-base:wallaby
+
 #setup local repo
 cat > /tmp/kolla_local.repo <<EOF
 [kolla_local]
