@@ -146,6 +146,8 @@ do
 done
 ####
 
+yum install centos-release-openstack-${OPENSTACK_VERSION}
+yum install openstack-kolla
 if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f "/tmp/harbor/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz" ]; then
     rm -rf /tmp/harbor
     mkdir /tmp/harbor
@@ -159,7 +161,6 @@ if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f 
     mv /out/centos-binary-base-"${OPENSTACK_VERSION}".tar /tmp/harbor
     mv /out/kolla_"${OPENSTACK_VERSION}"_rpm_repo.tar.gz /tmp/harbor
     mv /out/globals.yml /tmp/harbor
-    rm -rf /out
     ### add copied images
     docker pull kolla/centos-source-kuryr-libnetwork:"$OPENSTACK_VERSION" && docker save kolla/centos-source-kuryr-libnetwork:"$OPENSTACK_VERSION" >/tmp/harbor/centos-source-kuryr-libnetwork.tar
     docker pull kolla/centos-source-kolla-toolbox:"$OPENSTACK_VERSION" && docker save kolla/centos-source-kolla-toolbox:"$OPENSTACK_VERSION" >/tmp/harbor/centos-source-kolla-toolbox.tar
