@@ -133,8 +133,6 @@ docker tag "$(docker images |grep centos-source-zun-cni-daemon|awk '{print $3}')
 
 docker tag "$(docker images |grep centos-source-kuryr-libnetwork|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-source-kuryr-libnetwork:"$OPENSTACK_VERSION"
 
-docker tag `docker images |grep centos-binary-base|awk '{print $3}'` habor/centos-binary-base:wallaby
-
 #setup local repo
 cat > /tmp/kolla_local.repo <<EOF
 [kolla_local]
@@ -169,7 +167,7 @@ echo "RUN rm -f /etc/swift/swift.conf" >> /usr/share/kolla/docker/swift/swift-ba
 sed -i '105,121s/^/#/' /usr/share/kolla/docker/fluentd/Dockerfile.j2
 #grafana image
 
-docker tag rpm_repo/kolla/centos-binary-base:"$OPENSTACK_VERSION" "$SUPPORT_VIP_DNS"/kolla/centos-binary-base:"$OPENSTACK_VERSION"
+docker tag kolla/centos-binary-base:"$OPENSTACK_VERSION" "$SUPPORT_VIP_DNS"/kolla/centos-binary-base:"$OPENSTACK_VERSION"
 
 #kolla build config
 kolla-build --base-image kolla/centos-binary-base --base-tag "$OPENSTACK_VERSION" -t binary --openstack-release "$OPENSTACK_VERSION"  --tag "$OPENSTACK_VERSION" --cache --skip-existing --nopull --registry "$SUPPORT_VIP_DNS" barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openvswitch placement qdrouterd redis rabbitmq swift telegraf trove
