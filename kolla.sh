@@ -518,7 +518,7 @@ openstack quota set --volumes -1 service
 ### cloudfoundry flavors
 openstack flavor create --ram 3840 --ephemeral 10 --vcpus 1 --public minimal
 openstack flavor create --ram 7680 --ephemeral 14 --vcpus 2 --public small
-openstack flavor create --ram 31232 --ephemeral 10 --vcpus 4 --public small-highmem
+openstack flavor create --ram 31232 --ephemeral 60 --vcpus 4 --public small-highmem
 openstack flavor create --ram 7680 --ephemeral 50 --vcpus 2 --public small-50GB-ephemeral-disk
 openstack flavor create --ram 31232 --ephemeral 100 --vcpus 4 --public small-highmem-100GB-ephemeral-disk
 #####
