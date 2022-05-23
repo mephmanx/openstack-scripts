@@ -1030,7 +1030,7 @@ telegram_notify  "Cloudfoundry install complete!  Beginning Stratos UI deploy"
 # cf api login
 ## use folder for auth token
 CF_HOME=$(mktemp -d /tmp/cfhome.9999)
-runuser -l stack -c "cf login -a api.$INTERNAL_DOMAIN_NAME -u admin -p $OPENSTACK_CLOUDFOUNDRY_PWD"
+runuser -l stack -c "cf login -a api.$INTERNAL_DOMAIN_NAME -u admin -p $OPENSTACK_CLOUDFOUNDRY_PWD --skip-ssl-validation"
 
 ## create org
 runuser -l stack -c "cf create-org $INTERNAL_DOMAIN_NAME"
