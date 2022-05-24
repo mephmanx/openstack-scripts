@@ -691,6 +691,7 @@ function install_packages_openstack() {
   dnf install -y openvpn ruby-devel nodejs
   dnf install -y freeipa-server freeipa-server-dns
   dnf install -y docker-ce
+  pip3 install docker
   systemctl enable docker
   systemctl start docker
   chkconfig docker on
