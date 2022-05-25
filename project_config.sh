@@ -142,7 +142,7 @@ export CF_BBL_OS_CONF_RELEASE=22.1.2
 export CF_BBL_OS_CONF_HASH=386293038ae3d00813eaa475b4acf63f8da226ef
 
 ## how much available memory (after operating system, vm overhead, openstack overhead, and other misc resources are allocated) is allocated to cloudfoundry
-export CF_MEMORY_ALLOCATION_PCT=90
+export CF_MEMORY_ALLOCATION_PCT=80
 export CF_DISK_ALLOCATION=80
 ### this must be in FreeBSD compatible array format or will break the pfsense init!
 ## stemcells to cache, will be pulled from https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-$stemcell-go_agent
