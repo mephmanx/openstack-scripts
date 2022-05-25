@@ -236,6 +236,11 @@ function create_vm_kvm {
   create_line+="$virt_network_string"
   create_line+="--os-variant=centos8 "
   create_line+="--graphics=vnc "
+
+  create_line+="--chardev socket,path=/tmp/qga.sock,server,nowait,id=qga0 "
+  create_line+="--device virtio-serial "
+  create_line+="--device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0 "
+
   create_line+=" --autostart --wait -1; virsh destroy $2;sleep 20;virsh start $2; rm -rf /tmp/$2-iso.iso"
 
   echo "$create_line"

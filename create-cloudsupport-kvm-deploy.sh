@@ -26,6 +26,11 @@ create_line+="--cdrom=/tmp/cloudsupport-iso.iso "
 create_line+="--network type=bridge,source=loc-static,model=virtio "
 create_line+="--os-variant=centos8 "
 create_line+="--graphics=vnc "
+
+create_line+="--chardev socket,path=/tmp/qga.sock,server,nowait,id=qga0 "
+create_line+="--device virtio-serial "
+create_line+="--device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0 "
+
 create_line+="--autostart --wait -1; virsh destroy cloudsupport;sleep 20;virsh start cloudsupport; rm -rf /tmp/cloudsupport-iso.iso"
 
 telegram_notify  "Creating cloudsupport vm"
