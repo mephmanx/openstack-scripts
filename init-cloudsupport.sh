@@ -170,7 +170,7 @@ sed -i '105,121s/^/#/' /usr/share/kolla/docker/fluentd/Dockerfile.j2
 docker tag kolla/centos-binary-base:"$OPENSTACK_VERSION" "$SUPPORT_VIP_DNS"/kolla/centos-binary-base:"$OPENSTACK_VERSION"
 
 #kolla build config
-kolla-build --base-image kolla/centos-binary-base --base-tag "$OPENSTACK_VERSION" -t binary --openstack-release "$OPENSTACK_VERSION"  --tag "$OPENSTACK_VERSION" --cache --skip-existing --nopull --registry "$SUPPORT_VIP_DNS" barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openvswitch placement qdrouterd redis rabbitmq swift telegraf trove murano
+kolla-build --base-image kolla/centos-binary-base --base-tag "$OPENSTACK_VERSION" -t binary --openstack-release "$OPENSTACK_VERSION"  --tag "$OPENSTACK_VERSION" --cache --skip-existing --nopull --registry "$SUPPORT_VIP_DNS" barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openvswitch placement qdrouterd redis rabbitmq swift telegraf trove
 
 #push images to harbor
 for i in $(docker images |grep "$SUPPORT_VIP_DNS" |awk '{print $1}');do docker push "$i":"$OPENSTACK_VERSION" ;done
