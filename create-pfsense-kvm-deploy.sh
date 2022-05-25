@@ -33,9 +33,7 @@ create_line+="--network type=bridge,source=amp-net,model=virtio "
 create_line+="--os-variant=freebsd11.0 "
 create_line+="--graphics=vnc "
 
-create_line+="--chardev socket,path=/tmp/qga.sock,server,nowait,id=qga0 "
-create_line+="--device virtio-serial "
-create_line+="--device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0 "
+create_line+="--channel unix,target.type=virtio,target.name='org.qemu.guest_agent.0' "
 
 create_line+="--autostart --wait 0"
 
