@@ -146,8 +146,8 @@ do
 done
 ####
 
-yum install centos-release-openstack-${OPENSTACK_VERSION}
-yum install openstack-kolla
+yum install -y centos-release-openstack-${OPENSTACK_VERSION}
+yum install -y openstack-kolla
 if [ ! -f "/tmp/harbor/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f "/tmp/harbor/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz" ]; then
     rm -rf /tmp/harbor
     mkdir /tmp/harbor
