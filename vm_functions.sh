@@ -174,7 +174,6 @@ function post_install_cleanup() {
   runuser -l root -c  'rm -rf /tmp/*.log'
   ######
 
-  rm -rf /tmp/type
   runuser -l root -c  'rm -rf /root/*.log'
   runuser -l root -c  'rm -rf /tmp/*.log'
   sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
@@ -189,7 +188,6 @@ sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
 rm -rf /tmp/host-trust.sh
 rm -rf /tmp/project_config.sh
 rm -rf /tmp/vm_functions.sh
-rm -rf /tmp/type
 rm -rf /tmp/server_cleanup.sh
 EOF
   chmod +x /tmp/server_cleanup.sh

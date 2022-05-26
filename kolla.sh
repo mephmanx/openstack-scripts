@@ -22,9 +22,6 @@ sleep 30
 tuned-adm profile virtual-guest
 #############
 
-# set VM type for future use
-TYPE=$(cat /tmp/type)
-
 # add stack user with passwordless sudo privs
 add_stack_user
 
