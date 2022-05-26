@@ -22,11 +22,6 @@ sleep 30
 tuned-adm profile virtual-guest
 #############
 
-## enable auto updates if selected
-if [[ $LINUX_AUTOUPDATE == 1 ]]; then
-  systemctl enable --now dnf-automatic.timer
-fi
-
 ### gen pwd's
 DIR_PWD="{DIRECTORY_MGR_PWD_12345678901}"
 ADMIN_PWD="{CENTOS_ADMIN_PWD_123456789012}"

@@ -22,11 +22,6 @@ sleep 30
 tuned-adm profile virtual-guest
 #############
 
-## enable auto updates if selected
-if [[ $LINUX_AUTOUPDATE == 1 ]]; then
-  systemctl enable --now dnf-automatic.timer
-fi
-
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 
 echo "{CENTOS_ADMIN_PWD_123456789012}" | kinit admin

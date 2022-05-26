@@ -24,11 +24,6 @@ tuned-adm profile virtual-guest
 # set VM type for future use
 TYPE=$(cat /tmp/type)
 
-## enable auto updates if selected
-if [[ $LINUX_AUTOUPDATE == 1 ]]; then
-  systemctl enable --now dnf-automatic.timer
-fi
-
 # add stack user with passwordless sudo privs
 add_stack_user
 
