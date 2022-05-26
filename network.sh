@@ -47,9 +47,6 @@ remove_ip_from_adapter "eth2"
 rm -rf /etc/rc.d/rc.local
 
 restrict_to_root
-
-reboot
-
 }
 
 stop() {

@@ -59,9 +59,6 @@ done
 rm -rf /etc/rc.d/rc.local
 
 restrict_to_root
-
-reboot
-
 }
 
 stop() {

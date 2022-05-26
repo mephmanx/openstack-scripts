@@ -45,16 +45,10 @@ remove_ip_from_adapter "eth0"
 remove_ip_from_adapter "eth2"
 ############################
 
-#### vtpm
-vtpm
-######
-
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 
 restrict_to_root
-
-reboot
 
 }
 
