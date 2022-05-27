@@ -30,6 +30,9 @@ modprobe vhost_net
 systemctl stop libvirtd
 systemctl disable libvirtd
 
+rm -rf /var/run/libvirt/*sock
+rm -rf /var/run/libvirt/*sock*
+
 ##eth0 is octavia mgmt net
 remove_ip_from_adapter "eth0"
 
