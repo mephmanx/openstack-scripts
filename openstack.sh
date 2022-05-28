@@ -132,7 +132,8 @@ for part in $(df | grep "VM-VOL" | awk '{print $6, " " }' | tr -d '/' | tr -d '\
 done
 ############################
 
-runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;"
+runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
+runuser -l root -c "cd /tmp || exit; ./create-identity-kvm-deploy.sh;" &
 
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
