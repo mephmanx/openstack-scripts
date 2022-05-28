@@ -36,7 +36,7 @@ embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
               '/tmp/openstack-scripts/init-cloudsupport.sh'
               '/tmp/openstack-scripts/vm_functions.sh')
 
-harbor_images="/tmp/harbor/*"
+harbor_images="/tmp/harbor/$OPENSTACK_VERSION/*"
 for img in $harbor_images; do
   embed_files+=("$img")
 done
