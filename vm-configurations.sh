@@ -239,7 +239,7 @@ function create_vm_kvm {
 
   create_line+="--channel unix,target.type=virtio,target.name='org.qemu.guest_agent.0' "
 
-  create_line+=" --autostart --wait -1; virsh destroy $2;sleep 20;virsh start $2; rm -rf /tmp/$2-iso.iso"
+  create_line+=" --autostart --wait -1; rm -rf /tmp/$2-iso.iso"
 
   echo "$create_line"
   eval "$create_line" &

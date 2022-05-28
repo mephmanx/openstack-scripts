@@ -29,7 +29,7 @@ create_line+="--graphics=vnc "
 
 create_line+="--channel unix,target.type=virtio,target.name='org.qemu.guest_agent.0' "
 
-create_line+="--autostart --wait -1; virsh destroy cloudsupport;sleep 20;virsh start cloudsupport; rm -rf /tmp/cloudsupport-iso.iso"
+create_line+="--autostart --wait -1;  rm -rf /tmp/cloudsupport-iso.iso"
 
 telegram_notify  "Creating cloudsupport vm"
 
