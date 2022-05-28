@@ -516,13 +516,13 @@ openstack flavor create --ram 31232 --ephemeral 100 --vcpus 4 --public small-hig
 #####
 
 ## enable TPM for all flavors
-flavor_list=`openstack flavor list | awk '{print $4}' | sed 2d`
-read -ra flavors -d '' <<<"$flavor_list"
-for f in "${flavors[@]}"; do
-  openstack flavor set $f \
-      --property hw:tpm_version=2.0 \
-      --property hw:tpm_model=tpm-crb
-done
+#flavor_list=`openstack flavor list | awk '{print $4}' | sed 2d`
+#read -ra flavors -d '' <<<"$flavor_list"
+#for f in "${flavors[@]}"; do
+#  openstack flavor set $f \
+#      --property hw:tpm_version=2.0 \
+#      --property hw:tpm_model=tpm-crb
+#done
 ###########
 
 telegram_notify  "Cloudfoundry Openstack project ready.  user -> $OPENSTACK_CLOUDFOUNDRY_USERNAME pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
