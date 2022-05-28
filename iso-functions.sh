@@ -156,7 +156,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/storage_hosts'
                 "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2"
                 '/tmp/openstack-scripts/kolla.sh'
-                '/tmp/harbor/globals.yml'
+                "/tmp/harbor/$OPENSTACK_VERSION/globals.yml"
                 '/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/openstack-env.sh'
                 "/tmp/libtpms-$SWTPM_VERSION.zip"
