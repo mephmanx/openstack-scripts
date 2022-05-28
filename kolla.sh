@@ -290,64 +290,6 @@ echo "resume_guests_state_on_host_boot=true" >> /etc/kolla/config/nova.conf
 #echo "allowed_origin = https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:3000" >> /etc/kolla/config/keystone.conf
 #######
 
-### configure OIDC config
-mkdir /etc/kolla/config/idp
-curl -o /etc/kolla/config/idp/google.provider https://accounts.google.com/.well-known/openid-configuration
-
-cat > /etc/kolla/config/idp/google.client <<EOF
-{
-  "client_id":"1015758907501-7dldip5suj2cplu7ck2hnitujigal7ct.apps.googleusercontent.com",
-  "client_secret":"f5Tvnj_8XTAI3jd9Qh5-BKhK"
-}
-EOF
-
-cat > /etc/kolla/config/idp/google.conf <<EOF
-{
-
-}
-EOF
-
-curl -o /tmp/google-certs.json https://www.googleapis.com/oauth2/v1/certs
-for cert_name in $(cat /tmp/google-certs.json | jq 'keys[]'); do
-  cert_name=`echo $cert_name | tr -d '"'`
-  export OIDC_CERTIFICATE_FILE="/etc/kolla/config/idp/$cert_name.pem"
-  echo -e $(cat /tmp/google-certs.json | jq .[$cert_name] | tr -d '"') > /etc/kolla/config/idp/$cert_name.pem
-done
-
-cat > /etc/kolla/config/idp/google.mapping <<EOF
-[
-  {
-    "local": [
-        {
-                        "user": {
-                            "name": "{0}"
-                        },
-                        "group": {
-                            "domain": {
-                                "name": "Default"
-                            },
-                            "name": "federated_users"
-                        }
-                    }
-    ],
-    "remote": [
-        {
-        "type": "HTTP_OIDC_ISS",
-        "any_one_of": [
-          "https://accounts.google.com"
-          ]
-        }
-    ]
-  }
-]
-EOF
-
-echo "OIDC file: $OIDC_CERTIFICATE_FILE"
-export OIDC_CERTIFICATE_FILE="${OIDC_CERTIFICATE_FILE//\//\\/}"
-sed -i "s/{OIDC_CERTIFICATE_FILE}/$OIDC_CERTIFICATE_FILE/g" /etc/kolla/globals.yml
-sed -i "s/{OIDC_MAPPING_FILE}/\/etc\/kolla\/config\/idp\/google.mapping/g" /etc/kolla/globals.yml
-#####
-
 telegram_notify  "Openstack Kolla Ansible deploy task execution begun....."
 kolla-ansible -i /etc/kolla/multinode deploy
 
