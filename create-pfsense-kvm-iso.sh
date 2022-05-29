@@ -21,11 +21,6 @@ rm -rf /tmp/usb/config.xml
 cp /tmp/openstack-scripts/openstack-pfsense.xml /tmp/usb
 mv /tmp/usb/openstack-pfsense.xml /tmp/usb/config.xml
 
-#####  setup global VIPs
-INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
-EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
-###################
-
 ## generate OpenVPN TLS secret key
 runuser -l root -c  'openvpn --genkey --secret /tmp/openvpn-secret.key'
 
@@ -64,10 +59,6 @@ sed -i "s/{GATEWAY_ROUTER_IP}/$GATEWAY_ROUTER_IP/g" /tmp/usb/config.xml
 sed -i "s/{GATEWAY_ROUTER_DHCP_START}/$GATEWAY_ROUTER_DHCP_START/g" /tmp/usb/config.xml
 sed -i "s/{GATEWAY_ROUTER_DHCP_END}/$GATEWAY_ROUTER_DHCP_END/g" /tmp/usb/config.xml
 sed -i "s/{INTERNAL_DOMAIN_NAME}/$INTERNAL_DOMAIN_NAME/g" /tmp/usb/config.xml
-sed -i "s/{EXTERNAL_VIP_DNS}/$EXTERNAL_VIP_DNS/g" /tmp/usb/config.xml
-sed -i "s/{INTERNAL_VIP_DNS}/$INTERNAL_VIP_DNS/g" /tmp/usb/config.xml
-sed -i "s/{APP_INTERNAL_HOSTNAME}/$APP_INTERNAL_HOSTNAME/g" /tmp/usb/config.xml
-sed -i "s/{APP_EXTERNAL_HOSTNAME}/$APP_EXTERNAL_HOSTNAME/g" /tmp/usb/config.xml
 sed -i "s/{NETWORK_PREFIX}/$NETWORK_PREFIX/g" /tmp/usb/config.xml
 sed -i "s/{OPENVPN_CERT_PWD}/$(generate_random_pwd 31)/g" /tmp/usb/config.xml
 sed -i "s/{TELEGRAM_API}/$TELEGRAM_API/g" /tmp/usb/config.xml

@@ -1920,9 +1920,9 @@
 							<_index></_index>
 						</item>
 						<item>
-							<name>{APP_EXTERNAL_HOSTNAME}</name>
+							<name>horizon</name>
 							<expression>host_contains</expression>
-							<value>{APP_EXTERNAL_HOSTNAME}</value>
+							<value>horizon</value>
 							<_index></_index>
 						</item>
 						<item>
@@ -1985,7 +1985,7 @@
 						</item>
 						<item>
 							<action>use_backend</action>
-							<acl>{APP_EXTERNAL_HOSTNAME}</acl>
+							<acl>horizon</acl>
 							<use_backendbackend>horizon</use_backendbackend>
 							<_index></_index>
 						</item>
