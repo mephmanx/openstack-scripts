@@ -116,6 +116,7 @@ fi
 ##### build openstack vm keys
 CERT_DIR="/tmp"
 
+rm -rf "$CERT_DIR/id_rsa*"
 if [ ! -f "$CERT_DIR/id_rsa" ]; then
   #### generate ssh keys
   # create CA cert before the network goes down to add ip to SAN
@@ -124,6 +125,7 @@ if [ ! -f "$CERT_DIR/id_rsa" ]; then
   create_ca_cert $CERT_DIR
 fi
 
+rm -rf "$CERT_DIR/wildcard.*"
 if [ ! -f "$CERT_DIR/wildcard.key" ]; then
   ### initial wildcard cert
   load_cert_loc_info

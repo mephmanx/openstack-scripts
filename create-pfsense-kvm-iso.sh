@@ -65,7 +65,6 @@ sed -i "s/{TELEGRAM_API}/$TELEGRAM_API/g" /tmp/usb/config.xml
 sed -i "s/{TELEGRAM_CHAT_ID}/$TELEGRAM_CHAT_ID/g" /tmp/usb/config.xml
 sed -i "s/{OINKMASTER}/$OINKMASTER/g" /tmp/usb/config.xml
 sed -i "s/{MAXMIND_KEY}/$MAXMIND_KEY/g" /tmp/usb/config.xml
-sed -i "s/{LETSENCRYPT_KEY}/$LETS_ENCRYPT_ACCOUNT_KEY/g" /tmp/usb/config.xml
 sed -i "s/{CA_CRT}/$CA_CRT/g" /tmp/usb/config.xml
 sed -i "s/{CA_KEY}/$CA_KEY/g" /tmp/usb/config.xml
 sed -i "s/{INITIAL_WILDCARD_CRT}/$INITIAL_WILDCARD_CRT/g" /tmp/usb/config.xml
