@@ -19,6 +19,14 @@ DRIVE_KB=`geom disk list | grep Mediasize | sed 2d | awk '{ print $2 }'`
 DRIVE_SIZE=$(($DRIVE_KB / 1024 / 1024 * 75/100))
 echo "Setting cache size to $DRIVE_SIZE"
 
+install_pkg "pfsense-pkg-squid"
+install_pkg "pfsense-pkg-haproxy-devel"
+install_pkg "pfsense-pkg-openvpn-client-export"
+install_pkg "pfsense-pkg-pfBlockerNG-devel"
+install_pkg "pfsense-pkg-snort"
+install_pkg "pfsense-pkg-cron"
+install_pkg "pfsense-pkg-Telegraf"
+
 ## the pfsense method for changing config via cli is f*ed up:
 ##  change all backup files, delete primary file, and let system "restore" a changed backup file
 ##  makes a lot of sense, huh?
@@ -29,24 +37,8 @@ files="/cf/conf/backup/*"
 for file in $files; do
   echo "Changing contents of file $file"
   perl -pi.back -e "s/{CACHE_SIZE}/$DRIVE_SIZE/g;" "$file"
-  perl -pi.back -e "s/{TIMEZONE}/$TIMEZONE/g;" "$file"
+  perl -pi.back -e "s/{TIMEZONE}/UTC/g;" "$file"
 done
-
-install_pkg "pfsense-pkg-squid"
-install_pkg "pfsense-pkg-haproxy-devel"
-install_pkg "pfsense-pkg-openvpn-client-export"
-install_pkg "pfsense-pkg-pfBlockerNG-devel"
-install_pkg "pfsense-pkg-snort"
-install_pkg "pfsense-pkg-cron"
-install_pkg "pfsense-pkg-Telegraf"
-
-### start services after install/reboot
-cd /usr/local/etc/rc.d
-# start snort
-./snort.sh start
-# start telegraf
-./telegraf.sh start &
-####
 
 rm -rf /cf/conf/config.xml
 rm -rf /root/pfsense-init.sh
