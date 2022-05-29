@@ -40,8 +40,7 @@ export EXTERNAL_IP_SERVICE="ipinfo.io/ip"
 export EXTERNAL_IP_INFO_SERVICE="ipinfo.io/"
 
 ###  Cert constants
-export ORGANIZATION="Cloud.local-Platform-CA"
-export OU="CloudStick"
+export ORGANIZATION="cloud.local-Org"
 
 ## domain name
 ## generate internal domain name

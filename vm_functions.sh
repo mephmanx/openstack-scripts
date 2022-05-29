@@ -215,7 +215,6 @@ function create_ca_cert() {
   echo "State: $STATE"
   echo "Location: $LOCATION"
   echo "Organization: $ORGANIZATION"
-  echo "OU: $OU"
 
   IP=$(hostname -I | awk '{print $1}')
 
