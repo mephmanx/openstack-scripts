@@ -308,18 +308,6 @@ runuser -l root -c  'cd /tmp; ./control-trust.sh'
 cd $working_dir
 rm -rf /tmp/control-trust.sh
 
-##### add cloud origin to horizon
-#control_ct=$CONTROL_COUNT
-#cat > /tmp/script.sh <<EOF
-#echo 'CSRF_TRUSTED_ORIGINS=["openstack.$EXTERNAL_DOMAIN_NAME"]' >> /etc/kolla/horizon/local_settings; docker restart horizon;
-#EOF
-#while [[ $control_ct -gt 0 ]]; do
-#  scp /tmp/script.sh root@control0$control_ct:/tmp
-#  runuser -l root -c "ssh root@control0$control_ct 'cd /tmp; chmod 777 script.sh; ./script.sh'"
-#  ((control_ct--))
-#done
-#####
-
 #load setup for validator
 export REQUESTS_CA_BUNDLE=/tmp/id_rsa.crt
 cd /etc/kolla
@@ -327,6 +315,7 @@ cd /etc/kolla
 sleep 180
 
 ## adding cinder v2 endpoints
+###  Only for Openstack Wallaby and below, CinderV2 is NOT POSSIBLE TO ENABLE on Xena and above!
 openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
 openstack endpoint create --region us-east volumev2 public http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
 openstack endpoint create --region us-east volumev2 internal http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
