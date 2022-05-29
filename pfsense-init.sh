@@ -13,9 +13,6 @@ IP_DATA=$(ifconfig vtnet0 | grep inet | awk -F' ' '{ print $2 }' | head -2 | tai
 telegram_notify  "PFSense initialization script beginning... \n\nCloud DMZ IP: $IP_DATA"
 ####  initial actions
 
-install_pkg "pfsense-pkg-squid"
-install_pkg "pfsense-pkg-haproxy-devel"
-
 ## DO NOT USE $() notation below!!!   IT WILL NOT WORK ON PFSENSE!!
 # shellcheck disable=SC2006
 DRIVE_KB=`geom disk list | grep Mediasize | sed 2d | awk '{ print $2 }'`
@@ -35,27 +32,8 @@ for file in $files; do
   perl -pi.back -e "s/{TIMEZONE}/$TIMEZONE/g;" "$file"
 done
 
-rm -rf /cf/conf/config.xml
-rm -rf /root/pfsense-init.sh
-
-####  building second init script
-cat <<EOF >/usr/local/etc/rc.d/pfsense-init-2.sh
-#!/bin/sh
-
-exec 1>/root/init2-install.log 2>&1 # send stdout and stderr from rc.local to a log file
-set -x                             # tell sh to display commands before execution
-
-## this script will run on pfsense reboot and then remove itself
-## this script is run on a FreeBSD system, not centos, not bash.  Makes some things slightly different
-
-. /root/project_config.sh
-. /root/pf_functions.sh
-
-telegram_notify  "PFSense init: Second init script running"
-
-## kickoff cloud build
-
-### install remaining packages here
+install_pkg "pfsense-pkg-squid"
+install_pkg "pfsense-pkg-haproxy-devel"
 install_pkg "pfsense-pkg-openvpn-client-export"
 install_pkg "pfsense-pkg-pfBlockerNG-devel"
 install_pkg "pfsense-pkg-snort"
@@ -70,18 +48,8 @@ cd /usr/local/etc/rc.d
 ./telegraf.sh start &
 ####
 
-## perform any cleanup here
-
-####
-
-### remove from starting on boot
-rm -rf /usr/local/etc/rc.d/pfsense-init-2.sh
-
-EOF
-
-chmod a+rx /usr/local/etc/rc.d/pfsense-init-2.sh
-#########
+rm -rf /cf/conf/config.xml
+rm -rf /root/pfsense-init.sh
 
 telegram_notify  "PFSense init: init complete! removing script and rebooting.."
-ssh root@"$LAN_CENTOS_IP" 'sleep 20;virsh destroy pfsense;sleep 20;virsh start pfsense;' &
 reboot
