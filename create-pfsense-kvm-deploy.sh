@@ -70,9 +70,7 @@ sleep 30;
 
 ## remove install disk from pfsense
 virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI.img --persistent --config --live
-virsh destroy pfsense
-sleep 20
-virsh start pfsense
+virsh reboot pfsense
 
 sleep 120;
 telegram_notify  "PFSense first reboot in progress, continuing to package install...."
@@ -190,11 +188,8 @@ ip_out_array=( $(echo $IP_OUT | fold -c250 ))
 
   echo "chmod 777 /root/*.sh"
   sleep 10;
+  echo "reboot"
 ) | telnet
-
-virsh destroy pfsense
-sleep 20
-virsh start pfsense
 
 telegram_notify  "PFSense rebooting after package install, pfsense-init script should begin after reboot."
 
