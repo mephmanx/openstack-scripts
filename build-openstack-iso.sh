@@ -43,6 +43,7 @@ HOSTNAME_SUFFIX=$(< /dev/urandom 2>/dev/null tr -dc A-Za-z0-9 | head -c100 | hea
 sed -i 's/{HOSTNAME_SUFFIX}/'"$HOSTNAME_SUFFIX"'/g' ${kickstart_file}
 ###
 sed -i 's/{CENTOS_ADMIN_PWD_123456789012}/'"$NEWPWD"'/g' ${kickstart_file}
+sed -i 's/{NTP_SERVER}/'"$GATEWAY_ROUTER_IP"'/g' ${kickstart_file}
 ###########################
 
 ## download files to be embedded

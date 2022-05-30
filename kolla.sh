@@ -1091,7 +1091,7 @@ runuser -l stack -c "cf bind-running-security-group ASG"
 #    -n" > /tmp/prometheus-install.log
 
 #push stratos
-git clone https://github.com/cloudfoundry/stratos /tmp/stratos
+git clone https://github.com/SUSE/stratos.git /tmp/stratos
 runuser -l stack -c "cf push console -f /tmp/stratos/manifest-docker.yml -k 2G"
 runuser -l stack -c "cf scale console -i 2"
 
