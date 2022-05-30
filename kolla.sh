@@ -1003,7 +1003,7 @@ cat > /opt/stack/asg.json <<EOF
     "destination": "10.1.0.0/24",
     "ports": "$cf_tcp_ports",
     "log": true,
-    "description": "Allow http and https traffic to ZoneA"
+    "description": "Allow http and https traffic to Gateway Net"
   }
 ]
 EOF
