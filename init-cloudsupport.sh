@@ -152,8 +152,15 @@ sed -i 's/RUN dnf module/#RUN dnf module/' /usr/share/kolla/docker/keystone/keys
 #neutron image
 sed -i 's#kolla_neutron_sudoers #kolla_neutron_sudoers \&\& cp /usr/share/neutron/api-paste.ini /etc/neutron #' /usr/share/kolla/docker/neutron/neutron-base/Dockerfile.j2
 
-#fix centos 8 install issue
-sed -i "s/'python3-sqlalchemy-collectd',//" /usr/share/kolla/docker/openstack-base/Dockerfile.j2
+#fix magnum bug
+sed -i 's/USER magnum//' /usr/share/kolla/docker/magnum/magnum-conductor/Dockerfile.j2
+
+cat <<EOF >> /usr/share/kolla/docker/magnum/magnum-conductor/Dockerfile.j2
+
+RUN sed -i '305s!^$!      allowed_cidrs: ["10.0.0.0/8"]!' /usr/lib/python3.6/site-packages/magnum/drivers/swarm_fedora_atomic_v1/templates/cluster.yaml
+
+USER magnum
+EOF
 
 #fix swift config ring issue
 echo "RUN rm -f /etc/swift/swift.conf" >> /usr/share/kolla/docker/swift/swift-base/Dockerfile.j2

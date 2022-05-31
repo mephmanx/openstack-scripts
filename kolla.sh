@@ -91,13 +91,6 @@ mkdir -p /etc/kolla
 
 cp -r /opt/stack/venv/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
 cp /opt/stack/venv/share/kolla-ansible/ansible/inventory/* /etc/kolla
-mkdir /etc/kolla/certificates
-mkdir /etc/kolla/certificates/ca
-cp /tmp/*.pem /etc/kolla/certificates
-cp /tmp/id_rsa.crt /etc/kolla/certificates/ca/id_rsa.crt
-cp /tmp/id_rsa.crt /opt/stack
-chown -R stack /opt/stack/id_rsa.crt
-
 mkdir -p /var/lib/kolla/config_files
 
 telegram_notify  "Loading Openstack Kolla deployment playbook and performing env customization...."
@@ -309,7 +302,6 @@ cd $working_dir
 rm -rf /tmp/control-trust.sh
 
 #load setup for validator
-export REQUESTS_CA_BUNDLE=/tmp/id_rsa.crt
 cd /etc/kolla
 . ./admin-openrc.sh
 sleep 180
@@ -594,31 +586,6 @@ sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/jumpbox-deployment/jumpbox.yml
 sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/bosh-deployment/bosh.yml
 sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/cloud-config/ops.yml
 
-runuser -l stack -c  "cat > /opt/stack/trusted-certs.vars.yml <<EOF
-trusted_certs: |-
-EOF"
-
-sed -i 's/^/  /' /opt/stack/id_rsa.crt
-runuser -l stack -c  'cat /opt/stack/id_rsa.crt >> /opt/stack/trusted-certs.vars.yml'
-
-runuser -l stack -c  "cat > /opt/stack/add-trusted-certs-to-director-vm.ops.yml <<EOF
-- type: replace
-  path: /releases/name=os-conf?
-  value:
-    name: os-conf
-    version: $CF_BBL_OS_CONF_RELEASE
-    url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=$CF_BBL_OS_CONF_RELEASE
-    sha1: $CF_BBL_OS_CONF_HASH
-
-- type: replace
-  path: /instance_groups/name=bosh/jobs/-
-  value:
-    name: ca_certs
-    release: os-conf
-    properties:
-      certs: ((trusted_certs))
-EOF"
-
 length=$(wc -c </opt/stack/create-director.sh)
 if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-director.sh)" ]; then
   # The file ends with a newline or null
@@ -634,9 +601,7 @@ fi
 ### modify director / jumpbox  here
 ### create-director changes
 chown -R stack /tmp/bosh-*.tgz
-runuser -l stack -c  "echo '-o /opt/stack/bosh-deployment/misc/trusted-certs.yml --var-file=trusted_ca_cert=/opt/stack/id_rsa.crt \
-                            -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml  \
-                            -o /opt/stack/bosh-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh-$STEMCELL_STAMP.tgz' >> /opt/stack/create-director.sh"
+runuser -l stack -c  "echo '-o /opt/stack/bosh-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh-$STEMCELL_STAMP.tgz' >> /opt/stack/create-director.sh"
 
 ## create-jumpbox changes
 runuser -l stack -c  "echo ' -o /opt/stack/bosh-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh-$STEMCELL_STAMP.tgz ' >> /opt/stack/create-jumpbox.sh"
@@ -675,8 +640,6 @@ chown -R stack terraform
 
 sed -i '/provider "openstack" {/a use_octavia   = true' ./cf.tf
 sed -i "/use_octavia   = true/a version = \"$CF_BBL_OPENSTACK_CPI_VERSION\"" ./cf.tf
-cp /tmp/id_rsa.crt /opt/stack/ca.crt
-chown -R stack /opt/stack/ca.crt
 ## add availability zones to the list below for a full HA deploy
 cat > terraform.tfvars <<EOF
 auth_url = "http://$INTERNAL_VIP_DNS:5000/v3"
@@ -702,8 +665,8 @@ use_tcp_router = "true" #default is true
 num_tcp_ports = $CF_TCP_PORT_COUNT #default is 100, needs to be > 0
 
 # in case of self signed certificate select one of the following options
-#cacert_file = "/opt/stack/ca.crt"
-insecure = "false"
+#cacert_file = ""
+#insecure = "false"
 EOF
 
 telegram_notify  "Executing env prep script..."
@@ -908,10 +871,11 @@ if [[ $error_count -gt 0 ]]; then
                       bosh -d cf deploy \
                       -o /tmp/cf-deployment/operations/openstack.yml \
                       -o /tmp/cf-deployment/operations/scale-to-one-az.yml \
-                      -o /tmp/cf-deployment/operations/use-trusted-ca-cert-for-apps.yml \
                       -o /tmp/cf-deployment/operations/use-latest-stemcell.yml \
                       -o /tmp/cf-deployment/operations/use-compiled-releases.yml \
-                      -l /opt/stack/trusted-certs-cf.vars.yml \
+                      -o /tmp/cf-deployment/operations/disable-router-tls-termination.yml \
+                      -o /tmp/cf-deployment/operations/use-external-blobstore.yml \
+                      -o /tmp/cf-deployment/operations/use-swift-blobstore.yml \
                       -v system_domain=$INTERNAL_DOMAIN_NAME \
                       -v auth_url=http://$INTERNAL_VIP_DNS:5000/v3 \
                       -v openstack_project=cloudfoundry \
@@ -927,6 +891,8 @@ if [[ $error_count -gt 0 ]]; then
                       --vars-store /tmp/vars/deployment-vars.yml \
                       /tmp/cf-deployment/cf-deployment.yml \
                       -n" > /tmp/cloudfoundry-install.log
+
+
 
     error_count1=`grep -i "error" /tmp/cloudfoundry-install.log | wc -l`
     error_count2=`grep -i "Error" /tmp/cloudfoundry-install.log | wc -l`
@@ -953,7 +919,7 @@ telegram_notify  "Cloudfoundry install complete!  Beginning Stratos UI deploy"
 # cf api login
 ## use folder for auth token
 CF_HOME=$(mktemp -d /tmp/cfhome.9999.XXX)
-runuser -l stack -c "cf login -a api.$INTERNAL_DOMAIN_NAME -u admin -p $OPENSTACK_CLOUDFOUNDRY_PWD --skip-ssl-validation"
+runuser -l stack -c "cf login -a http://api.$INTERNAL_DOMAIN_NAME -u admin -p $OPENSTACK_CLOUDFOUNDRY_PWD --skip-ssl-validation"
 
 ## create org
 runuser -l stack -c "cf create-org $INTERNAL_DOMAIN_NAME"
@@ -1154,25 +1120,6 @@ post_install_cleanup
 
 restrict_to_root
 
-cat > /etc/rc.d/rc.local <<EOF
-cd /opt/stack
-source .bash_profile
-source /tmp/bbl_env.sh
-
-## start amphora first
-source /etc/kolla/octavia-openrc.sh
-openstack server start `openstack server list | awk -F'|' ' NR > 3 && !/^+--/ { print $3} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }'`
-
-## log on as osuser to start bosh and jumpserver
-source .bash_profile
-export OS_PROJECT_NAME=cloudfoundry
-export OS_USERNAME=$OPENSTACK_CLOUDFOUNDRY_USERNAME
-export OS_PASSWORD=$OPENSTACK_CLOUDFOUNDRY_PWD
-openstack server start jumpbox/0
-openstack server start bosh/0
-sleep 60;
-
-EOF
 chmod +x /etc/rc.d/rc.local
 }
 
