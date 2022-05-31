@@ -9,6 +9,7 @@
 . /tmp/openstack-env.sh
 . /tmp/project_config.sh
 
+# shellcheck disable=SC2120
 start() {
 
 exec 1>/tmp/openstack-install.log 2>&1 # send stdout and stderr from rc.local to a log file
