@@ -101,16 +101,6 @@ ip_out_array=( $(echo $IP_OUT | fold -c250 ))
 
 (echo open 127.0.0.1 4568;
   sleep 120;
-  echo "pfSsh.php playback changepassword admin";
-  sleep 10;
-  echo "$root_pw";
-  sleep 10;
-  echo "$root_pw";
-  sleep 10;
-  echo "yes | pkg install git &";
-  sleep 120;
-  echo "yes | pkg install pfsense-pkg-Shellcmd &";
-  sleep 120;
 #  echo "mkdir /root/.ssh";
 #  sleep 20;
 #  echo "touch /root/.ssh/id_rsa; touch /root/.ssh/id_rsa.pub; touch /root/.ssh/id_rsa.pub.enc; touch /root/.ssh/id_rsa.enc;";
@@ -162,16 +152,6 @@ ip_out_array=( $(echo $IP_OUT | fold -c250 ))
     sleep 5;
   done
   echo "openssl base64 -d -in /root/project_config.sh.enc -out /root/project_config.sh;";
-  sleep 10;
-
-  echo "touch /root/ip_out_update; touch /root/ip_out_update.enc;";
-  sleep 10;
-  for element in "${ip_out_array[@]}"
-  do
-    echo "echo '$element' >> /root/ip_out_update.enc";
-    sleep 5;
-  done
-  echo "openssl base64 -d -in /root/ip_out_update.enc -out /root/ip_out_update;";
   sleep 10;
 
   echo "touch /root/pfsense-init.sh; touch /root/pfsense-init.sh.enc;";

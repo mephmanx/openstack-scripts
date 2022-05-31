@@ -30,14 +30,10 @@ install_pkg "pfsense-pkg-Telegraf"
 ## the pfsense method for changing config via cli is f*ed up:
 ##  change all backup files, delete primary file, and let system "restore" a changed backup file
 ##  makes a lot of sense, huh?
-INFO=$(cat /root/ip_out_update)
-TIMEZONE=$(parse_json "$INFO" "timezone")
-TIMEZONE=`echo $TIMEZONE | sed 's/\//\\\\\//g'`
 files="/cf/conf/backup/*"
 for file in $files; do
   echo "Changing contents of file $file"
   perl -pi.back -e "s/{CACHE_SIZE}/$DRIVE_SIZE/g;" "$file"
-  perl -pi.back -e "s/{TIMEZONE}/UTC/g;" "$file"
 done
 
 rm -rf /cf/conf/config.xml
