@@ -62,12 +62,11 @@ if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2" ]; then
   rm -rf /tmp/octavia
 fi
 
-if [ ! -f "/tmp/pfSense-$PFSENSE_VERSION.gz" ]; then
-  wget -O /tmp/pfSense-"$PFSENSE_VERSION".gz "${PFSENSE}"
+if [ ! -f "/out/pfSense-CE-memstick-AI.img" ]; then
+  for i in `docker images |grep "$PFSENSE_CACHE_IMAGE"|awk '{print $3}'`;do docker rmi $i;done
+  docker run -v /out:/out --rm -ti "$PFSENSE_CACHE_IMAGE"
+  cp /out/pfSense-CE-memstick-AI.img /var/tmp
 fi
-cp /tmp/pfSense-"$PFSENSE_VERSION".gz /tmp/pfSense-CE-memstick-ADI.img.gz
-rm -rf /tmp/pfSense-CE-memstick-ADI.img
-gunzip -f /tmp/pfSense-CE-memstick-ADI.img.gz
 
 if [ ! -f "/tmp/harbor-$HARBOR_VERSION.tgz" ]; then
   wget -O /tmp/harbor-"$HARBOR_VERSION".tgz "${HARBOR}"

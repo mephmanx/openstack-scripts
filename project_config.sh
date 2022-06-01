@@ -11,10 +11,6 @@ export HARBOR=https://github.com/goharbor/harbor/releases/download/$HARBOR_VERSI
 export LIBTPMS_GIT=https://github.com/stefanberger/libtpms/archive/master/libtpms.zip;
 export SWTPM_GIT=https://github.com/stefanberger/swtpm/archive/master/swtpm.zip;
 
-###  PFSense installer
-## fat32 offset is added but logic NEEDS to be validated on update
-export PFSENSE=https://atxfiles.netgate.com/mirror/downloads/pfSense-CE-memstick-ADI-$PFSENSE_VERSION-RELEASE-amd64.img.gz;
-
 ### Magnum docker image
 export MAGNUM_IMAGE=https://download.fedoraproject.org/pub/alt/atomic/stable/$MAGNUM_IMAGE_VERSION/CloudImages/x86_64/images/$MAGNUM_IMAGE_VERSION.x86_64.qcow2
 
@@ -56,6 +52,9 @@ export DOCKER_OPENSTACK_OFFLINE_IMAGE="mephmanx/os-airgap:latest";
 ## Homebrew caching image
 export HOMEBREW_CACHE_IMAGE="mephmanx/homebrew-cache:latest";
 
+## pfSense airgap caching image
+export PFSENSE_CACHE_IMAGE="mephmanx/pfsense-airgap-resources:latest";
+
 ### Enable auto-update
 ## This enables the centos/stream auto update function on install.
 ## Auto update can be enabled later if not enabled here, this just sets it up and enables it for you.
@@ -64,7 +63,6 @@ export LINUX_AUTOUPDATE=1
 ## library versions
 ## this will force cache update if changed
 export HARBOR_VERSION="v2.5.0"
-export PFSENSE_VERSION="2.6.0"
 export MAGNUM_IMAGE_VERSION="Fedora-Atomic-27-20180419.0"
 export CF_ATTIC_TERRAFORM_VERSION="0.11.15"
 export DOCKER_COMPOSE_VERSION="1.29.2"
@@ -72,7 +70,7 @@ export UBUNTU_VERSION="18.04"
 export UBUNTU_RELEASE_NAME="bionic"
 export AMPHORA_VERSION="1.0.1"
 export TROVE_DB_VERSION="xena"
-export CF_DEPLOY_VERSION="v20.3.0"
+export CF_DEPLOY_VERSION="v21.0.0"
 export SWTPM_VERSION="1.0.0"
 export STEMCELL_STAMP="12-14-2021"
 export OPENSTACK_VERSION="wallaby"
