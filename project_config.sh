@@ -40,7 +40,6 @@ export ORGANIZATION="cloud.local-Org"
 
 ## domain name
 ## generate internal domain name
-#export INTERNAL_DOMAIN_NAME=$INT_DOM_NAME;
 export INTERNAL_DOMAIN_NAME="cloud.local";
 
 ##  Docker linux build name
@@ -54,11 +53,6 @@ export HOMEBREW_CACHE_IMAGE="mephmanx/homebrew-cache";
 
 ## pfSense airgap caching image
 export PFSENSE_CACHE_IMAGE="mephmanx/pfsense-airgap-resources";
-
-### Enable auto-update
-## This enables the centos/stream auto update function on install.
-## Auto update can be enabled later if not enabled here, this just sets it up and enables it for you.
-export LINUX_AUTOUPDATE=1
 
 ## library versions
 ## this will force cache update if changed
