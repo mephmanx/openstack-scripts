@@ -24,9 +24,9 @@ dnf update -y
 rm -rf /tmp/linux.iso
 rm -rf /tmp/configs/*
 
-docker pull "$DOCKER_LINUX_BUILD_IMAGE"
-docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE" bash -c "mv CentOS-x86_64-minimal.iso linux.iso; cp linux.iso /opt/mount"
-docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE" bash -c "cp /root/ks_configs/* /opt/mount/configs"
+docker pull "$DOCKER_LINUX_BUILD_IMAGE:latest"
+docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:latest" bash -c "mv CentOS-x86_64-minimal.iso linux.iso; cp linux.iso /opt/mount"
+docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:latest" bash -c "cp /root/ks_configs/* /opt/mount/configs"
 
 rm -rf ./tmp
 mkdir ./tmp
@@ -63,7 +63,7 @@ if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2" ]; then
 fi
 
 if [ ! -f "/out/pfSense-CE-memstick-AI.img" ]; then
-  for i in `docker images |grep "$PFSENSE_CACHE_IMAGE"|awk '{print $3}'`;do docker rmi $i;done
+  for i in `docker images |grep "$PFSENSE_CACHE_IMAGE:latest"|awk '{print $3}'`;do docker rmi $i;done
   docker run -v /out:/out --rm -ti "$PFSENSE_CACHE_IMAGE"
   cp /out/pfSense-CE-memstick-AI.img /var/tmp
 fi
@@ -136,7 +136,7 @@ fi
 
 if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
   docker pull mephmanx/homebrew-cache:latest
-  docker run --rm -v /tmp:/tmp/export "$HOMEBREW_CACHE_IMAGE" "$CF_BBL_INSTALL_TERRAFORM_VERSION"
+  docker run --rm -v /tmp:/tmp/export "$HOMEBREW_CACHE_IMAGE:latest" "$CF_BBL_INSTALL_TERRAFORM_VERSION"
 fi
 
 IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
@@ -156,9 +156,9 @@ if [ ! -f "/tmp/harbor/$OPENSTACK_VERSION/centos-binary-base-${OPENSTACK_VERSION
     mkdir /tmp/harbor/"$OPENSTACK_VERSION"
     rm -rf /out
     mkdir /out
-    docker pull "$DOCKER_OPENSTACK_OFFLINE_IMAGE"
+    docker pull "$DOCKER_OPENSTACK_OFFLINE_IMAGE:latest"
     rm -rf /tmp/openstack-build.log
-    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out "$DOCKER_OPENSTACK_OFFLINE_IMAGE" "$OPENSTACK_VERSION"
+    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out "$DOCKER_OPENSTACK_OFFLINE_IMAGE:latest" "$OPENSTACK_VERSION"
 
     #### add build images
     mv /out/centos-binary-base-"${OPENSTACK_VERSION}".tar /tmp/harbor/"$OPENSTACK_VERSION"

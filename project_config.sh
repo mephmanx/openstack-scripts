@@ -44,16 +44,16 @@ export ORGANIZATION="cloud.local-Org"
 export INTERNAL_DOMAIN_NAME="cloud.local";
 
 ##  Docker linux build name
-export DOCKER_LINUX_BUILD_IMAGE="mephmanx/centos-stream-airgap-build:latest";
+export DOCKER_LINUX_BUILD_IMAGE="mephmanx/centos-stream-airgap-build";
 
 ## Docker Openstack offilne resources
-export DOCKER_OPENSTACK_OFFLINE_IMAGE="mephmanx/os-airgap:latest";
+export DOCKER_OPENSTACK_OFFLINE_IMAGE="mephmanx/os-airgap";
 
 ## Homebrew caching image
-export HOMEBREW_CACHE_IMAGE="mephmanx/homebrew-cache:latest";
+export HOMEBREW_CACHE_IMAGE="mephmanx/homebrew-cache";
 
 ## pfSense airgap caching image
-export PFSENSE_CACHE_IMAGE="mephmanx/pfsense-airgap-resources:latest";
+export PFSENSE_CACHE_IMAGE="mephmanx/pfsense-airgap-resources";
 
 ### Enable auto-update
 ## This enables the centos/stream auto update function on install.
