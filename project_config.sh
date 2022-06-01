@@ -13,7 +13,7 @@ export SWTPM_GIT=https://github.com/stefanberger/swtpm/archive/master/swtpm.zip;
 
 ###  PFSense installer
 ## fat32 offset is added but logic NEEDS to be validated on update
-export PFSENSE=https://nyifiles.netgate.com/mirror/downloads/pfSense-CE-memstick-ADI-$PFSENSE_VERSION-RELEASE-amd64.img.gz;
+export PFSENSE=https://atxfiles.netgate.com/mirror/downloads/pfSense-CE-memstick-ADI-$PFSENSE_VERSION-RELEASE-amd64.img.gz;
 
 ### Magnum docker image
 export MAGNUM_IMAGE=https://download.fedoraproject.org/pub/alt/atomic/stable/$MAGNUM_IMAGE_VERSION/CloudImages/x86_64/images/$MAGNUM_IMAGE_VERSION.x86_64.qcow2
