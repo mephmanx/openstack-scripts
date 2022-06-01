@@ -43,7 +43,7 @@ export ORGANIZATION="cloud.local-Org"
 export INTERNAL_DOMAIN_NAME="cloud.local";
 
 ##  Docker linux build name
-export DOCKER_LINUX_BUILD_IMAGE="mephmanx/centos-stream-airgap-build";
+export DOCKER_LINUX_BUILD_IMAGE="mephmanx/centos-8-stream-airgap";
 
 ## Docker Openstack offilne resources
 export DOCKER_OPENSTACK_OFFLINE_IMAGE="mephmanx/os-airgap";
