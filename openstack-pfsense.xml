@@ -1699,6 +1699,7 @@
 						<item>
 							<extaddr>opt1_ipv4</extaddr>
 							<extaddr_port>443</extaddr_port>
+							<extaddr_ssl>yes</extaddr_ssl>
 							<_index></_index>
 						</item>
 						<item>
