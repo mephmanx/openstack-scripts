@@ -874,7 +874,6 @@ if [[ $error_count -gt 0 ]]; then
                       -o /tmp/cf-deployment/operations/scale-to-one-az.yml \
                       -o /tmp/cf-deployment/operations/use-latest-stemcell.yml \
                       -o /tmp/cf-deployment/operations/use-compiled-releases.yml \
-                      -o /tmp/cf-deployment/operations/disable-router-tls-termination.yml \
                       -o /tmp/cf-deployment/operations/use-external-blobstore.yml \
                       -o /tmp/cf-deployment/operations/use-swift-blobstore.yml \
                       -v system_domain=$INTERNAL_DOMAIN_NAME \
@@ -920,7 +919,7 @@ telegram_notify  "Cloudfoundry install complete!  Beginning Stratos UI deploy"
 # cf api login
 ## use folder for auth token
 CF_HOME=$(mktemp -d /tmp/cfhome.9999.XXX)
-runuser -l stack -c "cf login -a http://api.$INTERNAL_DOMAIN_NAME -u admin -p $OPENSTACK_CLOUDFOUNDRY_PWD --skip-ssl-validation"
+runuser -l stack -c "cf login -a $INTERNAL_DOMAIN_NAME -u admin -p $OPENSTACK_CLOUDFOUNDRY_PWD --skip-ssl-validation"
 
 ## create org
 runuser -l stack -c "cf create-org $INTERNAL_DOMAIN_NAME"
