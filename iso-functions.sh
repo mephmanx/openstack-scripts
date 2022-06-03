@@ -108,7 +108,6 @@ function buildAndPushVMTypeISO {
   embed_files=('/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/project_config.sh'
                 '/tmp/id_rsa'
-                '/tmp/id_rsa.crt'
                 '/tmp/id_rsa.pub'
                 "/tmp/libtpms-$SWTPM_VERSION.zip"
                 "/tmp/swtpm-$SWTPM_VERSION.zip"
@@ -150,7 +149,6 @@ function buildAndPushOpenstackSetupISO {
                 "/tmp/trove_db-$TROVE_DB_VERSION.img"
                 "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
                 '/tmp/host_list'
-                '/tmp/id_rsa.crt'
                 '/tmp/id_rsa'
                 '/tmp/id_rsa.pub'
                 '/tmp/storage_hosts'

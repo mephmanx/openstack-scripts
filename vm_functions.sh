@@ -600,9 +600,6 @@ function replace_values_in_root_isos() {
       replace_string_in_iso "$img" "{DIRECTORY_MGR_PWD_12345678901}" "$DIRECTORY_MGR_PWD"
 
       ##########
-      echo "replacing id_rsa.crt  in $img"
-      replace_oneline_file_in_iso "$img" /tmp/id_rsa.crt.repl /root/.ssh/id_rsa.crt.repl
-
       echo "replacing id_rsa  in $img"
       replace_oneline_file_in_iso "$img" /tmp/id_rsa.repl /root/.ssh/id_rsa.repl
 
@@ -610,6 +607,9 @@ function replace_values_in_root_isos() {
       replace_oneline_file_in_iso "$img" /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
       ##########
   done
+
+  echo "replacing id_rsa.crt  in /tmp/identity-iso.iso"
+  replace_oneline_file_in_iso /tmp/identity-iso.iso /tmp/id_rsa.crt.repl /root/.ssh/id_rsa.crt.repl
 
   iso_images="/tmp/*.img"
   for img in $iso_images; do

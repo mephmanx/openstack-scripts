@@ -19,11 +19,6 @@ exec 1>/tmp/openstack-install.log 2>&1 # send stdout and stderr from rc.local to
 sleep 30
 ###########################
 
-## trust generated ca
-cp /root/.ssh/id_rsa.crt /etc/pki/ca-trust/source/anchors
-runuser -l root -c  'update-ca-trust extract'
-#########
-
 ## Send System info
 load_system_info
 telegram_notify  "Openstack Cloud System: $SYSTEM_INFO"
