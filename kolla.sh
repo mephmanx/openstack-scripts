@@ -303,6 +303,7 @@ cd $working_dir
 rm -rf /tmp/control-trust.sh
 
 #load setup for validator
+export REQUESTS_CA_BUNDLE=/etc/ipa/ca.crt
 cd /etc/kolla
 . ./admin-openrc.sh
 sleep 180
@@ -587,6 +588,32 @@ sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/jumpbox-deployment/jumpbox.yml
 sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/bosh-deployment/bosh.yml
 sed -i "s/8.8.8.8/$IDENTITY_VIP/g" /opt/stack/cloud-config/ops.yml
 
+runuser -l stack -c  "cat > /opt/stack/trusted-certs.vars.yml <<EOF
+trusted_certs: |-
+EOF"
+
+cp /etc/ipa/ca.crt /opt/stack
+sed -i 's/^/  /' /opt/stack/ca.crt
+runuser -l stack -c  'cat /opt/stack/ca.crt >> /opt/stack/trusted-certs.vars.yml'
+
+runuser -l stack -c  "cat > /opt/stack/add-trusted-certs-to-director-vm.ops.yml <<EOF
+- type: replace
+  path: /releases/name=os-conf?
+  value:
+    name: os-conf
+    version: $CF_BBL_OS_CONF_RELEASE
+    url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=$CF_BBL_OS_CONF_RELEASE
+    sha1: $CF_BBL_OS_CONF_HASH
+
+- type: replace
+  path: /instance_groups/name=bosh/jobs/-
+  value:
+    name: ca_certs
+    release: os-conf
+    properties:
+      certs: ((trusted_certs))
+EOF"
+
 length=$(wc -c </opt/stack/create-director.sh)
 if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 </opt/stack/create-director.sh)" ]; then
   # The file ends with a newline or null
@@ -602,7 +629,9 @@ fi
 ### modify director / jumpbox  here
 ### create-director changes
 chown -R stack /tmp/bosh-*.tgz
-runuser -l stack -c  "echo '-o /opt/stack/bosh-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh-$STEMCELL_STAMP.tgz' >> /opt/stack/create-director.sh"
+runuser -l stack -c  "echo '-o /opt/stack/bosh-deployment/misc/trusted-certs.yml --var-file=trusted_ca_cert=/opt/stack/id_rsa.crt \
+                            -o /opt/stack/add-trusted-certs-to-director-vm.ops.yml  -l /opt/stack/trusted-certs.vars.yml  \
+                            -o /opt/stack/bosh-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh-$STEMCELL_STAMP.tgz' >> /opt/stack/create-director.sh"
 
 ## create-jumpbox changes
 runuser -l stack -c  "echo ' -o /opt/stack/bosh-deployment/misc/no-internet-access/stemcell.yml -v local_stemcell=/tmp/bosh-$STEMCELL_STAMP.tgz ' >> /opt/stack/create-jumpbox.sh"
@@ -666,8 +695,8 @@ use_tcp_router = "true" #default is true
 num_tcp_ports = $CF_TCP_PORT_COUNT #default is 100, needs to be > 0
 
 # in case of self signed certificate select one of the following options
-#cacert_file = ""
-#insecure = "false"
+cacert_file = "/etc/ipa/ca.crt"
+insecure = "false"
 EOF
 
 telegram_notify  "Executing env prep script..."
@@ -826,8 +855,9 @@ trusted_cert_for_apps:
   ca: |
 EOF"
 
-sed -i 's/^/  /' /etc/ipa/ca.crt
-runuser -l stack -c  'cat /etc/ipa/ca.crt >> /opt/stack/trusted-certs-cf.vars.yml'
+cp /etc/ipa/ca.crt /opt/stack/ca.crt
+sed -i 's/^/  /' /opt/stack/ca.crt
+runuser -l stack -c  'cat /opt/stack/ca.crt >> /opt/stack/trusted-certs-cf.vars.yml'
 ######
 
 ### add internal override to director
@@ -872,10 +902,12 @@ if [[ $error_count -gt 0 ]]; then
                       bosh -d cf deploy \
                       -o /tmp/cf-deployment/operations/openstack.yml \
                       -o /tmp/cf-deployment/operations/scale-to-one-az.yml \
+                      -o /tmp/cf-deployment/operations/use-trusted-ca-cert-for-apps.yml \
                       -o /tmp/cf-deployment/operations/use-latest-stemcell.yml \
                       -o /tmp/cf-deployment/operations/use-compiled-releases.yml \
                       -o /tmp/cf-deployment/operations/use-external-blobstore.yml \
                       -o /tmp/cf-deployment/operations/use-swift-blobstore.yml \
+                      -l /opt/stack/trusted-certs-cf.vars.yml \
                       -v system_domain=$INTERNAL_DOMAIN_NAME \
                       -v auth_url=http://$INTERNAL_VIP_DNS:5000/v3 \
                       -v openstack_project=cloudfoundry \
@@ -891,8 +923,6 @@ if [[ $error_count -gt 0 ]]; then
                       --vars-store /tmp/vars/deployment-vars.yml \
                       /tmp/cf-deployment/cf-deployment.yml \
                       -n" > /tmp/cloudfoundry-install.log
-
-
 
     error_count1=`grep -i "error" /tmp/cloudfoundry-install.log | wc -l`
     error_count2=`grep -i "Error" /tmp/cloudfoundry-install.log | wc -l`
