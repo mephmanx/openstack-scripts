@@ -56,7 +56,7 @@ export PFSENSE_CACHE_IMAGE="mephmanx/pfsense-airgap-resources";
 
 ## library versions
 ## this will force cache update if changed
-export HARBOR_VERSION="v2.5.0"
+export HARBOR_VERSION="v2.5.1"
 export MAGNUM_IMAGE_VERSION="Fedora-Atomic-27-20180419.0"
 export CF_ATTIC_TERRAFORM_VERSION="0.11.15"
 export DOCKER_COMPOSE_VERSION="1.29.2"
@@ -66,7 +66,7 @@ export AMPHORA_VERSION="1.0.2"
 export TROVE_DB_VERSION="xena"
 export CF_DEPLOY_VERSION="v21.1.0"
 export SWTPM_VERSION="1.0.0"
-export STEMCELL_STAMP="12-14-2021"
+export STEMCELL_STAMP="05-03-2022"
 export OPENSTACK_VERSION="wallaby"
 
 ### hostnames for infra vms
