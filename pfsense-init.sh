@@ -12,13 +12,6 @@ IP_DATA=$(ifconfig vtnet0 | grep inet | awk -F' ' '{ print $2 }' | head -2 | tai
 
 telegram_notify  "PFSense initialization script beginning... \n\nCloud DMZ IP: $IP_DATA"
 ####  initial actions
-
-## DO NOT USE $() notation below!!!   IT WILL NOT WORK ON PFSENSE!!
-# shellcheck disable=SC2006
-DRIVE_KB=`geom disk list | grep Mediasize | sed 2d | awk '{ print $2 }'`
-DRIVE_SIZE=$(($DRIVE_KB / 1024 / 1024 * 75/100))
-echo "Setting cache size to $DRIVE_SIZE"
-
 install_pkg "pfsense-pkg-squid"
 install_pkg "pfsense-pkg-haproxy-devel"
 install_pkg "pfsense-pkg-openvpn-client-export"
@@ -30,6 +23,12 @@ install_pkg "pfsense-pkg-Telegraf"
 ## the pfsense method for changing config via cli is f*ed up:
 ##  change all backup files, delete primary file, and let system "restore" a changed backup file
 ##  makes a lot of sense, huh?
+## DO NOT USE $() notation below!!!   IT WILL NOT WORK ON PFSENSE!!
+# shellcheck disable=SC2006
+DRIVE_KB=`geom disk list | grep Mediasize | sed 2d | awk '{ print $2 }'`
+DRIVE_SIZE=$(($DRIVE_KB / 1024 / 1024 * 75/100))
+echo "Setting cache size to $DRIVE_SIZE"
+
 files="/cf/conf/backup/*"
 for file in $files; do
   echo "Changing contents of file $file"
