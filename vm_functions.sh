@@ -625,12 +625,10 @@ function replace_values_in_root_isos() {
 function setup_keys_certs_for_vm() {
   mkdir -p /root/.ssh
   rm -rf /root/.ssh/id_rsa*
-  cp /tmp/id_rsa.crt /etc/pki/ca-trust/source/anchors
   cp /tmp/id_rsa /root/.ssh/id_rsa
   cp /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
   chmod 600 /root/.ssh/id_rsa
   chmod 600 /root/.ssh/id_rsa.pub
-  runuser -l root -c  'update-ca-trust extract'
 
   #### add hypervisor host key to authorized keys
   ## this allows the hypervisor to ssh without password to openstack vms
