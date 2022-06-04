@@ -19,6 +19,7 @@ install_pkg "pfsense-pkg-pfBlockerNG-devel"
 install_pkg "pfsense-pkg-snort"
 install_pkg "pfsense-pkg-cron"
 install_pkg "pfsense-pkg-Telegraf"
+install_pkg "qemu-guest-agent"
 
 ## the pfsense method for changing config via cli is f*ed up:
 ##  change all backup files, delete primary file, and let system "restore" a changed backup file
