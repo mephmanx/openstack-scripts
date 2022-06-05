@@ -157,7 +157,7 @@ sed -i 's/USER magnum//' /usr/share/kolla/docker/magnum/magnum-conductor/Dockerf
 
 cat <<EOF >> /usr/share/kolla/docker/magnum/magnum-conductor/Dockerfile.j2
 
-RUN sed -i '305s|^$| allowed_cidrs: ["10.0.0.0/8"]!' /usr/lib/python3.6/site-packages/magnum/drivers/swarm_fedora_atomic_v1/templates/cluster.yaml
+RUN sed -i '305s|^$| allowed_cidrs: ["10.0.0.0/8"]|' /usr/lib/python3.6/site-packages/magnum/drivers/swarm_fedora_atomic_v1/templates/cluster.yaml
 
 USER magnum
 EOF
