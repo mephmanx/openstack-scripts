@@ -124,7 +124,6 @@ sleep 30;
 
     echo "chmod 777 /mnt/root/*.sh"
     sleep 10;
-    echo "reboot"
 ) | telnet
 
 ## remove install disk from pfsense
