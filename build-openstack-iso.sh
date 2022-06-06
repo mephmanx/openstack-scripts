@@ -118,7 +118,7 @@ if [ ! -f "/tmp/prometheus_haproxy_exporter.tar.gz" ]; then
 fi
 
 if [ ! -f "/tmp/prometheus_elasticsearch_exporter.tar.gz" ]; then
-  wget -O /tmp/prometheus_elasticsearch_exporter.tar.gz https://github.com/prometheus-community/elasticsearch_exporter/releases/download/v0.10.0/elasticsearch_exporter-0.10.0.linux-amd64.tar.gz
+  wget -O /tmp/prometheus_elasticsearch_exporter.tar.gz https://github.com/prometheus-community/elasticsearch_exporter/releases/download/v1.1.0/elasticsearch_exporter-1.1.0.linux-amd64.tar.gz
 fi
 
 ### download director & jumpbox stemcell
