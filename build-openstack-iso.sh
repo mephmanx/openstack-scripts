@@ -108,6 +108,10 @@ if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
   wget -O /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" "${DOCKER_COMPOSE}"
 fi
 
+if [ ! -f "/tmp/memcached-exporter.tar.gz" ]; then
+  wget -O /tmp/memcached_exporter.tar.gz https://github.com/prometheus/memcached_exporter/releases/download/v0.6.0/memcached_exporter-0.6.0.linux-amd64.tar.gz
+fi
+
 ### download director & jumpbox stemcell
 if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
   curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-"$BOSH_STEMCELL"-go_agent --output /tmp/bosh-"$STEMCELL_STAMP".tgz > /dev/null

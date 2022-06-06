@@ -569,8 +569,8 @@ function replace_values_in_root_isos() {
 #  DIRECTORY_MGR_PWD=$(generate_random_pwd 31)
 #  ADMIN_PWD=$(generate_random_pwd 31)
 #  GEN_PWD=$(generate_random_pwd 15)
-  DIRECTORY_MGR_PWD=$(generate_specific_pwd 31)
-  ADMIN_PWD=$(generate_specific_pwd 31)
+  DIRECTORY_MGR_PWD=$(generate_random_pwd 31)
+  ADMIN_PWD=$(generate_random_pwd 31)
   ## gen_pwd is not stored anywhere, it is meant to lost and never found
   GEN_PWD=$(generate_specific_pwd 15)
 
@@ -608,8 +608,10 @@ function replace_values_in_root_isos() {
       ##########
   done
 
-  echo "replacing id_rsa.crt  in /tmp/identity-iso.iso"
-  replace_oneline_file_in_iso /tmp/identity-iso.iso /tmp/id_rsa.crt.repl /root/.ssh/id_rsa.crt.repl
+  if [[ -f "/tmp/identity-iso.iso" ]]; then
+    echo "replacing id_rsa.crt  in /tmp/identity-iso.iso"
+    replace_oneline_file_in_iso /tmp/identity-iso.iso /tmp/id_rsa.crt.repl /root/.ssh/id_rsa.crt.repl
+  fi
 
   iso_images="/tmp/*.img"
   for img in $iso_images; do

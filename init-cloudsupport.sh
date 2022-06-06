@@ -96,6 +96,8 @@ systemctl restart httpd
 
 #setup kolla docker rpm repo for build
 mv /tmp/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz /var/www/html/
+mkdir /var/www/html/cache
+mv /tmp/memcached_exporter.tar.gz /var/www/html/cache/
 cd /var/www/html && tar xf /var/www/html/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz
 echo 'local rpm repo server setup finish!'
 
@@ -168,6 +170,10 @@ echo "RUN rm -f /etc/swift/swift.conf" >> /usr/share/kolla/docker/swift/swift-ba
 #fluentd image
 sed -i '105,121s/^/#/' /usr/share/kolla/docker/fluentd/Dockerfile.j2
 #grafana image
+
+#prometheus memcached exporter offline fix
+## wallaby uses version 0.6.0 of memcached exporter
+sed -i 's/^RUN curl.*$/curl -o /tmp/memcached_exporter.tar.gz http://localhost/cache/memcached_exporter.tar.gz/' /usr/share/kolla/docker/prometheus/prometheus-memcached-exporter/Dockerfile.j2
 
 docker tag kolla/centos-binary-base:"$OPENSTACK_VERSION" "$SUPPORT_VIP_DNS"/kolla/centos-binary-base:"$OPENSTACK_VERSION"
 
