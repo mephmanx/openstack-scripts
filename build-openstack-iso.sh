@@ -25,7 +25,7 @@ rm -rf /tmp/linux.iso
 rm -rf /tmp/configs/*
 
 # login to docker hub using .bash_profile env secrets
-docker login -u $DOCKER_OGIN -p $DOCKER_SECRET
+docker login -u $DOCKER_LOGIN -p $DOCKER_SECRET
 
 docker pull "$DOCKER_LINUX_BUILD_IMAGE:latest"
 docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:latest" bash -c "mv CentOS-x86_64-minimal.iso linux.iso; cp linux.iso /opt/mount"
