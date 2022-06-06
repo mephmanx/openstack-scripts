@@ -97,7 +97,9 @@ systemctl restart httpd
 #setup kolla docker rpm repo for build
 mv /tmp/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz /var/www/html/
 mkdir /var/www/html/cache
-mv /tmp/memcached_exporter.tar.gz /var/www/html/cache/
+mv /tmp/prometheus_memcached_exporter.tar.gz /var/www/html/cache/
+mv /tmp/prometheus_haproxy_exporter.tar.gz /var/www/html/cache/
+mv /tmp/prometheus_elasticsearch_exporter.tar.gz /var/www/html/cache/
 cd /var/www/html && tar xf /var/www/html/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz
 echo 'local rpm repo server setup finish!'
 
