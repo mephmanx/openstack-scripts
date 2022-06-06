@@ -96,10 +96,6 @@ systemctl restart httpd
 
 #setup kolla docker rpm repo for build
 mv /tmp/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz /var/www/html/
-mkdir /var/www/html/cache
-mv /tmp/prometheus_memcached_exporter.tar.gz /var/www/html/cache/
-mv /tmp/prometheus_haproxy_exporter.tar.gz /var/www/html/cache/
-mv /tmp/prometheus_elasticsearch_exporter.tar.gz /var/www/html/cache/
 cd /var/www/html && tar xf /var/www/html/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz
 echo 'local rpm repo server setup finish!'
 
@@ -174,9 +170,9 @@ sed -i '105,121s/^/#/' /usr/share/kolla/docker/fluentd/Dockerfile.j2
 #grafana image
 
 #prometheus exporter offline fix
-sed -i 's/^RUN curl.*$/RUN curl -o \/tmp\/prometheus_memcached_exporter.tar.gz http:\/\/localhost\/cache\/prometheus_memcached_exporter.tar.gz \\/' /usr/share/kolla/docker/prometheus/prometheus-memcached-exporter/Dockerfile.j2
-sed -i 's/^RUN curl.*$/RUN curl -o \/tmp\/prometheus_haproxy_exporter.tar.gz http:\/\/localhost\/cache\/prometheus_haproxy_exporter.tar.gz \\/' /usr/share/kolla/docker/prometheus/prometheus-haproxy-exporter/Dockerfile.j2
-sed -i 's/^RUN curl.*$/RUN curl -o \/tmp\/prometheus_elasticsearch_exporter.tar.gz http:\/\/localhost\/cache\/prometheus_elasticsearch_exporter.tar.gz \\/' /usr/share/kolla/docker/prometheus/prometheus-elasticsearch-exporter/Dockerfile.j2
+sed -i "s/^RUN curl.*$/RUN curl -o \/tmp\/prometheus_memcached_exporter.tar.gz http:\/\/localhost\/kolla_$OPENSTACK_VERSION\/prometheus_memcached_exporter.tar.gz \\/" /usr/share/kolla/docker/prometheus/prometheus-memcached-exporter/Dockerfile.j2
+sed -i "s/^RUN curl.*$/RUN curl -o \/tmp\/prometheus_haproxy_exporter.tar.gz http:\/\/localhost\/kolla_$OPENSTACK_VERSION\/prometheus_haproxy_exporter.tar.gz \\/" /usr/share/kolla/docker/prometheus/prometheus-haproxy-exporter/Dockerfile.j2
+sed -i "s/^RUN curl.*$/RUN curl -o \/tmp\/prometheus_elasticsearch_exporter.tar.gz http:\/\/localhost\/kolla_$OPENSTACK_VERSION\/prometheus_elasticsearch_exporter.tar.gz \\/" /usr/share/kolla/docker/prometheus/prometheus-elasticsearch-exporter/Dockerfile.j2
 
 docker tag kolla/centos-binary-base:"$OPENSTACK_VERSION" "$SUPPORT_VIP_DNS"/kolla/centos-binary-base:"$OPENSTACK_VERSION"
 
