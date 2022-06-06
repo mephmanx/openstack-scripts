@@ -173,7 +173,7 @@ sed -i '105,121s/^/#/' /usr/share/kolla/docker/fluentd/Dockerfile.j2
 
 #prometheus memcached exporter offline fix
 ## wallaby uses version 0.6.0 of memcached exporter
-sed -i 's/^RUN curl.*$/curl -o \/tmp\/memcached_exporter.tar.gz http:\/\/localhost\/cache\/memcached_exporter.tar.gz/' /usr/share/kolla/docker/prometheus/prometheus-memcached-exporter/Dockerfile.j2
+sed -i 's/^RUN curl.*$/RUN curl -o \/tmp\/memcached_exporter.tar.gz http:\/\/localhost\/cache\/memcached_exporter.tar.gz/' /usr/share/kolla/docker/prometheus/prometheus-memcached-exporter/Dockerfile.j2
 
 docker tag kolla/centos-binary-base:"$OPENSTACK_VERSION" "$SUPPORT_VIP_DNS"/kolla/centos-binary-base:"$OPENSTACK_VERSION"
 
