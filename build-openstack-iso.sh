@@ -109,8 +109,16 @@ if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
 fi
 
 ## move to openstack cache build
-if [ ! -f "/tmp/memcached_exporter.tar.gz" ]; then
-  wget -O /tmp/memcached_exporter.tar.gz https://github.com/prometheus/memcached_exporter/releases/download/v0.6.0/memcached_exporter-0.6.0.linux-amd64.tar.gz
+if [ ! -f "/tmp/prometheus_memcached_exporter.tar.gz" ]; then
+  wget -O /tmp/prometheus_memcached_exporter.tar.gz https://github.com/prometheus/memcached_exporter/releases/download/v0.6.0/memcached_exporter-0.6.0.linux-amd64.tar.gz
+fi
+
+if [ ! -f "/tmp/prometheus_haproxy_exporter.tar.gz" ]; then
+  wget -O /tmp/prometheus_haproxy_exporter.tar.gz https://github.com/prometheus/haproxy_exporter/releases/download/v0.10.0/haproxy_exporter-0.10.0.linux-amd64.tar.gz
+fi
+
+if [ ! -f "/tmp/prometheus_elasticsearch_exporter.tar.gz" ]; then
+  wget -O /tmp/prometheus_elasticsearch_exporter.tar.gz https://github.com/prometheus-community/elasticsearch_exporter/releases/download/v0.10.0/elasticsearch_exporter-0.10.0.linux-amd64.tar.gz
 fi
 
 ### download director & jumpbox stemcell

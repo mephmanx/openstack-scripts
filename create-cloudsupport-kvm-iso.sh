@@ -31,7 +31,9 @@ embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
               '/tmp/openstack-scripts/harbor.yml'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
-              '/tmp/memcached_exporter.tar.gz'
+              '/tmp/prometheus_memcached_exporter.tar.gz'
+              '/tmp/prometheus_haproxy_exporter.tar.gz'
+              '/tmp/prometheus_elasticsearch_exporter.tar.gz'
               "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION"
               '/tmp/openstack-scripts/init-cloudsupport.sh'
               '/tmp/openstack-scripts/vm_functions.sh')

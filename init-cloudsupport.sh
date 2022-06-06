@@ -171,9 +171,10 @@ echo "RUN rm -f /etc/swift/swift.conf" >> /usr/share/kolla/docker/swift/swift-ba
 sed -i '105,121s/^/#/' /usr/share/kolla/docker/fluentd/Dockerfile.j2
 #grafana image
 
-#prometheus memcached exporter offline fix
-## wallaby uses version 0.6.0 of memcached exporter
-sed -i 's/^RUN curl.*$/RUN curl -o \/tmp\/memcached_exporter.tar.gz http:\/\/localhost\/cache\/memcached_exporter.tar.gz/' /usr/share/kolla/docker/prometheus/prometheus-memcached-exporter/Dockerfile.j2
+#prometheus exporter offline fix
+sed -i 's/^RUN curl.*$/RUN curl -o \/tmp\/prometheus_memcached_exporter.tar.gz http:\/\/localhost\/cache\/prometheus_memcached_exporter.tar.gz \\/' /usr/share/kolla/docker/prometheus/prometheus-memcached-exporter/Dockerfile.j2
+sed -i 's/^RUN curl.*$/RUN curl -o \/tmp\/prometheus_haproxy_exporter.tar.gz http:\/\/localhost\/cache\/prometheus_haproxy_exporter.tar.gz \\/' /usr/share/kolla/docker/prometheus/prometheus-haproxy-exporter/Dockerfile.j2
+sed -i 's/^RUN curl.*$/RUN curl -o \/tmp\/prometheus_elasticsearch_exporter.tar.gz http:\/\/localhost\/cache\/prometheus_elasticsearch_exporter.tar.gz \\/' /usr/share/kolla/docker/prometheus/prometheus-elasticsearch-exporter/Dockerfile.j2
 
 docker tag kolla/centos-binary-base:"$OPENSTACK_VERSION" "$SUPPORT_VIP_DNS"/kolla/centos-binary-base:"$OPENSTACK_VERSION"
 
