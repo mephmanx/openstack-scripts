@@ -14,9 +14,7 @@ function initialKickstartSetup {
   vm_type=$(tr -dc '[:print:]' <<< "$vm_type_n")
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
   cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
-  echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg to -> ${KICKSTART_DIR}/centos-8-kickstart-$vm.cfg"
   kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-${vm}.cfg
-  echo "kickstart file -> ${kickstart_file}"
   sed -i "s/{HOST}/$vm/g" "$kickstart_file"
   sed -i "s/{TYPE}/$vm_type/g" "$kickstart_file"
   networkInformation "$kickstart_file" "$vm_type" "$vm"
@@ -29,11 +27,7 @@ function closeOutAndBuildKickstartAndISO {
   IFS=' ' read -r -a embedded_files <<< "$3"
   #### to allow certs to print right
   IFS=
-  ########
-  dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-  sudo yum install epel-release -y
-  sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass
-
+  #######
 
   sudo rm -rf /var/tmp/"${vm_name}"
   mkdir /centos

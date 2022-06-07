@@ -17,7 +17,10 @@ source iso-functions.sh
 rm -rf /var/tmp/*
 
 ## make sure libs are installed
-yum install -y wget zip
+dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+sudo yum install epel-release -y
+sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass wget zip
+
 yum update -y
 dnf update -y
 
