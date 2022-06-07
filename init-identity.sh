@@ -35,8 +35,6 @@ runuser -l root -c "echo '$IDENTITY_VIP $HOSTNAME' >> /etc/hosts"
 runuser -l root -c "echo $HOSTNAME > /etc/hostname"
 runuser -l root -c "sysctl kernel.hostname=$HOSTNAME"
 
-runuser -l root -c 'cp /tmp/id_rsa.crt /etc/ipa/ca.crt'
-runuser -l root -c 'chown -R pkiuser /etc/ipa/ca.crt'
 # Configure freeipa
 runuser -l root -c "ipa-server-install -p $DIRECTORY_MANAGER_PASSWORD \
                                         -a $ADMIN_PWD \

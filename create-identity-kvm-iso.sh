@@ -24,8 +24,7 @@ sed -i "s/{GATEWAY_ROUTER_IP}/$GATEWAY_ROUTER_IP/g" ${kickstart_file}
 sed -i "s/{NETMASK}/$NETMASK/g" ${kickstart_file}
 ###########################
 
-embed_files=('/tmp/id_rsa.crt'
-              '/tmp/id_rsa'
+embed_files=('/tmp/id_rsa'
               '/tmp/id_rsa.pub'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'

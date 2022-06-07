@@ -219,7 +219,6 @@ function create_ca_cert() {
 
   runuser -l root -c  "touch $cert_dir/id_rsa"
   runuser -l root -c  "touch $cert_dir/id_rsa.pub"
-  runuser -l root -c  "touch $cert_dir/id_rsa.crt"
 
   source /tmp/project_config.sh
 
@@ -267,22 +266,6 @@ EOF
   done
   # create CA key and cert
   runuser -l root -c  "ssh-keygen -f $cert_dir/id_rsa -y > $cert_dir/id_rsa.pub"
-
-  ### make sure certs are same size
-  runuser -l root -c  "openssl req -new -x509 -days 7300 \
-                              -key $cert_dir/id_rsa -out $cert_dir/id_rsa.crt \
-                              -sha256 \
-                              -config $cert_dir/ca_conf.cnf"
-
-  file_length_crt=$(wc -c "$cert_dir/id_rsa.crt" | awk -F' ' '{ print $1 }')
-  file_length_old_crt=$(wc -c "/tmp/id_rsa.crt" | awk -F' ' '{ print $1 }')
-  while [ "$file_length_crt" != "$file_length_old_crt" ]; do
-    runuser -l root -c  "openssl req -new -x509 -days 7300 \
-                            -key $cert_dir/id_rsa -out $cert_dir/id_rsa.crt \
-                            -sha256 \
-                            -config $cert_dir/ca_conf.cnf"
-    file_length_crt=$(wc -c "$cert_dir/id_rsa.crt" | awk -F' ' '{ print $1 }')
-  done
 }
 
 function create_server_cert() {
@@ -579,10 +562,8 @@ function replace_values_in_root_isos() {
 
   ## These files are special due to multiline
   ##  Remove first and last tine from each
-  prepare_special_file /tmp/id_rsa.crt
   prepare_special_file /tmp/id_rsa
 
-  prepare_special_file /root/.ssh/id_rsa.crt
   prepare_special_file /root/.ssh/id_rsa
   ##########
 
@@ -605,11 +586,6 @@ function replace_values_in_root_isos() {
       replace_oneline_file_in_iso "$img" /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
       ##########
   done
-
-  if [[ -f "/tmp/identity-iso.iso" ]]; then
-    echo "replacing id_rsa.crt  in /tmp/identity-iso.iso"
-    replace_oneline_file_in_iso /tmp/identity-iso.iso /tmp/id_rsa.crt.repl /root/.ssh/id_rsa.crt.repl
-  fi
 
   iso_images="/tmp/*.img"
   for img in $iso_images; do

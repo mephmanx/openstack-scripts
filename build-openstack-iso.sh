@@ -188,7 +188,6 @@ fi
 embed_files=('/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
               '/tmp/id_rsa'
-              '/tmp/id_rsa.crt'
               '/tmp/id_rsa.pub'
               '/tmp/wildcard.crt'
               '/tmp/wildcard.key'
