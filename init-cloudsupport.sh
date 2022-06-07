@@ -188,9 +188,9 @@ for i in $(docker images |grep "$SUPPORT_VIP_DNS" |awk '{print $1}');do docker p
 
 ######
 telegram_notify  "Cloudsupport VM finished processing openstack images, creating kolla vm"
-#############  create setup vm
-ssh-keyscan -H "$LAN_CENTOS_IP" >> ~/.ssh/known_hosts;
-ssh root@"$LAN_CENTOS_IP" 'cd /tmp; ./create-kolla-kvm-deploy.sh;' &
+
+## signaling to hypervisor that cloudsupport is finished
+python3 -m http.server "$CLOUDSUPPORT_SIGNAL" &
 ########################
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local

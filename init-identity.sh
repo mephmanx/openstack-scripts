@@ -85,12 +85,9 @@ SSH_KEY=$(cat /root/.ssh/id_rsa.pub)
 /usr/bin/ipa group-add-member vpn-users --users=admin
 /usr/bin/ipa group-add-member cloud-admins --users=admin
 
-#### Continue cloud init
-ssh-keyscan -H "$LAN_CENTOS_IP" >> ~/.ssh/known_hosts;
-ssh root@"$LAN_CENTOS_IP" 'cd /tmp; ./create-cloudsupport-kvm-deploy.sh;' &
-ssh root@"$LAN_CENTOS_IP" 'cd /tmp; ./create-cloud-kvm-deploy.sh;' &
-
 telegram_notify  "Identity VM ready for use"
+## signaling to hypervisor that identity is finished
+python3 -m http.server "$IDENTITY_SIGNAL" &
 ##########################
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local

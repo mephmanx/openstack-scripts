@@ -159,3 +159,7 @@ export NETWORK_RAM=12
 export MONITORING_RAM=16
 export STORAGE_RAM=20
 export KOLLA_RAM=4
+
+#### signal ports
+export IDENTITY_SIGNAL=10111
+export CLOUDSUPPORT_SIGNAL=10112
