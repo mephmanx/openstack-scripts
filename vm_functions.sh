@@ -574,8 +574,6 @@ function replace_values_in_root_isos() {
   ## gen_pwd is not stored anywhere, it is meant to lost and never found
   GEN_PWD=$(generate_specific_pwd 15)
 
-  telegram_debug_msg  "Directory manager admin pwd is $DIRECTORY_MGR_PWD"
-
   ## Files can only be replaced if they can be considered to be on "one line"
   ##  ssh keys are on one line as would most binary files.  text files, scripts, etc have multiple lines and DO NOT work!
 
