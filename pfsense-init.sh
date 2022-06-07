@@ -39,5 +39,7 @@ done
 rm -rf /cf/conf/config.xml
 rm -rf /root/pfsense-init.sh
 
+
+## try restarting squid service instead of full reboot
 telegram_notify  "PFSense init: init complete! removing script and rebooting.."
 reboot
