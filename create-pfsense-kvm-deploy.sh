@@ -80,6 +80,8 @@ sleep 30;
   sleep 5;
   echo 'S';
   sleep 5;
+  echo 'mount -u -o rw /'
+  sleep 10;
   echo "touch /mnt/root/openstack-env.sh; touch /mnt/root/openstack-env.sh.enc;";
     sleep 10;
     for element in "${openstack_env_array[@]}"
