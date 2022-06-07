@@ -38,6 +38,10 @@ chkconfig docker on
 
 systemctl restart docker
 
+### build config_overwrite_json string to hardcode auth settings
+#CONFIG_OVERWRITE_JSON={"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}
+## Also set this variable in .bash_profile and .bashrc
+
 cp /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
