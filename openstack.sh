@@ -164,6 +164,7 @@ chmod 777 /tmp/cloudsupport-test.sh
 cd /tmp
 ./identity-test.sh &
 ./cloudsupport-test.sh &
+
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 
