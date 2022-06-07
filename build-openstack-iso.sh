@@ -42,7 +42,6 @@ kickstart_file=./tmp/centos-8-kickstart-openstack.cfg
 HOWLONG=5 ## the number of characters
 HOSTNAME_SUFFIX=$(< /dev/urandom 2>/dev/null tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
 sed -i 's/{HOSTNAME_SUFFIX}/'"$HOSTNAME_SUFFIX"'/g' ${kickstart_file}
-sed -i 's/{NTP_SERVER}/'"$GATEWAY_ROUTER_IP"'/g' ${kickstart_file}
 ###########################
 
 ## download files to be embedded
