@@ -4135,7 +4135,7 @@
 				<defined_ip_proxy_off_dest></defined_ip_proxy_off_dest>
 				<ssl_proxy>on</ssl_proxy>
 				<sslproxy_mitm_mode>splicewhitelist</sslproxy_mitm_mode>
-				<ssl_active_interface>lan</ssl_active_interface>
+				<ssl_active_interface>lan,opt1</ssl_active_interface>
 				<ssl_proxy_port>3129</ssl_proxy_port>
 				<sslproxy_compatibility_mode>modern</sslproxy_compatibility_mode>
 				<dhparams_size>4096</dhparams_size>
