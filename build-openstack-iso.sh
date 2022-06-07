@@ -37,15 +37,11 @@ cp centos-8-kickstart-openstack.cfg ./tmp
 
 IFS=
 kickstart_file=./tmp/centos-8-kickstart-openstack.cfg
-NEWPWD=$(generate_random_pwd 31)
-echo "$NEWPWD" > /tmp/current_pwd
 ########### replace variables in project_config
 ## generate random hostname suffix
 HOWLONG=5 ## the number of characters
 HOSTNAME_SUFFIX=$(< /dev/urandom 2>/dev/null tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
 sed -i 's/{HOSTNAME_SUFFIX}/'"$HOSTNAME_SUFFIX"'/g' ${kickstart_file}
-###
-sed -i 's/{CENTOS_ADMIN_PWD_123456789012}/'"$NEWPWD"'/g' ${kickstart_file}
 sed -i 's/{NTP_SERVER}/'"$GATEWAY_ROUTER_IP"'/g' ${kickstart_file}
 ###########################
 
