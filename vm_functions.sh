@@ -563,7 +563,6 @@ function replace_values_in_root_isos() {
   ## These files are special due to multiline
   ##  Remove first and last tine from each
   prepare_special_file /tmp/id_rsa
-
   prepare_special_file /root/.ssh/id_rsa
   ##########
 
