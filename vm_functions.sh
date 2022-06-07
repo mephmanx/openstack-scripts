@@ -674,20 +674,46 @@ function install_packages_hypervisor() {
 }
 
 function create_network_bond() {
-  nmcli connection add type bond con-name ext-con ifname ext-con mode 802.3ad
-  nmcli con mod id ext-con bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
 
-  nmcli con mod ext-con ipv4.method auto
-  nmcli con mod ext-con ipv6.method auto
-  nmcli con mod ext-con connection.autoconnect yes
+  cat << EOF >/etc/sysconfig/network-scripts/ifcfg-ext-con
+DEVICE=bond0
+NAME=ext-con
+BOOTPROTO=dhcp
+ONBOOT=yes
+USERCTL=no
+DEFOUE=yes
+IPV6INIT=no
+BONDING_OPTS="802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3"
+EOF
 
-  ct=0
-  for DEVICE in $(nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'); do
-      echo "$DEVICE"
-      nmcli connection delete "$DEVICE"
-      nmcli con add type bond-slave con-name ext-con-slave$ct ifname "$DEVICE" master ext-con
-      ((ct++))
+  lshw -class network -short > /tmp/hw.out
+  nic_cards=`cat /tmp/hw.out | sed 1d | sed 1d | awk -F' ' '{ print $2 }'`
+  IFS=$'\n'; for i in $nic_cards; do
+    STATUS=$(ethtool $i | grep 'Link detected' | awk -F: '{print $2}')
+
+    if [ $STATUS == 'yes' ]; then
+cat << EOF >>/etc/sysconfig/network-scripts/ifcfg-$i
+MASTER=bond0
+SLAVE=yes
+EOF
+    fi
   done
 
-  nmcli connection down ext-con && nmcli connection up ext-con
+echo 'alias bond0 bonding' >> /etc/modprobe.conf
+#  nmcli connection add type bond con-name ext-con ifname ext-con mode 802.3ad
+#  nmcli con mod id ext-con bond.options mode=802.3ad,miimon=100,lacp_rate=fast,xmit_hash_policy=layer2+3
+#
+#  nmcli con mod ext-con ipv4.method auto
+#  nmcli con mod ext-con ipv6.method auto
+#  nmcli con mod ext-con connection.autoconnect yes
+#
+#  ct=0
+#  for DEVICE in $(nmcli device | awk '$1 != "DEVICE" && $3 == "connected" && $2 == "ethernet" { print $1 }'); do
+#      echo "$DEVICE"
+#      nmcli connection delete "$DEVICE"
+#      nmcli con add type bond-slave con-name ext-con-slave$ct ifname "$DEVICE" master ext-con
+#      ((ct++))
+#  done
+#
+#  nmcli connection down ext-con && nmcli connection up ext-con
 }
