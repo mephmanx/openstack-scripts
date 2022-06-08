@@ -193,6 +193,8 @@ for i in $(docker images |grep "$SUPPORT_VIP_DNS" |awk '{print $1}');do docker p
 telegram_notify  "Cloudsupport VM finished processing openstack images, creating kolla vm"
 
 ## signaling to hypervisor that cloudsupport is finished
+mkdir /tmp/empty
+cd /tmp/empty
 python3 -m http.server "$CLOUDSUPPORT_SIGNAL" &
 ########################
 #remove so as to not run again
