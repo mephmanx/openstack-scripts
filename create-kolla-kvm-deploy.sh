@@ -9,9 +9,6 @@ source /tmp/vm-configurations.sh
 
 telegram_notify  "Creating cloud vm: kolla"
 create_vm_kvm "kolla" "kolla"
-
-post_install_cleanup
-
 ###wait until jobs complete and servers come up
 wait
 
