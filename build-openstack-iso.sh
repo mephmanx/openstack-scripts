@@ -166,6 +166,8 @@ if [ ! -f "/tmp/harbor/$OPENSTACK_VERSION/centos-binary-base-${OPENSTACK_VERSION
     mv /out/kolla_"${OPENSTACK_VERSION}"_rpm_repo.tar.gz /tmp/harbor/"$OPENSTACK_VERSION"
     mv /out/globals.yml /tmp/harbor/"$OPENSTACK_VERSION"
     ### add copied images
+
+    docker pull codekoala/pypi && docker save codekoala/pypi >/tmp/harbor/"$OPENSTACK_VERSION"/pypi.tar
     docker pull kolla/centos-source-kuryr-libnetwork:"$OPENSTACK_VERSION" && docker save kolla/centos-source-kuryr-libnetwork:"$OPENSTACK_VERSION" >/tmp/harbor/"$OPENSTACK_VERSION"/centos-source-kuryr-libnetwork.tar
     docker pull kolla/centos-source-kolla-toolbox:"$OPENSTACK_VERSION" && docker save kolla/centos-source-kolla-toolbox:"$OPENSTACK_VERSION" >/tmp/harbor/"$OPENSTACK_VERSION"/centos-source-kolla-toolbox.tar
     docker pull kolla/centos-source-zun-compute:"$OPENSTACK_VERSION" && docker save kolla/centos-source-zun-compute:"$OPENSTACK_VERSION" >/tmp/harbor/"$OPENSTACK_VERSION"/centos-source-zun-compute.tar

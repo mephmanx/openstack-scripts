@@ -113,6 +113,7 @@ docker load < /tmp/centos-source-kuryr-libnetwork.tar
 docker load < /tmp/centos-binary-fluentd.tar
 docker load < /tmp/centos-binary-grafana.tar
 docker load < /tmp/centos-binary-elasticsearch-curator.tar
+docker load < /tmp/pypi.tar
 
 docker tag "$(docker images |grep centos-source-kolla-toolbox|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-binary-kolla-toolbox:"$OPENSTACK_VERSION"
 
