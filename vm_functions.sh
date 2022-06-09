@@ -428,6 +428,13 @@ EOF
 
   ### if possible, restart selinux
   runuser -l root -c "sed -i 's/\(SELINUX\=\).*/\1enabled/' /etc/selinux/config"
+
+cat << EOF >> /etc/ssh/sshd_config
+AuthorizedKeysCommand /usr/local/bin/sss_ssh_authorizedkeys
+AuthorizedKeysCommandUser nobody
+PubkeyAuthentication yes
+EOF
+
 }
 
 function baseDN() {
