@@ -395,6 +395,13 @@ function generate_specific_pwd() {
 }
 
 function join_machine_to_domain() {
+  ### prep sshd_config for join
+cat << EOF >> /etc/ssh/sshd_config
+AuthorizedKeysCommand /usr/local/bin/sss_ssh_authorizedkeys
+AuthorizedKeysCommandUser nobody
+PubkeyAuthentication yes
+EOF
+
   ## kill selinux to join domain
   runuser -l root -c "sed -i 's/\(SELINUX\=\).*/\1disabled/' /etc/selinux/config"
 
