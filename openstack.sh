@@ -134,7 +134,7 @@ runuser -l root -c "cd /tmp || exit; ./create-identity-kvm-deploy.sh;" &
 ### waitloops for vm signals
 cat > /tmp/identity-test.sh <<EOF
 while [ true ]; do
-    if [ \`< /dev/tcp/$IDENTITY_VIP/$IDENTITY_SIGNAL ; echo $?\` -lt 1 ]; then
+    if [ \`< /dev/tcp/$IDENTITY_VIP/$IDENTITY_SIGNAL ; echo \$?\` -lt 1 ]; then
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       runuser -l root -c "cd /tmp || exit; ./create-cloudsupport-kvm-deploy.sh;" &
       runuser -l root -c "cd /tmp || exit; ./create-cloud-kvm-deploy.sh;" &
@@ -147,7 +147,7 @@ EOF
 
 cat > /tmp/cloudsupport-test.sh <<EOF
 while [ true ]; do
-    if [ \`< /dev/tcp/$SUPPORT_VIP/$CLOUDSUPPORT_SIGNAL ; echo $?\` -lt 1 ]; then
+    if [ \`< /dev/tcp/$SUPPORT_VIP/$CLOUDSUPPORT_SIGNAL ; echo \$?\` -lt 1 ]; then
       runuser -l root -c "cd /tmp || exit; ./create-kolla-kvm-deploy.sh;" &
       exit
     else
