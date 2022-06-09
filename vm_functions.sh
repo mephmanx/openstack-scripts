@@ -219,6 +219,7 @@ function create_ca_cert() {
 
   runuser -l root -c  "touch $cert_dir/id_rsa"
   runuser -l root -c  "touch $cert_dir/id_rsa.pub"
+  runuser -l root -c  "touch $cert_dir/id_rsa.crt"
 
   source /tmp/project_config.sh
 
