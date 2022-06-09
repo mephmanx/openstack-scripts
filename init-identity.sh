@@ -67,23 +67,23 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. _ntp._udp --srv-pri
 /usr/bin/ipa group-add vpn-users
 
 #### users
-/usr/bin/ipa user-add --first=Firstname --last=Lastname admin --random
+/usr/bin/ipa user-add --first=Firstname --last=Lastname domain_admin --random
 
 ####  send random pwd over telegram
 RANDOM_PWD=$(cat </root/start-install.log | grep 'Random password' | awk -F': ' '{print $2}')
-telegram_debug_msg  "admin random password is $RANDOM_PWD"
+telegram_debug_msg  "domain_admin random password is $RANDOM_PWD"
 
 SSH_KEY=$(cat /root/.ssh/id_rsa.pub)
-/usr/bin/ipa user-mod admin --sshpubkey="$SSH_KEY"
+/usr/bin/ipa user-mod domain_admin --sshpubkey="$SSH_KEY"
 
 #Add sudo rules
 /usr/bin/ipa sudorule-add sysadmin_sudo --hostcat=all --runasusercat=all --runasgroupcat=all --cmdcat=all
 /usr/bin/ipa sudorule-add-user sysadmin_sudo --group cloud-admins
 
 ##### group memberships
-/usr/bin/ipa group-add-member openstack-admins --users=admin
-/usr/bin/ipa group-add-member vpn-users --users=admin
-/usr/bin/ipa group-add-member cloud-admins --users=admin
+/usr/bin/ipa group-add-member openstack-admins --users=domain_admin
+/usr/bin/ipa group-add-member vpn-users --users=domain_admin
+/usr/bin/ipa group-add-member cloud-admins --users=domain_admin
 
 telegram_notify  "Identity VM ready for use"
 ## signaling to hypervisor that identity is finished
