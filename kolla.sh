@@ -29,6 +29,11 @@ add_stack_user
 ### module recommended on openstack.org
 modprobe vhost_net
 
+#setup repo server
+rm -rf /etc/httpd/conf.d/ssl.conf
+sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
+systemctl restart httpd
+
 #####  setup global VIPs
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
