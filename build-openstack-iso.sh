@@ -113,7 +113,10 @@ if [ ! -f "/tmp/docker-repo.zip" ]; then
   rm -rf /tmp/repo
   mkdir /tmp/repo
   reposync -p /tmp/repo/docker-ce --repo=docker-ce-stable --download-metadata
-  zip -r /tmp/docker-repo.zip /tmp/repo
+  pwd=`pwd`
+  cd /tmp/repo/docker-ce
+  tar -cf /tmp/docker-repo.tar *
+  cd $pwd
 fi
 
 ### download director & jumpbox stemcell

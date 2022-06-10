@@ -34,6 +34,9 @@ rm -rf /etc/httpd/conf.d/ssl.conf
 sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
 systemctl restart httpd
 
+## extract docker repo
+tar -xf /tmp/docker-repo.tar -C /var/www/html
+
 #####  setup global VIPs
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
@@ -245,8 +248,15 @@ rm -rf /tmp/host_trust
 kolla-ansible octavia-certificates
 ###########
 
-## disable docker gpg check as install is offline
-sed -i 's/docker_yum_gpgcheck: true/docker_yum_gpgcheck: false/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
+## configure docker local repo
+cat > /etc/yum.repos.d/docker-ce.repo <<EOF
+[docker-ce-stable]
+name=Docker CE Stable
+baseurl=http://localhost:8080/docker-ce-stable
+enabled=1
+gpgcheck=1
+gpgkey=http://localhost:8080/gpg
+EOF
 
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
