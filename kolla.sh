@@ -240,6 +240,9 @@ rm -rf /tmp/host_trust
 kolla-ansible octavia-certificates
 ###########
 
+## disable docker gpg check as install is offline
+sed -i 's/docker_yum_gpgcheck: true/docker_yum_gpgcheck: false/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
+
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
 
