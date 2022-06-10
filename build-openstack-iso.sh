@@ -109,6 +109,13 @@ if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
   wget -O /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" "${DOCKER_COMPOSE}"
 fi
 
+if [ ! -f "/tmp/docker-repo.zip" ]; then
+  rm -rf /tmp/repo
+  mkdir /tmp/repo
+  reposync -p /tmp/repo/docker-ce --repo=docker-ce-stable --download-metadata
+  zip -r /tmp/docker-repo.zip /tmp/repo
+fi
+
 ### download director & jumpbox stemcell
 if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
   curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-"$BOSH_STEMCELL"-go_agent --output /tmp/bosh-"$STEMCELL_STAMP".tgz > /dev/null
