@@ -109,7 +109,7 @@ if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
   wget -O /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" "${DOCKER_COMPOSE}"
 fi
 
-if [ ! -f "/tmp/docker-repo.zip" ]; then
+if [ ! -f "/tmp/docker-repo.tar" ]; then
   rm -rf /tmp/repo
   mkdir /tmp/repo
   reposync -p /tmp/repo/docker-ce --repo=docker-ce-stable --download-metadata
