@@ -115,9 +115,9 @@ if [ ! -f "/tmp/docker-repo.tar" ]; then
   reposync -p /tmp/repo/docker-ce --repo=docker-ce-stable --download-metadata
   wget -O /tmp/repo/docker-ce/docker-ce-stable/gpg https://download.docker.com/linux/centos/gpg
   pwd=`pwd`
-  cd /tmp/repo/docker-ce
+  cd /tmp/repo/docker-ce || exit
   tar -cf /tmp/docker-repo.tar *
-  cd $pwd
+  cd $pwd || exit
 fi
 
 ### download director & jumpbox stemcell

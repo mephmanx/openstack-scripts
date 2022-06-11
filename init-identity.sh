@@ -88,7 +88,7 @@ SSH_KEY=$(cat /root/.ssh/id_rsa.pub)
 telegram_notify  "Identity VM ready for use"
 ## signaling to hypervisor that identity is finished
 mkdir /tmp/empty
-cd /tmp/empty
+cd /tmp/empty || exit
 python3 -m http.server "$IDENTITY_SIGNAL" &
 ##########################
 #remove so as to not run again

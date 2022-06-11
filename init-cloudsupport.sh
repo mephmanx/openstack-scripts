@@ -39,7 +39,14 @@ chkconfig docker on
 systemctl restart docker
 
 ### build config_overwrite_json string to hardcode auth settings
-CONFIG_OVERWRITE_JSON={"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}
+export CONFIG_OVERWRITE_JSON={"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}
+cat << EOF >> /root/.bash_profile
+export CONFIG_OVERWRITE_JSON={"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}
+EOF
+
+cat << EOF >> /root/.bashrc
+export CONFIG_OVERWRITE_JSON={"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}
+EOF
 ## Also set this variable in .bash_profile and .bashrc
 
 cp /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" /usr/local/bin/docker-compose
@@ -149,6 +156,12 @@ cp /tmp/kolla_local.repo /etc/yum.repos.d/
 yum install -y openstack-kolla
 echo 'install openstack-kolla on local server finish!'
 
+#setup local pypi server for offline pip install, pypi web server port is 9090 on harbor vm. root cache dir is /srv/pypi/.
+# put pypi cached .tar.gz or .whl files in the /srv/pypi dir.
+# centos-binary-base container image should have been config to use local pip server by /etc/pip.conf . all other images is based on base image.
+mkdir -p /srv/pypi
+docker run -itd  -e PYPI_EXTRA="--disable-fallback" -v /srv/pypi:/srv/pypi:rw -p 9090:80 --name pypi "$SUPPORT_VIP_DNS"/library/pypi:latest
+
 #fix openstack-kolla issue for offline build
 sed -i 's/version=.*, //' /usr/lib/python3.6/site-packages/kolla/image/build.py
 
@@ -194,7 +207,7 @@ telegram_notify  "Cloudsupport VM finished processing openstack images, creating
 
 ## signaling to hypervisor that cloudsupport is finished
 mkdir /tmp/empty
-cd /tmp/empty
+cd /tmp/empty || exit
 python3 -m http.server "$CLOUDSUPPORT_SIGNAL" &
 ########################
 #remove so as to not run again
