@@ -28,7 +28,7 @@ rm -rf /tmp/linux.iso
 rm -rf /tmp/configs/*
 
 # login to docker hub using .bash_profile env secrets
-docker login -u $DOCKER_LOGIN -p $DOCKER_SECRET
+docker login -u "$DOCKER_LOGIN" -p "$DOCKER_SECRET"
 
 docker pull "$DOCKER_LINUX_BUILD_IMAGE:latest"
 docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:latest" bash -c "mv CentOS-x86_64-minimal.iso linux.iso; cp linux.iso /opt/mount"
@@ -64,7 +64,7 @@ if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2" ]; then
 fi
 
 if [ ! -f "/tmp/pfSense-CE-memstick-ADI.img" ]; then
-  for i in `docker images |grep "$PFSENSE_CACHE_IMAGE"|awk '{print $3}'`;do docker rmi $i;done
+  for i in $(docker images |grep "$PFSENSE_CACHE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
   docker run -v /out:/out -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock -v /tmp:/tmp --rm -ti --network=host --privileged "$PFSENSE_CACHE_IMAGE:latest"
   cp /tmp/pfSense-CE-memstick-ADI.img /var/tmp
 fi
@@ -114,10 +114,10 @@ if [ ! -f "/tmp/docker-repo.tar" ]; then
   mkdir /tmp/repo
   reposync -p /tmp/repo/docker-ce --repo=docker-ce-stable --download-metadata
   wget -O /tmp/repo/docker-ce/docker-ce-stable/gpg https://download.docker.com/linux/centos/gpg
-  pwd=`pwd`
+  pwd=$(pwd)
   cd /tmp/repo/docker-ce || exit
   tar -cf /tmp/docker-repo.tar *
-  cd $pwd || exit
+  cd "$pwd" || exit
 fi
 
 if [ ! -f "/tmp/harbor_python_modules.tar" ]; then
@@ -127,10 +127,10 @@ cat > /tmp/harbor_python_requirements <<EOF
 netcontrold
 EOF
   pip3 download -d /tmp/Pyrepo -r /tmp/harbor_python_requirements
-  pwd=`pwd`
+  pwd=$(pwd)
   cd /tmp/Pyrepo || exit
   tar -cf /tmp/harbor_python_modules.tar *
-  cd $pwd || exit
+  cd "$pwd" || exit
 fi
 
 ### download director & jumpbox stemcell
@@ -176,8 +176,8 @@ done
 yum install -y centos-release-openstack-"${OPENSTACK_VERSION}"
 yum install -y openstack-kolla
 if [ ! -f "/tmp/harbor/$OPENSTACK_VERSION/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f "/tmp/harbor/$OPENSTACK_VERSION/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz" ]; then
-    for i in `docker images |grep rpm_repo|awk '{print $3}'`;do docker rmi $i;done
-    for i in `docker images |grep kolla|awk '{print $3}'`;do docker rmi $i;done
+    for i in $(docker images |grep rpm_repo|awk '{print $3}');do docker rmi "$i";done
+    for i in $(docker images |grep kolla|awk '{print $3}');do docker rmi "$i";done
     mkdir /tmp/harbor/"$OPENSTACK_VERSION"
     rm -rf /out
     mkdir /out

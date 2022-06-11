@@ -160,7 +160,7 @@ EOF
 chmod 777 /tmp/identity-test.sh
 chmod 777 /tmp/cloudsupport-test.sh
 
-cd /tmp
+cd /tmp || exit
 ./identity-test.sh &
 ./cloudsupport-test.sh &
 
