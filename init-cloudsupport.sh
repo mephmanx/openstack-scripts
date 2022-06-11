@@ -39,13 +39,13 @@ chkconfig docker on
 systemctl restart docker
 
 ### build config_overwrite_json string to hardcode auth settings
-export CONFIG_OVERWRITE_JSON={"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}
+export CONFIG_OVERWRITE_JSON='{"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}'
 cat << EOF >> /root/.bash_profile
-export CONFIG_OVERWRITE_JSON={"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}
+export CONFIG_OVERWRITE_JSON='{"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}'
 EOF
 
 cat << EOF >> /root/.bashrc
-export CONFIG_OVERWRITE_JSON={"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}
+export CONFIG_OVERWRITE_JSON='{"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}'
 EOF
 ## Also set this variable in .bash_profile and .bashrc
 
