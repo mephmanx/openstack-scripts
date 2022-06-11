@@ -120,6 +120,19 @@ if [ ! -f "/tmp/docker-repo.tar" ]; then
   cd $pwd || exit
 fi
 
+if [ ! -f "/tmp/harbor_python_modules.tar" ]; then
+  mkdir /tmp/Pyrepo
+  rm -rf /tmp/harbor_python_requirements
+cat > /tmp/harbor_python_requirements <<EOF
+netcontrold
+EOF
+  pip3 download -d /tmp/Pyrepo -r /tmp/harbor_python_requirements
+  pwd=`pwd`
+  cd /tmp/Pyrepo || exit
+  tar -cf /tmp/harbor_python_modules.tar *
+  cd $pwd || exit
+fi
+
 ### download director & jumpbox stemcell
 if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
   curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-"$BOSH_STEMCELL"-go_agent --output /tmp/bosh-"$STEMCELL_STAMP".tgz > /dev/null
