@@ -160,7 +160,7 @@ echo 'install openstack-kolla on local server finish!'
 # put pypi cached .tar.gz or .whl files in the /srv/pypi dir.
 # centos-binary-base container image should have been config to use local pip server by /etc/pip.conf . all other images is based on base image.
 mkdir -p /srv/pypi
-docker run -itd  -e PYPI_EXTRA="--disable-fallback" -v /srv/pypi:/srv/pypi:rw -p 9090:80 --name pypi "$SUPPORT_VIP_DNS"/library/pypi:latest
+docker run -itd  --restart unless-stopped -e PYPI_EXTRA="--disable-fallback" -v /srv/pypi:/srv/pypi:rw -p 9090:80 --name pypi "$SUPPORT_VIP_DNS"/library/pypi:latest
 
 #fix openstack-kolla issue for offline build
 sed -i 's/version=.*, //' /usr/lib/python3.6/site-packages/kolla/image/build.py
