@@ -240,6 +240,8 @@ rm -rf /tmp/host_trust
 kolla-ansible octavia-certificates
 ###########
 
+sed -i 's/enable_docker_repo: true/enable_docker_repo: false/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
+
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
 
