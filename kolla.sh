@@ -29,11 +29,6 @@ add_stack_user
 ### module recommended on openstack.org
 modprobe vhost_net
 
-#setup repo server
-rm -rf /etc/httpd/conf.d/ssl.conf
-sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
-systemctl restart httpd
-
 ## extract docker repo
 tar -xf /tmp/docker-repo.tar -C /var/www/html
 
@@ -248,16 +243,6 @@ rm -rf /tmp/host_trust
 kolla-ansible octavia-certificates
 ###########
 
-## configure docker local repo
-cat > /etc/yum.repos.d/docker-ce.repo <<EOF
-[docker-ce-stable]
-name=Docker CE Stable
-baseurl=http://localhost:8080/docker-ce-stable
-enabled=1
-gpgcheck=1
-gpgkey=http://localhost:8080/gpg
-EOF
-
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
 
@@ -308,6 +293,10 @@ kolla-ansible -i /etc/kolla/multinode deploy
 ### grab last set of lines from log to send
 LOG_TAIL=`tail -25 /tmp/openstack-install.log`
 ###
+
+## point to local docker repo
+sed -i "s/docker_yum_url: \"http:\/\/localhost:8080/docker-ce-stable\"/g"  /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
+sed -i "s/docker_yum_baseurl: \"{{ docker_yum_url }}\"/g"   /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
 
 kolla-ansible post-deploy
 

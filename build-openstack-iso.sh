@@ -113,6 +113,7 @@ if [ ! -f "/tmp/docker-repo.zip" ]; then
   rm -rf /tmp/repo
   mkdir /tmp/repo
   reposync -p /tmp/repo/docker-ce --repo=docker-ce-stable --download-metadata
+  wget -O /tmp/repo/docker-ce/gpg https://download.docker.com/linux/centos/gpg
   pwd=`pwd`
   cd /tmp/repo/docker-ce
   tar -cf /tmp/docker-repo.tar *

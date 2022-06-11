@@ -103,6 +103,7 @@ function buildAndPushVMTypeISO {
                 '/tmp/project_config.sh'
                 '/tmp/id_rsa'
                 '/tmp/id_rsa.pub'
+                "/tmp/docker-repo.tar"
                 "/tmp/libtpms-$SWTPM_VERSION.zip"
                 "/tmp/swtpm-$SWTPM_VERSION.zip"
                 "/tmp/openstack-scripts/$vm_type.sh"
@@ -146,7 +147,6 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/id_rsa'
                 '/tmp/id_rsa.pub'
                 '/tmp/storage_hosts'
-                "/tmp/docker-repo.tar"
                 "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2"
                 '/tmp/openstack-scripts/kolla.sh'
                 "/tmp/harbor/$OPENSTACK_VERSION/globals.yml"
