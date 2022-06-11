@@ -116,7 +116,7 @@ if [ ! -f "/tmp/docker-repo.tar" ]; then
   wget -O /tmp/repo/docker-ce/docker-ce-stable/gpg https://download.docker.com/linux/centos/gpg
   pwd=$(pwd)
   cd /tmp/repo/docker-ce || exit
-  tar -cf /tmp/docker-repo.tar *
+  tar -cf /tmp/docker-repo.tar ./*
   cd "$pwd" || exit
 fi
 
@@ -129,7 +129,7 @@ EOF
   pip3 download -d /tmp/Pyrepo -r /tmp/harbor_python_requirements
   pwd=$(pwd)
   cd /tmp/Pyrepo || exit
-  tar -cf /tmp/harbor_python_modules.tar *
+  tar -cf /tmp/harbor_python_modules.tar ./*
   cd "$pwd" || exit
 fi
 
