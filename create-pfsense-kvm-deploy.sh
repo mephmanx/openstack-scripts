@@ -92,7 +92,6 @@ virsh destroy pfsense
 sleep 20;
 virsh start pfsense
 
-sleep 120;
 ### cleanup
 runuser -l root -c  "rm -rf /tmp/usb"
 #####
@@ -100,6 +99,3 @@ runuser -l root -c  "rm -rf /tmp/usb"
 telegram_notify  "PFSense reboot, pfsense-init script should begin after reboot."
 
 rm -rf /tmp/pfSense-CE-memstick-ADI.img
-
-
-
