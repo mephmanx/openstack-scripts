@@ -516,9 +516,11 @@ GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
 GRUB_DEFAULT=saved
 GRUB_DISABLE_SUBMENU=true
 GRUB_TERMINAL_OUTPUT="console"
-GRUB_CMDLINE_LINUX="resume=/dev/mapper/cs_${DRIVE_NAME_UPDATE}-swap rd.lvm.lv=cs_${DRIVE_NAME_UPDATE}/root rd.lvm.lv=cs_${DRIVE_NAME_UPDATE}/swap net.ifnames=0 intel_iommu=on rhgb quiet splash biosdevname=0"
+GRUB_CMDLINE_LINUX="resume=/dev/mapper/cs_${DRIVE_NAME_UPDATE}-swap rd.lvm.lv=cs_${DRIVE_NAME_UPDATE}/root rd.lvm.lv=cs_${DRIVE_NAME_UPDATE}/swap net.ifnames=0 intel_iommu=on rhgb quiet splash biosdevname=0 systemd.log_level=0 systemd.show_status=0 rd.plymouth=0 plymouth.enable=0 --log-level=0"
 GRUB_DISABLE_RECOVERY="true"
 GRUB_ENABLE_BLSCFG=true
+GRUB_TIMEOUT_STYLE=hidden
+GRUB_HIDDEN_TIMEOUT_QUIET=true
 EOF
 
   runuser -l root -c  'cat /tmp/grub > /etc/default/grub'
