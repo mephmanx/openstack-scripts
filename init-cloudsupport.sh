@@ -201,10 +201,7 @@ docker tag kolla/centos-binary-base:"$OPENSTACK_VERSION" "$SUPPORT_VIP_DNS"/koll
 kolla-build --base-image kolla/centos-binary-base --base-tag "$OPENSTACK_VERSION" -t binary --openstack-release "$OPENSTACK_VERSION"  --tag "$OPENSTACK_VERSION" --cache --skip-existing --nopull --registry "$SUPPORT_VIP_DNS" barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openvswitch placement qdrouterd redis rabbitmq swift telegraf trove murano panko
 
 #push images to harbor
-for i in $(docker images |grep "$SUPPORT_VIP_DNS" |awk '{print $1}');do
-  echo "$i:$(docker images |grep "$i"|awk '{print $2}')"
-  docker push "$i":"$(docker images |grep "$i"|sed 1d|awk '{print $2}')" ;
-done
+for i in $(docker images |grep "$SUPPORT_VIP_DNS" |awk '{print $1}');do docker push "$i":"$(docker images |grep "$i"|sed 1d|awk '{print $2}')" ;done
 
 ######
 telegram_notify  "Cloudsupport VM finished processing openstack images, creating kolla vm"
