@@ -240,7 +240,8 @@ rm -rf /tmp/host_trust
 kolla-ansible octavia-certificates
 ###########
 
-sed -i 's/enable_docker_repo: true/enable_docker_repo: false/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
+sed -i 's/docker_yum_url: "https:\/\/download.docker.com\/linux\/{{ ansible_facts.distribution | lower }}"/docker_yum_url: http:\/\/localhost:8080/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
+sed -i 's/docker_yum_baseurl: "{{ docker_yum_url }}\/\$releasever\/\$basearch\/stable"/docker_yum_baseurl: "{{ docker_yum_url }}\/docker-ce-stable"/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
 
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
