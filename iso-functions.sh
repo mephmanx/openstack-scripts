@@ -103,7 +103,7 @@ function buildAndPushVMTypeISO {
                 '/tmp/project_config.sh'
                 '/tmp/id_rsa'
                 '/tmp/id_rsa.pub'
-                "/tmp/docker-repo.tar"
+                '/tmp/docker-repo.tar'
                 "/tmp/libtpms-$SWTPM_VERSION.zip"
                 "/tmp/swtpm-$SWTPM_VERSION.zip"
                 "/tmp/openstack-scripts/$vm_type.sh"

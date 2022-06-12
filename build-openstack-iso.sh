@@ -229,7 +229,7 @@ embed_files=('/tmp/openstack-env.sh'
               '/tmp/openstack-scripts/create-cloudsupport-kvm-deploy.sh'
               '/tmp/openstack-scripts/create-identity-kvm-deploy.sh'
               '/tmp/openstack-scripts/create-pfsense-kvm-deploy.sh'
-              "/var/tmp/pfSense-CE-memstick-ADI.img")
+              '/var/tmp/pfSense-CE-memstick-ADI.img')
 
 iso_images="/var/tmp/*.iso"
 for img in $iso_images; do

@@ -31,7 +31,7 @@ embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
               '/tmp/openstack-scripts/harbor.yml'
               '/tmp/openstack-env.sh'
               '/tmp/project_config.sh'
-              "/tmp/harbor_python_modules.tar"
+              '/tmp/harbor_python_modules.tar'
               "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION"
               '/tmp/openstack-scripts/init-cloudsupport.sh'
               '/tmp/openstack-scripts/vm_functions.sh')
