@@ -40,7 +40,7 @@ chkconfig docker on
 systemctl restart docker
 
 ### build config_overwrite_json string to hardcode auth settings
-sed -i 's/container_name: harbor-core/container_name: harbor-core\n    environment:\n      CONFIG_OVERWRITE_JSON={\"ldap_verify_cert\":\"false\", \"auth_mode\":\"ldap_auth\",\"ldap_base_dn\":\"dc=cloud,dc=local\", \"ldap_search_dn\":\"cn=admin,dc=cloud,dc=local\",\"ldap_search_password\":\"{CENTOS_ADMIN_PWD_123456789012}\",\"ldap_url\”:\”identity.cloud.local\", \"ldap_scope\":2}/g' /root/harbor/docker-compose.yml
+sed -i 's/container_name: harbor-core/container_name: harbor-core\n    environment:\n      - CONFIG_OVERWRITE_JSON={\"ldap_verify_cert\":\"false\", \"auth_mode\":\"ldap_auth\",\"ldap_base_dn\":\"dc=cloud,dc=local\", \"ldap_search_dn\":\"cn=admin,dc=cloud,dc=local\",\"ldap_search_password\":\"{CENTOS_ADMIN_PWD_123456789012}\",\"ldap_url\":\"identity.cloud.local\", \"ldap_scope\":2}/g' /root/harbor/docker-compose.yml
 
 ## Also set this variable in .bash_profile and .bashrc
 
