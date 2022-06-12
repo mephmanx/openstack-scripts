@@ -202,7 +202,7 @@ kolla-build --base-image kolla/centos-binary-base --base-tag "$OPENSTACK_VERSION
 
 #push images to harbor
 for i in $(docker images |grep "$SUPPORT_VIP_DNS" |awk '{print $1}');do
-  docker push "$i":"$(docker images |grep "$i"|sed 1d|awk '{print $2}')" ;
+  docker push "$i":"$(docker images |grep "$i"|head -n 1|awk '{print $2}')" ;
 done
 
 ######
