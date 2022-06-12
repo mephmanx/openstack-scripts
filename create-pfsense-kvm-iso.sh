@@ -20,10 +20,10 @@ runuser -l root -c  "mount -o loop,offset=$offset /tmp/pfSense-CE-memstick-ADI.i
 rm -rf /tmp/usb/config.xml
 cp /tmp/openstack-scripts/openstack-pfsense.xml /tmp/usb
 mv /tmp/usb/openstack-pfsense.xml /tmp/usb/config.xml
-cp /tmp/openstack-scripts/openstack-env.sh /temp/usb/
-cp /tmp/openstack-scripts/openstack-scripts/pf_functions.sh /temp/usb/
-cp /tmp/openstack-scripts/project_config.sh /temp/usb/
-cp /tmp/openstack-scripts/openstack-scripts/pfsense-init.sh /temp/usb/
+cp /tmp/openstack-env.sh /temp/usb/
+cp /tmp/openstack-scripts/pf_functions.sh /temp/usb/
+cp /tmp/project_config.sh /temp/usb/
+cp /tmp/openstack-scripts/pfsense-init.sh /temp/usb/
 
 ## generate OpenVPN TLS secret key
 runuser -l root -c  'openvpn --genkey --secret /tmp/openvpn-secret.key'
