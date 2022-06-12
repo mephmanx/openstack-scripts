@@ -67,27 +67,14 @@ export PYTHONIOENCODING=UTF-8;
 # update pip to required version
 PATH=$PATH:$HOME/bin:/usr/local/bin
 ####
-pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1
-pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1
-pip3 install --no-index --find-links="/repo/PyRepo/PyRepo" pip==21.3.1
+pip3 install --no-index --find-links="/root/PyRepo" pip==21.3.1
+pip3 install --ignore-installed --no-index --find-links="/root/PyRepo" -r /root/python.modules
 
-# install rest of the python modules
-pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules
-pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo" -r /root/python.modules
-pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo/PyRepo" -r /root/python.modules
 python3 -m venv /opt/stack/venv
 source /opt/stack/venv/bin/activate
 
-pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1
-pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1
-pip3 install --no-index --find-links="/repo/PyRepo/PyRepo" pip==21.3.1
 pip3 install --no-index --find-links="/root/PyRepo" pip==21.3.1
-
-# install rest of the python modules
 pip3 install --ignore-installed --no-index --find-links="/root/PyRepo" -r /root/python.modules
-pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules
-pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo" -r /root/python.modules
-pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo/PyRepo" -r /root/python.modules
 ####
 
 mkdir -p /etc/kolla
@@ -229,6 +216,9 @@ telegram_notify  "All Openstack VM's came up properly and are ready for install.
 
 #### run host trust on all nodes
 file=/tmp/host_list
+
+### configure docker repo to pull from local cache
+echo "runuser -l root -c  'echo 127.0.0.1 download.docker.com >> /etc/hosts;'" | cat - /tmp/host-trust.sh > temp && mv -f temp /tmp/host-trust.sh
 for i in `cat $file`
 do
   echo "$i"

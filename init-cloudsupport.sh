@@ -8,6 +8,7 @@
 . /tmp/vm_functions.sh
 . /tmp/project_config.sh
 
+# shellcheck disable=SC2120
 start() {
 # code to start app comes here
 # example: daemon program_name &
@@ -39,14 +40,8 @@ chkconfig docker on
 systemctl restart docker
 
 ### build config_overwrite_json string to hardcode auth settings
-export CONFIG_OVERWRITE_JSON='{"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}'
-cat << EOF >> /root/.bash_profile
-export CONFIG_OVERWRITE_JSON='{"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}'
-EOF
+sed -i 's/container_name: harbor-core/container_name: harbor-core\n    environment:\n      CONFIG_OVERWRITE_JSON={\"ldap_verify_cert\":\"false\", \"auth_mode\":\"ldap_auth\",\"ldap_base_dn\":\"dc=cloud,dc=local\", \"ldap_search_dn\":\"cn=admin,dc=cloud,dc=local\",\"ldap_search_password\":\"{CENTOS_ADMIN_PWD_123456789012}\",\"ldap_url\”:\”identity.cloud.local\", \"ldap_scope\":2}/g' /root/harbor/docker-compose.yml
 
-cat << EOF >> /root/.bashrc
-export CONFIG_OVERWRITE_JSON='{"ldap_verify_cert":"false", "auth_mode":"ldap_auth","ldap_base_dn":"dc=cloud,dc=local", "ldap_search_dn":"cn=admin,dc=cloud,dc=local","ldap_search_password":"{CENTOS_ADMIN_PWD_123456789012}","ldap_url”:”identity.cloud.local", "ldap_scope":2}'
-EOF
 ## Also set this variable in .bash_profile and .bashrc
 
 cp /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" /usr/local/bin/docker-compose
