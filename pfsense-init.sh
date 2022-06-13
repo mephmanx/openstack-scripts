@@ -21,8 +21,7 @@ install_pkg "pfsense-pkg-Telegraf"
 install_pkg "qemu-guest-agent"
 
 ## the pfsense method for changing config via cli is f*ed up:
-##  change all backup files, delete primary file, and let system "restore" a changed backup file
-##  makes a lot of sense, huh?
+##  change all backup files, delete primary file, and let system "restore" a changed backup file...makes a lot of sense, huh?
 ## DO NOT USE $() notation below!!!   IT WILL NOT WORK ON PFSENSE!!
 # shellcheck disable=SC2006
 DRIVE_KB=`geom disk list | grep Mediasize | sed 2d | awk '{ print $2 }'`
