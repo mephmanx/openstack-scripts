@@ -84,6 +84,10 @@ sleep 30;
   sleep 10;
   echo "chmod 777 /mnt/root/*.sh"
   sleep 10;
+  echo "cd /mnt/root";
+  sleep 5;
+  echo "./init.sh";
+  sleep 10;
  ) | telnet
 
 ## remove install disk from pfsense
