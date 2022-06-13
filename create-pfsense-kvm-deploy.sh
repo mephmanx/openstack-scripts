@@ -78,8 +78,6 @@ sleep 30;
   sleep 10;
   echo 'cp /tmp/test-mnt/pf_functions.sh /mnt/root/pf_functions.sh';
   sleep 10;
-  echo 'cp /tmp/test-mnt/project_config.sh /mnt/root/project_config.sh';
-  sleep 10;
   echo 'cp /tmp/test-mnt/pfsense-init.sh /mnt/root/pfsense-init.sh';
   sleep 10;
   echo 'cp /tmp/test-mnt/init.sh /mnt/root/init.sh'
