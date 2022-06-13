@@ -219,8 +219,6 @@ embed_files=('/tmp/openstack-env.sh'
               '/tmp/ip_out_update'
               "/tmp/libtpms-$SWTPM_VERSION.zip"
               "/tmp/swtpm-$SWTPM_VERSION.zip"
-              '/tmp/openstack-scripts/pf_functions.sh'
-              '/tmp/openstack-scripts/pfsense-init.sh'
               '/tmp/openstack-scripts/openstack.sh'
               '/tmp/openstack-scripts/vm_functions.sh'
               '/tmp/openstack-scripts/vm-configurations.sh'
