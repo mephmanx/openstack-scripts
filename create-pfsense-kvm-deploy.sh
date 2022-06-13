@@ -74,13 +74,13 @@ sleep 30;
   sleep 10;
   echo 'mount -v -t msdosfs /dev/vtbd0s3 /tmp/test-mnt';
   sleep 10;
-  echo 'cp /tmp/openstack-env.sh /mnt/root/openstack-env.sh';
+  echo 'cp /tmp/test-mnt/openstack-env.sh /mnt/root/openstack-env.sh';
   sleep 10;
-  echo 'cp /tmp/pf_functions.sh /mnt/root/pf_functions.sh';
+  echo 'cp /tmp/test-mnt/pf_functions.sh /mnt/root/pf_functions.sh';
   sleep 10;
-  echo 'cp /tmp/project_config.sh /mnt/root/project_config.sh';
+  echo 'cp /tmp/test-mnt/project_config.sh /mnt/root/project_config.sh';
   sleep 10;
-  echo 'cp /tmp/pfsense-init.sh /mnt/root/pfsense-init.sh';
+  echo 'cp /tmp/test-mnt/pfsense-init.sh /mnt/root/pfsense-init.sh';
   sleep 10;
   echo "chmod 777 /mnt/root/*.sh"
   sleep 10;
