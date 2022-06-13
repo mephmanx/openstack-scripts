@@ -12,7 +12,7 @@ source /tmp/openstack-env.sh
 
 ## watch this logic on update and make sure it gets the last fat32 partition
 startsector=$(file /tmp/pfSense-CE-memstick-ADI.img | sed -n -e 's/.* startsector *\([0-9]*\),.*/\1/p')
-offset=$(($startsector * 512))
+offset=$((startsector * 512))
 
 rm -rf /tmp/usb
 mkdir /tmp/usb
