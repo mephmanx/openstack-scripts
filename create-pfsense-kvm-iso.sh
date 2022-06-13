@@ -41,7 +41,7 @@ OPEN_VPN_TLS_KEY=$(cat </tmp/openvpn-secret.key | base64 | tr -d '\n\r')
 
 ### cloudfoundry TCP ports
 CF_TCP_START_PORT=1024
-CF_TCP_END_PORT=$(($CF_TCP_START_PORT + $CF_TCP_PORT_COUNT))
+CF_TCP_END_PORT=$((CF_TCP_START_PORT + CF_TCP_PORT_COUNT))
 
 #### backend to change host header from whatever it comes in as to internal domain
 ADVANCED_BACKEND=$(echo "http-request replace-value Host ^(.*)(\.[^\.]+){2}$ \1.$INTERNAL_DOMAIN_NAME" | base64 | tr -d '\n\r')
