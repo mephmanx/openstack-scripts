@@ -4,11 +4,11 @@ rm -rf /tmp/pfsense-install.log
 exec 1>/root/pfsense-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 #set -x
 
-telegram_notify  "PFSense deployment beginning"
-
 source /tmp/vm_functions.sh
 source /tmp/project_config.sh
 source /tmp/vm-configurations.sh
+
+telegram_notify  "PFSense deployment beginning"
 
 size_avail=$(df /VM-VOL-MISC | awk '{print $2}' | sed 1d)
 DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
