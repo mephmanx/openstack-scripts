@@ -82,6 +82,8 @@ sleep 30;
   sleep 10;
   echo 'cp /tmp/test-mnt/pfsense-init.sh /mnt/root/pfsense-init.sh';
   sleep 10;
+  echo 'cp /tmp/test-mnt/init.sh /mnt/root/init.sh'
+  sleep 10;
   echo "chmod 777 /mnt/root/*.sh"
   sleep 10;
  ) | telnet
