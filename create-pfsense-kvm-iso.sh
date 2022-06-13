@@ -48,7 +48,7 @@ ADVANCED_BACKEND=$(echo "http-request replace-value Host ^(.*)(\.[^\.]+){2}$ \1.
 
 ## generate random hostname suffix so that if multiple instances are run on the same network there are no issues
 HOWLONG=5 ## the number of characters
-HOSTNAME_SUFFIX=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+($RANDOM%20))) | tail -c$((20+($RANDOM%20))) | head -c${HOWLONG});
+HOSTNAME_SUFFIX=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c100 | head -c$((20+(RANDOM%20))) | tail -c$((20+(RANDOM%20))) | head -c${HOWLONG});
 HOSTNAME="$ORGANIZATION-$HOSTNAME_SUFFIX"
 ###
 
