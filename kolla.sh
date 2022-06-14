@@ -223,7 +223,7 @@ for i in `cat $file`
 do
   echo "$i"
   scp /tmp/host-trust.sh root@$i:/tmp
-  runuser -l root -c "ssh root@$i '/tmp/host-trust.sh'"
+  runuser -l root -c "ssh root@$i 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
 done
 rm -rf /tmp/host_trust
 #####################
