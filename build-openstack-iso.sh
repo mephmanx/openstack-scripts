@@ -206,8 +206,6 @@ if [ ! -f "/tmp/harbor/$OPENSTACK_VERSION/centos-binary-base-${OPENSTACK_VERSION
     docker pull kolla/centos-binary-elasticsearch-curator:"$OPENSTACK_VERSION" && docker save kolla/centos-binary-elasticsearch-curator:"$OPENSTACK_VERSION" >/tmp/harbor/"$OPENSTACK_VERSION"/centos-binary-elasticsearch-curator.tar
 fi
 
-
-#./create-pfsense-kvm-iso.sh
 ./create-cloudsupport-kvm-iso.sh
 ./create-identity-kvm-iso.sh
 ./create-cloud-kvm-iso.sh
