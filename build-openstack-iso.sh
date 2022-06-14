@@ -66,6 +66,9 @@ fi
 if [ ! -f "/tmp/pfSense-CE-memstick-ADI.img" ]; then
   for i in $(docker images |grep "$PFSENSE_CACHE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
   docker run -v /out:/out -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock -v /tmp:/tmp --rm -ti --network=host --privileged "$PFSENSE_CACHE_IMAGE:latest"
+fi
+
+if [ ! -f "/var/tmp/pfSense-CE-memstick-ADI.img" ]; then
   cp /tmp/pfSense-CE-memstick-ADI.img /var/tmp
 fi
 
