@@ -29,7 +29,7 @@ while [ "$control_count" -gt 0 ]; do
   vms+=("control$control_count_format")
   host_trust_script+=("runuser -l root -c  'ssh-keyscan -H control$control_count_format >> ~/.ssh/known_hosts';")
   control_hack_script+=("runuser -l root -c  'ssh root@control$control_count_format \"sed -i 's/www_authenticate_uri/auth_uri/g' /etc/kolla/swift-proxy-server/proxy-server.conf\"';")
-  control_count=$(($control_count - 1))
+  control_count=$((control_count - 1))
 done
 
 while [ "$network_count" -gt 0 ]; do
@@ -37,7 +37,7 @@ while [ "$network_count" -gt 0 ]; do
   echo "add vm to create string -> network$network_count_format"
   vms+=("network$network_count_format")
   host_trust_script+=("runuser -l root -c  'ssh-keyscan -H network$network_count_format >> ~/.ssh/known_hosts';")
-  network_count=$(($network_count - 1))
+  network_count=$((network_count - 1))
 done
 
 while [ "$compute_count" -gt 0 ]; do
@@ -45,7 +45,7 @@ while [ "$compute_count" -gt 0 ]; do
   echo "add vm to create string -> compute$compute_count_format"
   vms+=("compute$compute_count_format")
   host_trust_script+=("runuser -l root -c  'ssh-keyscan -H compute$compute_count_format >> ~/.ssh/known_hosts';")
-  compute_count=$(($compute_count - 1))
+  compute_count=$((compute_count - 1))
 done
 
 while [ "$monitoring_count" -gt 0 ]; do
@@ -53,7 +53,7 @@ while [ "$monitoring_count" -gt 0 ]; do
   echo "add vm to create string -> monitoring$monitoring_count_format"
   vms+=("monitoring$monitoring_count_format")
   host_trust_script+=("runuser -l root -c  'ssh-keyscan -H monitoring$monitoring_count_format >> ~/.ssh/known_hosts';")
-  monitoring_count=$(($monitoring_count - 1))
+  monitoring_count=$((monitoring_count - 1))
 done
 
 while [ "$storage_count" -gt 0 ]; do
@@ -61,7 +61,7 @@ while [ "$storage_count" -gt 0 ]; do
   echo "add vm to create string -> storage$storage_count_format"
   vms+=("storage$storage_count_format")
   host_trust_script+=("runuser -l root -c  'ssh-keyscan -H storage$storage_count_format >> ~/.ssh/known_hosts';")
-  storage_count=$(($storage_count - 1))
+  storage_count=$((storage_count - 1))
 done
 
 echo "VM's to be created"

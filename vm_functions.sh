@@ -34,7 +34,7 @@ function get_drive_name() {
 function load_system_info() {
   source /tmp/project_config.sh
   INSTALLED_RAM=$(runuser -l root -c  'dmidecode -t memory | grep  Size: | grep -v "No Module Installed"' | awk '{sum+=$2}END{print sum}')
-  RESERVED_RAM=$(( $INSTALLED_RAM * $RAM_PCT_AVAIL_CLOUD/100 ))
+  RESERVED_RAM=$(( INSTALLED_RAM * RAM_PCT_AVAIL_CLOUD/100 ))
   CPU_COUNT=$(lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }')
   DISK_COUNT=$(get_disk_count)
   IP_ADDR=$(ip -f inet addr show ext-con | grep inet | awk -F' ' '{ print $2 }' | cut -d '/' -f1)
