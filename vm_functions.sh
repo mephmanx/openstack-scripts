@@ -585,8 +585,8 @@ function replace_values_in_root_isos() {
 #  DIRECTORY_MGR_PWD=$(generate_random_pwd 31)
 #  ADMIN_PWD=$(generate_random_pwd 31)
 #  GEN_PWD=$(generate_random_pwd 15)
-  DIRECTORY_MGR_PWD=$(generate_random_pwd 31)
-  ADMIN_PWD=$(generate_random_pwd 31)
+  DIRECTORY_MGR_PWD=$(generate_specific_pwd 31)
+  ADMIN_PWD=$(generate_specific_pwd 31)
   ## gen_pwd is not stored anywhere, it is meant to lost and never found
   GEN_PWD=$(generate_specific_pwd 15)
 
