@@ -705,3 +705,18 @@ function install_packages_hypervisor() {
 
   dnf groupinstall -y virtualization-client
 }
+
+function install_python_modules() {
+  export PYTHONIOENCODING=UTF-8;
+  # update pip to required version
+  PATH=$PATH:$HOME/bin:/usr/local/bin
+  ####
+  pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1
+  pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1
+  pip3 install --no-index --find-links="/repo/PyRepo/PyRepo" pip==21.3.1
+
+  # install rest of the python modules
+  pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules
+  pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo" -r /root/python.modules
+  pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo/PyRepo" -r /root/python.modules
+}
