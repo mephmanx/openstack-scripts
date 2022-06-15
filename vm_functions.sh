@@ -707,17 +707,11 @@ function install_packages_hypervisor() {
 }
 
 function install_python_modules() {
-export PYTHONIOENCODING=UTF-8;
-# update pip to required version
-PATH=$PATH:$HOME/bin:/usr/local/bin
-####
-pip3 install --no-index --find-links="/root/PyRepo" pip==21.3.1
-pip3 install --ignore-installed --no-index --find-links="/root/PyRepo" -r /root/python.modules
-
-python3 -m venv /opt/stack/venv
-source /opt/stack/venv/bin/activate
-
-pip3 install --no-index --find-links="/root/PyRepo" pip==21.3.1
-pip3 install --ignore-installed --no-index --find-links="/root/PyRepo" -r /root/python.modules
-####
+  # update pip to required version
+  sed -i '/export PATH/ i PATH=$PATH:$HOME\/bin:\/usr\/local\/bin' /root/.bash_profile
+  source /root/.bash_profile
+  ####
+  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --no-index --find-links="/root/PyRepo" pip==21.3.1'
+  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --ignore-installed --no-index --find-links="/root/PyRepo" -r /root/python.modules'
+  ####
 }
