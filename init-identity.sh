@@ -82,6 +82,7 @@ SSH_KEY=$(cat /root/.ssh/id_rsa.pub)
 
 ##### group memberships
 /usr/bin/ipa group-add-member openstack-admins --users=domain_admin
+/usr/bin/ipa group-add-member openstack-admins --users=admin
 /usr/bin/ipa group-add-member vpn-users --users=domain_admin
 /usr/bin/ipa group-add-member cloud-admins --users=domain_admin
 

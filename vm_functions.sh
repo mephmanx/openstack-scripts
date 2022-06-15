@@ -707,16 +707,17 @@ function install_packages_hypervisor() {
 }
 
 function install_python_modules() {
-  export PYTHONIOENCODING=UTF-8;
-  # update pip to required version
-  PATH=$PATH:$HOME/bin:/usr/local/bin
-  ####
-  pip3 install --no-index --find-links="/repo/PyRepo#" pip==21.3.1
-  pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1
-  pip3 install --no-index --find-links="/repo/PyRepo/PyRepo" pip==21.3.1
+export PYTHONIOENCODING=UTF-8;
+# update pip to required version
+PATH=$PATH:$HOME/bin:/usr/local/bin
+####
+pip3 install --no-index --find-links="/root/PyRepo" pip==21.3.1
+pip3 install --ignore-installed --no-index --find-links="/root/PyRepo" -r /root/python.modules
 
-  # install rest of the python modules
-  pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo#" -r /root/python.modules
-  pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo" -r /root/python.modules
-  pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo/PyRepo" -r /root/python.modules
+python3 -m venv /opt/stack/venv
+source /opt/stack/venv/bin/activate
+
+pip3 install --no-index --find-links="/root/PyRepo" pip==21.3.1
+pip3 install --ignore-installed --no-index --find-links="/root/PyRepo" -r /root/python.modules
+####
 }
