@@ -23,7 +23,7 @@ create_line+="--tpm emulator,model=tpm-tis,version=2.0 "
 create_line+="--memorybacking hugepages=yes "
 create_line+="--vcpus=8 "
 create_line+="--boot hd,menu=off,useserial=off "
-create_line+="--disk /tmp/pfSense-CE-memstick-serial.img "
+create_line+="--disk /tmp/pfSense-CE-memstick-ADI.img "
 create_line+="--disk pool=$(getDiskMapping "misc" "1"),size=$DRIVE_SIZE,bus=virtio,sparse=no "
 create_line+="--connect qemu:///system "
 create_line+="--os-type=freebsd "
@@ -91,7 +91,7 @@ sleep 30;
  ) | telnet
 
 ## remove install disk from pfsense
-virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-serial.img --persistent --config --live
+virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI.img --persistent --config --live
 virsh destroy pfsense
 sleep 20;
 virsh start pfsense
@@ -102,4 +102,4 @@ runuser -l root -c  "rm -rf /tmp/usb"
 
 telegram_notify  "PFSense reboot, pfsense-init script should begin after reboot."
 
-rm -rf /tmp/pfSense-CE-memstick-serial.img
+rm -rf /tmp/pfSense-CE-memstick-ADI.img
