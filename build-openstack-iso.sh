@@ -63,13 +63,13 @@ if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2" ]; then
   rm -rf /tmp/octavia
 fi
 
-if [ ! -f "/tmp/pfSense-CE-memstick-ADI.img" ]; then
+if [ ! -f "/tmp/pfSense-CE-memstick-serial.img" ]; then
   for i in $(docker images |grep "$PFSENSE_CACHE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
   docker run -v /out:/out -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock -v /tmp:/tmp --rm -ti --network=host --privileged "$PFSENSE_CACHE_IMAGE:latest"
 fi
 
-if [ ! -f "/var/tmp/pfSense-CE-memstick-ADI.img" ]; then
-  cp /tmp/pfSense-CE-memstick-ADI.img /var/tmp
+if [ ! -f "/var/tmp/pfSense-CE-memstick-serial.img" ]; then
+  cp /tmp/pfSense-CE-memstick-serial.img /var/tmp
 fi
 
 if [ ! -f "/tmp/harbor-$HARBOR_VERSION.tgz" ]; then
@@ -228,7 +228,7 @@ embed_files=('/tmp/openstack-env.sh'
               '/tmp/openstack-scripts/create-cloudsupport-kvm-deploy.sh'
               '/tmp/openstack-scripts/create-identity-kvm-deploy.sh'
               '/tmp/openstack-scripts/create-pfsense-kvm-deploy.sh'
-              '/var/tmp/pfSense-CE-memstick-ADI.img')
+              '/var/tmp/pfSense-CE-memstick-serial.img')
 
 iso_images="/var/tmp/*.iso"
 for img in $iso_images; do
