@@ -214,6 +214,10 @@ rm -rf /tmp/host_count
 telegram_notify  "All Openstack VM's came up properly and are ready for install. continuing..."
 #############
 
+## generate octavia certs
+kolla-ansible octavia-certificates
+###########
+
 #### run host trust on all nodes
 file=/tmp/host_list
 
@@ -227,10 +231,6 @@ do
 done
 rm -rf /tmp/host_trust
 #####################
-
-## generate octavia certs
-kolla-ansible octavia-certificates
-###########
 
 sed -i 's/docker_yum_url: "https:\/\/download.docker.com\/linux\/{{ ansible_facts.distribution | lower }}"/docker_yum_url: http:\/\/localhost:8080/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
 sed -i 's/docker_yum_baseurl: "{{ docker_yum_url }}\/\$releasever\/\$basearch\/stable"/docker_yum_baseurl: "{{ docker_yum_url }}\/docker-ce-stable"/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
