@@ -226,14 +226,22 @@ do
   echo "$i"
   scp /tmp/host-trust.sh root@$i:/tmp
   runuser -l root -c "ssh root@$i 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
-  ### configure docker repo to pull from local cache
-  runuser -l root -c "ssh root@$i 'echo 127.0.0.1 download.docker.com >> /etc/hosts;'"
 done
 rm -rf /tmp/host_trust
 #####################
 
 sed -i 's/docker_yum_url: "https:\/\/download.docker.com\/linux\/{{ ansible_facts.distribution | lower }}"/docker_yum_url: http:\/\/localhost:8080/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
 sed -i 's/docker_yum_baseurl: "{{ docker_yum_url }}\/\$releasever\/\$basearch\/stable"/docker_yum_baseurl: "{{ docker_yum_url }}\/docker-ce-stable"/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
+
+kolla-ansible -i /etc/kolla/multinode bootstrap-servers
+
+for i in `cat $file`
+do
+  echo "$i"
+  ### configure docker repo to pull from local cache
+  runuser -l root -c "ssh root@$i 'echo 127.0.0.1 download.docker.com >> /etc/hosts;'"
+done
+rm -rf /tmp/host_trust
 
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
