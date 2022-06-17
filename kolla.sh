@@ -78,7 +78,9 @@ pip3 install --ignore-installed --no-index --find-links="/root/PyRepo" -r /root/
 ####
 
 mkdir -p /etc/kolla
-
+mkdir /etc/kolla/certificates
+mkdir /etc/kolla/certificates/ca
+cp /etc/ipa/ca.crt /etc/kolla/certificates/ca/ca.crt
 cp -r /opt/stack/venv/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
 cp /opt/stack/venv/share/kolla-ansible/ansible/inventory/* /etc/kolla
 mkdir -p /var/lib/kolla/config_files
