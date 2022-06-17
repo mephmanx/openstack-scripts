@@ -223,6 +223,7 @@ file=/tmp/host_list
 
 ### configure docker repo to pull from local cache
 echo "runuser -l root -c  'echo 127.0.0.1 download.docker.com >> /etc/hosts;'" | cat - /tmp/host-trust.sh > temp && mv -f temp /tmp/host-trust.sh
+echo "runuser -l root -c  'echo 127.0.0.1 download.docker.com >> /etc/hosts;'" | cat - /tmp/host-trust.sh > temp && mv -f temp /tmp/host-trust.sh
 for i in `cat $file`
 do
   echo "$i"
