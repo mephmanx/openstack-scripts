@@ -221,14 +221,13 @@ kolla-ansible octavia-certificates
 #### run host trust on all nodes
 file=/tmp/host_list
 
-### configure docker repo to pull from local cache
-echo "runuser -l root -c  'echo 127.0.0.1 download.docker.com >> /etc/hosts;'" | cat - /tmp/host-trust.sh > temp && mv -f temp /tmp/host-trust.sh
-echo "runuser -l root -c  'echo 127.0.0.1 download.docker.com >> /etc/hosts;'" | cat - /tmp/host-trust.sh > temp && mv -f temp /tmp/host-trust.sh
 for i in `cat $file`
 do
   echo "$i"
   scp /tmp/host-trust.sh root@$i:/tmp
   runuser -l root -c "ssh root@$i 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
+  ### configure docker repo to pull from local cache
+  runuser -l root -c "ssh root@$i 'echo 127.0.0.1 download.docker.com >> /etc/hosts;'"
 done
 rm -rf /tmp/host_trust
 #####################
