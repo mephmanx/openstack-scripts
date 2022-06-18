@@ -232,12 +232,6 @@ done
 rm -rf /tmp/host_trust
 #####################
 
-sed -i 's/docker_yum_url: "https:\/\/download.docker.com\/linux\/{{ ansible_facts.distribution | lower }}"/docker_yum_url: http:\/\/localhost:8080/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
-sed -i 's/docker_yum_baseurl: "{{ docker_yum_url }}\/\$releasever\/\$basearch\/stable"/docker_yum_baseurl: "{{ docker_yum_url }}\/docker-ce-stable"/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
-
-sed -i 's/docker_apt_url: "https:\/\/download.docker.com\/linux\/{{ ansible_facts.distribution | lower }}"/docker_apt_url: http:\/\/localhost:8080/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
-sed -i 's/docker_apt_repo: "deb {{ docker_apt_url }} {{ ansible_facts.distribution_release }} stable"/docker_apt_repo: "{{ docker_apt_url }}\/docker-ce-stable"/g' /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
-
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
 
@@ -288,10 +282,6 @@ kolla-ansible -i /etc/kolla/multinode deploy
 ### grab last set of lines from log to send
 LOG_TAIL=`tail -25 /tmp/openstack-install.log`
 ###
-
-## point to local docker repo
-sed -i "s/docker_yum_url: \"http:\/\/localhost:8080/docker-ce-stable\"/g"  /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
-sed -i "s/docker_yum_baseurl: \"{{ docker_yum_url }}\"/g"   /usr/local/share/kolla-ansible/ansible/roles/baremetal/defaults/main.yml
 
 kolla-ansible post-deploy
 
