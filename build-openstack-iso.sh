@@ -76,7 +76,7 @@ if [ ! -f "/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
   done
 fi
 
-if [ ! -f "/var/tmp/pfSense-CE-memstick-ADI.img" ]; then
+if [ ! -f "/var/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
   cp /tmp/pfSense-CE-memstick-ADI.img /var/tmp
 fi
 
