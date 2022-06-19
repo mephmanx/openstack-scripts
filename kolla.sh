@@ -232,6 +232,8 @@ done
 rm -rf /tmp/host_trust
 #####################
 
+### replace all instances of https://download.docker.com with http://download.docker.com:8081 to pull from cache
+
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
 
