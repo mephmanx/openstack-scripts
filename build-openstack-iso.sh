@@ -63,7 +63,7 @@ if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2" ]; then
   rm -rf /tmp/octavia
 fi
 
-if [ ! -f "/tmp/pfSense-CE-memstick-ADI.img" ]; then
+if [ ! -f "/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
   for i in $(docker images |grep "$PFSENSE_CACHE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
   BUILD_SERVER_IP=$(ip -f inet addr show ext-con | grep inet | awk -F' ' '{ print $2 }' | cut -d '/' -f1)
   docker run -v /out:/out -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock -v /tmp:/tmp -v /dev:/dev --rm -ti --network=host --privileged "$PFSENSE_CACHE_IMAGE:latest" dev root $BUILD_SERVER_IP
