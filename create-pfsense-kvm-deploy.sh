@@ -91,7 +91,7 @@ sleep 30;
  ) | telnet
 
 ## remove install disk from pfsense
-virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI.img --persistent --config --live
+virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI-prod.img --persistent --config --live
 virsh destroy pfsense
 sleep 20;
 virsh start pfsense
@@ -102,4 +102,4 @@ runuser -l root -c  "rm -rf /tmp/usb"
 
 telegram_notify  "PFSense reboot, pfsense-init script should begin after reboot."
 
-rm -rf /tmp/pfSense-CE-memstick-ADI.img
+rm -rf /tmp/pfSense-CE-memstick-ADI-prod.img

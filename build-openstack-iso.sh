@@ -68,7 +68,7 @@ if [ ! -f "/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
   BUILD_SERVER_IP=$(ip -f inet addr show ext-con | grep inet | awk -F' ' '{ print $2 }' | cut -d '/' -f1)
   docker run -v /out:/out -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock -v /tmp:/tmp -v /dev:/dev --rm -ti --network=host --privileged "$PFSENSE_CACHE_IMAGE:latest" dev root $BUILD_SERVER_IP
   slepp 20;
-  rm -rf /tmp/pfSense-CE-memstick-ADI.img
+  rm -rf /tmp/pfSense-CE-memstick-ADI-dev.img
   docker run -v /out:/out -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock -v /tmp:/tmp -v /dev:/dev --rm -ti --network=host --privileged "$PFSENSE_CACHE_IMAGE:latest" prod
   ## iterate over loop devices and remove them
   for i in /dev/loop*; do
@@ -77,7 +77,7 @@ if [ ! -f "/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
 fi
 
 if [ ! -f "/var/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
-  cp /tmp/pfSense-CE-memstick-ADI.img /var/tmp
+  cp /tmp/pfSense-CE-memstick-ADI-prod.img /var/tmp
 fi
 
 if [ ! -f "/tmp/harbor-$HARBOR_VERSION.tgz" ]; then
