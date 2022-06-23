@@ -316,6 +316,7 @@ openstack endpoint create --region us-east volumev2 admin http://$INTERNAL_VIP_D
 #############
 
 cd /opt/stack/venv/share/kolla-ansible
+mkdir -p /opt/cache/files
 cp /tmp/cirros-0.5.1-x86_64-disk.img /opt/cache/files
 ./init-runonce
 
