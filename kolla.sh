@@ -232,6 +232,13 @@ done
 rm -rf /tmp/host_trust
 #####################
 
+## try changing in /opt/stack/venv/share/kolla-ansible
+### replace all instances of https://download.docker.com with http://download.docker.com:8081 to pull from cache
+pwd=$(pwd)
+cd /opt/stack/venv/share/kolla-ansible
+find ./ -type f -exec sed -i 's/https:\/\/download.docker.com/http:\/\/download.docker.com:8081/g' {} \;
+cd "$pwd" || exit
+
 kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 kolla-ansible -i /etc/kolla/multinode prechecks
 
