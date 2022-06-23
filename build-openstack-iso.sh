@@ -126,10 +126,9 @@ fi
 
 if [ ! -f "/tmp/docker-repo.tar" ]; then
   rm -rf /tmp/repo
-  mkdir -p /tmp/repo/docker-ce/linux/centos/
-  reposync -p /tmp/repo/docker-ce --repo=docker-ce-stable --download-metadata
+  mkdir -p /tmp/repo/docker-ce/linux/centos/8/x86_64/stable
+  reposync -p /tmp/repo/docker-ce/linux/centos/8/x86_64/stable --repo=stable --download-metadata
   wget -O /tmp/repo/docker-ce/linux/centos/gpg https://download.docker.com/linux/centos/gpg
-  wget -O /tmp/repo/docker-ce/linux/centos/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo
   pwd=$(pwd)
   cd /tmp/repo/docker-ce || exit
   tar -cf /tmp/docker-repo.tar ./*
