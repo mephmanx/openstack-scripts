@@ -147,6 +147,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/id_rsa'
                 '/tmp/id_rsa.pub'
                 '/tmp/storage_hosts'
+                '/tmp/cirros-0.5.1-x86_64-disk.img'
                 "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2"
                 '/tmp/openstack-scripts/kolla.sh'
                 "/tmp/harbor/$OPENSTACK_VERSION/globals.yml"

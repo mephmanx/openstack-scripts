@@ -76,6 +76,10 @@ if [ ! -f "/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
   done
 fi
 
+if [ ! -f "/tmp/cirros-0.5.1-x86_64-disk.img" ]; then
+  curl --fail -L -o /tmp/cirros-0.5.1-x86_64-disk.img "$CIRROS_IMAGE_URL"
+fi
+
 if [ ! -f "/var/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
   cp /tmp/pfSense-CE-memstick-ADI-prod.img /var/tmp
 fi

@@ -30,6 +30,8 @@ export CF_DEPLOYMENT=https://github.com/cloudfoundry/cf-deployment/archive/main/
 ## docker compose
 export DOCKER_COMPOSE=https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-linux-x86_64
 
+## cirros test image
+export CIRROS_IMAGE_URL=https://github.com/cirros-dev/cirros/releases/download/0.5.1/cirros-0.5.1-x86_64-disk.img
 ## IP Info services
 ##  Test before changing!  Output is different for every one
 export EXTERNAL_IP_SERVICE="ipinfo.io/ip"
