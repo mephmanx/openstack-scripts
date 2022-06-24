@@ -719,5 +719,11 @@ function install_python_modules() {
   ####
   runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --no-index --find-links="/root/PyRepo" pip==21.3.1'
   runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --ignore-installed --no-index --find-links="/root/PyRepo" -r /root/python.modules'
+
+  python3 -m venv /opt/stack/venv
+  source /opt/stack/venv/bin/activate
+
+  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --no-index --find-links="/root/PyRepo" pip==21.3.1'
+  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --ignore-installed --no-index --find-links="/root/PyRepo" -r /root/python.modules'
   ####
 }

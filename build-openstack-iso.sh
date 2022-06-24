@@ -136,6 +136,7 @@ if [ ! -f "/tmp/harbor_python_modules.tar" ]; then
   rm -rf /tmp/harbor_python_requirements
 cat > /tmp/harbor_python_requirements <<EOF
 netcontrold
+elasticsearch==7.13.*
 EOF
   pip3 download -d /tmp/Pyrepo -r /tmp/harbor_python_requirements
   pwd=$(pwd)
