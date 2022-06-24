@@ -34,13 +34,6 @@ docker pull "$DOCKER_LINUX_BUILD_IMAGE:latest"
 docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:latest" bash -c "mv CentOS-x86_64-minimal.iso linux.iso; cp linux.iso /opt/mount"
 docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:latest" bash -c "cp /root/ks_configs/* /opt/mount/configs"
 
-rm -rf ./tmp
-mkdir ./tmp
-cp centos-8-kickstart-openstack.cfg ./tmp
-
-IFS=
-kickstart_file=./tmp/centos-8-kickstart-openstack.cfg
-
 ## download files to be embedded
 if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2" ]; then
   ############# build octavia image
@@ -245,7 +238,7 @@ for img in $iso_images; do
 done
 
 printf -v embed_files_string '%s ' "${embed_files[@]}"
-closeOutAndBuildKickstartAndISO "${kickstart_file}" "openstack" "$embed_files_string"
+closeOutAndBuildKickstartAndISO centos-8-kickstart-openstack.cfg "openstack" "$embed_files_string"
 
 ## this requires the original version of cdrtools
 ## https://www.berlios.de/software/cdrtools/ or
