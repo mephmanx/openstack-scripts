@@ -125,7 +125,6 @@ if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
 fi
 
 if [ ! -f "/tmp/docker-repo.tar" ]; then
-  rm -rf /tmp/repo
   mkdir -p /tmp/repo/docker-ce/linux/centos/8/x86_64/stable
   reposync -p /tmp/repo/docker-ce/linux/centos/8/x86_64/stable --repo=docker-ce-stable --download-metadata
   mv /tmp/repo/docker-ce/linux/centos/8/x86_64/stable/docker-ce-stable/* /tmp/repo/docker-ce/linux/centos/8/x86_64/stable/
@@ -134,6 +133,7 @@ if [ ! -f "/tmp/docker-repo.tar" ]; then
   pwd=$(pwd)
   cd /tmp/repo/docker-ce || exit
   tar -cf /tmp/docker-repo.tar ./*
+  rm -rf /tmp/repo
   cd "$pwd" || exit
 fi
 
