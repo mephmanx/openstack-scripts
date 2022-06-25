@@ -157,8 +157,8 @@ while [ true ]; do
 done
 EOF
 
-chmod 777 /tmp/identity-test.sh
-chmod 777 /tmp/cloudsupport-test.sh
+chmod +x /tmp/identity-test.sh
+chmod +x /tmp/cloudsupport-test.sh
 
 cd /tmp || exit
 ./identity-test.sh &
