@@ -61,17 +61,6 @@ function closeOutAndBuildKickstartAndISO {
     fi
   done
   #####
-  pwd2=$(pwd)
-  if [[ "openstack" == "$vm_name" ]]; then
-    if [[ -z $(which convert) ]]; then
-      git clone https://github.com/ImageMagick/ImageMagick.git /tmp/ImageMagick-7.1.0
-      cd /tmp/ImageMagick-7.1.0 || exit
-      ./configure
-      make
-    fi
-    convert splash.png +dither -colors 16 -depth 4 -resize 640x480\! /var/tmp/"${vm_name}"/isolinux/splash.png
-  fi
-  cd "$pwd2" || exit
   sudo ksvalidator /var/tmp/"${vm_name}"/ks.cfg
   cd /var/tmp/"${vm_name}" || exit
   rm -rf "${vm_name}"-iso.iso
