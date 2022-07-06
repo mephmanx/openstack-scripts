@@ -20,6 +20,11 @@ rm -rf /var/tmp/*
 dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 sudo yum install epel-release -y
 sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass wget zip
+## this requires the original version of cdrtools
+## https://www.berlios.de/software/cdrtools/ or
+#  https://negativo17.org/cdrtools/
+yum-config-manager --add-repo=https://negativo17.org/repos/epel-cdrtools.repo
+yum -y install cdrecord mkisofs cdda2wav
 
 yum update -y
 dnf update -y
@@ -238,11 +243,6 @@ done
 printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO centos-8-kickstart-openstack.cfg "openstack" "$embed_files_string"
 
-## this requires the original version of cdrtools
-## https://www.berlios.de/software/cdrtools/ or
-yum-config-manager --add-repo=https://negativo17.org/repos/epel-cdrtools.repo
-yum -y install cdrecord mkisofs cdda2wav
-#  https://negativo17.org/cdrtools/
 isohybrid /var/tmp/openstack-iso.iso
 ## cleanup work dir
 # Use to write to disk
