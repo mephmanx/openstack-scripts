@@ -209,8 +209,8 @@ done
 telegram_notify  "Cloudsupport VM finished processing openstack images, creating kolla vm"
 
 ## signaling to hypervisor that cloudsupport is finished
-mkdir /tmp/empty
-cd /tmp/empty || exit
+mkdir /tmp/empty_dir
+cd /tmp/empty_dir || exit
 python3 -m http.server "$CLOUDSUPPORT_SIGNAL" &
 ########################
 #remove so as to not run again
