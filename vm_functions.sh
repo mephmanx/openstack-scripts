@@ -384,6 +384,10 @@ function remove_ip_from_adapter() {
   sed -i '/^GATEWAY/d' /etc/sysconfig/network-scripts/ifcfg-"$adapter_name"
 }
 
+function generate_pwd() {
+  echo "$(generate_specific_pwd $1)"
+}
+
 function generate_random_pwd() {
   length=$1
   RANDOM_PWD=$(date +%s | sha256sum | base64 | head -c "$length" ; echo)
@@ -588,13 +592,10 @@ function replace_values_in_root_isos() {
   shopt -s nullglob
   ### replace values in isos for certs and pwds ########
   ## cert list
-#  DIRECTORY_MGR_PWD=$(generate_random_pwd 31)
-#  ADMIN_PWD=$(generate_random_pwd 31)
-#  GEN_PWD=$(generate_random_pwd 15)
-  DIRECTORY_MGR_PWD=$(generate_specific_pwd 31)
-  ADMIN_PWD=$(generate_specific_pwd 31)
+  DIRECTORY_MGR_PWD=$(generate_pwd 31)
+  ADMIN_PWD=$(generate_pwd 31)
   ## gen_pwd is not stored anywhere, it is meant to lost and never found
-  GEN_PWD=$(generate_specific_pwd 15)
+  GEN_PWD=$(generate_pwd 15)
 
   ## Files can only be replaced if they can be considered to be on "one line"
   ##  ssh keys are on one line as would most binary files.  text files, scripts, etc have multiple lines and DO NOT work!
@@ -654,7 +655,7 @@ function setup_keys_certs_for_vm() {
 function hypervisor_debug() {
   #Disable root login in ssh and disable password login
   if [[ $HYPERVISOR_DEBUG == 0 ]]; then
-      generate_random_pwd 31 |  passwd --stdin  root
+      generate_pwd 31 |  passwd --stdin  root
       sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
       sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
   fi
