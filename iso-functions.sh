@@ -2,7 +2,7 @@
 
 source /tmp/openstack-scripts/vm-configurations.sh
 source /tmp/openstack-scripts/vm_functions.sh
-source /tmp/project_config.sh
+source /tmp/openstack-scripts/project_config.sh
 
 KICKSTART_DIR=/tmp/openstack-scripts
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /tmp/project_config.sh
+source /tmp/openstack-scripts/project_config.sh
 source /tmp/vm_functions.sh
 
 function getVMCount {

@@ -141,23 +141,6 @@ function telegram_debug_msg() {
         https://api.telegram.org/bot"$token"/sendMessage > /dev/null
 }
 
-function prep_project_config() {
-  source ./project_config.sh
-  ### prep project config
-  cp ./project_config.sh /tmp/project_config.sh
-  ## replace variables using sed as this does not work the way one would think it would
-  ###  remember to replace all variables that are nested in project config!
-  sed -i 's/$NETWORK_PREFIX/'$NETWORK_PREFIX'/g' /tmp/project_config.sh
-  sed -i 's/$TROVE_NETWORK/'$TROVE_NETWORK'/g' /tmp/project_config.sh
-  sed -i 's/$LB_NETWORK/'$LB_NETWORK'/g' /tmp/project_config.sh
-  sed -i 's/$HARBOR_VERSION/'$HARBOR_VERSION'/g' /tmp/project_config.sh
-  sed -i 's/$MAGNUM_IMAGE_VERSION/'$MAGNUM_IMAGE_VERSION'/g' /tmp/project_config.sh
-  sed -i 's/$CF_ATTIC_TERRAFORM_VERSION/'$CF_ATTIC_TERRAFORM_VERSION'/g' /tmp/project_config.sh
-  sed -i 's/$DOCKER_COMPOSE_VERSION/'$DOCKER_COMPOSE_VERSION'/g' /tmp/project_config.sh
-  sed -i 's/$UBUNTU_VERSION/'$UBUNTU_VERSION'/g' /tmp/project_config.sh
-  ####
-}
-
 function post_install_cleanup() {
   ## cleanup kolla node
   source /tmp/project_config.sh
