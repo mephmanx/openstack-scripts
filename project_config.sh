@@ -3,35 +3,6 @@
 ### NOTE: Variable replacement does NOT work as expected in this file so do not rely on it!!
 ## see 'prep_project_config' function in vm_functions.sh script for more info
 
-### Harbor version
-# Be careful changing this as API's DO change so errors could result from breaking changes
-export HARBOR=https://github.com/goharbor/harbor/releases/download/$HARBOR_VERSION/harbor-offline-installer-$HARBOR_VERSION.tgz;
-
-## SWTPM libs
-export LIBTPMS_GIT=https://github.com/stefanberger/libtpms/archive/master/libtpms.zip;
-export SWTPM_GIT=https://github.com/stefanberger/swtpm/archive/master/swtpm.zip;
-
-### Magnum docker image
-export MAGNUM_IMAGE=https://download.fedoraproject.org/pub/alt/atomic/stable/$MAGNUM_IMAGE_VERSION/CloudImages/x86_64/images/$MAGNUM_IMAGE_VERSION.x86_64.qcow2
-
-### cloudfoundry attic terraform
-export CF_ATTIC_TERRAFORM=https://releases.hashicorp.com/terraform/$CF_ATTIC_TERRAFORM_VERSION/terraform_$CF_ATTIC_TERRAFORM_VERSION_linux_amd64.zip
-
-### image for trove instances
-export TROVE_INSTANCE_IMAGE=https://cloud-images.ubuntu.com/releases/$UBUNTU_RELEASE_NAME/release/ubuntu-$UBUNTU_VERSION-server-cloudimg-amd64.img
-
-### image for trove DB's
-export TROVE_DB_IMAGE=https://tarballs.opendev.org/openstack/trove/images/trove-master-guest-ubuntu-bionic.qcow2
-
-### cloudfoundry repos
-export BOSH_OPENSTACK_ENVIRONMENT_TEMPLATES=https://github.com/cloudfoundry-attic/bosh-openstack-environment-templates/archive/master/cf-templates.zip
-export CF_DEPLOYMENT=https://github.com/cloudfoundry/cf-deployment/archive/main/cf_deployment.zip
-
-## docker compose
-export DOCKER_COMPOSE=https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-linux-x86_64
-
-## cirros test image
-export CIRROS_IMAGE_URL=https://github.com/cirros-dev/cirros/releases/download/0.5.1/cirros-0.5.1-x86_64-disk.img
 ## IP Info services
 ##  Test before changing!  Output is different for every one
 export EXTERNAL_IP_SERVICE="ipinfo.io/ip"
@@ -165,3 +136,33 @@ export KOLLA_RAM=4
 #### signal ports
 export IDENTITY_SIGNAL=10111
 export CLOUDSUPPORT_SIGNAL=10112
+
+### Harbor version
+# Be careful changing this as API's DO change so errors could result from breaking changes
+export HARBOR="https://github.com/goharbor/harbor/releases/download/$HARBOR_VERSION/harbor-offline-installer-$HARBOR_VERSION.tgz"
+
+## SWTPM libs
+export LIBTPMS_GIT="https://github.com/stefanberger/libtpms/archive/master/libtpms.zip"
+export SWTPM_GIT="https://github.com/stefanberger/swtpm/archive/master/swtpm.zip"
+
+### Magnum docker image
+export MAGNUM_IMAGE="https://download.fedoraproject.org/pub/alt/atomic/stable/$MAGNUM_IMAGE_VERSION/CloudImages/x86_64/images/$MAGNUM_IMAGE_VERSION.x86_64.qcow2"
+
+### cloudfoundry attic terraform
+export CF_ATTIC_TERRAFORM="https://releases.hashicorp.com/terraform/$CF_ATTIC_TERRAFORM_VERSION/terraform_$CF_ATTIC_TERRAFORM_VERSION_linux_amd64.zip"
+
+### image for trove instances
+export TROVE_INSTANCE_IMAGE="https://cloud-images.ubuntu.com/releases/$UBUNTU_RELEASE_NAME/release/ubuntu-$UBUNTU_VERSION-server-cloudimg-amd64.img"
+
+### image for trove DB's
+export TROVE_DB_IMAGE="https://tarballs.opendev.org/openstack/trove/images/trove-master-guest-ubuntu-bionic.qcow2"
+
+### cloudfoundry repos
+export BOSH_OPENSTACK_ENVIRONMENT_TEMPLATES="https://github.com/cloudfoundry-attic/bosh-openstack-environment-templates/archive/master/cf-templates.zip"
+export CF_DEPLOYMENT="https://github.com/cloudfoundry/cf-deployment/archive/main/cf_deployment.zip"
+
+## docker compose
+export DOCKER_COMPOSE="https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-linux-x86_64"
+
+## cirros test image
+export CIRROS_IMAGE_URL="https://github.com/cirros-dev/cirros/releases/download/0.5.1/cirros-0.5.1-x86_64-disk.img"
