@@ -386,7 +386,7 @@ telegram_notify  "Openstack installed and accepting images, continuing install..
 #prepare openstack env for CF
 telegram_notify  "Preparing Openstack environment for BOSH install...."
 ## generate cloudfoundry admin pwd
-OPENSTACK_CLOUDFOUNDRY_PWD=$(generate_random_pwd 31)
+OPENSTACK_CLOUDFOUNDRY_PWD=$(generate_pwd 31)
 
 export OPENSTACK_CLOUDFOUNDRY_USERNAME=osuser
 
