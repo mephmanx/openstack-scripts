@@ -50,7 +50,6 @@ function closeOutAndBuildKickstartAndISO {
   ## file must exist on filesystem
   ##  It will be added to a /embedded directory.
   ##  Contents of this directory will be copied to the /tmp directory during install
-  mkdir /var/tmp/"${vm_name}"/embedded
   for embed_file in "${embedded_files[@]}";
   do
     if [ -f "$embed_file" ]; then
