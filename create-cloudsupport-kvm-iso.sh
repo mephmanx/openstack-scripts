@@ -5,7 +5,7 @@ exec 1>/root/cloudsupport-install.log 2>&1 # send stdout and stderr from rc.loca
 #set -x
 
 source /tmp/openstack-scripts/iso-functions.sh
-source /tmp/project_config.sh
+source /tmp/openstack-scripts/project_config.sh
 
 KICKSTART_DIR=/tmp/openstack-scripts
 
@@ -30,7 +30,7 @@ embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
               '/tmp/id_rsa.pub'
               '/tmp/openstack-scripts/harbor.yml'
               '/tmp/openstack-env.sh'
-              '/tmp/project_config.sh'
+              '/tmp/openstack-scripts/project_config.sh'
               '/tmp/harbor_python_modules.tar'
               "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION"
               '/tmp/openstack-scripts/init-cloudsupport.sh'

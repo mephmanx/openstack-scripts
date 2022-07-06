@@ -32,7 +32,6 @@ function get_drive_name() {
 }
 
 function load_system_info() {
-  source /tmp/project_config.sh
   INSTALLED_RAM=$(runuser -l root -c  'dmidecode -t memory | grep  Size: | grep -v "No Module Installed"' | awk '{sum+=$2}END{print sum}')
   RESERVED_RAM=$(( INSTALLED_RAM * RAM_PCT_AVAIL_CLOUD/100 ))
   CPU_COUNT=$(lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }')
@@ -143,7 +142,6 @@ function telegram_debug_msg() {
 
 function post_install_cleanup() {
   ## cleanup kolla node
-  source /tmp/project_config.sh
   if [[ $HYPERVISOR_DEBUG == 1 ]]; then
     return
   fi
@@ -203,8 +201,6 @@ function create_ca_cert() {
   runuser -l root -c  "touch $cert_dir/id_rsa"
   runuser -l root -c  "touch $cert_dir/id_rsa.pub"
   runuser -l root -c  "touch $cert_dir/id_rsa.crt"
-
-  source /tmp/project_config.sh
 
 cat > "$cert_dir"/ca_conf.cnf <<EOF
 ##Required
@@ -285,7 +281,6 @@ function create_server_cert() {
     runuser -l root -c  "touch $cert_dir/$cert_name.crt"
 
     IP=$(hostname -I | awk '{print $1}')
-    source /tmp/project_config.sh
 
 cat > "$cert_dir/$cert_name.cnf" <<EOF
 ##Required

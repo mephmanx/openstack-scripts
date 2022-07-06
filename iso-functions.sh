@@ -88,7 +88,7 @@ function buildAndPushVMTypeISO {
 
   #####################################
   embed_files=('/tmp/openstack-scripts/vm_functions.sh'
-                '/tmp/project_config.sh'
+                '/tmp/openstack-scripts/project_config.sh'
                 '/tmp/id_rsa'
                 '/tmp/id_rsa.pub'
                 '/tmp/docker-repo.tar'
@@ -145,7 +145,7 @@ function buildAndPushOpenstackSetupISO {
                 "/tmp/swtpm-$SWTPM_VERSION.zip"
                 '/tmp/cf-templates.zip'
                 "/tmp/cf_deployment-$CF_DEPLOY_VERSION.zip"
-                '/tmp/project_config.sh'
+                '/tmp/openstack-scripts/project_config.sh'
                 "/tmp/bosh-$STEMCELL_STAMP.tgz")
 
   IFS=$'\n'

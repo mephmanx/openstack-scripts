@@ -7,7 +7,7 @@ exec 1>/root/cloud-install.log 2>&1 # send stdout and stderr from rc.local to a 
 source /tmp/openstack-scripts/vm_functions.sh
 source /tmp/openstack-scripts/iso-functions.sh
 source /tmp/openstack-scripts/vm-configurations.sh
-source /tmp/project_config.sh
+source /tmp/openstack-scripts/project_config.sh
 
 IFS=
 

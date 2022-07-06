@@ -213,7 +213,7 @@ fi
 ./create-cloud-kvm-iso.sh
 
 embed_files=('/tmp/openstack-env.sh'
-              '/tmp/project_config.sh'
+              '/tmp/openstack-scripts/project_config.sh'
               '/tmp/id_rsa'
               '/tmp/id_rsa.crt'
               '/tmp/id_rsa.pub'
