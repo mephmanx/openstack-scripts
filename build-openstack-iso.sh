@@ -197,7 +197,7 @@ fi
 ./create-identity-kvm-iso.sh
 ./create-cloud-kvm-iso.sh
 
-embed_files=('/tmp/openstack-env.sh'
+embed_files=('/tmp/openstack-scripts/openstack-env.sh'
               '/tmp/openstack-scripts/project_config.sh'
               '/tmp/id_rsa'
               '/tmp/id_rsa.crt'
