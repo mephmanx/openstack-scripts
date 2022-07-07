@@ -1,22 +1,14 @@
 #!/bin/bash
+
+. ./hypervisor_functions.sh
+. ./project_config.sh
+. ./iso-functions.sh
+
 #can ONLY be run as root!  sudo to root
-
-### openstack-env needs to be in same directory as this script
-rm -rf /tmp/openstack-env.sh
-cp "$1" /tmp/openstack-env.sh
-source /tmp/openstack-env.sh
-cp vm_functions.sh /tmp
-source vm_functions.sh
-source project_config.sh
-#########
-source iso-functions.sh
-
 rm -rf /var/tmp/*
+rm -rf /tmp/linux.iso
+rm -rf /tmp/configs/*
 
-## make sure libs are installed
-dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-sudo yum install epel-release -y
-sudo yum install -y rsync genisoimage pykickstart isomd5sum make python2 gcc yum-utils createrepo syslinux bzip2 curl file sshpass wget zip
 ## this requires the original version of cdrtools
 ## https://www.berlios.de/software/cdrtools/ or
 #  https://negativo17.org/cdrtools/
@@ -25,9 +17,6 @@ yum -y install cdrecord mkisofs cdda2wav
 
 yum update -y
 dnf update -y
-
-rm -rf /tmp/linux.iso
-rm -rf /tmp/configs/*
 
 # login to docker hub using .bash_profile env secrets
 docker login -u "$DOCKER_LOGIN" -p "$DOCKER_SECRET"
@@ -39,10 +28,7 @@ docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:latest" bash -
 ## download files to be embedded
 if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2" ]; then
   ############# build octavia image
-  yum -y install epel-release
-  yum install -y debootstrap qemu-img git e2fsprogs policycoreutils-python-utils
   git clone https://opendev.org/openstack/octavia -b master /tmp/octavia
-  pip3 install  --trusted-host pypi.org --trusted-host files.pythonhosted.org diskimage-builder
   chmod +x /tmp/octavia/diskimage-create/diskimage-create.sh
   pwd=$(pwd)
   cd /tmp/octavia/diskimage-create || exit;

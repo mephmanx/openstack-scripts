@@ -4,10 +4,10 @@ rm -rf /root/cloud-install.log
 exec 1>/root/cloud-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 #set -x
 
-source /tmp/openstack-scripts/vm_functions.sh
-source /tmp/openstack-scripts/iso-functions.sh
-source /tmp/openstack-scripts/vm-configurations.sh
-source /tmp/openstack-scripts/project_config.sh
+. ./vm_functions.sh
+. ./iso-functions.sh
+. ./vm-configurations.sh
+. ./project_config.sh
 
 IFS=
 

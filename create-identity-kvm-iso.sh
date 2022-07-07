@@ -4,8 +4,8 @@ rm -rf /tmp/identity-install.log
 exec 1>/root/identity-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 set -x
 
-source /tmp/openstack-scripts/iso-functions.sh
-source /tmp/openstack-scripts/project_config.sh
+. ./iso-functions.sh
+. ./project_config.sh
 
 KICKSTART_DIR=/tmp/openstack-scripts
 
@@ -26,7 +26,7 @@ sed -i "s/{NETMASK}/$NETMASK/g" ${kickstart_file}
 
 embed_files=('/tmp/id_rsa'
               '/tmp/id_rsa.pub'
-              '/tmp/openstack-env.sh'
+              '/tmp/openstack-setup/openstack-env.sh'
               '/tmp/openstack-scripts/project_config.sh'
               '/tmp/openstack-scripts/init-identity.sh'
               '/tmp/openstack-scripts/vm_functions.sh')

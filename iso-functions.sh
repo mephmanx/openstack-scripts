@@ -1,8 +1,7 @@
 #!/bin/bash
 
-source /tmp/openstack-scripts/vm-configurations.sh
-source /tmp/openstack-scripts/vm_functions.sh
-source /tmp/openstack-scripts/project_config.sh
+. ./vm-configurations.sh
+. ./project_config.sh
 
 KICKSTART_DIR=/tmp/openstack-scripts
 
@@ -95,7 +94,7 @@ function buildAndPushVMTypeISO {
                 "/tmp/libtpms-$SWTPM_VERSION.zip"
                 "/tmp/swtpm-$SWTPM_VERSION.zip"
                 "/tmp/openstack-scripts/$vm_type.sh"
-                '/tmp/openstack-env.sh')
+                '/tmp/openstack-setup/openstack-env.sh')
 
   printf -v embed_files_string '%s ' "${embed_files[@]}"
   closeOutAndBuildKickstartAndISO "$kickstart_file" "$vm_name" "$embed_files_string"
@@ -140,7 +139,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/openstack-scripts/kolla.sh'
                 "/tmp/harbor/$OPENSTACK_VERSION/globals.yml"
                 '/tmp/openstack-scripts/vm_functions.sh'
-                '/tmp/openstack-env.sh'
+                '/tmp/openstack-setup/openstack-env.sh'
                 "/tmp/libtpms-$SWTPM_VERSION.zip"
                 "/tmp/swtpm-$SWTPM_VERSION.zip"
                 '/tmp/cf-templates.zip'
