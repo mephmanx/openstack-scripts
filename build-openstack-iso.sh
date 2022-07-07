@@ -123,6 +123,7 @@ EOF
   cd /tmp/Pyrepo || exit
   tar -cf /tmp/harbor_python_modules.tar ./*
   cd "$pwd" || exit
+  rm -rf /tmp/Pyrepo
 fi
 
 ### download director & jumpbox stemcell
