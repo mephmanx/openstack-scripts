@@ -1,8 +1,5 @@
 #!/bin/bash
 
-### NOTE: Variable replacement does NOT work as expected in this file so do not rely on it!!
-## see 'prep_project_config' function in vm_functions.sh script for more info
-
 ## IP Info services
 ##  Test before changing!  Output is different for every one
 export EXTERNAL_IP_SERVICE="ipinfo.io/ip"

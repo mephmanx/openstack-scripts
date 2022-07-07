@@ -1,7 +1,7 @@
 #!/bin/bash
 
-source /tmp/project_config.sh
-source /tmp/vm_functions.sh
+. ./project_config.sh
+. ./vm_functions.sh
 
 function getVMCount {
   option="${1}"
