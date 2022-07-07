@@ -95,7 +95,6 @@ curl -k -H  "authorization: Basic $etext" -X POST -H "Content-Type: application/
 
 #### populate harbor with openstack images
 #grafana fluentd zun not build
-source /tmp/project_config.sh
 
 sleep 3
 docker login -u admin -p "{CENTOS_ADMIN_PWD_123456789012}" "$SUPPORT_VIP_DNS"
