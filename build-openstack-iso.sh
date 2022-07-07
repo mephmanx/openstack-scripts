@@ -1,8 +1,7 @@
 #!/bin/bash
 
-. ./hypervisor_functions.sh
-. ./project_config.sh
-. ./iso-functions.sh
+. project_config.sh
+. iso-functions.sh
 
 #can ONLY be run as root!  sudo to root
 rm -rf /var/tmp/*
