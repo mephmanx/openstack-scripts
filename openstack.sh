@@ -139,6 +139,7 @@ while [ true ]; do
       sleep 60;
       runuser -l root -c "cd /tmp || exit; ./create-cloudsupport-kvm-deploy.sh;" &
       runuser -l root -c "cd /tmp || exit; ./create-cloud-kvm-deploy.sh;" &
+      rm -rf /tmp/identity-test.sh
       exit
     else
       sleep 5
@@ -150,6 +151,7 @@ cat > /tmp/cloudsupport-test.sh <<EOF
 while [ true ]; do
     if [ \`< /dev/tcp/$SUPPORT_VIP/$CLOUDSUPPORT_SIGNAL ; echo \$?\` -lt 1 ]; then
       runuser -l root -c "cd /tmp || exit; ./create-kolla-kvm-deploy.sh;" &
+      rm -rf /tmp/cloudsupport-test.sh
       exit
     else
       sleep 5
