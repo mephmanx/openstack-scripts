@@ -12,9 +12,6 @@ rm -rf /tmp/configs/*
 ## https://www.berlios.de/software/cdrtools/ or
 #  https://negativo17.org/cdrtools/
 
-yum update -y
-dnf update -y
-
 # login to docker hub using .bash_profile env secrets
 docker login -u "$DOCKER_LOGIN" -p "$DOCKER_SECRET"
 
