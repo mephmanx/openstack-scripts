@@ -687,7 +687,7 @@ function install_packages_hypervisor() {
   dnf distro-sync -y
   dnf reposync
   dnf update -y
-  dnf install -y telent
+  dnf install -y telnet
   dnf groupinstall -y virtualization-client
 }
 
