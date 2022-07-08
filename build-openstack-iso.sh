@@ -11,8 +11,6 @@ rm -rf /tmp/configs/*
 ## this requires the original version of cdrtools
 ## https://www.berlios.de/software/cdrtools/ or
 #  https://negativo17.org/cdrtools/
-yum-config-manager --add-repo=https://negativo17.org/repos/epel-cdrtools.repo
-yum -y install cdrecord mkisofs cdda2wav
 
 yum update -y
 dnf update -y
