@@ -689,6 +689,7 @@ function install_packages_hypervisor() {
   dnf update -y
   dnf install -y telnet
   dnf install -y automake
+  dnf install -y libtool
   dnf groupinstall -y virtualization-client
 }
 
