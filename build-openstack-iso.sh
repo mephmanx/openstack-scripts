@@ -72,14 +72,6 @@ if [ ! -f "/tmp/trove_db-$TROVE_DB_VERSION.img" ]; then
   wget -O /tmp/trove_db-"$TROVE_DB_VERSION".img "${TROVE_DB_IMAGE}"
 fi
 
-if [ ! -f "/tmp/libtpms-$SWTPM_VERSION.zip" ]; then
-  wget -O /tmp/libtpms-"$SWTPM_VERSION".zip "${LIBTPMS_GIT}"
-fi
-
-if [ ! -f "/tmp/swtpm-$SWTPM_VERSION.zip" ]; then
-  wget -O /tmp/swtpm-"$SWTPM_VERSION".zip "${SWTPM_GIT}"
-fi
-
 if [ ! -f "/tmp/cf-templates.zip" ]; then
   wget -O /tmp/cf-templates.zip "${BOSH_OPENSTACK_ENVIRONMENT_TEMPLATES}"
 fi
@@ -200,8 +192,6 @@ embed_files=('/tmp/openstack-setup/openstack-env.sh'
               '/tmp/wildcard.crt'
               '/tmp/wildcard.key'
               '/tmp/ip_out_update'
-              "/tmp/libtpms-$SWTPM_VERSION.zip"
-              "/tmp/swtpm-$SWTPM_VERSION.zip"
               '/tmp/openstack-scripts/openstack.sh'
               '/tmp/openstack-scripts/vm_functions.sh'
               '/tmp/openstack-scripts/vm-configurations.sh'
