@@ -115,8 +115,8 @@ firewall-cmd --reload
 ###########################
 
 #### vtpm
-telegram_notify  "Installing VTPM"
-vtpm
+#telegram_notify  "Installing VTPM"
+#vtpm
 ######
 
 ############ Create and init storage pools
