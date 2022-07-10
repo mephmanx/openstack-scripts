@@ -687,10 +687,11 @@ function install_packages_hypervisor() {
   dnf distro-sync -y
   dnf reposync
   dnf update -y
+  dnf groupinstall -y virtualization-client
   dnf install -y telnet
   dnf install -y automake
   dnf install -y libtool
-  dnf groupinstall -y virtualization-client
+  dnf install cockpit-machines -y
 }
 
 function install_python_modules() {
