@@ -337,12 +337,15 @@ class HandleRequests(BaseHTTPRequestHandler):
     def do_GET(self):
         self._set_headers()
         resp=""
+        pids=[]
         with open("/tmp/pidfile") as pidfile:
             for pid in pidfile:
                 resp+="killing pid -> " + pid + "\n"
-                os.system("kill -KILL  " + pid)
+                pids.append(pid)
         self.wfile.write(bytes(resp, "utf-8"))
-        os.system("sudo rm -rf /tmp/pidfile")
+        os.remove("/tmp/pidfile")
+        for pid in pids:
+          os.system("kill -KILL  " + pid)
 
     def do_POST(self):
         self.do_GET()
