@@ -133,6 +133,9 @@ runuser -l root -c "cd /tmp || exit; ./create-identity-kvm-deploy.sh;" &
 
 ### waitloops for vm signals
 cat > /tmp/identity-test.sh <<EOF
+source /tmp/vm_functions.sh
+source /tmp/project_config.sh
+
 while [ true ]; do
     if [ \`< /dev/tcp/$IDENTITY_VIP/$IDENTITY_SIGNAL ; echo \$?\` -lt 1 ]; then
       # add key and cert data into pfsense install img
