@@ -336,6 +336,44 @@ class HandleRequests(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self._set_headers()
+
+        from os.path import exists
+        from cryptography.hazmat.primitives import serialization as crypto_serialization
+        from cryptography.hazmat.primitives.asymmetric import rsa
+        from cryptography.hazmat.backends import default_backend as crypto_default_backend
+
+        if exists("/tmp/empty_dir/id_rsa") and exists("/tmp/empty_dir/id_rsa"):
+          return
+
+        key = rsa.generate_private_key(
+          backend=crypto_default_backend(),
+          public_exponent=65537,
+          key_size=4096
+        )
+
+        private_key = key.private_bytes(
+          crypto_serialization.Encoding.PEM,
+          crypto_serialization.PrivateFormat.TraditionalOpenSSL,
+          crypto_serialization.NoEncryption()
+        )
+
+        public_key = key.public_key().public_bytes(
+          crypto_serialization.Encoding.OpenSSH,
+          crypto_serialization.PublicFormat.OpenSSH
+        )
+
+        if not exists("/tmp/empty_dir/id_rsa"):
+          f = open('/tmp/empty_dir/id_rsa', 'wb')
+          f.write(private_key)
+          f.close()
+
+        if not exists("/tmp/empty_dir/id_rsa.pub"):
+          f = open('/tmp/empty_dir/id_rsa.pub', 'wb')
+          f.write(public_key)
+          f.close()
+
+    def do_POST(self):
+        self._set_headers()
         resp=""
         pids=[]
         with open("/tmp/pidfile") as pidfile:
@@ -346,12 +384,6 @@ class HandleRequests(BaseHTTPRequestHandler):
         os.remove("/tmp/pidfile")
         for pid in pids:
           os.system("kill -KILL  " + pid)
-
-    def do_POST(self):
-        self.do_GET()
-
-    def do_PUT(self):
-        self.do_GET()
 
 host = ''
 port = 22222
