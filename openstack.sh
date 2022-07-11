@@ -135,6 +135,14 @@ runuser -l root -c "cd /tmp || exit; ./create-identity-kvm-deploy.sh;" &
 cat > /tmp/identity-test.sh <<EOF
 while [ true ]; do
     if [ \`< /dev/tcp/$IDENTITY_VIP/$IDENTITY_SIGNAL ; echo \$?\` -lt 1 ]; then
+      # add key and cert data into pfsense install img
+
+
+      CA_KEY=$(cat </tmp/id_rsa | base64 | tr -d '\n\r')
+      CA_CRT=$(cat </tmp/id_rsa.crt | base64 | tr -d '\n\r')
+      INITIAL_WILDCARD_CRT=$(cat </tmp/wildcard.crt | base64 | tr -d '\n\r')
+      INITIAL_WILDCARD_KEY=$(cat </tmp/wildcard.key | base64 | tr -d '\n\r')
+      #
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       sleep 60;
       runuser -l root -c "cd /tmp || exit; ./create-cloudsupport-kvm-deploy.sh;" &
