@@ -176,7 +176,7 @@ sed -i 's#kolla_neutron_sudoers #kolla_neutron_sudoers \&\& cp /usr/share/neutro
 sed -i 's/USER magnum//' /usr/share/kolla/docker/magnum/magnum-conductor/Dockerfile.j2
 
 cat <<EOF >> /usr/share/kolla/docker/magnum/magnum-conductor/Dockerfile.j2
-RUN sed -i '242s|^$| allowed_cidrs: ["$LB_NETWORK.0/8"]|' /usr/lib/python3.6/site-packages/magnum/drivers/swarm_fedora_atomic_v2/templates/swarmcluster.yaml
+RUN sed -i '242s|^$|      allowed_cidrs: ["$LB_NETWORK.0/8"]|' /usr/lib/python3.6/site-packages/magnum/drivers/swarm_fedora_atomic_v2/templates/swarmcluster.yaml
 RUN sed -i '305s|^$|      allowed_cidrs: ["$LB_NETWORK.0/8"]|' /usr/lib/python3.6/site-packages/magnum/drivers/swarm_fedora_atomic_v1/templates/cluster.yaml
 
 USER magnum
