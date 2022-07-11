@@ -137,11 +137,22 @@ while [ true ]; do
     if [ \`< /dev/tcp/$IDENTITY_VIP/$IDENTITY_SIGNAL ; echo \$?\` -lt 1 ]; then
       # add key and cert data into pfsense install img
 
+      # fetch subordiante ca from identity
+      curl -o /tmp/subca.cert http://$IDENTITY_VIP:$IDENTITY_SIGNAL/subca.cert
+      curl -o /tmp/subca.key http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.key
+      CA_KEY=$(cat </tmp/subca.key | base64 | tr -d '\n\r')
+      CA_CRT=$(cat </tmp/subca.cert | base64 | tr -d '\n\r')
+      rm -rf /tmp/id_rsa*
+      cp /tmp/subca.cert /tmp/id_rsa.crt
+      cp /tmp/subca.key /tmp/id_rsa
 
-      CA_KEY=$(cat </tmp/id_rsa | base64 | tr -d '\n\r')
-      CA_CRT=$(cat </tmp/id_rsa.crt | base64 | tr -d '\n\r')
+      # generate wildcard cert using subordinate CA
+      create_server_cert /tmp "wildcard" "*"
       INITIAL_WILDCARD_CRT=$(cat </tmp/wildcard.crt | base64 | tr -d '\n\r')
       INITIAL_WILDCARD_KEY=$(cat </tmp/wildcard.key | base64 | tr -d '\n\r')
+
+      #run iso replace to load certs into pfsense
+
       #
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       sleep 60;

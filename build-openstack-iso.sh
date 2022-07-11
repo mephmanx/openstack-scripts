@@ -117,27 +117,6 @@ if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
   curl -L https://bosh.io/d/stemcells/bosh-openstack-kvm-"$BOSH_STEMCELL"-go_agent --output /tmp/bosh-"$STEMCELL_STAMP".tgz > /dev/null
 fi
 
-##### build openstack vm keys
-CERT_DIR="/tmp"
-
-rm -rf "$CERT_DIR/id_rsa*"
-if [ ! -f "$CERT_DIR/id_rsa" ]; then
-  #### generate ssh keys
-  # create CA cert before the network goes down to add ip to SAN
-  load_cert_loc_info
-
-  create_ca_cert $CERT_DIR
-fi
-
-rm -rf "$CERT_DIR/wildcard.*"
-if [ ! -f "$CERT_DIR/wildcard.key" ]; then
-  ### initial wildcard cert
-  load_cert_loc_info
-
-  create_server_cert $CERT_DIR "wildcard" "*"
-  #############
-fi
-
 if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
   docker pull mephmanx/homebrew-cache:latest
   docker run --rm -v /tmp:/tmp/export "$HOMEBREW_CACHE_IMAGE:latest" "$CF_BBL_INSTALL_TERRAFORM_VERSION"
@@ -186,11 +165,6 @@ fi
 
 embed_files=('/tmp/openstack-setup/openstack-env.sh'
               '/tmp/openstack-scripts/project_config.sh'
-              '/tmp/id_rsa'
-              '/tmp/id_rsa.crt'
-              '/tmp/id_rsa.pub'
-              '/tmp/wildcard.crt'
-              '/tmp/wildcard.key'
               '/tmp/ip_out_update'
               '/tmp/openstack-scripts/openstack.sh'
               '/tmp/openstack-scripts/vm_functions.sh'

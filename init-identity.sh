@@ -259,7 +259,7 @@ string_mask = utf8only
 req_extensions = v3_req # The extensions to add to a certificate request
 prompt = no
 [ req_distinguished_name ]
-0.organizationName		= cloud_system
+0.organizationName		= $ORGANIZATION
 commonName = pfsense.$INTERNAL_DOMAIN_NAME
 [ req_attributes ]
 [ usr_cert ]

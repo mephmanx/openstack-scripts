@@ -26,8 +26,6 @@ sed -i "s/{NETMASK}/$NETMASK/g" ${kickstart_file}
 ###########################
 
 embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
-              '/tmp/id_rsa'
-              '/tmp/id_rsa.pub'
               '/tmp/openstack-scripts/harbor.yml'
               '/tmp/openstack-setup/openstack-env.sh'
               '/tmp/openstack-scripts/project_config.sh'

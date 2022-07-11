@@ -181,100 +181,10 @@ EOF
   rm -rf /tmp/server_cleanup.sh
 }
 
-function create_ca_cert() {
-  cert_dir=$1
-
-  if [ -f "/tmp/ip_out_update" ]; then
-    INFO=$(cat /tmp/ip_out_update)
-    COUNTRY=$(parse_json "$INFO" "country")
-    STATE=$(parse_json "$INFO" "region")
-    LOCATION=$(parse_json "$INFO" "city")
-  fi
-
-  echo "Country: $COUNTRY"
-  echo "State: $STATE"
-  echo "Location: $LOCATION"
-  echo "Organization: $ORGANIZATION"
-
-  IP=$(hostname -I | awk '{print $1}')
-
-  runuser -l root -c  "touch $cert_dir/id_rsa"
-  runuser -l root -c  "touch $cert_dir/id_rsa.pub"
-  runuser -l root -c  "touch $cert_dir/id_rsa.crt"
-
-cat > "$cert_dir"/ca_conf.cnf <<EOF
-##Required
-[ req ]
-default_bits                                         = 4096
-distinguished_name                           = req_distinguished_name
-x509_extensions                                   = v3_ca
-prompt = no
-
-##About the system for the request. Ensure the CN = FQDN
-[ req_distinguished_name ]
-commonName                                    = $IDENTITY_HOST.$INTERNAL_DOMAIN_NAME
-countryName                 = $COUNTRY
-stateOrProvinceName         = $STATE
-localityName               = $LOCATION
-organizationName           = $ORGANIZATION
-
-##Extensions to add to a certificate request for how it will be used
-[ v3_ca ]
-basicConstraints        = critical, CA:TRUE
-subjectKeyIdentifier    = hash
-authorityKeyIdentifier  = keyid:always, issuer:always
-keyUsage                = critical, cRLSign, digitalSignature, keyCertSign
-subjectAltName          = @alt_names
-nsCertType              = server
-nsComment               = "$INTERNAL_DOMAIN_NAME CA Certificate"
-
-##The other names your server may be connected to as
-[alt_names]
-DNS.1                                                 = $IDENTITY_HOST.$INTERNAL_DOMAIN_NAME
-IP.1                                                  = $IDENTITY_VIP
-EOF
-
-  runuser -l root -c  "chmod 600 $cert_dir/*"
-  runuser -l root -c  "openssl genrsa -out $cert_dir/id_rsa 4096"
-
-  ### make sure keys are same size
-  file_length_pk=$(wc -c "$cert_dir/id_rsa" | awk -F' ' '{ print $1 }')
-  file_length_old=$(wc -c "/tmp/id_rsa" | awk -F' ' '{ print $1 }')
-  while [ "$file_length_pk" != "$file_length_old" ]; do
-    runuser -l root -c  "openssl genrsa -out $cert_dir/id_rsa 4096"
-    file_length_pk=$(wc -c "$cert_dir/id_rsa" | awk -F' ' '{ print $1 }')
-  done
-  # create CA key and cert
-  runuser -l root -c  "ssh-keygen -f $cert_dir/id_rsa -y > $cert_dir/id_rsa.pub"
-
-  ### make sure certs are same size
-  runuser -l root -c  "openssl req -new -x509 -days 7300 \
-                                -key $cert_dir/id_rsa -out $cert_dir/id_rsa.crt \
-                                -sha256 \
-                                -config $cert_dir/ca_conf.cnf"
-
-  file_length_crt=$(wc -c "$cert_dir/id_rsa.crt" | awk -F' ' '{ print $1 }')
-  file_length_old_crt=$(wc -c "/tmp/id_rsa.crt" | awk -F' ' '{ print $1 }')
-  while [ "$file_length_crt" != "$file_length_old_crt" ]; do
-    runuser -l root -c  "openssl req -new -x509 -days 7300 \
-                              -key $cert_dir/id_rsa -out $cert_dir/id_rsa.crt \
-                              -sha256 \
-                              -config $cert_dir/ca_conf.cnf"
-    file_length_crt=$(wc -c "$cert_dir/id_rsa.crt" | awk -F' ' '{ print $1 }')
-  done
-}
-
 function create_server_cert() {
     cert_dir=$1
     cert_name=$2
     host_name=$3
-
-    if [ -f "/tmp/ip_out_update" ]; then
-      INFO=$(cat /tmp/ip_out_update)
-      COUNTRY=$(parse_json "$INFO" "country")
-      STATE=$(parse_json "$INFO" "region")
-      LOCATION=$(parse_json "$INFO" "city")
-    fi
 
     runuser -l root -c  "touch $cert_dir/$cert_name.pass.key"
     runuser -l root -c  "touch $cert_dir/$cert_name.key"
@@ -293,9 +203,6 @@ prompt = no
 ##About the system for the request. Ensure the CN = FQDN
 [ req_distinguished_name ]
 commonName                                    = $host_name.$INTERNAL_DOMAIN_NAME
-countryName                 = $COUNTRY
-stateOrProvinceName         = $STATE
-localityName               = $LOCATION
 organizationName           = $ORGANIZATION
 
 ##Extensions to add to a certificate request for how it will be used
@@ -311,9 +218,7 @@ nsComment               = "Certificate for host -> $host_name.$INTERNAL_DOMAIN_N
 ##The other names your server may be connected to as
 [alt_vpn_server]
 DNS.1                                                 = $host_name.$INTERNAL_DOMAIN_NAME
-IP.1                                                  = $IP
-IP.2                                                  = $LAN_CENTOS_IP
-IP.3                                                  = $LB_CENTOS_IP
+IP.1                                                  = 10.0.200.3
 EOF
 
 node_ct=255
@@ -613,21 +518,6 @@ function replace_values_in_root_isos() {
       replace_string_in_iso "$img" "{DIRECTORY_MGR_PWD_12345678901}" "$DIRECTORY_MGR_PWD"
   done
   ##############
-}
-
-function setup_keys_certs_for_vm() {
-  mkdir -p /root/.ssh
-  rm -rf /root/.ssh/id_rsa*
-  cp /tmp/id_rsa /root/.ssh/id_rsa
-  cp /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
-  chmod 600 /root/.ssh/id_rsa
-  chmod 600 /root/.ssh/id_rsa.pub
-
-  #### add hypervisor host key to authorized keys
-  ## this allows the hypervisor to ssh without password to openstack vms
-  runuser -l root -c 'cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys'
-  runuser -l root -c 'chmod 600 /root/.ssh/authorized_keys'
-  ######
 }
 
 function hypervisor_debug() {
