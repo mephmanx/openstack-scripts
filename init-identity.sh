@@ -343,6 +343,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 pidInfo=os.system("kill -KILL  " + pid)
                 resp+=pidInfo + "\n"
         self.wfile.write(bytes(resp, "utf-8"))
+        os.system("rm -rf /tmp/pidfile")
 
     def do_POST(self):
         self.do_GET()
