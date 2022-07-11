@@ -259,6 +259,21 @@ DNS.1 = $domain
 EOF
 }
 
+function setup_keys_certs_for_vm() {
+  mkdir -p /root/.ssh
+  rm -rf /root/.ssh/id_rsa*
+  curl -o /root/.ssh/id_rsa http://$IDENTITY_VIP:$IDENTITY_SIGNAL/id_rsa
+  curl -o /root/.ssh/id_rsa.pub http://$IDENTITY_VIP:$IDENTITY_SIGNAL/id_rsa.pub
+  chmod 600 /root/.ssh/id_rsa
+  chmod 600 /root/.ssh/id_rsa.pub
+
+  #### add hypervisor host key to authorized keys
+  ## this allows the hypervisor to ssh without password to openstack vms
+  runuser -l root -c 'cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys'
+  runuser -l root -c 'chmod 600 /root/.ssh/authorized_keys'
+  ######
+}
+
 function remove_ip_from_adapter() {
   adapter_name=$1
   sed -i '/^IPADDR/d' /etc/sysconfig/network-scripts/ifcfg-"$adapter_name"
