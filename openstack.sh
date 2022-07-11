@@ -152,7 +152,10 @@ while [ true ]; do
       INITIAL_WILDCARD_KEY=$(cat </tmp/wildcard.key | base64 | tr -d '\n\r')
 
       #run iso replace to load certs into pfsense
-
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "{CA_CRT}" "$CA_CRT"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "{CA_KEY}" "$CA_KEY"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "{INITIAL_WILDCARD_CRT}" "$INITIAL_WILDCARD_CRT"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "{INITIAL_WILDCARD_KEY}" "$INITIAL_WILDCARD_KEY"
       #
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       sleep 60;

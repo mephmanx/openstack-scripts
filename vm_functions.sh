@@ -485,8 +485,8 @@ function replace_values_in_root_isos() {
 
   ## These files are special due to multiline
   ##  Remove first and last tine from each
-  prepare_special_file /tmp/id_rsa
-  prepare_special_file /root/.ssh/id_rsa
+#  prepare_special_file /tmp/id_rsa
+#  prepare_special_file /root/.ssh/id_rsa
   ##########
 
   iso_images="/tmp/*.iso"
@@ -501,11 +501,11 @@ function replace_values_in_root_isos() {
       replace_string_in_iso "$img" "{DIRECTORY_MGR_PWD_12345678901}" "$DIRECTORY_MGR_PWD"
 
       ##########
-      echo "replacing id_rsa  in $img"
-      replace_oneline_file_in_iso "$img" /tmp/id_rsa.repl /root/.ssh/id_rsa.repl
-
-      echo "replacing id_rsa.pub  in $img"
-      replace_oneline_file_in_iso "$img" /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
+#      echo "replacing id_rsa  in $img"
+#      replace_oneline_file_in_iso "$img" /tmp/id_rsa.repl /root/.ssh/id_rsa.repl
+#
+#      echo "replacing id_rsa.pub  in $img"
+#      replace_oneline_file_in_iso "$img" /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
       ##########
   done
 
