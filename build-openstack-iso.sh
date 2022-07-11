@@ -165,7 +165,6 @@ fi
 
 embed_files=('/tmp/openstack-setup/openstack-env.sh'
               '/tmp/openstack-scripts/project_config.sh'
-              '/tmp/ip_out_update'
               '/tmp/openstack-scripts/openstack.sh'
               '/tmp/openstack-scripts/vm_functions.sh'
               '/tmp/openstack-scripts/vm-configurations.sh'

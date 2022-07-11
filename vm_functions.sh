@@ -19,12 +19,6 @@ function parse_json() {
     sed -e 's/^"//' -e 's/"$//'
 }
 
-function load_cert_loc_info() {
-    IP=$(curl --silent "$EXTERNAL_IP_SERVICE")
-    curl --silent "$EXTERNAL_IP_INFO_SERVICE$IP" -o /tmp/ip_out
-    tr -d '\n\r ' < /tmp/ip_out > /tmp/ip_out_update
-}
-
 function get_drive_name() {
   dir_name=$(find /dev/mapper -maxdepth 1 -type l -name '*cs*' -print -quit)
   DRIVE_NAME=$(grep -oP '(?<=_).*?(?=-)' <<< "$dir_name")
