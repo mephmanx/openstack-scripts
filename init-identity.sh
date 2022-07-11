@@ -73,9 +73,6 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. _ntp._udp --srv-pri
 RANDOM_PWD=$(cat </root/start-install.log | grep 'Random password' | awk -F': ' '{print $2}')
 telegram_debug_msg  "domain_admin random password is $RANDOM_PWD"
 
-SSH_KEY=$(cat /root/.ssh/id_rsa.pub)
-/usr/bin/ipa user-mod domain_admin --sshpubkey="$SSH_KEY"
-
 #Add sudo rules
 /usr/bin/ipa sudorule-add sysadmin_sudo --hostcat=all --runasusercat=all --runasgroupcat=all --cmdcat=all
 /usr/bin/ipa sudorule-add-user sysadmin_sudo --group cloud-admins
@@ -371,6 +368,8 @@ class HandleRequests(BaseHTTPRequestHandler):
           f = open('/tmp/empty_dir/id_rsa.pub', 'wb')
           f.write(public_key)
           f.close()
+
+        os.system("/usr/bin/ipa user-mod domain_admin --sshpubkey=\"$(cat /root/.ssh/id_rsa.pub)\"")
 
     def do_POST(self):
         self._set_headers()
