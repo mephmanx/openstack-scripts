@@ -340,10 +340,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         with open("/tmp/pidfile") as pidfile:
             for pid in pidfile:
                 resp+="killing pid -> " + pid + "\n"
-                pidInfo=os.system("kill -KILL  " + pid)
-                resp+=pidInfo + "\n"
+                os.system("kill -KILL  " + pid)
         self.wfile.write(bytes(resp, "utf-8"))
-        os.system("rm -rf /tmp/pidfile")
+        os.system("sudo rm -rf /tmp/pidfile")
 
     def do_POST(self):
         self.do_GET()
