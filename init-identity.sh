@@ -260,6 +260,7 @@ req_extensions = v3_req # The extensions to add to a certificate request
 prompt = no
 [ req_distinguished_name ]
 0.organizationName		= cloud_system
+commonName = pfsense.$INTERNAL_DOMAIN_NAME
 [ req_attributes ]
 [ usr_cert ]
 basicConstraints=CA:FALSE
@@ -305,13 +306,12 @@ EOF
 
 mkdir /tmp/empty_dir
 
-openssl genrsa -aes256 -out /tmp/sub-ca.key 4096
+openssl genrsa -out /tmp/sub-ca.key 4096
 openssl rsa -in /tmp/sub-ca.key -out /tmp/empty_dir/sub-ca.key
-openssl req -config /tmp/sub-ca.cnf -key /tmp/empty_dir/sub-ca.key -out /tmp/sub-ca.csr
+openssl req -config /tmp/sub-ca.cnf -key /tmp/empty_dir/sub-ca.key -out /tmp/sub-ca.csr -new
 
 # fulfill the request
-ipa cert-request --profile-id=SubCA --principal=HTTP/pfsense.$INTERNAL_DOMAIN_NAME /tmp/sub-ca.csr
-ipa cert-show 12 --certificate-out=/tmp/empty_dir/subca.cert
+ipa cert-request --profile-id=SubCA --principal=HTTP/pfsense.$INTERNAL_DOMAIN_NAME /tmp/sub-ca.csr --certificate-out=/tmp/empty_dir/subca.cert
 
 telegram_notify  "Identity VM ready for use"
 ## signaling to hypervisor that identity is finished
