@@ -86,9 +86,236 @@ SSH_KEY=$(cat /root/.ssh/id_rsa.pub)
 /usr/bin/ipa group-add-member vpn-users --users=domain_admin
 /usr/bin/ipa group-add-member cloud-admins --users=domain_admin
 
+# load subordinate CA profile in freeipa
+cat > /tmp/subca.profile <<EOF
+desc=This certificate profile is for enrolling Subordinate Certificate Authority certificates.
+visible=true
+enable=true
+auth.instance_id=raCertAuth
+classId=caEnrollImpl
+enableBy=ipara
+name=Manual Certificate Manager Subordinate Signing Certificate Enrollment
+input.list=i1,i2
+input.i1.class_id=certReqInputImpl
+input.i2.class_id=submitterInfoInputImpl
+output.list=o1
+output.o1.class_id=certOutputImpl
+policyset.list=caSubCertSet
+policyset.caSubCertSet.list=1,2,3,4,5,6,8,9,10
+policyset.caSubCertSet.1.constraint.class_id=subjectNameConstraintImpl
+policyset.caSubCertSet.1.constraint.name=Subject Name Constraint
+policyset.caSubCertSet.1.constraint.params.pattern=.*CN=.+
+policyset.caSubCertSet.1.constraint.params.accept=true
+policyset.caSubCertSet.1.default.class_id=userSubjectNameDefaultImpl
+policyset.caSubCertSet.1.default.name=Subject Name Default
+policyset.caSubCertSet.1.default.params.name=
+policyset.caSubCertSet.2.constraint.class_id=validityConstraintImpl
+policyset.caSubCertSet.2.constraint.name=Validity Constraint
+policyset.caSubCertSet.2.constraint.params.range=7305
+policyset.caSubCertSet.2.constraint.params.notBeforeCheck=false
+policyset.caSubCertSet.2.constraint.params.notAfterCheck=false
+policyset.caSubCertSet.2.default.class_id=caValidityDefaultImpl
+policyset.caSubCertSet.2.default.name=CA Certificate Validity Default
+policyset.caSubCertSet.2.default.params.range=7305
+policyset.caSubCertSet.2.default.params.startTime=0
+policyset.caSubCertSet.3.constraint.class_id=keyConstraintImpl
+policyset.caSubCertSet.3.constraint.name=Key Constraint
+policyset.caSubCertSet.3.constraint.params.keyType=-
+policyset.caSubCertSet.3.constraint.params.keyParameters=1024,2048,3072,4096,nistp256,nistp384,nistp521
+policyset.caSubCertSet.3.default.class_id=userKeyDefaultImpl
+policyset.caSubCertSet.3.default.name=Key Default
+policyset.caSubCertSet.4.constraint.class_id=noConstraintImpl
+policyset.caSubCertSet.4.constraint.name=No Constraint
+policyset.caSubCertSet.4.default.class_id=authorityKeyIdentifierExtDefaultImpl
+policyset.caSubCertSet.4.default.name=Authority Key Identifier Default
+policyset.caSubCertSet.5.constraint.class_id=basicConstraintsExtConstraintImpl
+policyset.caSubCertSet.5.constraint.name=Basic Constraint Extension Constraint
+policyset.caSubCertSet.5.constraint.params.basicConstraintsCritical=true
+policyset.caSubCertSet.5.constraint.params.basicConstraintsIsCA=true
+policyset.caSubCertSet.5.constraint.params.basicConstraintsMinPathLen=0
+policyset.caSubCertSet.5.constraint.params.basicConstraintsMaxPathLen=0
+policyset.caSubCertSet.5.default.class_id=basicConstraintsExtDefaultImpl
+policyset.caSubCertSet.5.default.name=Basic Constraints Extension Default
+policyset.caSubCertSet.5.default.params.basicConstraintsCritical=true
+policyset.caSubCertSet.5.default.params.basicConstraintsIsCA=true
+policyset.caSubCertSet.5.default.params.basicConstraintsPathLen=0
+policyset.caSubCertSet.6.constraint.class_id=keyUsageExtConstraintImpl
+policyset.caSubCertSet.6.constraint.name=Key Usage Extension Constraint
+policyset.caSubCertSet.6.constraint.params.keyUsageCritical=true
+policyset.caSubCertSet.6.constraint.params.keyUsageDigitalSignature=true
+policyset.caSubCertSet.6.constraint.params.keyUsageNonRepudiation=true
+policyset.caSubCertSet.6.constraint.params.keyUsageDataEncipherment=false
+policyset.caSubCertSet.6.constraint.params.keyUsageKeyEncipherment=false
+policyset.caSubCertSet.6.constraint.params.keyUsageKeyAgreement=false
+policyset.caSubCertSet.6.constraint.params.keyUsageKeyCertSign=true
+policyset.caSubCertSet.6.constraint.params.keyUsageCrlSign=true
+policyset.caSubCertSet.6.constraint.params.keyUsageEncipherOnly=false
+policyset.caSubCertSet.6.constraint.params.keyUsageDecipherOnly=false
+policyset.caSubCertSet.6.default.class_id=keyUsageExtDefaultImpl
+policyset.caSubCertSet.6.default.name=Key Usage Default
+policyset.caSubCertSet.6.default.params.keyUsageCritical=true
+policyset.caSubCertSet.6.default.params.keyUsageDigitalSignature=true
+policyset.caSubCertSet.6.default.params.keyUsageNonRepudiation=true
+policyset.caSubCertSet.6.default.params.keyUsageDataEncipherment=false
+policyset.caSubCertSet.6.default.params.keyUsageKeyEncipherment=false
+policyset.caSubCertSet.6.default.params.keyUsageKeyAgreement=false
+policyset.caSubCertSet.6.default.params.keyUsageKeyCertSign=true
+policyset.caSubCertSet.6.default.params.keyUsageCrlSign=true
+policyset.caSubCertSet.6.default.params.keyUsageEncipherOnly=false
+policyset.caSubCertSet.6.default.params.keyUsageDecipherOnly=false
+policyset.caSubCertSet.8.constraint.class_id=noConstraintImpl
+policyset.caSubCertSet.8.constraint.name=No Constraint
+policyset.caSubCertSet.8.default.class_id=subjectKeyIdentifierExtDefaultImpl
+policyset.caSubCertSet.8.default.name=Subject Key Identifier Extension Default
+policyset.caSubCertSet.8.default.params.critical=false
+policyset.caSubCertSet.9.constraint.class_id=signingAlgConstraintImpl
+policyset.caSubCertSet.9.constraint.name=No Constraint
+policyset.caSubCertSet.9.constraint.params.signingAlgsAllowed=SHA1withRSA,SHA256withRSA,SHA512withRSA,SHA1withDSA,SHA1withEC,SHA256withEC,SHA384withEC,SHA512withEC
+policyset.caSubCertSet.9.default.class_id=signingAlgDefaultImpl
+policyset.caSubCertSet.9.default.name=Signing Alg
+policyset.caSubCertSet.9.default.params.signingAlg=-
+policyset.caSubCertSet.9.constraint.class_id=noConstraintImpl
+policyset.caSubCertSet.9.constraint.name=No Constraint
+policyset.caSubCertSet.9.default.class_id=crlDistributionPointsExtDefaultImpl
+policyset.caSubCertSet.9.default.name=CRL Distribution Points Extension Default
+policyset.caSubCertSet.9.default.params.crlDistPointsCritical=false
+policyset.caSubCertSet.9.default.params.crlDistPointsEnable_0=true
+policyset.caSubCertSet.9.default.params.crlDistPointsIssuerName_0=CN=Certificate Authority,o=ipaca
+policyset.caSubCertSet.9.default.params.crlDistPointsIssuerType_0=DirectoryName
+policyset.caSubCertSet.9.default.params.crlDistPointsNum=1
+policyset.caSubCertSet.9.default.params.crlDistPointsPointName_0=http://$HOSTNAME/ipa/crl/MasterCRL.bin
+policyset.caSubCertSet.9.default.params.crlDistPointsPointType_0=MasterCRL
+policyset.caSubCertSet.9.default.params.crlDistPointsReasons_0=
+policyset.caSubCertSet.10.constraint.class_id=noConstraintImpl
+policyset.caSubCertSet.10.constraint.name=No Constraint
+policyset.caSubCertSet.10.default.class_id=authInfoAccessExtDefaultImpl
+policyset.caSubCertSet.10.default.name=AIA Extension Default
+policyset.caSubCertSet.10.default.params.authInfoAccessADEnable_0=true
+policyset.caSubCertSet.10.default.params.authInfoAccessADLocationType_0=URIName
+policyset.caSubCertSet.10.default.params.authInfoAccessADLocation_0=
+policyset.caSubCertSet.10.default.params.authInfoAccessADMethod_0=1.3.6.1.5.5.7.48.1
+policyset.caSubCertSet.10.default.params.authInfoAccessCritical=false
+policyset.caSubCertSet.10.default.params.authInfoAccessNumADs=1
+profileId=SubCA
+EOF
+
+ipa certprofile-import SubCA --store=true --file=/tmp/subca.profile --desc="Enrolling subordinate certificate authority certificates"
+ipa host-add --force pfsense.$INTERNAL_DOMAIN_NAME
+ipa service-add --force HTTP/pfsense.$INTERNAL_DOMAIN_NAME
+
+# build pfsense CA and wildcard cert
+cat > /tmp/sub-ca.cnf <<EOF
+HOME			= .
+oid_section		= new_oids
+[ new_oids ]
+tsa_policy1 = 1.2.3.4.1
+tsa_policy2 = 1.2.3.4.5.6
+tsa_policy3 = 1.2.3.4.5.7
+[ ca ]
+default_ca	= CA_default		# The default ca section
+[ CA_default ]
+dir		= /etc/pki/CA		# Where everything is kept
+certs		= \$dir/certs		# Where the issued certs are kept
+crl_dir		= \$dir/crl		# Where the issued crl are kept
+database	= \$dir/index.txt	# database index file.
+new_certs_dir	= \$dir/newcerts		# default place for new certs.
+certificate	= \$dir/cacert.pem 	# The CA certificate
+serial		= \$dir/serial 		# The current serial number
+crlnumber	= \$dir/crlnumber	# the current crl number
+crl		= \$dir/crl.pem 		# The current CRL
+private_key	= \$dir/private/cakey.pem# The private key
+RANDFILE	= \$dir/private/.rand	# private random number file
+x509_extensions	= usr_cert		# The extentions to add to the cert
+name_opt 	= ca_default		# Subject Name options
+cert_opt 	= ca_default		# Certificate field options
+default_days	= 365			# how long to certify for
+default_crl_days= 30			# how long before next CRL
+default_md	= sha256		# use SHA-256 by default
+preserve	= no			# keep passed DN ordering
+policy		= policy_match
+[ policy_match ]
+countryName		= optional
+stateOrProvinceName	= optional
+organizationName	= optional
+organizationalUnitName	= optional
+commonName		= supplied
+emailAddress		= optional
+[ policy_anything ]
+countryName		= optional
+stateOrProvinceName	= optional
+localityName		= optional
+organizationName	= optional
+organizationalUnitName	= optional
+commonName		= supplied
+emailAddress		= optional
+[ req ]
+default_bits		= 4096
+default_md		= sha256
+default_keyfile 	= privkey.pem
+distinguished_name	= req_distinguished_name
+attributes		= req_attributes
+x509_extensions	= v3_ca	# The extentions to add to the self signed cert
+string_mask = utf8only
+req_extensions = v3_req # The extensions to add to a certificate request
+prompt = no
+[ req_distinguished_name ]
+0.organizationName		= cloud_system
+[ req_attributes ]
+[ usr_cert ]
+basicConstraints=CA:FALSE
+nsComment			= "OpenSSL Generated Certificate"
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+[ v3_req ]
+basicConstraints = CA:TRUE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment, keyCertSign
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = pfsense.$INTERNAL_DOMAIN_NAME
+[ v3_ca ]
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer
+basicConstraints = CA:true
+[ crl_ext ]
+authorityKeyIdentifier=keyid:always
+[ proxy_cert_ext ]
+basicConstraints=CA:FALSE
+nsComment			= "OpenSSL Generated Certificate"
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+proxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo
+[ tsa ]
+default_tsa = tsa_config1	# the default TSA section
+[ tsa_config1 ]
+dir		= ./demoCA		# TSA root directory
+serial		= \$dir/tsaserial	# The current serial number (mandatory)
+crypto_device	= builtin		# OpenSSL engine to use for signing
+signer_cert	= \$dir/tsacert.pem 	# The TSA signing certificate
+certs		= \$dir/cacert.pem	# Certificate chain to include in reply
+signer_key	= \$dir/private/tsakey.pem # The TSA private key (optional)
+default_policy	= tsa_policy1		# Policy if request did not specify it
+other_policies	= tsa_policy2, tsa_policy3	# acceptable policies (optional)
+digests		= sha1, sha256, sha384, sha512	# Acceptable message digests (mandatory)
+accuracy	= secs:1, millisecs:500, microsecs:100	# (optional)
+clock_precision_digits  = 0	# number of digits after dot. (optional)
+ordering		= yes	# Is ordering defined for timestamps?
+tsa_name		= yes	# Must the TSA name be included in the reply?
+ess_cert_id_chain	= no	# Must the ESS cert id chain be included?
+EOF
+
+mkdir /tmp/empty_dir
+
+openssl genrsa -aes256 -out /tmp/sub-ca.key 4096
+openssl rsa -in /tmp/sub-ca.key -out /tmp/empty_dir/sub-ca.key
+openssl req -config /tmp/sub-ca.cnf -key /tmp/empty_dir/sub-ca.key -out /tmp/sub-ca.csr
+
+# fulfill the request
+ipa cert-request --profile-id=SubCA --principal=HTTP/pfsense.$INTERNAL_DOMAIN_NAME /tmp/sub-ca.csr
+ipa cert-show 12 --certificate-out=/tmp/empty_dir/subca.cert
+
 telegram_notify  "Identity VM ready for use"
 ## signaling to hypervisor that identity is finished
-mkdir /tmp/empty_dir
+
 cd /tmp/empty_dir || exit
 python3 -m http.server "$IDENTITY_SIGNAL" &
 ##########################
