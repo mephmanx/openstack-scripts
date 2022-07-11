@@ -318,6 +318,46 @@ telegram_notify  "Identity VM ready for use"
 
 cd /tmp/empty_dir || exit
 python3 -m http.server "$IDENTITY_SIGNAL" &
+signal_pid=$!
+cat > /tmp/pidfile <<EOF
+$signal_pid
+EOF
+
+cat > /tmp/server.py <<EOF
+#! /usr/bin/python3
+
+import os
+from http.server import BaseHTTPRequestHandler, HTTPServer # python3
+class HandleRequests(BaseHTTPRequestHandler):
+    def _set_headers(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+
+    def do_GET(self):
+        self._set_headers()
+        resp=""
+        with open("/tmp/pidfile") as pidfile:
+            for pid in pidfile:
+                resp+="killing pid -> " + pid + "\n"
+                pidInfo=os.system("kill -KILL  " + pid)
+                resp+=pidInfo + "\n"
+        self.wfile.write(bytes(resp, "utf-8"))
+
+    def do_POST(self):
+        self.do_GET()
+
+    def do_PUT(self):
+        self.do_GET()
+
+host = ''
+port = 22222
+HTTPServer((host, port), HandleRequests).serve_forever()
+EOF
+
+python3 /tmp/server.py &
+echo "$!" >> /tmp/pidfile
+
 ##########################
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
