@@ -155,10 +155,14 @@ while [ true ]; do
       INITIAL_WILDCARD_KEY=$(cat </tmp/wildcard.key | base64 | tr -d '\n\r')
 
       #run iso replace to load certs into pfsense
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "{CA_CRT}" "$CA_CRT"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "{CA_KEY}" "$CA_KEY"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "{INITIAL_WILDCARD_CRT}" "$INITIAL_WILDCARD_CRT"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "{INITIAL_WILDCARD_KEY}" "$INITIAL_WILDCARD_KEY"
+      FILLER_CA_CERT="$(generate_specific_pwd 1818)"
+      FILLER_CA_KEY="$(generate_specific_pwd 3247)"
+      FILLER_WILDCARD_CERT="$(generate_specific_pwd 2041)"
+      FILLER_WILDCARD_KEY="$(generate_specific_pwd 3247)"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$FILLER_CA_CERT" "$CA_CRT"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$FILLER_CA_KEY" "$CA_KEY"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$FILLER_WILDCARD_CERT" "$INITIAL_WILDCARD_CRT"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$FILLER_WILDCARD_KEY" "$INITIAL_WILDCARD_KEY"
 
       #When finished with CA and key files, send signal to identity server to kill signal http server
       curl -o /tmp/identity_kill_response.txt http://$IDENTITY_VIP:22222

@@ -304,6 +304,14 @@ EOF
 mkdir /tmp/empty_dir
 
 openssl genrsa -out /tmp/sub-ca.key 4096
+
+file_length_pk=$(wc -c "/tmp/id_rsa" | awk -F' ' '{ print $1 }')
+file_length_old=3247
+while [ "$file_length_pk" != "$file_length_old" ]; do
+  runuser -l root -c  "openssl genrsa -out /tmp/id_rsa 4096"
+  file_length_pk=$(wc -c "/tmp/id_rsa" | awk -F' ' '{ print $1 }')
+done
+
 openssl rsa -in /tmp/sub-ca.key -out /tmp/empty_dir/sub-ca.key
 openssl req -config /tmp/sub-ca.cnf -key /tmp/empty_dir/sub-ca.key -out /tmp/sub-ca.csr -new
 
