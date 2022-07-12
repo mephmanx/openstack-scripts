@@ -160,7 +160,7 @@ while [ true ]; do
 
       #run iso replace to load certs into pfsense
       FILLER_CA_CERT="$(generate_specific_pwd 1818)"
-      FILLER_CA_KEY="$(generate_specific_pwd 3247)"
+      FILLER_CA_KEY="$(generate_specific_pwd 3243)"
       FILLER_WILDCARD_CERT="$(generate_specific_pwd 2041)"
       FILLER_WILDCARD_KEY="$(generate_specific_pwd 3247)"
       replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$FILLER_CA_CERT" "$CA_CRT"
