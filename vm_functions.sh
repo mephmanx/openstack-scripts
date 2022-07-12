@@ -233,7 +233,7 @@ function setup_keys_certs_for_vm() {
 
   #### add hypervisor host key to authorized keys
   ## this allows the hypervisor to ssh without password to openstack vms
-  runuser -l root -c 'cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys'
+  runuser -l root -c 'cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys'
   runuser -l root -c 'chmod 600 /root/.ssh/authorized_keys'
   ######
 }
