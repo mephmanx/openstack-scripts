@@ -144,6 +144,9 @@ while [ true ]; do
       # fetch subordiante ca from identity
       curl -o /tmp/subca.cert http://$IDENTITY_VIP:$IDENTITY_SIGNAL/subca.cert
       curl -o /tmp/subca.key http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.key
+      if [ ! -f /tmp/subca.cert ] && [ ! -f /tmp/subca.key ]; then
+        continue;
+      fi
       CA_KEY=$(cat </tmp/subca.key | base64 | tr -d '\n\r')
       CA_CRT=$(cat </tmp/subca.cert | base64 | tr -d '\n\r')
       rm -rf /tmp/id_rsa*
