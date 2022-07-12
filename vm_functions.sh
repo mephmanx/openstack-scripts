@@ -81,36 +81,6 @@ function restrict_to_root() {
   fi
 }
 
-function vtpm() {
-  unzip /tmp/libtpms-"$SWTPM_VERSION".zip -d /root/libtpms
-  unzip /tmp/swtpm-"$SWTPM_VERSION".zip -d /root/swtpm
-  mv /root/libtpms/libtpms-master/* /root/libtpms
-  mv /root/swtpm/swtpm-master/* /root/swtpm
-  ###### vTPM setup #####
-  cd /root || exit
-
-  cd libtpms \
-   && runuser -l root -c  "echo $(date) > /.date" \
-   && runuser -l root -c  'cd libtpms; ./autogen.sh --prefix=/usr --with-openssl --with-tpm2;' \
-   && make -j"$(nproc)" V=1 \
-   && make -j"$(nproc)" V=1 check \
-   && make install
-
-  cd ../swtpm \
-   && runuser -l root -c  'cd /root/swtpm; ./autogen.sh --prefix=/usr --with-openssl;' \
-   && make -j"$(nproc)" V=1 \
-   && make -j"$(nproc)" V=1 VERBOSE=1 check \
-   && make -j"$(nproc)" install
-
-  runuser -l root -c  'cd /usr/share/swtpm; ./swtpm-create-user-config-files --overwrite --root;'
-  runuser -l root -c  'chown tss:tss /root/.config/*'
-  runuser -l root -c  "rm -rf /tmp/libtpms-$SWTPM_VERSION.zip"
-  runuser -l root -c  "rm -rf /tmp/swtpm-$SWTPM_VERSION.zip"
-  runuser -l root -c  "rm -rf /root/swtpm"
-  runuser -l root -c  "rm -rf /root/libtpms"
-  #####################
-}
-
 function telegram_notify() {
   token=$TELEGRAM_API
   chat_id=$TELEGRAM_CHAT_ID
@@ -527,15 +497,6 @@ function replace_values_in_root_isos() {
       replace_string_in_iso "$img" "{DIRECTORY_MGR_PWD_12345678901}" "$DIRECTORY_MGR_PWD"
   done
   ##############
-}
-
-function hypervisor_debug() {
-  #Disable root login in ssh and disable password login
-  if [[ $HYPERVISOR_DEBUG == 0 ]]; then
-      generate_pwd 31 |  passwd --stdin  root
-      sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
-      sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
-  fi
 }
 
 function enable_kvm_module() {
