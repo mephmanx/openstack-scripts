@@ -136,6 +136,7 @@ cat > /tmp/identity-test.sh <<EOF
 source /tmp/vm_functions.sh
 source /tmp/project_config.sh
 
+exec 1>/tmp/identity-signal-install.log 2>&1
 while [ true ]; do
     if [ \`< /dev/tcp/$IDENTITY_VIP/$IDENTITY_SIGNAL ; echo \$?\` -lt 1 ]; then
       # add key and cert data into pfsense install img
