@@ -89,8 +89,6 @@ function buildAndPushVMTypeISO {
   embed_files=('/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/openstack-scripts/project_config.sh'
                 '/tmp/docker-repo.tar'
-                "/tmp/libtpms-$SWTPM_VERSION.zip"
-                "/tmp/swtpm-$SWTPM_VERSION.zip"
                 "/tmp/openstack-scripts/$vm_type.sh"
                 '/tmp/openstack-setup/openstack-env.sh')
 
@@ -136,8 +134,6 @@ function buildAndPushOpenstackSetupISO {
                 "/tmp/harbor/$OPENSTACK_VERSION/globals.yml"
                 '/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/openstack-setup/openstack-env.sh'
-                "/tmp/libtpms-$SWTPM_VERSION.zip"
-                "/tmp/swtpm-$SWTPM_VERSION.zip"
                 '/tmp/cf-templates.zip'
                 "/tmp/cf_deployment-$CF_DEPLOY_VERSION.zip"
                 '/tmp/openstack-scripts/project_config.sh'
