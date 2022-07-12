@@ -306,7 +306,7 @@ mkdir /tmp/empty_dir
 openssl genrsa -out /tmp/sub-ca.key 4096
 
 file_length_pk=$(wc -c "/tmp/sub-ca.key" | awk -F' ' '{ print $1 }')
-file_length_old=3247
+file_length_old=3243
 while [ "$file_length_pk" != "$file_length_old" ]; do
   runuser -l root -c  "openssl genrsa -out /tmp/sub-ca.key 4096"
   file_length_pk=$(wc -c "/tmp/sub-ca.key" | awk -F' ' '{ print $1 }')
