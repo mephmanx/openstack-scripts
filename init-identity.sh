@@ -369,8 +369,6 @@ class HandleRequests(BaseHTTPRequestHandler):
           f.write(public_key)
           f.close()
 
-        os.system("/usr/bin/ipa user-mod domain_admin --sshpubkey=\"$(cat /tmp/empty_dir/id_rsa.pub)\"")
-
     def do_POST(self):
         self._set_headers()
         resp=""
