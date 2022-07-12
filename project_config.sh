@@ -1,10 +1,5 @@
 #!/bin/bash
 
-## IP Info services
-##  Test before changing!  Output is different for every one
-export EXTERNAL_IP_SERVICE="ipinfo.io/ip"
-export EXTERNAL_IP_INFO_SERVICE="ipinfo.io/"
-
 ###  Cert constants
 export ORGANIZATION="cloud.local-Org"
 
