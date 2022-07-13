@@ -147,28 +147,19 @@ while [ true ]; do
       if [ ! -f /tmp/subca.cert ] && [ ! -f /tmp/subca.key ]; then
         continue;
       fi
-      CA_KEY=$(cat </tmp/subca.key | base64 | tr -d '\n\r')
-      CA_CRT=$(cat </tmp/subca.cert | base64 | tr -d '\n\r')
       rm -rf /tmp/id_rsa*
       cp /tmp/subca.cert /tmp/id_rsa.crt
       cp /tmp/subca.key /tmp/id_rsa
 
       # generate wildcard cert using subordinate CA
       create_server_cert /tmp "wildcard" "*"
-      INITIAL_WILDCARD_CRT=$(cat </tmp/wildcard.crt | base64 | tr -d '\n\r')
-      INITIAL_WILDCARD_KEY=$(cat </tmp/wildcard.key | base64 | tr -d '\n\r')
 
       #run iso replace to load certs into pfsense
-      FILLER_CA_CERT="$(generate_specific_pwd 1818)"
-      FILLER_CA_KEY="$(generate_specific_pwd 3243)"
-      FILLER_WILDCARD_CERT="$(generate_specific_pwd 2041)"
-      FILLER_WILDCARD_KEY="$(generate_specific_pwd 3247)"
-
       ## replace longest first
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$FILLER_WILDCARD_KEY" "$INITIAL_WILDCARD_KEY"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$FILLER_CA_KEY" "$CA_KEY"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$FILLER_WILDCARD_CERT" "$INITIAL_WILDCARD_CRT"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$FILLER_CA_CERT" "$CA_CRT"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$(generate_specific_pwd 3247)" "$(cat </tmp/wildcard.key | base64 | tr -d '\n\r')"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$(generate_specific_pwd 3243)" "$(cat </tmp/subca.key | base64 | tr -d '\n\r')"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$(generate_specific_pwd 2041)" "$(cat </tmp/wildcard.crt | base64 | tr -d '\n\r')"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$(generate_specific_pwd 1818)" "$(cat </tmp/subca.cert | base64 | tr -d '\n\r')"
 
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       sleep 60;
