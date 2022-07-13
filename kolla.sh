@@ -19,6 +19,10 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
+## kill serving keys on identity
+#When finished with CA and key files, send signal to identity server to kill signal http server
+curl -X POST -o /tmp/identity_kill_response.txt http://$IDENTITY_VIP:22222
+#
 ### system profile
 tuned-adm profile virtual-guest
 #############

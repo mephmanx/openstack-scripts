@@ -170,9 +170,6 @@ while [ true ]; do
       replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$FILLER_WILDCARD_CERT" "$INITIAL_WILDCARD_CRT"
       replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "$FILLER_CA_CERT" "$CA_CRT"
 
-      #When finished with CA and key files, send signal to identity server to kill signal http server
-      curl -o /tmp/identity_kill_response.txt http://$IDENTITY_VIP:22222
-
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       sleep 60;
       runuser -l root -c "cd /tmp || exit; ./create-cloudsupport-kvm-deploy.sh;" &
