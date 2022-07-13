@@ -314,6 +314,7 @@ done
 
 openssl rsa -in /tmp/sub-ca.key -out /tmp/empty_dir/sub-ca.key
 openssl req -config /tmp/sub-ca.cnf -key /tmp/empty_dir/sub-ca.key -out /tmp/sub-ca.csr -new
+runuser -l root -c  "ssh-keygen -f /tmp/empty_dir/sub-ca.key -y > /tmp/empty_dir/sub-ca.pub"
 
 # fulfill the request
 ipa cert-request --profile-id=SubCA --principal=HTTP/pfsense.$INTERNAL_DOMAIN_NAME /tmp/sub-ca.csr --certificate-out=/tmp/empty_dir/subca.cert
