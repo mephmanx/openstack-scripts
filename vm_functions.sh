@@ -213,6 +213,8 @@ done
                           -sha256 \
                           -extfile <(printf \"$extFile\") \
                           -out $cert_dir/$cert_name.crt"
+
+                          tet
 }
 
 function gen_extfile()
