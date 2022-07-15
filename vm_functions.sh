@@ -214,7 +214,7 @@ done
                           -extfile <(printf \"$extFile\") \
                           -out $cert_dir/$cert_name.crt"
 
-                          tet
+asdf
 }
 
 function gen_extfile()
