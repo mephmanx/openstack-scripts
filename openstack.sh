@@ -157,13 +157,13 @@ while [ true ]; do
       #run iso replace to load certs into pfsense
       ## replace longest first
       echo "replacing first value"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "<prv>$(generate_specific_pwd 3247)</prv>" "<prv>$(cat </tmp/wildcard.key | base64 | tr -d '\n\r')</prv>"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "<prv>\$(generate_specific_pwd 3247)</prv>" "<prv>\$(cat </tmp/wildcard.key | base64 | tr -d '\n\r')</prv>"
       echo "replacing second value"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "<prv>$(generate_specific_pwd 3243)</prv>" "<prv>$(cat </tmp/subca.key | base64 | tr -d '\n\r')</prv>"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "<prv>\$(generate_specific_pwd 3243)</prv>" "<prv>\$(cat </tmp/subca.key | base64 | tr -d '\n\r')</prv>"
       echo "replacing thrid value"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "<crt>$(generate_specific_pwd 2041)</crt>" "<crt>$(cat </tmp/wildcard.crt | base64 | tr -d '\n\r')</crt>"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "<crt>\$(generate_specific_pwd 2041)</crt>" "<crt>\$(cat </tmp/wildcard.crt | base64 | tr -d '\n\r')</crt>"
       echo "replacing fourth value"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "<crt>$(generate_specific_pwd 1818)</crt>" "<crt>$(cat </tmp/subca.cert | base64 | tr -d '\n\r')</crt>"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "<crt>\$(generate_specific_pwd 1818)</crt>" "<crt>\$(cat </tmp/subca.cert | base64 | tr -d '\n\r')</crt>"
 
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       sleep 60;
