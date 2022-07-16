@@ -86,6 +86,7 @@ if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
 fi
 
 if [ ! -f "/tmp/docker-repo.tar" ]; then
+  yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
   mkdir -p /tmp/repo/docker-ce/linux/centos/8/x86_64/stable
   reposync -p /tmp/repo/docker-ce/linux/centos/8/x86_64/stable --repo=docker-ce-stable --download-metadata
   mv /tmp/repo/docker-ce/linux/centos/8/x86_64/stable/docker-ce-stable/* /tmp/repo/docker-ce/linux/centos/8/x86_64/stable/
