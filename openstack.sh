@@ -154,12 +154,35 @@ while [ true ]; do
       # generate wildcard cert using subordinate CA
       create_server_cert /tmp "wildcard" "*"
 
+      ## run format replace on each file below
+
+      sed -e '40{N;s/\n//;}' /tmp/wildcard.key | sed -e ':a;N;$!ba;s/\n/\r\n/g' > /tmp/wildcard-converted.key
+      truncate -s -1 /tmp/wildcard-converted.key
+      base64 -w 0 < /tmp/wildcard-converted.key > /tmp/wildcard-reencoded.key
+      echo >> /tmp/wildcard-reencoded.key
+
+      sed -e '40{N;s/\n//;}' /tmp/subca.key | sed -e ':a;N;$!ba;s/\n/\r\n/g' > /tmp/subca-converted.key
+      truncate -s -1 /tmp/subca-converted.key
+      base64 -w 0 < /tmp/subca-converted.key > /tmp/subca-reencoded.key
+      echo >> /tmp/subca-reencoded.key
+
+      sed -e '40{N;s/\n//;}' /tmp/wildcard.crt | sed -e ':a;N;$!ba;s/\n/\r\n/g' > /tmp/wildcard-converted.crt
+      truncate -s -1 /tmp/wildcard-converted.crt
+      base64 -w 0 < /tmp/wildcard-converted.crt > /tmp/wildcard-reencoded.crt
+      echo >> /tmp/wildcard-reencoded.crt
+
+      sed -e '40{N;s/\n//;}' /tmp/subca.cert | sed -e ':a;N;$!ba;s/\n/\r\n/g' > /tmp/subca-converted.cert
+      truncate -s -1 /tmp/subca-converted.cert
+      base64 -w 0 < /tmp/subca-converted.cert > /tmp/subca-reencoded.cert
+      echo >> /tmp/subca-reencoded.cert
+
+
       #run iso replace to load certs into pfsense
       ## replace longest first
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 3247)" "\$(cat </tmp/wildcard.key | base64 | tr -d '\n\r')"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 3243)" "\$(cat </tmp/subca.key | base64 | tr -d '\n\r')"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 2041)" "\$(cat </tmp/wildcard.crt | base64 | tr -d '\n\r')"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 1818)" "\$(cat </tmp/subca.cert | base64 | tr -d '\n\r')"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 3247)" "\$(cat </tmp/wildcard-reencoded.key)"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 3243)" "\$(cat </tmp/subca-reencoded.key)"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 2041)" "\$(cat </tmp/wildcard-reencoded.crt)"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 1818)" "\$(cat </tmp/subca-reencoded.cert)"
 
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       sleep 60;
