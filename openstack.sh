@@ -138,12 +138,12 @@ source /tmp/project_config.sh
 
 exec 1>/tmp/identity-signal-install.log 2>&1
 while [ true ]; do
-    if [ \`< /dev/tcp/$IDENTITY_VIP/$IDENTITY_SIGNAL ; echo \$?\` -lt 1 ]; then
+    if [ \`< /dev/tcp/\$IDENTITY_VIP/\$IDENTITY_SIGNAL ; echo \$?\` -lt 1 ]; then
       # add key and cert data into pfsense install img
 
       # fetch subordiante ca from identity
-      curl -o /tmp/subca.cert http://$IDENTITY_VIP:$IDENTITY_SIGNAL/subca.cert
-      curl -o /tmp/subca.key http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.key
+      curl -o /tmp/subca.cert http://\$IDENTITY_VIP:\$IDENTITY_SIGNAL/subca.cert
+      curl -o /tmp/subca.key http://\$IDENTITY_VIP:\$IDENTITY_SIGNAL/sub-ca.key
       if [ ! -f /tmp/subca.cert ] && [ ! -f /tmp/subca.key ]; then
         continue;
       fi
@@ -156,10 +156,10 @@ while [ true ]; do
 
       #run iso replace to load certs into pfsense
       ## replace longest first
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "<prv>\$(generate_specific_pwd 3247)</prv>" "<prv>\$(cat </tmp/wildcard.key | base64 | tr -d '\n\r')</prv>"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "<prv>\$(generate_specific_pwd 3243)</prv>" "<prv>\$(cat </tmp/subca.key | base64 | tr -d '\n\r')</prv>"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "<crt>\$(generate_specific_pwd 2041)</crt>" "<crt>\$(cat </tmp/wildcard.crt | base64 | tr -d '\n\r')</crt>"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "<crt>\$(generate_specific_pwd 1818)</crt>" "<crt>\$(cat </tmp/subca.cert | base64 | tr -d '\n\r')</crt>"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 3247)" "\$(cat </tmp/wildcard.key | base64 | tr -d '\n\r')"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 3243)" "\$(cat </tmp/subca.key | base64 | tr -d '\n\r')"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 2041)" "\$(cat </tmp/wildcard.crt | base64 | tr -d '\n\r')"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 1818)" "\$(cat </tmp/subca.cert | base64 | tr -d '\n\r')"
 
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       sleep 60;
