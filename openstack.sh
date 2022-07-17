@@ -156,22 +156,22 @@ while [ true ]; do
 
       ## run format replace on each file below
 
-      sed -e '40{N;s/\n//;}' /tmp/wildcard.key | sed -e ':a;N;$!ba;s/\n/\r\n/g' > /tmp/wildcard-converted.key
+      sed -e '40{N;s/\n//;}' /tmp/wildcard.key | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > /tmp/wildcard-converted.key
       truncate -s -1 /tmp/wildcard-converted.key
       base64 -w 0 < /tmp/wildcard-converted.key > /tmp/wildcard-reencoded.key
       echo >> /tmp/wildcard-reencoded.key
 
-      sed -e '40{N;s/\n//;}' /tmp/subca.key | sed -e ':a;N;$!ba;s/\n/\r\n/g' > /tmp/subca-converted.key
+      sed -e '40{N;s/\n//;}' /tmp/subca.key | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > /tmp/subca-converted.key
       truncate -s -1 /tmp/subca-converted.key
       base64 -w 0 < /tmp/subca-converted.key > /tmp/subca-reencoded.key
       echo >> /tmp/subca-reencoded.key
 
-      sed -e '40{N;s/\n//;}' /tmp/wildcard.crt | sed -e ':a;N;$!ba;s/\n/\r\n/g' > /tmp/wildcard-converted.crt
+      sed -e '40{N;s/\n//;}' /tmp/wildcard.crt | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > /tmp/wildcard-converted.crt
       truncate -s -1 /tmp/wildcard-converted.crt
       base64 -w 0 < /tmp/wildcard-converted.crt > /tmp/wildcard-reencoded.crt
       echo >> /tmp/wildcard-reencoded.crt
 
-      sed -e '40{N;s/\n//;}' /tmp/subca.cert | sed -e ':a;N;$!ba;s/\n/\r\n/g' > /tmp/subca-converted.cert
+      sed -e '40{N;s/\n//;}' /tmp/subca.cert | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > /tmp/subca-converted.cert
       truncate -s -1 /tmp/subca-converted.cert
       base64 -w 0 < /tmp/subca-converted.cert > /tmp/subca-reencoded.cert
       echo >> /tmp/subca-reencoded.cert
