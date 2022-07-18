@@ -134,16 +134,15 @@ runuser -l root -c "cd /tmp || exit; ./create-identity-kvm-deploy.sh;" &
 ### waitloops for vm signals
 cat > /tmp/identity-test.sh <<EOF
 source /tmp/vm_functions.sh
-source /tmp/project_config.sh
 
 exec 1>/tmp/identity-signal-install.log 2>&1
 while [ true ]; do
-    if [ \`< /dev/tcp/\$IDENTITY_VIP/\$IDENTITY_SIGNAL ; echo \$?\` -lt 1 ]; then
+    if [ \`< /dev/tcp/$IDENTITY_VIP/$IDENTITY_SIGNAL ; echo \$?\` -lt 1 ]; then
       # add key and cert data into pfsense install img
 
       # fetch subordiante ca from identity
-      curl -o /tmp/subca.cert http://\$IDENTITY_VIP:\$IDENTITY_SIGNAL/subca.cert
-      curl -o /tmp/subca.key http://\$IDENTITY_VIP:\$IDENTITY_SIGNAL/sub-ca.key
+      curl -o /tmp/subca.cert http://$IDENTITY_VIP:$IDENTITY_SIGNAL/subca.cert
+      curl -o /tmp/subca.key http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.key
       if [ ! -f /tmp/subca.cert ] && [ ! -f /tmp/subca.key ]; then
         continue;
       fi
