@@ -179,10 +179,10 @@ while [ true ]; do
 
       #run iso replace to load certs into pfsense
       ## replace longest first
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 3247)" "\$(cat </tmp/wildcard-reencoded.key)"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 3243)" "\$(cat </tmp/subca-reencoded.key)"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 2041)" "\$(cat </tmp/wildcard-reencoded.crt)"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 1818)" "\$(cat </tmp/subca-reencoded.cert)"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 4393)" "\$(cat </tmp/wildcard-reencoded.key)"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 4389)" "\$(cat </tmp/subca-reencoded.key)"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 2765)" "\$(cat </tmp/wildcard-reencoded.crt)"
+      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 2465)" "\$(cat </tmp/subca-reencoded.cert)"
 
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       sleep 60;
