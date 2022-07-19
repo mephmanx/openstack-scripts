@@ -141,7 +141,7 @@ export SWTPM_GIT="https://github.com/stefanberger/swtpm/archive/master/swtpm.zip
 export MAGNUM_IMAGE="https://download.fedoraproject.org/pub/alt/atomic/stable/$MAGNUM_IMAGE_VERSION/CloudImages/x86_64/images/$MAGNUM_IMAGE_VERSION.x86_64.qcow2"
 
 ### cloudfoundry attic terraform
-export CF_ATTIC_TERRAFORM="https://releases.hashicorp.com/terraform/$CF_ATTIC_TERRAFORM_VERSION/terraform_$CF_ATTIC_TERRAFORM_VERSION_linux_amd64.zip"
+export CF_ATTIC_TERRAFORM="https://releases.hashicorp.com/terraform/$CF_ATTIC_TERRAFORM_VERSION/terraform_${CF_ATTIC_TERRAFORM_VERSION}_linux_amd64.zip"
 
 ### image for trove instances
 export TROVE_INSTANCE_IMAGE="https://cloud-images.ubuntu.com/releases/$UBUNTU_RELEASE_NAME/release/ubuntu-$UBUNTU_VERSION-server-cloudimg-amd64.img"
