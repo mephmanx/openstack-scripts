@@ -350,30 +350,6 @@ EOF
   rm -rf /tmp/out-*
 }
 
-function prepare_special_file() {
-  in_file=$1
-  ## create duplicate of key to find, remove first line (----BEGIN, etc) so as not to return the index of other keys in iso
-  ## and then replace from that index.  The headers (and footers technically) are the same so should be safe.
-  if [ -f "$in_file".repl ]; then
-    #echo "$in_file : replace contents exist, no prep needed"
-    return
-  fi
-  #echo "$in_file : creating replace contents file"
-  cp "$in_file" "$in_file".repl
-  sed -i '1d' "$in_file".repl
-  sed -i '$d' "$in_file".repl
-}
-
-function replace_oneline_file_in_iso() {
-  iso_file=$1
-  replacement_file=$2
-  replace_with=$3
-
-  start_index=$(grep -oba -f "$replacement_file" "$iso_file" -m1 | awk -F':' '{ print $1 }')
-  file_length=$(wc -c "$replace_with" | awk -F' ' '{ print $1 }')
-  dd if="$replace_with" of="$iso_file" conv=notrunc bs=1 seek="$start_index" count="$file_length"
-}
-
 function get_disk_count() {
   lsblk -S -n | grep -v usb -c
 }
@@ -468,15 +444,6 @@ function replace_values_in_root_isos() {
   ## gen_pwd is not stored anywhere, it is meant to lost and never found
   GEN_PWD=$(generate_pwd 15)
 
-  ## Files can only be replaced if they can be considered to be on "one line"
-  ##  ssh keys are on one line as would most binary files.  text files, scripts, etc have multiple lines and DO NOT work!
-
-  ## These files are special due to multiline
-  ##  Remove first and last tine from each
-#  prepare_special_file /tmp/id_rsa
-#  prepare_special_file /root/.ssh/id_rsa
-  ##########
-
   iso_images="/tmp/*.iso"
   for img in $iso_images; do
       echo "replacing centos admin in $img"
@@ -487,14 +454,6 @@ function replace_values_in_root_isos() {
 
       echo "replacing directory mgr admin in $img"
       replace_string_in_iso "$img" "{DIRECTORY_MGR_PWD_12345678901}" "$DIRECTORY_MGR_PWD"
-
-      ##########
-#      echo "replacing id_rsa  in $img"
-#      replace_oneline_file_in_iso "$img" /tmp/id_rsa.repl /root/.ssh/id_rsa.repl
-#
-#      echo "replacing id_rsa.pub  in $img"
-#      replace_oneline_file_in_iso "$img" /tmp/id_rsa.pub /root/.ssh/id_rsa.pub
-      ##########
   done
 
   iso_images="/tmp/*.img"
