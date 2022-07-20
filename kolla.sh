@@ -863,9 +863,9 @@ trusted_cert_for_apps:
   ca: |
 EOF"
 
-cp /etc/ipa/ca.crt /opt/stack/ca.crt
-sed -i 's/^/  /' /opt/stack/ca.crt
-runuser -l stack -c  'cat /opt/stack/ca.crt >> /opt/stack/trusted-certs-cf.vars.yml'
+cp /etc/ipa/ca.crt /opt/stack/cf-ca.crt
+sed -i 's/^/    /' /opt/stack/cf-ca.crt
+runuser -l stack -c  'cat /opt/stack/cf-ca.crt >> /opt/stack/trusted-certs-cf.vars.yml'
 ######
 
 ### add internal override to director
