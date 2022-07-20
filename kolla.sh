@@ -868,6 +868,7 @@ sed -i 's/^/    /' /opt/stack/cf-ca.crt
 runuser -l stack -c  'cat /opt/stack/cf-ca.crt >> /opt/stack/trusted-certs-cf.vars.yml'
 ######
 
+yum install -y expect connect-proxy
 ### add internal override to director
 cat > /opt/stack/expect.sh <<FILEEND
 #!/usr/bin/expect -f
