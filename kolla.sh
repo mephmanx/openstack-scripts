@@ -884,6 +884,11 @@ runuser -l stack -c  "cd /opt/stack; \
                       source /tmp/bbl_env.sh; \
                       bosh update-runtime-config /opt/stack/bosh-deployment/runtime-configs/dns.yml --name dns -n"
 
+
+## add http endpoint to cloud config
+sed -i 's/cf-lb-https-router/cf-lb-https-router, cf-lb-http-router/g' /tmp/cf-deployment/iaas-support/openstack/cloud-config.yml
+sed -i 's/port: 443/port: 443\n      - name: cf-http-pool\n        port: 80/g' /tmp/cf-deployment/iaas-support/openstack/cloud-config.yml
+
 runuser -l stack -c  "cd /opt/stack; \
                       bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
                       chmod +x /tmp/bbl_env.sh; \
