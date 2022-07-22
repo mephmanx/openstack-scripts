@@ -704,7 +704,7 @@ num_tcp_ports = $CF_TCP_PORT_COUNT #default is 100, needs to be > 0
 
 # in case of self signed certificate select one of the following options
 #cacert_file = "/etc/ipa/ca.crt"
-#insecure = "false"
+insecure = "true"
 EOF
 
 cat <<EOT >> /tmp/bosh-openstack-environment-templates/cf-deployment-tf/cf.tf
