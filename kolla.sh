@@ -652,7 +652,9 @@ bbl_retry_count=5
 if [[ $bbl_error_count -gt 0 ]]; then
   while [ $bbl_retry_count -gt 0 ]; do
     rm -rf /tmp/bbl_up.log
-    runuser -l stack -c  'bbl up --debug > /tmp/bbl_up.log'
+    echo "" > /tmp/bbl_up.log
+    chown -R stack /tmp/bbl_up.log
+    runuser -l stack -c  'bbl up --debug > /tmp/bbl_up.log 2>&1'
     bbl_error_count=`grep -i "error" /tmp/bbl_up.log | wc -l`
     if [[ $bbl_error_count == 0 ]]; then
       break
@@ -716,7 +718,9 @@ tf_retry_count=5
 if [[ $tf_error_count -gt 0 ]]; then
   while [ $tf_retry_count -gt 0 ]; do
     rm -rf /tmp/terraf-bbl.out
-    runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve" > /tmp/terraf-bbl.out
+    echo "" > /tmp/terraf-bbl.out
+    chown -R stack /tmp/terraf-bbl.out
+    runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /tmp/terraf-bbl.out 2>&1"
     tf_error_count=`grep -i "error" /tmp/terraf-bbl.out | wc -l`
     if [[ $tf_error_count == 0 ]]; then
       break
