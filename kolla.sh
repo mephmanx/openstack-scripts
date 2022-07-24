@@ -680,6 +680,8 @@ chown -R stack terraform
 
 sed -i '/provider "openstack" {/a use_octavia   = true' ./cf.tf
 sed -i "/use_octavia   = true/a version = \"$CF_BBL_OPENSTACK_CPI_VERSION\"" ./cf.tf
+cp /etc/ipa/ca.crt /opt/stack/ca-orig.crt
+chmod -R stack /opt/stack/ca-orig.crt
 ## add availability zones to the list below for a full HA deploy
 cat > terraform.tfvars <<EOF
 auth_url = "http://$INTERNAL_VIP_DNS:5000/v3"
@@ -705,7 +707,7 @@ use_tcp_router = "true" #default is true
 num_tcp_ports = $CF_TCP_PORT_COUNT #default is 100, needs to be > 0
 
 # in case of self signed certificate select one of the following options
-#cacert_file = "/etc/ipa/ca.crt"
+cacert_file = "/opt/stack/ca-orig.crt"
 insecure = "true"
 EOF
 
