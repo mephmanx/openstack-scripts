@@ -141,8 +141,8 @@ while [ true ]; do
       # add key and cert data into pfsense install img
 
       # fetch subordiante ca from identity
-      curl -x GET -o /tmp/subca.cert http://$IDENTITY_VIP:$IDENTITY_SIGNAL/subca.cert
-      curl -x GET -o /tmp/subca.key http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.key
+      curl -o /tmp/subca.cert http://$IDENTITY_VIP:$IDENTITY_SIGNAL/subca.cert
+      curl -o /tmp/subca.key http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.key
       if [ ! -f /tmp/subca.cert ] && [ ! -f /tmp/subca.key ]; then
         continue;
       fi
