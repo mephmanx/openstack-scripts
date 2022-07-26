@@ -225,12 +225,12 @@ telegram_notify  "All Openstack VM's came up properly and are ready for install.
 
 ## generate octavia certs
 #kolla-ansible octavia-certificates
-openssl rsa -aes256 -in /tmp/sub-ca.key -out /tmp/sub-ca.encrypted.key -passout "pass:$ADMIN_PWD"
+openssl rsa -aes256 -in /tmp/subca.key -out /tmp/sub-ca.encrypted.key -passout "pass:$ADMIN_PWD"
 mkdir -p /etc/kolla/config/octavia
 cp /tmp/subca.cert /etc/kolla/config/octavia/server_ca.cert.pem
 cp /tmp/subca.cert /etc/kolla/config/octavia/client_ca.cert.pem
 cp /tmp/sub-ca.encrypted.key /etc/kolla/config/octavia/server_ca.key.pem
-cp /tmp/sub-ca.key /etc/kolla/config/octavia/client.cert-and-key.pem
+cp /tmp/subca.key /etc/kolla/config/octavia/client.cert-and-key.pem
 cat /tmp/subca.cert >> /etc/kolla/config/octavia/client.cert-and-key.pem
 chown -R stack /etc/kolla/config/octavia/*.pem
 chown -R stack /etc/kolla/config/octavia
