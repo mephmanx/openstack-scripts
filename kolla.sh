@@ -232,6 +232,8 @@ cp /tmp/subca.cert /etc/kolla/config/octavia/client_ca.cert.pem
 cp /tmp/sub-ca.encrypted.key /etc/kolla/config/octavia/server_ca.key.pem
 cp /tmp/sub-ca.key /etc/kolla/config/octavia/client.cert-and-key.pem
 cat /tmp/subca.cert >> /etc/kolla/config/octavia/client.cert-and-key.pem
+chown -R stack /etc/kolla/config/octavia/*.pem
+chown -R stack /etc/kolla/config/octavia
 ###########
 
 #### run host trust on all nodes
