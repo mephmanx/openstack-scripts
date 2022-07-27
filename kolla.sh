@@ -725,7 +725,6 @@ insecure = "true"
 EOF
 
 telegram_notify  "Executing env prep script..."
-runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init; ./terraform plan;"
 
 echo "error" > /tmp/terraf-bbl.out
 tf_error_count=`grep -i "error" /tmp/terraf-bbl.out | wc -l`
