@@ -720,8 +720,8 @@ use_tcp_router = "true" #default is true
 num_tcp_ports = $CF_TCP_PORT_COUNT #default is 100, needs to be > 0
 
 # in case of self signed certificate select one of the following options
-cacert_file = "/opt/stack/ca-orig.crt"
-insecure = "true"
+#cacert_file = "/opt/stack/ca-orig.crt"
+#insecure = "true"
 EOF
 
 telegram_notify  "Executing env prep script..."
