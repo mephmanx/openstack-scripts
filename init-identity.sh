@@ -268,10 +268,10 @@ commonName = pfsense.$INTERNAL_DOMAIN_NAME
 [ req_attributes ]
 
 [ usr_cert ]
-basicConstraints=CA:FALSE
+basicConstraints = CA:FALSE
 nsComment			= "OpenSSL Generated Certificate"
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issuer
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
 
 [ v3_req ]
 basicConstraints = CA:TRUE
@@ -282,8 +282,8 @@ subjectAltName = @alt_names
 DNS.1 = pfsense.$INTERNAL_DOMAIN_NAME
 
 [ v3_ca ]
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid:always,issuer
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
 basicConstraints = critical, CA:true
 keyUsage = critical, digitalSignature, cRLSign, keyCertSign
 
@@ -311,11 +311,11 @@ extendedKeyUsage = serverAuth
 authorityKeyIdentifier=keyid:always
 
 [ proxy_cert_ext ]
-basicConstraints=CA:FALSE
+basicConstraints = CA:FALSE
 nsComment			= "OpenSSL Generated Certificate"
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issuer
-proxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+proxyCertInfo = critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo
 
 [ tsa ]
 default_tsa = tsa_config1	# the default TSA section
