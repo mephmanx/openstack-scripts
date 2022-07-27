@@ -208,8 +208,10 @@ oid_section		= new_oids
 tsa_policy1 = 1.2.3.4.1
 tsa_policy2 = 1.2.3.4.5.6
 tsa_policy3 = 1.2.3.4.5.7
+
 [ ca ]
 default_ca	= CA_default		# The default ca section
+
 [ CA_default ]
 dir		= /etc/pki/CA		# Where everything is kept
 certs		= \$dir/certs		# Where the issued certs are kept
@@ -230,6 +232,7 @@ default_crl_days= 30			# how long before next CRL
 default_md	= sha256		# use SHA-256 by default
 preserve	= no			# keep passed DN ordering
 policy		= policy_match
+
 [ policy_match ]
 countryName		= optional
 stateOrProvinceName	= optional
@@ -237,6 +240,7 @@ organizationName	= optional
 organizationalUnitName	= optional
 commonName		= supplied
 emailAddress		= optional
+
 [ policy_anything ]
 countryName		= optional
 stateOrProvinceName	= optional
@@ -245,6 +249,7 @@ organizationName	= optional
 organizationalUnitName	= optional
 commonName		= supplied
 emailAddress		= optional
+
 [ req ]
 default_bits		= 4096
 default_md		= sha256
@@ -255,35 +260,66 @@ x509_extensions	= v3_ca	# The extentions to add to the self signed cert
 string_mask = utf8only
 req_extensions = v3_req # The extensions to add to a certificate request
 prompt = no
+
 [ req_distinguished_name ]
 0.organizationName		= $ORGANIZATION
 commonName = pfsense.$INTERNAL_DOMAIN_NAME
+
 [ req_attributes ]
+
 [ usr_cert ]
 basicConstraints=CA:FALSE
 nsComment			= "OpenSSL Generated Certificate"
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid,issuer
+
 [ v3_req ]
 basicConstraints = CA:TRUE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment, keyCertSign
 subjectAltName = @alt_names
+
 [alt_names]
 DNS.1 = pfsense.$INTERNAL_DOMAIN_NAME
+
 [ v3_ca ]
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid:always,issuer
-basicConstraints = CA:true
+basicConstraints = critical, CA:true
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+
+[ usr_cert ]
+# Extensions for client certificates (`man x509v3_config`).
+basicConstraints = CA:FALSE
+nsCertType = client, email
+nsComment = "OpenSSL Generated Client Certificate"
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = clientAuth, emailProtection
+
+[ server_cert ]
+# Extensions for server certificates (`man x509v3_config`).
+basicConstraints = CA:FALSE
+nsCertType = server
+nsComment = "OpenSSL Generated Server Certificate"
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer:always
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+
 [ crl_ext ]
 authorityKeyIdentifier=keyid:always
+
 [ proxy_cert_ext ]
 basicConstraints=CA:FALSE
 nsComment			= "OpenSSL Generated Certificate"
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid,issuer
 proxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo
+
 [ tsa ]
 default_tsa = tsa_config1	# the default TSA section
+
 [ tsa_config1 ]
 dir		= ./demoCA		# TSA root directory
 serial		= \$dir/tsaserial	# The current serial number (mandatory)
