@@ -113,6 +113,7 @@ sed -i "s/keystone_admin_password: .*/keystone_admin_password: ${ADMIN_PWD}/g" /
 sed -i "s/kibana_password: .*/kibana_password: ${ADMIN_PWD}/g" /etc/kolla/passwords.yml
 sed -i "s/grafana_admin_password: .*/grafana_admin_password: ${ADMIN_PWD}/g" /etc/kolla/passwords.yml
 sed -i "s/octavia_ca_password: .*/octavia_ca_password: ${ADMIN_PWD}/g" /etc/kolla/passwords.yml
+sed -i "s/octavia_client_ca_password: .*/octavia_client_ca_password: ${ADMIN_PWD}/g" /etc/kolla/passwords.yml
 #####
 
 ######  prepare storage rings
