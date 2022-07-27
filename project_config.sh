@@ -30,7 +30,6 @@ export UBUNTU_RELEASE_NAME="bionic"
 export AMPHORA_VERSION="1.0.2"
 export TROVE_DB_VERSION="xena"
 export CF_DEPLOY_VERSION="v21.2.0"
-export SWTPM_VERSION="1.0.0"
 export STEMCELL_STAMP="05-03-2022"
 export OPENSTACK_VERSION="wallaby"
 
@@ -132,10 +131,6 @@ export CLOUDSUPPORT_SIGNAL=10112
 ### Harbor version
 # Be careful changing this as API's DO change so errors could result from breaking changes
 export HARBOR="https://github.com/goharbor/harbor/releases/download/$HARBOR_VERSION/harbor-offline-installer-$HARBOR_VERSION.tgz"
-
-## SWTPM libs
-export LIBTPMS_GIT="https://github.com/stefanberger/libtpms/archive/master/libtpms.zip"
-export SWTPM_GIT="https://github.com/stefanberger/swtpm/archive/master/swtpm.zip"
 
 ### Magnum docker image
 export MAGNUM_IMAGE="https://download.fedoraproject.org/pub/alt/atomic/stable/$MAGNUM_IMAGE_VERSION/CloudImages/x86_64/images/$MAGNUM_IMAGE_VERSION.x86_64.qcow2"
