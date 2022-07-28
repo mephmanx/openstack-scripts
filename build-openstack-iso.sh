@@ -20,15 +20,15 @@ mkdir -p /tmp/configs
 docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:latest" bash -c "cp /root/ks_configs/* /opt/mount/configs"
 
 ## download files to be embedded
-if [ ! -f "/tmp/amphora-x64-haproxy-$AMPHORA_VERSION.qcow2" ]; then
+if [ ! -f "/tmp/amphora-x64-haproxy-$OPENSTACK_VERSION-$AMPHORA_VERSION.qcow2" ]; then
   ############# build octavia image
-  git clone https://opendev.org/openstack/octavia -b master /tmp/octavia
+  git clone https://opendev.org/openstack/octavia -b stable/$OPENSTACK_VERSION /tmp/octavia
   chmod +x /tmp/octavia/diskimage-create/diskimage-create.sh
   pwd=$(pwd)
   cd /tmp/octavia/diskimage-create || exit;
   ./diskimage-create.sh;
   cd "$pwd" || exit
-  cp /tmp/octavia/diskimage-create/amphora-x64-haproxy.qcow2 /tmp/amphora-x64-haproxy-"$AMPHORA_VERSION".qcow2
+  cp /tmp/octavia/diskimage-create/amphora-x64-haproxy.qcow2 /tmp/amphora-x64-haproxy-"$OPENSTACK_VERSION"-"$AMPHORA_VERSION".qcow2
   rm -rf /tmp/octavia
 fi
 
