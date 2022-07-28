@@ -714,7 +714,7 @@ num_tcp_ports = $CF_TCP_PORT_COUNT #default is 100, needs to be > 0
 EOF
 
 telegram_notify  "Executing env prep script..."
-
+runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init"
 echo "error" > /tmp/terraf-bbl.out
 tf_error_count=`grep -i "error" /tmp/terraf-bbl.out | wc -l`
 tf_retry_count=5
