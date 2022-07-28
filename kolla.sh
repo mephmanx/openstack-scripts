@@ -112,8 +112,6 @@ sed -i "s/docker_registry_password: null/docker_registry_password: ${ADMIN_PWD}/
 sed -i "s/keystone_admin_password: .*/keystone_admin_password: ${ADMIN_PWD}/g" /etc/kolla/passwords.yml
 sed -i "s/kibana_password: .*/kibana_password: ${ADMIN_PWD}/g" /etc/kolla/passwords.yml
 sed -i "s/grafana_admin_password: .*/grafana_admin_password: ${ADMIN_PWD}/g" /etc/kolla/passwords.yml
-sed -i "s/octavia_ca_password: .*/octavia_ca_password: ${ADMIN_PWD}/g" /etc/kolla/passwords.yml
-sed -i "s/octavia_client_ca_password: .*/octavia_client_ca_password: ${ADMIN_PWD}/g" /etc/kolla/passwords.yml
 #####
 
 ######  prepare storage rings
@@ -225,16 +223,7 @@ telegram_notify  "All Openstack VM's came up properly and are ready for install.
 #############
 
 ## generate octavia certs
-#kolla-ansible octavia-certificates
-openssl rsa -aes256 -in /tmp/subca.key -out /tmp/sub-ca.encrypted.key -passout "pass:$ADMIN_PWD"
-mkdir -p /etc/kolla/config/octavia
-cp /tmp/subca.cert /etc/kolla/config/octavia/server_ca.cert.pem
-cp /tmp/subca.cert /etc/kolla/config/octavia/client_ca.cert.pem
-cp /tmp/sub-ca.encrypted.key /etc/kolla/config/octavia/server_ca.key.pem
-cp /tmp/subca.cert /etc/kolla/config/octavia/client.cert-and-key.pem
-cat /tmp/subca.key >> /etc/kolla/config/octavia/client.cert-and-key.pem
-chown -R stack /etc/kolla/config/octavia/*.pem
-chown -R stack /etc/kolla/config/octavia
+kolla-ansible octavia-certificates
 ###########
 
 #### run host trust on all nodes
