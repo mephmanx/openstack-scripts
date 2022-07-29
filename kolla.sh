@@ -702,53 +702,6 @@ use_tcp_router = "true" #default is true
 num_tcp_ports = $CF_TCP_PORT_COUNT #default is 100, needs to be > 0
 EOF
 
-cat <<EOT >> /tmp/bosh-openstack-environment-templates/cf-deployment-tf/cf.tf
-resource "openstack_networking_secgroup_v2" "cf_http_router_sec_group" {
-  region      = "\${var.region_name}"
-  name        = "cf-lb-http-router"
-  description = "Security group which will be assigned to the cloud foundry router VM to receive TCP traffic from the load balancer on port 443"
-}
-
-resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_tcp_80_cf_http_router" {
-  count = "\${length(var.availability_zones)}"
-  direction = "ingress"
-  ethertype = "IPv4"
-  protocol = "tcp"
-  port_range_min = 80
-  port_range_max = 80
-  remote_ip_prefix = "\${element(openstack_networking_subnet_v2.cf_subnet.*.cidr, count.index)}"
-  security_group_id = "\${openstack_networking_secgroup_v2.cf_http_router_sec_group.id}"
-  region = "\${var.region_name}"
-}
-
-resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_tcp_80_cf_lb" {
-  direction = "ingress"
-  ethertype = "IPv4"
-  protocol = "tcp"
-  port_range_min = 80
-  port_range_max = 80
-  remote_ip_prefix = "0.0.0.0/0"
-  security_group_id = "\${openstack_networking_secgroup_v2.cf_lb_sec_group.id}"
-  region = "\${var.region_name}"
-}
-
-resource "openstack_lb_listener_v2" "cf_http_listener" {
-  region = "\${var.region_name}"
-  protocol        = "TCP"
-  protocol_port   = 80
-  name = "cf-http-listener"
-  loadbalancer_id = "\${openstack_lb_loadbalancer_v2.cf-lb.id}"
-}
-
-resource "openstack_lb_pool_v2" "cf_http_pool" {
-  region = "\${var.region_name}"
-  protocol    = "TCP"
-  lb_method   = "ROUND_ROBIN"
-  name = "cf-http-pool"
-  listener_id = "\${openstack_lb_listener_v2.cf_http_listener.id}"
-}
-EOT
-
 telegram_notify  "Executing env prep script..."
 runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init"
 echo "error" > /tmp/terraf-bbl.out
@@ -879,10 +832,6 @@ runuser -l stack -c  "cd /opt/stack; \
                       chmod +x /tmp/bbl_env.sh; \
                       source /tmp/bbl_env.sh; \
                       bosh update-runtime-config /opt/stack/bosh-deployment/runtime-configs/dns.yml --name dns -n"
-
-## add http endpoint to cloud config
-sed -i 's/cf-lb-https-router/cf-lb-https-router, cf-lb-http-router/g' /tmp/cf-deployment/iaas-support/openstack/cloud-config.yml
-sed -i 's/port: 443/port: 443\n      - name: cf-http-pool\n        port: 80/g' /tmp/cf-deployment/iaas-support/openstack/cloud-config.yml
 
 runuser -l stack -c  "cd /opt/stack; \
                       bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
@@ -1145,7 +1094,7 @@ runuser -l stack -c "cf bind-running-security-group ASG"
 #push stratos
 mkdir /tmp/stratos
 chown -R stack /tmp/stratos
-unzip /tmp/tratos-console.zip -d /tmp/stratos
+unzip /tmp/stratos-console.zip -d /tmp/stratos
 runuser -l stack -c "cf push console -f /tmp/stratos/manifest-docker.yml -k 2G"
 runuser -l stack -c "cf scale console -i 2"
 
