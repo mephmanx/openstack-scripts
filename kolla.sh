@@ -760,7 +760,6 @@ resource "openstack_lb_pool_v2" "cf_http_pool" {
 }
 EOT
 
-
 telegram_notify  "Executing env prep script..."
 runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init"
 echo "error" > /tmp/terraf-bbl.out
