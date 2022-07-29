@@ -77,6 +77,10 @@ if [ ! -f "/tmp/cf-templates.zip" ]; then
   wget -O /tmp/cf-templates.zip "${BOSH_OPENSTACK_ENVIRONMENT_TEMPLATES}"
 fi
 
+if [ ! -f "/tmp/stratos-console.zip" ]; then
+  wget -O /tmp/stratos-console.zip "${STRATUS_APP}"
+fi
+
 if [ ! -f "/tmp/cf_deployment-$CF_DEPLOY_VERSION.zip" ]; then
   wget -O /tmp/cf_deployment-"$CF_DEPLOY_VERSION".zip "${CF_DEPLOYMENT}"
 fi

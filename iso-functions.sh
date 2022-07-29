@@ -135,6 +135,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/openstack-setup/openstack-env.sh'
                 '/tmp/cf-templates.zip'
+                '/tmp/stratos-console.zip'
                 "/tmp/cf_deployment-$CF_DEPLOY_VERSION.zip"
                 '/tmp/openstack-scripts/project_config.sh'
                 "/tmp/bosh-$STEMCELL_STAMP.tgz")

@@ -153,3 +153,6 @@ export DOCKER_COMPOSE="https://github.com/docker/compose/releases/download/$DOCK
 
 ## cirros test image
 export CIRROS_IMAGE_URL="https://github.com/cirros-dev/cirros/releases/download/0.5.1/cirros-0.5.1-x86_64-disk.img"
+
+## stratos console
+export STRATUS_APP="https://github.com/cloudfoundry/stratos/archive/master/stratos-app.zip"
