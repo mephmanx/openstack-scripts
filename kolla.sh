@@ -1097,7 +1097,7 @@ chown -R stack /tmp/stratos
 unzip /tmp/stratos-console.zip -d /tmp/stratos
 cd /tmp/stratos/stratos*
 
-runuser -l stack -c "npm install; npm run prebuild-ui --unsafe-perm"
+runuser -l stack -c "cd /tmp/stratos/stratos*; npm install; npm run prebuild-ui --unsafe-perm"
 runuser -l stack -c "cd /tmp/stratos/stratos*; cf push"
 runuser -l stack -c "cf scale console -i 2"
 
