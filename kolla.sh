@@ -1095,7 +1095,10 @@ runuser -l stack -c "cf bind-running-security-group ASG"
 mkdir /tmp/stratos
 chown -R stack /tmp/stratos
 unzip /tmp/stratos-console.zip -d /tmp/stratos
-runuser -l stack -c "cf push console -f /tmp/stratos/manifest-docker.yml -k 2G"
+cd /tmp/stratos/stratos*
+
+runuser -l stack -c "npm install; npm run prebuild-ui --unsafe-perm"
+runuser -l stack -c "cd /tmp/stratos/stratos*; cf push"
 runuser -l stack -c "cf scale console -i 2"
 
 ## Stratos complete!
