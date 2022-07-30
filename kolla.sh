@@ -1001,7 +1001,7 @@ cat > /opt/stack/asg.json <<EOF
   },
   {
     "protocol": "tcp",
-    "destination": "10.1.0.0/24",
+    "destination": "10.0.200.0/24",
     "ports": "$cf_tcp_ports",
     "log": true,
     "description": "Allow http and https traffic to Gateway Net"
