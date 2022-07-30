@@ -29,7 +29,7 @@ export UBUNTU_VERSION="18.04"
 export UBUNTU_RELEASE_NAME="bionic"
 export AMPHORA_VERSION="1.0.2"
 export TROVE_DB_VERSION="xena"
-export CF_DEPLOY_VERSION="v21.2.0"
+export CF_DEPLOY_VERSION="v21.7.0"
 export STEMCELL_STAMP="05-03-2022"
 export OPENSTACK_VERSION="wallaby"
 
