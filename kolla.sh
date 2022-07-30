@@ -1092,13 +1092,14 @@ runuser -l stack -c "cf bind-running-security-group ASG"
 #    -n" > /tmp/prometheus-install.log
 
 #push stratos
+yum install -y git
 mkdir /tmp/stratos
-chown -R stack /tmp/stratos
 unzip /tmp/stratos-console.zip -d /tmp/stratos
+chown -R stack /tmp/stratos/stratos*
 cd /tmp/stratos/stratos*
-
-runuser -l stack -c "cd /tmp/stratos/stratos*; npm install; npm run prebuild-ui --unsafe-perm"
-runuser -l stack -c "cd /tmp/stratos/stratos*; cf push"
+npm install --unsafe-perm
+npm run prebuild-ui
+runuser -l stack -c "export CF_STAGING_TIMEOUT=45; cd /tmp/stratos/stratos*; cf push"
 runuser -l stack -c "cf scale console -i 2"
 
 ## Stratos complete!
