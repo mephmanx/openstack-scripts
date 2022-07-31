@@ -226,6 +226,14 @@ telegram_notify  "All Openstack VM's came up properly and are ready for install.
 kolla-ansible octavia-certificates
 ###########
 
+##### get keytab for designate_admin user to add to all 3 control nodes
+#echo "$ADMIN_PWD" | kinit admin
+#DESIGNATE_ADMIN_PWD=$(generate_pwd 31)
+#echo "$DESIGNATE_ADMIN_PWD" | /usr/bin/ipa user-add --first=Firstname --last=Lastname designate_admin --password
+#/usr/bin/ipa group-add-member admins --users=designate_admin
+#ipa-getkeytab -s identity.cloud.local -p designate_admin@CLOUD.LOCAL -k /tmp/designate.keytab
+######
+
 #### run host trust on all nodes
 file=/tmp/host_list
 echo "runuser -l root -c  \"echo \$(ip -f inet addr show eth0 | grep inet | awk -F' ' '{ print \$2 }' | cut -d '/' -f1) download.docker.com >> /etc/hosts;\"" | cat - /tmp/host-trust.sh > temp && mv -f temp /tmp/host-trust.sh
