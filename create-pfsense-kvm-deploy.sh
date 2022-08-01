@@ -84,7 +84,7 @@ sleep 30;
   sleep 10;
   echo "chmod 777 /mnt/root/*.sh";
   sleep 10;
-  echo "cp /tmp/test-mnt/repo.tar /mnt/root";
+  echo "cp /tmp/test-mnt/repo.tar /mnt/root/repo.tar";
   sleep 30;
   echo "cd /mnt/root";
   sleep 5;
