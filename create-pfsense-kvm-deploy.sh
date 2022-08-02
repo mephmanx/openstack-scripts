@@ -88,7 +88,7 @@ sleep 30;
   sleep 30;
   echo "cd /mnt/root";
   sleep 5;
-  echo "sed -i '' 's/ :setenv=BLOCKSIZE=K:\// :setenv=BLOCKSIZE=K:\/,REPOS_DIR=\/tmp\/repo-dir/g' /etc/login.conf";
+  echo "yes | cp /tmp/test-mnt/pfSense-repo.conf /usr/local/etc/pkg/repos/pfSense.conf; yes | cp /tmp/test-mnt/pfSense-repo.conf /usr/local/share/pfSense/pfSense-repo.conf; yes | cp /tmp/test-mnt/pfSense-repo.conf /usr/local/share/pfSense/pkg/repos/pfSense-repo.conf";
   echo 10;
   echo "mkdir /mnt/tmp/repo-dir";
   echo 10;
