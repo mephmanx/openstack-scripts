@@ -90,6 +90,10 @@ sleep 30;
   sleep 5;
   echo "sed -i '' 's/ :setenv=BLOCKSIZE=K:\// :setenv=BLOCKSIZE=K:\/,REPOS_DIR=\/tmp/repo-dir/g' /etc/login.conf";
   echo 10;
+  echo "mkdir /mnt/tmp/repo-dir";
+  echo 10;
+  echo "tar xf /mnt/root/repo.tar -C /mnt/tmp/repo-dir/";
+  echo 30;
   echo "./init.sh";
   sleep 10;
  ) | telnet
