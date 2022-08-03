@@ -894,7 +894,7 @@ send "bbl ssh --director\r"
 expect "yes/no"
 send -- "yes\r"
 expect "bosh/0"
-send -- "echo '$GATEWAY_ROUTER_IP $INTERNAL_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; echo '$GATEWAY_ROUTER_IP $EXTERNAL_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; exit;\r"
+send -- "echo '$SUPPORT_VIP $SUPPORT_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; echo '$GATEWAY_ROUTER_IP $INTERNAL_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; echo '$GATEWAY_ROUTER_IP $EXTERNAL_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; exit;\r"
 expect "closed."
 exit;
 expect eof
