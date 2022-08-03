@@ -21,9 +21,9 @@ sleep 30
 
 ## kill serving keys on identity
 #When finished with CA and key files, send signal to identity server to kill signal http server
-curl -o /tmp/subca.cert http://$IDENTITY_VIP:$IDENTITY_SIGNAL/subca.cert
-curl -o /tmp/subca.key http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.key
-curl -X POST -o /tmp/identity_kill_response.txt http://$IDENTITY_VIP:22222
+curl -o /tmp/subca.cert http://"$IDENTITY_VIP":"$IDENTITY_SIGNAL"/subca.cert
+curl -o /tmp/subca.key http://"$IDENTITY_VIP":"$IDENTITY_SIGNAL"/sub-ca.key
+curl -X POST -o /tmp/identity_kill_response.txt http://"$IDENTITY_VIP":22222
 #######
 
 #####  setup global VIPs
@@ -42,7 +42,7 @@ cd "$working_dir" || exit
 ADMIN_PWD={CENTOS_ADMIN_PWD_123456789012}
 
 ########### set up registry connection to docker hub
-export etext=`echo -n "admin:$ADMIN_PWD" | base64`
+etext=$(echo -n "admin:$ADMIN_PWD" | base64)
 curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/registries" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
@@ -63,7 +63,7 @@ curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/projects" \
   --header "host: $SUPPORT_VIP_DNS" \
   --data-binary "{\"project_name\":\"cloudfoundry\",\"registry_id\":1,\"metadata\":{\"public\":\"true\"},\"storage_limit\":-1}"
 
-status_code=$(curl https://$SUPPORT_VIP_DNS/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
+status_code=$(curl https://"$SUPPORT_VIP_DNS"/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
 
 if [[ "$status_code" -ne 200 ]] ; then
   telegram_notify  "Harbor install failed!"
@@ -140,54 +140,54 @@ do
   docker run \
     --rm \
     -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-    $KOLLA_SWIFT_BASE_IMAGE \
+    "$KOLLA_SWIFT_BASE_IMAGE" \
     swift-ring-builder \
       /etc/kolla/config/swift/object.builder create 10 1 1
   for i in $(seq 0 $drive_count); do
     docker run \
       --rm \
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-      $KOLLA_SWIFT_BASE_IMAGE \
+      "$KOLLA_SWIFT_BASE_IMAGE" \
       swift-ring-builder \
-        /etc/kolla/config/swift/object.builder add r1z1-${KOLLA_INTERNAL_ADDRESS}:6000/d${i} 1;
+        /etc/kolla/config/swift/object.builder add r1z1-"${KOLLA_INTERNAL_ADDRESS}":6000/d"${i}" 1;
   done
   # Account ring
   docker run \
     --rm \
     -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-    $KOLLA_SWIFT_BASE_IMAGE \
+    "$KOLLA_SWIFT_BASE_IMAGE" \
     swift-ring-builder \
       /etc/kolla/config/swift/account.builder create 10 1 1
   for i in $(seq 0 $drive_count); do
     docker run \
       --rm \
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-      $KOLLA_SWIFT_BASE_IMAGE \
+      "$KOLLA_SWIFT_BASE_IMAGE" \
       swift-ring-builder \
-        /etc/kolla/config/swift/account.builder add r1z1-${KOLLA_INTERNAL_ADDRESS}:6001/d${i} 1;
+        /etc/kolla/config/swift/account.builder add r1z1-"${KOLLA_INTERNAL_ADDRESS}":6001/d"${i}" 1;
   done
   # Container ring
   docker run \
     --rm \
     -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-    $KOLLA_SWIFT_BASE_IMAGE \
+    "$KOLLA_SWIFT_BASE_IMAGE" \
     swift-ring-builder \
       /etc/kolla/config/swift/container.builder create 10 1 1
   for i in $(seq 0 $drive_count); do
     docker run \
       --rm \
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-      $KOLLA_SWIFT_BASE_IMAGE \
+      "$KOLLA_SWIFT_BASE_IMAGE" \
       swift-ring-builder \
-        etc/kolla/config/swift/container.builder add r1z1-${KOLLA_INTERNAL_ADDRESS}:6002/d${i} 1;
+        etc/kolla/config/swift/container.builder add r1z1-"${KOLLA_INTERNAL_ADDRESS}":6002/d"${i}" 1;
   done
   for ring in object account container; do
     docker run \
       --rm \
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-      $KOLLA_SWIFT_BASE_IMAGE \
+      "$KOLLA_SWIFT_BASE_IMAGE" \
       swift-ring-builder \
-        /etc/kolla/config/swift/${ring}.builder rebalance;
+        /etc/kolla/config/swift/"${ring}".builder rebalance;
   done
 done < /tmp/storage_hosts
 rm -rf /tmp/storage_hosts
@@ -198,7 +198,7 @@ rm -rf /tmp/storage_hosts
 host_count_str=`cat /tmp/host_count`
 
 test_loop_count=0
-printf -v host_count '%d' $host_count_str 2>/dev/null
+printf -v host_count '%d' "$host_count_str" 2>/dev/null
 ansible -m ping all -i /etc/kolla/multinode > /tmp/ping.txt
 # shellcheck disable=SC2006
 ct=`grep -o -i SUCCESS /tmp/ping.txt | wc -l`
@@ -213,10 +213,10 @@ while [ "$ct" != $host_count ]; do
   echo "hosts to check -> $host_count current hosts up -> $ct"
 
   ############ add keys
-  working_dir=`pwd`
+  working_dir=$(pwd)
   chmod +x /tmp/host-trust.sh
   runuser -l root -c  'cd /tmp; ./host-trust.sh'
-  cd $working_dir
+  cd "$working_dir" || exit
 
   sleep 10
   ((test_loop_count++))
@@ -249,10 +249,10 @@ kolla-ansible octavia-certificates
 #### run host trust on all nodes
 file=/tmp/host_list
 echo "runuser -l root -c  \"echo \$(ip -f inet addr show eth0 | grep inet | awk -F' ' '{ print \$2 }' | cut -d '/' -f1) download.docker.com >> /etc/hosts;\"" | cat - /tmp/host-trust.sh > temp && mv -f temp /tmp/host-trust.sh
-for i in `cat $file`
+for i in $(cat $file)
 do
   echo "$i"
-  scp /tmp/host-trust.sh root@$i:/tmp
+  scp /tmp/host-trust.sh root@"$i":/tmp
   runuser -l root -c "ssh root@$i 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
 done
 rm -rf /tmp/host_trust
@@ -261,7 +261,7 @@ rm -rf /tmp/host_trust
 ## try changing in /opt/stack/venv/share/kolla-ansible
 ### replace all instances of https://download.docker.com with http://download.docker.com:8081 to pull from cache
 pwd=$(pwd)
-cd /opt/stack/venv/share/kolla-ansible
+cd /opt/stack/venv/share/kolla-ansible || exit
 find ./ -type f -exec sed -i 's/https:\/\/download.docker.com/http:\/\/download.docker.com:8081/g' {} \;
 cd "$pwd" || exit
 
@@ -279,11 +279,11 @@ telegram_notify  "Analyzing Kolla Openstack configuration and pull docker images
 
 ## look for any failures and run again if any fail.   continue until cache is full or 10 tries are made
 cache_ct=10
-cache_out=`kolla-ansible -i /etc/kolla/multinode pull`
-failure_occur=`echo $cache_out | grep -o 'FAILED' | wc -l`
-while [ $failure_occur -gt 0 ]; do
-  cache_out=`kolla-ansible -i /etc/kolla/multinode pull`
-  failure_occur=`echo $cache_out | grep -o 'FAILED' | wc -l`
+cache_out=$(kolla-ansible -i /etc/kolla/multinode pull)
+failure_occur=$(echo "$cache_out" | grep -o 'FAILED' | wc -l)
+while [ "$failure_occur" -gt 0 ]; do
+  cache_out=$(kolla-ansible -i /etc/kolla/multinode pull)
+  failure_occur=$(echo "$cache_out" | grep -o 'FAILED' | wc -l)
   if [[ $cache_ct == 0 ]]; then
     telegram_notify  "Cache prime failed after 10 retries, failing.  Check logs to resolve issue."
     exit 1
@@ -313,7 +313,7 @@ telegram_notify  "Openstack Kolla Ansible deploy task execution begun....."
 kolla-ansible -i /etc/kolla/multinode deploy
 
 ### grab last set of lines from log to send
-LOG_TAIL=`tail -25 /tmp/openstack-install.log`
+LOG_TAIL=$(tail -25 /tmp/openstack-install.log)
 ###
 
 kolla-ansible post-deploy
@@ -321,15 +321,15 @@ kolla-ansible post-deploy
 telegram_debug_msg  "End of Openstack Install log -> $LOG_TAIL"
 telegram_notify  "Openstack Kolla Ansible deploy task execution complete.  Performing post install tasks....."
 #stupid hack
-working_dir=`pwd`
+working_dir=$(pwd)
 chmod +x /tmp/control-trust.sh
 runuser -l root -c  'cd /tmp; ./control-trust.sh'
-cd $working_dir
+cd "$working_dir" || exit
 rm -rf /tmp/control-trust.sh
 
 #load setup for validator
 export REQUESTS_CA_BUNDLE=/etc/ipa/ca.crt
-cd /etc/kolla
+cd /etc/kolla || exit
 . ./admin-openrc.sh
 sleep 180
 
@@ -341,30 +341,30 @@ sleep 180
 #openstack endpoint create --region us-east volumev2 admin http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
 #############
 
-cd /opt/stack/venv/share/kolla-ansible
+cd /opt/stack/venv/share/kolla-ansible || exit
 mkdir -p /opt/cache/files
 cp /tmp/cirros-0.5.1-x86_64-disk.img /opt/cache/files
 ./init-runonce
 
 export HOME=/home/stack
-cd /tmp
+cd /tmp || exit
 
 ### trove setup
 export TROVE_CIDR="$TROVE_NETWORK.0/24"
 export TROVE_RANGE="start=$TROVE_DHCP_START,end=$TROVE_DHCP_END"
 export TROVE_GATEWAY="$TROVE_NETWORK.1"
 
-openstack image create trove-master-guest-ubuntu --private --disk-format qcow2 --container-format bare --tag trove --tag mysql --tag mariadb --tag postgresql --file /tmp/trove_db-$TROVE_DB_VERSION.img
-openstack image create trove-base --disk-format qcow2 --container-format bare --file /tmp/trove_instance-$UBUNTU_VERSION.img
+openstack image create trove-master-guest-ubuntu --private --disk-format qcow2 --container-format bare --tag trove --tag mysql --tag mariadb --tag postgresql --file /tmp/trove_db-"$TROVE_DB_VERSION".img
+openstack image create trove-base --disk-format qcow2 --container-format bare --file /tmp/trove_instance-"$UBUNTU_VERSION".img
 
-test=`openstack image show 'trove-base'`
+test=$(openstack image show 'trove-base')
 if [[ "No Image found" == *"$test"* ]]; then
   telegram_notify  "Trove base image install failed! Please review!"
   exit 1
 fi
 
 openstack network create trove-net
-openstack subnet create --subnet-range $TROVE_CIDR  --gateway $TROVE_GATEWAY --network trove-net --allocation-pool $TROVE_RANGE --dns-nameserver $IDENTITY_VIP trove-subnet0
+openstack subnet create --subnet-range "$TROVE_CIDR"  --gateway "$TROVE_GATEWAY" --network trove-net --allocation-pool "$TROVE_RANGE" --dns-nameserver "$IDENTITY_VIP" trove-subnet0
 
 openstack router create trove-router
 openstack router set --external-gateway public1 trove-router
@@ -375,7 +375,7 @@ openstack router add subnet trove-router trove-subnet0
 openstack image create \
                       --disk-format=qcow2 \
                       --container-format=bare \
-                      --file=/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2 \
+                      --file=/tmp/magnum-"$MAGNUM_IMAGE_VERSION".qcow2 \
                       --property os_distro='fedora-atomic' \
                       fedora-atomic-latest
 
@@ -385,7 +385,7 @@ telegram_notify  "Magnum image installed, continuing install..."
 openstack coe cluster template create swarm-cluster-template \
           --image fedora-atomic-latest \
           --external-network public1 \
-          --dns-nameserver $IDENTITY_VIP \
+          --dns-nameserver "$IDENTITY_VIP" \
           --network-driver docker \
           --docker-storage-driver overlay2 \
           --docker-volume-size 10 \
@@ -412,13 +412,13 @@ OPENSTACK_CLOUDFOUNDRY_PWD=$(generate_pwd 31)
 export OPENSTACK_CLOUDFOUNDRY_USERNAME=osuser
 
 openstack project create cloudfoundry
-openstack user create $OPENSTACK_CLOUDFOUNDRY_USERNAME --project cloudfoundry --password $OPENSTACK_CLOUDFOUNDRY_PWD
-openstack role add --project cloudfoundry --project-domain default --user $OPENSTACK_CLOUDFOUNDRY_USERNAME --user-domain default admin
+openstack user create "$OPENSTACK_CLOUDFOUNDRY_USERNAME" --project cloudfoundry --password "$OPENSTACK_CLOUDFOUNDRY_PWD"
+openstack role add --project cloudfoundry --project-domain default --user "$OPENSTACK_CLOUDFOUNDRY_USERNAME" --user-domain default admin
 
 ##### quota configuration
 ## get max available memory
-memStr=`runuser -l root -c "ssh root@compute01 'cat /proc/meminfo | grep MemTotal'"`
-mem=`echo $memStr | awk -F' ' '{ print $2 }'`
+memStr=$(runuser -l root -c "ssh root@compute01 'cat /proc/meminfo | grep MemTotal'")
+mem=$(echo "$memStr" | awk -F' ' '{ print $2 }')
 ### allocation for openstack docker processes & os
 quotaRam=$((mem / 1024 - 8000))
 
@@ -427,12 +427,12 @@ cat > /tmp/cpu_count.sh <<EOF
 grep -c ^processor /proc/cpuinfo
 EOF
 scp /tmp/cpu_count.sh root@compute01:/tmp
-CPU_COUNT=`runuser -l root -c "ssh root@compute01 'chmod +x /tmp/cpu_count.sh; cd /tmp; ./cpu_count.sh'"`
+CPU_COUNT=$(runuser -l root -c "ssh root@compute01 'chmod +x /tmp/cpu_count.sh; cd /tmp; ./cpu_count.sh'")
 
 ## get cinder volume size
-cinder_vol_size="`runuser -l root -c "ssh root@compute01 'df -h / --block-size G' | sed 1d"`"
+cinder_vol_size="$(runuser -l root -c "ssh root@compute01 'df -h / --block-size G' | sed 1d")"
 cinder_quota=$(echo "$cinder_vol_size" | awk '{print $4}' | tr -d '<G')
-cinder_q=`printf "%.${2:-0}f" "$cinder_quota"`
+cinder_q=$(printf "%.${2:-0}f" "$cinder_quota")
 ## overcommit scale by 10
 openstack quota set --cores $((CPU_COUNT * 3)) cloudfoundry
 
@@ -442,7 +442,7 @@ openstack quota set --ram $quotaRam cloudfoundry
 openstack quota set --secgroups 100 cloudfoundry
 openstack quota set --secgroup-rules 200 cloudfoundry
 openstack quota set --volumes 100 cloudfoundry
-openstack quota set --gigabytes $cinder_q cloudfoundry
+openstack quota set --gigabytes "$cinder_q" cloudfoundry
 ###########
 
 ### octavia quotas
@@ -546,11 +546,11 @@ openstack image create amphora-x64-haproxy \
   --disk-format qcow2 \
   --tag amphora \
   --private \
-  --file /tmp/amphora-x64-haproxy-$OPENSTACK_VERSION-$AMPHORA_VERSION.qcow2 \
+  --file /tmp/amphora-x64-haproxy-"$OPENSTACK_VERSION-$AMPHORA_VERSION".qcow2 \
   --property hw_architecture='x86_64' \
   --property hw_rng_model=virtio
 
-test=`openstack image show 'amphora-x64-haproxy'`
+test=$(openstack image show 'amphora-x64-haproxy')
 if [[ "No Image found" == *"$test"* ]]; then
   telegram_notify  "Amphora image install failed! Please review!"
   exit 1
@@ -569,6 +569,7 @@ telegram_notify  "Starting Homebrew install...."
 runuser -l root -c  'mkdir -p /home/linuxbrew'
 runuser -l root -c  "tar -xf /tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar -C /home/linuxbrew"
 runuser -l stack -c  "echo 'PATH=$PATH:/home/linuxbrew/.linuxbrew/bin' >> /opt/stack/.bash_profile"
+# shellcheck disable=SC2016
 runuser -l stack -c  'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> /opt/stack/.bash_profile'
 runuser -l root -c  'chown -R stack /home/linuxbrew/.linuxbrew/Cellar /home/linuxbrew/.linuxbrew/Homebrew /home/linuxbrew/.linuxbrew/bin /home/linuxbrew/.linuxbrew/etc /home/linuxbrew/.linuxbrew/etc/bash_completion.d /home/linuxbrew/.linuxbrew/include /home/linuxbrew/.linuxbrew/lib /home/linuxbrew/.linuxbrew/lib/pkgconfig /home/linuxbrew/.linuxbrew/opt /home/linuxbrew/.linuxbrew/sbin /home/linuxbrew/.linuxbrew/share /home/linuxbrew/.linuxbrew/share/doc /home/linuxbrew/.linuxbrew/share/info /home/linuxbrew/.linuxbrew/share/man /home/linuxbrew/.linuxbrew/share/man/man1 /home/linuxbrew/.linuxbrew/share/man/man3 /home/linuxbrew/.linuxbrew/share/man/man7 /home/linuxbrew/.linuxbrew/share/zsh /home/linuxbrew/.linuxbrew/share/zsh/site-functions /home/linuxbrew/.linuxbrew/var/homebrew/linked /home/linuxbrew/.linuxbrew/var/homebrew/locks'
 runuser -l root -c  'chmod u+w /home/linuxbrew/.linuxbrew/Cellar /home/linuxbrew/.linuxbrew/Homebrew /home/linuxbrew/.linuxbrew/bin /home/linuxbrew/.linuxbrew/etc /home/linuxbrew/.linuxbrew/etc/bash_completion.d /home/linuxbrew/.linuxbrew/include /home/linuxbrew/.linuxbrew/lib /home/linuxbrew/.linuxbrew/lib/pkgconfig /home/linuxbrew/.linuxbrew/opt /home/linuxbrew/.linuxbrew/sbin /home/linuxbrew/.linuxbrew/share /home/linuxbrew/.linuxbrew/share/doc /home/linuxbrew/.linuxbrew/share/info /home/linuxbrew/.linuxbrew/share/man /home/linuxbrew/.linuxbrew/share/man/man1 /home/linuxbrew/.linuxbrew/share/man/man3 /home/linuxbrew/.linuxbrew/share/man/man7 /home/linuxbrew/.linuxbrew/share/zsh /home/linuxbrew/.linuxbrew/share/zsh/site-functions /home/linuxbrew/.linuxbrew/var/homebrew/linked /home/linuxbrew/.linuxbrew/var/homebrew/locks'
@@ -662,7 +663,7 @@ runuser -l stack -c  "echo ' -o /opt/stack/bosh-deployment/misc/no-internet-acce
 
 ### deploy bosh!
 echo "error" > /tmp/bbl_up.log
-bbl_error_count=`grep -i "error" /tmp/bbl_up.log | wc -l`
+bbl_error_count=$(grep -i "error" /tmp/bbl_up.log | wc -l)
 bbl_retry_count=5
 if [[ $bbl_error_count -gt 0 ]]; then
   while [ $bbl_retry_count -gt 0 ]; do
@@ -670,7 +671,7 @@ if [[ $bbl_error_count -gt 0 ]]; then
     echo "" > /tmp/bbl_up.log
     chown -R stack /tmp/bbl_up.log
     runuser -l stack -c  'bbl up --debug > /tmp/bbl_up.log 2>&1'
-    bbl_error_count=`grep -i "error" /tmp/bbl_up.log | wc -l`
+    bbl_error_count=$(grep -i "error" /tmp/bbl_up.log | wc -l)
     if [[ $bbl_error_count == 0 ]]; then
       break
     fi
@@ -684,12 +685,12 @@ telegram_notify  "BOSH jumpbox and director installed, loading terraform cf for 
 #### prepare env for cloudfoundry
 unzip /tmp/cf-templates.zip -d /tmp/bosh-openstack-environment-templates
 mv /tmp/bosh-openstack-environment-templates/bosh-openstack-environment-templates-master/* /tmp/bosh-openstack-environment-templates
-cd /tmp/bosh-openstack-environment-templates
+cd /tmp/bosh-openstack-environment-templates || exit
 chown -R stack cf-deployment-tf/
-cd cf-deployment-tf
-cp /tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip ./
+cd cf-deployment-tf || exit
+cp /tmp/terraform_cf-"$CF_ATTIC_TERRAFORM_VERSION".zip ./
 
-unzip terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip
+unzip terraform_cf-"$CF_ATTIC_TERRAFORM_VERSION".zip
 chmod +x terraform
 chown -R stack terraform
 
@@ -707,7 +708,7 @@ availability_zones = ["nova"]
 ext_net_name = "public1"
 
 # the OpenStack router id which can be used to access the BOSH network
-bosh_router_id = "`openstack router list --project cloudfoundry | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }'`"
+bosh_router_id = "$(openstack router list --project cloudfoundry | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')"
 
 # in case Openstack has its own DNS servers
 dns_nameservers = ["$IDENTITY_VIP"]
@@ -723,7 +724,7 @@ EOF
 telegram_notify  "Executing env prep script..."
 runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init"
 echo "error" > /tmp/terraf-bbl.out
-tf_error_count=`grep -i "error" /tmp/terraf-bbl.out | wc -l`
+tf_error_count=$(grep -i "error" /tmp/terraf-bbl.out | wc -l)
 tf_retry_count=5
 if [[ $tf_error_count -gt 0 ]]; then
   while [ $tf_retry_count -gt 0 ]; do
@@ -731,7 +732,7 @@ if [[ $tf_error_count -gt 0 ]]; then
     echo "" > /tmp/terraf-bbl.out
     chown -R stack /tmp/terraf-bbl.out
     runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /tmp/terraf-bbl.out 2>&1"
-    tf_error_count=`grep -i "error" /tmp/terraf-bbl.out | wc -l`
+    tf_error_count=$(grep -i "error" /tmp/terraf-bbl.out | wc -l)
     if [[ $tf_error_count == 0 ]]; then
       break
     else
@@ -745,23 +746,23 @@ fi
 sleep 30;
 ### update cf-lb to preconfigured address
 LB_FIXED_IP="$CLOUDFOUNDRY_VIP"
-LB_PROJECT_ID=`openstack loadbalancer show cf-lb -f value -c project_id`
-LB_VIP_ADDRESS=`openstack loadbalancer show cf-lb -f value -c vip_address`
-LB_VIP_PORT_ID=`openstack loadbalancer show cf-lb -f value -c vip_port_id`
-LB_FLOATING_IP=`openstack floating ip list -f value -c "Floating IP Address" -c "Fixed IP Address" | grep ${LB_VIP_ADDRESS} | cut -d" " -f1`
-LB_FIP_SUBNET=`openstack subnet show  public1-subnet -f value -c id`
-LB_FIP_NETWORK_ID=`openstack network show public1 -f value -c id`
+LB_PROJECT_ID=$(openstack loadbalancer show cf-lb -f value -c project_id)
+LB_VIP_ADDRESS=$(openstack loadbalancer show cf-lb -f value -c vip_address)
+LB_VIP_PORT_ID=$(openstack loadbalancer show cf-lb -f value -c vip_port_id)
+LB_FLOATING_IP=$(openstack floating ip list -f value -c "Floating IP Address" -c "Fixed IP Address" | grep "${LB_VIP_ADDRESS}" | cut -d" " -f1)
+LB_FIP_SUBNET=$(openstack subnet show  public1-subnet -f value -c id)
+LB_FIP_NETWORK_ID=$(openstack network show public1 -f value -c id)
 
-openstack floating ip delete ${LB_FLOATING_IP}
-openstack floating ip create --subnet ${LB_FIP_SUBNET} \
-                              --project ${LB_PROJECT_ID} \
-                              --port ${LB_VIP_PORT_ID} \
-                              --fixed-ip-address ${LB_VIP_ADDRESS} \
-                              --floating-ip-address ${LB_FIXED_IP} ${LB_FIP_NETWORK_ID}
+openstack floating ip delete "${LB_FLOATING_IP}"
+openstack floating ip create --subnet "${LB_FIP_SUBNET}" \
+                              --project "${LB_PROJECT_ID}" \
+                              --port "${LB_VIP_PORT_ID}" \
+                              --fixed-ip-address "${LB_VIP_ADDRESS}" \
+                              --floating-ip-address "${LB_FIXED_IP}" "${LB_FIP_NETWORK_ID}"
 ###
 
 telegram_notify  "Env prep script complete, pulling CF deployment repo...."
-unzip /tmp/cf_deployment-$CF_DEPLOY_VERSION.zip -d /tmp/cf-deployment
+unzip /tmp/cf_deployment-"$CF_DEPLOY_VERSION".zip -d /tmp/cf-deployment
 mv /tmp/cf-deployment/cf-deployment-main/* /tmp/cf-deployment
 chown -R stack /tmp/cf-deployment
 
@@ -776,9 +777,9 @@ $SWIFT_KEY
 EOF
 
 swift post -m "Temp-URL-Key:$SWIFT_KEY" \
-            -A http://$INTERNAL_VIP_DNS:5000/v3 \
-            -U $OPENSTACK_CLOUDFOUNDRY_USERNAME \
-            -K $OPENSTACK_CLOUDFOUNDRY_PWD \
+            -A http://"$INTERNAL_VIP_DNS":5000/v3 \
+            -U "$OPENSTACK_CLOUDFOUNDRY_USERNAME" \
+            -K "$OPENSTACK_CLOUDFOUNDRY_PWD" \
             -V 3 \
             --os-project-name cloudfoundry \
             --os-project-domain-name default
@@ -795,23 +796,23 @@ runuser -l stack -c  "source /opt/stack/.bash_profile"
 
 ### push cached stemcells to cloud
 stemcell_path="/tmp/stemcell-*-$STEMCELL_STAMP.tgz"
-chown -R stack /tmp/stemcell-*-$STEMCELL_STAMP.tgz
+chown -R stack /tmp/stemcell-*-"$STEMCELL_STAMP".tgz
 
 for stemcell in $stemcell_path; do
   echo "queued" > /tmp/stemcell-upload.log
-  queued_count=`grep -i "queued" /tmp/stemcell-upload.log | wc -l`
-  while [ $queued_count -gt 0 ]; do
+  queued_count=$(grep -i "queued" /tmp/stemcell-upload.log | wc -l)
+  while [ "$queued_count" -gt 0 ]; do
     rm -rf /tmp/stemcell-upload.log
     IFS=$'\n'
     for image in $(openstack image list | grep 'queued' | awk -F'|' '{ print $2 }' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }'); do
-      openstack image delete $image
+      openstack image delete "$image"
     done
     runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
                               chmod +x /tmp/bbl_env.sh; \
                               source /tmp/bbl_env.sh; \
                               bosh upload-stemcell $stemcell"
     runuser -l stack -c "openstack image list | grep 'queued'" > /tmp/stemcell-upload.log
-    queued_count=`grep -i "queued" /tmp/stemcell-upload.log | wc -l`
+    queued_count=$(grep -i "queued" /tmp/stemcell-upload.log | wc -l)
     sleep 30
   done
   rm -rf /tmp/stemcell-upload.log
@@ -831,9 +832,9 @@ openstack security group create bosh
 openstack security group rule create --proto tcp --dst-port 22:22 bosh
 openstack security group rule create --proto tcp --dst-port 6868:6868 bosh
 openstack security group rule create --proto tcp --dst-port 25555:25555 bosh
-openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group $(openstack security group show bosh | grep id | head -n 1 | cut -d"|" -f3 | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }') bosh
-openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group $(openstack security group show cf | grep id | head -n 1 | cut -d"|" -f3 | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }') bosh
-openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group $(openstack security group show bosh | grep id | head -n 1 | cut -d"|" -f3 | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }') cf
+openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group "$(openstack security group show bosh | grep id | head -n 1 | cut -d"|" -f3 | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')" bosh
+openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group "$(openstack security group show cf | grep id | head -n 1 | cut -d"|" -f3 | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')" bosh
+openstack security group rule create --proto tcp --dst-port 1:65535 --remote-group "$(openstack security group show bosh | grep id | head -n 1 | cut -d"|" -f3 | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')" cf
 openstack server add security group bosh/0 bosh
 openstack server add security group bosh/0 cf
 
@@ -841,7 +842,7 @@ openstack server add security group bosh/0 cf
 source /etc/kolla/admin-openrc.sh
 
 ### update runtime and cloud config
-export CF_NET_ID_1=`openstack network list --project cloudfoundry --name cf-z0 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }'`
+CF_NET_ID_1="$(openstack network list --project cloudfoundry --name cf-z0 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')"
 #export CF_NET_ID_2=`openstack network list --project cloudfoundry --name cf-z1 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }'`
 #export CF_NET_ID_3=`openstack network list --project cloudfoundry --name cf-z2 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }'`
 ## modify net id's if AZ's added to terraform script above for HA
@@ -902,10 +903,10 @@ expect eof
 FILEEND
 
 chmod +x /opt/stack/expect.sh
-pwd=`pwd`
-cd /opt/stack
+pwd=$(pwd)
+cd /opt/stack || exit
 ./expect.sh
-cd $pwd
+cd "$pwd" || exit
 #########
 
 ### deploy cloudfoundry
@@ -913,7 +914,7 @@ cd $pwd
 ## would be good to fix but was suggested by community so....
 echo "error" > /tmp/cloudfoundry-install.log
 ### Cloudfoundry install can fail at times.  BOSH can handle this and retry is fine.  Retry a few times and if fail still occurs, alert admin
-error_count=`grep -i "error" /tmp/cloudfoundry-install.log | wc -l`
+error_count=$(grep -i "error" /tmp/cloudfoundry-install.log | wc -l)
 retry_count=5
 if [[ $error_count -gt 0 ]]; then
   while [ $retry_count -gt 0 ]; do
@@ -947,9 +948,9 @@ if [[ $error_count -gt 0 ]]; then
                       /tmp/cf-deployment/cf-deployment.yml \
                       -n" > /tmp/cloudfoundry-install.log
 
-    error_count1=`grep -i "error" /tmp/cloudfoundry-install.log | wc -l`
-    error_count2=`grep -i "Error" /tmp/cloudfoundry-install.log | wc -l`
-    error_count=$(($error_count1 + $error_count2))
+    error_count1=$(grep -i "error" /tmp/cloudfoundry-install.log | wc -l)
+    error_count2=$(grep -i "Error" /tmp/cloudfoundry-install.log | wc -l)
+    error_count=$((error_count1 + error_count2))
     if [[ $error_count == 0 ]]; then
       break
     fi
@@ -960,7 +961,7 @@ if [[ $error_count -gt 0 ]]; then
 fi
 
 ### grab last set of lines from log to send
-LOG_TAIL=`tail -25 /tmp/cloudfoundry-install.log`
+LOG_TAIL=$(tail -25 /tmp/cloudfoundry-install.log)
 ###
 
 ## run volume errand
@@ -991,23 +992,23 @@ runuser -l stack -c "cf target -o 'system' -s 'system'"
 runuser -l stack -c "cf update-quota default -i 2G -m 4G"
 
 ### determine quota formula.  this is memory on compute server to be made available for cloudfoundry org.
-memStrFree=`runuser -l root -c "ssh root@compute01 'cat /proc/meminfo | grep MemFree'"`
-memFree=`echo $memStrFree | awk -F' ' '{ print $2 }'`
+memStrFree=$(runuser -l root -c "ssh root@compute01 'cat /proc/meminfo | grep MemFree'")
+memFree=$(echo "$memStrFree" | awk -F' ' '{ print $2 }')
 memGB=$((memFree / 1024 / 1024 * CF_MEMORY_ALLOCATION_PCT / 100))
-runuser -l stack -c "cf create-quota $INTERNAL_DOMAIN_NAME -i 8096M -m "$memGB"G -r 1000 -s 1000 -a 1000 --allow-paid-service-plans --reserved-route-ports $CF_TCP_PORT_COUNT"
+runuser -l stack -c "cf create-quota $INTERNAL_DOMAIN_NAME -i 8096M -m ${memGB}G -r 1000 -s 1000 -a 1000 --allow-paid-service-plans --reserved-route-ports $CF_TCP_PORT_COUNT"
 runuser -l stack -c "cf set-quota $INTERNAL_DOMAIN_NAME $INTERNAL_DOMAIN_NAME"
 
 ### install security group
 export PT_CT="$CF_TCP_PORT_COUNT"
 export PORTS=()
-while [ $PT_CT -gt -1 ]; do
-  PORTS+=($((1024 + $PT_CT)))
+while [ "$PT_CT" -gt -1 ]; do
+  PORTS+=($((1024 + PT_CT)))
   ((PT_CT--))
 done
 PORTS+=("443")
 PORTS+=("2222")
 printf -v cf_tcp_ports '%s,' "${PORTS[@]}"
-cf_tcp_ports=`echo $cf_tcp_ports | rev | cut -c 2- | rev`
+cf_tcp_ports=$(echo "$cf_tcp_ports" | rev | cut -c 2- | rev)
 cat > /opt/stack/asg.json <<EOF
 [
   {
@@ -1128,12 +1129,12 @@ applications:
     #  LOG_LEVEL: debug
 EOF
 
-docker load < /tmp/stratos-$STRATOS_VERSION.tar
+docker load < /tmp/stratos-"$STRATOS_VERSION".tar
 runuser -l stack -c "cf push -f /tmp/stratos.yml"
 runuser -l stack -c "cf scale console -i 2"
 
 ## Stratos complete!
-rm -rf $CF_HOME
+rm -rf "$CF_HOME"
 telegram_notify  "Stratos deployment complete!  access at console.$INTERNAL_DOMAIN_NAME user -> admin , pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
 
 #### update keystone for ldap, run at the very end as it disables keystone db auth.  disables admin and osuser accounts!
