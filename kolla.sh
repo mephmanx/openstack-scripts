@@ -1110,8 +1110,27 @@ runuser -l stack -c "cf bind-running-security-group ASG"
 #    -n" > /tmp/prometheus-install.log
 
 #push stratos
+cat > /tmp/stratos.yml <<EOF
+applications:
+  - name: console2
+    docker:
+      image: harbor.cloud.local/splatform/stratos:stable
+    instances: 1
+    memory: 128M
+    disk_quota: 384M
+    # services:
+    #   - console_db
+    # env:
+    ## Override CF API endpoint URL inferred from VCAP_APPLICATION env
+    #  CF_API_URL: https://CLOUD_FOUNDRY_API_ENDPOINT
+    ## Force the console to use secured communication with the Cloud Foundry API endpoint
+    #  CF_API_FORCE_SECURE: true
+    ## Turn on backend debugging
+    #  LOG_LEVEL: debug
+EOF
+
 docker load < /tmp/stratos-$STRATOS_VERSION.tar
-runuser -l stack -c "export CF_STAGING_TIMEOUT=45; cf push harbor.cloud.local/splatform/stratos"
+runuser -l stack -c "cf push -f /tmp/stratos.yml"
 runuser -l stack -c "cf scale console -i 2"
 
 ## Stratos complete!
