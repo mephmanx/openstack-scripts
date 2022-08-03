@@ -1004,7 +1004,6 @@ while [ $PT_CT -gt -1 ]; do
   PORTS+=($((1024 + $PT_CT)))
   ((PT_CT--))
 done
-PORTS+=("80")
 PORTS+=("443")
 PORTS+=("2222")
 printf -v cf_tcp_ports '%s,' "${PORTS[@]}"
