@@ -22,7 +22,7 @@ docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:latest" bash -
 ## download files to be embedded
 if [ ! -f "/tmp/amphora-x64-haproxy-$OPENSTACK_VERSION-$AMPHORA_VERSION.qcow2" ]; then
   ############# build octavia image
-  git clone https://opendev.org/openstack/octavia -b stable/$OPENSTACK_VERSION /tmp/octavia
+  git clone https://opendev.org/openstack/octavia -b stable/"$OPENSTACK_VERSION" /tmp/octavia
   chmod +x /tmp/octavia/diskimage-create/diskimage-create.sh
   pwd=$(pwd)
   cd /tmp/octavia/diskimage-create || exit;
@@ -85,7 +85,7 @@ if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
 fi
 
 if [ ! -f "/tmp/stratos-$STRATOS_VERSION.tar" ]; then
-  docker pull splatform/stratos:stable && docker save splatform/stratos:stable >/tmp/stratos-$STRATOS_VERSION.tar
+  docker pull splatform/stratos:stable && docker save splatform/stratos:stable >/tmp/stratos-"$STRATOS_VERSION".tar
 fi
 
 if [ ! -f "/tmp/docker-repo.tar" ]; then
