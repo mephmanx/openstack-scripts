@@ -16,16 +16,6 @@ exec 1>/tmp/openstack-install.log 2>&1 # send stdout and stderr from rc.local to
 sleep 30
 ###########################
 
-### system profile
-tuned-adm profile virtual-guest
-#############
-
-# add stack user with passwordless sudo privs
-add_stack_user
-
-### module recommended on openstack.org
-modprobe vhost_net
-
 ######## Put type specific code
 systemctl stop libvirtd
 systemctl disable libvirtd
@@ -33,10 +23,10 @@ systemctl disable libvirtd
 rm -rf /var/run/libvirt/*sock
 rm -rf /var/run/libvirt/*sock*
 
-##eth0 is octavia mgmt net
+##eth0 is neutron external net
 remove_ip_from_adapter "eth0"
 
-### eth2 is neutron external net
+### eth2 is octavia mgmt net
 remove_ip_from_adapter "eth2"
 ############################
 

@@ -16,16 +16,6 @@ exec 1>/tmp/openstack-install.log 2>&1 # send stdout and stderr from rc.local to
 sleep 30
 ###########################
 
-### system profile
-tuned-adm profile virtual-guest
-#############
-
-# add stack user with passwordless sudo privs
-add_stack_user
-
-### module recommended on openstack.org
-modprobe vhost_net
-
 ######## Put type specific code
 
 ############################

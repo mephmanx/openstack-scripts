@@ -24,16 +24,7 @@ sleep 30
 curl -o /tmp/subca.cert http://$IDENTITY_VIP:$IDENTITY_SIGNAL/subca.cert
 curl -o /tmp/subca.key http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.key
 curl -X POST -o /tmp/identity_kill_response.txt http://$IDENTITY_VIP:22222
-#
-### system profile
-tuned-adm profile virtual-guest
-#############
-
-# add stack user with passwordless sudo privs
-add_stack_user
-
-### module recommended on openstack.org
-modprobe vhost_net
+#######
 
 #####  setup global VIPs
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
