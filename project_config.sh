@@ -32,6 +32,7 @@ export TROVE_DB_VERSION="xena"
 export CF_DEPLOY_VERSION="v21.7.0"
 export STEMCELL_STAMP="05-03-2022"
 export OPENSTACK_VERSION="wallaby"
+export STRATOS_VERSION="4.4.0"
 
 ### hostnames for infra vms
 export SUPPORT_HOST=harbor;

@@ -76,16 +76,16 @@ if [ ! -f "/tmp/cf-templates.zip" ]; then
   wget -O /tmp/cf-templates.zip "${BOSH_OPENSTACK_ENVIRONMENT_TEMPLATES}"
 fi
 
-if [ ! -f "/tmp/stratos-console.zip" ]; then
-  wget -O /tmp/stratos-console.zip "${STRATUS_APP}"
-fi
-
 if [ ! -f "/tmp/cf_deployment-$CF_DEPLOY_VERSION.zip" ]; then
   wget -O /tmp/cf_deployment-"$CF_DEPLOY_VERSION".zip "${CF_DEPLOYMENT}"
 fi
 
 if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
   wget -O /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" "${DOCKER_COMPOSE}"
+fi
+
+if [ ! -f "/tmp/stratos-$STRATOS_VERSION.tar" ]; then
+  docker pull splatform/stratos:stable && docker save splatform/stratos:stable >/tmp/stratos-$STRATOS_VERSION.tar
 fi
 
 if [ ! -f "/tmp/docker-repo.tar" ]; then
