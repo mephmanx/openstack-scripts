@@ -96,6 +96,8 @@ sleep 30;
   echo 30;
   echo "./init.sh";
   sleep 10;
+  echo "rm -rf init.sh";
+  sleep 10;
  ) | telnet
 
 ## remove install disk from pfsense
