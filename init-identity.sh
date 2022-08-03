@@ -197,8 +197,8 @@ profileId=SubCA
 EOF
 
 ipa certprofile-import SubCA --store=true --file=/tmp/subca.profile --desc="Enrolling subordinate certificate authority certificates"
-ipa host-add --force pfsense.$INTERNAL_DOMAIN_NAME
-ipa service-add --force HTTP/pfsense.$INTERNAL_DOMAIN_NAME
+ipa host-add --force pfsense."$INTERNAL_DOMAIN_NAME"
+ipa service-add --force HTTP/pfsense."$INTERNAL_DOMAIN_NAME"
 
 # build pfsense CA and wildcard cert
 cat > /tmp/sub-ca.cnf <<EOF
@@ -351,7 +351,7 @@ openssl req -config /tmp/sub-ca.cnf -key /tmp/empty_dir/sub-ca.key -out /tmp/sub
 runuser -l root -c  "ssh-keygen -f /tmp/empty_dir/sub-ca.key -y > /tmp/empty_dir/sub-ca.pub"
 
 # fulfill the request
-ipa cert-request --profile-id=SubCA --principal=HTTP/pfsense.$INTERNAL_DOMAIN_NAME /tmp/sub-ca.csr --certificate-out=/tmp/empty_dir/subca.cert
+ipa cert-request --profile-id=SubCA --principal=HTTP/pfsense."$INTERNAL_DOMAIN_NAME" /tmp/sub-ca.csr --certificate-out=/tmp/empty_dir/subca.cert
 
 telegram_notify  "Identity VM ready for use"
 ## signaling to hypervisor that identity is finished

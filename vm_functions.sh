@@ -235,8 +235,8 @@ EOF
 function setup_keys_certs_for_vm() {
   mkdir -p /root/.ssh
   rm -rf /root/.ssh/id_rsa*
-  curl -o /root/.ssh/id_rsa http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.key
-  curl -o /root/.ssh/id_rsa.pub http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.pub
+  curl -o /root/.ssh/id_rsa http://"$IDENTITY_VIP":"$IDENTITY_SIGNAL"/sub-ca.key
+  curl -o /root/.ssh/id_rsa.pub http://"$IDENTITY_VIP":"$IDENTITY_SIGNAL"/sub-ca.pub
   chmod 600 /root/.ssh/id_rsa
   chmod 600 /root/.ssh/id_rsa.pub
 
@@ -256,7 +256,7 @@ function remove_ip_from_adapter() {
 }
 
 function generate_pwd() {
-  echo "$(generate_specific_pwd $1)"
+  generate_specific_pwd "$1"
 }
 
 function generate_random_pwd() {
