@@ -524,6 +524,7 @@ function install_packages_hypervisor() {
 
 function install_python_modules() {
   # update pip to required version
+  # shellcheck disable=SC2016
   sed -i '/export PATH/ i PATH=$PATH:$HOME\/bin:\/usr\/local\/bin' /root/.bash_profile
   source /root/.bash_profile
   ####
