@@ -323,10 +323,10 @@ sleep 180
 
 ## adding cinder v2 endpoints
 ###  Only for Openstack Wallaby and below, CinderV2 is NOT POSSIBLE TO ENABLE on Xena and above!
-openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
-openstack endpoint create --region us-east volumev2 public http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
-openstack endpoint create --region us-east volumev2 internal http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
-openstack endpoint create --region us-east volumev2 admin http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
+#openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
+#openstack endpoint create --region us-east volumev2 public http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
+#openstack endpoint create --region us-east volumev2 internal http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
+#openstack endpoint create --region us-east volumev2 admin http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
 #############
 
 cd /opt/stack/venv/share/kolla-ansible
@@ -554,8 +554,6 @@ telegram_notify  "Amphora image install complete"
 
 #download and configure homebrew to run bbl install
 telegram_notify  "Starting Homebrew install...."
-
-telegram_notify  "Found Homebrew cache, using cache for install...."
 runuser -l root -c  'mkdir -p /home/linuxbrew'
 runuser -l root -c  "tar -xf /tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar -C /home/linuxbrew"
 runuser -l stack -c  "echo 'PATH=$PATH:/home/linuxbrew/.linuxbrew/bin' >> /opt/stack/.bash_profile"
