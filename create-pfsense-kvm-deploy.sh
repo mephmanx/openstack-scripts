@@ -41,6 +41,26 @@ create_line+="--autostart --wait 0"
 
 eval "$create_line"
 
+cat > /temp/pf-init-1.sh <<EOF
+mount -u -o rw /
+mkdir /tmp/test-mnt
+mount -v -t msdosfs /dev/vtbd0s3 /tmp/test-mnt
+cp /tmp/test-mnt/* /mnt/root/
+chmod +x /mnt/root/*.sh
+cd /mnt/root
+yes | cp /tmp/test-mnt/pfSense-repo.conf /mnt/usr/local/share/pfSense/pfSense-repo.conf;
+yes | cp /tmp/test-mnt/pfSense-repo.conf /mnt/usr/local/share/pfSense/pkg/repos/pfSense-repo.conf;
+yes | cp /tmp/test-mnt/pfSense-repo.conf /mnt/etc/pkg/FreeBSD.conf;
+mkdir /mnt/tmp/repo-dir
+tar xf /mnt/root/repo.tar -C /mnt/tmp/repo-dir/
+./init.sh
+rm -rf init.sh
+EOF
+
+PFSENSE_INIT=$(cat </temp/pf-init-1.sh | base64 | tr -d '\n\r')
+
+pfsense_init_array=( $(echo "$PFSENSE_INIT" | fold -c250 ))
+
 sleep 30;
 (echo open 127.0.0.1 4568;
   sleep 60;
@@ -67,36 +87,19 @@ sleep 30;
   echo 'N';
   sleep 5;
   echo 'S';
-  sleep 5;
-  echo 'mount -u -o rw /'
   sleep 10;
-  echo 'mkdir /tmp/test-mnt';
+  echo "touch /mnt/root/pf-init-1.sh; touch /mnt/root/pf-init-1.sh.enc;";
   sleep 10;
-  echo 'mount -v -t msdosfs /dev/vtbd0s3 /tmp/test-mnt';
+  for element in "${pfsense_init_array[@]}"
+    do
+      echo "echo '$element' >> /mnt/root/pf-init-1.sh.enc";
+      sleep 5;
+    done
+  echo "openssl base64 -d -in /mnt/root/pf-init-1.sh.enc -out /mnt/root/pf-init-1.sh;";
   sleep 10;
-  echo 'cp /tmp/test-mnt/openstack-env.sh /mnt/root/openstack-env.sh';
+  echo "rm -rf /mnt/root/*.enc";
   sleep 10;
-  echo 'cp /tmp/test-mnt/pf_functions.sh /mnt/root/pf_functions.sh';
-  sleep 10;
-  echo 'cp /tmp/test-mnt/pfsense-init.sh /mnt/root/pfsense-init.sh';
-  sleep 10;
-  echo 'cp /tmp/test-mnt/init.sh /mnt/root/init.sh';
-  sleep 10;
-  echo "chmod +x /mnt/root/*.sh";
-  sleep 10;
-  echo "cp /tmp/test-mnt/repo.tar /mnt/root/repo.tar";
-  sleep 30;
-  echo "cd /mnt/root";
-  sleep 5;
-  echo "yes | cp /tmp/test-mnt/pfSense-repo.conf /mnt/usr/local/share/pfSense/pfSense-repo.conf; yes | cp /tmp/test-mnt/pfSense-repo.conf /mnt/usr/local/share/pfSense/pkg/repos/pfSense-repo.conf; yes | cp /tmp/test-mnt/pfSense-repo.conf /mnt/etc/pkg/FreeBSD.conf";
-  echo 10;
-  echo "mkdir /mnt/tmp/repo-dir";
-  echo 10;
-  echo "tar xf /mnt/root/repo.tar -C /mnt/tmp/repo-dir/";
-  echo 30;
-  echo "./init.sh";
-  sleep 10;
-  echo "rm -rf init.sh";
+  echo "cd /mnt/root/; chmod +x pf-init-1.sh; ./pf-init-1.sh;"
   sleep 10;
  ) | telnet
 
