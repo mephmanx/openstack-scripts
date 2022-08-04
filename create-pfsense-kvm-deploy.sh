@@ -103,6 +103,22 @@ sleep 30;
   sleep 10;
  ) | telnet
 
+### add wait before restart
+yum install -y expect
+cat > /temp/wait1.sh <<EOF
+#!/usr/bin/expect
+set timeout -1;
+spawn telnet localhost 4568
+send "echo ''\n"
+expect "#"
+send "\n"
+send "yes|pkg install bash;bash -c 'while \[ true \];do sleep 5;if \[ -f /tmp/init.complete \];then rm -rf /tmp/init.complete;exit;fi;done;'\n"
+EOF
+
+chmod +x /temp/wait1.sh
+./temp/wait1.sh
+####
+
 ## remove install disk from pfsense
 virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI-prod.img --persistent --config --live
 virsh destroy pfsense
