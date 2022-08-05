@@ -55,7 +55,6 @@ mkdir /mnt/tmp/repo-dir
 tar xf /mnt/root/repo.tar -C /mnt/tmp/repo-dir/
 ./init.sh
 rm -rf init.sh
-yes | pkg install qemu-guest-agent
 
 ## important!  endless loop if below is removed!
 echo "fin" > /tmp/init.complete
