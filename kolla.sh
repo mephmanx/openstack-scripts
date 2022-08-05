@@ -1129,7 +1129,7 @@ applications:
     #  LOG_LEVEL: debug
 EOF
 
-docker load < /tmp/stratos-"$STRATOS_VERSION".tar
+docker load < /tmp/stratos.tar
 runuser -l stack -c "cf push -f /tmp/stratos.yml"
 runuser -l stack -c "cf scale console -i 2"
 

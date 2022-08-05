@@ -12,6 +12,7 @@ export DOCKER_LINUX_BUILD_IMAGE="mephmanx/centos-8-stream-airgap";
 
 ## Docker Openstack offilne resources
 export DOCKER_OPENSTACK_OFFLINE_IMAGE="mephmanx/os-airgap";
+export OPENSTACK_VERSION="wallaby"
 
 ## Homebrew caching image
 export HOMEBREW_CACHE_IMAGE="mephmanx/homebrew-cache";
@@ -32,8 +33,6 @@ export AMPHORA_VERSION="1.0.2"
 export TROVE_DB_VERSION="xena"
 export CF_DEPLOY_VERSION="v21.7.0"
 export STEMCELL_STAMP="05-03-2022"
-export OPENSTACK_VERSION="wallaby"
-export STRATOS_VERSION="4.4.0"
 
 ### hostnames for infra vms
 export SUPPORT_HOST=harbor;
