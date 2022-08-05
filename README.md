@@ -4,7 +4,7 @@ This script is to build Openstack private cloud install ISO.
 
 It is executed by creating proper config in openstack-env.sh file and then executing 
 
-    ./build-openstack-iso.sh <location of openstack-env.sh file>
+    ./build-openstack-iso.sh
 
 to build /var/tmp/openstack-iso.iso which can then be dd'ed to USB drive or other large medium and used to boot on empty hardware
 
