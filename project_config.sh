@@ -18,6 +18,7 @@ export HOMEBREW_CACHE_IMAGE="mephmanx/homebrew-cache";
 
 ## pfSense airgap caching image
 export PFSENSE_CACHE_IMAGE="mephmanx/pfsense-airgap-resources";
+export PFSENSE_VERSION="2.6.0";
 
 ## library versions
 ## this will force cache update if changed
