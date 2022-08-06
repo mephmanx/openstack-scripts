@@ -15,9 +15,9 @@ rm -rf /tmp/configs/*
 # login to docker hub using .bash_profile env secrets
 docker login -u "$DOCKER_LOGIN" -p "$DOCKER_SECRET"
 
-docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:latest" bash -c "mv CentOS-x86_64-minimal.iso linux.iso; cp linux.iso /opt/mount"
+docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:$DOCKER_LINUX_BUILD_IMAGE_VERSION" bash -c "mv CentOS-x86_64-minimal.iso linux.iso; cp linux.iso /opt/mount"
 mkdir -p /tmp/configs
-docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:latest" bash -c "cp /root/ks_configs/* /opt/mount/configs"
+docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:$DOCKER_LINUX_BUILD_IMAGE_VERSION" bash -c "cp /root/ks_configs/* /opt/mount/configs"
 
 ## download files to be embedded
 if [ ! -f "/tmp/amphora-x64-haproxy-$OPENSTACK_VERSION-$AMPHORA_VERSION.qcow2" ]; then
