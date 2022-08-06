@@ -16,6 +16,7 @@ export OPENSTACK_VERSION="wallaby"
 
 ## Homebrew caching image
 export HOMEBREW_CACHE_IMAGE="mephmanx/homebrew-cache";
+export HOMEBREW_CACHE_VERSION="1.0.1";
 
 ## pfSense airgap caching image
 export PFSENSE_CACHE_IMAGE="mephmanx/pfsense-airgap-resources";

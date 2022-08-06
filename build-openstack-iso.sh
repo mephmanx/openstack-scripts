@@ -123,8 +123,8 @@ if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
 fi
 
 if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
-  docker pull mephmanx/homebrew-cache:latest
-  docker run --rm -v /tmp:/tmp/export "$HOMEBREW_CACHE_IMAGE:latest" "$CF_BBL_INSTALL_TERRAFORM_VERSION"
+  docker pull mephmanx/homebrew-cache:"$HOMEBREW_CACHE_VERSION"
+  docker run --rm -v /tmp:/tmp/export "$HOMEBREW_CACHE_IMAGE:$HOMEBREW_CACHE_VERSION" "$CF_BBL_INSTALL_TERRAFORM_VERSION"
 fi
 
 IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
@@ -143,7 +143,7 @@ if [ ! -f "/tmp/harbor/$OPENSTACK_VERSION/centos-binary-base-${OPENSTACK_VERSION
     mkdir /tmp/harbor/"$OPENSTACK_VERSION"
     rm -rf /out
     mkdir /out
-    docker pull "$DOCKER_OPENSTACK_OFFLINE_IMAGE:latest"
+    docker pull "$DOCKER_OPENSTACK_OFFLINE_IMAGE:$OPENSTACK_VERSION"
     rm -rf /tmp/openstack-build.log
     docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out "$DOCKER_OPENSTACK_OFFLINE_IMAGE:$OPENSTACK_VERSION" "$OPENSTACK_VERSION"
 
