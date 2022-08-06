@@ -55,9 +55,6 @@ mkdir /mnt/tmp/repo-dir
 tar xf /mnt/root/repo.tar -C /mnt/tmp/repo-dir/
 ./init.sh
 rm -rf init.sh
-
-## important!  endless loop if below is removed!
-echo "fin" > /tmp/init.complete
 EOF
 
 PFSENSE_INIT=$(cat </temp/pf-init-1.sh | base64 | tr -d '\n\r')
@@ -102,25 +99,13 @@ sleep 30;
   sleep 10;
   echo "rm -rf /mnt/root/*.enc";
   sleep 10;
-  echo "cd /mnt/root/; chmod +x pf-init-1.sh; ./pf-init-1.sh;"
+  echo "cd /mnt/root/;"
+  sleep 10;
+  echo "chmod +x pf-init-1.sh;"
+  sleep 10;
+  echo "./pf-init-1.sh;"
   sleep 10;
  ) | telnet
-
-### add wait before restart
-yum install -y expect
-cat > /temp/wait1.sh <<EOF
-#!/usr/bin/expect
-set timeout -1;
-spawn telnet localhost 4568
-send "echo ''\n"
-expect "#"
-send "\n"
-send "yes|pkg install bash;bash -c 'while \[ true \];do sleep 5;if \[ -f /tmp/init.complete \];then rm -rf /tmp/init.complete;exit;fi;done;'\n"
-EOF
-
-chmod +x /temp/wait1.sh
-./temp/wait1.sh
-####
 
 ## remove install disk from pfsense
 virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI-prod.img --persistent --config --live
