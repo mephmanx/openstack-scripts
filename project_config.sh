@@ -9,7 +9,7 @@ export INTERNAL_DOMAIN_NAME="cloud.local";
 
 ##  Docker linux build name
 export DOCKER_LINUX_BUILD_IMAGE="mephmanx/centos-8-stream-airgap";
-export DOCKER_LINUX_BUILD_IMAGE_VERSION="20220627";
+export DOCKER_LINUX_BUILD_IMAGE_VERSION="latest";
 
 ## Docker Openstack offline resources
 export DOCKER_OPENSTACK_OFFLINE_IMAGE="mephmanx/os-airgap";
