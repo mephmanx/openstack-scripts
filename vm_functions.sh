@@ -62,17 +62,6 @@ function grow_fs() {
   xfsrestore -f /tmp/home.dump /home
 }
 
-function add_stack_user() {
-  NEWPW=$(generate_random_pwd 31)
-
-  runuser -l root -c  'mkdir /opt/stack'
-  runuser -l root -c  'useradd -s /bin/bash -d /opt/stack -m stack'
-  runuser -l root -c  'echo "stack ALL=(ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/stack'
-  runuser -l root -c  'chown -R stack /opt/stack'
-  runuser -l root -c  'su - stack'
-  runuser -l root -c  "echo $NEWPW | passwd stack --stdin"
-}
-
 function restrict_to_root() {
   chmod 700 /tmp/*
   if [[ -d "/etc/kolla" ]]; then
