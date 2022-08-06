@@ -9,14 +9,15 @@ export INTERNAL_DOMAIN_NAME="cloud.local";
 
 ##  Docker linux build name
 export DOCKER_LINUX_BUILD_IMAGE="mephmanx/centos-8-stream-airgap";
+export DOCKER_LINUX_BUILD_IMAGE_VERSION="20220627";
 
-## Docker Openstack offilne resources
+## Docker Openstack offline resources
 export DOCKER_OPENSTACK_OFFLINE_IMAGE="mephmanx/os-airgap";
 export OPENSTACK_VERSION="wallaby"
 
 ## Homebrew caching image
 export HOMEBREW_CACHE_IMAGE="mephmanx/homebrew-cache";
-export HOMEBREW_CACHE_VERSION="1.0.1";
+export CF_BBL_INSTALL_TERRAFORM_VERSION="1.0.4"
 
 ## pfSense airgap caching image
 export PFSENSE_CACHE_IMAGE="mephmanx/pfsense-airgap-resources";
@@ -92,7 +93,6 @@ export RAM_PCT_AVAIL_CLOUD=96
 
 ### Cloudfoundry variables
 export CF_TCP_PORT_COUNT=10
-export CF_BBL_INSTALL_TERRAFORM_VERSION=1.0.4
 export CF_BBL_OPENSTACK_CPI_VERSION=1.40
 export CF_BBL_OS_CONF_RELEASE=22.1.2
 ### be careful about changing the version of os-conf as the hash below is REQUIRED to match!
