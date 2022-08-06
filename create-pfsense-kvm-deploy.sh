@@ -41,7 +41,7 @@ create_line+="--autostart --wait 0"
 
 eval "$create_line"
 
-cat > /temp/pf-init-1.sh <<EOF
+cat > /tmp/pf-init-1.sh <<EOF
 mount -u -o rw /
 mkdir /tmp/test-mnt
 mount -v -t msdosfs /dev/vtbd0s3 /tmp/test-mnt
@@ -57,7 +57,7 @@ tar xf /mnt/root/repo.tar -C /mnt/tmp/repo-dir/
 rm -rf init.sh
 EOF
 
-PFSENSE_INIT=$(cat </temp/pf-init-1.sh | base64 | tr -d '\n\r')
+PFSENSE_INIT=$(cat </tmp/pf-init-1.sh | base64 | tr -d '\n\r')
 
 pfsense_init_array=( $(echo "$PFSENSE_INIT" | fold -c250 ))
 
