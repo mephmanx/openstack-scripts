@@ -107,6 +107,7 @@ sleep 30;
   sleep 10;
  ) | telnet
 
+rm -rf /tmp/pf-init-1.sh
 ## remove install disk from pfsense
 virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI-prod.img --persistent --config --live
 virsh destroy pfsense
