@@ -40,29 +40,6 @@ runuser -l root -c  'cd /tmp; ./host-trust.sh'
 cd "$working_dir" || exit
 
 ADMIN_PWD={CENTOS_ADMIN_PWD_123456789012}
-
-########### set up registry connection to docker hub
-etext=$(echo -n "admin:$ADMIN_PWD" | base64)
-curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/registries" \
-  --header "authorization: Basic $etext" \
-  --header 'content-type: application/json' \
-  --header "host: $SUPPORT_VIP_DNS" \
-  -H 'Accept-Language: en-us' \
-  -H 'Accept-Encoding: gzip, deflate, br' \
-  -H "Referer: https://$SUPPORT_VIP_DNS/harbor/registries" \
-  -H "Origin: https://$SUPPORT_VIP_DNS" \
-  -H 'Connection: keep-alive' \
-  --data-binary "{\"credential\":{\"type\":\"basic\"},\"description\":\"\",\"insecure\":false,\"name\":\"docker-hub\",\"type\":\"docker-hub\",\"url\":\"https://hub.docker.com\"}"
-
-############################
-#
-############  Create new proxy-cache cloudfoundry project
-curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/projects" \
-  --header "authorization: Basic $etext" \
-  --header 'content-type: application/json' \
-  --header "host: $SUPPORT_VIP_DNS" \
-  --data-binary "{\"project_name\":\"cloudfoundry\",\"registry_id\":1,\"metadata\":{\"public\":\"true\"},\"storage_limit\":-1}"
-
 status_code=$(curl https://"$SUPPORT_VIP_DNS"/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
 
 if [[ "$status_code" -ne 200 ]] ; then
