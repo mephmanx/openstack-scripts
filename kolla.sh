@@ -467,6 +467,7 @@ rm -rf docker
 
 # Update elasticsearch hostname
 sed -i "s/es01/$INTERNAL_VIP_DNS/g" etc/logstash/config/logstash.yml
+sed -i "s/\/certs\/ca\/ca.crt/\/etc\/ipa\/ca.crt/g" etc/logstash/config/logstash.yml
 sed -i "s/es01/$INTERNAL_VIP_DNS/g" etc/pfelk/conf.d/50-outputs.pfelk
 sed -i "s/\/certs\/ca\/ca.crt/\/etc\/ipa\/ca.crt/g" etc/pfelk/conf.d/50-outputs.pfelk
 
