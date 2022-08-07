@@ -453,7 +453,6 @@ telegram_notify  "Cloudfoundry Openstack project ready.  user -> $OPENSTACK_CLOU
 telegram_debug_msg  "Openstack admin pwd is $ADMIN_PWD"
 
 #### start logstash container on monitoring01
-
 cat > /tmp/monitoring01-logstash.sh <<EOF
 # Create logstash configurations
 mkdir /root/logstash-docker
