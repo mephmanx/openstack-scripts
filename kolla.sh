@@ -465,9 +465,10 @@ cp -r docker/etc .
 # Remove repository
 rm -rf docker
 
-# Update elasticsearch hostname
+# Update elasticsearch hostname and cert
 sed -i "s/es01/$INTERNAL_VIP_DNS/g" etc/logstash/config/logstash.yml
 sed -i "s/\/certs\/ca\/ca.crt/\/etc\/ipa\/ca.crt/g" etc/logstash/config/logstash.yml
+
 sed -i "s/es01/$INTERNAL_VIP_DNS/g" etc/pfelk/conf.d/50-outputs.pfelk
 sed -i "s/\/certs\/ca\/ca.crt/\/etc\/ipa\/ca.crt/g" etc/pfelk/conf.d/50-outputs.pfelk
 
@@ -477,7 +478,6 @@ sed -i "s/5140/5540/g" etc/pfelk/conf.d/01-inputs.pfelk
 sed -i "s/5141/5541/g" etc/pfelk/conf.d/01-inputs.pfelk
 
 # Set Device names
-sed -i "s/OPNsense/pfSense/g" etc/pfelk/conf.d/02-types.pfelk
 sed -i "s/Supermicro/$INTERNAL_DOMAIN_NAME/g" etc/pfelk/conf.d/01-inputs.pfelk
 
 # Create Index Patterns for indexes
