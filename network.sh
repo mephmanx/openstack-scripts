@@ -18,10 +18,8 @@ sleep 30
 ###########################
 
 ######## Put type specific code
-##eth0 is neutron external net
-remove_ip_from_adapter "eth0"
 
-### eth2 is octavia mgmt net
+### eth2 is neutron external net
 remove_ip_from_adapter "eth2"
 ############################
 
