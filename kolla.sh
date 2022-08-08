@@ -280,10 +280,15 @@ echo "resume_guests_state_on_host_boot=true" >> /etc/kolla/config/nova.conf
 #echo "[vnc]" >> /etc/kolla/config/nova.conf
 #echo "novncproxy_base_url=https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:6080/vnc_auto.html" >> /etc/kolla/config/nova.conf
 #####
-#
+
 ##### keystone.conf options
 #echo "[cors]" >> /etc/kolla/config/keystone.conf
 #echo "allowed_origin = https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:3000" >> /etc/kolla/config/keystone.conf
+#######
+
+##### magnum.conf options
+#echo "[cors]" >> /etc/kolla/config/magnum.conf
+#echo "cluster_user_trust = True" >> /etc/kolla/config/magnum.conf
 #######
 
 telegram_notify  "Openstack Kolla Ansible deploy task execution begun....."
@@ -369,6 +374,21 @@ openstack coe cluster template create swarm-cluster-template \
           --master-flavor m1.small \
           --flavor m1.small \
           --coe swarm-mode --labels docker_volume_type=__DEFAULT__
+
+openstack coe cluster template create \
+        --coe kubernetes \
+        --image fedora-atomic-latest \
+        --flavor m1.small \
+        --master-flavor m1.medium \
+        --volume-driver cinder \
+        --docker-storage-driver overlay2 \
+        --external-network public1 \
+        --floating-ip-enabled \
+        --network-driver flannel \
+        --docker-volume-size 50 \
+        --dns-nameserver "$IDENTITY_VIP" \
+        --labels="container_runtime=containerd,cinder_csi_enabled=true,cloud_provider_enabled=true" \
+        K8s-template
 
 telegram_notify  "Created magnum cluster..."
 
