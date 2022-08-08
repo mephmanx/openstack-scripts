@@ -375,7 +375,7 @@ openstack coe cluster template create swarm-cluster-template \
           --flavor m1.small \
           --coe swarm-mode --labels docker_volume_type=__DEFAULT__
 
-openstack coe cluster template create \
+openstack coe cluster template create K8s-template \
         --coe kubernetes \
         --image fedora-atomic-latest \
         --flavor m1.small \
@@ -385,10 +385,9 @@ openstack coe cluster template create \
         --external-network public1 \
         --floating-ip-enabled \
         --network-driver flannel \
-        --docker-volume-size 50 \
+        --docker-volume-size 10 \
         --dns-nameserver "$IDENTITY_VIP" \
-        --labels="container_runtime=containerd,cinder_csi_enabled=true,cloud_provider_enabled=true" \
-        K8s-template
+        --labels="container_runtime=containerd,cinder_csi_enabled=true,cloud_provider_enabled=true"
 
 telegram_notify  "Created magnum cluster..."
 
