@@ -12,7 +12,11 @@ function initialKickstartSetup {
   printf -v vm_type_n '%s\n' "${vm//[[:digit:]]/}"
   vm_type=$(tr -dc '[:print:]' <<< "$vm_type_n")
   rm -rf ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
-  cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
+  if [ "$vm_type" == "kolla" ]; then
+    cp ${KICKSTART_DIR}/centos-8-kickstart-kolla.cfg ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
+  else
+    cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
+  fi
   kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-${vm}.cfg
   sed -i "s/{HOST}/$vm/g" "$kickstart_file"
   sed -i "s/{TYPE}/$vm_type/g" "$kickstart_file"
