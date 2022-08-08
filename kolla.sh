@@ -40,6 +40,7 @@ runuser -l root -c  'cd /tmp; ./host-trust.sh'
 cd "$working_dir" || exit
 
 ADMIN_PWD={CENTOS_ADMIN_PWD_123456789012}
+export etext=$(echo -n "admin:$ADMIN_PWD" | base64)
 status_code=$(curl https://"$SUPPORT_VIP_DNS"/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
 
 if [[ "$status_code" -ne 200 ]] ; then
