@@ -109,7 +109,6 @@ done
 
 virsh net-destroy default
 virsh net-undefine default
-rm /etc/libvirt/qemu/networks/autostart/default.xml
 rm -rf /usr/lib/firewalld/zones/libvirt.xml
 firewall-cmd --reload
 ###########################
