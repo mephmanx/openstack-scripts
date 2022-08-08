@@ -16,13 +16,6 @@ exec 1>/tmp/openstack-install.log 2>&1 # send stdout and stderr from rc.local to
 sleep 30
 ###########################
 
-######## Put type specific code
-systemctl stop libvirtd
-systemctl disable libvirtd
-
-rm -rf /var/run/libvirt/*sock
-rm -rf /var/run/libvirt/*sock*
-
 ##eth0 is neutron external net
 remove_ip_from_adapter "eth0"
 
