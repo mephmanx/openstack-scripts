@@ -16,6 +16,7 @@ function initialKickstartSetup {
     cp ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg ${KICKSTART_DIR}/centos-8-kickstart-"$vm".cfg
   fi
   kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-${vm}.cfg
+  echo "$kickstart_file"
   sed -i "s/{HOST}/$vm/g" "$kickstart_file"
   sed -i "s/{TYPE}/$vm_type/g" "$kickstart_file"
   networkInformation "$kickstart_file" "$vm_type" "$vm"
