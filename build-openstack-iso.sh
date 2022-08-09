@@ -21,7 +21,7 @@ docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:$DOCKER_LINUX_
 
 ## download files to be embedded
 if [ ! -f "/tmp/amphora-x64-haproxy-$OPENSTACK_VERSION.qcow2" ]; then
-  curl -L -o /tmp/amphora-x64-haproxy-"$OPENSTACK_VERSION".qcow https://github.com/mephmanx/openstack-amphora-build/releases/download/"$OPENSTACK_VERSION"/amphora-x64-haproxy.qcow2
+  curl -L -o /tmp/amphora-x64-haproxy-"$OPENSTACK_VERSION".qcow2 https://github.com/mephmanx/openstack-amphora-build/releases/download/"$OPENSTACK_VERSION"/amphora-x64-haproxy.qcow2
 fi
 
 if [ ! -f "/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
