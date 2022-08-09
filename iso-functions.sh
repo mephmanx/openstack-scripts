@@ -42,7 +42,7 @@ function closeOutAndBuildKickstartAndISO {
 
   cp "${kickstart_file}" /var/tmp/"${vm_name}"/ks.cfg
   cp /tmp/configs/*.cfg /var/tmp/"${vm_name}"/ks_configs
-  if [[ $vm_name == "openstack" ]]; then
+  if [[ "$vm_name" == "openstack" ]]; then
     cp ${KICKSTART_DIR}/isolinux-openstack.cfg /var/tmp/"${vm_name}"/isolinux/isolinux.cfg
   else
     cp ${KICKSTART_DIR}/isolinux.cfg /var/tmp/"${vm_name}"/isolinux/isolinux.cfg
@@ -78,7 +78,9 @@ function closeOutAndBuildKickstartAndISO {
   cd /var/tmp/ || exit
   sudo implantisomd5 "${vm_name}"-iso.iso
   sudo rm -rf /var/tmp/"${vm_name}"
-  sudo rm -rf "${kickstart_file}"
+  if [[ "$vm_name" != "kolla" ]]; then
+    sudo rm -rf "${kickstart_file}"
+  fi
   cd "$working_dir" || exit
 }
 
