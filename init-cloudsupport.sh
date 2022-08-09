@@ -111,6 +111,24 @@ curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/projects" \
   --header "host: $SUPPORT_VIP_DNS" \
   --data-binary "{\"project_name\":\"cloudfoundry\",\"registry_id\":1,\"metadata\":{\"public\":\"true\"},\"storage_limit\":-1}"
 
+curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/registries" \
+    --header "authorization: Basic $etext" \
+    --header 'content-type: application/json' \
+    --header "host: $SUPPORT_VIP_DNS" \
+    -H 'Accept-Language: en-us' \
+    -H 'Accept-Encoding: gzip, deflate, br' \
+    -H "Referer: https://$SUPPORT_VIP_DNS/harbor/registries" \
+    -H "Origin: https://$SUPPORT_VIP_DNS" \
+    -H 'Connection: keep-alive' \
+    --data-binary "{\"credential\":{\"type\":\"basic\"},\"description\":\"\",\"insecure\":false,\"name\":\"docker-hub\",\"type\":\"docker-hub\",\"url\":\"https://hub.docker.com\"}"
+
+  ############  Create new proxy-cache cloudfoundry project
+curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/projects" \
+    --header "authorization: Basic $etext" \
+    --header 'content-type: application/json' \
+    --header "host: $SUPPORT_VIP_DNS" \
+    --data-binary "{\"project_name\":\"cloudfoundry\",\"registry_id\":1,\"metadata\":{\"public\":\"true\"},\"storage_limit\":-1}"
+
 cat > /tmp/stratos.json << EOF
 {"project_name": "splatform","metadata": {"public": "true"}}
 EOF
@@ -164,6 +182,8 @@ docker tag "$(docker images |grep centos-source-zun-wsproxy|awk '{print $3}')" "
 docker tag "$(docker images |grep centos-source-zun-cni-daemon|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-source-zun-cni-daemon:"$OPENSTACK_VERSION"
 
 docker tag "$(docker images |grep centos-source-kuryr-libnetwork|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-source-kuryr-libnetwork:"$OPENSTACK_VERSION"
+
+docker tag "$(docker images |grep stratos|awk '{print $3}')" "$SUPPORT_VIP_DNS"/splatform/stratos:latest
 
 #setup local repo
 cat > /tmp/kolla_local.repo <<EOF

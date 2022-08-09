@@ -1113,7 +1113,7 @@ cat > /tmp/stratos.yml <<EOF
 applications:
   - name: console2
     docker:
-      image: harbor.cloud.local/splatform/stratos:stable
+      image: harbor.cloud.local/splatform/stratos:latest
     instances: 1
     memory: 128M
     disk_quota: 384M
