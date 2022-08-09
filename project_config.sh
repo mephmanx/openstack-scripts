@@ -31,7 +31,6 @@ export CF_ATTIC_TERRAFORM_VERSION="0.11.15"
 export DOCKER_COMPOSE_VERSION="1.29.2"
 export UBUNTU_VERSION="18.04"
 export UBUNTU_RELEASE_NAME="bionic"
-export AMPHORA_VERSION="1.0.2"
 export TROVE_DB_VERSION="xena"
 export CF_DEPLOY_VERSION="v21.7.0"
 export STEMCELL_STAMP="05-03-2022"
@@ -158,3 +157,6 @@ export CIRROS_IMAGE_URL="https://github.com/cirros-dev/cirros/releases/download/
 
 ## stratos console
 export STRATUS_APP="https://github.com/cloudfoundry/stratos/archive/refs/tags/4.4.0.zip"
+
+## amphora image
+export AMPHORA_IMAGE="https://github.com/mephmanx/openstack-amphora-build/releases/download/$OPENSTACK_VERSION/amphora-x64-haproxy.qcow2"

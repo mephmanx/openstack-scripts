@@ -20,16 +20,8 @@ mkdir -p /tmp/configs
 docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:$DOCKER_LINUX_BUILD_IMAGE_VERSION" bash -c "cp /root/ks_configs/* /opt/mount/configs"
 
 ## download files to be embedded
-if [ ! -f "/tmp/amphora-x64-haproxy-$OPENSTACK_VERSION-$AMPHORA_VERSION.qcow2" ]; then
-  ############# build octavia image
-  git clone https://opendev.org/openstack/octavia -b stable/"$OPENSTACK_VERSION" /tmp/octavia
-  chmod +x /tmp/octavia/diskimage-create/diskimage-create.sh
-  pwd=$(pwd)
-  cd /tmp/octavia/diskimage-create || exit;
-  ./diskimage-create.sh;
-  cd "$pwd" || exit
-  cp /tmp/octavia/diskimage-create/amphora-x64-haproxy.qcow2 /tmp/amphora-x64-haproxy-"$OPENSTACK_VERSION"-"$AMPHORA_VERSION".qcow2
-  rm -rf /tmp/octavia
+if [ ! -f "/tmp/amphora-x64-haproxy-$OPENSTACK_VERSION.qcow2" ]; then
+  curl -L -o /tmp/amphora-x64-haproxy-"$OPENSTACK_VERSION".qcow https://github.com/mephmanx/openstack-amphora-build/releases/download/"$OPENSTACK_VERSION"/amphora-x64-haproxy.qcow2
 fi
 
 if [ ! -f "/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
