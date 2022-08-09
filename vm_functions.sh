@@ -510,24 +510,3 @@ function install_packages_hypervisor() {
   dnf install -y libtool
   dnf install cockpit-machines -y
 }
-
-function install_python_modules() {
-  # update pip to required version
-  # shellcheck disable=SC2016
-  sed -i '/export PATH/ i PATH=$PATH:$HOME\/bin:\/usr\/local\/bin' /root/.bash_profile
-  source /root/.bash_profile
-  ####
-  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --no-index --find-links="/root/PyRepo" pip==21.3.1'
-  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --ignore-installed --no-index --find-links="/root/PyRepo" -r /root/python.modules'
-  # needed to remove the version of selinux that is pulled here to allow the version of selinux that is pulled during openstack install to load properly
-  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 uninstall -y selinux'
-
-  python3 -m venv /opt/stack/venv
-  source /opt/stack/venv/bin/activate
-
-  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --no-index --find-links="/root/PyRepo" pip==21.3.1'
-  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 install --ignore-installed --no-index --find-links="/root/PyRepo" -r /root/python.modules'
-  # needed to remove the version of selinux that is pulled here to allow the version of selinux that is pulled during openstack install to load properly
-  runuser -l root -c  'export PYTHONIOENCODING=UTF-8; pip3 uninstall -y selinux'
-  ####
-}
