@@ -102,7 +102,7 @@ curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/registries"
   -H "Referer: https://$SUPPORT_VIP_DNS/harbor/registries" \
   -H "Origin: https://$SUPPORT_VIP_DNS" \
   -H 'Connection: keep-alive' \
-  --data-binary "{\"credential\":{\"type\":\"basic\"},\"description\":\"\",\"insecure\":false,\"name\":\"docker-hub\",\"type\":\"docker-hub\",\"url\":\"https://hub.docker.com\"}"
+  --data-binary "{\"credential\":{\"type\":\"basic\"},\"description\":\"\",\"insecure\":true,\"name\":\"docker-hub\",\"type\":\"docker-hub\",\"url\":\"https://hub.docker.com\"}"
 
 ############  Create new proxy-cache cloudfoundry project
 curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/projects" \
