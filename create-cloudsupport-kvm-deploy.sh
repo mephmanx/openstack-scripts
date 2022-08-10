@@ -9,7 +9,7 @@ source /tmp/project_config.sh
 source /tmp/vm-configurations.sh
 
 size_avail=$(df /VM-VOL-MISC | awk '{print $2}' | sed 1d)
-DRIVE_SIZE=$(($((size_avail * 45/100)) / 1024 / 1024))
+DRIVE_SIZE=$(($((size_avail * 25/100)) / 1024 / 1024))
 
 create_line="virt-install "
 create_line+="--hvm "
