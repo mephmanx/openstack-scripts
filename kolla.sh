@@ -359,7 +359,7 @@ qemu-img convert -O raw /tmp/magnum-"$MAGNUM_IMAGE_VERSION".qcow2 /tmp/magnum-"$
 mkdir -p /tmp/magnum-tmp
 kpartx -av /tmp/magnum-"$MAGNUM_IMAGE_VERSION".raw
 mount /dev/atomicos/root /tmp/magnum-tmp
-cp /etc/ipa/ca.crt /tmp/magnum/ostree/deploy/fedora-atomic/deploy/931ebb3941fc49af706ac5a90ad3b5a493be4ae35e85721dabbfd966b1ecbf99.0/etc/pki/ca-trust/source/
+cp /etc/ipa/ca.crt /ostree/deploy/fedora-atomic/deploy/*.0/etc/pki/ca-trust/source/
 umount /tmp/magnum-tmp
 kpartx -d /tmp/magnum-"$MAGNUM_IMAGE_VERSION".raw
 
