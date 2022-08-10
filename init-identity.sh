@@ -18,10 +18,6 @@ exec 1>/root/start-install.log 2>&1 # send stdout and stderr from rc.local to a 
 sleep 30
 ###########################
 
-### system profile
-tuned-adm profile virtual-guest
-#############
-
 ### gen pwd's
 DIR_PWD="{DIRECTORY_MGR_PWD_12345678901}"
 ADMIN_PWD="{CENTOS_ADMIN_PWD_123456789012}"
