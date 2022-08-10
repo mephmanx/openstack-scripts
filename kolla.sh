@@ -353,11 +353,22 @@ openstack router set --external-gateway public1 trove-router
 openstack router add subnet trove-router trove-subnet0
 ####
 
+#then upload /tmp/magnum-"$MAGNUM_IMAGE_VERSION".raw to openstack ,remeber to change image format to raw
+# execute on kolla node
+qemu-img convert -O raw /tmp/magnum-"$MAGNUM_IMAGE_VERSION".qcow2 /tmp/magnum-"$MAGNUM_IMAGE_VERSION".raw
+mkdir -p /tmp/magnum-tmp
+kpartx -av /tmp/magnum-"$MAGNUM_IMAGE_VERSION".raw
+mount /dev/atomicos/root /tmp/magnum-tmp
+cp /etc/ipa/ca.crt /tmp/magnum/ostree/deploy/fedora-atomic/deploy/931ebb3941fc49af706ac5a90ad3b5a493be4ae35e85721dabbfd966b1ecbf99.0/etc/pki/ca-trust/source/
+umount /tmp/magnum-tmp
+kpartx -d /tmp/magnum-"$MAGNUM_IMAGE_VERSION".raw
+
 ### magnum cluster create
 openstack image create \
                       --disk-format=qcow2 \
                       --container-format=bare \
-                      --file=/tmp/magnum-"$MAGNUM_IMAGE_VERSION".qcow2 \
+                      --disk-format=raw \
+                      --file=/tmp/magnum-"$MAGNUM_IMAGE_VERSION".raw \
                       --property os_distro='fedora-atomic' \
                       fedora-atomic-latest
 
