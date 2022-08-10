@@ -27,10 +27,6 @@ telegram_notify  "Openstack Cloud System: $SYSTEM_INFO"
 systemctl restart libvirtd
 ############################
 
-### system profile
-tuned-adm profile virtual-host
-#############
-
 #### restart cockpit to make sure it is up
 if [[ $HYPERVISOR_DEBUG == 1 ]]; then
   systemctl enable --now cockpit.socket
