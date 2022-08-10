@@ -236,7 +236,6 @@ done
 rm -rf /tmp/host_trust
 #####################
 
-## try changing in /opt/stack/venv/share/kolla-ansible
 ### replace all instances of https://download.docker.com with http://download.docker.com:8081 to pull from cache
 pwd=$(pwd)
 cd /opt/stack/venv/share/kolla-ansible || exit
