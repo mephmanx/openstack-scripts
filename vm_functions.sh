@@ -236,14 +236,6 @@ function setup_keys_certs_for_vm() {
   ######
 }
 
-function remove_ip_from_adapter() {
-  adapter_name=$1
-  sed -i '/^IPADDR/d' /etc/sysconfig/network-scripts/ifcfg-"$adapter_name"
-  sed -i '/^DNS1/d' /etc/sysconfig/network-scripts/ifcfg-"$adapter_name"
-  sed -i '/^NETMASK/d' /etc/sysconfig/network-scripts/ifcfg-"$adapter_name"
-  sed -i '/^GATEWAY/d' /etc/sysconfig/network-scripts/ifcfg-"$adapter_name"
-}
-
 function generate_pwd() {
   generate_specific_pwd "$1"
 }
