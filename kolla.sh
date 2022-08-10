@@ -226,7 +226,7 @@ kolla-ansible octavia-certificates
 
 #### run host trust on all nodes
 file=/tmp/host_list
-echo "runuser -l root -c  \"echo \$(ip -f inet addr show eth0 | grep inet | awk -F' ' '{ print \$2 }' | cut -d '/' -f1) download.docker.com >> /etc/hosts;\"" | cat - /tmp/host-trust.sh > temp && mv -f temp /tmp/host-trust.sh
+echo "runuser -l root -c  \"echo \$(ip -f inet addr show enp1s0 | grep inet | awk -F' ' '{ print \$2 }' | cut -d '/' -f1) download.docker.com >> /etc/hosts;\"" | cat - /tmp/host-trust.sh > temp && mv -f temp /tmp/host-trust.sh
 for i in $(cat $file)
 do
   echo "$i"
