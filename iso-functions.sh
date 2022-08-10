@@ -19,6 +19,9 @@ function initialKickstartSetup {
   echo "$kickstart_file"
   sed -i "s/{HOST}/$vm/g" "$kickstart_file"
   sed -i "s/{TYPE}/$vm_type/g" "$kickstart_file"
+  sed -i "s/{GATEWAY_ROUTER_IP}/$GATEWAY_ROUTER_IP/g" "$kickstart_file"
+  sed -i "s/{NETMASK}/$NETMASK/g" "$kickstart_file"
+  sed -i "s/{IDENTITY_VIP}/$IDENTITY_VIP/g" "$kickstart_file"
   networkInformation "$kickstart_file" "$vm_type" "$vm"
 }
 
@@ -187,12 +190,10 @@ function networkInformation {
   network_lines=()
   ct=1
   addresses=()
-  default_flag="0"
+  ip_set=0
   for element in "${net_array[@]}"
   do
-#    default_set="--nodefroute"
-    default_set=""
-    if [[ "${element}" =~ .*"static".* ]]; then
+    if [[ "${element}" =~ .*"static".* ]] && [[ $ip_set -eq 0 ]]; then
       ##check if internal or external network and set ip/gateway accordingly
       ip_addr="${NETWORK_PREFIX}.${CORE_VM_START_IP}"
 
@@ -207,19 +208,12 @@ function networkInformation {
           echo "$ip_addr" >> /tmp/storage_hosts
       fi
 
-      if [[ $default_flag == "0" ]]; then
-        default_set=""
-        network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$GATEWAY_ROUTER_IP --netmask=$NETMASK --nameserver=$IDENTITY_VIP ${default_set}\n")
-        default_flag="1"
-      else
-        network_lines+=("network  --device=enp${ct}s0 --bootproto=static --onboot=yes --noipv6 --activate --ip=$ip_addr --gateway=$GATEWAY_ROUTER_IP --netmask=$NETMASK --nameserver=$IDENTITY_VIP ${default_set}\n")
-      fi
-
+      sed -i "s/{NODE_IP}/$ip_addr/g" "${kickstart_file}"
+      ip_set=1
       ((CORE_VM_START_IP++))
-
-    #not static, do DHCP
-    else
-      network_lines+=("network  --device=enp${ct}s0 --bootproto=dhcp --noipv6 --onboot=yes --activate --nodefroute\n")
+    fi
+    if [[ "${element}" =~ .*"static".* ]] && [[ $ip_set -eq 1 ]]; then
+      sed -i "s/{HAS_NET_3}/1/g" "${kickstart_file}"
     fi
     ((ct++))
   done
@@ -228,7 +222,4 @@ function networkInformation {
   do
     echo "runuser -l root -c  'ssh-keyscan -H $ip >> ~/.ssh/known_hosts';" >> /tmp/additional_hosts
   done
-
-  printf -v net_line_string '%s ' "${network_lines[@]}"
-  sed -i "s/{NETWORK}/$net_line_string/g" "${kickstart_file}"
 }
