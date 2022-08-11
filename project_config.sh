@@ -33,6 +33,7 @@ export UBUNTU_VERSION="18.04"
 export UBUNTU_RELEASE_NAME="bionic"
 export CF_DEPLOY_VERSION="v21.7.0"
 export STEMCELL_STAMP="05-03-2022"
+export STRATOS_VERSION="4.4.0"
 
 ### hostnames for infra vms
 export SUPPORT_HOST=harbor;
@@ -155,7 +156,7 @@ export DOCKER_COMPOSE="https://github.com/docker/compose/releases/download/$DOCK
 export CIRROS_IMAGE_URL="https://github.com/cirros-dev/cirros/releases/download/0.5.1/cirros-0.5.1-x86_64-disk.img"
 
 ## stratos console
-export STRATUS_APP="https://github.com/cloudfoundry/stratos/archive/refs/tags/4.4.0.zip"
+export STRATUS_APP="https://github.com/cloudfoundry/stratos/archive/refs/tags/$STRATOS_VERSION.zip"
 
 ## amphora image
 export AMPHORA_IMAGE="https://github.com/mephmanx/openstack-amphora-build/releases/download/$OPENSTACK_VERSION/amphora-x64-haproxy.qcow2"
