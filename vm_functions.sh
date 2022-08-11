@@ -127,8 +127,6 @@ function create_server_cert() {
     runuser -l root -c  "touch $cert_dir/$cert_name.key"
     runuser -l root -c  "touch $cert_dir/$cert_name.crt"
 
-    IP=$(hostname -I | awk '{print $1}')
-
 cat > "$cert_dir/$cert_name.cnf" <<EOF
 ##Required
 [ req ]

@@ -190,7 +190,6 @@ function networkInformation {
   network_string=$(parse_json "$vm_str" "network_string")
 
   IFS=',' read -r -a net_array <<< "$network_string"
-  network_lines=()
   ct=1
   addresses=()
   ip_set=0
