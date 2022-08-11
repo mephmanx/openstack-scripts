@@ -67,7 +67,6 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. _ntp._udp --srv-pri
 
 ####  send random pwd over telegram
 RANDOM_PWD=$(cat </root/start-install.log | grep 'Random password' | awk -F': ' '{print $2}')
-telegram_debug_msg  "domain_admin random password is $RANDOM_PWD"
 
 #Add sudo rules
 /usr/bin/ipa sudorule-add sysadmin_sudo --hostcat=all --runasusercat=all --runasgroupcat=all --cmdcat=all
@@ -349,7 +348,6 @@ runuser -l root -c  "ssh-keygen -f /tmp/empty_dir/sub-ca.key -y > /tmp/empty_dir
 # fulfill the request
 ipa cert-request --profile-id=SubCA --principal=HTTP/pfsense."$INTERNAL_DOMAIN_NAME" /tmp/sub-ca.csr --certificate-out=/tmp/empty_dir/subca.cert
 
-telegram_notify  "Identity VM ready for use"
 ## signaling to hypervisor that identity is finished
 
 cd /tmp/empty_dir || exit
