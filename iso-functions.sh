@@ -135,7 +135,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/control-trust.sh'
                 '/tmp/host_count'
                 "/tmp/trove_instance-$UBUNTU_VERSION.img"
-                "/tmp/trove_db-$TROVE_DB_VERSION.img"
+                "/tmp/trove_db-$OPENSTACK_VERSION.img"
                 "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
                 '/tmp/host_list'
                 '/tmp/storage_hosts'
