@@ -100,6 +100,7 @@ function buildAndPushVMTypeISO {
   #####################################
   embed_files=('/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/openstack-scripts/project_config.sh'
+                '/tmp/openstack-setup/openstack-env.sh'
                 '/tmp/docker-repo.tar')
 
   printf -v embed_files_string '%s ' "${embed_files[@]}"
