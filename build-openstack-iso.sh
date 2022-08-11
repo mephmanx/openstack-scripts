@@ -182,4 +182,5 @@ isohybrid /var/tmp/openstack-iso.iso
 ## cleanup work dir
 # Use to write to disk
 # dd if=/var/tmp/openstack-iso.iso of=/dev/sdb bs=16M status=progress
+rm -rf /tmp/configs
 rm -rf ./tmp
