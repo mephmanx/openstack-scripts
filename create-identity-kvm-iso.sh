@@ -24,7 +24,8 @@ sed -i "s/{GATEWAY_ROUTER_IP}/$GATEWAY_ROUTER_IP/g" ${kickstart_file}
 sed -i "s/{NETMASK}/$NETMASK/g" ${kickstart_file}
 ###########################
 
-embed_files=('/tmp/openstack-scripts/project_config.sh'
+embed_files=('/tmp/openstack-setup/openstack-env.sh'
+              '/tmp/openstack-scripts/project_config.sh'
               '/tmp/openstack-scripts/init-identity.sh'
               '/tmp/openstack-scripts/vm_functions.sh')
 
