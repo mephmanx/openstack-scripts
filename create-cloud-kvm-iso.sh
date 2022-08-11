@@ -4,7 +4,6 @@ rm -rf /root/cloud-install.log
 exec 1>/root/cloud-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 #set -x
 
-. ./vm_functions.sh
 . ./iso-functions.sh
 . ./vm-configurations.sh
 . ./project_config.sh
