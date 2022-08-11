@@ -3,22 +3,6 @@
 . /tmp/project_config.sh
 . /tmp/openstack-env.sh
 
-function parse_json() {
-  echo "$1" |
-    sed -e 's/[{}]/''/g' |
-    sed -e 's/", "/'\",\"'/g' |
-    sed -e 's/" ,"/'\",\"'/g' |
-    sed -e 's/" , "/'\",\"'/g' |
-    sed -e 's/","/'\"---SEPERATOR---\"'/g' |
-    awk -F=':' -v RS='---SEPERATOR---' "\$1~/\"$2\"/ {print}" |
-    sed -e "s/\"$2\"://" |
-    tr -d "\n\t" |
-    sed -e 's/\\"/"/g' |
-    sed -e 's/\\\\/\\/g' |
-    sed -e 's/^[ \t]*//g' |
-    sed -e 's/^"//' -e 's/"$//'
-}
-
 function get_drive_name() {
   dir_name=$(find /dev/mapper -maxdepth 1 -type l -name '*cs*' -print -quit)
   DRIVE_NAME=$(grep -oP '(?<=_).*?(?=-)' <<< "$dir_name")
@@ -195,7 +179,7 @@ done
                           -out $cert_dir/$cert_name.csr \
                           -config $cert_dir/$cert_name.cnf"
 
-  runuser -l root -c  "openssl x509 -CAcreateserial -req -days 7300 \
+  runuser -l root -c  "openssl x509 -CAcreateserial -req -days 365 \
                           -in $cert_dir/$cert_name.csr \
                           -CA $cert_dir/id_rsa.crt \
                           -CAkey $cert_dir/id_rsa \
@@ -435,12 +419,23 @@ function install_packages_openstack() {
 
   dnf groupinstall -y virtualization-client
   dnf install -y openvpn ruby-devel nodejs
-  dnf install -y freeipa-server freeipa-server-dns
   dnf install -y docker-ce
   systemctl enable docker
   systemctl start docker
   chkconfig docker on
   systemctl restart docker
+}
+
+function install_packages_identity() {
+  dnf clean all
+  dnf module enable idm:DL1 -y
+  dnf distro-sync -y
+  dnf reposync
+  dnf update -y
+
+  dnf groupinstall -y virtualization-client
+  dnf install -y openvpn ruby-devel nodejs
+  dnf install -y freeipa-server freeipa-server-dns
 }
 
 function install_packages_hypervisor() {
