@@ -34,7 +34,6 @@ systemctl enable docker
 chkconfig docker on
 
 systemctl restart docker
-## Also set this variable in .bash_profile and .bashrc
 
 cp /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
