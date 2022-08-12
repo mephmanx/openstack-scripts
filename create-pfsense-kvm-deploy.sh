@@ -55,6 +55,7 @@ mkdir /mnt/tmp/repo-dir
 tar xf /mnt/root/repo.tar -C /mnt/tmp/repo-dir/
 ./init.sh
 rm -rf init.sh
+rm -rf pf-init-1.sh
 EOF
 
 PFSENSE_INIT=$(cat </tmp/pf-init-1.sh | base64 | tr -d '\n\r')
