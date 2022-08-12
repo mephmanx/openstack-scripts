@@ -186,6 +186,7 @@ done
 EOF
 
 cat > /tmp/cloudsupport-test.sh <<EOF
+exec 1>/tmp/cloudsupport-signal-install.log 2>&1
 while [ true ]; do
     if [ \`< /dev/tcp/$SUPPORT_VIP/$CLOUDSUPPORT_SIGNAL ; echo \$?\` -lt 1 ]; then
       runuser -l root -c "cd /tmp || exit; ./create-kolla-kvm-deploy.sh;" &
