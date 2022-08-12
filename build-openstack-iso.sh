@@ -74,7 +74,7 @@ if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
   wget -O /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" "${DOCKER_COMPOSE}"
 fi
 
-if [ ! -f "/tmp/stratos.tar" ]; then
+if [ ! -f "/tmp/stratos-$STRATOS_VERSION.tar" ]; then
   docker pull splatform/stratos:stable && docker save splatform/stratos:"$STRATOS_VERSION" >/tmp/stratos-"$STRATOS_VERSION".tar
 fi
 
