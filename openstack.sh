@@ -109,11 +109,6 @@ rm -rf /usr/lib/firewalld/zones/libvirt.xml
 firewall-cmd --reload
 ###########################
 
-#### vtpm
-#telegram_notify  "Installing VTPM"
-#vtpm
-######
-
 ############ Create and init storage pools
 telegram_notify  "Build storage pools"
 for part in $(df | grep "VM-VOL" | awk '{print $6, " " }' | tr -d '/' | tr -d '\n'); do
