@@ -35,13 +35,14 @@ chkconfig docker on
 
 systemctl restart docker
 
-cp /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" /usr/local/bin/docker-compose
+mv /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
 cd /root || exit
 tar xzvf /tmp/harbor-"$HARBOR_VERSION".tgz
+rm -rf /tmp/harbor-"$HARBOR_VERSION".tgz
 
-cp /tmp/harbor.yml /root/harbor/harbor.yml
+mv /tmp/harbor.yml /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_HOST}/${SUPPORT_VIP_DNS}/g" /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_PASSWORD}/{CENTOS_ADMIN_PWD_123456789012}/g" /root/harbor/harbor.yml
 sed -i "s/{DATABASE_PASSWORD}/$(generate_random_pwd 31)/g" /root/harbor/harbor.yml
@@ -88,6 +89,8 @@ EOF
 etext=$(echo -n "admin:{CENTOS_ADMIN_PWD_123456789012}" | base64)
 curl -k -H  "authorization: Basic $etext" -X POST -H "Content-Type: application/json" "https://$SUPPORT_VIP_DNS/api/v2.0/projects" -d @/tmp/harbor.json
 
+rm -rf /tmp/harbor.json
+
 curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/registries" \
   --header "authorization: Basic $etext" \
   --header 'content-type: application/json' \
@@ -110,7 +113,7 @@ cat > /tmp/stratos.json << EOF
 {"project_name": "splatform","metadata": {"public": "true"}}
 EOF
 curl -k -H  "authorization: Basic $etext" -X POST -H "Content-Type: application/json" "https://$SUPPORT_VIP_DNS/api/v2.0/projects" -d @/tmp/stratos.json
-
+rm -rf /tmp/stratos.json
 #### populate harbor with openstack images
 #grafana fluentd zun not build
 
@@ -125,6 +128,7 @@ systemctl restart httpd
 #setup kolla docker rpm repo for build
 mv /tmp/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz /var/www/html/
 cd /var/www/html && tar xf /var/www/html/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz
+rm -rf /var/www/html/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz
 echo 'local rpm repo server setup finish!'
 
 docker load < /tmp/stratos-"$STRATOS_VERSION".tar
@@ -139,6 +143,8 @@ docker load < /tmp/centos-binary-fluentd.tar
 docker load < /tmp/centos-binary-grafana.tar
 docker load < /tmp/centos-binary-elasticsearch-curator.tar
 docker load < /tmp/pypi.tar
+
+rm -rf /tmp/*.tar
 
 docker tag "$(docker images |grep pypi|awk '{print $3}')" "$SUPPORT_VIP_DNS"/library/pypi:latest
 
@@ -181,6 +187,7 @@ echo 'install openstack-kolla on local server finish!'
 # centos-binary-base container image should have been config to use local pip server by /etc/pip.conf . all other images is based on base image.
 mkdir -p /srv/pypi
 tar -xf /tmp/harbor_python_modules.tar -C /srv/pypi
+rm -rf /tmp/harbor_python_modules.tar
 docker run -itd  --restart unless-stopped -e PYPI_EXTRA="--disable-fallback" -v /srv/pypi:/srv/pypi:rw -p 9090:80 --name pypi "$SUPPORT_VIP_DNS"/library/pypi:latest
 
 #fix openstack-kolla issue for offline build
