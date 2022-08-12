@@ -179,7 +179,7 @@ test_loop_count=0
 printf -v host_count '%d' "$host_count_str" 2>/dev/null
 ansible -m ping all -i /etc/kolla/multinode > /tmp/ping.txt
 # shellcheck disable=SC2006
-ct=`grep -o -i SUCCESS /tmp/ping.txt | wc -l`
+ct=$(grep -o -i SUCCESS /tmp/ping.txt | wc -l)
 # shellcheck disable=SC2004
 host_count=$(($host_count + 1))
 echo "hosts to check -> $host_count current hosts up -> $ct"
@@ -187,7 +187,7 @@ while [ "$ct" != $host_count ]; do
   rm -rf /tmp/ping.txt
   ansible -m ping all -i /etc/kolla/multinode > /tmp/ping.txt
   # shellcheck disable=SC2006
-  ct=`grep -o -i SUCCESS /tmp/ping.txt | wc -l`
+  ct=$(grep -o -i SUCCESS /tmp/ping.txt | wc -l)
   echo "hosts to check -> $host_count current hosts up -> $ct"
 
   ############ add keys
@@ -1194,8 +1194,6 @@ telegram_notify  "Stratos deployment complete!  access at console.$INTERNAL_DOMA
 
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
-
-chmod +x /etc/rc.d/rc.local
 }
 
 stop() {
