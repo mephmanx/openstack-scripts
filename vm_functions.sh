@@ -367,7 +367,7 @@ function install_packages_openstack() {
   dnf update -y
 
   dnf groupinstall -y virtualization-client
-  dnf install -y openvpn ruby-devel nodejs
+  dnf install -y openvpn ruby-devel nodejs freeipa-client
   dnf install -y docker-ce
   systemctl enable docker
   systemctl start docker
@@ -393,8 +393,5 @@ function install_packages_hypervisor() {
   dnf reposync
   dnf update -y
   dnf groupinstall -y virtualization-client
-  dnf install -y telnet
-  dnf install -y automake
-  dnf install -y libtool
-  dnf install cockpit-machines -y
+  dnf install -y telnet automake libtool cockpit-machines
 }
