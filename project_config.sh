@@ -155,8 +155,5 @@ export DOCKER_COMPOSE="https://github.com/docker/compose/releases/download/$DOCK
 ## cirros test image
 export CIRROS_IMAGE_URL="https://github.com/cirros-dev/cirros/releases/download/0.5.1/cirros-0.5.1-x86_64-disk.img"
 
-## stratos console
-export STRATUS_APP="https://github.com/cloudfoundry/stratos/archive/refs/tags/$STRATOS_VERSION.zip"
-
 ## amphora image
 export AMPHORA_IMAGE="https://github.com/mephmanx/openstack-amphora-build/releases/download/$OPENSTACK_VERSION/amphora-x64-haproxy.qcow2"
