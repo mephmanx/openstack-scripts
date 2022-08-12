@@ -5,8 +5,6 @@
 
 #can ONLY be run as root!  sudo to root
 rm -rf /var/tmp/*
-rm -rf /tmp/linux.iso
-rm -rf /tmp/configs/*
 
 ## this requires the original version of cdrtools
 ## https://www.berlios.de/software/cdrtools/ or
@@ -183,4 +181,5 @@ isohybrid /var/tmp/openstack-iso.iso
 # Use to write to disk
 # dd if=/var/tmp/openstack-iso.iso of=/dev/sdb bs=16M status=progress
 rm -rf /tmp/configs
+rm -rf /tmp/linux.iso
 rm -rf ./tmp
