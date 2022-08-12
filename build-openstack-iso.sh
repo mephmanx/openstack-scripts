@@ -129,7 +129,6 @@ mkdir -p "/tmp/harbor/$OPENSTACK_VERSION"
 if [ ! -f "/tmp/harbor/$OPENSTACK_VERSION/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f "/tmp/harbor/$OPENSTACK_VERSION/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz" ]; then
     for i in $(docker images |grep rpm_repo|awk '{print $3}');do docker rmi "$i";done
     for i in $(docker images |grep kolla|awk '{print $3}');do docker rmi "$i";done
-    docker pull "$DOCKER_OPENSTACK_OFFLINE_IMAGE:$OPENSTACK_VERSION"
     rm -rf /tmp/openstack-build.log
     docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out "$DOCKER_OPENSTACK_OFFLINE_IMAGE:$OPENSTACK_VERSION" "$OPENSTACK_VERSION"
 
