@@ -160,7 +160,7 @@ fi
 
 embed_files=('/tmp/openstack-setup/openstack-env.sh'
               '/tmp/openstack-scripts/project_config.sh'
-              '/tmp/openstack-scripts/openstack.sh'
+              '/tmp/openstack-scripts/init-openstack.sh'
               '/tmp/openstack-scripts/vm_functions.sh'
               '/tmp/openstack-scripts/vm-configurations.sh'
               '/tmp/openstack-scripts/create-cloud-kvm-deploy.sh'
