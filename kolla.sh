@@ -1195,8 +1195,6 @@ telegram_notify  "Stratos deployment complete!  access at console.$INTERNAL_DOMA
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
 
-restrict_to_root
-
 chmod +x /etc/rc.d/rc.local
 }
 

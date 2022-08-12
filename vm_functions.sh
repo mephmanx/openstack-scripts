@@ -46,14 +46,6 @@ function grow_fs() {
   xfsrestore -f /tmp/home.dump /home
 }
 
-function restrict_to_root() {
-  chmod 700 /tmp/*
-  if [[ -d "/etc/kolla" ]]; then
-    chmod 700 /etc/kolla/*
-    chmod 700 /etc/kolla
-  fi
-}
-
 function telegram_notify() {
   token=$TELEGRAM_API
   chat_id=$TELEGRAM_CHAT_ID
@@ -75,47 +67,6 @@ function telegram_debug_msg() {
         -H 'Content-Type: application/json' -d "{\"chat_id\": \"$chat_id\", \"text\":\"$msg_text\", \"disable_notification\":false}"  \
         -s \
         https://api.telegram.org/bot"$token"/sendMessage > /dev/null
-}
-
-function post_install_cleanup() {
-  ## cleanup kolla node
-  if [[ $HYPERVISOR_DEBUG == 1 ]]; then
-    return
-  fi
-  rm -rf /tmp/host-trust.sh
-  rm -rf /tmp/project_config.sh
-  rm -rf /tmp/swift.key
-
-  ### cleanup
-  runuser -l root -c  'rm -rf /root/*.log'
-  runuser -l root -c  'rm -rf /tmp/*.log'
-  ######
-
-  runuser -l root -c  'rm -rf /root/*.log'
-  runuser -l root -c  'rm -rf /tmp/*.log'
-  sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
-  sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
-  /usr/sbin/service sshd restart
-  #### cleanup nodes
-  file=/tmp/host_list
-cat > /tmp/server_cleanup.sh <<EOF
-sed -i 's/\(PermitRootLogin\).*/\1 no/' /etc/ssh/sshd_config
-sed -i 's/\(PasswordAuthentication\).*/\1 no/' /etc/ssh/sshd_config
-/usr/sbin/service sshd restart
-rm -rf /tmp/host-trust.sh
-rm -rf /tmp/project_config.sh
-rm -rf /tmp/vm_functions.sh
-rm -rf /tmp/server_cleanup.sh
-EOF
-  chmod +x /tmp/server_cleanup.sh
-  for i in $(cat "$file")
-  do
-    echo "cleanup server $i"
-    scp /tmp/server_cleanup.sh root@"$i":/tmp
-    runuser -l root -c "ssh root@$i '/tmp/server_cleanup.sh'"
-  done
-  rm -rf /tmp/host_list
-  rm -rf /tmp/server_cleanup.sh
 }
 
 function create_server_cert() {
