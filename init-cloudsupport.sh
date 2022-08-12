@@ -29,12 +29,6 @@ ipa-getcert request \
           -k /tmp/"$(hostname -s)".key \
           -D "$(hostname)"
 
-systemctl start docker
-systemctl enable docker
-chkconfig docker on
-
-systemctl restart docker
-
 mv /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
