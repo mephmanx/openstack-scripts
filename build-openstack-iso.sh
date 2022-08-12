@@ -94,7 +94,6 @@ fi
 
 if [ ! -f "/tmp/harbor_python_modules.tar" ]; then
   mkdir /tmp/Pyrepo
-  rm -rf /tmp/harbor_python_requirements
 cat > /tmp/harbor_python_requirements <<EOF
 netcontrold
 elasticsearch==7.13.*
@@ -104,6 +103,7 @@ EOF
   cd /tmp/Pyrepo || exit
   tar -cf /tmp/harbor_python_modules.tar ./*
   cd "$pwd" || exit
+  rm -rf /tmp/harbor_python_requirements
   rm -rf /tmp/Pyrepo
 fi
 
