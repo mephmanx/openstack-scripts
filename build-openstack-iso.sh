@@ -113,7 +113,6 @@ if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
 fi
 
 if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
-  docker pull mephmanx/homebrew-cache:"$CF_BBL_INSTALL_TERRAFORM_VERSION"
   docker run --rm -v /tmp:/tmp/export "$HOMEBREW_CACHE_IMAGE:$CF_BBL_INSTALL_TERRAFORM_VERSION"
 fi
 
