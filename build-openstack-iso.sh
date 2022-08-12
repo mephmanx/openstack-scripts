@@ -75,7 +75,7 @@ if [ ! -f "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION" ]; then
 fi
 
 if [ ! -f "/tmp/stratos-$STRATOS_VERSION.tar" ]; then
-  docker pull splatform/stratos:stable && docker save splatform/stratos:"$STRATOS_VERSION" >/tmp/stratos-"$STRATOS_VERSION".tar
+  docker pull splatform/stratos:"$STRATOS_VERSION" && docker save splatform/stratos:"$STRATOS_VERSION" >/tmp/stratos-"$STRATOS_VERSION".tar
 fi
 
 if [ ! -f "/tmp/docker-repo.tar" ]; then
