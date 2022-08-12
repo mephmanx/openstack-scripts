@@ -127,7 +127,7 @@ mv /tmp/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz /var/www/html/
 cd /var/www/html && tar xf /var/www/html/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz
 echo 'local rpm repo server setup finish!'
 
-docker load < /tmp/stratos.tar
+docker load < /tmp/stratos-"$STRATOS_VERSION".tar
 docker load < /tmp/centos-binary-base-"$OPENSTACK_VERSION".tar
 docker load < /tmp/centos-source-kolla-toolbox.tar
 docker load < /tmp/centos-source-zun-compute.tar
@@ -160,7 +160,7 @@ docker tag "$(docker images |grep centos-source-zun-cni-daemon|awk '{print $3}')
 
 docker tag "$(docker images |grep centos-source-kuryr-libnetwork|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-source-kuryr-libnetwork:"$OPENSTACK_VERSION"
 
-docker tag "$(docker images |grep stratos|awk '{print $3}')" "$SUPPORT_VIP_DNS"/splatform/stratos:latest
+docker tag "$(docker images |grep stratos|awk '{print $3}')" "$SUPPORT_VIP_DNS"/splatform/stratos:"$STRATOS_VERSION"
 
 #setup local repo
 cat > /tmp/kolla_local.repo <<EOF
