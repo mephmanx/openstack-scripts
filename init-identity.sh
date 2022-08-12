@@ -65,9 +65,6 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. _ntp._udp --srv-pri
 #### users
 /usr/bin/ipa user-add --first=Firstname --last=Lastname domain_admin --random
 
-####  send random pwd over telegram
-RANDOM_PWD=$(cat </root/start-install.log | grep 'Random password' | awk -F': ' '{print $2}')
-
 #Add sudo rules
 /usr/bin/ipa sudorule-add sysadmin_sudo --hostcat=all --runasusercat=all --runasgroupcat=all --cmdcat=all
 /usr/bin/ipa sudorule-add-user sysadmin_sudo --group cloud-admins
