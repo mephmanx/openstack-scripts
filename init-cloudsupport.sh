@@ -242,10 +242,8 @@ rm -rf /tmp/openstack-env.sh
 cat > /etc/rc.d/rc.local <<EOF
 #!/bin/bash
 
-. /tmp/project_config.sh
-
 start() {
-SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
+
 rm -rf /tmp/harbor-boot.log
 exec 1>/tmp/harbor-boot.log 2>&1 # send stdout and stderr from rc.local to a log file
 #set -x                             # tell sh to display commands before execution
