@@ -172,7 +172,7 @@ gpgcheck=0
 cost=100
 EOF
 
-cp /tmp/kolla_local.repo /etc/yum.repos.d/
+mv /tmp/kolla_local.repo /etc/yum.repos.d/
 yum install -y openstack-kolla
 echo 'install openstack-kolla on local server finish!'
 
@@ -236,6 +236,7 @@ python3 -m http.server "$CLOUDSUPPORT_SIGNAL" &
 ########################
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
+rm -rf /tmp/*.sh
 
 cat > /etc/rc.d/rc.local <<EOF
 #!/bin/bash
