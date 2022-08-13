@@ -58,7 +58,6 @@ chown stack /home/stack
 runuser -l root -c  'su - stack'
 ########################
 
-
 export PYTHONIOENCODING=UTF-8;
 # update pip to required version
 PATH=$PATH:$HOME/bin:/usr/local/bin
