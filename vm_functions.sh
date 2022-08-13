@@ -269,35 +269,22 @@ function get_disk_count() {
 }
 
 function grub_update() {
-  DRIVE_NAME_UPDATE=$(get_drive_name)
-
-  runuser -l root -c  'rm -rf /etc/default/grub'
-  runuser -l root -c  'touch /etc/default/grub'
-  runuser -l root -c  'chmod +x /etc/default/grub'
-
   is_intel=$(cat </proc/cpuinfo | grep vendor | uniq | grep -c 'Intel')
   arch="intel"
   if [[ $is_intel -lt 0 ]]; then
   arch="amd"
   fi
 
-cat > /tmp/grub <<EOF
-GRUB_TIMEOUT=1
-GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
-GRUB_DEFAULT=saved
-GRUB_DISABLE_SUBMENU=true
-GRUB_TERMINAL_OUTPUT="console"
-GRUB_CMDLINE_LINUX="resume=/dev/mapper/cs_${DRIVE_NAME_UPDATE}-swap rd.lvm.lv=cs_${DRIVE_NAME_UPDATE}/root rd.lvm.lv=cs_${DRIVE_NAME_UPDATE}/swap ${arch}_iommu=on rhgb quiet splash systemd.log_level=0 systemd.show_status=0 rd.plymouth=0 plymouth.enable=0 --log-level=0"
-GRUB_DISABLE_RECOVERY="true"
-GRUB_ENABLE_BLSCFG=true
-GRUB_TIMEOUT_STYLE=hidden
-GRUB_HIDDEN_TIMEOUT_QUIET=true
-EOF
+  grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) ${arch}_iommu=on"
+  grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) iommu=on"
+  grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) rhgb"
+  grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) splash"
+  grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) quiet"
+  grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) systemd.log_level=0"
+  grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) systemd.show_status=0"
+  grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) rd.plymouth=0"
+  grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) plymouth.enable=0"
 
-  runuser -l root -c  'cat /tmp/grub > /etc/default/grub'
-  runuser -l root -c  'grub2-mkconfig  -o /boot/grub2/grub.cfg'
-
-  rm -rf /tmp/grub
 }
 
 function replace_values_in_root_isos() {
