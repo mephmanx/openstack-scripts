@@ -178,6 +178,9 @@ while [ true ]; do
       runuser -l root -c "cd /tmp || exit; ./create-cloudsupport-kvm-deploy.sh;" &
       runuser -l root -c "cd /tmp || exit; ./create-cloud-kvm-deploy.sh;" &
       rm -rf /tmp/identity-test.sh
+      rm -rf /tmp/*.key
+      rm -rf /tmp/wildcard*
+      em -rf /tmp/subca*
       exit
     else
       sleep 5
