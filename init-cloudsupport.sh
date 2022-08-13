@@ -236,7 +236,6 @@ python3 -m http.server "$CLOUDSUPPORT_SIGNAL" &
 ########################
 #remove so as to not run again
 rm -rf /etc/rc.d/rc.local
-rm -rf /tmp/*.sh
 
 cat > /etc/rc.d/rc.local <<EOF
 #!/bin/bash
