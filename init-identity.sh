@@ -61,19 +61,27 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. _ntp._udp --srv-pri
 /usr/bin/ipa group-add cloud-admins
 /usr/bin/ipa group-add openstack-admins
 /usr/bin/ipa group-add vpn-users
+/usr/bin/ipa group-add stack-build
 
 #### users
 /usr/bin/ipa user-add --first=Firstname --last=Lastname domain_admin --random
 
+mkdir /opt/stack
+/usr/bin/ipa user-add --first=Stack --last=account stack --random --shell=/bin/bash --homedir=/opt/stack
+ssh-keygen -t rsa -f /opt/stack/.ssh/id_rsa -q -P ""
+user-mod stack --sshpubkey="$(cat /opt/stack/.ssh/id_rsa.pub)"
+
+
 #Add sudo rules
 /usr/bin/ipa sudorule-add sysadmin_sudo --hostcat=all --runasusercat=all --runasgroupcat=all --cmdcat=all
-/usr/bin/ipa sudorule-add-user sysadmin_sudo --group cloud-admins
+/usr/bin/ipa sudorule-add-user sysadmin_sudo --group stack-build
 
 ##### group memberships
 /usr/bin/ipa group-add-member openstack-admins --users=domain_admin
 /usr/bin/ipa group-add-member openstack-admins --users=admin
 /usr/bin/ipa group-add-member vpn-users --users=domain_admin
 /usr/bin/ipa group-add-member cloud-admins --users=domain_admin
+/usr/bin/ipa group-add-member stack-build --users=stack
 
 # load subordinate CA profile in freeipa
 cat > /tmp/subca.profile <<EOF
