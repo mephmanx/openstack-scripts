@@ -64,7 +64,7 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. _ntp._udp --srv-pri
 /usr/bin/ipa group-add stack-build
 
 #### users
-/usr/bin/ipa user-add --first=Firstname --last=Lastname domain_admin --random
+/usr/bin/ipa user-add --first=Domain --last=Admin domain_admin --random
 
 mkdir /opt/stack
 /usr/bin/ipa user-add --first=Stack --last=account stack --random --shell=/bin/bash --homedir=/opt/stack
