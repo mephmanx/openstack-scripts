@@ -180,7 +180,7 @@ while [ true ]; do
       rm -rf /tmp/identity-test.sh
       rm -rf /tmp/*.key
       rm -rf /tmp/wildcard*
-      em -rf /tmp/subca*
+      rm -rf /tmp/subca*
       exit
     else
       sleep 5
