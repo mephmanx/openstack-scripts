@@ -143,6 +143,8 @@ while [ true ]; do
       # generate wildcard cert using subordinate CA
       create_server_cert /tmp "wildcard" "*"
 
+      rm -rf /tmp/id_rsa
+      rm -rf /tmp/id_rsa.crt
       ## run format replace on each file below
 
       sed -e '40{N;s/\n//;}' /tmp/wildcard.key | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > /tmp/wildcard-converted.key
