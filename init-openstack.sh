@@ -145,6 +145,7 @@ while [ true ]; do
 
       rm -rf /tmp/id_rsa
       rm -rf /tmp/id_rsa.crt
+      rm -rf /tmp/id_rsa.srl
       ## run format replace on each file below
 
       sed -e '40{N;s/\n//;}' /tmp/wildcard.key | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > /tmp/wildcard-converted.key
