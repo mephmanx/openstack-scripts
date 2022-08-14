@@ -66,7 +66,7 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. _ntp._udp --srv-pri
 #### users
 /usr/bin/ipa user-add --first=Domain --last=Admin domain_admin --random
 
-mkdir /opt/stack
+mkdir -p /opt/stack/.ssh
 /usr/bin/ipa user-add --first=Stack --last=account stack --random --shell=/bin/bash --homedir=/opt/stack
 ssh-keygen -t rsa -f /opt/stack/.ssh/id_rsa -q -P ""
 user-mod stack --sshpubkey="$(cat /opt/stack/.ssh/id_rsa.pub)"
