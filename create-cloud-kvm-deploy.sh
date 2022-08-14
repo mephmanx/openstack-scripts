@@ -78,3 +78,5 @@ for d in "${vms[@]}"; do
   sleep 30
   ((index++))
 done
+
+rm -rf /tmp/create-cloud-kvm-deploy.sh

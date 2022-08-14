@@ -122,3 +122,4 @@ runuser -l root -c  "rm -rf /tmp/usb"
 telegram_notify  "PFSense reboot, pfsense-init script should begin after reboot."
 
 rm -rf /tmp/pfSense-CE-memstick-ADI-prod.img
+rm -rf /tmp/create-pfsense-kvm-deploy.sh

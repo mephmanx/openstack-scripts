@@ -35,3 +35,5 @@ telegram_notify "Creating identity vm"
 
 echo "$create_line"
 eval "$create_line" &
+
+rm -rf /tmp/create-identity-kvm-deploy.sh
