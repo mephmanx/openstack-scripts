@@ -184,13 +184,6 @@ function generate_specific_pwd() {
 }
 
 function join_machine_to_domain() {
-  ### prep sshd_config for join
-cat << EOF >> /etc/ssh/sshd_config
-AuthorizedKeysCommand /usr/local/bin/sss_ssh_authorizedkeys
-AuthorizedKeysCommandUser nobody
-PubkeyAuthentication yes
-EOF
-
   ## kill selinux to join domain
   runuser -l root -c "sed -i 's/\(SELINUX\=\).*/\1disabled/' /etc/selinux/config"
 
@@ -217,13 +210,6 @@ EOF
 
   ### if possible, restart selinux
   runuser -l root -c "sed -i 's/\(SELINUX\=\).*/\1enabled/' /etc/selinux/config"
-
-cat << EOF >> /etc/ssh/sshd_config
-AuthorizedKeysCommand /usr/local/bin/sss_ssh_authorizedkeys
-AuthorizedKeysCommandUser nobody
-PubkeyAuthentication yes
-EOF
-
 }
 
 function baseDN() {
@@ -354,7 +340,7 @@ function install_packages_openstack() {
   dnf update -y
 
   dnf groupinstall -y virtualization-client
-  dnf install -y openvpn ruby-devel nodejs freeipa-client
+  dnf install -y ruby-devel nodejs freeipa-client
   dnf install -y docker-ce
   systemctl enable docker
   chkconfig docker on
@@ -368,7 +354,7 @@ function install_packages_identity() {
   dnf update -y
 
   dnf groupinstall -y virtualization-client
-  dnf install -y openvpn ruby-devel nodejs
+  dnf install -y ruby-devel nodejs
   dnf install -y freeipa-server freeipa-server-dns
 }
 
