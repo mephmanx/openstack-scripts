@@ -14,6 +14,7 @@ rm -rf /var/tmp/*
 docker login -u "$DOCKER_LOGIN" -p "$DOCKER_SECRET"
 
 if [ ! -f "/tmp/linux.iso" ]; then
+  rm -rf /tmp/configs
   docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:$DOCKER_LINUX_BUILD_IMAGE_VERSION" bash -c "mv CentOS-x86_64-minimal.iso linux.iso; cp linux.iso /opt/mount"
   mkdir -p /tmp/configs
   docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:$DOCKER_LINUX_BUILD_IMAGE_VERSION" bash -c "cp /root/ks_configs/* /opt/mount/configs"
