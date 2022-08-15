@@ -291,7 +291,7 @@ echo "resume_guests_state_on_host_boot=true" >> /etc/kolla/config/nova.conf
 #######
 
 telegram_notify  "Openstack Kolla Ansible deploy task execution begun....."
-kolla-ansible -i /etc/kolla/multinode deploy -vvvv
+kolla-ansible -i /etc/kolla/multinode deploy
 
 ### grab last set of lines from log to send
 LOG_TAIL=$(tail -25 /tmp/openstack-install.log)
