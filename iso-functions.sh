@@ -223,6 +223,6 @@ function networkInformation {
 
   for ip in "${addresses[@]}"
   do
-    echo "runuser -l root -c  'ssh-keyscan -H $ip >> ~/.ssh/known_hosts';" >> /tmp/additional_hosts
+    echo "runuser -l root -c  'ssh-keyscan -H $ip.$INTERNAL_DOMAIN_NAME >> ~/.ssh/known_hosts';" >> /tmp/additional_hosts
   done
 }

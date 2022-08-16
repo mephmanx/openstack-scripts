@@ -229,7 +229,7 @@ echo "runuser -l root -c  \"echo \$(ip -f inet addr show enp1s0 | grep inet | aw
 for i in $(cat $file)
 do
   echo "$i"
-  scp /tmp/host-trust.sh root@"$i.$INTERNAL_DOMAIN_NAME":/tmp
+  sed -i "s/$i/$i.$INTERNAL_DOMAIN_NAME/g" /etc/kolla/multinode
   runuser -l root -c "ssh root@$i.$INTERNAL_DOMAIN_NAME 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
 done
 rm -rf /tmp/host_trust
