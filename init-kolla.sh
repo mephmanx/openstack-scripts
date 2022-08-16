@@ -285,16 +285,11 @@ echo "resume_guests_state_on_host_boot=true" >> /etc/kolla/config/nova.conf
 #echo "allowed_origin = https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:3000" >> /etc/kolla/config/keystone.conf
 #######
 
-##### magnum.conf options
-#echo "[cors]" >> /etc/kolla/config/magnum.conf
-#echo "cluster_user_trust = True" >> /etc/kolla/config/magnum.conf
-#######
-
 telegram_notify  "Openstack Kolla Ansible deploy task execution begun....."
 kolla-ansible -i /etc/kolla/multinode deploy
 
 ### grab last set of lines from log to send
-LOG_TAIL=$(tail -25 /tmp/openstack-install.log)
+LOG_TAIL=$(tail -25 /root/start-install.log)
 ###
 
 kolla-ansible post-deploy
