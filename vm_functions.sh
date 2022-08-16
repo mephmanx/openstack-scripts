@@ -34,16 +34,12 @@ function load_system_info() {
 function grow_fs() {
   DRIVE_NAME_UPDATE=$(get_drive_name)
 
-  #One time machine setup
-  xfsdump -f /tmp/home.dump /home
-
   umount /home
   lvreduce -L 4G -f /dev/mapper/cs_"${DRIVE_NAME_UPDATE}"-home
   mkfs.xfs -f /dev/mapper/cs_"${DRIVE_NAME_UPDATE}"-home
   lvextend -l +100%FREE /dev/mapper/cs_"${DRIVE_NAME_UPDATE}"-root
   xfs_growfs /dev/mapper/cs_"${DRIVE_NAME_UPDATE}"-root
   mount /dev/mapper/cs_"${DRIVE_NAME_UPDATE}"-home /home
-  xfsrestore -f /tmp/home.dump /home
 }
 
 function telegram_notify() {
