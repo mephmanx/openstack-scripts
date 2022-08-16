@@ -229,8 +229,8 @@ echo "runuser -l root -c  \"echo \$(ip -f inet addr show enp1s0 | grep inet | aw
 for i in $(cat $file)
 do
   echo "$i"
-  scp /tmp/host-trust.sh root@"$i":/tmp
-  runuser -l root -c "ssh root@$i 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
+  scp /tmp/host-trust.sh root@"$i.$INTERNAL_DOMAIN_NAME":/tmp
+  runuser -l root -c "ssh root@$i.$INTERNAL_DOMAIN_NAME 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
 done
 rm -rf /tmp/host_trust
 #####################
@@ -423,7 +423,7 @@ openstack role add --project cloudfoundry --project-domain default --user "$OPEN
 
 ##### quota configuration
 ## get max available memory
-memStr=$(runuser -l root -c "ssh root@compute01 'cat /proc/meminfo | grep MemTotal'")
+memStr=$(runuser -l root -c "ssh root@compute01.$INTERNAL_DOMAIN_NAME 'cat /proc/meminfo | grep MemTotal'")
 mem=$(echo "$memStr" | awk -F' ' '{ print $2 }')
 ### allocation for openstack docker processes & os
 quotaRam=$((mem / 1024 - 8000))
@@ -433,10 +433,10 @@ cat > /tmp/cpu_count.sh <<EOF
 grep -c ^processor /proc/cpuinfo
 EOF
 scp /tmp/cpu_count.sh root@compute01:/tmp
-CPU_COUNT=$(runuser -l root -c "ssh root@compute01 'chmod +x /tmp/cpu_count.sh; cd /tmp; ./cpu_count.sh'")
+CPU_COUNT=$(runuser -l root -c "ssh root@compute01.$INTERNAL_DOMAIN_NAME 'chmod +x /tmp/cpu_count.sh; cd /tmp; ./cpu_count.sh'")
 
 ## get cinder volume size
-cinder_vol_size="$(runuser -l root -c "ssh root@compute01 'df -h / --block-size G' | sed 1d")"
+cinder_vol_size="$(runuser -l root -c "ssh root@compute01.$INTERNAL_DOMAIN_NAME 'df -h / --block-size G' | sed 1d")"
 cinder_quota=$(echo "$cinder_vol_size" | awk '{print $4}' | tr -d '<G')
 cinder_q=$(printf "%.${2:-0}f" "$cinder_quota")
 ## overcommit scale by 10
@@ -512,7 +512,7 @@ sed -i "s/Supermicro/$INTERNAL_DOMAIN_NAME/g" etc/pfelk/conf.d/01-inputs.pfelk
 # Create Index Patterns for indexes
 # Need to run this command on any of control node
 # It will through an error related to (_ilm) policy which is fine, since we don't have x-pack on elasticsearch server
-ssh root@control01 curl -q https://raw.githubusercontent.com/pfelk/pfelk/main/etc/pfelk/scripts/pfelk-template-installer.sh | sed -e "s/localhost/control01/g" | bash
+ssh root@control01.$INTERNAL_DOMAIN_NAME curl -q https://raw.githubusercontent.com/pfelk/pfelk/main/etc/pfelk/scripts/pfelk-template-installer.sh | sed -e "s/localhost/control01/g" | bash
 
 # ISSUE: unboubd, _grokparsefailure
 #
@@ -539,9 +539,9 @@ docker run -d -v /etc/ipa:/etc/ipa -v /root/logstash-docker/etc/logstash/config:
 EOF
 
 scp /tmp/monitoring01-logstash.sh root@monitoring01:/tmp
-runuser -l root -c "ssh root@monitoring01 'chmod +x /tmp/monitoring01-logstash.sh; cd /tmp; ./monitoring01-logstash.sh'"
-runuser -l root -c "ssh root@monitoring01 'docker exec grafana grafana-cli plugins install grafana-worldmap-panel'"
-runuser -l root -c "ssh root@monitoring01 'docker restart grafana'"
+runuser -l root -c "ssh root@monitoring01.$INTERNAL_DOMAIN_NAME 'chmod +x /tmp/monitoring01-logstash.sh; cd /tmp; ./monitoring01-logstash.sh'"
+runuser -l root -c "ssh root@monitoring01.$INTERNAL_DOMAIN_NAME 'docker exec grafana grafana-cli plugins install grafana-worldmap-panel'"
+runuser -l root -c "ssh root@monitoring01.$INTERNAL_DOMAIN_NAME 'docker restart grafana'"
 ####
 
 ### enable haproxy (and any others) to log to monitoring01:5190
@@ -1000,7 +1000,7 @@ runuser -l stack -c "cf target -o 'system' -s 'system'"
 runuser -l stack -c "cf update-quota default -i 2G -m 4G"
 
 ### determine quota formula.  this is memory on compute server to be made available for cloudfoundry org.
-memStrFree=$(runuser -l root -c "ssh root@compute01 'cat /proc/meminfo | grep MemFree'")
+memStrFree=$(runuser -l root -c "ssh root@compute01.$INTERNAL_DOMAIN_NAME 'cat /proc/meminfo | grep MemFree'")
 memFree=$(echo "$memStrFree" | awk -F' ' '{ print $2 }')
 memGB=$((memFree / 1024 / 1024 * CF_MEMORY_ALLOCATION_PCT / 100))
 runuser -l stack -c "cf create-quota $INTERNAL_DOMAIN_NAME -i 8096M -m ${memGB}G -r 1000 -s 1000 -a 1000 --allow-paid-service-plans --reserved-route-ports $CF_TCP_PORT_COUNT"
