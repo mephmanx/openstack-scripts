@@ -158,7 +158,7 @@ docker tag "$(docker images |grep centos-source-kuryr-libnetwork|awk '{print $3}
 docker tag "$(docker images |grep stratos|awk '{print $3}')" "$SUPPORT_VIP_DNS"/splatform/stratos:"$STRATOS_VERSION"
 
 #setup local repo
-cat > /tmp/kolla_local.repo <<EOF
+cat > /etc/yum.repos.d/kolla_local.repo <<EOF
 [kolla_local]
 name=kolla_local
 baseurl=http://localhost:8080/kolla_$OPENSTACK_VERSION
@@ -167,8 +167,6 @@ gpgcheck=0
 cost=100
 EOF
 
-mv /tmp/kolla_local.repo /etc/yum.repos.d/
-yum install -y openstack-kolla
 echo 'install openstack-kolla on local server finish!'
 
 #setup local pypi server for offline pip install, pypi web server port is 9090 on harbor vm. root cache dir is /srv/pypi/.
