@@ -26,6 +26,11 @@ if [ ! -f "/tmp/amphora-x64-haproxy-$OPENSTACK_VERSION.qcow2" ]; then
 fi
 
 if [ ! -f "/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
+  rm -rf /tmp/usb
+  rm -rf /tmp/pfsense-install
+  mkdir -p /tmp/usb
+  mkdir -p /tmp/pfsense-install
+
   for i in $(docker images |grep "$PFSENSE_CACHE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
   docker run -v /out:/out -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock -v /tmp:/tmp -v /dev:/dev -v /root:/root --rm -ti --network=host --privileged "$PFSENSE_CACHE_IMAGE:$PFSENSE_VERSION" dev
   sleep 20;
