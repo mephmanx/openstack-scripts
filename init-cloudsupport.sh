@@ -19,6 +19,11 @@ exec 1>/root/start-install.log 2>&1 # send stdout and stderr from rc.local to a 
 sleep 30
 ###########################
 
+#setup repo server
+rm -rf /etc/httpd/conf.d/ssl.conf
+sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
+systemctl restart httpd
+
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 
 echo "{CENTOS_ADMIN_PWD_123456789012}" | kinit admin
@@ -114,6 +119,12 @@ rm -rf /tmp/stratos.json
 sleep 3
 docker login -u admin -p "{CENTOS_ADMIN_PWD_123456789012}" "$SUPPORT_VIP_DNS"
 
+#setup repo server
+
+rm -rf /etc/httpd/conf.d/ssl.conf
+sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
+systemctl restart httpd
+
 #setup kolla docker rpm repo for build
 mv /tmp/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz /var/www/html/
 cd /var/www/html && tar xf /var/www/html/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz
@@ -158,7 +169,7 @@ docker tag "$(docker images |grep centos-source-kuryr-libnetwork|awk '{print $3}
 docker tag "$(docker images |grep stratos|awk '{print $3}')" "$SUPPORT_VIP_DNS"/splatform/stratos:"$STRATOS_VERSION"
 
 #setup local repo
-cat > /etc/yum.repos.d/kolla_local.repo <<EOF
+cat > /tmp/kolla_local.repo <<EOF
 [kolla_local]
 name=kolla_local
 baseurl=http://localhost:8080/kolla_$OPENSTACK_VERSION
@@ -167,6 +178,8 @@ gpgcheck=0
 cost=100
 EOF
 
+mv /tmp/kolla_local.repo /etc/yum.repos.d/
+yum install -y openstack-kolla
 echo 'install openstack-kolla on local server finish!'
 
 #setup local pypi server for offline pip install, pypi web server port is 9090 on harbor vm. root cache dir is /srv/pypi/.
