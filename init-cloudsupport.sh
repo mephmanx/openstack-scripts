@@ -19,11 +19,6 @@ exec 1>/root/start-install.log 2>&1 # send stdout and stderr from rc.local to a 
 sleep 30
 ###########################
 
-#setup repo server
-rm -rf /etc/httpd/conf.d/ssl.conf
-sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
-systemctl restart httpd
-
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 
 echo "{CENTOS_ADMIN_PWD_123456789012}" | kinit admin
