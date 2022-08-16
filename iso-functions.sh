@@ -215,8 +215,7 @@ function networkInformation {
       sed -i "s/{NODE_IP}/$ip_addr/g" "${kickstart_file}"
       ip_set=1
       ((CORE_VM_START_IP++))
-    fi
-    if [[ "${element}" =~ .*"static".* ]] && [[ $ip_set -eq 1 ]]; then
+    elif [[ "${element}" =~ .*"static".* ]] && [[ $ip_set -eq 1 ]]; then
       sed -i "s/{HAS_NET_3}/1/g" "${kickstart_file}"
     fi
     ((ct++))
