@@ -115,7 +115,7 @@ function buildAndPushOpenstackSetupISO {
 
   ########## add host trust script
   touch /tmp/host-trust.sh
-  { cat /tmp/dns_hosts; cat /tmp/additional_hosts; } >> /tmp/host-trust.sh
+  cat /tmp/additional_hosts >> /tmp/host-trust.sh
   echo  "$1" >> /tmp/host-trust.sh
   #####################
 
@@ -172,7 +172,6 @@ function buildAndPushOpenstackSetupISO {
   rm -rf /tmp/host_list
   rm -rf /tmp/storage_hosts
   rm -rf /tmp/additional_hosts
-  rm -rf /tmp/dns_hosts
 }
 
 function networkInformation {
@@ -201,11 +200,7 @@ function networkInformation {
       ##check if internal or external network and set ip/gateway accordingly
       ip_addr="${NETWORK_PREFIX}.${CORE_VM_START_IP}"
 
-      if ! grep -q "$host" "/tmp/dns_hosts"; then
-          #add localhost entry
-        #echo "runuser -l root -c  'echo "$ip_addr $host" >> /etc/hosts;'" >> /tmp/dns_hosts
-        addresses+=("$ip_addr")
-      fi
+      addresses+=("$ip_addr")
 
         # If storage address, add to array to build rings later
       if [[ "$vm_type" == "storage" ]]; then
