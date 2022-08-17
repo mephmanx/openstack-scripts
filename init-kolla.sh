@@ -33,12 +33,6 @@ INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
 EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
 ###################
 
-############ add keys
-working_dir=$(pwd)
-chmod +x /tmp/host-trust.sh
-runuser -l root -c  'cd /tmp; ./host-trust.sh'
-cd "$working_dir" || exit
-
 ADMIN_PWD={CENTOS_ADMIN_PWD_123456789012}
 etext=$(echo -n "admin:$ADMIN_PWD" | base64)
 status_code=$(curl https://"$SUPPORT_VIP_DNS"/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
@@ -109,7 +103,7 @@ mkdir -p /etc/kolla/config/swift
 # 0 based (ie 0=1, so 1=2)
 drive_count=0
 
-while IFS="" read -r p || [ -n "$p" ]
+for p in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '.storage.hosts[]')
 do
   printf 'storage host -> %s\n' "$p"
   export KOLLA_INTERNAL_ADDRESS=$p
@@ -166,17 +160,17 @@ do
       swift-ring-builder \
         /etc/kolla/config/swift/"${ring}".builder rebalance;
   done
-done < /tmp/storage_hosts
-rm -rf /tmp/storage_hosts
+done
 #################
 
 #####################################  make sure all hosts are up
 # shellcheck disable=SC2006
-host_count_str=`cat /tmp/host_count`
+read -r -a host_array <<< "$(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')"
+host_count_str=${#host_array}
 
 test_loop_count=0
 printf -v host_count '%d' "$host_count_str" 2>/dev/null
-ansible -m ping all -i /etc/kolla/multinode > /tmp/ping.txt
+ansible -m ping all -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode > /tmp/ping.txt
 # shellcheck disable=SC2006
 ct=$(grep -o -i SUCCESS /tmp/ping.txt | wc -l)
 # shellcheck disable=SC2004
@@ -184,7 +178,7 @@ host_count=$(($host_count + 1))
 echo "hosts to check -> $host_count current hosts up -> $ct"
 while [ "$ct" != $host_count ]; do
   rm -rf /tmp/ping.txt
-  ansible -m ping all -i /etc/kolla/multinode > /tmp/ping.txt
+  ansible -m ping all -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode > /tmp/ping.txt
   # shellcheck disable=SC2006
   ct=$(grep -o -i SUCCESS /tmp/ping.txt | wc -l)
   echo "hosts to check -> $host_count current hosts up -> $ct"
@@ -204,7 +198,6 @@ while [ "$ct" != $host_count ]; do
   fi
 done
 rm -rf /tmp/ping.txt
-rm -rf /tmp/host_count
 #####################################
 
 ### host ping successful, all hosts came up properly
@@ -224,16 +217,27 @@ kolla-ansible octavia-certificates
 ######
 
 #### run host trust on all nodes
-file=/tmp/host_list
+touch /tmp/host-trust.sh
+chmod +x /tmp/host-trust.sh
 echo "runuser -l root -c  \"echo \$(ip -f inet addr show enp1s0 | grep inet | awk -F' ' '{ print \$2 }' | cut -d '/' -f1) download.docker.com >> /etc/hosts;\"" | cat - /tmp/host-trust.sh > temp && mv -f temp /tmp/host-trust.sh
-for i in $(cat $file)
+for i in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
 do
   echo "$i"
-  sed -i "s/$i/$i.$INTERNAL_DOMAIN_NAME/g" /etc/kolla/multinode
-  cp /tmp/host-trust.sh root@"$i.$INTERNAL_DOMAIN_NAME":/tmp
+  sed -i "s/$i/$i.$INTERNAL_DOMAIN_NAME/g" /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode
+  echo "runuser -l root -c  'ssh-keyscan -H $i.$INTERNAL_DOMAIN_NAME >> ~/.ssh/known_hosts';" >> /tmp/host_trust.sh
+  echo "runuser -l root -c  'ssh-keyscan -H $i >> ~/.ssh/known_hosts';" >> /tmp/host_trust.sh
+done
+
+working_dir=$(pwd)
+chmod +x /tmp/host-trust.sh
+runuser -l root -c  'cd /tmp; ./host-trust.sh'
+cd "$working_dir" || exit
+
+for i in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
+do
+  scp /tmp/host-trust.sh root@"$i.$INTERNAL_DOMAIN_NAME":/tmp
   runuser -l root -c "ssh root@$i.$INTERNAL_DOMAIN_NAME 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
 done
-rm -rf /tmp/host_trust
 #####################
 
 ### replace all instances of https://download.docker.com with http://download.docker.com:8081 to pull from cache
@@ -242,8 +246,8 @@ cd /opt/stack/venv/share/kolla-ansible || exit
 find ./ -type f -exec sed -i 's/https:\/\/download.docker.com/http:\/\/download.docker.com:8081/g' {} \;
 cd "$pwd" || exit
 
-kolla-ansible -i /etc/kolla/multinode bootstrap-servers
-kolla-ansible -i /etc/kolla/multinode prechecks
+kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode bootstrap-servers
+kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode prechecks
 
 export KOLLA_DEBUG=0
 export ENABLE_EXT_NET=1
@@ -256,10 +260,10 @@ telegram_notify  "Analyzing Kolla Openstack configuration and pull docker images
 
 ## look for any failures and run again if any fail.   continue until cache is full or 10 tries are made
 cache_ct=10
-cache_out=$(kolla-ansible -i /etc/kolla/multinode pull)
+cache_out=$(kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode pull)
 failure_occur=$(echo "$cache_out" | grep -o 'FAILED' | wc -l)
 while [ "$failure_occur" -gt 0 ]; do
-  cache_out=$(kolla-ansible -i /etc/kolla/multinode pull)
+  cache_out=$(kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode pull)
   failure_occur=$(echo "$cache_out" | grep -o 'FAILED' | wc -l)
   if [[ $cache_ct == 0 ]]; then
     telegram_notify  "Cache prime failed after 10 retries, failing.  Check logs to resolve issue."
@@ -286,8 +290,11 @@ echo "resume_guests_state_on_host_boot=true" >> /etc/kolla/config/nova.conf
 #echo "allowed_origin = https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:3000" >> /etc/kolla/config/keystone.conf
 #######
 
+sed -i 's/[mysqld]/[mysqld]/amax_connect_errors = 10000/g' /opt/stack/venv/share/kolla-ansible/ansible/roles/mariadb/templates/galera.cnf.j2
+sed -i 's/[mysqld]/[mysqld]/amax_connect_errors = 10000/g' /usr/local/share/kolla-ansible/ansible/roles/mariadb/templates/galera.cnf.j2
+
 telegram_notify  "Openstack Kolla Ansible deploy task execution begun....."
-kolla-ansible -i /etc/kolla/multinode deploy
+kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode deploy
 
 ### grab last set of lines from log to send
 LOG_TAIL=$(tail -25 /root/start-install.log)

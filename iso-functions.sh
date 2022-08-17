@@ -113,32 +113,17 @@ function buildAndPushOpenstackSetupISO {
   initialKickstartSetup "kolla"
   ###########################
 
-  ########## add host trust script
-  touch /tmp/host-trust.sh
-  cat /tmp/additional_hosts >> /tmp/host-trust.sh
-  echo  "$1" >> /tmp/host-trust.sh
-  #####################
-
   ############ control hack script
   touch /tmp/control-trust.sh
-  echo  "$2" >> /tmp/control-trust.sh
+  echo  "$1" >> /tmp/control-trust.sh
   #################################
-
-  ############## host count
-  touch /tmp/host_count
-  echo  "$3" >> /tmp/host_count
-  #########################
 
   #####################################
   embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
-                '/tmp/host-trust.sh'
                 '/tmp/control-trust.sh'
-                '/tmp/host_count'
                 "/tmp/trove_instance-$UBUNTU_VERSION.img"
                 "/tmp/trove_db-$OPENSTACK_VERSION.img"
                 "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
-                '/tmp/host_list'
-                '/tmp/storage_hosts'
                 '/tmp/cirros-0.5.1-x86_64-disk.img'
                 "/tmp/amphora-x64-haproxy-$OPENSTACK_VERSION.qcow2"
                 '/tmp/openstack-scripts/init-kolla.sh'
@@ -166,24 +151,13 @@ function buildAndPushOpenstackSetupISO {
   printf -v embed_files_string '%s ' "${embed_files[@]}"
   closeOutAndBuildKickstartAndISO "${kickstart_file}" "kolla" "$embed_files_string"
 
-  rm -rf /tmp/host_count
   rm -rf /tmp/control-trust.sh
-  rm -rf /tmp/host-trust.sh
-  rm -rf /tmp/host_list
-  rm -rf /tmp/storage_hosts
-  rm -rf /tmp/additional_hosts
 }
 
 function networkInformation {
   kickstart_file=$1
   vm_type=$2
   host=$3
-
-  if [[ "kolla" != "$vm_type" ]]; then
-    echo "$host" >> /tmp/host_list
-  else
-    echo "" >> /tmp/host_list
-  fi
 
   vmstr=$(vm_definitions "$vm_type")
   vm_str=${vmstr//[$'\t\r\n ']}
