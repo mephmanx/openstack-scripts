@@ -286,6 +286,9 @@ echo "resume_guests_state_on_host_boot=true" >> /etc/kolla/config/nova.conf
 #echo "allowed_origin = https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:3000" >> /etc/kolla/config/keystone.conf
 #######
 
+sed -i 's/[mysqld]/[mysqld]/amax_connect_errors = 10000/g' /opt/stack/venv/share/kolla-ansible/ansible/roles/mariadb/templates/galera.cnf.j2
+sed -i 's/[mysqld]/[mysqld]/amax_connect_errors = 10000/g' /usr/local/share/kolla-ansible/ansible/roles/mariadb/templates/galera.cnf.j2
+
 telegram_notify  "Openstack Kolla Ansible deploy task execution begun....."
 kolla-ansible -i /etc/kolla/multinode deploy
 
