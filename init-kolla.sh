@@ -230,6 +230,7 @@ for i in $(cat $file)
 do
   echo "$i"
   sed -i "s/$i/$i.$INTERNAL_DOMAIN_NAME/g" /etc/kolla/multinode
+  cp /tmp/host-trust.sh root@"$i.$INTERNAL_DOMAIN_NAME":/tmp
   runuser -l root -c "ssh root@$i.$INTERNAL_DOMAIN_NAME 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
 done
 rm -rf /tmp/host_trust
