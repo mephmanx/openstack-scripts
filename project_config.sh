@@ -32,7 +32,7 @@ export DOCKER_COMPOSE_VERSION="1.29.2"
 export UBUNTU_VERSION="18.04"
 export UBUNTU_RELEASE_NAME="bionic"
 export CF_DEPLOY_VERSION="v21.7.0"
-export STEMCELL_STAMP="05-03-2022"
+export STEMCELL_STAMP="08-18-2022"
 export STRATOS_VERSION="4.4.0"
 
 ### hostnames for infra vms
