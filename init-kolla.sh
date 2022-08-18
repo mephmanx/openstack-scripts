@@ -585,7 +585,7 @@ runuser -l stack -c  'cd /opt/stack; source .bash_profile;'
 PUBLIC_NETWORK_ID="$(openstack network list --name public1 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')"
 
 ## needed for bosh
-yum install -y gcc make openssl-devel
+yum install -y gcc make openssl-devel patch
 
 telegram_notify  "Starting BOSH infrastructure install...."
 runuser -l stack -c  "echo 'export BBL_IAAS=openstack' >> /opt/stack/.bash_profile"
