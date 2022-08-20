@@ -33,6 +33,12 @@ INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
 EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
 ###################
 
+############ add keys
+working_dir=$(pwd)
+chmod +x /tmp/host-trust.sh
+runuser -l root -c  'cd /tmp; ./host-trust.sh'
+cd "$working_dir" || exit
+
 ADMIN_PWD={CENTOS_ADMIN_PWD_123456789012}
 etext=$(echo -n "admin:$ADMIN_PWD" | base64)
 status_code=$(curl https://"$SUPPORT_VIP_DNS"/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
@@ -290,8 +296,8 @@ echo "resume_guests_state_on_host_boot=true" >> /etc/kolla/config/nova.conf
 #echo "allowed_origin = https://$APP_EXTERNAL_HOSTNAME.$EXTERNAL_DOMAIN_NAME:3000" >> /etc/kolla/config/keystone.conf
 #######
 
-sed -i 's/[mysqld]/[mysqld]/amax_connect_errors = 10000/g' /opt/stack/venv/share/kolla-ansible/ansible/roles/mariadb/templates/galera.cnf.j2
-sed -i 's/[mysqld]/[mysqld]/amax_connect_errors = 10000/g' /usr/local/share/kolla-ansible/ansible/roles/mariadb/templates/galera.cnf.j2
+sed -i 's/\[mysqld\]/\[mysqld\]\nmax_connect_errors = 10000/g' /opt/stack/venv/share/kolla-ansible/ansible/roles/mariadb/templates/galera.cnf.j2
+sed -i 's/\[mysqld\]/\[mysqld\]\nmax_connect_errors = 10000/g' /usr/local/share/kolla-ansible/ansible/roles/mariadb/templates/galera.cnf.j2
 
 telegram_notify  "Openstack Kolla Ansible deploy task execution begun....."
 kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode deploy
@@ -359,11 +365,11 @@ openstack router add subnet trove-router trove-subnet0
 # execute on kolla node
 qemu-img convert -O raw /tmp/magnum-"$MAGNUM_IMAGE_VERSION".qcow2 /tmp/magnum-"$MAGNUM_IMAGE_VERSION".raw
 mkdir -p /tmp/magnum-tmp
-kpartx -av /tmp/magnum-"$MAGNUM_IMAGE_VERSION".raw
-mount /dev/atomicos/root /tmp/magnum-tmp
-cp /etc/ipa/ca.crt /ostree/deploy/fedora-atomic/deploy/*.0/etc/pki/ca-trust/source/
-umount /tmp/magnum-tmp
-kpartx -d /tmp/magnum-"$MAGNUM_IMAGE_VERSION".raw
+runuser -l root -c "kpartx -av /tmp/magnum-$MAGNUM_IMAGE_VERSION.raw"
+runuser -l root -c "mount /dev/atomicos/root /tmp/magnum-tmp"
+cp /etc/ipa/ca.crt /tmp/magnum-tmp/ostree/deploy/fedora-atomic/deploy/*.0/etc/pki/ca-trust/source/
+runuser -l root -c "umount /tmp/magnum-tmp"
+runuser -l root -c "kpartx -d /tmp/magnum-$MAGNUM_IMAGE_VERSION.raw"
 
 ### magnum cluster create
 openstack image create \
@@ -589,7 +595,7 @@ runuser -l stack -c  'cd /opt/stack; source .bash_profile;'
 PUBLIC_NETWORK_ID="$(openstack network list --name public1 | awk -F'|' ' NR > 3 && !/^+--/ { print $2} ' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }')"
 
 ## needed for bosh
-yum install -y gcc make openssl-devel
+yum install -y gcc make openssl-devel patch
 
 telegram_notify  "Starting BOSH infrastructure install...."
 runuser -l stack -c  "echo 'export BBL_IAAS=openstack' >> /opt/stack/.bash_profile"

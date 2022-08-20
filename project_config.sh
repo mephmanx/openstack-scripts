@@ -32,7 +32,7 @@ export DOCKER_COMPOSE_VERSION="1.29.2"
 export UBUNTU_VERSION="18.04"
 export UBUNTU_RELEASE_NAME="bionic"
 export CF_DEPLOY_VERSION="v21.7.0"
-export STEMCELL_STAMP="05-03-2022"
+export STEMCELL_STAMP="08-19-2022"
 export STRATOS_VERSION="4.4.0"
 
 ### hostnames for infra vms
@@ -100,10 +100,9 @@ export CF_BBL_OS_CONF_HASH=386293038ae3d00813eaa475b4acf63f8da226ef
 ## how much available memory (after operating system, vm overhead, openstack overhead, and other misc resources are allocated) is allocated to cloudfoundry
 export CF_MEMORY_ALLOCATION_PCT=80
 export CF_DISK_ALLOCATION=80
-### this must be in FreeBSD compatible array format or will break the pfsense init!
 ## stemcells to cache, will be pulled from https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-$stemcell-go_agent
-export CF_STEMCELLS="ubuntu-bionic ubuntu-xenial ubuntu-trusty"
-export BOSH_STEMCELL="ubuntu-bionic"
+export CF_STEMCELLS="ubuntu-jammy ubuntu-bionic ubuntu-xenial ubuntu-trusty"
+export BOSH_STEMCELL="ubuntu-jammy"
 ## openstack vm counts
 ### these counts can be adjusted if larger than 1 server
 ### below counts are based on single server
