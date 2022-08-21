@@ -1130,7 +1130,7 @@ runuser -l stack -c "cf bind-staging-security-group ASG"
 #push stratos
 cat > /tmp/stratos.yml <<EOF
 applications:
-  - name: console2
+  - name: console
     docker:
       image: harbor.cloud.local/splatform/stratos:$STRATOS_VERSION
     instances: 1
