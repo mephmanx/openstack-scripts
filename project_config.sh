@@ -13,7 +13,7 @@ export DOCKER_LINUX_BUILD_IMAGE_VERSION="20220804";
 
 ## Docker Openstack offline resources
 export DOCKER_OPENSTACK_OFFLINE_IMAGE="mephmanx/os-airgap";
-export OPENSTACK_VERSION="wallaby"
+export OPENSTACK_VERSION="xena"
 
 ## Homebrew caching image
 export HOMEBREW_CACHE_IMAGE="mephmanx/homebrew-cache";
