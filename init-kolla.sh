@@ -1046,6 +1046,7 @@ EOF
 
 runuser -l stack -c "cf create-security-group ASG /opt/stack/asg.json"
 runuser -l stack -c "cf bind-running-security-group ASG"
+runuser -l stack -c "cf bind-staging-security-group ASG"
 ## push logging
 # get latest stemcell
 #runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
