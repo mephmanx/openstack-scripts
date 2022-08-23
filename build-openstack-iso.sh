@@ -154,8 +154,7 @@ if [ ! -f "/tmp/harbor/$OPENSTACK_VERSION/centos-binary-base-${OPENSTACK_VERSION
     docker pull kolla/centos-binary-fluentd:"$OPENSTACK_VERSION" && docker save kolla/centos-binary-fluentd:"$OPENSTACK_VERSION" >/tmp/harbor/"$OPENSTACK_VERSION"/centos-binary-fluentd.tar
     docker pull kolla/centos-binary-grafana:"$OPENSTACK_VERSION" && docker save kolla/centos-binary-grafana:"$OPENSTACK_VERSION" >/tmp/harbor/"$OPENSTACK_VERSION"/centos-binary-grafana.tar
     docker pull kolla/centos-binary-elasticsearch-curator:"$OPENSTACK_VERSION" && docker save kolla/centos-binary-elasticsearch-curator:"$OPENSTACK_VERSION" >/tmp/harbor/"$OPENSTACK_VERSION"/centos-binary-elasticsearch-curator.tar
-    for i in $(docker images |grep rpm_repo|awk '{print $3}');do docker rmi "$i";done
-    for i in $(docker images |grep kolla|awk '{print $3}');do docker rmi "$i";done
+    for i in $(docker images |grep xena|awk '{print $3}');do docker rmi "$i";done
 fi
 
 ./create-cloudsupport-kvm-iso.sh
