@@ -19,6 +19,8 @@ set -x                             # tell sh to display commands before executio
 sleep 30
 ###########################
 
+yum install -y jq
+
 ## kill serving keys on identity
 #When finished with CA and key files, send signal to identity server to kill signal http server
 curl -o /tmp/subca.cert http://"$IDENTITY_VIP":"$IDENTITY_SIGNAL"/subca.cert
