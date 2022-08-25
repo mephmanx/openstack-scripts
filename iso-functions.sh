@@ -176,11 +176,6 @@ function networkInformation {
 
       addresses+=("$ip_addr")
 
-        # If storage address, add to array to build rings later
-      if [[ "$vm_type" == "storage" ]]; then
-          echo "$ip_addr" >> /tmp/storage_hosts
-      fi
-
       sed -i "s/{NODE_IP}/$ip_addr/g" "${kickstart_file}"
       ip_set=1
       ((CORE_VM_START_IP++))
