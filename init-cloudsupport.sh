@@ -133,8 +133,6 @@ docker load < /tmp/centos-binary-grafana.tar
 docker load < /tmp/centos-binary-elasticsearch-curator.tar
 docker load < /tmp/pypi.tar
 
-rm -rf /tmp/*.tar
-
 docker tag "$(docker images |grep pypi|awk '{print $3}')" "$SUPPORT_VIP_DNS"/library/pypi:latest
 
 docker tag "$(docker images |grep centos-source-kolla-toolbox|awk '{print $3}')" "$SUPPORT_VIP_DNS"/kolla/centos-binary-kolla-toolbox:"$OPENSTACK_VERSION"
@@ -176,7 +174,10 @@ echo 'install openstack-kolla on local server finish!'
 # centos-binary-base container image should have been config to use local pip server by /etc/pip.conf . all other images is based on base image.
 mkdir -p /srv/pypi
 tar -xf /tmp/harbor_python_modules.tar -C /srv/pypi
-rm -rf /tmp/harbor_python_modules.tar
+
+### remove files from tmp
+rm -rf /tmp/*.tar
+
 docker run -itd  --restart unless-stopped -e PYPI_EXTRA="--disable-fallback" -v /srv/pypi:/srv/pypi:rw -p 9090:80 --name pypi "$SUPPORT_VIP_DNS"/library/pypi:latest
 
 #fix openstack-kolla issue for offline build
