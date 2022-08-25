@@ -14,10 +14,12 @@ rm -rf /var/tmp/*
 docker login -u "$DOCKER_LOGIN" -p "$DOCKER_SECRET"
 
 if [ ! -f "/tmp/linux.iso" ]; then
+  for i in $(docker images |grep "$DOCKER_LINUX_BUILD_IMAGE"|awk '{print $3}');do docker rmi "$i";done
   rm -rf /tmp/configs
   docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:$DOCKER_LINUX_BUILD_IMAGE_VERSION" bash -c "mv CentOS-x86_64-minimal.iso linux.iso; cp linux.iso /opt/mount"
   mkdir -p /tmp/configs
   docker run -v /tmp:/opt/mount --rm -ti "$DOCKER_LINUX_BUILD_IMAGE:$DOCKER_LINUX_BUILD_IMAGE_VERSION" bash -c "cp /root/ks_configs/* /opt/mount/configs"
+  for i in $(docker images |grep "$DOCKER_LINUX_BUILD_IMAGE"|awk '{print $3}');do docker rmi "$i";done
 fi
 
 ## download files to be embedded
@@ -35,6 +37,7 @@ if [ ! -f "/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
   for i in /dev/loop*; do
     losetup -d "$i";
   done
+  for i in $(docker images |grep "$PFSENSE_CACHE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
 fi
 
 if [ ! -f "/tmp/cirros-0.5.1-x86_64-disk.img" ]; then
@@ -116,7 +119,9 @@ if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
 fi
 
 if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
+  for i in $(docker images |grep "$HOMEBREW_CACHE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
   docker run -v /tmp:/var/tmp --rm -ti "$HOMEBREW_CACHE_IMAGE:$CF_BBL_INSTALL_TERRAFORM_VERSION" bash -c "cp /tmp/export/homebrew-${CF_BBL_INSTALL_TERRAFORM_VERSION}.tar /var/tmp"
+  for i in $(docker images |grep "$HOMEBREW_CACHE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
 fi
 
 IFS=' ' read -r -a stemcell_array <<< "$CF_STEMCELLS"
@@ -132,6 +137,7 @@ mkdir -p "/tmp/harbor/$OPENSTACK_VERSION"
 if [ ! -f "/tmp/harbor/$OPENSTACK_VERSION/centos-binary-base-${OPENSTACK_VERSION}.tar" ] && [ ! -f "/tmp/harbor/$OPENSTACK_VERSION/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz" ]; then
     rm -rf /tmp/openstack-build.log
     docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out "$DOCKER_OPENSTACK_OFFLINE_IMAGE:$OPENSTACK_VERSION" "$OPENSTACK_VERSION"
+    for i in $(docker images |grep "$DOCKER_OPENSTACK_OFFLINE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
 
     #### add build images
     mv /out/centos-binary-base-"${OPENSTACK_VERSION}".tar /tmp/harbor/"$OPENSTACK_VERSION"
