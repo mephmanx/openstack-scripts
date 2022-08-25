@@ -35,12 +35,7 @@ INTERNAL_VIP_DNS="$APP_INTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
 EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
 ###################
 
-############ add keys
-working_dir=$(pwd)
-chmod +x /tmp/host-trust.sh
-runuser -l root -c  'cd /tmp; ./host-trust.sh'
-cd "$working_dir" || exit
-
+##### Harbor setup
 ADMIN_PWD={CENTOS_ADMIN_PWD_123456789012}
 etext=$(echo -n "admin:$ADMIN_PWD" | base64)
 status_code=$(curl https://"$SUPPORT_VIP_DNS"/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
@@ -190,12 +185,6 @@ while [ "$ct" != $host_count ]; do
   # shellcheck disable=SC2006
   ct=$(grep -o -i SUCCESS /tmp/ping.txt | wc -l)
   echo "hosts to check -> $host_count current hosts up -> $ct"
-
-  ############ add keys
-  working_dir=$(pwd)
-  chmod +x /tmp/host-trust.sh
-  runuser -l root -c  'cd /tmp; ./host-trust.sh'
-  cd "$working_dir" || exit
 
   sleep 10
   ((test_loop_count++))
