@@ -161,7 +161,7 @@ docker tag "$(docker images |grep stratos|awk '{print $3}')" "$SUPPORT_VIP_DNS"/
 cat > /tmp/kolla_local.repo <<EOF
 [kolla_local]
 name=kolla_local
-baseurl=http://localhost:8080/kolla_$OPENSTACK_VERSION
+baseurl=http://localhost:8080/kolla
 enabled=1
 gpgcheck=0
 cost=100
@@ -207,9 +207,9 @@ sed -i '105,121s/^/#/' /usr/share/kolla/docker/fluentd/Dockerfile.j2
 #grafana image
 
 #prometheus exporter offline fix
-sed -i "s/^RUN curl.*$/RUN curl -o \/tmp\/memcached_exporter.tar.gz http:\/\/localhost:8080\/kolla_$OPENSTACK_VERSION\/prometheus_memcached_exporter.tar.gz \\\/" /usr/share/kolla/docker/prometheus/prometheus-memcached-exporter/Dockerfile.j2
-sed -i "s/^RUN curl.*$/RUN curl -o \/tmp\/haproxy_exporter.tar.gz http:\/\/localhost:8080\/kolla_$OPENSTACK_VERSION\/prometheus_haproxy_exporter.tar.gz \\\/" /usr/share/kolla/docker/prometheus/prometheus-haproxy-exporter/Dockerfile.j2
-sed -i "s/^RUN curl.*$/RUN curl -o \/tmp\/elasticsearch_exporter.tar.gz http:\/\/localhost:8080\/kolla_$OPENSTACK_VERSION\/prometheus_elasticsearch_exporter.tar.gz \\\/" /usr/share/kolla/docker/prometheus/prometheus-elasticsearch-exporter/Dockerfile.j2
+sed -i "s/^RUN curl.*$/RUN curl -o \/tmp\/memcached_exporter.tar.gz http:\/\/localhost:8080\/kolla\/prometheus_memcached_exporter.tar.gz \\\/" /usr/share/kolla/docker/prometheus/prometheus-memcached-exporter/Dockerfile.j2
+sed -i "s/^RUN curl.*$/RUN curl -o \/tmp\/haproxy_exporter.tar.gz http:\/\/localhost:8080\/kolla\/prometheus_haproxy_exporter.tar.gz \\\/" /usr/share/kolla/docker/prometheus/prometheus-haproxy-exporter/Dockerfile.j2
+sed -i "s/^RUN curl.*$/RUN curl -o \/tmp\/elasticsearch_exporter.tar.gz http:\/\/localhost:8080\/kolla\/prometheus_elasticsearch_exporter.tar.gz \\\/" /usr/share/kolla/docker/prometheus/prometheus-elasticsearch-exporter/Dockerfile.j2
 
 docker tag kolla/centos-binary-base:"$OPENSTACK_VERSION" "$SUPPORT_VIP_DNS"/kolla/centos-binary-base:"$OPENSTACK_VERSION"
 
