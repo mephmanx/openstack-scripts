@@ -14,6 +14,7 @@ export DOCKER_LINUX_BUILD_IMAGE_VERSION="20220804";
 ## Docker Openstack offline resources
 export DOCKER_OPENSTACK_OFFLINE_IMAGE="mephmanx/os-airgap";
 export OPENSTACK_VERSION="xena"
+export TROVE_OPENSTACK_VERSION="wallaby"
 
 ## Homebrew caching image
 export HOMEBREW_CACHE_IMAGE="mephmanx/homebrew-cache";
@@ -142,7 +143,7 @@ export CF_ATTIC_TERRAFORM="https://releases.hashicorp.com/terraform/$CF_ATTIC_TE
 export TROVE_INSTANCE_IMAGE="https://cloud-images.ubuntu.com/releases/$UBUNTU_RELEASE_NAME/release/ubuntu-$UBUNTU_VERSION-server-cloudimg-amd64.img"
 
 ### image for trove DB's
-export TROVE_DB_IMAGE="https://tarballs.opendev.org/openstack/trove/images/trove-$OPENSTACK_VERSION-guest-ubuntu-bionic.qcow2"
+export TROVE_DB_IMAGE="https://tarballs.opendev.org/openstack/trove/images/trove-$TROVE_OPENSTACK_VERSION-guest-ubuntu-bionic.qcow2"
 
 ### cloudfoundry repos
 export BOSH_OPENSTACK_ENVIRONMENT_TEMPLATES="https://github.com/cloudfoundry-attic/bosh-openstack-environment-templates/archive/master/cf-templates.zip"
