@@ -61,8 +61,8 @@ if [ ! -f "/tmp/trove_instance-$UBUNTU_VERSION.img" ]; then
   wget -O /tmp/trove_instance-"$UBUNTU_VERSION".img "${TROVE_INSTANCE_IMAGE}"
 fi
 
-if [ ! -f "/tmp/trove_db-$OPENSTACK_VERSION.img" ]; then
-  wget -O /tmp/trove_db-"$OPENSTACK_VERSION".img "${TROVE_DB_IMAGE}"
+if [ ! -f "/tmp/trove_db-$TROVE_OPENSTACK_VERSION.img" ]; then
+  wget -O /tmp/trove_db-"$TROVE_OPENSTACK_VERSION".img "${TROVE_DB_IMAGE}"
 fi
 
 if [ ! -f "/tmp/cf-templates.zip" ]; then
