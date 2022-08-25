@@ -161,7 +161,7 @@ docker tag "$(docker images |grep stratos|awk '{print $3}')" "$SUPPORT_VIP_DNS"/
 cat > /tmp/kolla_local.repo <<EOF
 [kolla_local]
 name=kolla_local
-baseurl=http://localhost:8080/kolla
+baseurl=http://localhost:8080/kolla_$OPENSTACK_VERSION
 enabled=1
 gpgcheck=0
 cost=100
