@@ -204,17 +204,9 @@ done
 #####################
 
 #####################################  make sure all hosts are up
-# shellcheck disable=SC2006
-read -r -a host_array <<< $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
-host_count_str=${#host_array}
-printf -v host_count '%d' "$host_count_str" 2>/dev/null
 ansible -m ping all -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode > /tmp/ping.txt
-# shellcheck disable=SC2006
 ct=$(grep -o -i SUCCESS /tmp/ping.txt | wc -l)
-# shellcheck disable=SC2004
-host_count=$(($host_count + 1))
-echo "hosts to check -> $host_count current hosts up -> $ct"
-if [ "$ct" != $host_count ]; then
+if [ "$ct" -gt 0 ]; then
     telegram_notify  "Not all Openstack VM's successfully came up, install ending.  Please check logs!"
     exit 1
 fi
