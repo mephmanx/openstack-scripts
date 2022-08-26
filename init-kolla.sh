@@ -166,6 +166,43 @@ do
 done
 #################
 
+## generate octavia certs
+kolla-ansible octavia-certificates
+###########
+
+##### get keytab for designate_admin user to add to all 3 control nodes
+#echo "$ADMIN_PWD" | kinit admin
+#DESIGNATE_ADMIN_PWD=$(generate_pwd 31)
+#echo "$DESIGNATE_ADMIN_PWD" | /usr/bin/ipa user-add --first=Firstname --last=Lastname designate_admin --password
+#/usr/bin/ipa group-add-member admins --users=designate_admin
+#ipa-getkeytab -s identity.cloud.local -p designate_admin@CLOUD.LOCAL -k /tmp/designate.keytab
+######
+
+#### run host trust on all nodes
+touch /tmp/host-trust.sh
+chmod +x /tmp/host-trust.sh
+echo "runuser -l root -c  \"echo \$(ip -f inet addr show enp1s0 | grep inet | awk -F' ' '{ print \$2 }' | cut -d '/' -f1) download.docker.com >> /etc/hosts;\"" | cat - /tmp/host-trust.sh > temp && mv -f temp /tmp/host-trust.sh
+for i in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
+do
+  ssh-keyscan -H "$i"."$INTERNAL_DOMAIN_NAME" >> ~/.ssh/known_hosts
+  ssh-keyscan -H "$i"."$INTERNAL_DOMAIN_NAME" >> ~/.ssh/known_hosts
+  sed -i "s/$i/$i.$INTERNAL_DOMAIN_NAME/g" /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode
+  echo "runuser -l root -c  'ssh-keyscan -H $i.$INTERNAL_DOMAIN_NAME >> ~/.ssh/known_hosts';" >> /tmp/host_trust.sh
+  echo "runuser -l root -c  'ssh-keyscan -H $i >> ~/.ssh/known_hosts';" >> /tmp/host_trust.sh
+done
+
+working_dir=$(pwd)
+chmod +x /tmp/host-trust.sh
+runuser -l root -c  'cd /tmp; ./host-trust.sh'
+cd "$working_dir" || exit
+
+for i in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
+do
+  scp /tmp/host-trust.sh root@"$i.$INTERNAL_DOMAIN_NAME":/tmp
+  runuser -l root -c "ssh root@$i.$INTERNAL_DOMAIN_NAME 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
+done
+#####################
+
 #####################################  make sure all hosts are up
 # shellcheck disable=SC2006
 read -r -a host_array <<< "$(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')"
@@ -200,42 +237,6 @@ rm -rf /tmp/ping.txt
 ### host ping successful, all hosts came up properly
 telegram_notify  "All Openstack VM's came up properly and are ready for install. continuing..."
 #############
-
-## generate octavia certs
-kolla-ansible octavia-certificates
-###########
-
-##### get keytab for designate_admin user to add to all 3 control nodes
-#echo "$ADMIN_PWD" | kinit admin
-#DESIGNATE_ADMIN_PWD=$(generate_pwd 31)
-#echo "$DESIGNATE_ADMIN_PWD" | /usr/bin/ipa user-add --first=Firstname --last=Lastname designate_admin --password
-#/usr/bin/ipa group-add-member admins --users=designate_admin
-#ipa-getkeytab -s identity.cloud.local -p designate_admin@CLOUD.LOCAL -k /tmp/designate.keytab
-######
-
-#### run host trust on all nodes
-touch /tmp/host-trust.sh
-chmod +x /tmp/host-trust.sh
-echo "runuser -l root -c  \"echo \$(ip -f inet addr show enp1s0 | grep inet | awk -F' ' '{ print \$2 }' | cut -d '/' -f1) download.docker.com >> /etc/hosts;\"" | cat - /tmp/host-trust.sh > temp && mv -f temp /tmp/host-trust.sh
-for i in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
-do
-  echo "$i"
-  sed -i "s/$i/$i.$INTERNAL_DOMAIN_NAME/g" /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode
-  echo "runuser -l root -c  'ssh-keyscan -H $i.$INTERNAL_DOMAIN_NAME >> ~/.ssh/known_hosts';" >> /tmp/host_trust.sh
-  echo "runuser -l root -c  'ssh-keyscan -H $i >> ~/.ssh/known_hosts';" >> /tmp/host_trust.sh
-done
-
-working_dir=$(pwd)
-chmod +x /tmp/host-trust.sh
-runuser -l root -c  'cd /tmp; ./host-trust.sh'
-cd "$working_dir" || exit
-
-for i in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
-do
-  scp /tmp/host-trust.sh root@"$i.$INTERNAL_DOMAIN_NAME":/tmp
-  runuser -l root -c "ssh root@$i.$INTERNAL_DOMAIN_NAME 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
-done
-#####################
 
 ### replace all instances of https://download.docker.com with http://download.docker.com:8081 to pull from cache
 pwd=$(pwd)
