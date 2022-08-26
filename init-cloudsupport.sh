@@ -221,6 +221,7 @@ docker tag kolla/centos-binary-base:"$OPENSTACK_VERSION" "$SUPPORT_VIP_DNS"/koll
 if [[ "$OPENSTACK_VERSION" == "xena" ]]; then
   pip3 install jinja2==3.0.3
   sed -i 's#centos8-amd64#centos/8/x86_64/#' /usr/share/kolla/docker/base/mariadb.repo
+  sed -i "s/https:\/\/src.fedoraproject.org\/rpms\/mariadb\/raw\/\${mariadb_clustercheck_version}\/f\/clustercheck.sh/http:\/\/localhost:8080\/kolla_$OPENSTACK_VERSION\/clustercheck.sh/g" /usr/share/kolla/docker/mariadb/mariadb-base/Dockerfile.j2
 fi
 kolla-build --base-image kolla/centos-binary-base --base-tag "$OPENSTACK_VERSION" -t binary --openstack-release "$OPENSTACK_VERSION"  --tag "$OPENSTACK_VERSION" --cache --skip-existing --nopull --registry "$SUPPORT_VIP_DNS" barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openvswitch placement qdrouterd redis rabbitmq swift telegraf trove murano panko
 
