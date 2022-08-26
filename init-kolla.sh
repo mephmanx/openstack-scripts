@@ -195,18 +195,24 @@ working_dir=$(pwd)
 chmod +x /tmp/host-trust.sh
 runuser -l root -c  'cd /tmp; ./host-trust.sh'
 cd "$working_dir" || exit
-
+total=0
 for i in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
 do
-  scp /tmp/host-trust.sh root@"$i":/tmp
-  runuser -l root -c "ssh root@$i 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
+  if [[ $i != *"localhost"* ]]; then
+    ((total++))
+    scp /tmp/host-trust.sh root@"$i":/tmp
+    runuser -l root -c "ssh root@$i 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
+  fi
 done
+### to account for localhost in list
+### remove when using dynamic inventory
+((total++))
 #####################
 
 #####################################  make sure all hosts are up
 ansible -m ping all -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode > /tmp/ping.txt
 ct=$(grep -o -i SUCCESS /tmp/ping.txt | wc -l)
-if [ "$ct" -gt 0 ]; then
+if [[ $ct != $total ]]; then
     telegram_notify  "Not all Openstack VM's successfully came up, install ending.  Please check logs!"
     exit 1
 fi
