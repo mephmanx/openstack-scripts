@@ -54,6 +54,7 @@ function closeOutAndBuildKickstartAndISO {
   else
     cp ${KICKSTART_DIR}/isolinux.cfg /var/tmp/"${vm_name}"/isolinux/isolinux.cfg
   fi
+  rm -rf /var/tmp/"$vm_name"/embedded/embedded_files
 
   #### add embedded files to iso
   ## file must exist on filesystem
