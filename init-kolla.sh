@@ -310,7 +310,6 @@ cd "$working_dir" || exit
 rm -rf /tmp/control-trust.sh
 
 #load setup for validator
-export REQUESTS_CA_BUNDLE=/etc/ipa/ca.crt
 cd /etc/kolla || exit
 . ./admin-openrc.sh
 sleep 180
