@@ -198,17 +198,15 @@ cd "$working_dir" || exit
 
 for i in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
 do
-  scp /tmp/host-trust.sh root@"$i.$INTERNAL_DOMAIN_NAME":/tmp
-  runuser -l root -c "ssh root@$i.$INTERNAL_DOMAIN_NAME 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
+  scp /tmp/host-trust.sh root@"$i":/tmp
+  runuser -l root -c "ssh root@$i 'chmod 777 /tmp/host-trust.sh; /tmp/host-trust.sh'"
 done
 #####################
 
 #####################################  make sure all hosts are up
 # shellcheck disable=SC2006
-read -r -a host_array <<< "$(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')"
+read -r -a host_array <<< $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
 host_count_str=${#host_array}
-
-test_loop_count=0
 printf -v host_count '%d' "$host_count_str" 2>/dev/null
 ansible -m ping all -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode > /tmp/ping.txt
 # shellcheck disable=SC2006
@@ -216,21 +214,10 @@ ct=$(grep -o -i SUCCESS /tmp/ping.txt | wc -l)
 # shellcheck disable=SC2004
 host_count=$(($host_count + 1))
 echo "hosts to check -> $host_count current hosts up -> $ct"
-while [ "$ct" != $host_count ]; do
-  rm -rf /tmp/ping.txt
-  ansible -m ping all -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode > /tmp/ping.txt
-  # shellcheck disable=SC2006
-  ct=$(grep -o -i SUCCESS /tmp/ping.txt | wc -l)
-  echo "hosts to check -> $host_count current hosts up -> $ct"
-
-  sleep 10
-  ((test_loop_count++))
-
-  if [[ $test_loop_count -gt 10 ]]; then
+if [ "$ct" != $host_count ]; then
     telegram_notify  "Not all Openstack VM's successfully came up, install ending.  Please check logs!"
     exit 1
-  fi
-done
+fi
 rm -rf /tmp/ping.txt
 #####################################
 
