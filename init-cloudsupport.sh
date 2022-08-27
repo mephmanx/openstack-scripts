@@ -208,7 +208,7 @@ echo "RUN rm -f /etc/swift/swift.conf" >> /usr/share/kolla/docker/swift/swift-ba
 sed -i '105,121s/^/#/' /usr/share/kolla/docker/fluentd/Dockerfile.j2
 
 #neutron image
-sed -i 's#kolla_neutron_sudoers #kolla_neutron_sudoers \&\& cp /usr/share/neutron/api-paste.ini /etc/neutron #' /usr/share/kolla/docker/neutron/neutron-base/Dockerfile.j2
+#sed -i 's#kolla_neutron_sudoers #kolla_neutron_sudoers \&\& cp /usr/share/neutron/api-paste.ini /etc/neutron #' /usr/share/kolla/docker/neutron/neutron-base/Dockerfile.j2
 
 #prometheus exporter offline fix
 sed -i "s/^RUN curl.*$/RUN curl -o \/tmp\/memcached_exporter.tar.gz http:\/\/localhost:8080\/kolla_$OPENSTACK_VERSION\/prometheus_memcached_exporter.tar.gz \\\/" /usr/share/kolla/docker/prometheus/prometheus-memcached-exporter/Dockerfile.j2
