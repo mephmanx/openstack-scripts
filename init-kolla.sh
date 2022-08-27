@@ -122,7 +122,7 @@ do
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
       "$KOLLA_SWIFT_BASE_IMAGE" \
       swift-ring-builder \
-        /etc/kolla/config/swift/object.builder add r1z1-"${KOLLA_INTERNAL_ADDRESS}.${INTERNAL_DOMAIN_NAME}":6000/d"${i}" 1;
+        /etc/kolla/config/swift/object.builder add r1z1-"${KOLLA_INTERNAL_ADDRESS}"."${INTERNAL_DOMAIN_NAME}":6000/d"${i}" 1;
   done
   # Account ring
   docker run \
@@ -137,7 +137,7 @@ do
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
       "$KOLLA_SWIFT_BASE_IMAGE" \
       swift-ring-builder \
-        /etc/kolla/config/swift/account.builder add r1z1-"${KOLLA_INTERNAL_ADDRESS}.${INTERNAL_DOMAIN_NAME}":6001/d"${i}" 1;
+        /etc/kolla/config/swift/account.builder add r1z1-"${KOLLA_INTERNAL_ADDRESS}"."${INTERNAL_DOMAIN_NAME}":6001/d"${i}" 1;
   done
   # Container ring
   docker run \
@@ -152,7 +152,7 @@ do
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
       "$KOLLA_SWIFT_BASE_IMAGE" \
       swift-ring-builder \
-        etc/kolla/config/swift/container.builder add r1z1-"${KOLLA_INTERNAL_ADDRESS}.${INTERNAL_DOMAIN_NAME}":6002/d"${i}" 1;
+        etc/kolla/config/swift/container.builder add r1z1-"${KOLLA_INTERNAL_ADDRESS}"."${INTERNAL_DOMAIN_NAME}":6002/d"${i}" 1;
   done
   for ring in object account container; do
     docker run \
