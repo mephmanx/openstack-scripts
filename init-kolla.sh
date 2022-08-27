@@ -74,7 +74,6 @@ mkdir /etc/kolla/certificates
 mkdir /etc/kolla/certificates/ca
 cp /etc/ipa/ca.crt /etc/kolla/certificates/ca/ca.crt
 cp -r /opt/stack/venv/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
-cp /opt/stack/venv/share/kolla-ansible/ansible/inventory/* /etc/kolla
 mkdir -p /var/lib/kolla/config_files
 
 telegram_notify  "Loading Openstack Kolla deployment playbook and performing env customization...."
@@ -191,10 +190,7 @@ do
   echo "runuser -l root -c  'ssh-keyscan -H $i >> ~/.ssh/known_hosts';" >> /tmp/host_trust.sh
 done
 
-working_dir=$(pwd)
-chmod +x /tmp/host-trust.sh
 runuser -l root -c  'cd /tmp; ./host-trust.sh'
-cd "$working_dir" || exit
 total=0
 for i in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
 do
