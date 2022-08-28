@@ -158,7 +158,6 @@ function buildAndPushOpenstackSetupISO {
 function networkInformation {
   kickstart_file=$1
   vm_type=$2
-  host=$3
 
   vmstr=$(vm_definitions "$vm_type")
   vm_str=${vmstr//[$'\t\r\n ']}
