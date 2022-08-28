@@ -207,7 +207,7 @@ done
 #####################################  make sure all hosts are up
 ansible -m ping all -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode > /tmp/ping.txt
 ct=$(grep -o -i SUCCESS /tmp/ping.txt | wc -l)
-if [[ $ct != $total ]]; then
+if [[ $ct != "$total" ]]; then
     telegram_notify  "Not all Openstack VM's successfully came up, install ending.  Please check logs!"
     exit 1
 fi
