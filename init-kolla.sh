@@ -107,7 +107,6 @@ drive_count=0
 
 for p in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '.storage.hosts[]')
 do
-  printf 'storage host -> %s\n' "$p"
   KOLLA_INTERNAL_ADDRESS=$(dig "$p"."$INTERNAL_DOMAIN_NAME" +short)
   # Object ring
   docker run \
