@@ -183,13 +183,13 @@ docker run -itd  --restart unless-stopped -e PYPI_EXTRA="--disable-fallback" -v 
 #fix openstack-kolla issue for offline build
 sed -i 's/version=.*, //' /usr/lib/python3.6/site-packages/kolla/image/build.py
 
-#kolla docker file custom for offline build
-
 # keystone image
 sed -i 's/RUN dnf module/#RUN dnf module/' /usr/share/kolla/docker/keystone/keystone-base/Dockerfile.j2
 
-#neutron image
-sed -i 's#kolla_neutron_sudoers #kolla_neutron_sudoers \&\& cp /usr/share/neutron/api-paste.ini /etc/neutron #' /usr/share/kolla/docker/neutron/neutron-base/Dockerfile.j2
+if [[ $OPENSTACK_VERSION == "wallaby" ]]; then
+  #neutron image
+  sed -i 's#kolla_neutron_sudoers #kolla_neutron_sudoers \&\& cp /usr/share/neutron/api-paste.ini /etc/neutron #' /usr/share/kolla/docker/neutron/neutron-base/Dockerfile.j2
+fi
 
 #fix magnum bug
 sed -i 's/USER magnum//' /usr/share/kolla/docker/magnum/magnum-conductor/Dockerfile.j2
@@ -206,9 +206,6 @@ echo "RUN rm -f /etc/swift/swift.conf" >> /usr/share/kolla/docker/swift/swift-ba
 
 #fluentd image
 sed -i '105,121s/^/#/' /usr/share/kolla/docker/fluentd/Dockerfile.j2
-
-#neutron image
-#sed -i 's#kolla_neutron_sudoers #kolla_neutron_sudoers \&\& cp /usr/share/neutron/api-paste.ini /etc/neutron #' /usr/share/kolla/docker/neutron/neutron-base/Dockerfile.j2
 
 #prometheus exporter offline fix
 sed -i "s/^RUN curl.*$/RUN curl -o \/tmp\/memcached_exporter.tar.gz http:\/\/localhost:8080\/kolla_$OPENSTACK_VERSION\/prometheus_memcached_exporter.tar.gz \\\/" /usr/share/kolla/docker/prometheus/prometheus-memcached-exporter/Dockerfile.j2
