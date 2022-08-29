@@ -13,6 +13,7 @@ export DOCKER_LINUX_BUILD_IMAGE_VERSION="20220804";
 
 ## Docker Openstack offline resources
 export DOCKER_OPENSTACK_OFFLINE_IMAGE="mephmanx/os-airgap";
+## be careful changing these as they need to be matched with each other and they need to exist on their upstream endpoints
 export OPENSTACK_VERSION="xena"
 export TROVE_OPENSTACK_VERSION="wallaby"
 export OPENSTACK_KOLLA_PYLIB_VERSION="13.3.0"
