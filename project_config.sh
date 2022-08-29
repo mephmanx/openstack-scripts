@@ -15,6 +15,7 @@ export DOCKER_LINUX_BUILD_IMAGE_VERSION="20220804";
 export DOCKER_OPENSTACK_OFFLINE_IMAGE="mephmanx/os-airgap";
 export OPENSTACK_VERSION="xena"
 export TROVE_OPENSTACK_VERSION="wallaby"
+export OPENSTACK_KOLLA_PYLIB_VERSION="12.3.0"
 
 ## Homebrew caching image
 export HOMEBREW_CACHE_IMAGE="mephmanx/homebrew-cache";
