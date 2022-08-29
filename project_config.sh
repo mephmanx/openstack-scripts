@@ -26,7 +26,7 @@ export PFSENSE_VERSION="2.6.0";
 
 ## library versions
 ## this will force cache update if changed
-export HARBOR_VERSION="v2.5.3"
+export HARBOR_VERSION="v2.6.0"
 export MAGNUM_IMAGE_VERSION="Fedora-Atomic-27-20180419.0"
 export CF_ATTIC_TERRAFORM_VERSION="0.11.15"
 export DOCKER_COMPOSE_VERSION="1.29.2"
