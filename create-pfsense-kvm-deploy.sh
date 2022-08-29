@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -rf /tmp/pfsense-install.log
+rm -rf /root/pfsense-install.log
 exec 1>/root/pfsense-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 #set -x
 
