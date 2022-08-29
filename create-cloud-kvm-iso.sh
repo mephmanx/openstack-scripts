@@ -17,7 +17,6 @@ storage_count=$(getVMCount "storage")
 
 ### add vm's to array
 vms=()
-host_trust_script=()
 control_hack_script=()
 while [ "$control_count" -gt 0 ]; do
   printf -v control_count_format "%02d" "$control_count"
