@@ -71,13 +71,15 @@ function closeOutAndBuildKickstartAndISO {
   done
   #####
 
+  if [[ $vm_name == "kolla" ]]; then
   ### add appropriate openstack ansible lib
 cat > /tmp/openstack-py.modules <<EOF
 kolla-ansible==$OPENSTACK_KOLLA_PYLIB_VERSION
 EOF
-  pip3 download -d /var/tmp/"${vm_name}"/PyRepo -r /tmp/openstack-py.modules
-  rm -rf /tmp/openstack-py.modules
+    pip3 download -d /var/tmp/"${vm_name}"/PyRepo -r /tmp/openstack-py.modules
+    rm -rf /tmp/openstack-py.modules
   #####
+  fi
 
   sudo ksvalidator /var/tmp/"${vm_name}"/ks.cfg
   cd /var/tmp/"${vm_name}" || exit
