@@ -98,7 +98,7 @@ sed -i "s/grafana_admin_password: .*/grafana_admin_password: ${ADMIN_PWD}/g" /et
 #####
 
 ######  prepare storage rings
-export KOLLA_SWIFT_BASE_IMAGE="${SUPPORT_VIP_DNS}/kolla/centos-binary-swift-base:$OPENSTACK_VERSION"
+KOLLA_SWIFT_BASE_IMAGE="${SUPPORT_VIP_DNS}/kolla/centos-binary-swift-base:$OPENSTACK_VERSION"
 mkdir -p /etc/kolla/config/swift
 # 0 based (ie 0=1, so 1=2)
 drive_count=0
@@ -223,11 +223,11 @@ cd "$pwd" || exit
 kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode bootstrap-servers
 kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode prechecks
 
-export KOLLA_DEBUG=0
-export ENABLE_EXT_NET=1
-export EXT_NET_CIDR="$GATEWAY_ROUTER_IP/24"
-export EXT_NET_RANGE="start=$OPENSTACK_DHCP_START,end=$OPENSTACK_DHCP_END"
-export EXT_NET_GATEWAY=$GATEWAY_ROUTER_IP
+KOLLA_DEBUG=0
+ENABLE_EXT_NET=1
+EXT_NET_CIDR="$GATEWAY_ROUTER_IP/24"
+EXT_NET_RANGE="start=$OPENSTACK_DHCP_START,end=$OPENSTACK_DHCP_END"
+EXT_NET_GATEWAY=$GATEWAY_ROUTER_IP
 
 ### pull docker images
 telegram_notify  "Analyzing Kolla Openstack configuration and pull docker images for cache priming...."
@@ -301,13 +301,13 @@ mkdir -p /opt/cache/files
 cp /tmp/cirros-0.5.1-x86_64-disk.img /opt/cache/files
 ./init-runonce
 
-export HOME=/home/stack
+HOME=/home/stack
 cd /tmp || exit
 
 ### trove setup
-export TROVE_CIDR="$TROVE_NETWORK.0/24"
-export TROVE_RANGE="start=$TROVE_DHCP_START,end=$TROVE_DHCP_END"
-export TROVE_GATEWAY="$TROVE_NETWORK.1"
+TROVE_CIDR="$TROVE_NETWORK.0/24"
+TROVE_RANGE="start=$TROVE_DHCP_START,end=$TROVE_DHCP_END"
+TROVE_GATEWAY="$TROVE_NETWORK.1"
 
 openstack image create trove-master-guest-ubuntu --private --disk-format qcow2 --container-format bare --tag trove --tag mysql --tag mariadb --tag postgresql --file /tmp/trove_db-"$TROVE_OPENSTACK_VERSION".img
 openstack image create trove-base --disk-format qcow2 --container-format bare --file /tmp/trove_instance-"$UBUNTU_VERSION".img
@@ -804,9 +804,9 @@ telegram_notify  "Stemcell installed, finalizing environment for CF install..."
 ## add cf and cf-deployment-for-bosh security groups to bosh director
 ## very important!
 ## change to cloudfoundry account
-export OS_PROJECT_NAME=cloudfoundry
-export OS_USERNAME=$OPENSTACK_CLOUDFOUNDRY_USERNAME
-export OS_PASSWORD=$OPENSTACK_CLOUDFOUNDRY_PWD
+OS_PROJECT_NAME=cloudfoundry
+OS_USERNAME=$OPENSTACK_CLOUDFOUNDRY_USERNAME
+OS_PASSWORD=$OPENSTACK_CLOUDFOUNDRY_PWD
 
 openstack server add security group bosh/0 cf-deployment-for-bosh
 openstack security group create bosh
@@ -980,8 +980,8 @@ runuser -l stack -c "cf create-quota $INTERNAL_DOMAIN_NAME -i 8096M -m ${memGB}G
 runuser -l stack -c "cf set-quota $INTERNAL_DOMAIN_NAME $INTERNAL_DOMAIN_NAME"
 
 ### install security group
-export PT_CT="$CF_TCP_PORT_COUNT"
-export PORTS=()
+PT_CT="$CF_TCP_PORT_COUNT"
+PORTS=()
 while [ "$PT_CT" -gt -1 ]; do
   PORTS+=($((1024 + PT_CT)))
   ((PT_CT--))
