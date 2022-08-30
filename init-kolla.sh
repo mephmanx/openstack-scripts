@@ -223,11 +223,11 @@ cd "$pwd" || exit
 kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode bootstrap-servers
 kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode prechecks
 
-KOLLA_DEBUG=0
-ENABLE_EXT_NET=1
-EXT_NET_CIDR="$GATEWAY_ROUTER_IP/24"
-EXT_NET_RANGE="start=$OPENSTACK_DHCP_START,end=$OPENSTACK_DHCP_END"
-EXT_NET_GATEWAY=$GATEWAY_ROUTER_IP
+export KOLLA_DEBUG=0
+export ENABLE_EXT_NET=1
+export EXT_NET_CIDR="$GATEWAY_ROUTER_IP/24"
+export EXT_NET_RANGE="start=$OPENSTACK_DHCP_START,end=$OPENSTACK_DHCP_END"
+export EXT_NET_GATEWAY=$GATEWAY_ROUTER_IP
 
 ### pull docker images
 telegram_notify  "Analyzing Kolla Openstack configuration and pull docker images for cache priming...."
