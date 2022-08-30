@@ -286,7 +286,7 @@ sleep 180
 
 for p in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '.control.hosts[]')
 do
-  ssh root@"$p"."$INTERNAL_DOMAIN_NAME" "sed -i 's/www_authenticate_uri/auth_uri/g' /etc/kolla/swift-proxy-server/proxy-server.conf"
+  ssh root@"$p" "sed -i 's/www_authenticate_uri/auth_uri/g' /etc/kolla/swift-proxy-server/proxy-server.conf"
 done
 ## adding cinder v2 endpoints
 ###  Only for Openstack Wallaby and below, CinderV2 is NOT POSSIBLE TO ENABLE on Xena and above!
