@@ -23,8 +23,6 @@ yum install -y jq
 
 ## kill serving keys on identity
 #When finished with CA and key files, send signal to identity server to kill signal http server
-curl -o /tmp/subca.cert http://"$IDENTITY_VIP":"$IDENTITY_SIGNAL"/subca.cert
-curl -o /tmp/subca.key http://"$IDENTITY_VIP":"$IDENTITY_SIGNAL"/sub-ca.key
 curl -X POST -o /tmp/identity_kill_response.txt http://"$IDENTITY_VIP":22222
 #######
 
