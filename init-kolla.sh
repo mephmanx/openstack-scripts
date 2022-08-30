@@ -176,7 +176,6 @@ kolla-ansible octavia-certificates
 
 #### run host trust on all nodes
 touch /tmp/host-trust.sh
-chmod +x /tmp/host-trust.sh
 echo "runuser -l root -c  \"echo \$(ip -f inet addr show enp1s0 | grep inet | awk -F' ' '{ print \$2 }' | cut -d '/' -f1) download.docker.com >> /etc/hosts;\"" | cat - /tmp/host-trust.sh > temp && mv -f temp /tmp/host-trust.sh
 for i in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
 do
@@ -187,7 +186,7 @@ do
   echo "runuser -l root -c  'ssh-keyscan -H $i >> ~/.ssh/known_hosts';" >> /tmp/host-trust.sh
 done
 
-runuser -l root -c  'cd /tmp; ./host-trust.sh'
+runuser -l root -c  'cd /tmp; chmod +x /tmp/host-trust.sh; ./host-trust.sh'
 total=0
 for i in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
 do
