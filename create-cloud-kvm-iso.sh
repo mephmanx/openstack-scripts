@@ -17,12 +17,10 @@ storage_count=$(getVMCount "storage")
 
 ### add vm's to array
 vms=()
-control_hack_script=()
 while [ "$control_count" -gt 0 ]; do
   printf -v control_count_format "%02d" "$control_count"
   echo "add vm to create string -> control$control_count_format"
   vms+=("control$control_count_format")
-  control_hack_script+=("runuser -l root -c  'ssh root@control$control_count_format \"sed -i 's/www_authenticate_uri/auth_uri/g' /etc/kolla/swift-proxy-server/proxy-server.conf\"';")
   control_count=$((control_count - 1))
 done
 
@@ -63,9 +61,8 @@ done
 
 wait
 #############  create setup vm
-printf -v control_hack_string '%s ' "${control_hack_script[@]}"
 echo "creating openstack setup vm"
 
-buildAndPushOpenstackSetupISO "$control_hack_string"
+buildAndPushOpenstackSetupISO
 ########################
 

@@ -126,14 +126,8 @@ function buildAndPushOpenstackSetupISO {
   initialKickstartSetup "kolla"
   ###########################
 
-  ############ control hack script
-  touch /tmp/control-trust.sh
-  echo  "$1" >> /tmp/control-trust.sh
-  #################################
-
   #####################################
   embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
-                '/tmp/control-trust.sh'
                 "/tmp/trove_instance-$UBUNTU_VERSION.img"
                 "/tmp/trove_db-$OPENSTACK_VERSION.img"
                 "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"

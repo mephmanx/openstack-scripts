@@ -280,18 +280,16 @@ kolla-ansible post-deploy
 
 telegram_debug_msg  "End of Openstack Install log -> $LOG_TAIL"
 telegram_notify  "Openstack Kolla Ansible deploy task execution complete.  Performing post install tasks....."
-#stupid hack
-working_dir=$(pwd)
-chmod +x /tmp/control-trust.sh
-runuser -l root -c  'cd /tmp; ./control-trust.sh'
-cd "$working_dir" || exit
-rm -rf /tmp/control-trust.sh
 
 #load setup for validator
 cd /etc/kolla || exit
 . ./admin-openrc.sh
 sleep 180
 
+for p in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '.control.hosts[]')
+do
+  ssh root@"$p"."$INTERNAL_DOMAIN_NAME" "sed -i 's/www_authenticate_uri/auth_uri/g' /etc/kolla/swift-proxy-server/proxy-server.conf"
+done
 ## adding cinder v2 endpoints
 ###  Only for Openstack Wallaby and below, CinderV2 is NOT POSSIBLE TO ENABLE on Xena and above!
 #openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
@@ -516,7 +514,7 @@ ssh root@control01.$INTERNAL_DOMAIN_NAME curl -q https://raw.githubusercontent.c
 docker run -d -v /etc/ipa:/etc/ipa -v /root/logstash-docker/etc/logstash/config:/usr/share/logstash/config:ro -v /root/logstash-docker/etc/pfelk:/etc/pfelk:ro -e "LS_JAVA_OPTS=-Xmx1G -Xms1G" --network=host --restart=always --name logstash docker.elastic.co/logstash/logstash:7.10.2
 EOF
 
-scp /tmp/monitoring01-logstash.sh root@monitoring01:/tmp
+scp /tmp/monitoring01-logstash.sh root@monitoring01.$INTERNAL_DOMAIN_NAME:/tmp
 runuser -l root -c "ssh root@monitoring01.$INTERNAL_DOMAIN_NAME 'chmod +x /tmp/monitoring01-logstash.sh; cd /tmp; ./monitoring01-logstash.sh'"
 runuser -l root -c "ssh root@monitoring01.$INTERNAL_DOMAIN_NAME 'docker exec grafana grafana-cli plugins install grafana-worldmap-panel'"
 runuser -l root -c "ssh root@monitoring01.$INTERNAL_DOMAIN_NAME 'docker restart grafana'"
