@@ -157,8 +157,6 @@ function buildAndPushOpenstackSetupISO {
 
   printf -v embed_files_string '%s ' "${embed_files[@]}"
   closeOutAndBuildKickstartAndISO "${kickstart_file}" "kolla" "$embed_files_string"
-
-  rm -rf /tmp/control-trust.sh
 }
 
 function networkInformation {
