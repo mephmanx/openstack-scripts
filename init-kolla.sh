@@ -390,8 +390,7 @@ telegram_notify  "Openstack installed and accepting images, continuing install..
 telegram_notify  "Preparing Openstack environment for BOSH install...."
 ## generate cloudfoundry admin pwd
 OPENSTACK_CLOUDFOUNDRY_PWD=$(generate_pwd 31)
-
-export OPENSTACK_CLOUDFOUNDRY_USERNAME=osuser
+OPENSTACK_CLOUDFOUNDRY_USERNAME=osuser
 
 openstack project create cloudfoundry
 openstack user create "$OPENSTACK_CLOUDFOUNDRY_USERNAME" --project cloudfoundry --password "$OPENSTACK_CLOUDFOUNDRY_PWD"
@@ -408,7 +407,7 @@ quotaRam=$((mem / 1024 - 8000))
 cat > /tmp/cpu_count.sh <<EOF
 grep -c ^processor /proc/cpuinfo
 EOF
-scp /tmp/cpu_count.sh root@compute01.$INTERNAL_DOMAIN_NAME:/tmp
+scp /tmp/cpu_count.sh root@compute01."$INTERNAL_DOMAIN_NAME":/tmp
 CPU_COUNT=$(runuser -l root -c "ssh root@compute01.$INTERNAL_DOMAIN_NAME 'chmod +x /tmp/cpu_count.sh; cd /tmp; ./cpu_count.sh'")
 
 ## get cinder volume size
@@ -514,7 +513,7 @@ ssh root@control01.$INTERNAL_DOMAIN_NAME curl -q https://raw.githubusercontent.c
 docker run -d -v /etc/ipa:/etc/ipa -v /root/logstash-docker/etc/logstash/config:/usr/share/logstash/config:ro -v /root/logstash-docker/etc/pfelk:/etc/pfelk:ro -e "LS_JAVA_OPTS=-Xmx1G -Xms1G" --network=host --restart=always --name logstash docker.elastic.co/logstash/logstash:7.10.2
 EOF
 
-scp /tmp/monitoring01-logstash.sh root@monitoring01.$INTERNAL_DOMAIN_NAME:/tmp
+scp /tmp/monitoring01-logstash.sh root@monitoring01."$INTERNAL_DOMAIN_NAME":/tmp
 runuser -l root -c "ssh root@monitoring01.$INTERNAL_DOMAIN_NAME 'chmod +x /tmp/monitoring01-logstash.sh; cd /tmp; ./monitoring01-logstash.sh'"
 runuser -l root -c "ssh root@monitoring01.$INTERNAL_DOMAIN_NAME 'docker exec grafana grafana-cli plugins install grafana-worldmap-panel'"
 runuser -l root -c "ssh root@monitoring01.$INTERNAL_DOMAIN_NAME 'docker restart grafana'"
