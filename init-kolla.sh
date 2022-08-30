@@ -410,7 +410,7 @@ quotaRam=$((mem / 1024 - 8000))
 cat > /tmp/cpu_count.sh <<EOF
 grep -c ^processor /proc/cpuinfo
 EOF
-scp /tmp/cpu_count.sh root@compute01:/tmp
+scp /tmp/cpu_count.sh root@compute01.$INTERNAL_DOMAIN_NAME:/tmp
 CPU_COUNT=$(runuser -l root -c "ssh root@compute01.$INTERNAL_DOMAIN_NAME 'chmod +x /tmp/cpu_count.sh; cd /tmp; ./cpu_count.sh'")
 
 ## get cinder volume size
