@@ -487,7 +487,7 @@ sed -i "s/Supermicro/$INTERNAL_DOMAIN_NAME/g" etc/pfelk/conf.d/01-inputs.pfelk
 # Create Index Patterns for indexes
 # Need to run this command on any of control node
 # It will through an error related to (_ilm) policy which is fine, since we don't have x-pack on elasticsearch server
-ssh root@control01.$INTERNAL_DOMAIN_NAME curl -q https://raw.githubusercontent.com/pfelk/pfelk/main/etc/pfelk/scripts/pfelk-template-installer.sh | sed -e "s/localhost/control01/g" | bash
+ssh root@control01.$INTERNAL_DOMAIN_NAME curl -q https://raw.githubusercontent.com/pfelk/pfelk/main/etc/pfelk/scripts/pfelk-template-installer.sh | sed -e "s/localhost/control01.$INTERNAL_DOMAIN_NAME/g" | bash
 
 # ISSUE: unboubd, _grokparsefailure
 #
