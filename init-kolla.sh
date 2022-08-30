@@ -313,7 +313,7 @@ export TROVE_CIDR="$TROVE_NETWORK.0/24"
 export TROVE_RANGE="start=$TROVE_DHCP_START,end=$TROVE_DHCP_END"
 export TROVE_GATEWAY="$TROVE_NETWORK.1"
 
-openstack image create trove-master-guest-ubuntu --private --disk-format qcow2 --container-format bare --tag trove --tag mysql --tag mariadb --tag postgresql --file /tmp/trove_db-"$OPENSTACK_VERSION".img
+openstack image create trove-master-guest-ubuntu --private --disk-format qcow2 --container-format bare --tag trove --tag mysql --tag mariadb --tag postgresql --file /tmp/trove_db-"$TROVE_OPENSTACK_VERSION".img
 openstack image create trove-base --disk-format qcow2 --container-format bare --file /tmp/trove_instance-"$UBUNTU_VERSION".img
 
 test=$(openstack image show 'trove-base')
