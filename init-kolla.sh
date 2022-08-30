@@ -183,8 +183,8 @@ do
   ssh-keyscan -H "$i"."$INTERNAL_DOMAIN_NAME" >> ~/.ssh/known_hosts
   ssh-keyscan -H "$i"."$INTERNAL_DOMAIN_NAME" >> ~/.ssh/known_hosts
   sed -i "s/$i/$i.$INTERNAL_DOMAIN_NAME/g" /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode
-  echo "runuser -l root -c  'ssh-keyscan -H $i.$INTERNAL_DOMAIN_NAME >> ~/.ssh/known_hosts';" >> /tmp/host_trust.sh
-  echo "runuser -l root -c  'ssh-keyscan -H $i >> ~/.ssh/known_hosts';" >> /tmp/host_trust.sh
+  echo "runuser -l root -c  'ssh-keyscan -H $i.$INTERNAL_DOMAIN_NAME >> ~/.ssh/known_hosts';" >> /tmp/host-trust.sh
+  echo "runuser -l root -c  'ssh-keyscan -H $i >> ~/.ssh/known_hosts';" >> /tmp/host-trust.sh
 done
 
 runuser -l root -c  'cd /tmp; ./host-trust.sh'
