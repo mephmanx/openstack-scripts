@@ -284,14 +284,6 @@ cd /etc/kolla || exit
 . ./admin-openrc.sh
 sleep 180
 
-## adding cinder v2 endpoints
-###  Only for Openstack Wallaby and below, CinderV2 is NOT POSSIBLE TO ENABLE on Xena and above!
-#openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
-#openstack endpoint create --region us-east volumev2 public http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
-#openstack endpoint create --region us-east volumev2 internal http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
-#openstack endpoint create --region us-east volumev2 admin http://$INTERNAL_VIP_DNS:8776/v2/%\(project_id\)s
-#############
-
 cd /opt/stack/venv/share/kolla-ansible || exit
 mkdir -p /opt/cache/files
 cp /tmp/cirros-0.5.1-x86_64-disk.img /opt/cache/files
@@ -322,7 +314,7 @@ openstack router set --external-gateway public1 trove-router
 openstack router add subnet trove-router trove-subnet0
 ####
 
-#then upload /tmp/magnum-"$MAGNUM_IMAGE_VERSION".raw to openstack ,remeber to change image format to raw
+#then upload /tmp/magnum-"$MAGNUM_IMAGE_VERSION".raw to openstack ,remember to change image format to raw
 # execute on kolla node
 qemu-img convert -O raw /tmp/magnum-"$MAGNUM_IMAGE_VERSION".qcow2 /tmp/magnum-"$MAGNUM_IMAGE_VERSION".raw
 mkdir -p /tmp/magnum-tmp
