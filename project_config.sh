@@ -39,10 +39,10 @@ export STEMCELL_STAMP="08-19-2022"
 export STRATOS_VERSION="4.4.0"
 
 ### hostnames for infra vms
-export SUPPORT_HOST=container;
+export SUPPORT_HOST=registry;
 export IDENTITY_HOST=identity;
 export EDGE_ROUTER_NAME=gateway;
-export HORIZON_GATEWAY_NAME=dashboard;
+export HORIZON_GATEWAY_NAME=sysadmin;
 export APP_INTERNAL_HOSTNAME=openstack-local;
 export APP_EXTERNAL_HOSTNAME=openstack;
 
