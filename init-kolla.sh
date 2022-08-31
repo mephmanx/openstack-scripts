@@ -640,7 +640,7 @@ runuser -l stack -c  "echo ' -o /opt/stack/bosh-deployment/misc/no-internet-acce
 
 ### deploy bosh!
 echo "error" > /tmp/bbl_up.log
-bbl_error_count=$(grep -i "error" /tmp/bbl_up.log | wc -l)
+bbl_error_count=$(grep -c "error" /tmp/bbl_up.log)
 bbl_retry_count=5
 if [[ $bbl_error_count -gt 0 ]]; then
   while [ $bbl_retry_count -gt 0 ]; do
@@ -648,7 +648,7 @@ if [[ $bbl_error_count -gt 0 ]]; then
     echo "" > /tmp/bbl_up.log
     chown -R stack /tmp/bbl_up.log
     runuser -l stack -c  'bbl up --debug > /tmp/bbl_up.log 2>&1'
-    bbl_error_count=$(grep -i "error" /tmp/bbl_up.log | wc -l)
+    bbl_error_count=$(grep -c "error" /tmp/bbl_up.log)
     if [[ $bbl_error_count == 0 ]]; then
       break
     fi
@@ -701,7 +701,7 @@ EOF
 telegram_notify  "Executing env prep script..."
 runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init"
 echo "error" > /tmp/terraf-bbl.out
-tf_error_count=$(grep -i "error" /tmp/terraf-bbl.out | wc -l)
+tf_error_count=$(grep -c "error" /tmp/terraf-bbl.out)
 tf_retry_count=5
 if [[ $tf_error_count -gt 0 ]]; then
   while [ $tf_retry_count -gt 0 ]; do
@@ -709,7 +709,7 @@ if [[ $tf_error_count -gt 0 ]]; then
     echo "" > /tmp/terraf-bbl.out
     chown -R stack /tmp/terraf-bbl.out
     runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /tmp/terraf-bbl.out 2>&1"
-    tf_error_count=$(grep -i "error" /tmp/terraf-bbl.out | wc -l)
+    tf_error_count=$(grep -c "error" /tmp/terraf-bbl.out)
     if [[ $tf_error_count == 0 ]]; then
       break
     else
@@ -777,7 +777,7 @@ chown -R stack /tmp/stemcell-*-"$STEMCELL_STAMP".tgz
 
 for stemcell in $stemcell_path; do
   echo "queued" > /tmp/stemcell-upload.log
-  queued_count=$(grep -i "queued" /tmp/stemcell-upload.log | wc -l)
+  queued_count=$(grep -c "queued" /tmp/stemcell-upload.log)
   while [ "$queued_count" -gt 0 ]; do
     rm -rf /tmp/stemcell-upload.log
     IFS=$'\n'
@@ -789,7 +789,7 @@ for stemcell in $stemcell_path; do
                               source /tmp/bbl_env.sh; \
                               bosh upload-stemcell $stemcell"
     runuser -l stack -c "openstack image list | grep 'queued'" > /tmp/stemcell-upload.log
-    queued_count=$(grep -i "queued" /tmp/stemcell-upload.log | wc -l)
+    queued_count=$(grep -c "queued" /tmp/stemcell-upload.log)
     sleep 30
   done
   rm -rf /tmp/stemcell-upload.log
@@ -891,7 +891,7 @@ cd "$pwd" || exit
 ## would be good to fix but was suggested by community so....
 echo "error" > /tmp/cloudfoundry-install.log
 ### Cloudfoundry install can fail at times.  BOSH can handle this and retry is fine.  Retry a few times and if fail still occurs, alert admin
-error_count=$(grep -i "error" /tmp/cloudfoundry-install.log | wc -l)
+error_count=$(grep -c "error" /tmp/cloudfoundry-install.log)
 retry_count=5
 if [[ $error_count -gt 0 ]]; then
   while [ $retry_count -gt 0 ]; do
@@ -925,8 +925,8 @@ if [[ $error_count -gt 0 ]]; then
                       /tmp/cf-deployment/cf-deployment.yml \
                       -n" > /tmp/cloudfoundry-install.log
 
-    error_count1=$(grep -i "error" /tmp/cloudfoundry-install.log | wc -l)
-    error_count2=$(grep -i "Error" /tmp/cloudfoundry-install.log | wc -l)
+    error_count1=$(grep -c "error" /tmp/cloudfoundry-install.log)
+    error_count2=$(grep -c "Error" /tmp/cloudfoundry-install.log)
     error_count=$((error_count1 + error_count2))
     if [[ $error_count == 0 ]]; then
       break
