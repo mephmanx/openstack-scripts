@@ -42,9 +42,8 @@ export STRATOS_VERSION="4.4.0"
 export SUPPORT_HOST=registry;
 export IDENTITY_HOST=identity;
 export EDGE_ROUTER_NAME=gateway;
-export HORIZON_GATEWAY_NAME=sysadmin;
-export APP_INTERNAL_HOSTNAME=openstack-local;
-export APP_EXTERNAL_HOSTNAME=openstack;
+export APP_INTERNAL_HOSTNAME=sysadmin-local;
+export APP_EXTERNAL_HOSTNAME=sysadmin;
 
 ### Network prefix, used for all networks below
 #MariaDB seems to have a problem with 172 addresses.  Dont use!
