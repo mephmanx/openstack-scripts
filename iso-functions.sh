@@ -129,7 +129,7 @@ function buildAndPushOpenstackSetupISO {
   #####################################
   embed_files=("/tmp/magnum-$MAGNUM_IMAGE_VERSION.qcow2"
                 "/tmp/trove_instance-$UBUNTU_VERSION.img"
-                "/tmp/trove_db-$OPENSTACK_VERSION.img"
+                "/tmp/trove_db-$TROVE_OPENSTACK_VERSION.img"
                 "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
                 '/tmp/cirros-0.5.1-x86_64-disk.img'
                 "/tmp/amphora-x64-haproxy-$OPENSTACK_VERSION.qcow2"
