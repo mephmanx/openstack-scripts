@@ -284,12 +284,6 @@ cd /etc/kolla || exit
 . ./admin-openrc.sh
 sleep 180
 
-if [[ "$OPENSTACK_VERSION" == "wallaby" ]]; then
-  for p in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '.control.hosts[]')
-  do
-    ssh root@"$p" "sed -i 's/www_authenticate_uri/auth_uri/g' /etc/kolla/swift-proxy-server/proxy-server.conf"
-  done
-fi
 ## adding cinder v2 endpoints
 ###  Only for Openstack Wallaby and below, CinderV2 is NOT POSSIBLE TO ENABLE on Xena and above!
 #openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
