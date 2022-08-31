@@ -597,6 +597,21 @@ cp /etc/ipa/ca.crt /opt/stack
 sed -i 's/^/  /' /opt/stack/ca.crt
 runuser -l stack -c  'cat /opt/stack/ca.crt >> /opt/stack/trusted-certs.vars.yml'
 
+cp /etc/ipa/ca.crt /opt/stack/bosh-ca.crt
+sed -i 's/^/        /' /opt/stack/bosh-ca.crt
+sed -i 's/generate_vm_passwords: true/generate_vm_passwords: true\n      trusted_certs: |-/g' /opt/stack/bosh-deployment/bosh.yml
+splitLine=$(awk '/trusted_certs:/{ print NR; exit }' /opt/stack/bosh-deployment/bosh.yml)
+totalLines=$(wc -l < /opt/stack/bosh-deployment/bosh.yml)
+line_from_bottom=$((totalLines - splitLine))
+runuser -l stack -c  "tail -n $line_from_bottom /opt/stack/bosh-deployment/bosh.yml > /opt/stack/bosh-deployment/bosh-end.yml"
+runuser -l stack -c  "head -n $splitLine /opt/stack/bosh-deployment/bosh.yml > /opt/stack/bosh-deployment/bosh-start.yml"
+runuser -l stack -c  "touch /opt/stack/bosh-deployment/bosh-start.yml"
+chown -R stack /opt/stack/bosh-deployment/bosh-start.yml
+runuser -l stack -c  'cat /opt/stack/bosh-ca.crt >> /opt/stack/bosh-deployment/bosh-start.yml'
+runuser -l stack -c  'cat /opt/stack/bosh-deployment/bosh-end.yml >> /opt/stack/bosh-deployment/bosh-start.yml'
+runuser -l stack -c  "rm -rf /opt/stack/bosh-deployment/bosh.yml"
+runuser -l stack -c  "mv /opt/stack/bosh-deployment/bosh-start.yml /opt/stack/bosh-deployment/bosh.yml"
+
 runuser -l stack -c  "cat > /opt/stack/add-trusted-certs-to-director-vm.ops.yml <<EOF
 - type: replace
   path: /releases/name=os-conf?
