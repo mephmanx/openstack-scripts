@@ -777,7 +777,7 @@ chown -R stack /tmp/stemcell-*-"$STEMCELL_STAMP".tgz
 
 for stemcell in $stemcell_path; do
   echo "queued" > /tmp/stemcell-upload.log
-  queued_count=$(grep -c "queued" /tmp/stemcell-upload.log)
+  queued_count=$(($(grep -c "queued" /tmp/stemcell-upload.log) + $(grep -c "error" /tmp/stemcell-upload.log)))
   while [ "$queued_count" -gt 0 ]; do
     rm -rf /tmp/stemcell-upload.log
     IFS=$'\n'
@@ -789,7 +789,7 @@ for stemcell in $stemcell_path; do
                               source /tmp/bbl_env.sh; \
                               bosh upload-stemcell $stemcell"
     runuser -l stack -c "openstack image list | grep 'queued'" > /tmp/stemcell-upload.log
-    queued_count=$(grep -c "queued" /tmp/stemcell-upload.log)
+    queued_count=$(($(grep -c "queued" /tmp/stemcell-upload.log) + $(grep -c "error" /tmp/stemcell-upload.log)))
     sleep 30
   done
   rm -rf /tmp/stemcell-upload.log
