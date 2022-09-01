@@ -64,12 +64,9 @@ pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1
 pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo" -r /root/python.modules
 ####
 
-mkdir -p /etc/kolla
-mkdir /etc/kolla/certificates
-mkdir /etc/kolla/certificates/ca
+mkdir -p /etc/kolla/certificates/ca
 cp /etc/ipa/ca.crt /etc/kolla/certificates/ca/ca.crt
 cp -r /opt/stack/venv/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
-mkdir -p /var/lib/kolla/config_files
 
 telegram_notify  "Loading Openstack Kolla deployment playbook and performing env customization...."
 cp /tmp/globals.yml /etc/kolla/globals.yml
