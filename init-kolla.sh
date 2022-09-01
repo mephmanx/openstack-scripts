@@ -591,7 +591,6 @@ totalLines=$(wc -l < /opt/stack/bosh-deployment/bosh.yml)
 line_from_bottom=$((totalLines - splitLine))
 runuser -l stack -c  "tail -n $line_from_bottom /opt/stack/bosh-deployment/bosh.yml > /opt/stack/bosh-deployment/bosh-end.yml"
 runuser -l stack -c  "head -n $splitLine /opt/stack/bosh-deployment/bosh.yml > /opt/stack/bosh-deployment/bosh-start.yml"
-runuser -l stack -c  "touch /opt/stack/bosh-deployment/bosh-start.yml"
 chown -R stack /opt/stack/bosh-deployment/bosh-start.yml
 runuser -l stack -c  'cat /opt/stack/bosh-ca.crt >> /opt/stack/bosh-deployment/bosh-start.yml'
 runuser -l stack -c  'cat /opt/stack/bosh-deployment/bosh-end.yml >> /opt/stack/bosh-deployment/bosh-start.yml'
@@ -886,6 +885,45 @@ cd /opt/stack || exit
 ./expect.sh
 cd "$pwd" || exit
 #########
+
+#### add cloud ca to trusted certs on CF VM's
+# add cert into cf-deployment.yml below each entry of "- ((uaa_ssl.ca))"
+lines_to_modify=()
+while read -r entry; do
+  IFS=':' read -ra line_entry <<<"$entry"
+  line_num=${line_entry[0]}
+  lines_to_modify+=("$line_num")
+done < <(grep -n "\- ((uaa_ssl.ca))" /tmp/cf-deployment/cf-deployment.yml);
+
+IFS=
+arr_len=${#lines_to_modify}
+while [[ arr_len -ge 0 ]]; do
+  line_num="${lines_to_modify[$arr_len]}"
+  if [[ line_num -eq 0 ]]; then
+    ((arr_len--))
+  else
+    totalLines=$(wc -l < /tmp/cf-deployment/cf-deployment.yml)
+    line_from_bottom=$((totalLines - lines_to_modify[arr_len]))
+    line_txt=$(head -n "$line_num" /tmp/cf-deployment/cf-deployment.yml | tail -n 1)
+    runuser -l stack -c  "tail -n $line_from_bottom /tmp/cf-deployment/cf-deployment.yml > /tmp/cf-deployment-end.yml"
+    runuser -l stack -c  "head -n $line_num /tmp/cf-deployment/cf-deployment.yml > /tmp/cf-deployment/cf-deployment-start.yml"
+    chown -R stack /tmp/cf-deployment/cf-deployment-start.yml
+    #figure out how many spaces are needed and add them
+    spaces_needed=$(grep -o . <<<"$line_txt" | while IFS=; read -r letter; do if [[ $letter =~ [[:space:]] ]]; then echo "space"; fi; done | wc -l)
+    cp /etc/ipa/ca.crt /opt/stack/bosh-vm-ca.crt
+    sed -i "s/^/$(head -c "$spaces_needed" < /dev/zero | tr '\0' ' ')/" /opt/stack/bosh-vm-ca.crt
+    ###
+    spaces_needed=$((spaces_needed - 1))
+    runuser -l stack -c  "echo '$(head -c "$spaces_needed" < /dev/zero | tr '\0' ' ')-|' >> /tmp/cf-deployment/cf-deployment-start.yml"
+    runuser -l stack -c  'cat /opt/stack/bosh-vm-ca.crt >> /tmp/cf-deployment/cf-deployment-start.yml'
+    runuser -l stack -c  'cat /tmp/cf-deployment-end.yml >> /tmp/cf-deployment/cf-deployment-start.yml'
+    runuser -l stack -c  "rm -rf /tmp/cf-deployment/cf-deployment.yml"
+    runuser -l stack -c  "mv /tmp/cf-deployment/cf-deployment-start.yml /tmp/cf-deployment/cf-deployment.yml"
+    rm -rf /opt/stack/bosh-vm-ca.crt
+    ((arr_len--))
+  fi
+done
+#######
 
 ### deploy cloudfoundry
 #this is to make the CF install fall into the below loop as it seems to need 2 deployments to fully deploy
