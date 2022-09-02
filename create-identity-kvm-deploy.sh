@@ -14,7 +14,7 @@ DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
 create_line="virt-install "
 create_line+="--hvm "
 create_line+="--virt-type=kvm "
-create_line+="--name=identity "
+create_line+="--name=$IDENTITY_HOST "
 create_line+="--memory=${IDENTITY_RAM}000 "
 create_line+="--cpu=host-passthrough,cache.mode=passthrough "
 create_line+="--tpm emulator,model=tpm-tis,version=2.0 "
