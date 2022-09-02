@@ -914,7 +914,7 @@ while [[ arr_len -ge 0 ]]; do
     sed -i "s/^/$(head -c "$spaces_needed" < /dev/zero | tr '\0' ' ')/" /opt/stack/bosh-vm-ca.crt
     ###
     spaces_needed=$((spaces_needed - 1))
-    runuser -l stack -c  "echo '$(head -c "$spaces_needed" < /dev/zero | tr '\0' ' ')-|' >> /tmp/cf-deployment/cf-deployment-start.yml"
+    runuser -l stack -c  "echo '$(head -c "$spaces_needed" < /dev/zero | tr '\0' ' ')- |' >> /tmp/cf-deployment/cf-deployment-start.yml"
     runuser -l stack -c  'cat /opt/stack/bosh-vm-ca.crt >> /tmp/cf-deployment/cf-deployment-start.yml'
     runuser -l stack -c  'cat /tmp/cf-deployment-end.yml >> /tmp/cf-deployment/cf-deployment-start.yml'
     runuser -l stack -c  "rm -rf /tmp/cf-deployment/cf-deployment.yml"
