@@ -25,8 +25,8 @@ echo "{CENTOS_ADMIN_PWD_123456789012}" | kinit admin
 ipa service-add HTTP/"$(hostname)"
 ipa-getcert request \
           -K HTTP/"$(hostname)" \
-          -f /tmp/"$(hostname -s)".crt \
-          -k /tmp/"$(hostname -s)".key \
+          -f /tmp/harbor.crt \
+          -k /tmp/harbor.key \
           -D "$(hostname)"
 
 mv /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" /usr/local/bin/docker-compose
@@ -37,7 +37,6 @@ tar xzvf /tmp/harbor-"$HARBOR_VERSION".tgz
 rm -rf /tmp/harbor-"$HARBOR_VERSION".tgz
 
 mv /tmp/harbor.yml /root/harbor/harbor.yml
-sed -i "s/{HOSTNAME}/$(hostname -s)/g" /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_HOST}/${SUPPORT_VIP_DNS}/g" /root/harbor/harbor.yml
 sed -i "s/{SUPPORT_PASSWORD}/{CENTOS_ADMIN_PWD_123456789012}/g" /root/harbor/harbor.yml
 sed -i "s/{DATABASE_PASSWORD}/$(generate_random_pwd 31)/g" /root/harbor/harbor.yml
