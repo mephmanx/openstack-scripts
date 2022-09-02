@@ -8,7 +8,7 @@ source /tmp/vm_functions.sh
 source /tmp/project_config.sh
 source /tmp/vm-configurations.sh
 
-telegram_notify  "PFSense deployment beginning"
+telegram_notify  "$EDGE_ROUTER_NAME deployment beginning"
 
 size_avail=$(df /VM-VOL-MISC | awk '{print $2}' | sed 1d)
 DRIVE_SIZE=$(($((size_avail * 20/100)) / 1024 / 1024))
@@ -110,16 +110,16 @@ sleep 30;
 
 rm -rf /tmp/pf-init-1.sh
 ## remove install disk from pfsense
-virsh detach-disk --domain pfsense /tmp/pfSense-CE-memstick-ADI-prod.img --persistent --config --live
-virsh destroy pfsense
+virsh detach-disk --domain "$EDGE_ROUTER_NAME" /tmp/pfSense-CE-memstick-ADI-prod.img --persistent --config --live
+virsh destroy "$EDGE_ROUTER_NAME"
 sleep 20;
-virsh start pfsense
+virsh start "$EDGE_ROUTER_NAME"
 
 ### cleanup
 runuser -l root -c  "rm -rf /tmp/usb"
 #####
 
-telegram_notify  "PFSense reboot, pfsense-init script should begin after reboot."
+telegram_notify  "$EDGE_ROUTER_NAME reboot, pfsense-init script should begin after reboot."
 
 rm -rf /tmp/pfSense-CE-memstick-ADI-prod.img
 rm -rf /tmp/create-pfsense-kvm-deploy.sh

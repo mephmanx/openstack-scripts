@@ -31,7 +31,7 @@ create_line+="--channel unix,target.type=virtio,target.name='org.qemu.guest_agen
 
 create_line+="--autostart --wait -1;  rm -rf /tmp/cloudsupport-iso.iso"
 
-telegram_notify  "Creating cloudsupport vm"
+telegram_notify  "Creating $SUPPORT_HOST vm"
 
 echo "$create_line"
 eval "$create_line" &
