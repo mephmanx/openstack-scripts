@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###  Cert constants
-export ORGANIZATION="acton-lane"
+export ORGANIZATION="cloud.local-Org"
 
 ## domain name
 ## generate internal domain name
