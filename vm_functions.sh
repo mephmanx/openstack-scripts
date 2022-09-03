@@ -362,3 +362,22 @@ function install_packages_hypervisor() {
   dnf groupinstall -y virtualization-client
   dnf install -y telnet automake libtool cockpit-machines
 }
+
+function get_base64_string_for_file() {
+  #
+
+#      sed -e '40{N;s/\n//;}' /tmp/subca.cert | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > /tmp/subca-converted.cert
+#      truncate -s -1 /tmp/subca-converted.cert
+#      base64 -w 0 < /tmp/subca-converted.cert > /tmp/subca-reencoded.cert
+#      echo >> /tmp/subca-reencoded.cert
+
+  #####
+  file="$1"
+  conv_file_name="/tmp/convert-file-$(generate_random_pwd 10)"
+  conv_file_name_reencoded="/tmp/convert-file-$(generate_random_pwd 10)-reencoded"
+  sed -e '40{N;s/\n//;}' "$file" | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > "$conv_file_name"
+  truncate -s -1 "$conv_file_name"
+  base64 -w 0 < "$conv_file_name" > "$conv_file_name_reencoded"
+  echo >> "$conv_file_name_reencoded"
+  cat "$conv_file_name_reencoded"
+}

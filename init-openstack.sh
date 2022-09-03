@@ -171,33 +171,15 @@ while [ true ]; do
       rm -rf /tmp/id_rsa.srl
       ## run format replace on each file below
 
-      sed -e '40{N;s/\n//;}' /tmp/wildcard.key | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > /tmp/wildcard-converted.key
-      truncate -s -1 /tmp/wildcard-converted.key
-      base64 -w 0 < /tmp/wildcard-converted.key > /tmp/wildcard-reencoded.key
-      echo >> /tmp/wildcard-reencoded.key
-
-      sed -e '40{N;s/\n//;}' /tmp/subca.key | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > /tmp/subca-converted.key
-      truncate -s -1 /tmp/subca-converted.key
-      base64 -w 0 < /tmp/subca-converted.key > /tmp/subca-reencoded.key
-      echo >> /tmp/subca-reencoded.key
-
-      sed -e '40{N;s/\n//;}' /tmp/wildcard.crt | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > /tmp/wildcard-converted.crt
-      truncate -s -1 /tmp/wildcard-converted.crt
-      base64 -w 0 < /tmp/wildcard-converted.crt > /tmp/wildcard-reencoded.crt
-      echo >> /tmp/wildcard-reencoded.crt
-
-      sed -e '40{N;s/\n//;}' /tmp/subca.cert | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > /tmp/subca-converted.cert
-      truncate -s -1 /tmp/subca-converted.cert
-      base64 -w 0 < /tmp/subca-converted.cert > /tmp/subca-reencoded.cert
-      echo >> /tmp/subca-reencoded.cert
-
-
       #run iso replace to load certs into pfsense
-      ## replace longest first
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 4393)" "\$(cat </tmp/wildcard-reencoded.key)"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 4389)" "\$(cat </tmp/subca-reencoded.key)"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 2765)" "\$(cat </tmp/wildcard-reencoded.crt)"
-      replace_string_in_iso "/tmp/pfSense-CE-memstick-ADI-prod.img" "\$(generate_specific_pwd 2465)" "\$(cat </tmp/subca-reencoded.cert)"
+      mkdir /tmp/usb
+      loop_Device=$(losetup -f --show -P /tmp/pfSense-CE-memstick-ADI-prod.img)
+      mount "$loop_Device"p3 /tmp/usb
+      sed -i "s/{CA_CRT}/$(get_base64_string_for_file /tmp/id_rsa.crt)/g" /temp/usb/config.xml
+      sed -i "s/{CA_KEY}/$(get_base64_string_for_file /tmp/id_rsa)/g" /temp/usb/config.xml
+      sed -i "s/{INITIAL_WILDCARD_CRT}/$(get_base64_string_for_file /tmp/wildcard.crt)/g" /temp/usb/config.xml
+      sed -i "s/{INITIAL_WILDCARD_KEY}/$(get_base64_string_for_file /tmp/wildcard.key)/g" /temp/usb/config.xml
+      runuser -l root -c  'umount /temp/usb'
 
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       sleep 60;
