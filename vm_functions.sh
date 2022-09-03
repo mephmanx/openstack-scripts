@@ -375,7 +375,7 @@ function get_base64_string_for_file() {
   file="$1"
   conv_file_name="/tmp/convert-file-$(generate_random_pwd 10)"
   conv_file_name_reencoded="/tmp/convert-file-$(generate_random_pwd 10)-reencoded"
-  sed -e '40{N;s/\n//;}' "$file" | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > "$conv_file_name"
+  sed -e '40{N;s/\n//;}' "$file" | sed -e ':a;N;$!ba;s/\n/\r\n/g' > "$conv_file_name"
   truncate -s -1 "$conv_file_name"
   base64 -w 0 < "$conv_file_name" > "$conv_file_name_reencoded"
   echo >> "$conv_file_name_reencoded"
