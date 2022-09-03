@@ -170,14 +170,14 @@ while [ true ]; do
       ## run format replace on each file below
 
       #run iso replace to load certs into pfsense
-      runuser -l root -c  'mkdir /tmp/usb'
-      loop_Device=$(losetup -f --show -P /tmp/pfSense-CE-memstick-ADI-prod.img)
-      runuser -l root -c  "mount ${loop_Device}p3 /tmp/usb"
-      sed -i "s/{CA_CRT}/$(get_base64_string_for_file /tmp/id_rsa.crt)/g" /temp/usb/config.xml
-      sed -i "s/{CA_KEY}/$(get_base64_string_for_file /tmp/id_rsa)/g" /temp/usb/config.xml
-      sed -i "s/{INITIAL_WILDCARD_CRT}/$(get_base64_string_for_file /tmp/wildcard.crt)/g" /temp/usb/config.xml
-      sed -i "s/{INITIAL_WILDCARD_KEY}/$(get_base64_string_for_file /tmp/wildcard.key)/g" /temp/usb/config.xml
-      runuser -l root -c  'umount /temp/usb'
+      runuser -l root -c  'mkdir -p /tmp/usb'
+      loop_Device=\$(losetup -f --show -P /tmp/pfSense-CE-memstick-ADI-prod.img)
+      runuser -l root -c  "mount \${loop_Device}p3 /tmp/usb"
+      sed -i "s/{CA_CRT}/\$(get_base64_string_for_file /tmp/id_rsa.crt)/g" /tmp/usb/config.xml
+      sed -i "s/{CA_KEY}/\$(get_base64_string_for_file /tmp/id_rsa)/g" /tmp/usb/config.xml
+      sed -i "s/{INITIAL_WILDCARD_CRT}/\$(get_base64_string_for_file /tmp/wildcard.crt)/g" /tmp/usb/config.xml
+      sed -i "s/{INITIAL_WILDCARD_KEY}/\$(get_base64_string_for_file /tmp/wildcard.key)/g" /tmp/usb/config.xml
+      runuser -l root -c  'umount /tmp/usb'
 
       rm -rf /tmp/id_rsa
       rm -rf /tmp/id_rsa.crt
