@@ -166,8 +166,6 @@ while [ true ]; do
       # generate wildcard cert using subordinate CA
       create_server_cert /tmp "wildcard" "*"
 
-      rm -rf /tmp/id_rsa
-      rm -rf /tmp/id_rsa.crt
       rm -rf /tmp/id_rsa.srl
       ## run format replace on each file below
 
@@ -181,6 +179,8 @@ while [ true ]; do
       sed -i "s/{INITIAL_WILDCARD_KEY}/$(get_base64_string_for_file /tmp/wildcard.key)/g" /temp/usb/config.xml
       runuser -l root -c  'umount /temp/usb'
 
+      rm -rf /tmp/id_rsa
+      rm -rf /tmp/id_rsa.crt
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       sleep 60;
       runuser -l root -c "cd /tmp || exit; ./create-cloudsupport-kvm-deploy.sh;" &
