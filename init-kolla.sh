@@ -925,6 +925,18 @@ while [[ arr_len -ge 0 ]]; do
 done
 #######
 
+lines_to_modify=()
+while read -r entry; do
+  IFS=':' read -ra line_entry <<<"$entry"
+  line_num=${line_entry[0]}
+  lines_to_modify+=("$line_num")
+done < <(grep -n "default_container_grace_time" /tmp/cf-deployment/cf-deployment.yml);
+line_txt=$(head -n "$line_num" /tmp/cf-deployment/cf-deployment.yml | tail -n 1)
+spaces_needed=$(grep -o . <<<"$line_txt" | while IFS=; read -r letter; do if [[ $letter =~ [[:space:]] ]]; then echo "space"; fi; done | wc -l)
+new_line="insecure_docker_registry_list: [\"$SUPPORT_VIP_DNS\"]"
+((spaces_needed--))
+sed -i "/garden:/a\\$(head -c "$spaces_needed" < /dev/zero | tr '\0' ' ')$new_line" /tmp/cf-deployment/cf-deployment.yml
+
 ### deploy cloudfoundry
 #this is to make the CF install fall into the below loop as it seems to need 2 deployments to fully deploy
 ## would be good to fix but was suggested by community so....
