@@ -35,14 +35,13 @@ EXTERNAL_VIP_DNS="$APP_EXTERNAL_HOSTNAME.$INTERNAL_DOMAIN_NAME"
 
 ##### Harbor setup
 ADMIN_PWD={CENTOS_ADMIN_PWD_123456789012}
-etext=$(echo -n "admin:$ADMIN_PWD" | base64)
-status_code=$(curl https://"$SUPPORT_VIP_DNS"/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $etext" )
+status_code=$(curl https://"$SUPPORT_VIP_DNS"/api/v2.0/registries --write-out %{http_code} -k --silent --output /dev/null -H "authorization: Basic $(echo -n "admin:$ADMIN_PWD" | base64)" )
 
 if [[ "$status_code" -ne 200 ]] ; then
   telegram_notify  "Harbor install failed!"
   exit 1
 else
-  telegram_notify  "Harbor install successful. Hypervisor SSH keys added to VM's. continuing install..."
+  telegram_notify  "Harbor install successful, continuing install of OpenStack"
 fi
 
 unset HOME
@@ -54,15 +53,11 @@ runuser -l root -c  'su - stack'
 ########################
 
 export PYTHONIOENCODING=UTF-8;
-# update pip to required version
 PATH=$PATH:$HOME/bin:/usr/local/bin
-####
 python3 -m venv /opt/stack/venv
 source /opt/stack/venv/bin/activate
-
 pip3 install --no-index --find-links="/repo/PyRepo" pip==21.3.1
 pip3 install --ignore-installed --no-index --find-links="/repo/PyRepo" -r /root/python.modules
-####
 
 mkdir -p /etc/kolla/certificates/ca
 cp /etc/ipa/ca.crt /etc/kolla/certificates/ca/ca.crt
@@ -226,20 +221,13 @@ export EXT_NET_GATEWAY=$GATEWAY_ROUTER_IP
 ### pull docker images
 telegram_notify  "Analyzing Kolla Openstack configuration and pull docker images for cache priming...."
 
-## look for any failures and run again if any fail.   continue until cache is full or 10 tries are made
-cache_ct=10
+## look for any failures and quit if failed as install will not complete
 cache_out=$(kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode pull)
 failure_occur=$(echo "$cache_out" | grep -o 'FAILED' | wc -l)
-while [ "$failure_occur" -gt 0 ]; do
-  cache_out=$(kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode pull)
-  failure_occur=$(echo "$cache_out" | grep -o 'FAILED' | wc -l)
-  if [[ $cache_ct == 0 ]]; then
-    telegram_notify  "Cache prime failed after 10 retries, failing.  Check logs to resolve issue."
-    exit 1
-  fi
-  ((cache_ct--))
-done
-
+if [[ failure_occur -gt 0 ]]; then
+  telegram_notify  "Cache prime failed after 10 retries, failing.  Check logs to resolve issue."
+  exit 1
+fi
 rm -rf /opt/stack/cache_out
 telegram_notify  "Cache pull/prime complete!  Install continuing.."
 
