@@ -364,14 +364,6 @@ function install_packages_hypervisor() {
 }
 
 function get_base64_string_for_file() {
-  #
-
-#      sed -e '40{N;s/\n//;}' /tmp/subca.cert | sed -e ':a;N;\$!ba;s/\n/\r\n/g' > /tmp/subca-converted.cert
-#      truncate -s -1 /tmp/subca-converted.cert
-#      base64 -w 0 < /tmp/subca-converted.cert > /tmp/subca-reencoded.cert
-#      echo >> /tmp/subca-reencoded.cert
-
-  #####
   file="$1"
   conv_file_name="/tmp/convert-file-$(generate_random_pwd 10)"
   conv_file_name_reencoded="/tmp/convert-file-$(generate_random_pwd 10)-reencoded"
