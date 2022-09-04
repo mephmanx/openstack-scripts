@@ -1141,7 +1141,7 @@ runuser -l stack -c "cf bind-staging-security-group ASG"
 #push stratos
 cat > /tmp/stratos.yml <<EOF
 applications:
-  - name: console
+  - name: app-console
     docker:
       image: $SUPPORT_VIP_DNS/splatform/stratos:$STRATOS_VERSION
     instances: 1
