@@ -197,8 +197,8 @@ profileId=SubCA
 EOF
 
 ipa certprofile-import SubCA --store=true --file=/tmp/subca.profile --desc="Enrolling subordinate certificate authority certificates"
-ipa host-add --force pfsense."$INTERNAL_DOMAIN_NAME"
-ipa service-add --force HTTP/pfsense."$INTERNAL_DOMAIN_NAME"
+ipa host-add --force "$EDGE_ROUTER_NAME"."$INTERNAL_DOMAIN_NAME"
+ipa service-add --force HTTP/"$EDGE_ROUTER_NAME"."$INTERNAL_DOMAIN_NAME"
 
 # build pfsense CA and wildcard cert
 cat > /tmp/sub-ca.cnf <<EOF
