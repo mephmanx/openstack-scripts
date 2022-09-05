@@ -154,20 +154,13 @@ while [ true ]; do
       # add key and cert data into pfsense install img
 
       # fetch subordiante ca from identity
-      curl -o /tmp/subca.cert http://$IDENTITY_VIP:$IDENTITY_SIGNAL/subca.cert
-      curl -o /tmp/subca.key http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.key
-      if [ ! -f /tmp/subca.cert ] && [ ! -f /tmp/subca.key ]; then
+      curl -o /tmp/id_rsa.crt http://$IDENTITY_VIP:$IDENTITY_SIGNAL/subca.cert
+      curl -o /tmp/id_rsa http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.key
+      if [ ! -f id_rsa.crt ] && [ ! -f /tmp/id_rsa ]; then
         continue;
       fi
-      rm -rf /tmp/id_rsa*
-      cp /tmp/subca.cert /tmp/id_rsa.crt
-      cp /tmp/subca.key /tmp/id_rsa
-
       # generate wildcard cert using subordinate CA
       create_server_cert /tmp "wildcard" "*"
-
-      rm -rf /tmp/id_rsa.srl
-      ## run format replace on each file below
 
       #run iso replace to load certs into pfsense
       runuser -l root -c  'mkdir -p /tmp/usb'
@@ -179,16 +172,13 @@ while [ true ]; do
       sed -i "s/{INITIAL_WILDCARD_KEY}/\$(get_base64_string_for_file /tmp/wildcard.key)/g" /tmp/usb/config.xml
       runuser -l root -c  'umount /tmp/usb'
 
-      rm -rf /tmp/id_rsa
-      rm -rf /tmp/id_rsa.crt
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       sleep 60;
       runuser -l root -c "cd /tmp || exit; ./create-cloudsupport-kvm-deploy.sh;" &
       runuser -l root -c "cd /tmp || exit; ./create-cloud-kvm-deploy.sh;" &
       rm -rf /tmp/identity-test.sh
-      rm -rf /tmp/*.key
+      rm -rf /tmp/id_rsa*
       rm -rf /tmp/wildcard*
-      rm -rf /tmp/subca*
       exit
     else
       sleep 5
