@@ -156,7 +156,7 @@ while [ true ]; do
       # fetch subordiante ca from identity
       curl -o /tmp/id_rsa.crt http://$IDENTITY_VIP:$IDENTITY_SIGNAL/subca.cert
       curl -o /tmp/id_rsa http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.key
-      if [ ! -f id_rsa.crt ] && [ ! -f /tmp/id_rsa ]; then
+      if [ ! -f /tmp/id_rsa.crt ] && [ ! -f /tmp/id_rsa ]; then
         continue;
       fi
       # generate wildcard cert using subordinate CA
