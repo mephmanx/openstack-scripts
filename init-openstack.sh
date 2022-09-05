@@ -151,18 +151,16 @@ source /tmp/vm_functions.sh
 exec 1>/tmp/identity-signal-install.log 2>&1
 while [ true ]; do
     if [ \`< /dev/tcp/$IDENTITY_VIP/$IDENTITY_SIGNAL ; echo \$?\` -lt 1 ]; then
-      # add key and cert data into pfsense install img
 
-      # fetch subordiante ca from identity
+      # fetch subordinate ca from identity
       curl -o /tmp/id_rsa.crt http://$IDENTITY_VIP:$IDENTITY_SIGNAL/subca.cert
       curl -o /tmp/id_rsa http://$IDENTITY_VIP:$IDENTITY_SIGNAL/sub-ca.key
-      if [ ! -f /tmp/id_rsa.crt ] && [ ! -f /tmp/id_rsa ]; then
-        continue;
-      fi
+
       # generate wildcard cert using subordinate CA
       create_server_cert /tmp "wildcard" "*"
 
       #run iso replace to load certs into pfsense
+      # add key and cert data into pfsense install img
       runuser -l root -c  'mkdir -p /tmp/usb'
       loop_Device=\$(losetup -f --show -P /tmp/pfSense-CE-memstick-ADI-prod.img)
       runuser -l root -c  "mount \${loop_Device}p3 /tmp/usb"
