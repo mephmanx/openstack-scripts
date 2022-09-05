@@ -55,7 +55,7 @@ runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '*' --a-ip-address=
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_INTERNAL_HOSTNAME' --a-ip-address=$INTERNAL_VIP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$APP_EXTERNAL_HOSTNAME' --a-ip-address=$EXTERNAL_VIP"
 runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. '$SUPPORT_HOST' --a-ip-address=$SUPPORT_VIP"
-runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. _ntp._udp --srv-priority=0 --srv-weight=100 --srv-port=123 --srv-target=pfsense.$INTERNAL_DOMAIN_NAME."
+runuser -l root -c "ipa dnsrecord-add $INTERNAL_DOMAIN_NAME. _ntp._udp --srv-priority=0 --srv-weight=100 --srv-port=123 --srv-target=$EDGE_ROUTER_NAME.$INTERNAL_DOMAIN_NAME."
 
 #### groups
 /usr/bin/ipa group-add cloud-admins
@@ -263,7 +263,7 @@ prompt = no
 
 [ req_distinguished_name ]
 0.organizationName		= $ORGANIZATION
-commonName = pfsense.$INTERNAL_DOMAIN_NAME
+commonName = $EDGE_ROUTER_NAME.$INTERNAL_DOMAIN_NAME
 
 [ req_attributes ]
 
@@ -279,7 +279,7 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment, keyCertSign
 subjectAltName = @alt_names
 
 [alt_names]
-DNS.1 = pfsense.$INTERNAL_DOMAIN_NAME
+DNS.1 = $EDGE_ROUTER_NAME.$INTERNAL_DOMAIN_NAME
 
 [ v3_ca ]
 subjectKeyIdentifier = hash
