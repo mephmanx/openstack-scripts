@@ -1145,6 +1145,7 @@ applications:
 EOF
 
 runuser -l stack -c "cf bind-staging-security-group ASG"
+runuser -l stack -c "cf bind-running-security-group ASG"
 runuser -l stack -c "cf push -f /tmp/stratos.yml"
 runuser -l stack -c "cf scale $STRATOS_CONSOLE -i 2"
 
