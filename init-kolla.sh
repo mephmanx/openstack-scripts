@@ -253,7 +253,7 @@ telegram_notify  "Openstack Kolla Ansible deploy task execution begun....."
 kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode deploy
 
 ### grab last set of lines from log to send
-LOG_TAIL=$(tail -25 /root/start-install.log)
+LOG_TAIL=$(tail -15 /root/start-install.log)
 ###
 
 kolla-ansible post-deploy
@@ -421,8 +421,7 @@ openstack flavor create --ram 31232 --ephemeral 100 --vcpus 4 --public small-hig
 #done
 ###########
 
-telegram_notify  "Cloudfoundry Openstack project ready.  user -> $OPENSTACK_CLOUDFOUNDRY_USERNAME pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
-telegram_debug_msg  "Openstack admin pwd is $ADMIN_PWD"
+telegram_notify  "Cloudfoundry Openstack project ready.  user -> $OPENSTACK_CLOUDFOUNDRY_USERNAME"
 
 #### start logstash container on monitoring01
 cat > /tmp/monitoring01-logstash.sh <<EOF
@@ -977,7 +976,7 @@ if [[ $error_count -gt 0 ]]; then
 fi
 
 ### grab last set of lines from log to send
-LOG_TAIL=$(tail -25 /tmp/cloudfoundry-install.log)
+LOG_TAIL=$(tail -15 /tmp/cloudfoundry-install.log)
 ###
 
 ## run volume errand
@@ -1128,7 +1127,7 @@ runuser -l stack -c "cf bind-running-security-group ASG"
 #push stratos
 cat > /tmp/stratos.yml <<EOF
 applications:
-  - name: app-console
+  - name: $STRATOS_CONSOLE
     docker:
       image: $SUPPORT_VIP_DNS/splatform/stratos:$STRATOS_VERSION
     instances: 1
@@ -1148,11 +1147,11 @@ EOF
 runuser -l stack -c "cf push -f /tmp/stratos.yml"
 runuser -l stack -c "cf bind-staging-security-group ASG"
 runuser -l stack -c "cf push -f /tmp/stratos.yml"
-runuser -l stack -c "cf scale app-console -i 2"
+runuser -l stack -c "cf scale $STRATOS_CONSOLE -i 2"
 
 ## Stratos complete!
 rm -rf "$CF_HOME"
-telegram_notify  "Stratos deployment complete!  access at console.$INTERNAL_DOMAIN_NAME user -> admin , pwd -> $OPENSTACK_CLOUDFOUNDRY_PWD"
+telegram_notify  "Stratos deployment complete!  access at $STRATOS_CONSOLE.$INTERNAL_DOMAIN_NAME user -> admin"
 
 #### update keystone for ldap, run at the very end as it disables keystone db auth.  disables admin and osuser accounts!
 #DIRECTORY_MGR_PWD=`cat /tmp/directory_mgr_pwd`
