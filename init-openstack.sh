@@ -169,6 +169,7 @@ while [ true ]; do
       sed -i "s/{INITIAL_WILDCARD_CRT}/\$(get_base64_string_for_file /tmp/wildcard.crt)/g" /tmp/usb/config.xml
       sed -i "s/{INITIAL_WILDCARD_KEY}/\$(get_base64_string_for_file /tmp/wildcard.key)/g" /tmp/usb/config.xml
       runuser -l root -c  'umount /tmp/usb'
+      rm -rf "/tmp/convert-file-*"
 
       runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
       sleep 60;
