@@ -43,7 +43,7 @@ export SUPPORT_HOST=registry;
 export IDENTITY_HOST=identity;
 export EDGE_ROUTER_NAME=gateway;
 export STRATOS_CONSOLE=app-console
-export APP_INTERNAL_HOSTNAME=sysadmin-local;
+export APP_INTERNAL_HOSTNAME=sysadmin-internal;
 export APP_EXTERNAL_HOSTNAME=sysadmin;
 
 ### Network prefix, used for all networks below
