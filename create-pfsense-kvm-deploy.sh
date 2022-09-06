@@ -41,6 +41,7 @@ create_line+="--autostart --wait 0"
 
 eval "$create_line"
 
+HOSTNAME_SUFFIX=$(cat /tmp/system_suffix);
 cat > /tmp/pf-init-1.sh <<EOF
 mount -u -o rw /
 mkdir /tmp/test-mnt
@@ -54,8 +55,7 @@ yes | cp /tmp/test-mnt/pfSense-repo.conf /mnt/etc/pkg/FreeBSD.conf;
 mkdir /mnt/tmp/repo-dir
 tar xf /mnt/root/repo.tar -C /mnt/tmp/repo-dir/
 ./init.sh
-HOSTNAME_SUFFIX=\$(cat /dev/urandom | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 5 ; echo);
-HOSTNAME="$ORGANIZATION-\$HOSTNAME_SUFFIX"
+HOSTNAME="$ORGANIZATION-$HOSTNAME_SUFFIX"
 sed -i -e 's/{HOSTNAME}/'\$HOSTNAME'/g' /mnt/cf/conf/config.xml
 rm -rf init.sh
 rm -rf pf-init-1.sh
