@@ -111,14 +111,6 @@ done
 
   extFile=$(gen_extfile "$host_name.$INTERNAL_DOMAIN_NAME")
   runuser -l root -c  "openssl genrsa -out $cert_dir/$cert_name.pass.key 4096"
-
-  file_length_pk=$(wc -c "$cert_dir/$cert_name.pass.key" | awk -F' ' '{ print $1 }')
-  file_length_old=3247
-  while [ "$file_length_pk" != "$file_length_old" ]; do
-    runuser -l root -c  "openssl genrsa -out $cert_dir/$cert_name.pass.key 4096"
-    file_length_pk=$(wc -c "$cert_dir/$cert_name.pass.key" | awk -F' ' '{ print $1 }')
-  done
-
   runuser -l root -c  "openssl rsa -in $cert_dir/$cert_name.pass.key -out $cert_dir/$cert_name.key"
   runuser -l root -c  "openssl req -new -key $cert_dir/$cert_name.key \
                           -out $cert_dir/$cert_name.csr \
