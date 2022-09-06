@@ -1150,7 +1150,7 @@ runuser -l stack -c "cf scale $STRATOS_CONSOLE -i 2"
 
 ## Stratos complete!
 rm -rf "$CF_HOME"
-telegram_notify  "Stratos deployment complete!  access at $STRATOS_CONSOLE.$INTERNAL_DOMAIN_NAME user -> admin"
+telegram_notify  "Stratos deployment complete!  access at $STRATOS_CONSOLE.$INTERNAL_DOMAIN_NAME"
 
 #### update keystone for ldap, run at the very end as it disables keystone db auth.  disables admin and osuser accounts!
 #DIRECTORY_MGR_PWD=`cat /tmp/directory_mgr_pwd`
