@@ -1045,7 +1045,6 @@ EOF
 
 runuser -l stack -c "cf create-security-group ASG /opt/stack/asg.json"
 runuser -l stack -c "cf bind-running-security-group ASG"
-runuser -l stack -c "cf bind-staging-security-group ASG"
 ## push logging
 # get latest stemcell
 #runuser -l stack -c  "cd /opt/stack; bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
@@ -1147,7 +1146,9 @@ applications:
 EOF
 
 runuser -l stack -c "cf push -f /tmp/stratos.yml"
-runuser -l stack -c "cf scale console -i 2"
+runuser -l stack -c "cf bind-staging-security-group ASG"
+runuser -l stack -c "cf push -f /tmp/stratos.yml"
+runuser -l stack -c "cf scale app-console -i 2"
 
 ## Stratos complete!
 rm -rf "$CF_HOME"
