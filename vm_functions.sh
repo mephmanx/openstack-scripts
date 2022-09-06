@@ -194,6 +194,8 @@ function join_machine_to_domain() {
                       --mkhomedir \
                       --enable-dns-updates \
                       --force-join \
+                      --ssh-trust-dns \
+                      --enable-dns-updates \
                       -w "$ADMIN_PASSWORD" -U -q > /tmp/ipa-join
 
   ### if possible, restart selinux
@@ -228,7 +230,7 @@ $replace_with
 EOF
 
   occur=$(grep -oba "$replacement_string" "$iso_file" | wc -l)
-  entries=($(grep -oba "$replacement_string" "$iso_file"))
+  read -r -a entries <<<"$(grep -oba "$replacement_string" "$iso_file")"
   while [ "$occur" -gt 0 ]; do
     ((occur--))
     start_index=$(echo "${entries[$occur]}" | awk -F':' '{ print $1 }')
