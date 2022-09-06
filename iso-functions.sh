@@ -34,9 +34,6 @@ function closeOutAndBuildKickstartAndISO {
   vm_name=$2
   working_dir=$(pwd)
   IFS=' ' read -r -a embedded_files <<< "$3"
-  #### to allow certs to print right
-  IFS=
-  #######
 
   sudo rm -rf /var/tmp/"${vm_name}"
   mkdir /centos
@@ -138,6 +135,7 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/openstack-setup/openstack-env.sh'
                 '/tmp/cf-templates.zip'
+                "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar"
                 "/tmp/cf_deployment-$CF_DEPLOY_VERSION.zip"
                 '/tmp/openstack-scripts/project_config.sh'
                 "/tmp/bosh-$STEMCELL_STAMP.tgz")
@@ -148,12 +146,6 @@ function buildAndPushOpenstackSetupISO {
     embed_files+=("$stemcell")
   done
   ####
-
-  ##### if homebrew cache is available
-  if [ -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
-    embed_files+=("/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar")
-  fi
-  #####
 
   printf -v embed_files_string '%s ' "${embed_files[@]}"
   closeOutAndBuildKickstartAndISO "${kickstart_file}" "kolla" "$embed_files_string"
