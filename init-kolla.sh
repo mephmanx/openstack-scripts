@@ -421,7 +421,7 @@ openstack flavor create --ram 31232 --ephemeral 100 --vcpus 4 --public small-hig
 #done
 ###########
 
-telegram_notify  "Cloudfoundry Openstack project ready.  user -> $OPENSTACK_CLOUDFOUNDRY_USERNAME"
+telegram_notify  "Cloudfoundry Openstack project ready."
 
 #### start logstash container on monitoring01
 cat > /tmp/monitoring01-logstash.sh <<EOF
