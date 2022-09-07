@@ -1124,29 +1124,19 @@ runuser -l stack -c "cf bind-running-security-group ASG"
 #  --vars-store tmp/deployment-vars.yml \
 #    -n" > /tmp/prometheus-install.log
 
-#push stratos
-cat > /tmp/stratos.yml <<EOF
-applications:
-  - name: $STRATOS_CONSOLE
-    docker:
-      image: $SUPPORT_VIP_DNS/splatform/stratos:$STRATOS_VERSION
-    instances: 1
-    memory: 128M
-    disk_quota: 1G
-    # services:
-    #   - console_db
-    # env:
-    ## Override CF API endpoint URL inferred from VCAP_APPLICATION env
-    #  CF_API_URL: https://CLOUD_FOUNDRY_API_ENDPOINT
-    ## Force the console to use secured communication with the Cloud Foundry API endpoint
-    #  CF_API_FORCE_SECURE: true
-    ## Turn on backend debugging
-    #  LOG_LEVEL: debug
-EOF
-
 runuser -l stack -c "cf bind-staging-security-group ASG"
 runuser -l stack -c "cf bind-running-security-group ASG"
-runuser -l stack -c "cf push -f /tmp/stratos.yml"
+
+#push stratos
+yum install -y git
+mkdir /tmp/stratos
+unzip /tmp/stratos-console.zip -d /tmp/stratos
+chown -R stack /tmp/stratos/stratos*
+cd /tmp/stratos/stratos* || exit
+npm install --unsafe-perm
+npm run prebuild-ui
+
+runuser -l stack -c "cd /tmp/stratos/stratos*; cf push"
 runuser -l stack -c "cf scale $STRATOS_CONSOLE -i 2"
 
 ## Stratos complete!

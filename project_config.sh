@@ -36,7 +36,6 @@ export UBUNTU_VERSION="18.04"
 export UBUNTU_RELEASE_NAME="bionic"
 export CF_DEPLOY_VERSION="v21.8.0"
 export STEMCELL_STAMP="08-19-2022"
-export STRATOS_VERSION="4.4.0"
 
 ### hostnames for infra vms
 export SUPPORT_HOST=registry;
@@ -96,6 +95,9 @@ export CF_BBL_OPENSTACK_CPI_VERSION=1.40
 export CF_BBL_OS_CONF_RELEASE=22.1.2
 ### be careful about changing the version of os-conf as the hash below is REQUIRED to match!
 export CF_BBL_OS_CONF_HASH=386293038ae3d00813eaa475b4acf63f8da226ef
+
+## stratos console source
+export STRATOS_APP="https://github.com/cloudfoundry/stratos/archive/refs/tags/4.4.0.zip"
 
 ## how much available memory (after operating system, vm overhead, openstack overhead, and other misc resources are allocated) is allocated to cloudfoundry
 export CF_MEMORY_ALLOCATION_PCT=80
