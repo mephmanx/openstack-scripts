@@ -29,7 +29,6 @@ systemctl restart libvirtd
 
 ### disable once syslogs are being sent
 systemctl enable --now cockpit.socket
-systemctl restart cockpit
 ####
 
 ########## configure and start networks
