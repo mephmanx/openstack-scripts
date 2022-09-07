@@ -43,13 +43,16 @@ function grow_fs() {
 }
 
 function telegram_notify() {
-  token=$TELEGRAM_API
-  chat_id=$TELEGRAM_CHAT_ID
-  msg_text=$1
-  curl -X POST  \
-        -H 'Content-Type: application/json' -d "{\"chat_id\": \"$chat_id\", \"text\":\"$msg_text\", \"disable_notification\":false}"  \
-        -s \
-        https://api.telegram.org/bot"$token"/sendMessage > /dev/null
+#  token=$TELEGRAM_API
+#  chat_id=$TELEGRAM_CHAT_ID
+#  msg_text=$1
+#  curl -X POST  \
+#        -H 'Content-Type: application/json' -d "{\"chat_id\": \"$chat_id\", \"text\":\"$msg_text\", \"disable_notification\":false}"  \
+#        -s \
+#        https://api.telegram.org/bot"$token"/sendMessage > /dev/null
+  echo "$@" >&2
+  SCRIPT_NAME="$(hostname -s)-$(basename "$0")"
+  logger -p news.alert -t "$SCRIPT_NAME" "$@"
 }
 
 function create_server_cert() {
@@ -319,6 +322,11 @@ function install_packages_openstack() {
   dnf install -y docker-ce
   systemctl enable docker
   chkconfig docker on
+
+  ###configure rsyslog
+  cat <<EOT >> /etc/rsyslog.conf
+*.* @@$IDENTITY_VIP:514
+EOT
 }
 
 function install_packages_identity() {
@@ -331,6 +339,11 @@ function install_packages_identity() {
   dnf groupinstall -y virtualization-client
   dnf install -y ruby-devel nodejs
   dnf install -y freeipa-server freeipa-server-dns
+
+  ###configure rsyslog
+  cat <<EOT >> /etc/rsyslog.conf
+*.* @@$IDENTITY_VIP:514
+EOT
 }
 
 function install_packages_hypervisor() {
@@ -340,6 +353,13 @@ function install_packages_hypervisor() {
   dnf update -y
   dnf groupinstall -y virtualization-client
   dnf install -y telnet automake libtool cockpit-machines
+
+  ###configure rsyslog
+  cat <<EOT >> /etc/rsyslog.conf
+$template RemoteLogs,"/var/log/%HOSTNAME%/%PROGRAMNAME%.log"
+*.* ?RemoteLogs
+& ~
+EOT
 }
 
 function get_base64_string_for_file() {
