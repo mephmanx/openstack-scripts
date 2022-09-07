@@ -258,7 +258,7 @@ LOG_TAIL=$(tail -15 /root/start-install.log)
 
 kolla-ansible post-deploy
 
-telegram_debug_msg  "End of Openstack Install log -> $LOG_TAIL"
+telegram_notify  "End of Openstack Install log -> $LOG_TAIL"
 telegram_notify  "Openstack Kolla Ansible deploy task execution complete.  Performing post install tasks....."
 
 #load setup for validator
@@ -969,7 +969,7 @@ if [[ $error_count -gt 0 ]]; then
     if [[ $error_count == 0 ]]; then
       break
     fi
-    telegram_debug_msg  "Cloudfoundry install failed, retrying $retry_count more times..."
+    telegram_notify  "Cloudfoundry install failed, retrying $retry_count more times..."
     sleep 30
     ((retry_count--))
   done
@@ -982,7 +982,7 @@ LOG_TAIL=$(tail -15 /tmp/cloudfoundry-install.log)
 ## run volume errand
 #runuser -l stack -c "bosh -d cf run-errand nfs-broker-push"
 
-telegram_debug_msg  "Cloudfoundry install tail -> $LOG_TAIL"
+telegram_notify  "Cloudfoundry install tail -> $LOG_TAIL"
 telegram_notify  "Cloudfoundry install complete!  Beginning Stratos UI deploy"
 
 # cf api login

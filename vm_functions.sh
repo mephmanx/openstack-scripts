@@ -52,19 +52,6 @@ function telegram_notify() {
         https://api.telegram.org/bot"$token"/sendMessage > /dev/null
 }
 
-function telegram_debug_msg() {
-  if [[ $HYPERVISOR_DEBUG == 0 ]]; then
-    return
-  fi
-  token=$TELEGRAM_API
-  chat_id=$TELEGRAM_CHAT_ID
-  msg_text=$1
-  curl -X POST  \
-        -H 'Content-Type: application/json' -d "{\"chat_id\": \"$chat_id\", \"text\":\"$msg_text\", \"disable_notification\":false}"  \
-        -s \
-        https://api.telegram.org/bot"$token"/sendMessage > /dev/null
-}
-
 function create_server_cert() {
     cert_dir=$1
     cert_name=$2

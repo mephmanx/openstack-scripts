@@ -85,11 +85,6 @@ export LB_DHCP_END="$LB_NETWORK.200";
 export TROVE_DHCP_START="$TROVE_NETWORK.100";
 export TROVE_DHCP_END="$TROVE_NETWORK.200";
 
-##### Infrastructure debug mode
-## This is used to enabled/disable logs and root pwd saving.
-##  DISABLE FOR PRODUCTION USE!
-export HYPERVISOR_DEBUG=1
-
 ### Infrastructure tuning params
 ## These control various build infrastructure decisions on machine size.
 ##  Adjust based on your system needs

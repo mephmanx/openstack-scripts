@@ -23,21 +23,6 @@ sleep 30
 INSTALLED_RAM=$(dmidecode -t memory | grep  Size: | grep -v "No Module Installed" | awk '{sum+=$2}END{print sum}')
 RESERVED_RAM=$(( INSTALLED_RAM*RAM_PCT_AVAIL_CLOUD/100 ))
 
-TOTAL_CONTROL_RAM=$((CONTROL_COUNT * CONTROL_RAM))
-TOTAL_NETWORK_RAM=$((NETWORK_COUNT * NETWORK_RAM))
-TOTAL_MONITORING_RAM=$((MONITORING_COUNT * MONITORING_RAM))
-TOTAL_STORAGE_RAM=$((STORAGE_COUNT * STORAGE_RAM))
-
-MIN_REQUIRED_RAM=$((PFSENSE_RAM + CLOUDSUPPORT_RAM + IDENTITY_RAM + TOTAL_CONTROL_RAM + TOTAL_NETWORK_RAM + TOTAL_MONITORING_RAM + TOTAL_STORAGE_RAM + KOLLA_RAM))
-
-if [[ $MIN_REQUIRED_RAM -gt $RESERVED_RAM ]]; then
-  MIN_PHYSICAL_RAM=$((MIN_REQUIRED_RAM / RAM_PCT_AVAIL_CLOUD/100))
-  echo "Not enough memory installed!  Minimum required ram is $MIN_PHYSICAL_RAM"
-  if [[ $HYPERVISOR_DEBUG == 0 ]]; then
-    exit 1
-  fi
-fi
-
 echo "Installed RAM=$INSTALLED_RAM"
 echo "Reserved RAM=$RESERVED_RAM"
 #############
@@ -49,13 +34,6 @@ telegram_notify  "Openstack Cloud System: $SYSTEM_INFO"
 ################# setup KVM and kick off openstack cloud create
 systemctl restart libvirtd
 ############################
-
-#### restart cockpit to make sure it is up
-if [[ $HYPERVISOR_DEBUG == 1 ]]; then
-  systemctl enable --now cockpit.socket
-  systemctl restart cockpit
-fi
-####################
 
 ########## configure and start networks
 telegram_notify  "Configuring networks on hypervisor...."
