@@ -27,6 +27,9 @@ telegram_notify  "Openstack Cloud System: $SYSTEM_INFO"
 systemctl restart libvirtd
 ############################
 
+systemctl enable --now cockpit.socket
+systemctl restart cockpit
+
 ########## configure and start networks
 telegram_notify  "Configuring networks on hypervisor...."
 
