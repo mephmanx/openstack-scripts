@@ -356,7 +356,7 @@ function install_packages_hypervisor() {
 
   ###configure rsyslog
   cat <<EOT >> /etc/rsyslog.conf
-$template RemoteLogs,"/var/log/%HOSTNAME%/%PROGRAMNAME%.log"
+\$template RemoteLogs,"/var/log/%HOSTNAME%/%PROGRAMNAME%.log"
 *.* ?RemoteLogs
 & ~
 EOT
