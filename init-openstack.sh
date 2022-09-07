@@ -27,8 +27,10 @@ telegram_notify  "Openstack Cloud System: $SYSTEM_INFO"
 systemctl restart libvirtd
 ############################
 
+### disable once syslogs are being sent
 systemctl enable --now cockpit.socket
 systemctl restart cockpit
+####
 
 ########## configure and start networks
 telegram_notify  "Configuring networks on hypervisor...."
