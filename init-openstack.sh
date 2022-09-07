@@ -19,14 +19,6 @@ exec 1>/root/start-install.log 2>&1 # send stdout and stderr from rc.local to a 
 sleep 30
 ###########################
 
-##### check that system meets minimum requirements
-INSTALLED_RAM=$(dmidecode -t memory | grep  Size: | grep -v "No Module Installed" | awk '{sum+=$2}END{print sum}')
-RESERVED_RAM=$(( INSTALLED_RAM*RAM_PCT_AVAIL_CLOUD/100 ))
-
-echo "Installed RAM=$INSTALLED_RAM"
-echo "Reserved RAM=$RESERVED_RAM"
-#############
-
 ## Send System info
 load_system_info
 telegram_notify  "Openstack Cloud System: $SYSTEM_INFO"
