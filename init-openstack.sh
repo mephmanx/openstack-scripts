@@ -103,6 +103,9 @@ done
 virsh net-destroy default
 virsh net-undefine default
 rm -rf /usr/lib/firewalld/zones/libvirt.xml
+
+firewall-cmd --permanent --add-port=514/udp
+firewall-cmd --permanent --add-port=514/tcp
 firewall-cmd --reload
 ###########################
 
