@@ -61,8 +61,10 @@ rm -rf init.sh
 rm -rf pf-init-1.sh
 EOF
 
-cat </tmp/pf-init-1.sh | base64 | tr -d '\n\r' > /tmp/fileentries-2.txt
-readarray -t PFSENSE_INIT < /tmp/fileentries-2.txt
+PFSENSE_INIT=$(cat </tmp/pf-init-1.sh | base64 | tr -d '\n\r')
+
+echo "$PFSENSE_INIT" | fold -c250 > /tmp/fileentries-2.txt
+readarray -t pfsense_init_array < /tmp/fileentries-2.txt
 rm -rf /tmp/fileentries-2.txt
 
 sleep 30;
