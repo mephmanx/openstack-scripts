@@ -70,11 +70,7 @@ function closeOutAndBuildKickstartAndISO {
 
   if [[ $vm_name == "kolla" ]]; then
   ### add appropriate openstack ansible lib
-cat > /tmp/openstack-py.modules <<EOF
-kolla-ansible==$OPENSTACK_KOLLA_PYLIB_VERSION
-EOF
-    pip3 download -d /var/tmp/"${vm_name}"/PyRepo -r /tmp/openstack-py.modules
-    rm -rf /tmp/openstack-py.modules
+    cp /tmp/harbor/"$OPENSTACK_VERSION"/pyclient/* /var/tmp/"${vm_name}"/PyRepo
     echo "kolla-ansible==$OPENSTACK_KOLLA_PYLIB_VERSION" >> /var/tmp/"${vm_name}"/ks_configs/python.modules
   #####
   fi

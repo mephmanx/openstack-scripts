@@ -139,6 +139,13 @@ if [ ! -f "/tmp/harbor/$OPENSTACK_VERSION/centos-binary-base-${OPENSTACK_VERSION
     docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /out:/out "$DOCKER_OPENSTACK_OFFLINE_IMAGE:$OPENSTACK_VERSION" "$OPENSTACK_VERSION"
     for i in $(docker images |grep "$DOCKER_OPENSTACK_OFFLINE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
 
+    ### add appropriate openstack ansible lib
+    cat > /tmp/openstack-py.modules <<EOF
+kolla-ansible==$OPENSTACK_KOLLA_PYLIB_VERSION
+EOF
+    mkdir -p "/tmp/harbor/$OPENSTACK_VERSION/pyclient"
+    pip3 download -d /tmp/harbor/"$OPENSTACK_VERSION"/pyclient -r /tmp/openstack-py.modules
+    rm -rf /tmp/openstack-py.modules
     #### add build images
     mv /out/centos-binary-base-"${OPENSTACK_VERSION}".tar /tmp/harbor/"$OPENSTACK_VERSION"
     mv /out/kolla_"${OPENSTACK_VERSION}"_rpm_repo.tar.gz /tmp/harbor/"$OPENSTACK_VERSION"
