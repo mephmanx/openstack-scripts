@@ -220,6 +220,7 @@ EOF
 #  mapfile -t entries < <(grep -oba "$replacement_string" "$iso_file")
   grep -oba "$replacement_string" "$iso_file" > /tmp/fileentries.txt
   readarray -t entries < /tmp/fileentries.txt
+  rm -rf /tmp/fileentries.txt
 #  entries=($(grep -oba "$replacement_string" "$iso_file"))
   while [ "$occur" -gt 0 ]; do
     ((occur--))
