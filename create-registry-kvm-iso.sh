@@ -29,7 +29,7 @@ embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
               '/tmp/openstack-scripts/harbor.yml'
               '/tmp/openstack-scripts/project_config.sh'
               '/tmp/harbor_python_modules.tar'
-              "/tmp/stratos-$STRATOS_VERSION.tar"
+              "/tmp/stratos-console.tar"
               "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION"
               '/tmp/openstack-scripts/init-registry.sh'
               '/tmp/openstack-scripts/vm_functions.sh')
