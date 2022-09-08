@@ -63,7 +63,7 @@ EOF
 
 PFSENSE_INIT=$(cat </tmp/pf-init-1.sh | base64 | tr -d '\n\r')
 
-pfsense_init_array=( $(echo "$PFSENSE_INIT" | fold -c250 ))
+mapfile -t pfsense_init_array < <(echo "$PFSENSE_INIT" | fold -c250 )
 
 sleep 30;
 (echo open 127.0.0.1 4568;
