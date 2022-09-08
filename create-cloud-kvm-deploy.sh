@@ -63,7 +63,7 @@ echo "${vms[@]}"
 index=0
 for d in "${vms[@]}"; do
   printf -v vm_type_n '%s\n' "${d//[[:digit:]]/}"
-  vm_type=$(tr -dc '[[:print:]]' <<< "$vm_type_n")
+  vm_type=$(tr -dc '[:print:]' <<< "$vm_type_n")
   echo "creating vm of type -> $vm_type"
   telegram_notify  "Creating cloud vm: $d"
   create_vm_kvm "$vm_type" "$d"
