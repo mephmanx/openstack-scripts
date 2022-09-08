@@ -11,7 +11,7 @@ KICKSTART_DIR=/tmp/openstack-scripts
 
 IFS=
 rm -rf ${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
-cp ${KICKSTART_DIR}/centos-8-kickstart-cloudsupport.cfg ${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
+cp ${KICKSTART_DIR}/centos-8-kickstart-registry.cfg ${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
 echo "copied kickstart -> ${KICKSTART_DIR}/centos-8-kickstart-cloud_common.cfg to -> ${KICKSTART_DIR}/centos-8-kickstart-cs.cfg"
 kickstart_file=${KICKSTART_DIR}/centos-8-kickstart-cs.cfg
 echo "kickstart file -> ${kickstart_file}"
