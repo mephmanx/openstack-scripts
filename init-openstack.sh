@@ -145,9 +145,9 @@ while [ true ]; do
       runuser -l root -c  'umount /tmp/usb'
       rm -rf "/tmp/convert-file-*"
 
-      runuser -l root -c "cd /tmp || exit; ./create-pfsense-kvm-deploy.sh;" &
+      runuser -l root -c "cd /tmp || exit; ./create-gateway-kvm-deploy.sh;" &
       sleep 60;
-      runuser -l root -c "cd /tmp || exit; ./create-cloudsupport-kvm-deploy.sh;" &
+      runuser -l root -c "cd /tmp || exit; ./create-registry-kvm-deploy.sh;" &
       runuser -l root -c "cd /tmp || exit; ./create-cloud-kvm-deploy.sh;" &
       rm -rf /tmp/identity-test.sh
       rm -rf /tmp/id_rsa*
@@ -163,7 +163,7 @@ cat > /tmp/cloudsupport-test.sh <<EOF
 exec 1>/tmp/cloudsupport-signal-install.log 2>&1
 while [ true ]; do
     if [ \`< /dev/tcp/$SUPPORT_VIP/$CLOUDSUPPORT_SIGNAL ; echo \$?\` -lt 1 ]; then
-      runuser -l root -c "cd /tmp || exit; ./create-kolla-kvm-deploy.sh;" &
+      runuser -l root -c "cd /tmp || exit; ./create-jumpserver-kvm-deploy.sh;" &
       rm -rf /tmp/cloudsupport-test.sh
       exit
     else

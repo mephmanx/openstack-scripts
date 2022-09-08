@@ -31,7 +31,7 @@ embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
               '/tmp/harbor_python_modules.tar'
               "/tmp/stratos-$STRATOS_VERSION.tar"
               "/tmp/docker-compose-$DOCKER_COMPOSE_VERSION"
-              '/tmp/openstack-scripts/init-cloudsupport.sh'
+              '/tmp/openstack-scripts/init-registry.sh'
               '/tmp/openstack-scripts/vm_functions.sh')
 
 harbor_images="/tmp/harbor/$OPENSTACK_VERSION/*"

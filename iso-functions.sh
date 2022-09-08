@@ -124,7 +124,7 @@ function buildAndPushOpenstackSetupISO {
                 "/tmp/terraform_cf-$CF_ATTIC_TERRAFORM_VERSION.zip"
                 '/tmp/cirros-0.5.1-x86_64-disk.img'
                 "/tmp/amphora-x64-haproxy-$OPENSTACK_VERSION.qcow2"
-                '/tmp/openstack-scripts/init-kolla.sh'
+                '/tmp/openstack-scripts/init-jumpserver.sh'
                 "/tmp/harbor/$OPENSTACK_VERSION/globals.yml"
                 '/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/cf-templates.zip'

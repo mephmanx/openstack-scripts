@@ -169,7 +169,7 @@ EOF
     for i in $(docker images |grep "$OPENSTACK_VERSION"|awk '{print $3}');do docker rmi "$i";done
 fi
 
-./create-cloudsupport-kvm-iso.sh
+./create-registry-kvm-iso.sh
 ./create-identity-kvm-iso.sh
 ./create-cloud-kvm-iso.sh
 
@@ -178,10 +178,10 @@ embed_files=('/tmp/openstack-scripts/project_config.sh'
               '/tmp/openstack-scripts/vm_functions.sh'
               '/tmp/openstack-scripts/vm-configurations.sh'
               '/tmp/openstack-scripts/create-cloud-kvm-deploy.sh'
-              '/tmp/openstack-scripts/create-kolla-kvm-deploy.sh'
-              '/tmp/openstack-scripts/create-cloudsupport-kvm-deploy.sh'
+              '/tmp/openstack-scripts/create-jumpserver-kvm-deploy.sh'
+              '/tmp/openstack-scripts/create-registry-kvm-deploy.sh'
               '/tmp/openstack-scripts/create-identity-kvm-deploy.sh'
-              '/tmp/openstack-scripts/create-pfsense-kvm-deploy.sh'
+              '/tmp/openstack-scripts/create-gateway-kvm-deploy.sh'
               '/var/tmp/pfSense-CE-memstick-ADI-prod.img')
 
 iso_images="/var/tmp/*.iso"
