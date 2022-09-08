@@ -27,7 +27,6 @@ sed -i "s/{NETMASK}/$NETMASK/g" ${kickstart_file}
 
 embed_files=("/tmp/harbor-$HARBOR_VERSION.tgz"
               '/tmp/openstack-scripts/harbor.yml'
-              '/tmp/openstack-setup/openstack-env.sh'
               '/tmp/openstack-scripts/project_config.sh'
               '/tmp/harbor_python_modules.tar'
               "/tmp/stratos-$STRATOS_VERSION.tar"

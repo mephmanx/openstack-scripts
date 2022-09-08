@@ -1,8 +1,6 @@
 # Openstack/Cloudfoundry create scripts
 
-This script is to build Openstack private cloud install ISO.  
-
-It is executed by creating proper config in openstack-env.sh file and then executing 
+This script is to build Openstack private cloud install ISO.
 
     ./build-openstack-iso.sh
 

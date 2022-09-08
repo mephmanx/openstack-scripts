@@ -1,7 +1,6 @@
 #!/bin/bash
 
 . /tmp/project_config.sh
-. /tmp/openstack-env.sh
 
 function get_drive_name() {
   dir_name=$(find /dev/mapper -maxdepth 1 -type l -name '*cs*' -print -quit)

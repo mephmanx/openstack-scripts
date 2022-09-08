@@ -106,7 +106,6 @@ function buildAndPushVMTypeISO {
   #####################################
   embed_files=('/tmp/openstack-scripts/vm_functions.sh'
                 '/tmp/openstack-scripts/project_config.sh'
-                '/tmp/openstack-setup/openstack-env.sh'
                 '/tmp/docker-repo.tar')
 
   printf -v embed_files_string '%s ' "${embed_files[@]}"
@@ -129,7 +128,6 @@ function buildAndPushOpenstackSetupISO {
                 '/tmp/openstack-scripts/init-kolla.sh'
                 "/tmp/harbor/$OPENSTACK_VERSION/globals.yml"
                 '/tmp/openstack-scripts/vm_functions.sh'
-                '/tmp/openstack-setup/openstack-env.sh'
                 '/tmp/cf-templates.zip'
                 '/tmp/stratos-console.zip'
                 "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar"
