@@ -19,10 +19,6 @@ exec 1>/root/start-install.log 2>&1 # send stdout and stderr from rc.local to a 
 sleep 30
 ###########################
 
-## Send System info
-load_system_info
-telegram_notify  "Openstack Cloud System: $SYSTEM_INFO"
-
 ################# setup KVM and kick off openstack cloud create
 systemctl restart libvirtd
 ############################

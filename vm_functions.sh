@@ -8,28 +8,6 @@ function get_drive_name() {
   echo "$DRIVE_NAME"
 }
 
-function load_system_info() {
-  INSTALLED_RAM=$(runuser -l root -c  'dmidecode -t memory | grep  Size: | grep -v "No Module Installed"' | awk '{sum+=$2}END{print sum}')
-  RESERVED_RAM=$(( INSTALLED_RAM * RAM_PCT_AVAIL_CLOUD/100 ))
-  CPU_COUNT=$(lscpu | awk -F':' '$1 == "CPU(s)" {print $2}' | awk '{ gsub(/ /,""); print }')
-  DISK_COUNT=$(get_disk_count)
-  IP_ADDR=$(ip -f inet addr show ext-con | grep inet | awk -F' ' '{ print $2 }' | cut -d '/' -f1)
-  if [ "$DISK_COUNT" -lt 2 ]; then
-    DISK_INFO=$(fdisk -l | head -n 1 | awk -F',' '{ print $1 }')
-  else
-    DISK_INFO="unknown yet"
-  fi
-  ## build system output to send via telegram
-  CPU_INFO="CPU Count: $CPU_COUNT"
-  RAM_INFO="Installed RAM: $INSTALLED_RAM GB \r\nReserved RAM: $RESERVED_RAM GB"
-  DISK_INFO="Disk Count: $DISK_COUNT \r\n $DISK_INFO"
-  IP_INFO="Hypervisor IP: $IP_ADDR"
-  DMI_DECODE=$(runuser -l root -c  "dmidecode -t system")
-  source /etc/os-release
-  OS_INFO=$PRETTY_NAME
-  export SYSTEM_INFO="$DMI_DECODE\n\n$OS_INFO\n\n$CPU_INFO\n\n$RAM_INFO\n\n$DISK_INFO\n\n$IP_INFO"
-}
-
 function grow_fs() {
   DRIVE_NAME_UPDATE=$(get_drive_name)
 
@@ -229,10 +207,6 @@ EOF
   done
 
   rm -rf /tmp/out-*
-}
-
-function get_disk_count() {
-  lsblk -S -n | grep -v usb -c
 }
 
 function grub_update() {
