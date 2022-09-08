@@ -338,6 +338,29 @@ function install_packages_hypervisor() {
   sed -i "s/#module(load=\"imtcp\")/module(load=\"imtcp\")/g" /etc/rsyslog.conf
   sed -i "s/#input(type=\"imtcp\" port=\"514\")/input(type=\"imtcp\" port=\"514\")/g" /etc/rsyslog.conf
 
+  lines_to_modify=()
+  while read -r entry; do
+    IFS=':' read -ra line_entry <<<"$entry"
+    line_num=${line_entry[0]}
+    lines_to_modify+=("$line_num")
+  done < <(grep -n "input(type=\"imtcp\" port=\"514\")" /etc/rsyslog.conf);
+
+  arr_len=${#lines_to_modify}
+  line_num="${lines_to_modify[$(arr_len - 1)]}"
+  totalLines=$(wc -l < /etc/rsyslog.conf)
+  line_from_bottom=$((totalLines - lines_to_modify[arr_len - 1]))
+
+  tail -n "$line_from_bottom" /etc/rsyslog.conf > /etc/rsyslog-end.conf
+  head -n "$line_num" /etc/rsyslog.conf > /etc/rsyslog-start.conf
+  cat <<EOT >> /etc/rsyslog-start.conf
+\$template remote-incoming-logs, "/var/log/%HOSTNAME%/%PROGRAMNAME%.log"
+*.* ?remote-incoming-logs
+EOT
+  cat /etc/rsyslog-end.conf >> /etc/rsyslog-start.conf
+  rm -rf /etc/rsyslog.conf
+  mv /etc/rsyslog-start.conf /etc/rsyslog.conf
+  rm -rf /etc/rsyslog-start.conf
+  rm -rf /etc/rsyslog-end.conf
 }
 
 function get_base64_string_for_file() {
