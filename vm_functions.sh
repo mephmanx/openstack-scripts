@@ -217,7 +217,8 @@ $replace_with
 EOF
 
   occur=$(grep -oba "$replacement_string" "$iso_file" | wc -l)
-  mapfile -t entries < <(grep -oba "$replacement_string" "$iso_file")
+#  mapfile -t entries < <(grep -oba "$replacement_string" "$iso_file")
+  entries=($(grep -oba "$replacement_string" "$iso_file"))
   while [ "$occur" -gt 0 ]; do
     ((occur--))
     start_index=$(echo "${entries[$occur]}" | awk -F':' '{ print $1 }')
