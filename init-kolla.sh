@@ -1009,7 +1009,7 @@ runuser -l stack -c "cf update-quota default -i 2G -m 4G"
 ### determine quota formula.  this is memory on compute server to be made available for cloudfoundry org.
 memStrFree=$(runuser -l root -c "ssh root@compute01.$INTERNAL_DOMAIN_NAME 'cat /proc/meminfo | grep MemFree'")
 memFree=$(echo "$memStrFree" | awk -F' ' '{ print $2 }')
-memGB=$((memFree / 1024 / 1024 * CF_MEMORY_ALLOCATION_PCT / 100))
+memGB=$((memFree * CF_MEMORY_ALLOCATION_PCT / 1024  / 1024 / 100))
 runuser -l stack -c "cf create-quota $INTERNAL_DOMAIN_NAME -i 8096M -m ${memGB}G -r 1000 -s 1000 -a 1000 --allow-paid-service-plans --reserved-route-ports $CF_TCP_PORT_COUNT"
 runuser -l stack -c "cf set-quota $INTERNAL_DOMAIN_NAME $INTERNAL_DOMAIN_NAME"
 
