@@ -22,7 +22,6 @@ function initialKickstartSetup {
   fi
   echo "$kickstart_file"
   sed -i "s/{HOST}/$vm/g" "$kickstart_file"
-  sed -i "s/{TYPE}/$vm_type/g" "$kickstart_file"
   sed -i "s/{GATEWAY_ROUTER_IP}/$GATEWAY_ROUTER_IP/g" "$kickstart_file"
   sed -i "s/{NETMASK}/$NETMASK/g" "$kickstart_file"
   sed -i "s/{IDENTITY_VIP}/$IDENTITY_VIP/g" "$kickstart_file"
