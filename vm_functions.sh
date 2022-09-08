@@ -338,12 +338,15 @@ function install_packages_hypervisor() {
   sed -i "s/#module(load=\"imtcp\")/module(load=\"imtcp\")/g" /etc/rsyslog.conf
   sed -i "s/#input(type=\"imtcp\" port=\"514\")/input(type=\"imtcp\" port=\"514\")/g" /etc/rsyslog.conf
 
+  grep -n "input(type=\"imtcp\" port=\"514\")" /etc/rsyslog.conf > /tmp/fileentries.txt
+  readarray -t entries < /tmp/fileentries.txt
+  rm -rf /tmp/fileentries.txt
   lines_to_modify=()
-  while read -r entry; do
+  for entry in ${#entries[@]}; do
     IFS=':' read -ra line_entry <<<"$entry"
     line_num=${line_entry[0]}
     lines_to_modify+=("$line_num")
-  done < <(grep -n "input(type=\"imtcp\" port=\"514\")" /etc/rsyslog.conf);
+  done
 
   arr_len=${#lines_to_modify}
   line_num="${lines_to_modify[$(arr_len - 1)]}"
