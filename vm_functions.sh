@@ -355,11 +355,12 @@ function install_packages_hypervisor() {
   dnf install -y telnet automake libtool cockpit-machines
 
   ###configure rsyslog
-  cat <<EOT >> /etc/rsyslog.conf
-\$template RemoteLogs,"/var/log/%HOSTNAME%/%PROGRAMNAME%.log"
-*.* ?RemoteLogs
-& ~
-EOT
+  sed -i "s/#module(load=\"imudp\")/module(load=\"imudp\")/g" /etc/rsyslog.conf
+  sed -i "s/#input(type=\"imudp\" port=\"514\")/input(type=\"imudp\" port=\"514\")/g" /etc/rsyslog.conf
+
+  sed -i "s/#module(load=\"imtcp\")/module(load=\"imtcp\")/g" /etc/rsyslog.conf
+  sed -i "s/#input(type=\"imtcp\" port=\"514\")/input(type=\"imtcp\" port=\"514\")/g" /etc/rsyslog.conf
+
 }
 
 function get_base64_string_for_file() {
