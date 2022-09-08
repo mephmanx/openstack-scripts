@@ -96,9 +96,6 @@ export CF_BBL_OS_CONF_RELEASE=22.1.2
 ### be careful about changing the version of os-conf as the hash below is REQUIRED to match!
 export CF_BBL_OS_CONF_HASH=386293038ae3d00813eaa475b4acf63f8da226ef
 
-## stratos console source
-export STRATOS_APP="https://github.com/cloudfoundry/stratos/archive/refs/tags/4.4.0.zip"
-
 ## how much available memory (after operating system, vm overhead, openstack overhead, and other misc resources are allocated) is allocated to cloudfoundry
 export CF_MEMORY_ALLOCATION_PCT=80
 export CF_DISK_ALLOCATION=80
@@ -158,3 +155,6 @@ export CIRROS_IMAGE_URL="https://github.com/cirros-dev/cirros/releases/download/
 
 ## amphora image
 export AMPHORA_IMAGE="https://github.com/mephmanx/openstack-amphora-build/releases/download/$OPENSTACK_VERSION/amphora-x64-haproxy.qcow2"
+
+## stratos console source
+export STRATOS_APP="https://github.com/cloudfoundry/stratos/archive/refs/tags/4.4.0.zip"
