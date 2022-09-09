@@ -34,7 +34,7 @@ export CF_ATTIC_TERRAFORM_VERSION="0.11.15"
 export DOCKER_COMPOSE_VERSION="1.29.2"
 export UBUNTU_VERSION="18.04"
 export UBUNTU_RELEASE_NAME="bionic"
-export CF_DEPLOY_VERSION="v21.8.0"
+export CF_DEPLOY_VERSION="v21.9.0"
 export STEMCELL_STAMP="08-19-2022"
 
 ### hostnames for infra vms
