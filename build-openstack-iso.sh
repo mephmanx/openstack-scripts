@@ -166,6 +166,7 @@ EOF
     rm -rf /out/base_rpm.txt
     rm -rf /out/to_be_download_"$OPENSTACK_VERSION".txt
     rm -rf /out/"$OPENSTACK_VERSION"_rpm_list.txt
+    rm -rf /out/kolla_"$OPENSTACK_VERSION"
     for i in $(docker images |grep "$OPENSTACK_VERSION"|awk '{print $3}');do docker rmi "$i";done
 fi
 
