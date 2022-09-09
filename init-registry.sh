@@ -103,11 +103,6 @@ curl -k --location --request POST "https://$SUPPORT_VIP_DNS/api/v2.0/projects" \
   --header "host: $SUPPORT_VIP_DNS" \
   --data-binary "{\"project_name\":\"cloudfoundry\",\"registry_id\":1,\"metadata\":{\"public\":\"true\"},\"storage_limit\":-1}"
 
-cat > /tmp/stratos.json << EOF
-{"project_name": "splatform","metadata": {"public": "true"}}
-EOF
-curl -k -H  "authorization: Basic $etext" -X POST -H "Content-Type: application/json" "https://$SUPPORT_VIP_DNS/api/v2.0/projects" -d @/tmp/stratos.json
-rm -rf /tmp/stratos.json
 #### populate harbor with openstack images
 #grafana fluentd zun not build
 
