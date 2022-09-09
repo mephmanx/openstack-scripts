@@ -349,7 +349,7 @@ function install_packages_hypervisor() {
   done
 
   arr_len=${#lines_to_modify}
-  line_num="${lines_to_modify[$(arr_len - 1)]}"
+  line_num="${lines_to_modify[((arr_len - 1))]}"
   totalLines=$(wc -l < /etc/rsyslog.conf)
   line_from_bottom=$((totalLines - lines_to_modify[arr_len - 1]))
 
