@@ -112,8 +112,8 @@ EOF
 function setup_keys_certs_for_vm() {
   mkdir -p /root/.ssh
   rm -rf /root/.ssh/id_rsa*
-  curl -o /root/.ssh/id_rsa http://"$IDENTITY_HOST.$INTERNAL_DOMAIN_NAME":"$IDENTITY_SIGNAL"/sub-ca.key
-  curl -o /root/.ssh/id_rsa.pub http://"$IDENTITY_HOST.$INTERNAL_DOMAIN_NAME":"$IDENTITY_SIGNAL"/sub-ca.pub
+  curl -o /root/.ssh/id_rsa "http://$IDENTITY_HOST.$INTERNAL_DOMAIN_NAME:$IDENTITY_SIGNAL/sub-ca.key"
+  curl -o /root/.ssh/id_rsa.pub "http://$IDENTITY_HOST.$INTERNAL_DOMAIN_NAME:$IDENTITY_SIGNAL/sub-ca.pub"
   chmod 600 /root/.ssh/id_rsa
   chmod 600 /root/.ssh/id_rsa.pub
 
@@ -195,7 +195,6 @@ $replace_with
 EOF
 
   occur=$(grep -oba "$replacement_string" "$iso_file" | wc -l)
-#  mapfile -t entries < <(grep -oba "$replacement_string" "$iso_file")
   grep -oba "$replacement_string" "$iso_file" > /tmp/fileentries.txt
   readarray -t entries < /tmp/fileentries.txt
   rm -rf /tmp/fileentries.txt
