@@ -29,76 +29,76 @@ systemctl enable --now cockpit.socket
 
 ########## configure and start networks
 telegram_notify  "Configuring networks on hypervisor...."
-
-while [ ! -f /etc/sysconfig/network-scripts/ifcfg-loc-static ]; do
-  #### private net 1
-  ip link add dev vm1 type veth peer name vm2
-  ip link set dev vm1 up
-  ip tuntap add tapm mode tap
-  ip link set dev tapm up
-  ip link add loc-static type bridge
-
-  ip link set tapm master loc-static
-  ip link set vm1 master loc-static
-
-  ip addr add "${LAN_CENTOS_IP}"/24 dev loc-static
-  ip addr add "${LAN_BRIDGE_IP}"/24 dev vm2
-
-  ip link set loc-static up
-  ip link set vm2 up
-
-  nmcli connection modify loc-static ipv4.addresses "${LAN_CENTOS_IP}"/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
-done
-
-while [ ! -f /etc/sysconfig/network-scripts/ifcfg-amp-net ]; do
-  ### amp-net
-  ip link add dev vm3 type veth peer name vm4
-  ip link set dev vm3 up
-  ip tuntap add tapn mode tap
-  ip link set dev tapn up
-  ip link add amp-net type bridge
-
-  ip link set tapn master amp-net
-  ip link set vm3 master amp-net
-
-  ip addr add "${LB_CENTOS_IP}"/24 dev amp-net
-  ip addr add "${LB_BRIDGE_IP}"/24 dev vm4
-
-  ip link set amp-net up
-  ip link set vm4 up
-
-  nmcli connection modify amp-net ipv4.addresses "${LB_CENTOS_IP}"/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
-done
+#
+#while [ ! -f /etc/sysconfig/network-scripts/ifcfg-loc-static ]; do
+#  #### private net 1
+#  ip link add dev vm1 type veth peer name vm2
+#  ip link set dev vm1 up
+#  ip tuntap add tapm mode tap
+#  ip link set dev tapm up
+#  ip link add loc-static type bridge
+#
+#  ip link set tapm master loc-static
+#  ip link set vm1 master loc-static
+#
+#  ip addr add "${LAN_CENTOS_IP}"/24 dev loc-static
+#  ip addr add "${LAN_BRIDGE_IP}"/24 dev vm2
+#
+#  ip link set loc-static up
+#  ip link set vm2 up
+#
+#  nmcli connection modify loc-static ipv4.addresses "${LAN_CENTOS_IP}"/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
+#done
+#
+#while [ ! -f /etc/sysconfig/network-scripts/ifcfg-amp-net ]; do
+#  ### amp-net
+#  ip link add dev vm3 type veth peer name vm4
+#  ip link set dev vm3 up
+#  ip tuntap add tapn mode tap
+#  ip link set dev tapn up
+#  ip link add amp-net type bridge
+#
+#  ip link set tapn master amp-net
+#  ip link set vm3 master amp-net
+#
+#  ip addr add "${LB_CENTOS_IP}"/24 dev amp-net
+#  ip addr add "${LB_BRIDGE_IP}"/24 dev vm4
+#
+#  ip link set amp-net up
+#  ip link set vm4 up
+#
+#  nmcli connection modify amp-net ipv4.addresses "${LB_CENTOS_IP}"/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
+#done
 
 ## build vif devices and pair them for the bridge, 10 for each network created above
-node_ct=20
-while [ $node_ct -gt 0 ]; do
-  ip link add dev Node${node_ct}s type veth peer name Node${node_ct}
-  ((node_ct--))
-done
-
-node_ct=20
-while [ $node_ct -gt 0 ]; do
-  ip link set Node${node_ct} up
-  ((node_ct--))
-done
-
-node_ct=10
-while [ $node_ct -gt 0 ]; do
-  nmcli conn add type bridge-slave ifname Node${node_ct}s master loc-static
-  ((node_ct--))
-done
-
-node_ct=20
-while [ $node_ct -gt 10 ]; do
-  nmcli conn add type bridge-slave ifname Node${node_ct}s master amp-net
-  ((node_ct--))
-done
+#node_ct=20
+#while [ $node_ct -gt 0 ]; do
+#  ip link add dev Node${node_ct}s type veth peer name Node${node_ct}
+#  ((node_ct--))
+#done
+#
+#node_ct=20
+#while [ $node_ct -gt 0 ]; do
+#  ip link set Node${node_ct} up
+#  ((node_ct--))
+#done
+#
+#node_ct=10
+#while [ $node_ct -gt 0 ]; do
+#  nmcli conn add type bridge-slave ifname Node${node_ct}s master loc-static
+#  ((node_ct--))
+#done
+#
+#node_ct=20
+#while [ $node_ct -gt 10 ]; do
+#  nmcli conn add type bridge-slave ifname Node${node_ct}s master amp-net
+#  ((node_ct--))
+#done
 #############
 
-virsh net-destroy default
-virsh net-undefine default
-rm -rf /usr/lib/firewalld/zones/libvirt.xml
+#virsh net-destroy default
+#virsh net-undefine default
+#rm -rf /usr/lib/firewalld/zones/libvirt.xml
 
 firewall-cmd --permanent --add-port=514/udp
 firewall-cmd --permanent --add-port=514/tcp
