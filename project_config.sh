@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###  Cert constants
-export ORGANIZATION="{ORGANIZATION}"
+export ORGANIZATION="acton-lane"
 
 ## domain name
 ## generate internal domain name
