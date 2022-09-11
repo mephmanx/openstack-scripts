@@ -19,10 +19,6 @@ exec 1>/var/log/start-install.log 2>&1 # send stdout and stderr from rc.local to
 sleep 30
 ###########################
 
-################# setup KVM and kick off openstack cloud create
-systemctl restart libvirtd
-############################
-
 ### disable once syslogs are being sent
 systemctl enable --now cockpit.socket
 ####
