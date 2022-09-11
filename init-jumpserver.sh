@@ -1136,11 +1136,11 @@ npm install --unsafe-perm
 npm run prebuild-ui
 
 runuser -l stack -c "cd /tmp/stratos/stratos*; cf push"
-runuser -l stack -c "cf scale $STRATOS_CONSOLE -i 2"
+runuser -l stack -c "cf scale console -i 2"
 
 ## Stratos complete!
 rm -rf "$CF_HOME"
-telegram_notify  "Stratos deployment complete!  access at $STRATOS_CONSOLE.$INTERNAL_DOMAIN_NAME"
+telegram_notify  "Stratos deployment complete!  access at console.$INTERNAL_DOMAIN_NAME"
 
 #### update keystone for ldap, run at the very end as it disables keystone db auth.  disables admin and osuser accounts!
 #DIRECTORY_MGR_PWD=`cat /tmp/directory_mgr_pwd`
