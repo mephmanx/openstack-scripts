@@ -29,10 +29,14 @@ fi
 
 if [ ! -f "/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
   for i in $(docker images |grep "$PFSENSE_CACHE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
-  docker run -v /tmp/openstack-scripts/project_config.sh:/env/configuration -v /out:/out -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock -v /tmp:/tmp -v /dev:/dev -v /root:/root --rm -ti --network=host --privileged "$PFSENSE_CACHE_IMAGE:$PFSENSE_VERSION" ENV:dev
-  sleep 20;
-  rm -rf /tmp/pfSense-CE-memstick-ADI-dev.img
-  docker run -v /tmp/openstack-scripts/project_config.sh:/env/configuration -v /out:/out -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock -v /tmp:/tmp -v /dev:/dev -v /root:/root --rm -ti --network=host --privileged "$PFSENSE_CACHE_IMAGE:$PFSENSE_VERSION" ENV:prod
+  if [ -f "$PFSENSE_LIB_CACHE" ]; then
+    docker run -v /tmp/openstack-scripts/project_config.sh:/env/configuration -v /out:/out -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock -v /tmp:/tmp -v /dev:/dev -v /root:/root --rm -ti --network=host --privileged "$PFSENSE_CACHE_IMAGE:$PFSENSE_VERSION" ENV:prod PFSENSE_PACKAGES:$PFSENSE_LIB_CACHE
+  else
+    docker run -v /tmp/openstack-scripts/project_config.sh:/env/configuration -v /out:/out -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock -v /tmp:/tmp -v /dev:/dev -v /root:/root --rm -ti --network=host --privileged "$PFSENSE_CACHE_IMAGE:$PFSENSE_VERSION" ENV:dev
+    sleep 20;
+    rm -rf /tmp/pfSense-CE-memstick-ADI-dev.img
+    docker run -v /tmp/openstack-scripts/project_config.sh:/env/configuration -v /out:/out -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock -v /tmp:/tmp -v /dev:/dev -v /root:/root --rm -ti --network=host --privileged "$PFSENSE_CACHE_IMAGE:$PFSENSE_VERSION" ENV:prod
+  fi
   ## iterate over loop devices and remove them
   for i in /dev/loop*; do
     losetup -d "$i";

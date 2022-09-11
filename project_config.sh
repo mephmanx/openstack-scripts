@@ -25,6 +25,7 @@ export CF_BBL_INSTALL_TERRAFORM_VERSION="1.0.4"
 ## pfSense airgap caching image
 export PFSENSE_CACHE_IMAGE="mephmanx/pfsense-airgap-resources";
 export PFSENSE_VERSION="2.6.0";
+export PFSENSE_LIB_CACHE="/tmp/repo-2.6-2022-09-11-01-24.tar"
 
 ## library versions
 ## this will force cache update if changed
