@@ -66,36 +66,6 @@ while [ ! -f /etc/sysconfig/network-scripts/ifcfg-amp-net ]; do
   nmcli connection modify amp-net ipv4.addresses "${LB_CENTOS_IP}"/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
 done
 
-## build vif devices and pair them for the bridge, 10 for each network created above
-#node_ct=20
-#while [ $node_ct -gt 0 ]; do
-#  ip link add dev Node${node_ct}s type veth peer name Node${node_ct}
-#  ((node_ct--))
-#done
-#
-#node_ct=20
-#while [ $node_ct -gt 0 ]; do
-#  ip link set Node${node_ct} up
-#  ((node_ct--))
-#done
-#
-#node_ct=10
-#while [ $node_ct -gt 0 ]; do
-#  nmcli conn add type bridge-slave ifname Node${node_ct}s master loc-static
-#  ((node_ct--))
-#done
-#
-#node_ct=20
-#while [ $node_ct -gt 10 ]; do
-#  nmcli conn add type bridge-slave ifname Node${node_ct}s master amp-net
-#  ((node_ct--))
-#done
-#############
-
-#virsh net-destroy default
-#virsh net-undefine default
-#rm -rf /usr/lib/firewalld/zones/libvirt.xml
-
 firewall-cmd --permanent --add-port=514/udp
 firewall-cmd --permanent --add-port=514/tcp
 firewall-cmd --reload
