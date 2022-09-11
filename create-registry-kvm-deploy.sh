@@ -36,4 +36,4 @@ telegram_notify  "Creating $SUPPORT_HOST vm"
 echo "$create_line"
 eval "$create_line" &
 
-rm -rf /tmp/create-cloudsupport-kvm-deploy.sh
+rm -rf /tmp/create-registry-kvm-deploy.sh

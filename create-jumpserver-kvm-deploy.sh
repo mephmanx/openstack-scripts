@@ -15,4 +15,4 @@ wait
 telegram_notify  "Kolla VM installed.  Openstack install will begin if VM's came up correctly."
 ##########
 
-rm -rf /tmp/create-kolla-kvm-deploy.sh
+rm -rf /tmp/create-jumpserver-kvm-deploy.sh

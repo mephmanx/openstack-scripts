@@ -127,4 +127,4 @@ runuser -l root -c  "rm -rf /tmp/usb"
 telegram_notify  "$EDGE_ROUTER_NAME reboot, pfsense-init script should begin after reboot."
 
 rm -rf /tmp/pfSense-CE-memstick-ADI-prod.img
-rm -rf /tmp/create-pfsense-kvm-deploy.sh
+rm -rf /tmp/create-gateway-kvm-deploy.sh
