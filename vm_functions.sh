@@ -368,3 +368,29 @@ function get_base64_string_for_file() {
   echo >> "$conv_file_name_reencoded"
   cat "$conv_file_name_reencoded"
 }
+
+function create_virtual_bridge_file() {
+  bridge_name=$1
+  ip_addr=$2
+  cat <<EOT >> "/etc/sysconfig/network-scripts/ifcfg-$bridge_name"
+STP=no
+TYPE=Bridge
+HWADDR=
+PROXY_METHOD=none
+BROWSER_ONLY=no
+BOOTPROTO=none
+IPADDR=$ip_addr
+PREFIX=24
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6_DISABLED=yes
+IPV6INIT=no
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=default
+NAME=$bridge_name
+UUID=$(uuidgen)
+DEVICE=$bridge_name
+ONBOOT=yes
+EOT
+}
