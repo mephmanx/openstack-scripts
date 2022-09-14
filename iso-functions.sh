@@ -91,6 +91,8 @@ function closeOutAndBuildKickstartAndISO {
   sudo implantisomd5 "${vm_name}"-iso.iso
   if [[ "$vm_name" != "kolla" ]]; then
     sudo rm -rf "${kickstart_file}"
+  fi
+  if [[ "$vm_name" != "openstack" ]]; then
     sudo rm -rf /var/tmp/"${vm_name}"
   fi
   cd "$working_dir" || exit
