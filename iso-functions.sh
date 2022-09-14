@@ -89,9 +89,9 @@ function closeOutAndBuildKickstartAndISO {
 
   cd /var/tmp/ || exit
   sudo implantisomd5 "${vm_name}"-iso.iso
-  sudo rm -rf /var/tmp/"${vm_name}"
   if [[ "$vm_name" != "kolla" ]]; then
     sudo rm -rf "${kickstart_file}"
+    sudo rm -rf /var/tmp/"${vm_name}"
   fi
   cd "$working_dir" || exit
 }
