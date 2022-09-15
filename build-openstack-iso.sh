@@ -198,6 +198,7 @@ printf -v embed_files_string '%s ' "${embed_files[@]}"
 closeOutAndBuildKickstartAndISO centos-8-kickstart-openstack.cfg "openstack" "$embed_files_string"
 
 isohybrid /var/tmp/openstack-iso.iso
+chmod -R 777 /var/tmp/openstack
 ## cleanup work dir
 # Use to write to disk
 # dd if=/var/tmp/openstack-iso.iso of=/dev/sdb bs=16M status=progress
