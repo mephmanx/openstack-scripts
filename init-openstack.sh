@@ -18,28 +18,6 @@ exec 1>/var/log/start-install.log 2>&1 # send stdout and stderr from rc.local to
 ########## Add call to the beginning of all rc.local scripts as this wait guarantees network availability
 sleep 30
 ###########################
-#
-############################
-#while [ ! -f /etc/sysconfig/network-scripts/ifcfg-amp-net ]; do
-#  #### private net 1
-#  ip link add dev vm1 type veth peer name vm2
-#  ip link set dev vm1 up
-#  ip tuntap add tapm mode tap
-#  ip link set dev tapm up
-#  ip link add amp-net type bridge
-#
-#  ip link set tapm master amp-net
-#  ip link set vm1 master amp-net
-#
-#  ip addr add "${LB_CENTOS_IP}"/24 dev amp-net
-#  ip addr add "${LB_CENTOS_IP}"/24 dev vm2
-#
-#  ip link set amp-net up
-#  ip link set vm2 up
-#
-#  nmcli connection modify amp-net ipv4.addresses "${LB_CENTOS_IP}"/24 ipv4.method manual connection.autoconnect yes ipv6.method "disabled"
-#done
-############################
 
 ##### configure firewall for external syslogs #####
 firewall-cmd --permanent --add-port=514/udp
