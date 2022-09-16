@@ -210,3 +210,4 @@ rm -rf ./tmp
 
 cd /root/tftp-proxy || exit
 ./startup.sh
+./install-finished-listener.sh
