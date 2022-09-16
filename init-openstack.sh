@@ -22,6 +22,7 @@ sleep 30
 ##### configure firewall for external syslogs #####
 firewall-cmd --permanent --add-port=514/udp
 firewall-cmd --permanent --add-port=514/tcp
+firewall-cmd --reload
 ############################
 
 ############ Create and init storage pools
