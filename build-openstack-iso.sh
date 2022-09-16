@@ -208,5 +208,5 @@ chmod -R 777 /var/tmp/openstack
 # dd if=/var/tmp/openstack-iso.iso of=/dev/sdb bs=16M status=progress
 rm -rf ./tmp
 
-cd /root/tftp-proxy
-./startup
+cd /root/tftp-proxy || exit
+./startup.sh
