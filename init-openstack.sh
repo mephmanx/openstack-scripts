@@ -41,6 +41,11 @@ sleep 30
 #done
 ############################
 
+##### configure firewall for external syslogs #####
+firewall-cmd --permanent --add-port=514/udp
+firewall-cmd --permanent --add-port=514/tcp
+############################
+
 ############ Create and init storage pools
 telegram_notify  "Build storage pools"
 for part in $(df | grep "VM-VOL" | awk '{print $6, " " }' | tr -d '/' | tr -d '\n'); do
