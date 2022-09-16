@@ -356,6 +356,11 @@ EOT
   mv /etc/rsyslog-start.conf /etc/rsyslog.conf
   rm -rf /etc/rsyslog-start.conf
   rm -rf /etc/rsyslog-end.conf
+
+  ###configure rsyslog
+  cat <<EOT >> /etc/rsyslog.conf
+*.* @@192.168.1.132:514
+EOT
 }
 
 function get_base64_string_for_file() {
