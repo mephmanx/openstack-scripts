@@ -10,6 +10,10 @@ rm -rf /var/tmp/*
 ## https://www.berlios.de/software/cdrtools/ or
 #  https://negativo17.org/cdrtools/
 
+pwd="$(pwd)"
+cd /root/tftp-proxy || exit
+./docker-compose down
+cd "$pwd"
 # login to docker hub using .bash_profile env secrets
 docker login -u "$DOCKER_LOGIN" -p "$DOCKER_SECRET"
 
@@ -203,3 +207,6 @@ chmod -R 777 /var/tmp/openstack
 # Use to write to disk
 # dd if=/var/tmp/openstack-iso.iso of=/dev/sdb bs=16M status=progress
 rm -rf ./tmp
+
+cd /root/tftp-proxy
+./startup
