@@ -13,7 +13,7 @@ rm -rf /var/tmp/*
 pwd="$(pwd)"
 cd /root/tftp-proxy || exit
 ./docker-compose down
-cd "$pwd"
+cd "$pwd" || exit
 # login to docker hub using .bash_profile env secrets
 docker login -u "$DOCKER_LOGIN" -p "$DOCKER_SECRET"
 
