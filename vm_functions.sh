@@ -350,6 +350,8 @@ function install_packages_hypervisor() {
   tail -n "$line_from_bottom" /etc/rsyslog.conf > /etc/rsyslog-end.conf
   head -n "$line_num" /etc/rsyslog.conf > /etc/rsyslog-start.conf
   cat <<EOT >> /etc/rsyslog-start.conf
+\$template myedit,"%msg%\n"
+
 \$template remote-incoming-logs, "/var/log/%HOSTNAME%/%PROGRAMNAME%.log"
 *.* ?remote-incoming-logs
 EOT
@@ -361,7 +363,7 @@ EOT
 
   ###configure rsyslog
   cat <<EOT >> /etc/rsyslog.conf
-*.* @@192.168.1.132:514
+*.* @@192.168.1.132:514:myedit
 & ~
 EOT
 }
