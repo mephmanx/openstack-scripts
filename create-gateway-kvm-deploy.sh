@@ -41,7 +41,7 @@ create_line+="--autostart --wait 0"
 
 eval "$create_line"
 
-HOSTNAME_SUFFIX=$(cat //var/log/system_suffix.log);
+HOSTNAME_SUFFIX=$(cat /var/log/system_suffix.log);
 cat > /tmp/pf-init-1.sh <<EOF
 mount -u -o rw /
 mkdir /tmp/test-mnt
