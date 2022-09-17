@@ -353,7 +353,7 @@ function install_packages_hypervisor() {
 \$template myedit,"%message%\n"
 
 \$template remote-incoming-logs, "/var/log/%HOSTNAME%/%PROGRAMNAME%.log"
-*.* ?remote-incoming-logs
+*.* ?remote-incoming-logs:myedit
 EOT
   cat /etc/rsyslog-end.conf >> /etc/rsyslog-start.conf
   rm -rf /etc/rsyslog.conf
