@@ -111,6 +111,7 @@ if [ ! -f "/tmp/harbor_python_modules.tar" ]; then
 cat > /tmp/harbor_python_requirements <<EOF
 netcontrold
 elasticsearch==7.13.*
+jinja2==3.0.3
 EOF
   pip3 download -d /tmp/Pyrepo -r /tmp/harbor_python_requirements
   pwd=$(pwd)
