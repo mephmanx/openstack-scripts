@@ -211,3 +211,30 @@ rm -rf ./tmp
 cd /root/tftp-proxy || exit
 ./startup.sh
 ./install-finished-listener.sh &
+
+
+#yum install -y expect connect-proxy
+#### add internal override to director
+#cat > /tmp/expect.sh <<FILEEND
+##!/usr/bin/expect -f
+#set timeout -1
+#spawn /bin/bash
+#send "ssh -oHostKeyAlgorithms=+ssh-dss Administrator@192.168.1.133 \"POWER on\""
+#expect ":"
+#send -- "yes\r"
+#expect "bosh/0"
+#send -- "echo '$IDENTITY_VIP $IDENTITY_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; echo '$SUPPORT_VIP $SUPPORT_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; echo '$GATEWAY_ROUTER_IP $INTERNAL_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; echo '$GATEWAY_ROUTER_IP $EXTERNAL_VIP_DNS' | sudo tee -a /etc/hosts > /dev/null; exit;\r"
+#expect "closed."
+#exit;
+#expect eof
+#FILEEND
+#
+#chmod +x /tmp/expect.sh
+#pwd=$(pwd)
+#cd /tmp || exit
+#./expect.sh
+#rm -rf expect.sh
+#cd "$pwd" || exit
+##########
+
+
