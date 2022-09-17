@@ -294,7 +294,7 @@ function install_packages_openstack() {
 
   ###configure rsyslog
   cat <<EOT >> /etc/rsyslog.conf
-\$template myedit,"%message%\n"
+\$template myedit,"%msg%\n"
 *.* @@$LAN_CENTOS_IP:514:myedit
 & ~
 EOT
@@ -313,7 +313,7 @@ function install_packages_identity() {
 
   ###configure rsyslog
   cat <<EOT >> /etc/rsyslog.conf
-\$template myedit,"%message%\n"
+\$template myedit,"%msg%\n"
 *.* @@$LAN_CENTOS_IP:514:myedit
 & ~
 EOT
@@ -352,10 +352,10 @@ function install_packages_hypervisor() {
   tail -n "$line_from_bottom" /etc/rsyslog.conf > /etc/rsyslog-end.conf
   head -n "$line_num" /etc/rsyslog.conf > /etc/rsyslog-start.conf
   cat <<EOT >> /etc/rsyslog-start.conf
-\$template myedit,"%message%\n"
+\$template myedit,"%msg%\n"
 
 \$template remote-incoming-logs, "/var/log/%HOSTNAME%/%PROGRAMNAME%.log"
-*.* ?remote-incoming-logs:myedit
+*.* remote-incoming-logs myedit
 EOT
   cat /etc/rsyslog-end.conf >> /etc/rsyslog-start.conf
   rm -rf /etc/rsyslog.conf
