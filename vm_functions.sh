@@ -295,6 +295,7 @@ function install_packages_openstack() {
   ###configure rsyslog
   cat <<EOT >> /etc/rsyslog.conf
 *.* @@$LAN_CENTOS_IP:514
+& ~
 EOT
 }
 
@@ -312,6 +313,7 @@ function install_packages_identity() {
   ###configure rsyslog
   cat <<EOT >> /etc/rsyslog.conf
 *.* @@$LAN_CENTOS_IP:514
+& ~
 EOT
 }
 
@@ -360,6 +362,7 @@ EOT
   ###configure rsyslog
   cat <<EOT >> /etc/rsyslog.conf
 *.* @@192.168.1.132:514
+& ~
 EOT
 }
 
