@@ -363,7 +363,7 @@ EOT
 
   ###configure rsyslog
   cat <<EOT >> /etc/rsyslog.conf
-*.* @@192.168.1.132:514:myedit
+*.* @@192.168.1.132:514 myedit
 & ~
 EOT
 }
