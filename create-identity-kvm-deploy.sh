@@ -1,7 +1,7 @@
 #!/bin/bash
 
-rm -rf /root/identity-install.log
-exec 1>/root/identity-install.log 2>&1 # send stdout and stderr from rc.local to a log file
+rm -rf /var/log/identity-install.log
+exec 1>/var/log/identity-install.log 2>&1 # send stdout and stderr from rc.local to a log file
 #set -x
 
 source /tmp/vm_functions.sh
