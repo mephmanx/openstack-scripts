@@ -31,7 +31,6 @@ create_line+="--serial tcp,host=0.0.0.0:4567,mode=bind,protocol=telnet "
 create_line+="--serial tcp,host=0.0.0.0:4568,mode=bind,protocol=telnet "
 create_line+="--network type=direct,source=ext-con,model=virtio,source_mode=bridge "
 create_line+="--network type=bridge,source=loc-static,model=virtio "
-create_line+="--network type=bridge,source=amp-net,model=virtio "
 create_line+="--os-variant=freebsd12.0 "
 create_line+="--graphics=vnc "
 
