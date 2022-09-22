@@ -22,10 +22,6 @@ function initialKickstartSetup {
   fi
   echo "$kickstart_file"
   sed -i "s/{HOST}/$vm/g" "$kickstart_file"
-  sed -i "s/{GATEWAY_ROUTER_IP}/$GATEWAY_ROUTER_IP/g" "$kickstart_file"
-  sed -i "s/{NETMASK}/$NETMASK/g" "$kickstart_file"
-  sed -i "s/{IDENTITY_VIP}/$IDENTITY_VIP/g" "$kickstart_file"
-  networkInformation "$kickstart_file" "$vm_type" "$vm"
 }
 
 function closeOutAndBuildKickstartAndISO {
@@ -145,35 +141,4 @@ function buildAndPushOpenstackSetupISO {
 
   printf -v embed_files_string '%s ' "${embed_files[@]}"
   closeOutAndBuildKickstartAndISO "${kickstart_file}" "kolla" "$embed_files_string"
-}
-
-function networkInformation {
-  kickstart_file=$1
-  vm_type=$2
-
-  vmstr=$(vm_definitions "$vm_type")
-  vm_str=${vmstr//[$'\t\r\n ']}
-
-  network_string=$(parse_json "$vm_str" "network_string")
-
-  IFS=',' read -r -a net_array <<< "$network_string"
-  ct=1
-  addresses=()
-  ip_set=0
-  for element in "${net_array[@]}"
-  do
-    if [[ "${element}" =~ .*"static".* ]] && [[ $ip_set -eq 0 ]]; then
-      ##check if internal or external network and set ip/gateway accordingly
-      ip_addr="${NETWORK_PREFIX}.${CORE_VM_START_IP}"
-
-      addresses+=("$ip_addr")
-
-      sed -i "s/{NODE_IP}/$ip_addr/g" "${kickstart_file}"
-      ip_set=1
-      ((CORE_VM_START_IP++))
-    elif [[ "${element}" =~ .*"static".* ]] && [[ $ip_set -eq 1 ]]; then
-      sed -i "s/{HAS_NET_3}/1/g" "${kickstart_file}"
-    fi
-    ((ct++))
-  done
 }
