@@ -292,7 +292,6 @@ function install_packages_openstack() {
   systemctl enable docker
   chkconfig docker on
 
-  split_rsysconfig_at_line "input(type=\"imtcp\" port=\"514\")"
   ###configure rsyslog
   cat <<EOT >> /etc/rsyslog.conf
 *.* @@$LAN_CENTOS_IP:514:myedit
@@ -311,7 +310,6 @@ function install_packages_identity() {
   dnf install -y ruby-devel nodejs
   dnf install -y freeipa-server freeipa-server-dns
 
-  split_rsysconfig_at_line "input(type=\"imtcp\" port=\"514\")"
   ###configure rsyslog
   cat <<EOT >> /etc/rsyslog.conf
 *.* @@$LAN_CENTOS_IP:514:myedit
