@@ -54,6 +54,7 @@ mkdir /mnt/tmp/repo-dir
 tar xf /mnt/root/repo.tar -C /mnt/tmp/repo-dir/
 ./init.sh
 HOSTNAME="$ORGANIZATION-$EDGE_ROUTER_NAME-$(cat /var/log/system_suffix.log)"
+echo $HOSTNAME
 sed -i -e "s/{HOSTNAME}/$HOSTNAME/g" /mnt/cf/conf/config.xml
 rm -rf init.sh
 rm -rf pf-init-1.sh
