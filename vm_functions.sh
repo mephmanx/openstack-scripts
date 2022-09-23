@@ -395,7 +395,7 @@ function get_base64_string_for_file() {
   truncate -s -1 "$conv_file_name"
   base64 -w 0 < "$conv_file_name" > "$conv_file_name_reencoded"
   echo >> "$conv_file_name_reencoded"
-  ret_string=$(cat "$conv_file_name_reencoded")
+  ret_string="$(cat "$conv_file_name_reencoded")"
   rm -rf "$conv_file_name"
   rm -rf "$conv_file_name_reencoded"
   cat "$ret_string"
