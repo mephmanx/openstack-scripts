@@ -34,6 +34,7 @@ ip link set loc-static-vnic master loc-static
 ######################
 
 ##### configure firewall for external syslogs #####
+sed -i "s/AllowZoneDrifting=yes/AllowZoneDrifting=no/g" /etc/firewalld/firewalld.conf
 firewall-cmd --permanent --add-port=514/udp
 firewall-cmd --permanent --add-port=514/tcp
 firewall-cmd --reload
