@@ -55,7 +55,7 @@ runuser -l root -c "cd /tmp || exit; ./create-identity-kvm-deploy.sh;" &
 cat > /tmp/identity-test.sh <<EOF
 source /tmp/vm_functions.sh
 
-exec 1>/tmp/identity-signal-install.log 2>&1
+exec 1>/var/log/identity-signal-install.log 2>&1
 while [ true ]; do
     if [ \`< /dev/tcp/$IDENTITY_VIP/$IDENTITY_SIGNAL ; echo \$?\` -lt 1 ]; then
 
@@ -93,7 +93,7 @@ done
 EOF
 
 cat > /tmp/cloudsupport-test.sh <<EOF
-exec 1>/tmp/cloudsupport-signal-install.log 2>&1
+exec 1>/var/log/cloudsupport-signal-install.log 2>&1
 while [ true ]; do
     if [ \`< /dev/tcp/$SUPPORT_VIP/$CLOUDSUPPORT_SIGNAL ; echo \$?\` -lt 1 ]; then
       runuser -l root -c "cd /tmp || exit; ./create-jumpserver-kvm-deploy.sh;" &
