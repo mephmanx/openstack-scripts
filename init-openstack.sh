@@ -19,6 +19,20 @@ exec 1>/var/log/start-install.log 2>&1 # send stdout and stderr from rc.local to
 sleep 30
 ###########################
 
+#### Link internal local network to network port on hardware
+ip link add link int-bond name int-bond-vnic type macvlan mode bridge
+ip link set int-bond-vnic up
+
+ip link add dev loc-static-vnic type veth peer name int-bond-vnic
+ip link set dev loc-static-vnic up
+
+ip tuntap add loc-static-tap mode tap
+ip link set dev loc-static-tap up
+
+ip link set loc-static-tap master loc-static
+ip link set loc-static-vnic master loc-static
+######################
+
 ##### configure firewall for external syslogs #####
 firewall-cmd --permanent --add-port=514/udp
 firewall-cmd --permanent --add-port=514/tcp
