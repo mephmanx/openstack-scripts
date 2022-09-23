@@ -29,8 +29,8 @@ ip link set dev int-net-vnic up
 ip tuntap add int-net-tap mode tap
 ip link set dev int-net-tap up
 
-ip link set loc-static-tap master loc-static
-ip link set loc-static-vnic master loc-static
+ip link set int-net-tap master int-net
+ip link set int-net-vnic master int-net
 ######################
 
 ##### configure firewall for external syslogs #####
