@@ -20,14 +20,14 @@ sleep 30
 ###########################
 
 #### Link internal local network to network port on hardware
-ip link add link int-bond name int-bond-vnic type macvlan mode bridge
-ip link set int-bond-vnic up
+ip link add link opt-bond name opt-bond-vnic type macvlan mode bridge
+ip link set opt-bond-vnic up
 
-ip link add dev loc-static-vnic type veth peer name int-bond-vnic
-ip link set dev loc-static-vnic up
+ip link add dev int-net-vnic type veth peer name opt-bond-vnic
+ip link set dev int-net-vnic up
 
-ip tuntap add loc-static-tap mode tap
-ip link set dev loc-static-tap up
+ip tuntap add int-net-tap mode tap
+ip link set dev int-net-tap up
 
 ip link set loc-static-tap master loc-static
 ip link set loc-static-vnic master loc-static
