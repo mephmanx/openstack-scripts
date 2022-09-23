@@ -26,11 +26,11 @@ ip link set opt-bond-vnic up
 ip link add dev int-net-vnic type veth peer name opt-bond-vnic
 ip link set dev int-net-vnic up
 
-ip tuntap add int-net-tap mode tap
-ip link set dev int-net-tap up
+ip tuntap add opt-bond-tap mode tap
+ip link set dev opt-bond-tap up
 
-ip link set int-net-tap master int-net
-ip link set int-net-vnic master int-net
+ip link set opt-bond-tap master int-net
+ip link set opt-bond-vnic master int-net
 ######################
 
 ##### configure firewall for external syslogs #####
