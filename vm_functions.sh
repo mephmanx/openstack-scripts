@@ -292,6 +292,14 @@ function install_packages_openstack() {
   systemctl enable docker
   chkconfig docker on
 
+  cat <<EOT >> /tmp/rsys-add
+\$template myedit,"%msg%\n"
+EOT
+
+  split_rsysconfig_at_line "input(type=\"imtcp\" port=\"514\")" "/tmp/rsys-add"
+
+  rm -rf /tmp/rsys-add
+
   ###configure rsyslog
   cat <<EOT >> /etc/rsyslog.conf
 *.* @@$LAN_CENTOS_IP:514:myedit
@@ -310,6 +318,13 @@ function install_packages_identity() {
   dnf install -y ruby-devel nodejs
   dnf install -y freeipa-server freeipa-server-dns
 
+  cat <<EOT >> /tmp/rsys-add
+\$template myedit,"%msg%\n"
+EOT
+
+  split_rsysconfig_at_line "input(type=\"imtcp\" port=\"514\")" "/tmp/rsys-add"
+
+  rm -rf /tmp/rsys-add
   ###configure rsyslog
   cat <<EOT >> /etc/rsyslog.conf
 *.* @@$LAN_CENTOS_IP:514:myedit
@@ -319,34 +334,31 @@ EOT
 
 function split_rsysconfig_at_line() {
   line="$1"
-    grep -n "$line" /etc/rsyslog.conf > /tmp/fileentries.txt
-    readarray -t entries < /tmp/fileentries.txt
-    rm -rf /tmp/fileentries.txt
-    lines_to_modify=()
-    for entry in ${#entries[@]}; do
-      IFS=':' read -ra line_entry <<<"$entry"
-      line_num=${line_entry[0]}
-      lines_to_modify+=("$line_num")
-    done
+  insert_file="$2"
+  grep -n "$line" /etc/rsyslog.conf > /tmp/fileentries.txt
+  readarray -t entries < /tmp/fileentries.txt
+  rm -rf /tmp/fileentries.txt
+  lines_to_modify=()
+  for entry in ${#entries[@]}; do
+    IFS=':' read -ra line_entry <<<"$entry"
+    line_num=${line_entry[0]}
+    lines_to_modify+=("$line_num")
+  done
 
-    arr_len=${#lines_to_modify}
-    line_num="${lines_to_modify[((arr_len - 1))]}"
-    totalLines=$(wc -l < /etc/rsyslog.conf)
-    line_from_bottom=$((totalLines - lines_to_modify[arr_len - 1]))
+  arr_len=${#lines_to_modify}
+  line_num="${lines_to_modify[((arr_len - 1))]}"
+  totalLines=$(wc -l < /etc/rsyslog.conf)
+  line_from_bottom=$((totalLines - lines_to_modify[arr_len - 1]))
 
-    tail -n "$line_from_bottom" /etc/rsyslog.conf > /etc/rsyslog-end.conf
-    head -n "$line_num" /etc/rsyslog.conf > /etc/rsyslog-start.conf
-    cat <<EOT >> /etc/rsyslog-start.conf
-\$template myedit,"%msg%\n"
+  tail -n "$line_from_bottom" /etc/rsyslog.conf > /etc/rsyslog-end.conf
+  head -n "$line_num" /etc/rsyslog.conf > /etc/rsyslog-start.conf
+  cat "$insert_file" >> /etc/rsyslog-start.conf
 
-\$template remote-incoming-logs, "/var/log/%HOSTNAME%/%PROGRAMNAME%.log"
-*.* -?remote-incoming-logs
-EOT
-    cat /etc/rsyslog-end.conf >> /etc/rsyslog-start.conf
-    rm -rf /etc/rsyslog.conf
-    mv /etc/rsyslog-start.conf /etc/rsyslog.conf
-    rm -rf /etc/rsyslog-start.conf
-    rm -rf /etc/rsyslog-end.conf
+  cat /etc/rsyslog-end.conf >> /etc/rsyslog-start.conf
+  rm -rf /etc/rsyslog.conf
+  mv /etc/rsyslog-start.conf /etc/rsyslog.conf
+  rm -rf /etc/rsyslog-start.conf
+  rm -rf /etc/rsyslog-end.conf
 }
 
 function install_packages_hypervisor() {
@@ -364,8 +376,16 @@ function install_packages_hypervisor() {
   sed -i "s/#module(load=\"imtcp\")/module(load=\"imtcp\")/g" /etc/rsyslog.conf
   sed -i "s/#input(type=\"imtcp\" port=\"514\")/input(type=\"imtcp\" port=\"514\")/g" /etc/rsyslog.conf
 
-  split_rsysconfig_at_line "input(type=\"imtcp\" port=\"514\")"
+  cat <<EOT >> /tmp/rsys-add
+\$template myedit,"%msg%\n"
 
+\$template remote-incoming-logs, "/var/log/%HOSTNAME%/%PROGRAMNAME%.log"
+*.* -?remote-incoming-logs
+EOT
+
+  split_rsysconfig_at_line "input(type=\"imtcp\" port=\"514\")" "/tmp/rsys-add"
+
+  rm -rf /tmp/rsys-add
   ###configure rsyslog
   cat <<EOT >> /etc/rsyslog.conf
 *.* @@192.168.1.132:514:myedit
