@@ -22,7 +22,7 @@ sleep 30
 SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 
 echo "{CENTOS_ADMIN_PWD_123456789012}" | kinit admin
-ipa service-add HTTP/"$(hostname)"
+ipa service-add HTTP/"$(hostname).$INTERNAL_DOMAIN_NAME"
 ipa-getcert request \
           -K HTTP/"$(hostname)" \
           -f /tmp/harbor.crt \
