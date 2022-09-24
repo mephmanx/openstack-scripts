@@ -212,6 +212,7 @@ function grub_update() {
   grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) rd.plymouth=0"
   grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) plymouth.enable=0"
   grub2-editenv - set menu_auto_hide=1
+  grub2-editenv - set GRUB_DISABLE_RECOVERY="true"
 }
 
 function replace_values_in_root_isos() {
