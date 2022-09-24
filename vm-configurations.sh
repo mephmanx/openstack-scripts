@@ -100,7 +100,7 @@ function vm_definitions {
             "cpu":"2",
             "memory":"$CONTROL_RAM",
             "drive_string":"$DRIVE_MAPPING",
-            "network_string":"int-net"
+            "network_string":"amp-net,int-net"
           }'
     STRING="$(echo $STRING | sed 's/$CONTROL_RAM/'"$CONTROL_RAM"'/g')"
     STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "control" "$CONTROL_COUNT")"'/g')"
@@ -145,7 +145,7 @@ function vm_definitions {
             "cpu":"2",
             "memory":"$MONITORING_RAM",
             "drive_string":"$DRIVE_MAPPING",
-            "network_string":"int-net"
+            "network_string":"amp-net,int-net"
           }'
     STRING="$(echo $STRING | sed 's/$MONITORING_RAM/'"$MONITORING_RAM"'/g')"
     STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "monitoring" "$MONITORING_COUNT")"'/g')"
@@ -158,7 +158,7 @@ function vm_definitions {
             "cpu":"2",
             "memory":"$STORAGE_RAM",
             "drive_string":"$DRIVE_MAPPING",
-            "network_string":"int-net"
+            "network_string":"amp-net,int-net"
           }'
     STRING="$(echo $STRING | sed 's/$STORAGE_RAM/'"$STORAGE_RAM"'/g')"
     STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "storage" "$STORAGE_COUNT")"'/g')"
@@ -171,7 +171,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"$KOLLA_RAM",
             "drive_string":"$DRIVE_MAPPING",
-            "network_string":"int-net"
+            "network_string":"amp-net,int-net"
           }'
     STRING="$(echo $STRING | sed 's/$KOLLA_RAM/'"$KOLLA_RAM"'/g')"
     STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "kolla" "1")"'/g')"
