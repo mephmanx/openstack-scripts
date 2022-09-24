@@ -23,7 +23,7 @@ sleep 30
 ip link add link opt-bond name opt-bond-vnic type macvlan mode bridge
 ip link set opt-bond-vnic up
 
-ip link add dev int-net-vnic type veth peer name opt-bond-vnic
+ip link add dev int-net-vnic type veth peer name int-bond-vnic
 ip link set dev int-net-vnic up
 
 ip tuntap add opt-bond-tap mode tap
