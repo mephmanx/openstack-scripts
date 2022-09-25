@@ -24,10 +24,10 @@ SUPPORT_VIP_DNS="$SUPPORT_HOST.$INTERNAL_DOMAIN_NAME"
 echo "{CENTOS_ADMIN_PWD_123456789012}" | kinit admin
 ipa service-add HTTP/"$(hostname).$INTERNAL_DOMAIN_NAME"
 ipa-getcert request \
-          -K HTTP/"$(hostname)" \
+          -K HTTP/"$(hostname).$INTERNAL_DOMAIN_NAME" \
           -f /tmp/harbor.crt \
           -k /tmp/harbor.key \
-          -D "$(hostname)"
+          -D "$(hostname).$INTERNAL_DOMAIN_NAME"
 
 mv /tmp/docker-compose-"$DOCKER_COMPOSE_VERSION" /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
