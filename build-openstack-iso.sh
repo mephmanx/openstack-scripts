@@ -172,6 +172,7 @@ EOF
     rm -rf /out/"$OPENSTACK_VERSION"_rpm_list.txt
     rm -rf /out/kolla_"$OPENSTACK_VERSION"
     for i in $(docker images |grep "$OPENSTACK_VERSION"|awk '{print $3}');do docker rmi "$i";done
+    docker image rmi codekoala/pypi
 fi
 
 ./create-registry-kvm-iso.sh
