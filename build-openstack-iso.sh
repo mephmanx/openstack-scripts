@@ -124,7 +124,6 @@ if [ ! -f "/tmp/bosh-$STEMCELL_STAMP.tgz" ]; then
 fi
 
 if [ ! -f "/tmp/homebrew-$CF_BBL_INSTALL_TERRAFORM_VERSION.tar" ]; then
-  for i in $(docker images |grep "$HOMEBREW_CACHE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
   docker run -v /tmp:/var/tmp --rm -ti "$HOMEBREW_CACHE_IMAGE:$CF_BBL_INSTALL_TERRAFORM_VERSION" bash -c "cp /tmp/export/homebrew-${CF_BBL_INSTALL_TERRAFORM_VERSION}.tar /var/tmp"
   for i in $(docker images |grep "$HOMEBREW_CACHE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
 fi
