@@ -206,8 +206,8 @@ chmod -R 777 /var/tmp/openstack
 rm -rf ./tmp
 
 cd /root/tftp-proxy || exit
-nic=$(./startup.sh "int-bond")
-./install-finished-listener.sh "int-bond" "$nic" &
+./startup.sh enp3s0f0
+./install-finished-listener.sh
 
 
 #yum install -y expect connect-proxy
