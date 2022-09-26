@@ -171,7 +171,7 @@ function vm_definitions {
             "cpu":"4",
             "memory":"$KOLLA_RAM",
             "drive_string":"$DRIVE_MAPPING",
-            "network_string":"amp-net,int-net,int-net"
+            "network_string":"int-net"
           }'
     STRING="$(echo $STRING | sed 's/$KOLLA_RAM/'"$KOLLA_RAM"'/g')"
     STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "kolla" "1")"'/g')"
