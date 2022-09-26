@@ -78,7 +78,15 @@ while [ true ]; do
       runuser -l root -c "cd /tmp || exit; ./create-gateway-kvm-deploy.sh;" &
       sleep 60;
       runuser -l root -c "cd /tmp || exit; ./create-registry-kvm-deploy.sh;" &
+
+      #### wait until pfsense is ready then start cloud deploy
+      status_code=\$(curl https://"$GATEWAY_ROUTER_IP" -H "Host: $EDGE_ROUTER_NAME" --write-out %{http_code} -k --silent --output /dev/null" )
+      while [[ $status_code -ne 200 ]]; do
+        sleep 60;
+        status_code=\$(curl https://"$GATEWAY_ROUTER_IP" -H "Host: $EDGE_ROUTER_NAME" --write-out %{http_code} -k --silent --output /dev/null" )
+      done
       runuser -l root -c "cd /tmp || exit; ./create-cloud-kvm-deploy.sh;" &
+
       rm -rf /tmp/identity-test.sh
       rm -rf /tmp/id_rsa*
       rm -rf /tmp/wildcard*
