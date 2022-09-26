@@ -132,12 +132,15 @@ function generate_specific_pwd() {
 }
 
 function join_machine_to_domain() {
-#  IP_ADDRESS=$(hostname -I | awk '{print $1}')
+  ## kill selinux to join domain
+  runuser -l root -c "sed -i 's/\(SELINUX\=\).*/\1disabled/' /etc/selinux/config"
+
+  IP_ADDRESS=$(hostname -I | awk '{print $1}')
   HOSTNAME=$(hostname).$INTERNAL_DOMAIN_NAME
 
-#  runuser -l root -c "echo '$IP_ADDRESS $HOSTNAME' >> /etc/hosts"
-#  runuser -l root -c "echo $HOSTNAME > /etc/hostname"
-#  runuser -l root -c "sysctl kernel.hostname=$HOSTNAME"
+  runuser -l root -c "echo '$IP_ADDRESS $HOSTNAME' >> /etc/hosts"
+  runuser -l root -c "echo $HOSTNAME > /etc/hostname"
+  runuser -l root -c "sysctl kernel.hostname=$HOSTNAME"
 
   IPA_SERVER=$IDENTITY_HOST.$INTERNAL_DOMAIN_NAME
   ADMIN_PASSWORD=$1
@@ -152,6 +155,9 @@ function join_machine_to_domain() {
                       --enable-dns-updates \
                       --force-join \
                       -w "$ADMIN_PASSWORD" -U -q > /tmp/ipa-join
+
+  ### if possible, restart selinux
+  runuser -l root -c "sed -i 's/\(SELINUX\=\).*/\1enabled/' /etc/selinux/config"
 }
 
 function baseDN() {
