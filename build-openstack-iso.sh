@@ -206,7 +206,7 @@ chmod -R 777 /var/tmp/openstack
 rm -rf ./tmp
 
 cd /root/tftp-proxy || exit
-./startup.sh "enp3s0f0"
+./startup.sh "int-bond" "enp3s0f0"
 ./install-finished-listener.sh
 
 
