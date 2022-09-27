@@ -81,7 +81,7 @@ while [ true ]; do
 
       #### wait until pfsense is ready then start cloud deploy
       status_code=\$(curl https://"$GATEWAY_ROUTER_IP" -H "Host: $EDGE_ROUTER_NAME" --write-out %{http_code} -k --silent --output /dev/null" )
-      while [[ $status_code -ne 200 ]]; do
+      while [[ \$status_code -ne 200 ]]; do
         sleep 60;
         status_code=\$(curl https://"$GATEWAY_ROUTER_IP" -H "Host: $EDGE_ROUTER_NAME" --write-out %{http_code} -k --silent --output /dev/null" )
       done
