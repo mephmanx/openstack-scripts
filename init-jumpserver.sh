@@ -173,6 +173,7 @@ do
   echo "runuser -l root -c  'ssh-keyscan -H $i.$INTERNAL_DOMAIN_NAME >> ~/.ssh/known_hosts';" >> /tmp/host-trust.sh
   echo "runuser -l root -c  'ssh-keyscan -H $i >> ~/.ssh/known_hosts';" >> /tmp/host-trust.sh
 done
+echo "rm -rf /tmp/host-trust.sh" >> /tmp/host-trust.sh
 
 total=0
 for i in $(ansible-inventory -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode --list | jq -r '[values[]|.hosts|select(.)[]]|unique[]')
