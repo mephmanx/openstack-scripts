@@ -80,10 +80,10 @@ while [ true ]; do
       runuser -l root -c "cd /tmp || exit; ./create-registry-kvm-deploy.sh;" &
 
       #### wait until pfsense is ready then start cloud deploy
-      status_code=\$(curl http://"$GATEWAY_ROUTER_IP":8080 --write-out %{http_code} -k --silent --output /dev/null )
-      while [[ \$status_code -ne 200 ]]; do
+      status_code=! -z $(dig @"$GATEWAY_ROUTER_IP" google.com | grep timed)
+      while [[ ! -z \$(dig @"$GATEWAY_ROUTER_IP" google.com | grep timed) ]]; do
         sleep 60;
-        status_code=\$(curl http://"$GATEWAY_ROUTER_IP":8080 --write-out %{http_code} -k --silent --output /dev/null )
+        status_code=! -z \$(dig @"$GATEWAY_ROUTER_IP" google.com | grep timed)
       done
       runuser -l root -c "cd /tmp || exit; ./create-cloud-kvm-deploy.sh;" &
 
