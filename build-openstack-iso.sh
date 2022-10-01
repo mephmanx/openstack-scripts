@@ -42,6 +42,10 @@ if [ ! -f "/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
     docker run -v /tmp/openstack-scripts/project_config.sh:/env/configuration -v /out:/out -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock -v /tmp:/tmp -v /dev:/dev -v /root:/root --rm -ti --network=host --privileged "$PFSENSE_CACHE_IMAGE:$PFSENSE_VERSION"
   fi
   for i in $(docker images |grep "$PFSENSE_CACHE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
+  ## iterate over loop devices and remove them
+  for i in /dev/loop*; do
+    losetup -d "$i";
+  done
 fi
 
 if [ ! -f "/tmp/cirros-0.5.1-x86_64-disk.img" ]; then
