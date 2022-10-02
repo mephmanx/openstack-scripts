@@ -687,25 +687,24 @@ EOF
 
 telegram_notify  "Executing env prep script..."
 runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init"
-echo "error" > /tmp/terraf-bbl.out
-tf_error_count=$(grep -c "error" /tmp/terraf-bbl.out)
-tf_retry_count=5
-if [[ $tf_error_count -gt 0 ]]; then
-  while [ $tf_retry_count -gt 0 ]; do
-    rm -rf /tmp/terraf-bbl.out
-    echo "" > /tmp/terraf-bbl.out
-    chown -R stack /tmp/terraf-bbl.out
-    runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /tmp/terraf-bbl.out 2>&1"
-    tf_error_count=$(grep -c "error" /tmp/terraf-bbl.out)
-    if [[ $tf_error_count == 0 ]]; then
-      break
-    else
-      runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform destroy -auto-approve > /tmp/terraf-bbl-destroy.out 2>&1"
-    fi
-    sleep 30
-    ((tf_retry_count--))
-  done
-fi
+echo "error" > /var/log/terraf-bbl.out
+tf_error_count=$(grep -c "error" /var/log/terraf-bbl.out)
+while [[ $tf_error_count -gt 0 ]]; do
+  rm -rf /var/log/terraf-bbl.out
+  echo "" > /var/log/terraf-bbl.out
+  chown -R stack /var/log/terraf-bbl.out
+  runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /var/log/terraf-bbl.out 2>&1"
+  tf_error_count=$(grep -c "error" /var/log/terraf-bbl.out)
+  if [[ $tf_error_count -gt 0 ]]; then
+    destroy_error_ct=$(grep -c "error" /var/log/terraf-bbl-destroy.out)
+    while [[ $destroy_error_ct -gt 0 ]]; do
+      runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform destroy -auto-approve > /var/log/terraf-bbl-destroy.out 2>&1"
+      destroy_error_ct=$(grep -c "error" /var/log/terraf-bbl-destroy.out)
+      sleep 30
+    done
+  fi
+  sleep 30
+done
 ################
 sleep 30;
 ### update cf-lb to preconfigured address
