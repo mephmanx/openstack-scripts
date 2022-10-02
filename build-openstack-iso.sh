@@ -43,7 +43,7 @@ if [ ! -f "/tmp/pfSense-CE-memstick-ADI-prod.img" ]; then
   fi
   for i in $(docker images |grep "$PFSENSE_CACHE_IMAGE"|awk '{print $3}');do docker rmi "$i";done
   ## iterate over loop devices and remove them
-  for i in /dev/loop*; do
+  for i in /dev/loop[0-9]; do
     losetup -d "$i";
   done
 fi
