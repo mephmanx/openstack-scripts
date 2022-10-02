@@ -12,8 +12,8 @@ start() {
 
 ######## Openstack main server install
 
-exec 1>/var/log/start-install.log 2>&1 # send stdout and stderr from rc.local to a log file
-#set -x                             # tell sh to display commands before execution
+exec 1> >(logger --priority user.notice --tag "$(basename "$0")") \
+     2> >(logger --priority user.error --tag "$(basename "$0")")
 
 ########## Add call to the beginning of all rc.local scripts as this wait guarantees network availability
 sleep 30
