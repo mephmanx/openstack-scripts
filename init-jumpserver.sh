@@ -700,7 +700,7 @@ if [[ $tf_error_count -gt 0 ]]; then
     if [[ $tf_error_count == 0 ]]; then
       break
     else
-      runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform destroy -auto-approve"
+      runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform destroy -auto-approve > /tmp/terraf-bbl-destroy.out 2>&1"
     fi
     sleep 30
     ((tf_retry_count--))
