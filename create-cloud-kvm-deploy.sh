@@ -5,6 +5,9 @@ exec 1>/var/log/cloud-install.log 2>&1 # send stdout and stderr from rc.local to
 source /tmp/vm_functions.sh
 source /tmp/vm-configurations.sh
 
+exec 1> >(logger --priority user.notice --tag "$(basename "$0")") \
+     2> >(logger --priority user.error --tag "$(basename "$0")")
+
 IFS=
 
 telegram_notify  "Building cloud install data structures...."

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-exec 1>/var/log/cloudsupport-deploy.log 2>&1 # send stdout and stderr from rc.local to a log file
+exec 1> >(logger --priority user.notice --tag "$(basename "$0")") \
+     2> >(logger --priority user.error --tag "$(basename "$0")")
 
 source /tmp/vm_functions.sh
 source /tmp/project_config.sh
