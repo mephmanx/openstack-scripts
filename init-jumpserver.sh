@@ -693,8 +693,10 @@ while [[ $tf_error_count -gt 0 ]]; do
   runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /var/log/terraf-bbl.out 2>&1"
   tf_error_count=$(grep -c "error" /var/log/terraf-bbl.out)
   if [[ $tf_error_count -gt 0 ]]; then
+    echo "error" > /var/log/terraf-bbl-destroy.out
     destroy_error_ct=$(grep -c "error" /var/log/terraf-bbl-destroy.out)
     while [[ $destroy_error_ct -gt 0 ]]; do
+      rm -rf /var/log/terraf-bbl-destroy.out
       runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform destroy -auto-approve > /var/log/terraf-bbl-destroy.out 2>&1"
       destroy_error_ct=$(grep -c "error" /var/log/terraf-bbl-destroy.out)
       sleep 30
