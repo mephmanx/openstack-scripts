@@ -252,13 +252,10 @@ sed -i 's/\[mysqld\]/\[mysqld\]\nmax_connect_errors = 10000/g' /usr/local/share/
 telegram_notify  "Openstack Kolla Ansible deploy task execution begun....."
 kolla-ansible -i /opt/stack/venv/share/kolla-ansible/ansible/inventory/multinode deploy
 
-### grab last set of lines from log to send
-LOG_TAIL=$(tail -15 /root/start-install.log)
 ###
 
 kolla-ansible post-deploy
 
-telegram_notify  "End of Openstack Install log -> $LOG_TAIL"
 telegram_notify  "Openstack Kolla Ansible deploy task execution complete.  Performing post install tasks....."
 
 #load setup for validator
@@ -626,16 +623,16 @@ runuser -l stack -c  "echo ' -o /opt/stack/bosh-deployment/misc/no-internet-acce
 ####
 
 ### deploy bosh!
-echo "error" > /tmp/bbl_up.log
-bbl_error_count=$(grep -c "error" /tmp/bbl_up.log)
+echo "error" > /var/log/bbl_up.log
+bbl_error_count=$(grep -c "error" /var/log/bbl_up.log)
 bbl_retry_count=5
 if [[ $bbl_error_count -gt 0 ]]; then
   while [ $bbl_retry_count -gt 0 ]; do
-    rm -rf /tmp/bbl_up.log
-    echo "" > /tmp/bbl_up.log
-    chown -R stack /tmp/bbl_up.log
-    runuser -l stack -c  'bbl up --debug > /tmp/bbl_up.log 2>&1'
-    bbl_error_count=$(grep -c "error" /tmp/bbl_up.log)
+    rm -rf /var/log/bbl_up.log
+    echo "" > /var/log/bbl_up.log
+    chown -R stack /var/log/bbl_up.log
+    runuser -l stack -c  'bbl up --debug > /var/log/bbl_up.log 2>&1'
+    bbl_error_count=$(grep -c "error" /var/log/bbl_up.log)
     if [[ $bbl_error_count == 0 ]]; then
       break
     fi
@@ -762,10 +759,10 @@ stemcell_path="/tmp/stemcell-*-$STEMCELL_STAMP.tgz"
 chown -R stack /tmp/stemcell-*-"$STEMCELL_STAMP".tgz
 
 for stemcell in $stemcell_path; do
-  echo "queued" > /tmp/stemcell-upload.log
-  queued_count=$(($(grep -c "queued" /tmp/stemcell-upload.log) + $(grep -c "error" /tmp/stemcell-upload.log)))
+  echo "queued" > /var/log/stemcell-upload.log
+  queued_count=$(($(grep -c "queued" /var/log/stemcell-upload.log) + $(grep -c "error" /var/log/stemcell-upload.log)))
   while [ "$queued_count" -gt 0 ]; do
-    rm -rf /tmp/stemcell-upload.log
+    rm -rf /var/log/stemcell-upload.log
     IFS=$'\n'
     for image in $(openstack image list | grep 'queued' | awk -F'|' '{ print $2 }' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }'); do
       openstack image delete "$image"
@@ -774,11 +771,11 @@ for stemcell in $stemcell_path; do
                               chmod +x /tmp/bbl_env.sh; \
                               source /tmp/bbl_env.sh; \
                               bosh upload-stemcell $stemcell"
-    runuser -l stack -c "openstack image list | grep 'queued'" > /tmp/stemcell-upload.log
-    queued_count=$(($(grep -c "queued" /tmp/stemcell-upload.log) + $(grep -c "error" /tmp/stemcell-upload.log)))
+    runuser -l stack -c "openstack image list | grep 'queued'" > /var/log/stemcell-upload.log
+    queued_count=$(($(grep -c "queued" /var/log/stemcell-upload.log) + $(grep -c "error" /var/log/stemcell-upload.log)))
     sleep 30
   done
-  rm -rf /tmp/stemcell-upload.log
+  rm -rf /var/log/stemcell-upload.log
   sleep 30
 done
 
@@ -926,13 +923,13 @@ sed -i "/garden:/a\\$(head -c "$spaces_needed" < /dev/zero | tr '\0' ' ')$new_li
 ### deploy cloudfoundry
 #this is to make the CF install fall into the below loop as it seems to need 2 deployments to fully deploy
 ## would be good to fix but was suggested by community so....
-echo "error" > /tmp/cloudfoundry-install.log
+echo "error" > /var/log/cloudfoundry-install.log
 ### Cloudfoundry install can fail at times.  BOSH can handle this and retry is fine.  Retry a few times and if fail still occurs, alert admin
-error_count=$(grep -c "error" /tmp/cloudfoundry-install.log)
+error_count=$(grep -c "error" /var/log/cloudfoundry-install.log)
 retry_count=5
 if [[ $error_count -gt 0 ]]; then
   while [ $retry_count -gt 0 ]; do
-    rm -rf /tmp/cloudfoundry-install.log
+    rm -rf /var/log/cloudfoundry-install.log
     runuser -l stack -c  "cd /opt/stack; \
                       bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
                       chmod +x /tmp/bbl_env.sh; \
@@ -960,10 +957,10 @@ if [[ $error_count -gt 0 ]]; then
                       -v resource_directory_key=resource_directory \
                       --vars-store /tmp/vars/deployment-vars.yml \
                       /tmp/cf-deployment/cf-deployment.yml \
-                      -n" > /tmp/cloudfoundry-install.log
+                      -n" > /var/log/cloudfoundry-install.log
 
-    error_count1=$(grep -c "error" /tmp/cloudfoundry-install.log)
-    error_count2=$(grep -c "Error" /tmp/cloudfoundry-install.log)
+    error_count1=$(grep -c "error" /var/log/cloudfoundry-install.log)
+    error_count2=$(grep -c "Error" /var/log/cloudfoundry-install.log)
     error_count=$((error_count1 + error_count2))
     if [[ $error_count == 0 ]]; then
       break
@@ -974,14 +971,8 @@ if [[ $error_count -gt 0 ]]; then
   done
 fi
 
-### grab last set of lines from log to send
-LOG_TAIL=$(tail -15 /tmp/cloudfoundry-install.log)
-###
-
 ## run volume errand
 #runuser -l stack -c "bosh -d cf run-errand nfs-broker-push"
-
-telegram_notify  "Cloudfoundry install tail -> $LOG_TAIL"
 telegram_notify  "Cloudfoundry install complete!  Beginning Stratos UI deploy"
 
 # cf api login
