@@ -115,6 +115,7 @@ virsh destroy "$EDGE_ROUTER_NAME"
 sleep 20;
 virsh start "$EDGE_ROUTER_NAME"
 
+losetup -d /dev/loop0
 ### cleanup
 runuser -l root -c  "rm -rf /tmp/usb"
 #####
