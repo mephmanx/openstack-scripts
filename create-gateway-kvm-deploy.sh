@@ -31,7 +31,7 @@ create_line+="--serial tcp,host=0.0.0.0:4568,mode=bind,protocol=telnet "
 create_line+="--network type=direct,source=ext-bond,model=virtio,source_mode=bridge "
 create_line+="--network type=bridge,source=int-net,model=virtio "
 create_line+="--os-variant=freebsd12.0 "
-create_line+="--graphics=vnc "
+create_line+="--nographics "
 
 create_line+="--channel unix,target.type=virtio,target.name='org.qemu.guest_agent.0' "
 

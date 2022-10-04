@@ -254,7 +254,7 @@ function create_vm_kvm {
   create_line+="--cdrom=/tmp/$2-iso.iso "
   create_line+="$virt_network_string"
   create_line+="--os-variant=centos8 "
-  create_line+="--graphics=vnc "
+  create_line+="--nographics "
 
   create_line+="--channel unix,target.type=virtio,target.name='org.qemu.guest_agent.0' "
 

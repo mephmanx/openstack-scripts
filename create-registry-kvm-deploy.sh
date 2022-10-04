@@ -24,7 +24,7 @@ create_line+="--disk pool=$(getDiskMapping "misc" "1"),size=$DRIVE_SIZE,bus=virt
 create_line+="--cdrom=/tmp/cloudsupport-iso.iso "
 create_line+="--network type=bridge,source=int-net,model=virtio "
 create_line+="--os-variant=centos8 "
-create_line+="--graphics=vnc "
+create_line+="--nographics "
 
 create_line+="--channel unix,target.type=virtio,target.name='org.qemu.guest_agent.0' "
 
