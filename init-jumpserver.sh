@@ -683,21 +683,21 @@ EOF
 
 telegram_notify  "Executing env prep script..."
 runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform init"
-echo "error" > /var/log/terraf-bbl.out
-tf_error_count=$(grep -c "error" /var/log/terraf-bbl.out)
+echo "error" > /tmp/terraf-bbl.out
+tf_error_count=$(grep -c "error" /tmp/terraf-bbl.out)
 while [[ $tf_error_count -gt 0 ]]; do
-  rm -rf /var/log/terraf-bbl.out
-  echo "" > /var/log/terraf-bbl.out
-  chown -R stack /var/log/terraf-bbl.out
-  runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /var/log/terraf-bbl.out 2>&1"
-  tf_error_count=$(grep -c "error" /var/log/terraf-bbl.out)
+  rm -rf /tmp/terraf-bbl.out
+  echo "" > /tmp/terraf-bbl.out
+  chown -R stack /tmp/terraf-bbl.out
+  runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform apply -auto-approve > /tmp/terraf-bbl.out 2>&1"
+  tf_error_count=$(grep -c "error" /tmp/terraf-bbl.out)
   if [[ $tf_error_count -gt 0 ]]; then
-    echo "error" > /var/log/terraf-bbl-destroy.out
-    destroy_error_ct=$(grep -c "error" /var/log/terraf-bbl-destroy.out)
+    echo "error" > /tmp/terraf-bbl-destroy.out
+    destroy_error_ct=$(grep -c "error" /tmp/terraf-bbl-destroy.out)
     while [[ $destroy_error_ct -gt 0 ]]; do
-      rm -rf /var/log/terraf-bbl-destroy.out
-      runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform destroy -auto-approve > /var/log/terraf-bbl-destroy.out 2>&1"
-      destroy_error_ct=$(grep -c "error" /var/log/terraf-bbl-destroy.out)
+      rm -rf /tmp/terraf-bbl-destroy.out
+      runuser -l stack -c  "cd /tmp/bosh-openstack-environment-templates/cf-deployment-tf; ./terraform destroy -auto-approve > /tmp/terraf-bbl-destroy.out 2>&1"
+      destroy_error_ct=$(grep -c "error" /tmp/terraf-bbl-destroy.out)
       sleep 30
     done
   fi
@@ -760,10 +760,10 @@ stemcell_path="/tmp/stemcell-*-$STEMCELL_STAMP.tgz"
 chown -R stack /tmp/stemcell-*-"$STEMCELL_STAMP".tgz
 
 for stemcell in $stemcell_path; do
-  echo "queued" > /var/log/stemcell-upload.log
-  queued_count=$(($(grep -c "queued" /var/log/stemcell-upload.log) + $(grep -c "error" /var/log/stemcell-upload.log)))
+  echo "queued" > /tmp/stemcell-upload.log
+  queued_count=$(($(grep -c "queued" /tmp/stemcell-upload.log) + $(grep -c "error" /tmp/stemcell-upload.log)))
   while [ "$queued_count" -gt 0 ]; do
-    rm -rf /var/log/stemcell-upload.log
+    rm -rf /tmp/stemcell-upload.log
     IFS=$'\n'
     for image in $(openstack image list | grep 'queued' | awk -F'|' '{ print $2 }' | awk '{ gsub(/^[ \t]+|[ \t]+$/, ""); print }'); do
       openstack image delete "$image"
@@ -772,11 +772,11 @@ for stemcell in $stemcell_path; do
                               chmod +x /tmp/bbl_env.sh; \
                               source /tmp/bbl_env.sh; \
                               bosh upload-stemcell $stemcell"
-    runuser -l stack -c "openstack image list | grep 'queued'" > /var/log/stemcell-upload.log
-    queued_count=$(($(grep -c "queued" /var/log/stemcell-upload.log) + $(grep -c "error" /var/log/stemcell-upload.log)))
+    runuser -l stack -c "openstack image list | grep 'queued'" > /tmp/stemcell-upload.log
+    queued_count=$(($(grep -c "queued" /tmp/stemcell-upload.log) + $(grep -c "error" /tmp/stemcell-upload.log)))
     sleep 30
   done
-  rm -rf /var/log/stemcell-upload.log
+  rm -rf /tmp/stemcell-upload.log
   sleep 30
 done
 
@@ -924,13 +924,13 @@ sed -i "/garden:/a\\$(head -c "$spaces_needed" < /dev/zero | tr '\0' ' ')$new_li
 ### deploy cloudfoundry
 #this is to make the CF install fall into the below loop as it seems to need 2 deployments to fully deploy
 ## would be good to fix but was suggested by community so....
-echo "error" > /var/log/cloudfoundry-install.log
+echo "error" > /tmp/cloudfoundry-install.log
 ### Cloudfoundry install can fail at times.  BOSH can handle this and retry is fine.  Retry a few times and if fail still occurs, alert admin
-error_count=$(grep -c "error" /var/log/cloudfoundry-install.log)
+error_count=$(grep -c "error" /tmp/cloudfoundry-install.log)
 retry_count=5
 if [[ $error_count -gt 0 ]]; then
   while [ $retry_count -gt 0 ]; do
-    rm -rf /var/log/cloudfoundry-install.log
+    rm -rf /tmp/cloudfoundry-install.log
     runuser -l stack -c  "cd /opt/stack; \
                       bbl print-env -s /opt/stack > /tmp/bbl_env.sh; \
                       chmod +x /tmp/bbl_env.sh; \
@@ -958,10 +958,10 @@ if [[ $error_count -gt 0 ]]; then
                       -v resource_directory_key=resource_directory \
                       --vars-store /tmp/vars/deployment-vars.yml \
                       /tmp/cf-deployment/cf-deployment.yml \
-                      -n" > /var/log/cloudfoundry-install.log
+                      -n" > /tmp/cloudfoundry-install.log
 
-    error_count1=$(grep -c "error" /var/log/cloudfoundry-install.log)
-    error_count2=$(grep -c "Error" /var/log/cloudfoundry-install.log)
+    error_count1=$(grep -c "error" /tmp/cloudfoundry-install.log)
+    error_count2=$(grep -c "Error" /tmp/cloudfoundry-install.log)
     error_count=$((error_count1 + error_count2))
     if [[ $error_count == 0 ]]; then
       break
