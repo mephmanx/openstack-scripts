@@ -19,17 +19,6 @@ exec 1> >(logger --priority user.notice --tag "$(basename "$0")") \
 sleep 30
 ###########################
 
-#### Link internal local network to network port on hardware
-ip link add link opt-bond name opt-bond-vnic type macvlan mode bridge
-ip link set opt-bond-vnic up
-
-ip tuntap add opt-bond-tap mode tap
-ip link set dev opt-bond-tap up
-
-ip link set opt-bond-tap master int-net
-ip link set opt-bond-vnic master int-net
-######################
-
 ##### configure firewall for external syslogs #####
 firewall-cmd --permanent --add-port=514/udp
 firewall-cmd --permanent --add-port=514/tcp

@@ -100,7 +100,7 @@ function vm_definitions {
             "cpu":"2",
             "memory":"$CONTROL_RAM",
             "drive_string":"$DRIVE_MAPPING",
-            "network_string":"opt-bond,int-net,int-net"
+            "network_string":"int-bond,int-net,int-net"
           }'
     STRING="$(echo $STRING | sed 's/$CONTROL_RAM/'"$CONTROL_RAM"'/g')"
     STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "control" "$CONTROL_COUNT")"'/g')"
@@ -113,7 +113,7 @@ function vm_definitions {
             "cpu":"2",
             "memory":"$NETWORK_RAM",
             "drive_string":"$DRIVE_MAPPING",
-            "network_string":"opt-bond,int-net,int-net"
+            "network_string":"int-bond,int-net,int-net"
           }'
     STRING="$(echo $STRING | sed 's/$NETWORK_RAM/'"$NETWORK_RAM"'/g')"
     STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "network" "$NETWORK_COUNT")"'/g')"
@@ -131,7 +131,7 @@ function vm_definitions {
             "cpu":"$CPU_COUNT",
             "memory":$COMPUTE_RAM",
             "drive_string":"$DRIVE_MAPPING",
-            "network_string":"opt-bond,int-net,int-net"
+            "network_string":"int-bond,int-net,int-net"
           }'
     STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "compute" "1")"'/g')"
     STRING="$(echo $STRING | sed 's/$CPU_COUNT/'"$CPU_COUNT"'/g')"
@@ -145,7 +145,7 @@ function vm_definitions {
             "cpu":"2",
             "memory":"$MONITORING_RAM",
             "drive_string":"$DRIVE_MAPPING",
-            "network_string":"opt-bond,int-net,int-net"
+            "network_string":"int-bond,int-net,int-net"
           }'
     STRING="$(echo $STRING | sed 's/$MONITORING_RAM/'"$MONITORING_RAM"'/g')"
     STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "monitoring" "$MONITORING_COUNT")"'/g')"
@@ -158,7 +158,7 @@ function vm_definitions {
             "cpu":"2",
             "memory":"$STORAGE_RAM",
             "drive_string":"$DRIVE_MAPPING",
-            "network_string":"opt-bond,int-net,int-net"
+            "network_string":"int-bond,int-net,int-net"
           }'
     STRING="$(echo $STRING | sed 's/$STORAGE_RAM/'"$STORAGE_RAM"'/g')"
     STRING="$(echo $STRING | sed 's/$DRIVE_MAPPING/'"$(getDiskMapping "storage" "$STORAGE_COUNT")"'/g')"
