@@ -49,7 +49,7 @@ export APP_EXTERNAL_HOSTNAME=sysadmin;
 ### Network prefix, used for all networks below
 #MariaDB seems to have a problem with 172 addresses.  Dont use!
 export NETWORK_PREFIX="10.0.200";
-export LB_NETWORK="10.1.0";
+export LB_NETWORK="10.1.200";
 export TROVE_NETWORK="10.2.0";
 export VPN_NETWORK="10.0.9";
 
