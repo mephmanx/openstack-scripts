@@ -39,30 +39,6 @@ create_line+="--autostart --wait 0"
 
 eval "$create_line"
 
-cat > /tmp/pf-init-1.sh <<EOF
-mount -u -o rw /
-mkdir /tmp/test-mnt
-mount -v -t msdosfs /dev/vtbd0s3 /tmp/test-mnt
-cp /tmp/test-mnt/* /mnt/root/
-chmod +x /mnt/root/*.sh
-cd /mnt/root
-yes | cp /tmp/test-mnt/pfSense-repo.conf /mnt/usr/local/share/pfSense/pfSense-repo.conf;
-yes | cp /tmp/test-mnt/pfSense-repo.conf /mnt/usr/local/share/pfSense/pkg/repos/pfSense-repo.conf;
-yes | cp /tmp/test-mnt/pfSense-repo.conf /mnt/etc/pkg/FreeBSD.conf;
-mkdir /mnt/tmp/repo-dir
-tar xf /mnt/root/repo.tar -C /mnt/tmp/repo-dir/
-./init.sh
-sed -i -e "s/{HOSTNAME}/$ORGANIZATION-$EDGE_ROUTER_NAME-$(cat /var/log/system_suffix.log)/g" /mnt/cf/conf/config.xml
-rm -rf init.sh
-rm -rf pf-init-1.sh
-EOF
-
-PFSENSE_INIT=$(cat </tmp/pf-init-1.sh | base64 | tr -d '\n\r')
-
-echo "$PFSENSE_INIT" | fold -c250 > /tmp/fileentries-2.txt
-readarray -t pfsense_init_array < /tmp/fileentries-2.txt
-rm -rf /tmp/fileentries-2.txt
-
 sleep 30;
 (echo open 127.0.0.1 4568;
   sleep 60;
@@ -90,26 +66,10 @@ sleep 30;
   sleep 5;
   echo 'S';
   sleep 10;
-  echo "touch /mnt/root/pf-init-1.sh; touch /mnt/root/pf-init-1.sh.enc;";
-  sleep 10;
-  for element in "${pfsense_init_array[@]}"
-    do
-      echo "echo '$element' >> /mnt/root/pf-init-1.sh.enc";
-      sleep 5;
-    done
-  echo "openssl base64 -d -in /mnt/root/pf-init-1.sh.enc -out /mnt/root/pf-init-1.sh;";
-  sleep 10;
-  echo "rm -rf /mnt/root/*.enc";
-  sleep 10;
-  echo "cd /mnt/root/;"
-  sleep 10;
-  echo "chmod +x pf-init-1.sh;"
-  sleep 10;
-  echo "./pf-init-1.sh;"
+  echo "./pf-init-3.sh;"
   sleep 10;
  ) | telnet
 
-rm -rf /tmp/pf-init-1.sh
 ## remove install disk from pfsense
 virsh detach-disk --domain "$EDGE_ROUTER_NAME" /tmp/pfSense-CE-memstick-ADI-prod.img --persistent --config --live
 virsh destroy "$EDGE_ROUTER_NAME"
